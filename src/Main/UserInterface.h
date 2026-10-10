@@ -61,6 +61,7 @@ namespace VeraCrypt
 		virtual void ListEMVTokenKeyfiles () const = 0;
 		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options, bool tryCachedPasswords = true) const;
 		virtual shared_ptr <VolumeInfo> MountVolumeThread (MountOptions &options) const { return Core->MountVolume (options);}
+		virtual shared_ptr <VolumeInfo> DismountVolumeThread (shared_ptr <VolumeInfo> volume, bool ignoreOpenFiles, bool interactive = true) const { return Core->DismountVolume (volume, ignoreOpenFiles); }
 		virtual VolumeInfoList MountAllDeviceHostedVolumes (MountOptions &options) const;
 		virtual VolumeInfoList MountAllFavoriteVolumes (MountOptions &options);
 		virtual void OpenExplorerWindow (const DirectoryPath &path);
@@ -102,6 +103,7 @@ namespace VeraCrypt
 
 	protected:
 		UserInterface ();
+		virtual shared_ptr <VolumeInfo> MountVolumeWithProtectionRecovery (MountOptions &options, const PasswordException &protectionError) const { return MountVolume (options); }
 		virtual bool OnExceptionInMainLoop () { throw; }
 		virtual void OnUnhandledException ();
 		virtual void OnVolumeMounted (EventArgs &args);

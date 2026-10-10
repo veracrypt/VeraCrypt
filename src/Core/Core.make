@@ -13,6 +13,7 @@
 OBJS :=
 OBJS += CoreBase.o
 OBJS += CoreException.o
+OBJS += CoreTest.o
 OBJS += FatFormatter.o
 OBJS += HostDevice.o
 OBJS += MountOptions.o

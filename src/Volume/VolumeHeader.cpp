@@ -363,16 +363,20 @@ namespace VeraCrypt
 		if (offset > header.Size())
 			throw ParameterIncorrect (SRC_POS);
 
-		return Endian::Big (*reinterpret_cast<const T *> (header.Get() + offset - sizeof (T)));
+		T value;
+		memcpy (&value, header.Get() + offset - sizeof (T), sizeof (T));
+		return Endian::Big (value);
 	}
 
 	template <typename T>
 	T VolumeHeader::DeserializeEntryAt (const ConstBufferPtr &header, const size_t &offset) const
 	{
-		if (offset > header.Size())
+		if (offset > header.Size() || header.Size() - offset < sizeof (T))
 			throw ParameterIncorrect (SRC_POS);
 
-		return Endian::Big (*reinterpret_cast<const T *> (header.Get() + offset));
+		T value;
+		memcpy (&value, header.Get() + offset, sizeof (T));
+		return Endian::Big (value);
 	}
 
 	void VolumeHeader::EncryptNew (const BufferPtr &newHeaderBuffer, const ConstBufferPtr &newSalt, const ConstBufferPtr &newHeaderKey, shared_ptr <Pkcs5Kdf> newPkcs5Kdf)
@@ -486,7 +490,8 @@ namespace VeraCrypt
 		if (offset > header.Size())
 			throw ParameterIncorrect (SRC_POS);
 
-		*reinterpret_cast<T *> (header.Get() + offset - sizeof (T)) = Endian::Big (entry);
+		T value = Endian::Big (entry);
+		memcpy (header.Get() + offset - sizeof (T), &value, sizeof (T));
 	}
 
 	void VolumeHeader::SetSize (uint32 headerSize)

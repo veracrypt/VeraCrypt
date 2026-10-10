@@ -1,0 +1,36 @@
+name: Test wxWidgets build jobs
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - 'src/Makefile'
+      - 'src/Build/Packaging/openwrt/package/utils/veracrypt/Makefile.in'
+      - 'Tests/test_wxbuild_jobs.py'
+      - '.github/workflows/test-wxbuild.yml'
+  pull_request:
+    branches: [ "master" ]
+    paths:
+      - 'src/Makefile'
+      - 'src/Build/Packaging/openwrt/package/utils/veracrypt/Makefile.in'
+      - 'Tests/test_wxbuild_jobs.py'
+      - '.github/workflows/test-wxbuild.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, ubuntu-26.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+    - uses: actions/checkout@v4
+    - run: python3 Tests/test_wxbuild_jobs.py

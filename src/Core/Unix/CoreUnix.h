@@ -39,6 +39,7 @@ namespace VeraCrypt
 		virtual int GetOSMajorVersion () const { throw NotApplicable (SRC_POS); }
 		virtual int GetOSMinorVersion () const { throw NotApplicable (SRC_POS); }
 		virtual VolumeInfoList GetMountedVolumes (const VolumePath &volumePath = VolumePath()) const;
+		virtual VolumeDiscoveryResult GetMountedVolumesWithStatus (const VolumePath &volumePath = VolumePath()) const;
 		virtual bool IsDevicePresent (const DevicePath &device) const { throw NotApplicable (SRC_POS); }
 		virtual bool IsInPortableMode () const { return false; }
 		virtual bool IsMountPointAvailable (const DirectoryPath &mountPoint) const;
@@ -55,6 +56,7 @@ namespace VeraCrypt
 		virtual bool IsDirectoryOnUserPath(const DirectoryPath &directory) const;
 
 	protected:
+		static shared_ptr <VolumeInfo> ReadAuxiliaryVolumeInfo (const DirectoryPath &auxMountPoint);
 		virtual DevicePath AttachFileToLoopDevice (const FilePath &filePath, bool readOnly) const { throw NotApplicable (SRC_POS); }
 		virtual void DetachLoopDevice (const DevicePath &devicePath) const { throw NotApplicable (SRC_POS); }
 		virtual void DismountNativeVolume (shared_ptr <VolumeInfo> mountedVolume) const { throw NotApplicable (SRC_POS); }
@@ -75,6 +77,9 @@ namespace VeraCrypt
 		virtual DevicePath MountAuxVolumeImage (const DirectoryPath &auxMountPoint, const MountOptions &options) const;
 		virtual void MountVolumeNative (shared_ptr <Volume> volume, MountOptions &options, const DirectoryPath &auxMountPoint) const { throw NotApplicable (SRC_POS); }
 		virtual void UpdateMountedVolumeInfo (shared_ptr <VolumeInfo> mountedVolume) const { (void) mountedVolume; }
+#ifdef TC_MACOSX
+		virtual void UpdateMountedVolumesInfo (VolumeInfoList &volumes) const;
+#endif
 #ifdef TC_LINUX
 		string DetectFilesystemType (const DevicePath &devicePath) const;
 		bool IsFilesystemTypeRegistered (const string &filesystemType) const;

@@ -192,10 +192,27 @@ namespace VeraCrypt
 		if (sysEx)
 			return ToWide (sysEx->what()) + L": " + sysEx->SystemText() + L": " + sysEx->GetSubject();
 
+		wstring message;
 		if (ex.what() && !string (ex.what()).empty())
-			return ToWide (GetTypeName (typeid (ex)) + ": " + ex.what());
+			message = ToWide (GetTypeName (typeid (ex)) + ": " + ex.what());
+		else
+			message = ToWide (GetTypeName (typeid (ex)));
 
-		return ToWide (GetTypeName (typeid (ex)));
+		// Wrapped and logged errors must keep the details attached by the thrower.
+		const ExecutedProcessFailed *processEx = dynamic_cast <const ExecutedProcessFailed *> (&ex);
+		if (processEx)
+		{
+			message += L": " + ToWide (processEx->GetCommand(), true) + L" (" + ToWide (processEx->GetExitCode()) + L")";
+			string errorOutput = Trim (processEx->GetErrorOutput());
+			if (!errorOutput.empty())
+				message += L": " + ToWide (errorOutput, true);
+		}
+
+		const Exception *vcEx = dynamic_cast <const Exception *> (&ex);
+		if (vcEx && !vcEx->GetSubject().empty())
+			message += L": " + vcEx->GetSubject();
+
+		return message;
 	}
 
 	string StringConverter::ToLower (const string &str)

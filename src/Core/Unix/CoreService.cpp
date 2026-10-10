@@ -574,14 +574,12 @@ namespace VeraCrypt
 		if (errOutput.empty())
 			return;
 
-		unique_ptr <Serializable> deserializedObject;
-		Exception *deserializedException = nullptr;
+		shared_ptr <Exception> deserializedException;
 
 		try
 		{
 			shared_ptr <Stream> stream (new MemoryStream (ConstBufferPtr ((uint8 *) &errOutput[0], errOutput.size())));
-			deserializedObject.reset (Serializable::DeserializeNew (stream));
-			deserializedException = dynamic_cast <Exception*> (deserializedObject.get());
+			deserializedException = Serializable::DeserializeNew <Exception> (stream);
 		}
 		catch (...)	{ }
 
@@ -1076,9 +1074,21 @@ namespace VeraCrypt
 	}
 #endif
 
-	unique_ptr <Serializable> CoreService::GetResponseObject ()
+	template <class T>
+	static bool IsResponseType (const Serializable &object)
 	{
-		unique_ptr <Serializable> deserializedObject (Serializable::DeserializeNew (ServiceOutputStream));
+		return Serializable::IsType <T> (object) || Serializable::IsType <Exception> (object);
+	}
+
+	template <class T>
+	static bool IsInitialResponseType (const Serializable &object)
+	{
+		return IsResponseType <T> (object) || Serializable::IsType <ElevatedServiceStartedResponse> (object);
+	}
+
+	unique_ptr <Serializable> CoreService::GetResponseObject (Serializable::TypeValidator isExpectedType)
+	{
+		unique_ptr <Serializable> deserializedObject (Serializable::DeserializeNew (ServiceOutputStream, isExpectedType));
 
 		Exception *deserializedException = dynamic_cast <Exception*> (deserializedObject.get());
 		if (deserializedException)
@@ -1090,7 +1100,7 @@ namespace VeraCrypt
 	template <class T>
 	unique_ptr <T> CoreService::GetResponse ()
 	{
-		unique_ptr <Serializable> deserializedObject (GetResponseObject());
+		unique_ptr <Serializable> deserializedObject (GetResponseObject (&IsResponseType <T>));
 
 		if (dynamic_cast <T *> (deserializedObject.get()) == nullptr)
 			throw ParameterIncorrect (SRC_POS);
@@ -1206,7 +1216,7 @@ namespace VeraCrypt
 							ElevatedServiceStartedResponse().Serialize (outputStream);
 
 						request->Serialize (ServiceInputStream);
-						GetResponse <Serializable>()->Serialize (outputStream);
+						GetResponse <CoreServiceResponse>()->Serialize (outputStream);
 						continue;
 					}
 
@@ -1500,7 +1510,7 @@ namespace VeraCrypt
 				{
 					request.Serialize (ServiceInputStream);
 
-					unique_ptr <Serializable> response (GetResponseObject());
+					unique_ptr <Serializable> response (GetResponseObject (&IsInitialResponseType <T>));
 					if (dynamic_cast <ElevatedServiceStartedResponse *> (response.get()) != nullptr)
 					{
 						// The elevated channel is usable even if the forwarded request fails.

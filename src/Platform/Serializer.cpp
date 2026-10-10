@@ -10,6 +10,7 @@
  code distribution packages.
 */
 
+#include <algorithm>
 #include "Exception.h"
 #include "ForEach.h"
 #include "Memory.h"
@@ -17,6 +18,24 @@
 
 namespace VeraCrypt
 {
+	SerializationScope::SerializationScope (shared_ptr <Stream> stream) : DataStream (stream)
+	{
+		if (!DataStream || DataStream->SerializationDepth >= Serializer::MaxNestingDepth)
+			throw ParameterIncorrect (SRC_POS);
+		++DataStream->SerializationDepth;
+	}
+
+	SerializationScope::~SerializationScope ()
+	{
+		--DataStream->SerializationDepth;
+	}
+
+	Serializer::Serializer (shared_ptr <Stream> stream) : DataStream (stream)
+	{
+		if (!DataStream)
+			throw ParameterIncorrect (SRC_POS);
+	}
+
 	template <typename T>
 	T Serializer::Deserialize ()
 	{
@@ -125,11 +144,15 @@ namespace VeraCrypt
 	string Serializer::DeserializeString ()
 	{
 		uint64 size = Deserialize <uint64> ();
+		if (size == 0 || size > MaxStringSize)
+			throw ParameterIncorrect (SRC_POS);
 
 		vector <char> data ((size_t) size);
 		DataStream->ReadCompleteBuffer (BufferPtr ((uint8 *) &data[0], (size_t) size));
+		if (data.back() != 0 || find (data.begin(), data.end() - 1, '\0') != data.end() - 1)
+			throw ParameterIncorrect (SRC_POS);
 
-		return string (&data[0]);
+		return string (&data[0], data.size() - 1);
 	}
 
 	string Serializer::DeserializeString (const string &name)
@@ -143,8 +166,9 @@ namespace VeraCrypt
 		ValidateName (name);
 		list <string> deserializedList;
 		uint64 listSize = Deserialize <uint64> ();
+		ValidateCollectionSize (listSize);
 
-		for (size_t i = 0; i < listSize; i++)
+		for (uint64 i = 0; i < listSize; i++)
 			deserializedList.push_back (DeserializeString ());
 
 		return deserializedList;
@@ -153,11 +177,15 @@ namespace VeraCrypt
 	wstring Serializer::DeserializeWString ()
 	{
 		uint64 size = Deserialize <uint64> ();
+		if (size == 0 || size > MaxStringSize || size % sizeof (wchar_t) != 0)
+			throw ParameterIncorrect (SRC_POS);
 
 		vector <wchar_t> data ((size_t) size / sizeof (wchar_t));
 		DataStream->ReadCompleteBuffer (BufferPtr ((uint8 *) &data[0], (size_t) size));
+		if (data.back() != 0 || find (data.begin(), data.end() - 1, L'\0') != data.end() - 1)
+			throw ParameterIncorrect (SRC_POS);
 
-		return wstring (&data[0]);
+		return wstring (&data[0], data.size() - 1);
 	}
 
 	list <wstring> Serializer::DeserializeWStringList (const string &name)
@@ -165,8 +193,9 @@ namespace VeraCrypt
 		ValidateName (name);
 		list <wstring> deserializedList;
 		uint64 listSize = Deserialize <uint64> ();
+		ValidateCollectionSize (listSize);
 
-		for (size_t i = 0; i < listSize; i++)
+		for (uint64 i = 0; i < listSize; i++)
 			deserializedList.push_back (DeserializeWString ());
 
 		return deserializedList;
@@ -176,6 +205,12 @@ namespace VeraCrypt
 	{
 		ValidateName (name);
 		return DeserializeWString ();
+	}
+
+	void Serializer::ValidateCollectionSize (uint64 size)
+	{
+		if (size > MaxCollectionSize)
+			throw ParameterIncorrect (SRC_POS);
 	}
 
 	template <typename T>
@@ -249,6 +284,7 @@ namespace VeraCrypt
 
 	void Serializer::Serialize (const string &name, const list <string> &stringList)
 	{
+		ValidateCollectionSize (stringList.size());
 		SerializeString (name);
 
 		uint64 listSize = stringList.size();
@@ -260,6 +296,7 @@ namespace VeraCrypt
 
 	void Serializer::Serialize (const string &name, const list <wstring> &stringList)
 	{
+		ValidateCollectionSize (stringList.size());
 		SerializeString (name);
 
 		uint64 listSize = stringList.size();
@@ -281,15 +318,22 @@ namespace VeraCrypt
 
 	void Serializer::SerializeString (const string &data)
 	{
+		// Embedded NULs would be interpreted differently by C-string consumers.
+		if (data.size() >= MaxStringSize || data.find ('\0') != string::npos)
+			throw ParameterIncorrect (SRC_POS);
+
 		Serialize ((uint64) data.size() + 1);
-		DataStream->Write (ConstBufferPtr ((uint8 *) (data.data() ? data.data() : data.c_str()), data.size() + 1));
+		DataStream->Write (ConstBufferPtr ((const uint8 *) data.c_str(), data.size() + 1));
 	}
 
 	void Serializer::SerializeWString (const wstring &data)
 	{
-		uint64 size = (data.size() + 1) * sizeof (wchar_t);
+		if (data.size() >= MaxStringSize / sizeof (wchar_t) || data.find (L'\0') != wstring::npos)
+			throw ParameterIncorrect (SRC_POS);
+
+		uint64 size = ((uint64) data.size() + 1) * sizeof (wchar_t);
 		Serialize (size);
-		DataStream->Write (ConstBufferPtr ((uint8 *) (data.data() ? data.data() : data.c_str()), (size_t) size));
+		DataStream->Write (ConstBufferPtr ((const uint8 *) data.c_str(), (size_t) size));
 	}
 
 	void Serializer::ValidateName (const string &name)

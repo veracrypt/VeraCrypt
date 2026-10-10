@@ -27,15 +27,25 @@ namespace VeraCrypt
 	protected:
 		struct ExecFunctor : public ProcessExecFunctor
 		{
-			ExecFunctor (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber)
-				: MountedVolume (openVolume), SlotNumber (slotNumber)
+			ExecFunctor (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, uint64 serialInstanceNumber)
+				:
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+				StartupFd (-1), StartupPeerFd (-1),
+#endif
+				MountedVolume (openVolume), SlotNumber (slotNumber), SerialInstanceNumber (serialInstanceNumber)
 			{
 			}
 			virtual void operator() (int argc, char *argv[]);
 
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+			int StartupFd;
+			int StartupPeerFd;
+#endif
+
 		protected:
 			shared_ptr <Volume> MountedVolume;
 			VolumeSlotNumber SlotNumber;
+			uint64 SerialInstanceNumber;
 		};
 
 		friend struct ExecFunctor;
@@ -45,20 +55,48 @@ namespace VeraCrypt
 		static bool CheckAccessRights ();
 		static void Dismount ();
 		static int ExceptionToErrorCode ();
+		static void FlushVolume ();
 		static const char *GetAuxDeviceInfoPath () { return "/aux-device-info"; }
 		static const char *GetControlPath () { return "/control"; }
 		static const char *GetVolumeImagePath ();
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		static const char *GetShutdownPath () { return "/shutdown"; }
+		static const char *GetShutdownSocketPath () { return "/shutdown-socket"; }
+		static void RemoveAuxMountParent (const string &fuseMountPoint, int parentFd = -1);
+#endif
 		static string GetDeviceType () { return "veracrypt"; }
 		static gid_t GetGroupId () { return GroupId; }
 		static uid_t GetUserId () { return UserId; }
+		static uint64 GetSerialInstanceNumber () { return OpenVolumeInfo.SerialInstanceNumber; }
+		static VolumeSlotNumber GetSlotNumber () { return SlotNumber; }
 		static shared_ptr <Buffer> GetAuxDeviceInfo ();
 		static shared_ptr <Buffer> GetVolumeInfo ();
 		static uint64 GetVolumeSize ();
 		static uint64 GetVolumeSectorSize () { return MountedVolume->GetSectorSize(); }
-		static void Mount (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, const string &fuseMountPoint);
+		static uint64 Mount (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, const string &fuseMountPoint);
 		static void ReadVolumeSectors (const BufferPtr &buffer, uint64 byteOffset);
 		static void ReceiveAuxDeviceInfo (const ConstBufferPtr &buffer);
 		static void SendAuxDeviceInfo (const DirectoryPath &fuseMountPoint, const DevicePath &virtualDevice, const DevicePath &loopDevice = DevicePath());
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+		struct DismountRequest
+		{
+			pid_t ProcessId;
+			uint64 ProcessStartTime;
+			uint64 SerialInstanceNumber;
+			VolumeSlotNumber SlotNumber;
+			bool IgnoreOpenFiles;
+			bool LegacyService;
+			string SocketDirectory;
+			string AuxMountPoint;
+			int32 MountId[2];
+		};
+
+		static DismountRequest PrepareDismount (const DirectoryPath &fuseMountPoint, uint64 serialInstanceNumber, VolumeSlotNumber slotNumber, bool ignoreOpenFiles);
+		static pid_t RequestDismount (const DismountRequest &request);
+		static bool IsDismountMountPresent (const DismountRequest &request);
+		static void DismountLegacy (const DismountRequest &request);
+		static void WaitForDismount (pid_t processId, const DirectoryPath &fuseMountPoint, VolumeSlotNumber slotNumber, int timeOut = 10000, uint64 processStartTime = 0);
+#endif
 		static void WriteVolumeSectors (const ConstBufferPtr &buffer, uint64 byteOffset);
 
 	protected:

@@ -52,7 +52,11 @@ env:
 jobs:
   ubuntu-build:
 
-    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, ubuntu-26.04]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
 
     steps:
@@ -62,24 +66,25 @@ jobs:
     - name: Generate cache key
       id: cache-key
       run: |
-        echo "cache_key=$(echo ${{ env.WXWIDGETS_VERSION }}-$(sha256sum src/Makefile .github/workflows/build-linux.yml | awk '{print $1}'))" >> $GITHUB_OUTPUT
+        echo "cache_key=${{ matrix.os }}-${{ env.WXWIDGETS_VERSION }}-${{ hashFiles('src/Makefile', '.github/workflows/build-linux.yml') }}" >> "$GITHUB_OUTPUT"
 
     - name: Cache wxBuildConsole
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       id: cache-wxbuildconsole
       with:
         path: /tmp/wxBuildConsole
         key: wxBuildConsole-${{ steps.cache-key.outputs.cache_key }}
 
     - name: Cache wxBuildGUI
-      uses: actions/cache@v3
+      if: matrix.os == 'ubuntu-24.04'
+      uses: actions/cache@v5
       id: cache-wxbuildgui
       with:
         path: /tmp/wxBuildGUI
         key: wxBuildGUI-${{ steps.cache-key.outputs.cache_key }}
 
     - name: Cache wxWidgets
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       id: cache-wxwidgets
       with:
         path: /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}
@@ -88,8 +93,12 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y wget tar libpcsclite-dev libfuse-dev yasm libgtk-3-dev libayatana-appindicator3-dev cmake debhelper
 
+    - name: Install system wxWidgets for GUI
+      if: matrix.os == 'ubuntu-26.04'
+      run: sudo apt-get install -y libwxgtk3.2-dev
+
     - name: Download and extract wxWidgets to /tmp if build folders are missing
-      if: steps.cache-wxbuildconsole.outputs.cache-hit != 'true' || steps.cache-wxbuildgui.outputs.cache-hit != 'true' || steps.cache-wxwidgets.outputs.cache-hit != 'true'
+      if: steps.cache-wxbuildconsole.outputs.cache-hit != 'true' || (matrix.os == 'ubuntu-24.04' && steps.cache-wxbuildgui.outputs.cache-hit != 'true') || steps.cache-wxwidgets.outputs.cache-hit != 'true'
       run: |
         wget https://github.com/wxWidgets/wxWidgets/releases/download/v${{ env.WXWIDGETS_VERSION }}/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2 -O /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2
         mkdir -p /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}
@@ -98,18 +107,22 @@ jobs:
     - name: Build VeraCrypt .deb packages
       run: |
         chmod +x src/Build/build_cmake_deb.sh
-        src/Build/build_cmake_deb.sh WXSTATIC INDICATOR
+        if [ "${{ matrix.os }}" = "ubuntu-26.04" ]; then
+          src/Build/build_cmake_deb.sh INDICATOR
+        else
+          src/Build/build_cmake_deb.sh WXSTATIC INDICATOR
+        fi
 
     - name: Upload GUI .deb packages
       uses: actions/upload-artifact@v4
       with:
-        name: veracrypt-gui-debs
+        name: veracrypt-gui-debs-${{ matrix.os }}
         path: /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.*
 
     - name: Upload Console .deb packages
       uses: actions/upload-artifact@v4
       with:
-        name: veracrypt-console-debs
+        name: veracrypt-console-debs-${{ matrix.os }}
         path: /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.*
 
     - name: Install and test VeraCrypt GUI .deb packages
@@ -187,7 +200,7 @@ jobs:
         sudo apt remove -y veracrypt-console
 
     - name: Cleanup old caches
-      uses: actions/github-script@v6
+      uses: actions/github-script@v8
       if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/master' }}
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -197,7 +210,7 @@ jobs:
             repo: context.repo.repo,
           })
           for (const cache of caches.data.actions_caches) {
-            if (cache.key.startsWith('wxBuildConsole-') || cache.key.startsWith('wxBuildGUI-') || cache.key.startsWith('wxWidgets-')) {
+            if (cache.key.startsWith('wxBuildConsole-${{ matrix.os }}-') || cache.key.startsWith('wxBuildGUI-${{ matrix.os }}-') || cache.key.startsWith('wxWidgets-${{ matrix.os }}-')) {
               if (cache.key !== `wxBuildConsole-${{ steps.cache-key.outputs.cache_key }}` &&
                   cache.key !== `wxBuildGUI-${{ steps.cache-key.outputs.cache_key }}` &&
                   cache.key !== `wxWidgets-${{ steps.cache-key.outputs.cache_key }}`) {

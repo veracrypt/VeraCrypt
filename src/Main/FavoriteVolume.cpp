@@ -92,7 +92,9 @@ namespace VeraCrypt
 
 		options.Path.reset (new VolumePath (Path));
 		options.PartitionInSystemEncryptionScope = System;
-		options.Protection = (ReadOnly ? VolumeProtection::ReadOnly : VolumeProtection::None);
+		// A favorite may require read-only access, but must not weaken requested protection.
+		if (ReadOnly)
+			options.Protection = VolumeProtection::ReadOnly;
 		options.SlotNumber = SlotNumber;
 	}
 }

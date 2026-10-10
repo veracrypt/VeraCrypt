@@ -26,6 +26,8 @@
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
 
 #include "blake2/blake2b.h"
+/* 128-bit (SSE2/SSSE3) rounds, also when the compiler flags enable AVX2. */
+#define ARGON2_BLAMKA_SSE2
 #include "blake2/blamka-round-opt.h"
 
 /*

@@ -412,6 +412,14 @@ namespace VeraCrypt
 		throw_sys_sub_if (lseek (FileHandle, offset, SEEK_END) == -1, wstring (Path));
 	}
 
+	void File::SetCloseOnExec () const
+	{
+		if_debug (ValidateState());
+		int flags = fcntl (FileHandle, F_GETFD);
+		throw_sys_sub_if (flags == -1, wstring (Path));
+		throw_sys_sub_if (fcntl (FileHandle, F_SETFD, flags | FD_CLOEXEC) == -1, wstring (Path));
+	}
+
 	void File::SetLength (uint64 length) const
 	{
 		if_debug (ValidateState());

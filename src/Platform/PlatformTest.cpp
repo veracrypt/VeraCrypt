@@ -26,6 +26,312 @@
 
 namespace VeraCrypt
 {
+	class TestSerializer : public Serializer
+	{
+	public:
+		TestSerializer (shared_ptr <Stream> stream) : Serializer (stream) { }
+		string ReadString () { return DeserializeString (); }
+		wstring ReadWString () { return DeserializeWString (); }
+	};
+
+	static shared_ptr <Stream> CreateStringTestStream (uint64 declaredSize, const ConstBufferPtr &data)
+	{
+		shared_ptr <Stream> stream (new MemoryStream);
+		uint64 fieldSize = Endian::Big (uint64 (sizeof (declaredSize)));
+		uint64 size = Endian::Big (declaredSize);
+		stream->Write (ConstBufferPtr ((uint8 *) &fieldSize, sizeof (fieldSize)));
+		stream->Write (ConstBufferPtr ((uint8 *) &size, sizeof (size)));
+		if (data.Size() > 0)
+			stream->Write (data);
+		return stream;
+	}
+
+	static void SerializerFailureTest ()
+	{
+		bool exceptionThrown = false;
+		try
+		{
+			TestSerializer ser (CreateStringTestStream (0, ConstBufferPtr()));
+			ser.ReadString ();
+		}
+		catch (ParameterIncorrect &) { exceptionThrown = true; }
+		if (!exceptionThrown)
+			throw TestFailed (SRC_POS);
+
+		exceptionThrown = false;
+		try
+		{
+			TestSerializer ser (CreateStringTestStream (1024 * 1024 + 1, ConstBufferPtr()));
+			ser.ReadString ();
+		}
+		catch (ParameterIncorrect &) { exceptionThrown = true; }
+		if (!exceptionThrown)
+			throw TestFailed (SRC_POS);
+
+		uint8 unterminatedString = 'x';
+		exceptionThrown = false;
+		try
+		{
+			TestSerializer ser (CreateStringTestStream (1, ConstBufferPtr (&unterminatedString, 1)));
+			ser.ReadString ();
+		}
+		catch (ParameterIncorrect &) { exceptionThrown = true; }
+		if (!exceptionThrown)
+			throw TestFailed (SRC_POS);
+
+		exceptionThrown = false;
+		try
+		{
+			TestSerializer ser (CreateStringTestStream (sizeof (wchar_t) - 1, ConstBufferPtr()));
+			ser.ReadWString ();
+		}
+		catch (ParameterIncorrect &) { exceptionThrown = true; }
+		if (!exceptionThrown)
+			throw TestFailed (SRC_POS);
+
+		wchar_t unterminatedWString = L'x';
+		exceptionThrown = false;
+		try
+		{
+			TestSerializer ser (CreateStringTestStream (sizeof (unterminatedWString), ConstBufferPtr ((uint8 *) &unterminatedWString, sizeof (unterminatedWString))));
+			ser.ReadWString ();
+		}
+		catch (ParameterIncorrect &) { exceptionThrown = true; }
+		if (!exceptionThrown)
+			throw TestFailed (SRC_POS);
+
+		exceptionThrown = false;
+		try
+		{
+			Serializer::ValidateCollectionSize (65537);
+		}
+		catch (ParameterIncorrect &) { exceptionThrown = true; }
+		if (!exceptionThrown)
+			throw TestFailed (SRC_POS);
+	}
+
+	static void SerializerStringPolicyTest ()
+	{
+		shared_ptr <Stream> stream (new MemoryStream);
+		Serializer sr (stream);
+		const string strings[] = { "", "text", string ((size_t) Serializer::MaxStringSize - 1, 'x') };
+		const wstring wstrings[] = { L"", L"text", wstring ((size_t) Serializer::MaxStringSize / sizeof (wchar_t) - 1, L'x') };
+		for (size_t i = 0; i < array_capacity (strings); ++i)
+		{
+			sr.Serialize ("String", strings[i]);
+			sr.Serialize ("WString", wstrings[i]);
+			if (sr.DeserializeString ("String") != strings[i] || sr.DeserializeWString ("WString") != wstrings[i])
+				throw TestFailed (SRC_POS);
+		}
+
+		const string invalidStrings[] = { string ("x\0y", 3), string (1, '\0'), string ((size_t) Serializer::MaxStringSize, 'x') };
+		const wstring invalidWStrings[] = { wstring (L"x\0y", 3), wstring (1, L'\0'), wstring ((size_t) Serializer::MaxStringSize / sizeof (wchar_t), L'x') };
+		for (size_t i = 0; i < array_capacity (invalidStrings); ++i)
+		{
+			try
+			{
+				sr.Serialize ("String", invalidStrings[i]);
+				throw TestFailed (SRC_POS);
+			}
+			catch (ParameterIncorrect &) { }
+			try
+			{
+				sr.Serialize ("WString", invalidWStrings[i]);
+				throw TestFailed (SRC_POS);
+			}
+			catch (ParameterIncorrect &) { }
+
+			try
+			{
+				TestSerializer reader (CreateStringTestStream (invalidStrings[i].size() + 1,
+					ConstBufferPtr ((const uint8 *) invalidStrings[i].c_str(), invalidStrings[i].size() + 1)));
+				reader.ReadString();
+				throw TestFailed (SRC_POS);
+			}
+			catch (ParameterIncorrect &) { }
+			try
+			{
+				size_t size = (invalidWStrings[i].size() + 1) * sizeof (wchar_t);
+				TestSerializer reader (CreateStringTestStream (size, ConstBufferPtr ((const uint8 *) invalidWStrings[i].c_str(), size)));
+				reader.ReadWString();
+				throw TestFailed (SRC_POS);
+			}
+			catch (ParameterIncorrect &) { }
+		}
+
+		try
+		{
+			TestSerializer reader (CreateStringTestStream (0, ConstBufferPtr()));
+			reader.ReadWString();
+			throw TestFailed (SRC_POS);
+		}
+		catch (ParameterIncorrect &) { }
+	}
+
+	static void SerializerCollectionTest ()
+	{
+		shared_ptr <Stream> stream (new MemoryStream);
+		Serializer sr (stream);
+		list <string> strings ((size_t) Serializer::MaxCollectionSize + 1);
+		list <wstring> wstrings ((size_t) Serializer::MaxCollectionSize + 1);
+		list < shared_ptr <Exception> > objects ((size_t) Serializer::MaxCollectionSize + 1);
+		try
+		{
+			sr.Serialize ("Strings", strings);
+			throw TestFailed (SRC_POS);
+		}
+		catch (ParameterIncorrect &) { }
+		try
+		{
+			sr.Serialize ("WStrings", wstrings);
+			throw TestFailed (SRC_POS);
+		}
+		catch (ParameterIncorrect &) { }
+		try
+		{
+			Serializable::SerializeList (stream, objects);
+			throw TestFailed (SRC_POS);
+		}
+		catch (ParameterIncorrect &) { }
+
+		strings.pop_back();
+		wstrings.pop_back();
+		sr.Serialize ("Strings", strings);
+		sr.Serialize ("WStrings", wstrings);
+		if (sr.DeserializeStringList ("Strings") != strings || sr.DeserializeWStringList ("WStrings") != wstrings)
+			throw TestFailed (SRC_POS);
+
+		sr.Serialize ("Strings", Serializer::MaxCollectionSize + 1);
+		try
+		{
+			sr.DeserializeStringList ("Strings");
+			throw TestFailed (SRC_POS);
+		}
+		catch (ParameterIncorrect &) { }
+		sr.Serialize ("WStrings", Serializer::MaxCollectionSize + 1);
+		try
+		{
+			sr.DeserializeWStringList ("WStrings");
+			throw TestFailed (SRC_POS);
+		}
+		catch (ParameterIncorrect &) { }
+		Serializable::SerializeHeader (sr, "list<Exception>");
+		sr.Serialize ("ListSize", Serializer::MaxCollectionSize + 1);
+		objects.clear();
+		try
+		{
+			Serializable::DeserializeList (stream, objects);
+			throw TestFailed (SRC_POS);
+		}
+		catch (ParameterIncorrect &) { }
+	}
+
+	// Registered only for this test; counters check that rejection happens before parsing
+	// and that failed reads release the object, including through the raw-pointer API.
+	class SerializerTestObject : public Serializable
+	{
+	public:
+		SerializerTestObject () { ++LiveCount; }
+		virtual ~SerializerTestObject () { --LiveCount; }
+		static Serializable *GetNewSerializable () { return new SerializerTestObject; }
+		virtual void DeserializeData (shared_ptr <Stream> stream)
+		{
+			++ParseCount;
+			Serializer sr (stream);
+			sr.DeserializeUInt32 ("Value");
+		}
+		static int LiveCount;
+		static int ParseCount;
+	};
+
+	int SerializerTestObject::LiveCount = 0;
+	int SerializerTestObject::ParseCount = 0;
+
+	static void SerializableTypeTest ()
+	{
+		TC_SERIALIZER_FACTORY_ADD (SerializerTestObject);
+		finally_do ({
+			SerializerFactory::NameToTypeMap->erase ("SerializerTestObject");
+			SerializerFactory::TypeToNameMap->erase (StringConverter::GetTypeName (typeid (SerializerTestObject)));
+		});
+		SerializerTestObject::ParseCount = 0;
+
+		shared_ptr <Stream> stream (new MemoryStream);
+		Serializer sr (stream);
+		Serializable::SerializeHeader (sr, "SerializerTestObject");
+		try
+		{
+			Serializable::DeserializeNew <Exception> (stream);
+			throw TestFailed (SRC_POS);
+		}
+		catch (ParameterIncorrect &) { }
+		if (SerializerTestObject::LiveCount != 0 || SerializerTestObject::ParseCount != 0)
+			throw TestFailed (SRC_POS);
+
+		Serializable::SerializeHeader (sr, "list<Exception>");
+		sr.Serialize ("ListSize", uint64 (1));
+		Serializable::SerializeHeader (sr, "SerializerTestObject");
+		list < shared_ptr <Exception> > objects;
+		try
+		{
+			Serializable::DeserializeList (stream, objects);
+			throw TestFailed (SRC_POS);
+		}
+		catch (ParameterIncorrect &) { }
+		if (SerializerTestObject::LiveCount != 0 || SerializerTestObject::ParseCount != 0 || !objects.empty())
+			throw TestFailed (SRC_POS);
+
+		for (int i = 0; i < 2; ++i)
+		{
+			Serializable::SerializeHeader (sr, "SerializerTestObject");
+			try
+			{
+				if (i == 0)
+				{
+					unique_ptr <Serializable> object (Serializable::DeserializeNew (stream));
+				}
+				else
+					Serializable::DeserializeNew <SerializerTestObject> (stream);
+				throw TestFailed (SRC_POS);
+			}
+			catch (InsufficientData &) { }
+			if (SerializerTestObject::LiveCount != 0 || SerializerTestObject::ParseCount != i + 1)
+				throw TestFailed (SRC_POS);
+		}
+
+		ExecutedProcessFailed exception ("message", "command", 1, "output");
+		exception.Serialize (stream);
+		shared_ptr <Exception> result = Serializable::DeserializeNew <Exception> (stream);
+		if (!dynamic_cast <ExecutedProcessFailed *> (result.get()))
+			throw TestFailed (SRC_POS);
+	}
+
+	static void SerializerNestingTest ()
+	{
+		shared_ptr <Stream> stream (new MemoryStream);
+		for (int attempt = 0; attempt < 2; ++attempt)
+		{
+			vector < shared_ptr <SerializationScope> > scopes;
+			for (unsigned int i = 0; i < Serializer::MaxNestingDepth; ++i)
+				scopes.push_back (shared_ptr <SerializationScope> (new SerializationScope (stream)));
+			try
+			{
+				SerializationScope excess (stream);
+				throw TestFailed (SRC_POS);
+			}
+			catch (ParameterIncorrect &) { }
+
+			// Nesting is local to a stream and is restored when scopes unwind.
+			shared_ptr <Stream> otherStream (new MemoryStream);
+			SerializationScope other (otherStream);
+			scopes.clear();
+			Serializer sr (stream);
+			sr.Serialize ("Value", uint32 (7));
+			if (sr.DeserializeUInt32 ("Value") != 7)
+				throw TestFailed (SRC_POS);
+		}
+	}
+
 	// make_shared_auto, File, Stream, MemoryStream, Endian, Serializer, Serializable
 	void PlatformTest::SerializerTest ()
 	{
@@ -345,6 +651,11 @@ namespace VeraCrypt
 		}
 
 		SerializerTest();
+		SerializerFailureTest();
+		SerializerStringPolicyTest();
+		SerializerCollectionTest();
+		SerializableTypeTest();
+		SerializerNestingTest();
 		ThreadTest();
 
 		return true;
