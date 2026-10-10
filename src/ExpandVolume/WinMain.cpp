@@ -741,8 +741,8 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			RECT buttonRect;
 			GetWindowRect (GetDlgItem (hwndDlg, IDC_KEY_FILES), &buttonRect);
 
-			if (LOWORD (lParam) >= buttonRect.left && LOWORD (lParam) <= buttonRect.right
-				&& HIWORD (lParam) >= buttonRect.top && HIWORD (lParam) <= buttonRect.bottom)
+			if (GET_X_LPARAM (lParam) >= buttonRect.left && GET_X_LPARAM (lParam) <= buttonRect.right
+				&& GET_Y_LPARAM (lParam) >= buttonRect.top && GET_Y_LPARAM (lParam) <= buttonRect.bottom)
 			{
 				// The "Keyfiles" button has been right-clicked
 
