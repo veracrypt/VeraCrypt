@@ -730,9 +730,11 @@ endif
 # jobserver of a parent "make -jN" (e.g. a distribution package build).
 # MFLAGS may group single-letter options into one word (GNU make 3.81 gives
 # "-sj" for "-s -j"), so look for "j" in every single-dash option word,
-# skipping the options that take an argument. An argument that contains a
-# space followed by "-j" (e.g. -I '/x -j3') still looks like a job option;
-# set WX_MAKE_JOBS explicitly in that case.
+# skipping the options that take an argument. Some arguments can still look
+# like job flags after MFLAGS is split into words (e.g. -I '/x -project');
+# set WX_MAKE_JOBS explicitly to override that choice.
+# GNU make before 4.2 omits -j1 from MFLAGS; use WX_MAKE_JOBS= to preserve
+# serial execution with those versions instead of falling back to 4 jobs.
 WX_MAKE_OPTS = $(filter-out --% -C% -E% -I% -O% -W% -f% -o%,$(filter -%,$(MFLAGS)))
 WX_MAKE_JOBS = $(if $(findstring j,$(WX_MAKE_OPTS))$(filter --jobserver%,$(MFLAGS)),,-j 4)
 
