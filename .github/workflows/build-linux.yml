@@ -10,6 +10,7 @@ on:
       - 'src/Common/*.h'
       - 'src/Common/*.cpp'
       - 'src/Common/*.c'
+      - 'src/Common/Language.xml'
       - 'src/Core/**'
       - 'src/Crypto/**'
       - 'src/Driver/Fuse/**'
@@ -20,6 +21,7 @@ on:
       - 'src/Setup/Linux/**'
       - 'src/Volume/**'
       - 'src/Makefile'
+      - 'Tests/test_linux_privilege_helpers.py'
       - '.github/workflows/build-linux.yml'
   pull_request:
     branches: [ "master" ]
@@ -30,6 +32,7 @@ on:
       - 'src/Common/*.h'
       - 'src/Common/*.cpp'
       - 'src/Common/*.c'
+      - 'src/Common/Language.xml'
       - 'src/Core/**'
       - 'src/Crypto/**'
       - 'src/Driver/Fuse/**'
@@ -40,6 +43,7 @@ on:
       - 'src/Setup/Linux/**'
       - 'src/Volume/**'
       - 'src/Makefile'
+      - 'Tests/test_linux_privilege_helpers.py'
       - '.github/workflows/build-linux.yml'
 
 concurrency:
@@ -128,6 +132,7 @@ jobs:
     - name: Install and test VeraCrypt GUI .deb packages
       run: |
         sudo apt install -y /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.deb
+        python3 Tests/test_linux_privilege_helpers.py --veracrypt "$(command -v veracrypt)"
         veracrypt --text --test && veracrypt --text --version
         sudo veracrypt --text --non-interactive Tests/test.sha256.hc --hash sha256 --slot 1 --password test --mount-options=ro
         sudo veracrypt --text --non-interactive Tests/test.sha512.hc --hash sha512 --slot 2 --password test --mount-options=ro

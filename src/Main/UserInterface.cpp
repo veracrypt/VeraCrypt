@@ -592,6 +592,7 @@ namespace VeraCrypt
 #define EX2MSG(exception, message) do { if (ex == typeid (exception)) return (message); } while (false)
 		EX2MSG (DriveLetterUnavailable,				LangString["DRIVE_LETTER_UNAVAILABLE"]);
 		EX2MSG (DeviceSectorSizeMismatch,			LangString["LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH"]);
+		EX2MSG (ElevationBlocked,					LangString["LINUX_ELEVATION_BLOCKED"]);
 		EX2MSG (EncryptedSystemRequired,			LangString["LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED"]);
 		EX2MSG (ExternalException,					LangString["EXCEPTION_OCCURRED"]);
 		EX2MSG (InsufficientData, 					LangString["LINUX_EX2MSG_INSUFFICIENTDATA"]);

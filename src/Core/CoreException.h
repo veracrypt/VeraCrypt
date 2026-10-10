@@ -46,6 +46,7 @@ namespace VeraCrypt
 	TC_EXCEPTION_NODECL (RootDeviceUnavailable); \
 	TC_EXCEPTION (DriveLetterUnavailable); \
 	TC_EXCEPTION (DriverError); \
+	TC_EXCEPTION (ElevationBlocked); \
 	TC_EXCEPTION (EncryptedSystemRequired); \
 	TC_EXCEPTION (HigherFuseVersionRequired); \
 	TC_EXCEPTION (KernelCryptoServiceTestFailed); \
