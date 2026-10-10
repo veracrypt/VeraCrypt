@@ -49,6 +49,17 @@ static void ResetMountKeyDerivationAbort (PEXTENSION Extension)
 		InterlockedExchange (&context->KeyDerivationAbort, 0);
 }
 
+/* Returns the volume type of the next header attempt in TCOpenVolume: every volume
+   type is tried with one KDF group before *kdfGroup moves on to the next group. */
+static int NextHeaderAttempt (int volumeType, int *kdfGroup)
+{
+	if (volumeType + 1 < TC_VOLUME_TYPE_COUNT)
+		return volumeType + 1;
+
+	++*kdfGroup;
+	return TC_VOLUME_TYPE_NORMAL;
+}
+
 
 NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	       PEXTENSION Extension,
@@ -66,6 +77,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	LARGE_INTEGER lDiskLength = { 0 };
 	__int64 partitionStartingOffset = 0;
 	int volumeType;
+	int kdfGroup, kdfGroupLast;
 	unsigned char *readBuffer = 0;
 	NTSTATUS ntStatus = 0;
 	BOOL forceAccessCheck = !bRawDevice;
@@ -479,12 +491,32 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		goto error;
 	}
 
-	// Go through all volume types (e.g., normal, hidden)
-	for (volumeType = TC_VOLUME_TYPE_NORMAL;
-		volumeType < TC_VOLUME_TYPE_COUNT;
-		volumeType++)
+	/* Two-phase KDF autodetection: when no KDF is selected, all volume types are first
+	   tried with the PBKDF2 KDFs only, and with Argon2 only if none of them matched.
+	   Otherwise Argon2 runs to completion on a header that the password cannot match,
+	   such as the normal header of a hidden volume, because pending derivations are
+	   aborted only when one of them opens the header.
+	   A single pass is kept when a KDF is selected, with hidden volume protection, which
+	   needs both headers in the same pass, and with cached passwords: those are all
+	   tried on one header before the next, so two phases could open a hidden volume
+	   with one cached password where another opens its outer volume. */
+	kdfGroup = KDF_GROUP_ALL;
+	kdfGroupLast = KDF_GROUP_ALL;
+#ifndef VC_DCS_DISABLE_ARGON2
+	if (mount->pkcs5_prf == 0 && !mount->bProtectHiddenVolume && mount->VolumePassword.Length > 0)
 	{
-		Dump ("Trying to open volume type %d\n", volumeType);
+		kdfGroup = KDF_GROUP_PBKDF2;
+		kdfGroupLast = KDF_GROUP_ARGON2;
+	}
+#endif
+
+	// Go through all volume types (e.g., normal, hidden), once per KDF group. The loop
+	// ends when NextHeaderAttempt moves kdfGroup past kdfGroupLast.
+	for (volumeType = TC_VOLUME_TYPE_NORMAL;
+		kdfGroup <= kdfGroupLast;
+		volumeType = NextHeaderAttempt (volumeType, &kdfGroup))
+	{
+		Dump ("Trying to open volume type %d with KDF group %d\n", volumeType, kdfGroup);
 
 		/* Read the volume header */
 
@@ -626,6 +658,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				readBuffer,
 				&mount->ProtectedHidVolPassword,
 				mount->ProtectedHidVolPkcs5Prf,
+				kdfGroup,
 				mount->ProtectedHidVolPim,
 				&tmpCryptoInfo,
 				Extension->MountCancelContext ? &Extension->MountCancelContext->KeyDerivationAbort : NULL,
@@ -640,6 +673,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				readBuffer,
 				&mount->VolumePassword,
 				mount->pkcs5_prf,
+				kdfGroup,
 				mount->VolumePim,
 				&Extension->cryptoInfo,
 				Extension->MountCancelContext ? &Extension->MountCancelContext->KeyDerivationAbort : NULL,

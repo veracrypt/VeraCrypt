@@ -22,6 +22,9 @@ BOOL test_hmac_sha512 (void);
 BOOL test_hmac_blake2s (void);
 BOOL test_hmac_whirlpool (void);
 BOOL test_pkcs5 (void);
+#ifndef VC_DCS_DISABLE_ARGON2
+BOOL test_kdf_phase_selection (void);
+#endif
 BOOL TestSectorBufEncryption ();
 BOOL TestLegacySectorBufEncryption ();
 BOOL AutoTestAlgorithms (void);
