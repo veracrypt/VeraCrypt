@@ -305,9 +305,9 @@ namespace VeraCrypt
 
 		// Some tokens report success even if the new object was truncated to fit in the available memory
 		vector <uint8> objectData;
+		finally_do_arg(vector <uint8> *, &objectData, { if (!finally_arg->empty()) burn(&finally_arg->front(), finally_arg->size()); });
 
 		GetObjectAttribute(slotId, keyfileHandle, CKA_VALUE, objectData);
-		finally_do_arg(vector <uint8> *, &objectData, { if (!finally_arg->empty()) burn(&finally_arg->front(), finally_arg->size()); });
 
 		if (objectData.size() != keyfileData.size())
 		{

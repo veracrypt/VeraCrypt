@@ -47,6 +47,20 @@
 
 namespace VeraCrypt
 {
+#if !VC_UNALIGNED_ACCESS_OK
+	// The data buffer is supplied by the caller and need not be 64-bit aligned.
+	static inline void XorWhiteningValue (uint64 *&data, uint64 *&whiteningValue)
+	{
+		uint64 block[2];
+		memcpy (block, data, sizeof (block));
+		block[0] ^= whiteningValue[0];
+		block[1] ^= whiteningValue[1];
+		memcpy (data, block, sizeof (block));
+		data += 2;
+		whiteningValue += 2;
+	}
+#endif
+
 	void EncryptionModeXTS::Encrypt (uint8 *data, uint64 length) const
 	{
 		EncryptBuffer (data, length, 0);
@@ -177,8 +191,12 @@ namespace VeraCrypt
 			for (block = 0; block < countBlock; block++)
 			{
 				// Pre-whitening
+#if VC_UNALIGNED_ACCESS_OK
 				*bufPtr++ ^= *whiteningValuesPtr64++;
 				*bufPtr++ ^= *whiteningValuesPtr64++;
+#else
+				XorWhiteningValue (bufPtr, whiteningValuesPtr64);
+#endif
 			}
 #endif
 			// Actual encryption
@@ -193,8 +211,12 @@ namespace VeraCrypt
 			for (block = 0; block < countBlock; block++)
 			{
 				// Post-whitening
+#if VC_UNALIGNED_ACCESS_OK
 				*bufPtr++ ^= *whiteningValuesPtr64++;
 				*bufPtr++ ^= *whiteningValuesPtr64++;
+#else
+				XorWhiteningValue (bufPtr, whiteningValuesPtr64);
+#endif
 			}
 #endif
 			remainingBlocks -= countBlock;
@@ -348,8 +370,12 @@ namespace VeraCrypt
 #else
 			for (block = 0; block < countBlock; block++)
 			{
+#if VC_UNALIGNED_ACCESS_OK
 				*bufPtr++ ^= *whiteningValuesPtr64++;
 				*bufPtr++ ^= *whiteningValuesPtr64++;
+#else
+				XorWhiteningValue (bufPtr, whiteningValuesPtr64);
+#endif
 			}
 #endif
 			cipher.DecryptBlocks ((uint8 *) dataUnitBufPtr, countBlock);
@@ -361,8 +387,12 @@ namespace VeraCrypt
 #else
 			for (block = 0; block < countBlock; block++)
 			{
+#if VC_UNALIGNED_ACCESS_OK
 				*bufPtr++ ^= *whiteningValuesPtr64++;
 				*bufPtr++ ^= *whiteningValuesPtr64++;
+#else
+				XorWhiteningValue (bufPtr, whiteningValuesPtr64);
+#endif
 			}
 #endif
 			remainingBlocks -= countBlock;

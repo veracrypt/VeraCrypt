@@ -259,7 +259,7 @@ namespace VeraCrypt
 						}
 					}
 #ifdef TC_LINUX
-					catch (FilesystemDismountFailed&)
+					catch (FilesystemDismountFailed &e)
 					{
 						if (twoPassMode && firstPass)
 						{
@@ -278,7 +278,9 @@ namespace VeraCrypt
 						}
 						else if (interactive)
 						{
-							if (AskYesNo (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNT_WARNING"], wstring (volume->Path)), false, true))
+							// Show the cause of the failure with the warning
+							wxString warning = StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNT_WARNING"], wstring (volume->Path));
+							if (AskYesNo (ExceptionToMessage (e) + L"\n\n" + warning, false, true))
 							{
 								{
 									BusyScope busy (this);
@@ -592,6 +594,7 @@ namespace VeraCrypt
 #define EX2MSG(exception, message) do { if (ex == typeid (exception)) return (message); } while (false)
 		EX2MSG (DriveLetterUnavailable,				LangString["DRIVE_LETTER_UNAVAILABLE"]);
 		EX2MSG (DeviceSectorSizeMismatch,			LangString["LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH"]);
+		EX2MSG (ElevationBlocked,					LangString["LINUX_ELEVATION_BLOCKED"]);
 		EX2MSG (EncryptedSystemRequired,			LangString["LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED"]);
 		EX2MSG (ExternalException,					LangString["EXCEPTION_OCCURRED"]);
 		EX2MSG (InvalidSecurityTokenKeyDescriptor, LangString["TOKEN_KEY_DESCRIPTOR_INVALID"]);

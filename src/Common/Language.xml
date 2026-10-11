@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.26.29">
+  <localization prog-version="1.26.30">
     <language langid="en" name="English" en-name="English" version="0.0.0" translators="TrueCrypt/VeraCrypt Teams" />
     <font lang="en" class="normal" size="11" face="default" />
     <font lang="en" class="bold" size="13" face="Arial" />
@@ -1666,7 +1666,7 @@
     <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER">Mount NTFS volumes with an in-kernel Linux driver</entry>
     <entry lang="en" key="LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP">Linux only. When enabled and no explicit filesystem type was supplied, VeraCrypt probes the decrypted virtual device with blkid -p and mounts detected NTFS filesystems with an available in-kernel NTFS driver, bypassing mount helpers such as ntfs-3g. VeraCrypt uses ntfs when it is positively identified as a modern read/write driver or expected on Linux 7.1 or later, and otherwise uses ntfs3. If NTFS detection fails, VeraCrypt uses the normal automatic filesystem selection. If no supported in-kernel NTFS driver is available or loadable, mounting fails. This opt-in option can avoid suspend or hibernate hangs caused by frozen user-space FUSE filesystems.</entry>
     <entry lang="en" key="LINUX_KERNEL_NTFS_DRIVER_UNAVAILABLE">No supported in-kernel NTFS driver is available or loadable. To use the system default NTFS backend, disable the NTFS kernel-driver preference or do not request kernel NTFS explicitly.</entry>
-    <entry lang="en" key="LINUX_EMERGENCY_UNMOUNT_WARNING">Normal unmount of volume {0} failed. This can happen when applications still have files or directories open on the volume, or when the backing device was disconnected and the mount became stale.\n\nIf the device is still connected, choose No, close applications using the volume, and try unmounting again.\n\nIf the device was disconnected or the mount is stale, VeraCrypt can attempt emergency cleanup by lazy-detaching the filesystem and removing or scheduling removal of VeraCrypt kernel objects. Pending writes may have failed, data may be lost, and cleanup may remain pending until applications close open files. Check the filesystem with fsck or the appropriate repair tool before using it again.\n\nContinue?</entry>
+    <entry lang="en" key="LINUX_EMERGENCY_UNMOUNT_WARNING">Normal unmount of volume {0} failed. This can happen when applications still have files or directories open on the volume, when the volume's filesystem is also mounted elsewhere (for example, a bind mount or a mount in another mount namespace), when another process has the volume's device open, or when the backing device was disconnected and the mount became stale.\n\nIf the device is still connected, choose No, close applications using the volume, unmount any other mounts of its filesystem, and try unmounting again.\n\nIf the device was disconnected or the mount is stale, VeraCrypt can attempt emergency cleanup by lazy-detaching the filesystem and removing or scheduling removal of VeraCrypt kernel objects. Pending writes may have failed, data may be lost, and cleanup may remain pending until applications close open files. Check the filesystem with fsck or the appropriate repair tool before using it again.\n\nContinue?</entry>
     <entry lang="en" key="LINUX_EMERGENCY_UNMOUNTED">Emergency cleanup for volume {0} has been initiated. If the volume was disconnected, the mount was stale, or there were pending writes, check the filesystem with fsck or the appropriate repair tool before using it again.</entry>
     <entry lang="en" key="FORMAT_STAGE_WRITING_DATA">Creating volume data. Please wait.</entry>
     <entry lang="en" key="FORMAT_STAGE_WRITING_BACKUP_HEADER">Finalizing volume creation: writing backup header.</entry>
@@ -1703,6 +1703,7 @@
     <entry lang="en" key="VOLUME_DISCOVERY_PENDING">Refreshing volume status…</entry>
     <entry lang="en" key="VOLUME_DISCOVERY_STALLED">Volume status unavailable; retrying…</entry>
     <entry lang="en" key="VOLUME_DISCOVERY_PARTIAL">Some volume information is unavailable; retrying…</entry>
+    <entry lang="en" key="LINUX_ELEVATION_BLOCKED">The current launcher or sandbox blocks VeraCrypt from obtaining administrator privileges (Linux NoNewPrivs).\n\nClose VeraCrypt and start it outside this restricted environment. On NixOS, use the native VeraCrypt package instead of appimage-run.</entry>
     <entry lang="en" key="IDC_SECURITY_TOKEN_KEY">Security token key</entry>
     <entry lang="en" key="SELECT_TOKEN_KEYS">Select a security token key</entry>
     <entry lang="en" key="TOKEN_KEY_LABEL">Key label</entry>

@@ -29,6 +29,8 @@
 #include <immintrin.h>
 
 #include "blake2/blake2b.h"
+/* 256-bit (AVX2) rounds, also when the compiler flags enable AVX-512. */
+#define ARGON2_BLAMKA_AVX2
 #include "blake2/blamka-round-opt.h"
 
 /*

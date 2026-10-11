@@ -28,8 +28,9 @@
 // load32 is always called in SSE case which implies little endian 
 #define load32(x)	*((uint32*) (x))
 
-/* Message words are little-endian: read them byte-wise on big-endian hosts. */
-#if BYTE_ORDER == BIG_ENDIAN
+/* Message words are little-endian: read them byte-wise on big-endian hosts and
+ * alignment-safe where unaligned access is not safe. */
+#if BYTE_ORDER == BIG_ENDIAN || !VC_UNALIGNED_ACCESS_OK
 #define BLAKE2S_LOAD32(p) VcLoadLE32(p)
 #else
 #define BLAKE2S_LOAD32(p) (*((uint32*) (p)))
@@ -273,7 +274,7 @@ int blake2s_final( blake2s_state *S, unsigned char *out )
 
   for( i = 0; i < 8; ++i ) /* Output full hash to temp buffer */
   {
-#if BYTE_ORDER == LITTLE_ENDIAN
+#if BYTE_ORDER == LITTLE_ENDIAN && VC_UNALIGNED_ACCESS_OK
 	*((uint32*) out) = S->h[i];
 #else
 	uint32 w = S->h[i] ;

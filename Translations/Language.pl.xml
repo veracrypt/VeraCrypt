@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.26.29">
+  <localization prog-version="1.26.30">
     <language langid="pl" name="Polski" en-name="Polish" version="1.0.0" translators="Mirek Druchowicz, Janusz Zamecki, Sobiesław Antolak, Begina Felicysym" />
     <font lang="pl" class="normal" size="11" face="default" />
     <font lang="pl" class="bold" size="13" face="Arial" />
@@ -1703,6 +1703,7 @@
     <entry lang="pl" key="VOLUME_DISCOVERY_PENDING">Odświeżanie stanu wolumenu…</entry>
     <entry lang="pl" key="VOLUME_DISCOVERY_STALLED">Stan wolumenu niedostępny; ponawianie próby…</entry>
     <entry lang="pl" key="VOLUME_DISCOVERY_PARTIAL">Niektóre informacje o wolumenie są niedostępne; ponawianie próby…</entry>
+    <entry lang="pl" key="LINUX_ELEVATION_BLOCKED">Bieżący program uruchamiający lub piaskownica uniemożliwia VeraCrypt uzyskanie uprawnień administratora (Linux NoNewPrivs).\n\nZamknij VeraCrypt i uruchom go poza tym ograniczonym środowiskiem. W systemie NixOS użyj natywnego pakietu VeraCrypt zamiast appimage-run.</entry>
     <entry lang="en" key="IDC_SECURITY_TOKEN_KEY">Security token key</entry>
     <entry lang="en" key="SELECT_TOKEN_KEYS">Select a security token key</entry>
     <entry lang="en" key="TOKEN_KEY_LABEL">Key label</entry>

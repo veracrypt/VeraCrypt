@@ -63,7 +63,6 @@ namespace VeraCrypt
 #ifdef TC_LINUX
 		virtual void DismountFilesystemLazy (const DirectoryPath &mountPoint) const;
 		virtual void DismountNativeVolumeDeferred (shared_ptr <VolumeInfo> mountedVolume) const { DismountNativeVolume (mountedVolume); }
-		virtual bool IsLoopDeviceAttached (const DevicePath &devicePath) const { return devicePath.IsBlockDevice(); }
 #endif
 		virtual bool FilesystemSupportsUnixPermissions (const DevicePath &devicePath) const;
 		virtual string GetDefaultMountPointPrefix () const;

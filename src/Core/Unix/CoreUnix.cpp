@@ -306,8 +306,9 @@ namespace VeraCrypt
 #endif
 		catch (NotApplicable &) { }
 
-		// Earlier versions recorded the host device of a device-hosted volume mounted with Linux kernel cryptography as its loop device
-		if (!mountedVolume->LoopDevice.IsEmpty() && wstring (mountedVolume->LoopDevice) != wstring (mountedVolume->Path))
+		// On Linux, DismountNativeVolume detaches the loop device once it is verified to belong to the volume
+#ifndef TC_LINUX
+		if (!mountedVolume->LoopDevice.IsEmpty())
 		{
 			try
 			{
@@ -315,6 +316,7 @@ namespace VeraCrypt
 			}
 			catch (ExecutedProcessFailed&) { }
 		}
+#endif
 
 		if (syncVolumeInfo || mountedVolume->Protection == VolumeProtection::HiddenVolumeReadOnly)
 		{
@@ -409,25 +411,6 @@ namespace VeraCrypt
 		{
 			if (!firstException.get())
 				firstException.reset (e.CloneNew());
-		}
-
-		// Earlier versions recorded the host device of a device-hosted volume mounted with kernel cryptography as its loop device
-		if (!mountedVolume->LoopDevice.IsEmpty() && wstring (mountedVolume->LoopDevice) != wstring (mountedVolume->Path))
-		{
-			try
-			{
-				DetachLoopDevice (mountedVolume->LoopDevice);
-			}
-			catch (ExecutedProcessFailed &e)
-			{
-				if (IsLoopDeviceAttached (mountedVolume->LoopDevice) && !firstException.get())
-					firstException.reset (e.CloneNew());
-			}
-			catch (Exception &e)
-			{
-				if (!firstException.get())
-					firstException.reset (e.CloneNew());
-			}
 		}
 
 		if (!mountedVolume->AuxMountPoint.IsEmpty())
@@ -725,6 +708,9 @@ namespace VeraCrypt
 			mountedVol->AuxMountPoint = mf.MountPoint;
 
 #ifndef TC_MACOSX
+			// Recorded devices may have been released and reused since
+			UpdateMountedVolumeInfo (mountedVol);
+
 			if (mountedVol->MountPoint.IsEmpty() && !mountedVol->VirtualDevice.IsEmpty())
 			{
 				MountedFilesystemList mpl = GetMountedFilesystems (mountedVol->VirtualDevice);
@@ -732,9 +718,6 @@ namespace VeraCrypt
 				if (mpl.size() > 0)
 					mountedVol->MountPoint = mpl.front()->MountPoint;
 			}
-
-			if (mountedVol->MountPoint.IsEmpty() || mountedVol->VirtualDevice.IsEmpty())
-				UpdateMountedVolumeInfo (mountedVol);
 #endif
 
 			volumes.push_back (mountedVol);

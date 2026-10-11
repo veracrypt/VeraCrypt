@@ -23,6 +23,13 @@
 #include <sys/wait.h>
 #include <termios.h>
 #include <stdio.h>
+#ifdef TC_LINUX
+#include <sys/prctl.h>
+// Allow builds with headers predating Linux 3.5.
+#ifndef PR_GET_NO_NEW_PRIVS
+#define PR_GET_NO_NEW_PRIVS 39
+#endif
+#endif
 #include "Platform/FileStream.h"
 #include "Platform/MemoryStream.h"
 #include "Platform/Serializable.h"
@@ -188,6 +195,17 @@ namespace VeraCrypt
 		return false;
 	}
 #endif
+
+	static void CheckPrivilegeElevationAllowed ()
+	{
+#ifdef TC_LINUX
+		// NoNewPrivs is inherited across fork/exec and prevents sudo or doas
+		// from gaining privileges. A password cannot remove this restriction.
+		// Older kernels reject the query; let normal elevation handle that case.
+		if (prctl (PR_GET_NO_NEW_PRIVS, 0L, 0L, 0L, 0L) == 1)
+			throw ElevationBlocked (SRC_POS);
+#endif
+	}
 
 	static PrivilegeHelper FindPrivilegeHelper ()
 	{
@@ -1466,6 +1484,9 @@ namespace VeraCrypt
 			
 			while (!ElevatedServiceAvailable)
 			{
+				// Check before authentication, but allow reuse of an elevated service.
+				CheckPrivilegeElevationAllowed ();
+
 				//	Test if the user has an active privilege helper session.
 				bool authCheckDone = false;
 				bool passwordCollected = false;
@@ -1580,6 +1601,7 @@ namespace VeraCrypt
 
 	void CoreService::StartElevated (const CoreServiceRequest &request)
 	{
+		CheckPrivilegeElevationAllowed ();
 		PrivilegeHelper privilegeHelper = FindPrivilegeHelper ();
 		int doasAuthTerminal = -1;
 		string doasAuthTerminalPath;

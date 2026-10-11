@@ -2266,7 +2266,10 @@ void STREEBOG_add(STREEBOG_CTX *CTX, const uint8 *data, size_t len)
 {
     size_t chunksize;
 
-    while (len > 63 && CTX->bufsize == 0)
+    /* stage2() reads the block as 64-bit words: where unaligned access is not
+     * safe, unaligned input is copied to the buffer first */
+    while (len > 63 && CTX->bufsize == 0
+        && (VC_UNALIGNED_ACCESS_OK || ((size_t) data % sizeof (unsigned long long)) == 0))
     {
         stage2(CTX, data);
 

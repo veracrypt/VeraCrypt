@@ -7,7 +7,7 @@ Information about Corsican localization:
 
 2. History of Corsican translation for VeraCrypt:
 	- Updated in 2026 by Patriccollu di Santa Maria è Sichè: May 2nd (1.26.28), May 9th (1.26.28), May 13th (1.26.28),
-	          May 27th (1.26.29), June 15th (1.26.30), June 18th (1.26.30), June 22nd (1.26.30)
+	          May 27th (1.26.30), June 15th (1.26.30), June 18th (1.26.30), June 22nd (1.26.30)
 	- Updated in 2025 by Patriccollu di Santa Maria è Sichè: May 5th (1.26.21), May 25th (1.26.24), June 26th (1.26.27),
 	          Aug. 31st (1.26.27), Sep. 27th (1.26.27)
 	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.13), Aug. 10th (1.26.13)
@@ -1725,6 +1725,7 @@ Information about Corsican localization:
     <entry lang="en" key="VOLUME_DISCOVERY_PENDING">Refreshing volume status…</entry>
     <entry lang="en" key="VOLUME_DISCOVERY_STALLED">Volume status unavailable; retrying…</entry>
     <entry lang="en" key="VOLUME_DISCOVERY_PARTIAL">Some volume information is unavailable; retrying…</entry>
+    <entry lang="en" key="LINUX_ELEVATION_BLOCKED">The current launcher or sandbox blocks VeraCrypt from obtaining administrator privileges (Linux NoNewPrivs).\n\nClose VeraCrypt and start it outside this restricted environment. On NixOS, use the native VeraCrypt package instead of appimage-run.</entry>
     <entry lang="en" key="IDC_SECURITY_TOKEN_KEY">Security token key</entry>
     <entry lang="en" key="SELECT_TOKEN_KEYS">Select a security token key</entry>
     <entry lang="en" key="TOKEN_KEY_LABEL">Key label</entry>
