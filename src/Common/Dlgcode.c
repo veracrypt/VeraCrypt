@@ -13001,6 +13001,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 								finally_do ({ NormalCursor(); });
 
 								vector <uint8> keyfileData;
+								finally_do_arg (vector <uint8> *, &keyfileData, { if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); });
 
 								keyfile->GetKeyfileData (keyfileData);
 
@@ -13010,8 +13011,6 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 									handleWin32Error (hwndDlg, SRC_POS);
 									return 1;
 								}
-
-								finally_do_arg (vector <uint8> *, &keyfileData, { burn (&finally_arg->front(), finally_arg->size()); });
 
 								if (!SaveBufferToFile ((char *) &keyfileData.front(), keyfilePath, (DWORD) keyfileData.size(), FALSE, FALSE))
 									throw SystemException (SRC_POS);

@@ -79,10 +79,15 @@ namespace VeraCrypt
 		map <unsigned long int, shared_ptr<EMVCard>>::iterator emvCardsIt;
 		shared_ptr<EMVCard> card;
 		vector<uint8> iccCert;
+		finally_do_arg (vector<uint8> *, &iccCert, { if (!finally_arg->empty()) burn (finally_arg->data(), finally_arg->size()); });
 		vector<uint8> issuerCert;
+		finally_do_arg (vector<uint8> *, &issuerCert, { if (!finally_arg->empty()) burn (finally_arg->data(), finally_arg->size()); });
 		vector<uint8> cplcData;
+		finally_do_arg (vector<uint8> *, &cplcData, { if (!finally_arg->empty()) burn (finally_arg->data(), finally_arg->size()); });
 		bool addNewCard = true;
 
+		if (!keyfileData.empty())
+			burn (keyfileData.data(), keyfileData.size());
 		keyfileData.clear();
 		
 		emvCardsIt = EMVToken::EMVCards.find(Token->SlotId);
@@ -112,6 +117,16 @@ namespace VeraCrypt
 			card->GetCardContent(iccCert, issuerCert, cplcData);
 			EMVToken::EMVCards.insert(make_pair(Token->SlotId, card));
 		}
+
+		// Allocate before copying so vector growth cannot release keyfile material.
+		size_t totalSize = iccCert.size();
+		if (issuerCert.size() > keyfileData.max_size() - totalSize)
+			throw ParameterIncorrect (SRC_POS);
+		totalSize += issuerCert.size();
+		if (cplcData.size() > keyfileData.max_size() - totalSize)
+			throw ParameterIncorrect (SRC_POS);
+		totalSize += cplcData.size();
+		keyfileData.reserve(totalSize);
 
 		AppendData(keyfileData, iccCert.data(), iccCert.size(), 0, iccCert.size());
 		AppendData(keyfileData, issuerCert.data(), issuerCert.size(), 0, issuerCert.size());
