@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version="1.26.30">
-    <language langid="nb" name="Norsk bokmål" en-name="Norwegian (Bokmål)" version="10-10-2026" translators="Marius Kjærstad" />
+    <language langid="nb" name="Norsk Bokmål" en-name="Norwegian (Bokmål)" version="10-10-2026" translators="Marius Kjærstad" />
     <font lang="nb" class="normal" size="11" face="default" />
     <font lang="nb" class="bold" size="13" face="Arial" />
     <font lang="nb" class="fixed" size="12" face="Lucida Console" />
@@ -1703,7 +1703,7 @@
     <entry lang="nb" key="VOLUME_DISCOVERY_PENDING">Oppdaterer volumstatus…</entry>
     <entry lang="nb" key="VOLUME_DISCOVERY_STALLED">Volumstatus utilgjengelig; prøver igjen…</entry>
     <entry lang="nb" key="VOLUME_DISCOVERY_PARTIAL">Noe voluminformasjon er utilgjengelig; prøver igjen…</entry>
-    <entry lang="nb" key="LINUX_ELEVATION_BLOCKED">Den gjeldende startprogrammet eller sandkassen hindrer VeraCrypt i å få administratorrettigheter (Linux NoNewPrivs).\n\nLukk VeraCrypt og start det utenfor dette begrensede miljøet. På NixOS bruker du den innebygde VeraCrypt-pakken i stedet for appimage-run.</entry>
+    <entry lang="nb" key="LINUX_ELEVATION_BLOCKED">Det gjeldende startprogrammet eller sandkassen hindrer VeraCrypt i å få administratorrettigheter (Linux NoNewPrivs).\n\nLukk VeraCrypt og start det utenfor dette begrensede miljøet. På NixOS bruker du VeraCrypt-pakken for NixOS i stedet for appimage-run.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
