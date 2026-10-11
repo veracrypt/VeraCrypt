@@ -60,6 +60,7 @@ static void CheckRanges (Volume &volume, const SecureBuffer &data, const char *m
 	const uint64 sectors = data.Size() / sectorSize;
 	Require (sectors >= 34, "data area too small for the range checks");
 	const uint64 ranges[][2] = {
+		{ 1, 33 }, // Exercise uneven work distribution with 32 workers.
 		{ 1, 3 }, { 7, 5 }, { sectors / 2 - 4, 9 }, { sectors - 17, 17 }
 	};
 

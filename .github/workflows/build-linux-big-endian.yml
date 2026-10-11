@@ -2,7 +2,7 @@ name: Build and test Linux big-endian
 
 # Cross-builds the console version for s390x (big-endian) and runs it under
 # qemu-user: the algorithm self-tests, a read of known data from one of the
-# Tests/*.hc volumes without mounting, and a mount of one of them (all
+# Tests/*.hc volumes without mounting, and a header compatibility check (all
 # created on little-endian).
 #
 # The full suite (manual run with "full" selected) also builds amd64, then
