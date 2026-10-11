@@ -62,7 +62,7 @@ BEGIN
     CONTROL         "Mount volumes as removable media",IDC_PREF_MOUNT_REMOVABLE,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,158,20,150,16
 
-    GROUPBOX        "Windows",IDT_WINDOWS_RELATED_SETTING,7,53,304,135
+    GROUPBOX        "Windows",IDT_WINDOWS_RELATED_SETTING,7,53,304,148
     CONTROL         "Open Explorer window for successfully mounted volume",IDC_PREF_OPEN_EXPLORER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,66,290,11
     CONTROL         "Use a different taskbar icon when there are mounted volumes",IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED,
@@ -79,6 +79,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,149,290,10
     CONTROL         "Use legacy maximum password length (64 characters)",IDC_USE_LEGACY_MAX_PASSWORD_LENGTH,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,162,290,10
+    CONTROL         "Remember which monitor the main window was shown on",IDC_PREF_REMEMBER_MONITOR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,175,290,10
 END
 
 IDD_PREFERENCES_TAB_ACTIONS DIALOGEX 0, 0, 320, 210
