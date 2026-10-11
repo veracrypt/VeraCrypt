@@ -3961,8 +3961,8 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			RECT buttonRect;
 			GetWindowRect (GetDlgItem (hwndDlg, IDC_KEY_FILES), &buttonRect);
 
-			if (LOWORD (lParam) >= buttonRect.left && LOWORD (lParam) <= buttonRect.right
-				&& HIWORD (lParam) >= buttonRect.top && HIWORD (lParam) <= buttonRect.bottom)
+			if (GET_X_LPARAM (lParam) >= buttonRect.left && GET_X_LPARAM (lParam) <= buttonRect.right
+				&& GET_Y_LPARAM (lParam) >= buttonRect.top && GET_Y_LPARAM (lParam) <= buttonRect.bottom)
 			{
 				// The "Keyfiles" button has been right-clicked
 
@@ -4530,8 +4530,8 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			GetWindowRect (GetDlgItem (hwndDlg, IDC_KEYFILES_HIDVOL_PROT), &buttonRect);
 
 			if (IsButtonChecked (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL))
-				&& LOWORD (lParam) >= buttonRect.left && LOWORD (lParam) <= buttonRect.right
-				&& HIWORD (lParam) >= buttonRect.top && HIWORD (lParam) <= buttonRect.bottom)
+				&& GET_X_LPARAM (lParam) >= buttonRect.left && GET_X_LPARAM (lParam) <= buttonRect.right
+				&& GET_Y_LPARAM (lParam) >= buttonRect.top && GET_Y_LPARAM (lParam) <= buttonRect.bottom)
 			{
 				// The "Keyfiles" button has been right-clicked
 

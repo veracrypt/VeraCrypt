@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.26.29">
+  <localization prog-version="1.26.30">
     <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.3" translators="Barney Li, Zhangjintao, Nkh0472, 风之暇想" />
     <font lang="zh-cn" class="normal" size="12" face="Microsoft YaHei" />
     <font lang="zh-cn" class="bold" size="14" face="Microsoft YaHei" />
@@ -1704,6 +1704,7 @@
     <entry lang="zh-cn" key="VOLUME_DISCOVERY_PENDING">正在刷新加密卷状态…</entry>
     <entry lang="zh-cn" key="VOLUME_DISCOVERY_STALLED">加密卷状态不可用；正在重试…</entry>
     <entry lang="zh-cn" key="VOLUME_DISCOVERY_PARTIAL">部分加密卷信息不可用；正在重试…</entry>
+    <entry lang="en" key="LINUX_ELEVATION_BLOCKED">当前启动器或沙箱阻止 VeraCrypt 获取管理员权限（Linux NoNewPrivs）。\n\n请关闭 VeraCrypt，并在此受限环境之外启动它。在 NixOS 上，请使用原生 VeraCrypt 软件包，而不要使用 appimage-run。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

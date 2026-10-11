@@ -9103,6 +9103,29 @@ void BringToForeground (HWND hWnd)
 #endif
 }
 
+/*  Gets the middle of the work area of the monitor that Windows associates with
+    hwnd. Returns FALSE and leaves *pt unchanged when hwnd is NULL, hidden or
+    minimized, or when the monitor information is not available. */
+static BOOL GetWindowMonitorWorkAreaCenter (HWND hwnd, POINT *pt)
+{
+	if (hwnd && IsWindowVisible (hwnd) && !IsIconic (hwnd))
+	{
+		HMONITOR hMonitor = MonitorFromWindow (hwnd, MONITOR_DEFAULTTONEAREST);
+		MONITORINFO monitorInfo;
+
+		memset (&monitorInfo, 0, sizeof (monitorInfo));
+		monitorInfo.cbSize = sizeof (monitorInfo);
+		if (hMonitor && GetMonitorInfoW (hMonitor, &monitorInfo))
+		{
+			pt->x = monitorInfo.rcWork.left + (monitorInfo.rcWork.right - monitorInfo.rcWork.left) / 2;
+			pt->y = monitorInfo.rcWork.top + (monitorInfo.rcWork.bottom - monitorInfo.rcWork.top) / 2;
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
 static LRESULT CALLBACK ShowWaitDialogParentWndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	return DefWindowProcW (hWnd, message, wParam, lParam);
@@ -9145,7 +9168,7 @@ void ShowWaitDialogEx(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback,
 		{		
 			/*  create invisible window and use it as parent */
 			WNDCLASSEXW winClass;
-			int parentX = 0, parentY = 0;
+			POINT parentPos = {0, 0};
 
 			memset (&winClass, 0, sizeof (winClass));
 			winClass.cbSize = sizeof (WNDCLASSEX);
@@ -9160,21 +9183,9 @@ void ShowWaitDialogEx(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback,
 			    the primary one. The parent is kept well inside the monitor because
 			    Windows may make it larger than the requested 1x1 size. Falls back to
 			    (0, 0) when the creator window is unavailable, hidden or minimized. */
-			if (creatorWnd && IsWindowVisible (creatorWnd) && !IsIconic (creatorWnd))
-			{
-				HMONITOR hMonitor = MonitorFromWindow (creatorWnd, MONITOR_DEFAULTTONEAREST);
-				MONITORINFO monitorInfo;
+			GetWindowMonitorWorkAreaCenter (creatorWnd, &parentPos);
 
-				memset (&monitorInfo, 0, sizeof (monitorInfo));
-				monitorInfo.cbSize = sizeof (monitorInfo);
-				if (hMonitor && GetMonitorInfoW (hMonitor, &monitorInfo))
-				{
-					parentX = monitorInfo.rcWork.left + (monitorInfo.rcWork.right - monitorInfo.rcWork.left) / 2;
-					parentY = monitorInfo.rcWork.top + (monitorInfo.rcWork.bottom - monitorInfo.rcWork.top) / 2;
-				}
-			}
-
-			hParent = CreateWindowExW (WS_EX_TOOLWINDOW | WS_EX_LAYERED, className, L"VeraCrypt ShowWaitDialog Parent", 0, parentX, parentY, 1, 1, NULL, NULL, hInst, NULL);
+			hParent = CreateWindowExW (WS_EX_TOOLWINDOW | WS_EX_LAYERED, className, L"VeraCrypt ShowWaitDialog Parent", 0, parentPos.x, parentPos.y, 1, 1, NULL, NULL, hInst, NULL);
 			if (hParent)
 			{
 				SetLayeredWindowAttributes (hParent, 0, 1, LWA_ALPHA);
@@ -14590,6 +14601,8 @@ typedef struct
 	INT_PTR retValue;
 	BOOL bDlgDisplayed; // set to TRUE if the dialog was displayed on secure desktop
 	BOOL bEnableIMEInSecureDesktop;
+	BOOL bUseOwnerPos; // set to TRUE if ownerPos is valid: the dialog then gets a hidden owner there
+	POINT ownerPos;
 } SecureDesktopThreadParam;
 
 typedef struct
@@ -14658,6 +14671,8 @@ static unsigned int __stdcall SecureDesktopThread( LPVOID lpThreadParameter )
 	BOOL bNewDesktopSet = FALSE;
 	HDESK hSecureDesk;
 	DWORD desktopAccess = DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_READOBJECTS | DESKTOP_SWITCHDESKTOP | DESKTOP_WRITEOBJECTS;
+	const wchar_t *ownerClassName = L"VeraCryptSecureDesktopOwner";
+	HWND hOwner = NULL;
 
 	hSecureDesk = CreateDesktop (pParam->szDesktopName, NULL, NULL, 0, desktopAccess, NULL);
 	if (!hSecureDesk)
@@ -14711,8 +14726,33 @@ static unsigned int __stdcall SecureDesktopThread( LPVOID lpThreadParameter )
 			hMonitoringThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopMonitoringThread, (LPVOID) &monitorParam, 0, &monitoringThreadID);
 		}
 
+		// the parent window stays on the original desktop and can't own the dialog,
+		// so the dialog gets a hidden owner on the monitor of the parent window:
+		// the DS_CENTER dialog is then centered on that monitor instead of the primary one
+		if (pParam->bUseOwnerPos)
+		{
+			WNDCLASSEXW winClass;
+
+			memset (&winClass, 0, sizeof (winClass));
+			winClass.cbSize = sizeof (winClass);
+			winClass.lpfnWndProc = DefWindowProcW;
+			winClass.hInstance = hInst;
+			winClass.lpszClassName = ownerClassName;
+			RegisterClassExW (&winClass);
+
+			hOwner = CreateWindowExW (WS_EX_TOOLWINDOW, ownerClassName, L"VeraCrypt Secure Desktop Owner", WS_POPUP,
+				pParam->ownerPos.x, pParam->ownerPos.y, 1, 1, NULL, NULL, hInst, NULL);
+		}
+
 		pParam->retValue = DialogBoxParamW (pParam->hInstance, pParam->lpTemplateName, 
-							NULL, pParam->lpDialogFunc, pParam->dwInitParam);
+							hOwner, pParam->lpDialogFunc, pParam->dwInitParam);
+
+		if (pParam->bUseOwnerPos)
+		{
+			if (hOwner)
+				DestroyWindow (hOwner);
+			UnregisterClassW (ownerClassName, hInst);
+		}
 
 		if (hMonitoringThread)
 		{
@@ -14844,6 +14884,10 @@ INT_PTR SecureDesktopDialogBoxParam(
 			param.retValue = 0;
 			param.bDlgDisplayed = FALSE;
 			param.bEnableIMEInSecureDesktop = bEffectiveEnableIMEInSecureDesktop;
+			// remember where the parent window is, so that the dialog appears on the same monitor
+			param.ownerPos.x = 0;
+			param.ownerPos.y = 0;
+			param.bUseOwnerPos = GetWindowMonitorWorkAreaCenter (hWndParent, &param.ownerPos);
 
 			// use _beginthreadex instead of CreateThread because lpDialogFunc may be using the C runtime library
 			HANDLE hThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);

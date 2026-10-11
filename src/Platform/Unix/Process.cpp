@@ -12,9 +12,15 @@
 
 #include <errno.h>
 #include <fcntl.h>
+#include <limits.h>
+#include <stdio.h>
+#include <sstream>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#ifdef TC_LINUX
+#include <sys/statvfs.h>
+#endif
 #include "Process.h"
 #include "Platform/Exception.h"
 #include "Platform/Finally.h"
@@ -212,6 +218,127 @@ namespace VeraCrypt
 		return false;
 	}
 
+#ifdef TC_LINUX
+	static bool IsTrustedSystemPathEntry (const string &path, const struct stat &info)
+	{
+		if (info.st_uid != 0)
+			return false;
+		if (S_ISLNK (info.st_mode) || !(info.st_mode & (S_IWGRP | S_IWOTH)))
+			return true;
+
+		// NixOS exposes its store read-only, but the directory retains group
+		// write permission for the build users. Its sticky bit protects existing
+		// root-owned entries in the daemon's writable view. All children still
+		// have to pass the normal ownership and permission checks below.
+		if (path != "/nix/store" || !S_ISDIR (info.st_mode)
+			|| !(info.st_mode & S_ISVTX) || (info.st_mode & S_IWOTH))
+			return false;
+		struct statvfs filesystem;
+		return statvfs (path.c_str(), &filesystem) == 0 && (filesystem.f_flag & ST_RDONLY);
+	}
+
+	// Walk from the root before following each link. Checking only realpath's
+	// result would miss a writable directory containing an earlier symlink.
+	// Once checked, a component can only be replaced by a trusted administrator.
+	static bool ResolveTrustedSystemPath (const string &path, string &resolved, struct stat &info)
+	{
+		resolved.clear();
+		if (path.empty() || path[0] != '/')
+			return false;
+
+		if (lstat ("/", &info) != 0 || !S_ISDIR (info.st_mode) || !IsTrustedSystemPathEntry ("/", info))
+			return false;
+
+		string current = "/";
+		string remaining = path.substr (1);
+		unsigned int links = 0;
+		while (!remaining.empty())
+		{
+			size_t separator = remaining.find ('/');
+			bool directoryRequired = separator != string::npos;
+			string component = remaining.substr (0, separator);
+			remaining = directoryRequired ? remaining.substr (separator + 1) : "";
+			if (component.empty())
+				continue;
+
+			string candidate = current + (current == "/" ? "" : "/") + component;
+			if (candidate.size() >= PATH_MAX || lstat (candidate.c_str(), &info) != 0 || info.st_uid != 0)
+				return false;
+
+			if (S_ISLNK (info.st_mode))
+			{
+				if (++links > 40)
+					return false;
+				char target[PATH_MAX];
+				ssize_t length = readlink (candidate.c_str(), target, sizeof (target));
+				if (length <= 0 || static_cast <size_t> (length) >= sizeof (target))
+					return false;
+				remaining = string (target, length) + (directoryRequired ? "/" + remaining : "");
+				if (target[0] == '/')
+					current = "/";
+				// Symlink mode bits aren't access controls. Its owner and the
+				// permissions of its parent and target are checked instead.
+				continue;
+			}
+
+			if (directoryRequired && !S_ISDIR (info.st_mode))
+				return false;
+			if (component == "..")
+			{
+				current.erase (current.find_last_of ('/'));
+				if (current.empty())
+					current = "/";
+			}
+			else if (component != ".")
+				current = candidate;
+			if (!IsTrustedSystemPathEntry (current, info))
+				return false;
+		}
+
+		if (lstat (current.c_str(), &info) != 0 || S_ISLNK (info.st_mode) || !IsTrustedSystemPathEntry (current, info))
+			return false;
+		resolved = current;
+		return true;
+	}
+
+	static bool IsNixOS ()
+	{
+		string path;
+		struct stat info;
+		if (!ResolveTrustedSystemPath ("/etc/os-release", path, info) || !S_ISREG (info.st_mode))
+			return false;
+
+		// Read only protected system metadata, with no shell or environment override.
+		vector <char> buffer (64 * 1024 + 1);
+		FILE *file = fopen (path.c_str(), "r");
+		if (!file)
+			return false;
+		size_t size = fread (&buffer[0], 1, buffer.size(), file);
+		bool readFailed = ferror (file) != 0;
+		fclose (file);
+		if (readFailed || size == buffer.size())
+			return false;
+
+		std::istringstream contents (string (&buffer[0], size));
+		string line;
+		bool foundId = false;
+		bool nixos = false;
+		while (std::getline (contents, line))
+		{
+			if (!line.empty() && line.back() == '\r')
+				line.pop_back();
+			if (line.compare (0, 3, "ID=") != 0)
+				continue;
+			if (foundId)
+				return false;
+			foundId = true;
+			string id = line.substr (3);
+			nixos = id == "nixos" || id == "\"nixos\"" || id == "'nixos'";
+		}
+		return nixos;
+	}
+#endif
+
 	// Find executable in system paths
 	std::string Process::FindSystemBinary(const char* name, std::string& errorMsg) {
 		if (!name) {
@@ -242,6 +369,24 @@ namespace VeraCrypt
 
 		// If path doesn't start with '/', prepend default directories
 		if (currentPath[0] != '/') {
+#ifdef TC_LINUX
+			if (IsNixOS ())
+			{
+				// Only NixOS enables these additional locations. The privileged
+				// wrapper must precede the system profile's plain sudo binary.
+				const char *nixDirs[] = { "/run/wrappers/bin", "/run/current-system/sw/bin" };
+				for (size_t i = 0; i < sizeof (nixDirs) / sizeof (nixDirs[0]); ++i)
+				{
+					string candidate = string (nixDirs[i]) + "/" + currentPath;
+					string resolved;
+					struct stat info;
+					if (ResolveTrustedSystemPath (candidate, resolved, info)
+						&& S_ISREG (info.st_mode) && (info.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)))
+						// Preserve argv[0] for helpers such as true that link to a multicall binary.
+						return candidate;
+				}
+			}
+#endif
 			for (size_t i = 0; i < defaultDirCount; ++i) {
 				std::string combinedPath = std::string(defaultDirs[i]) + "/" + currentPath;
 				if (IsExecutable(combinedPath)) {
