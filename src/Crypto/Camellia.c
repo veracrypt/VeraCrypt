@@ -1523,12 +1523,18 @@ static const uint64 S[8][256] = {
 
 	VC_INLINE uint64 camellia_load_be64(const unsigned __int8 *ptr)
 	{
+#if BYTE_ORDER == BIG_ENDIAN
+		return camellia_load64(ptr);
+#else
 		return bswap_64(camellia_load64(ptr));
+#endif
 	}
 
 	VC_INLINE void camellia_store_be64(unsigned __int8 *ptr, uint64 value)
 	{
+#if BYTE_ORDER != BIG_ENDIAN
 		value = bswap_64(value);
+#endif
 		camellia_store64(ptr, value);
 	}
 

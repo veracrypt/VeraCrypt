@@ -16,134 +16,123 @@
 namespace VeraCrypt
 {
 	// ElevatedServiceStartedResponse
-	void ElevatedServiceStartedResponse::Deserialize (shared_ptr <Stream> stream)
+	void ElevatedServiceStartedResponse::DeserializeData (shared_ptr <Stream> stream)
 	{
 	}
 
-	void ElevatedServiceStartedResponse::Serialize (shared_ptr <Stream> stream) const
+	void ElevatedServiceStartedResponse::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 	}
 
 	// CheckFilesystemResponse
-	void CheckFilesystemResponse::Deserialize (shared_ptr <Stream> stream)
+	void CheckFilesystemResponse::DeserializeData (shared_ptr <Stream> stream)
 	{
 	}
 
-	void CheckFilesystemResponse::Serialize (shared_ptr <Stream> stream) const
+	void CheckFilesystemResponse::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 	}
 
 	// DismountFilesystemResponse
-	void DismountFilesystemResponse::Deserialize (shared_ptr <Stream> stream)
+	void DismountFilesystemResponse::DeserializeData (shared_ptr <Stream> stream)
 	{
 	}
 
-	void DismountFilesystemResponse::Serialize (shared_ptr <Stream> stream) const
+	void DismountFilesystemResponse::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 	}
 
 	// DismountVolumeResponse
-	void DismountVolumeResponse::Deserialize (shared_ptr <Stream> stream)
+	void DismountVolumeResponse::DeserializeData (shared_ptr <Stream> stream)
 	{
 		DismountedVolumeInfo = Serializable::DeserializeNew <VolumeInfo> (stream);
 	}
 
-	void DismountVolumeResponse::Serialize (shared_ptr <Stream> stream) const
+	void DismountVolumeResponse::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 		Serializer sr (stream);
 		DismountedVolumeInfo->Serialize (stream);
 	}
 
 	// GetDeviceSectorSizeResponse
-	void GetDeviceSectorSizeResponse::Deserialize (shared_ptr <Stream> stream)
+	void GetDeviceSectorSizeResponse::DeserializeData (shared_ptr <Stream> stream)
 	{
 		Serializer sr (stream);
 		sr.Deserialize ("Size", Size);
 	}
 
-	void GetDeviceSectorSizeResponse::Serialize (shared_ptr <Stream> stream) const
+	void GetDeviceSectorSizeResponse::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 		Serializer sr (stream);
 		sr.Serialize ("Size", Size);
 	}
 
 	// GetDeviceSizeResponse
-	void GetDeviceSizeResponse::Deserialize (shared_ptr <Stream> stream)
+	void GetDeviceSizeResponse::DeserializeData (shared_ptr <Stream> stream)
 	{
 		Serializer sr (stream);
 		sr.Deserialize ("Size", Size);
 	}
 
-	void GetDeviceSizeResponse::Serialize (shared_ptr <Stream> stream) const
+	void GetDeviceSizeResponse::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 		Serializer sr (stream);
 		sr.Serialize ("Size", Size);
 	}
 
 	// GetHostDevicesResponse
-	void GetHostDevicesResponse::Deserialize (shared_ptr <Stream> stream)
+	void GetHostDevicesResponse::DeserializeData (shared_ptr <Stream> stream)
 	{
 		Serializable::DeserializeList (stream, HostDevices);
 	}
 
-	void GetHostDevicesResponse::Serialize (shared_ptr <Stream> stream) const
+	void GetHostDevicesResponse::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 		Serializable::SerializeList (stream, HostDevices);
 	}
 
 #ifdef TC_MACOSX
 	// ExecuteMacOSXAPFSFormatterResponse
-	void ExecuteMacOSXAPFSFormatterResponse::Deserialize (shared_ptr <Stream> stream)
+	void ExecuteMacOSXAPFSFormatterResponse::DeserializeData (shared_ptr <Stream> stream)
 	{
 	}
 
-	void ExecuteMacOSXAPFSFormatterResponse::Serialize (shared_ptr <Stream> stream) const
+	void ExecuteMacOSXAPFSFormatterResponse::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 	}
 #endif
 
 #ifdef TC_OPENBSD
 	// ExecuteOpenBSDFFSFormatterResponse
-	void ExecuteOpenBSDFFSFormatterResponse::Deserialize (shared_ptr <Stream> stream)
+	void ExecuteOpenBSDFFSFormatterResponse::DeserializeData (shared_ptr <Stream> stream)
 	{
 	}
 
-	void ExecuteOpenBSDFFSFormatterResponse::Serialize (shared_ptr <Stream> stream) const
+	void ExecuteOpenBSDFFSFormatterResponse::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 	}
 #endif
 
 	// MountVolumeResponse
-	void MountVolumeResponse::Deserialize (shared_ptr <Stream> stream)
+	void MountVolumeResponse::DeserializeData (shared_ptr <Stream> stream)
 	{
 		Serializer sr (stream);
 		MountedVolumeInfo = Serializable::DeserializeNew <VolumeInfo> (stream);
 	}
 
-	void MountVolumeResponse::Serialize (shared_ptr <Stream> stream) const
+	void MountVolumeResponse::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 		Serializer sr (stream);
 		MountedVolumeInfo->Serialize (stream);
 	}
 
 	// SetFileOwnerResponse
-	void SetFileOwnerResponse::Deserialize (shared_ptr <Stream> stream)
+	void SetFileOwnerResponse::DeserializeData (shared_ptr <Stream> stream)
 	{
 	}
 
-	void SetFileOwnerResponse::Serialize (shared_ptr <Stream> stream) const
+	void SetFileOwnerResponse::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 	}
 
 	TC_SERIALIZER_FACTORY_ADD_CLASS (ElevatedServiceStartedResponse);

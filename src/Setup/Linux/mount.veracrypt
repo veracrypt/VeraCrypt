@@ -1,23 +1,42 @@
-#!/bin/bash
-DEV="$1"
-MNTPT="$2"
-VCOPTIONS=""
-OPTIONS=""
+#!/bin/sh
+# mount.veracrypt <device> <mountpoint> [flags] [-o comma-options]
+DEV=$1
+MNTPT=$2
+MOUNTOPTS=
+OPTIONS=
 
-shift 3
-IFS=','
-for arg in $*; do
-  case "$arg" in
-    truecrypt)        VCOPTIONS=(${VCOPTIONS[*]} --truecrypt);;
-    system)           VCOPTIONS=(${VCOPTIONS[*]} --mount-options=system);;
-    fs=*)             VCOPTIONS=(${VCOPTIONS[*]} --filesystem=${arg#*=});;
-    keyfiles=*)       VCOPTIONS=(${VCOPTIONS[*]} --keyfiles=${arg#*=});;
-    password=*)       VCOPTIONS=(${VCOPTIONS[*]} --password=${arg#*=});;
-    pim=*)            VCOPTIONS=(${VCOPTIONS[*]} --pim=${arg#*=});;
-    protect-hidden=*) VCOPTIONS=(${VCOPTIONS[*]} --protect-hidden=${arg#*=});;
-    slot=*)           VCOPTIONS=(${VCOPTIONS[*]} --slot=${arg#*=});;
-    *)                OPTIONS="${OPTIONS}${arg},";;
-  esac
+shift 2
+while [ "$#" -gt 0 ] && [ "$1" != "-o" ]; do shift; done
+[ "$#" -gt 0 ] && shift
+
+OLDIFS=$IFS
+IFS=,
+set -f
+OPTSTR="$*"
+# Collect veracrypt arguments as positional parameters so values with spaces
+# (e.g. keyfile paths) stay single arguments.
+set --
+for arg in $OPTSTR; do
+	case $arg in
+		system|nokernelcrypto|headerbak|timestamp)
+		                  MOUNTOPTS="${MOUNTOPTS:+$MOUNTOPTS,}$arg" ;;
+		truecrypt)
+			echo "mount.veracrypt: TrueCrypt mode is no longer supported" >&2
+			exit 1 ;;
+		fs=*)             set -- "$@" "--filesystem=${arg#*=}" ;;
+		keyfiles=*)       set -- "$@" "--keyfiles=${arg#*=}" ;;
+		password=*)       set -- "$@" "--password=${arg#*=}" ;;
+		pim=*)            set -- "$@" "--pim=${arg#*=}" ;;
+		protect-hidden=*) set -- "$@" "--protect-hidden=${arg#*=}" ;;
+		slot=*)           set -- "$@" "--slot=${arg#*=}" ;;
+		*)                OPTIONS="${OPTIONS}${arg}," ;;
+	esac
 done
+IFS=$OLDIFS
+set +f
 
-/usr/bin/veracrypt --text --non-interactive ${VCOPTIONS[*]} --fs-options="${OPTIONS%,*}" ${DEV} ${MNTPT}
+# veracrypt reads a single --mount-options value, so pass one comma list.
+[ -n "$MOUNTOPTS" ] && set -- "$@" "--mount-options=$MOUNTOPTS"
+
+exec /usr/bin/veracrypt --text --non-interactive "$@" \
+	--fs-options="${OPTIONS%,}" "$DEV" "$MNTPT"

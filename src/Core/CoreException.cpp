@@ -15,24 +15,24 @@
 
 namespace VeraCrypt
 {
-	void ElevationFailed::Deserialize (shared_ptr <Stream> stream)
+	void ElevationFailed::DeserializeData (shared_ptr <Stream> stream)
 	{
-		ExecutedProcessFailed::Deserialize (stream);
+		ExecutedProcessFailed::DeserializeData (stream);
 	}
 
-	void ElevationFailed::Serialize (shared_ptr <Stream> stream) const
+	void ElevationFailed::SerializeData (shared_ptr <Stream> stream) const
 	{
-		ExecutedProcessFailed::Serialize (stream);
+		ExecutedProcessFailed::SerializeData (stream);
 	}
 
-	void FilesystemDismountFailed::Deserialize (shared_ptr <Stream> stream)
+	void FilesystemDismountFailed::DeserializeData (shared_ptr <Stream> stream)
 	{
-		ExecutedProcessFailed::Deserialize (stream);
+		ExecutedProcessFailed::DeserializeData (stream);
 	}
 
-	void FilesystemDismountFailed::Serialize (shared_ptr <Stream> stream) const
+	void FilesystemDismountFailed::SerializeData (shared_ptr <Stream> stream) const
 	{
-		ExecutedProcessFailed::Serialize (stream);
+		ExecutedProcessFailed::SerializeData (stream);
 	}
 
 #define TC_EXCEPTION(TYPE) TC_SERIALIZER_FACTORY_ADD(TYPE)

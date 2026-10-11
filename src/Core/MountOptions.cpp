@@ -58,7 +58,7 @@ namespace VeraCrypt
 		TC_CLONE (EMVSupportEnabled);
 	}
 
-	void MountOptions::Deserialize (shared_ptr <Stream> stream)
+	void MountOptions::DeserializeData (shared_ptr <Stream> stream)
 	{
 		Serializer sr (stream);
 		wstring nameValue;
@@ -132,9 +132,8 @@ namespace VeraCrypt
 		sr.Deserialize ("ProtectionPim", ProtectionPim);
 	}
 
-	void MountOptions::Serialize (shared_ptr <Stream> stream) const
+	void MountOptions::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializable::Serialize (stream);
 		Serializer sr (stream);
 
 		sr.Serialize ("CachePassword", CachePassword);

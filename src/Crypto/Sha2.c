@@ -10,6 +10,28 @@ and released into public domain.
 #include "Crypto/cpu.h"
 #include "Crypto/misc.h"
 
+/* SHA-2 words are big-endian: swap only on little-endian hosts. */
+#if BYTE_ORDER == BIG_ENDIAN
+#define SHA2_BE32(x) (x)
+#define SHA2_BE64(x) (x)
+#else
+#define SHA2_BE32(x) (bswap_32(x))
+#define SHA2_BE64(x) (bswap_64(x))
+#endif
+
+/* Message word i of the block at p (big-endian; byte-wise on big-endian hosts). */
+#if BYTE_ORDER == BIG_ENDIAN
+#define SHA2_LOAD_BE32(p, i) VcLoadBE32((const uint8 *) (p) + 4 * (i))
+#define SHA2_LOAD_BE64(p, i) VcLoadBE64((const uint8 *) (p) + 8 * (i))
+#elif VC_UNALIGNED_ACCESS_OK
+#define SHA2_LOAD_BE32(p, i) bswap_32(((const uint_32t *) (p))[i])
+#define SHA2_LOAD_BE64(p, i) bswap_64(((const uint_64t *) (p))[i])
+#else
+/* The caller's buffer may be unaligned: load it alignment-safe, then swap. */
+#define SHA2_LOAD_BE32(p, i) bswap_32(VcLoadLE32((const uint8 *) (p) + 4 * (i)))
+#define SHA2_LOAD_BE64(p, i) bswap_64(VcLoadLE64((const uint8 *) (p) + 8 * (i)))
+#endif
+
 #if defined(_UEFI) || defined(CRYPTOPP_DISABLE_ASM)
 #define NO_OPTIMIZED_VERSIONS
 #endif
@@ -99,7 +121,7 @@ void StdTransform(sha512_ctx* ctx, void* mp, uint_64t num_blks)
 
 		for (i = 0; i < 128 / 8; i++)
 		{
-			W[i] = bswap_64((((const uint_64t*)(mp))[blk * 16 + i]));
+			W[i] = SHA2_LOAD_BE64(mp, blk * 16 + i);
 		}
 
 		a = ctx->hash[0];
@@ -244,12 +266,12 @@ void sha512_end(unsigned char * result, sha512_ctx* ctx)
 		pos = 0;
 	}
 	memset(m + pos, 0, (size_t) (128 - pos));
-	mlen = bswap_64(ctx->count[1]);
+	mlen = SHA2_BE64(ctx->count[1]);
 	memcpy(m + (128 - 8), &mlen, 64 / 8);
 	transfunc(ctx, m, 1);
 	for (i = 0; i < 8; i++)
 	{
-		ctx->hash[i] = bswap_64(ctx->hash[i]);
+		ctx->hash[i] = SHA2_BE64(ctx->hash[i]);
 	}
 	memcpy(result, ctx->hash, 64);
 }
@@ -672,7 +694,7 @@ void StdSha256Transform(sha256_ctx* ctx, void* mp, uint_64t num_blks)
 
 		for (i = 0; i < 64 / 4; i++)
 		{
-			W[i] = bswap_32((((const uint_32t*)(mp))[blk * 16 + i]));
+			W[i] = SHA2_LOAD_BE32(mp, blk * 16 + i);
 		}
 
 		a = ctx->hash[0];
@@ -846,12 +868,12 @@ void sha256_end(unsigned char * result, sha256_ctx* ctx)
 		pos = 0;
 	}
 	memset(m + pos, 0, (size_t) (56 - pos));
-	mlen = bswap_64((uint_64t) ctx->count[1]);
+	mlen = SHA2_BE64((uint_64t) ctx->count[1]);
 	memcpy(m + (64 - 8), &mlen, 64 / 8);
 	sha256transfunc(ctx, m, 1);
 	for (i = 0; i < 8; i++)
 	{
-		ctx->hash[i] = bswap_32(ctx->hash[i]);
+		ctx->hash[i] = SHA2_BE32(ctx->hash[i]);
 	}
 	memcpy(result, ctx->hash, 32);
 }

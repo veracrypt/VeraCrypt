@@ -20,11 +20,30 @@
 
 namespace VeraCrypt
 {
+	// An object or object-list operation retains this scope across all its fields.
+	// Sibling operations and separate streams have independent nesting limits.
+	class SerializationScope
+	{
+	public:
+		explicit SerializationScope (shared_ptr <Stream> stream);
+		~SerializationScope ();
+
+	private:
+		shared_ptr <Stream> DataStream;
+		SerializationScope (const SerializationScope &);
+		SerializationScope &operator= (const SerializationScope &);
+	};
+
 	class Serializer
 	{
 	public:
-		Serializer (shared_ptr <Stream> stream) : DataStream (stream) { }
+		Serializer (shared_ptr <Stream> stream);
 		virtual ~Serializer () { }
+
+		// Wire sizes include the terminating NUL. The same limits apply in both directions.
+		static const uint64 MaxCollectionSize = 65536;
+		static const uint64 MaxStringSize = 1024 * 1024;
+		static const unsigned int MaxNestingDepth = 64;
 
 		void Deserialize (const string &name, bool &data);
 		void Deserialize (const string &name, uint8 &data);
@@ -44,6 +63,7 @@ namespace VeraCrypt
 		list <string> DeserializeStringList (const string &name);
 		wstring DeserializeWString (const string &name);
 		list <wstring> DeserializeWStringList (const string &name);
+		static void ValidateCollectionSize (uint64 size);
 		void Serialize (const string &name, bool data);
 		void Serialize (const string &name, uint8 data);
 		void Serialize (const string &name, const char *data);

@@ -34,6 +34,18 @@
 <div class="wikidoc">
 <h1>Release Notes</h1>
 
+<p><strong>Unreleased changes</strong></p>
+<ul>
+<li><strong>Linux, macOS and BSD:</strong> Non-interactive unmount commands return a nonzero exit status when a busy volume cannot be unmounted. Scripts should check the exit status before treating a volume as locked.</li>
+<li><strong>macOS:</strong>
+	<ul>
+	<li>Improve FUSE-T startup rollback and unmount cleanup, and report when service termination cannot be confirmed.</li>
+	<li>Keep volume status refresh and interactive unmount waits off the main window thread, and limit disk-image inventory queries to one per refresh with a timeout.</li>
+	<li>Distinguish unavailable volume status and detached disk images in the volume list.</li>
+	</ul>
+</li>
+</ul>
+
 <p>
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>

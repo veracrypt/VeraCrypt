@@ -41,7 +41,18 @@ namespace VeraCrypt
 			: Pointer (nullptr), UseCount (nullptr) { }
 
 		explicit SharedPtr (T *pointer)
-			: Pointer (pointer), UseCount (new SharedVal <uint64> (1)) { }
+			: Pointer (pointer), UseCount (nullptr)
+		{
+			try
+			{
+				UseCount = new SharedVal <uint64> (1);
+			}
+			catch (...)
+			{
+				delete Pointer;
+				throw;
+			}
+		}
 
 		SharedPtr (const SharedPtr &source)
 		{

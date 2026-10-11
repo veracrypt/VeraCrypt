@@ -74,7 +74,7 @@ VC_COMMON_MAKE_FLAGS = \
 
 define Build/Compile
 	+$(MAKE) -C "$(PKG_BUILD_DIR)/veracrypt/src" $(VC_COMMON_MAKE_FLAGS) clean
-	+$(MAKE) -C "$(PKG_BUILD_DIR)/veracrypt/src" $(VC_COMMON_MAKE_FLAGS) wxbuild
+	+$(MAKE) -C "$(PKG_BUILD_DIR)/veracrypt/src" $(PKG_JOBS) $(VC_COMMON_MAKE_FLAGS) WX_MAKE_JOBS= wxbuild
 	+$(MAKE) -C "$(PKG_BUILD_DIR)/veracrypt/src" $(PKG_JOBS) $(VC_COMMON_MAKE_FLAGS)
 endef
 

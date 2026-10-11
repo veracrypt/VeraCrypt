@@ -58,6 +58,12 @@ namespace VeraCrypt
 		virtual shared_ptr <VolumeInfo> GetMountedVolume (const VolumePath &volumePath) const;
 		virtual shared_ptr <VolumeInfo> GetMountedVolume (VolumeSlotNumber slot) const;
 		virtual VolumeInfoList GetMountedVolumes (const VolumePath &volumePath = VolumePath()) const = 0;
+		virtual VolumeDiscoveryResult GetMountedVolumesWithStatus (const VolumePath &volumePath = VolumePath()) const
+		{
+			VolumeDiscoveryResult result;
+			result.Volumes = GetMountedVolumes (volumePath);
+			return result;
+		}
 		virtual bool HasAdminPrivileges () const = 0;
 		virtual void Init () { }
 		virtual bool IsDeviceChangeInProgress () const { return DeviceChangeInProgress; }

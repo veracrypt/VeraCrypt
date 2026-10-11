@@ -61,6 +61,7 @@ namespace VeraCrypt
 		virtual void ListEMVTokenKeyfiles () const = 0;
 		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options, bool tryCachedPasswords = true) const;
 		virtual shared_ptr <VolumeInfo> MountVolumeThread (MountOptions &options) const { return Core->MountVolume (options);}
+		virtual shared_ptr <VolumeInfo> DismountVolumeThread (shared_ptr <VolumeInfo> volume, bool ignoreOpenFiles, bool interactive = true) const { return Core->DismountVolume (volume, ignoreOpenFiles); }
 		virtual VolumeInfoList MountAllDeviceHostedVolumes (MountOptions &options) const;
 		virtual VolumeInfoList MountAllFavoriteVolumes (MountOptions &options);
 		virtual void OpenExplorerWindow (const DirectoryPath &path);

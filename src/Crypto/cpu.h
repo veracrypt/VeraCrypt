@@ -236,7 +236,8 @@ extern "C" {
 #endif
 
 #define CRYPTOPP_CPUID_AVAILABLE
-#if !defined(CRYPTOPP_DISABLE_AESNI) && !defined(WOLFCRYPT_BACKEND)
+/* aes_hw_cpu_* come from the assembler module, which NOASM builds leave out */
+#if !defined(CRYPTOPP_DISABLE_AESNI) && !defined(WOLFCRYPT_BACKEND) && !defined(CRYPTOPP_DISABLE_ASM)
 #define TC_AES_HW_CPU
 #endif
 
