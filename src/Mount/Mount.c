@@ -8038,13 +8038,12 @@ static void SignalExitCode (int exitCode)
 
 /* Repair the main window's restore position when it points outside every monitor.
 
-   A minimized window is parked by Windows at (-32000,-32000). When the display
-   topology changes while the window is minimized - which happens on every
-   session lock that powers off a monitor - Windows can copy that parking
-   position into the window's restore rectangle and clear WS_MINIMIZE. The
-   window is then, by every API, a normal visible window that happens to live
-   32000 pixels off screen, and no amount of ShowWindow (SW_RESTORE) brings it
-   back: the restore rectangle is exactly where it already is.
+   A minimized window is parked by Windows at (-32000,-32000). After a session
+   lock, the main window has been observed with that parking position in its
+   restore rectangle and WS_MINIMIZE cleared. The exact cause hasn't been
+   established. The window is reported as normal and visible, but remains off
+   screen. ShowWindow with SW_RESTORE doesn't bring it back because the restore
+   rectangle is already its current position.
 
    showCmd is deliberately left as GetWindowPlacement returned it, so that a
    legitimately minimized window stays minimized and only its future restore
@@ -8104,8 +8103,7 @@ static BOOL RepairMainWindowPlacement (HWND hwnd)
 	wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + height;
 	OffsetRect (&wp.rcNormalPosition, -offsetX, -offsetY);
 
-	SetWindowPlacement (hwnd, &wp);
-	return TRUE;
+	return SetWindowPlacement (hwnd, &wp);
 }
 
 static void ShowMainWindow (HWND hwnd)
