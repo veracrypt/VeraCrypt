@@ -1,12 +1,14 @@
 name: Build and test Linux big-endian
 
 # Cross-builds the console version for s390x (big-endian) and runs it under
-# qemu-user: the algorithm self-tests and one of the Tests/*.hc volumes
-# (created on little-endian).
+# qemu-user: the algorithm self-tests, a read of known data from one of the
+# Tests/*.hc volumes without mounting, and a mount of one of them (all
+# created on little-endian).
 #
 # The full suite (manual run with "full" selected) also builds amd64, then
-# tests the Tests/*.hc volumes on both builds and volume compatibility
-# between them in both directions, in separate jobs that run concurrently.
+# reads and tests all Tests/*.hc volumes on both builds and volume
+# compatibility between them in both directions, in separate jobs that run
+# concurrently.
 
 on:
   push:
@@ -25,6 +27,8 @@ on:
       - 'src/Makefile'
       - 'Tests/test.*.hc'
       - 'Tests/test_byte_order_interop.py'
+      - 'Tests/test_volume_read.py'
+      - 'Tests/volume_read_test.cpp'
       - '.github/workflows/build-linux-big-endian.yml'
   pull_request:
     branches: [ "master" ]
@@ -42,6 +46,8 @@ on:
       - 'src/Makefile'
       - 'Tests/test.*.hc'
       - 'Tests/test_byte_order_interop.py'
+      - 'Tests/test_volume_read.py'
+      - 'Tests/volume_read_test.cpp'
       - '.github/workflows/build-linux-big-endian.yml'
   # Manual runs, e.g. on a fork before opening a pull request.
   workflow_dispatch:
@@ -127,6 +133,19 @@ jobs:
 
     - name: Algorithm self-tests
       run: src/Main/veracrypt --text --test
+
+    # Needs Volume.a and Platform.a, so it runs here and not in the jobs that
+    # only receive the binary. One volume keeps the automatic check short.
+    - name: Read known data from the test volumes
+      run: |
+        set -- --build-dir src --require-thread-pool
+        if [ "${{ matrix.arch }}" = s390x ]; then
+          export CXX=s390x-linux-gnu-g++ NM=s390x-linux-gnu-nm
+        fi
+        if [ "${{ env.FULL }}" != true ]; then
+          set -- "$@" --fixture test.sha512.hc
+        fi
+        python3 Tests/test_volume_read.py "$@"
 
     # One volume keeps this check short; the full suite opens all of them.
     - name: Volume created on little-endian
