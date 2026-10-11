@@ -234,6 +234,14 @@ ifeq "$(shell uname -s)" "Linux"
 		LFLAGS += -Wl,-z,max-page-size=4096
 	endif
 	
+	# Keep NOAESNI consistent with assembler object selection even with NOSSE2.
+	ifneq (,$(filter x86 x64,$(CPU_ARCH)))
+		ifeq "$(DISABLE_AESNI)" "1"
+			CFLAGS += -mno-aes -DCRYPTOPP_DISABLE_AESNI
+			CXXFLAGS += -mno-aes -DCRYPTOPP_DISABLE_AESNI
+		endif
+	endif
+
 	ifeq "$(SIMD_SUPPORTED)" "1"
 		CFLAGS += -msse2
 		CXXFLAGS += -msse2
@@ -243,10 +251,7 @@ ifeq "$(shell uname -s)" "Linux"
 		GCC_GTEQ_470 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40700)
 		GCC_GTEQ_500 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 50000)
 
-		ifeq "$(DISABLE_AESNI)" "1"
-			CFLAGS += -mno-aes -DCRYPTOPP_DISABLE_AESNI
-			CXXFLAGS += -mno-aes -DCRYPTOPP_DISABLE_AESNI
-		else
+		ifeq "$(DISABLE_AESNI)" "0"
 			ifeq "$(GCC_GTEQ_440)" "1"
 				CFLAGS += -maes
 				CXXFLAGS += -maes
@@ -289,8 +294,8 @@ ifeq "$(shell uname -s)" "Linux"
 	endif
 	
 	ifeq "$(origin NOSSE2)" "command line"
-		CFLAGS += -mno-sse2
-		CXXFLAGS += -mno-sse2
+		CFLAGS += -mno-sse2 -DCRYPTOPP_DISABLE_SHANI
+		CXXFLAGS += -mno-sse2 -DCRYPTOPP_DISABLE_SHANI
 		WXCONFIG_CFLAGS += -mno-sse2
 		WXCONFIG_CXXFLAGS += -mno-sse2
 	endif

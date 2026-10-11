@@ -45,6 +45,9 @@
 
 /* Adapted for VeraCrypt */
 
+#if !defined(_UEFI)
+#include <stddef.h>
+#endif
 #include "Common/Crypto.h"
 
 #ifndef _WIN32

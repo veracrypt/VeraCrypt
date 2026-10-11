@@ -59,7 +59,7 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"1.26.29"
+#define VERSION_STRING					"1.26.30"
 
 #ifdef VC_EFI_CUSTOM_MODE
 #define VERSION_STRING_SUFFIX			"-CustomEFI"
@@ -74,8 +74,8 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 
 // Release date
 #define TC_RELEASE_DATE_YEAR			2026
-#define TC_RELEASE_DATE_MONTH			 6
-#define TC_RELEASE_DATE_DAY			 9
+#define TC_RELEASE_DATE_MONTH			10
+#define TC_RELEASE_DATE_DAY			11
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL
@@ -373,7 +373,7 @@ typedef unsigned char  BOOLEAN;
 #if defined(_WIN32) && !defined(_UEFI)
 #define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); size_t burnc = size; RtlSecureZeroMemory (mem, size); while (burnc--) *burnm++ = 0; } while (0)
 #else
-#define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); int burnc = size; while (burnc--) *burnm++ = 0; } while (0)
+#define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); size_t burnc = size; while (burnc--) *burnm++ = 0; } while (0)
 #endif
 
 #define volatile_memcpy(d,s,size) do { volatile char *destm = (volatile char *)(d); volatile char *srcm = (volatile char *)(s); size_t memc = size; while (memc--) *destm++ = *srcm++; } while (0)
