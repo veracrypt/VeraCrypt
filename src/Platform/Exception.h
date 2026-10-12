@@ -80,6 +80,8 @@ namespace VeraCrypt
 #define TC_EXCEPTION_SET \
 	TC_EXCEPTION_NODECL (Exception); \
 	TC_EXCEPTION_NODECL (ExecutedProcessFailed); \
+	TC_EXCEPTION (AtomicFileDestinationNotRegular); \
+	TC_EXCEPTION (AtomicFilePublished); \
 	TC_EXCEPTION (AlreadyInitialized); \
 	TC_EXCEPTION (AssertionFailed); \
 	TC_EXCEPTION (DeviceSectorSizeMismatch); \

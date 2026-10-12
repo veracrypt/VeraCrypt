@@ -116,6 +116,7 @@ namespace VeraCrypt
 			virtual void OnRestoreVolumeHeaderMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnCreateKeyfileMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnManageSecurityTokenKeyfilesMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnRevealRedkeyMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnCloseAllSecurityTokenSessionsMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnWipeCacheButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnLanguageMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
@@ -437,6 +438,9 @@ namespace VeraCrypt
 			wxStaticText* m_staticText65;
 			wxTextCtrl* KeyfilesBaseName;
 			wxPanel* m_panel19;
+			wxStaticText* m_staticText66;
+			wxTextCtrl* SecurityTokenSchemeDesc;
+			wxButton* ChooseSecurityTokenButton;
 			wxButton* GenerateButton;
 
 			// Virtual event handlers, override them in your derived class
@@ -444,6 +448,7 @@ namespace VeraCrypt
 			virtual void OnHashSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnShowRandomPoolCheckBoxClicked( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnRandomSizeCheckBoxClicked( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnSelectSecurityTokenSchemeClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnGenerateButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
@@ -717,6 +722,30 @@ namespace VeraCrypt
 			SecurityTokenKeyfilesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_KEYFILES"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 			~SecurityTokenKeyfilesDialogBase();
+
+	};
+
+	class SecurityTokenSchemesDialogBase : public wxDialog
+	{
+		private:
+
+		protected:
+			wxListCtrl* SecurityTokenSchemeListCtrl;
+			wxButton* OKButton;
+			wxButton* CancelButton;
+
+			// Virtual event handlers, override them in your derived class
+			virtual void OnListItemActivated( wxListEvent& event ) { event.Skip(); }
+			virtual void OnListItemDeselected( wxListEvent& event ) { event.Skip(); }
+			virtual void OnListItemSelected( wxListEvent& event ) { event.Skip(); }
+			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
+
+
+		public:
+
+			SecurityTokenSchemesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Security Token Keys"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+			~SecurityTokenSchemesDialogBase();
 
 	};
 
@@ -1015,6 +1044,8 @@ namespace VeraCrypt
 			wxCheckBox* DisplayPasswordCheckBox;
 			wxCheckBox* UseKeyfilesCheckBox;
 			wxButton* KeyfilesButton;
+			wxTextCtrl* SecurityTokenSchemeSpecText;
+			wxButton* SecurityTokenSchemeSpecButton;
 			wxBoxSizer* Pkcs5PrfSizer;
 			wxStaticText* Pkcs5PrfStaticText;
 			wxChoice* Pkcs5PrfChoice;
@@ -1031,6 +1062,7 @@ namespace VeraCrypt
 			virtual void OnKeyfilesButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnKeyfilesButtonRightDown( wxMouseEvent& event ) { event.Skip(); }
 			virtual void OnKeyfilesButtonRightClick( wxMouseEvent& event ) { event.Skip(); }
+			virtual void OnSecurityTokenSchemeSpecButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:

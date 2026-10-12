@@ -57,13 +57,21 @@
 
 namespace VeraCrypt
 {
+
+	enum class SecurityTokenKeyOperation {
+		Encrypt,
+		Decrypt
+	};
+
 	struct SecurityTokenInfo: TokenInfo
 	{
+		SecurityTokenInfo() : Flags(0) {}
 		virtual ~SecurityTokenInfo() {};
 		virtual BOOL isEditable() const {return true;}
 
 		CK_FLAGS Flags;
 		string LabelUtf8;
+		string SerialNumber;
 	};
 
 	struct SecurityTokenKeyfile: TokenKeyfile
@@ -82,7 +90,64 @@ namespace VeraCrypt
 		CK_OBJECT_HANDLE Handle;
 	};
 
-	struct Pkcs11Exception: public Exception
+
+	struct SecurityTokenScheme;
+
+	class SecurityTokenMechanism;
+	typedef list < shared_ptr <SecurityTokenMechanism> > MechanismList;
+
+	class SecurityTokenMechanism {	
+		public:
+			virtual ~SecurityTokenMechanism() {}
+			static MechanismList GetAvailableMechanisms ();
+			
+			virtual bool ApplyTo(SecurityTokenScheme &key) = 0;
+		protected:
+			SecurityTokenMechanism() {};
+		private:
+			SecurityTokenMechanism (const SecurityTokenMechanism &);
+			SecurityTokenMechanism &operator= (const SecurityTokenMechanism &);
+		
+	};
+
+	class RSAOAEPSecurityTokenMechanism : public SecurityTokenMechanism {
+		static CK_RSA_PKCS_OAEP_PARAMS _OAEP_PARAMS;
+		static CK_MECHANISM _MECHANISM;
+		public:
+			static CK_MECHANISM GetMechanism() { return _MECHANISM; };
+			static wstring GetLabel() { return L"RSA PKCS#1 OAEP"; };
+
+			bool ApplyTo(SecurityTokenScheme &key);
+			virtual ~RSAOAEPSecurityTokenMechanism() {};
+	};
+
+
+	struct SecurityTokenScheme
+	{
+		SecurityTokenScheme () : Handle(CK_INVALID_HANDLE), SlotId(CK_UNAVAILABLE_INFORMATION),
+			SessionHandle(CK_INVALID_HANDLE), SessionGeneration(0), Operation(SecurityTokenKeyOperation::Decrypt), RsaKeyBits(0), DecryptOutputSize(0), EncryptOutputSize(0),
+			Mechanism(NULL_PTR) { Token.SlotId = CK_UNAVAILABLE_INFORMATION; Token.Flags = 0; }
+
+		CK_OBJECT_HANDLE Handle;
+		wstring Id;
+		string IdUtf8;
+		CK_SLOT_ID SlotId;
+		CK_SESSION_HANDLE SessionHandle;
+		uint64 SessionGeneration;
+		SecurityTokenKeyOperation Operation;
+		vector<uint8> ObjectId;
+		SecurityTokenInfo Token;
+		size_t RsaKeyBits;
+		size_t DecryptOutputSize;
+		size_t EncryptOutputSize;
+		CK_MECHANISM_PTR Mechanism;
+		wstring MechanismLabel;
+
+		wstring GetSpec (bool useSlot = false) const;
+
+	};
+
+	struct Pkcs11Exception : public Exception
 	{
 		Pkcs11Exception(CK_RV errorCode = (CK_RV)-1)
 			: ErrorCode(errorCode),
@@ -122,6 +187,9 @@ namespace VeraCrypt
 #define TC_EXCEPTION_SET \
 	TC_EXCEPTION_NODECL (Pkcs11Exception); \
 	TC_EXCEPTION (InvalidSecurityTokenKeyfilePath); \
+	TC_EXCEPTION (InvalidSecurityTokenKeyDescriptor); \
+	TC_EXCEPTION (SecurityTokenKeyNotFound); \
+	TC_EXCEPTION (SecurityTokenKeyAmbiguous); \
 	TC_EXCEPTION (SecurityTokenLibraryNotInitialized); \
 	TC_EXCEPTION (SecurityTokenKeyfileAlreadyExists); \
 	TC_EXCEPTION (SecurityTokenKeyfileNotFound);
@@ -131,6 +199,21 @@ namespace VeraCrypt
 #undef TC_EXCEPTION
 
 #else // !TC_HEADER_Platform_Exception
+
+	struct InvalidSecurityTokenKeyDescriptor: public Exception
+	{
+		void Show(HWND parent) const { Error("TOKEN_KEY_DESCRIPTOR_INVALID", parent); }
+	};
+
+	struct SecurityTokenKeyNotFound: public Exception
+	{
+		void Show(HWND parent) const { Error("TOKEN_KEY_NOT_FOUND", parent); }
+	};
+
+	struct SecurityTokenKeyAmbiguous: public Exception
+	{
+		void Show(HWND parent) const { Error("TOKEN_KEY_AMBIGUOUS", parent); }
+	};
 
 	struct SecurityTokenLibraryNotInitialized: public Exception
 	{
@@ -157,9 +240,10 @@ namespace VeraCrypt
 
 	struct Pkcs11Session
 	{
-		Pkcs11Session(): Handle(CK_UNAVAILABLE_INFORMATION), UserLoggedIn(false) { }
+		Pkcs11Session(): Handle(CK_UNAVAILABLE_INFORMATION), Generation(0), UserLoggedIn(false) { }
 
 		CK_SESSION_HANDLE Handle;
+		uint64 Generation;
 		bool UserLoggedIn;
 	};
 
@@ -176,48 +260,132 @@ namespace VeraCrypt
 		virtual void operator() (const Exception& e) = 0;
 	};
 
+	class SecurityTokenIface {
+		public:
+			virtual ~SecurityTokenIface() {}
+			virtual void CloseAllSessions () throw () = 0;
+			virtual void CloseLibrary () = 0;
+			virtual void CreateKeyfile (CK_SLOT_ID slotId, vector <uint8> &keyfileData, const string &name) =0;
+			virtual void DeleteKeyfile (const SecurityTokenKeyfile &keyfile) =0;
+			virtual vector <SecurityTokenKeyfile> GetAvailableKeyfiles (CK_SLOT_ID *slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring()) =0;
+
+			virtual vector <SecurityTokenScheme> GetAvailablePrivateKeys(CK_SLOT_ID *slotIdFilterm = nullptr, const wstring keyIdFilter = wstring(), const wstring mechanismLabel = wstring()) =0;
+			virtual vector <SecurityTokenScheme> GetAvailablePublicKeys(CK_SLOT_ID *slotIdFilterm = nullptr, const wstring keyIdFilter = wstring(), const wstring mechanismLabel = wstring()) =0;
+			virtual void GetSecurityTokenScheme(wstring tokenSchemeDescriptor, SecurityTokenScheme &scheme, SecurityTokenKeyOperation mode) =0;
+			virtual void GetDecryptedData(const SecurityTokenScheme &scheme, const vector<uint8> &ciphertext, vector<uint8> &plaintext) =0;
+			virtual void GetEncryptedData(const SecurityTokenScheme &scheme, const vector<uint8> &plaintext, vector<uint8> &ciphertext) =0;
+
+
+			virtual void GetKeyfileData (const SecurityTokenKeyfile &keyfile, vector <uint8> &keyfileData) =0;
+			virtual list <SecurityTokenInfo> GetAvailableTokens () =0;
+			virtual SecurityTokenInfo GetTokenInfo (CK_SLOT_ID slotId) =0;
+#ifdef TC_WINDOWS
+			virtual void InitLibrary (const wstring &pkcs11LibraryPath, shared_ptr <GetPinFunctor> pinCallback, shared_ptr <SendExceptionFunctor> warningCallback) =0;
+#else
+			virtual void InitLibrary (const string &pkcs11LibraryPath, shared_ptr <GetPinFunctor> pinCallback, shared_ptr <SendExceptionFunctor> warningCallback) =0;
+#endif
+			virtual bool IsInitialized () =0;
+			virtual bool IsKeyfilePathValid (const wstring &securityTokenKeyfilePath) =0;
+			virtual void GetObjectAttribute (SecurityTokenScheme &scheme, CK_ATTRIBUTE_TYPE attributeType, vector <uint8> &attributeValue) =0;
+			virtual bool GetMechanismInfo(CK_SLOT_ID slotId, CK_MECHANISM_TYPE type, CK_MECHANISM_INFO_PTR info) =0;
+	};
+
 	class SecurityToken
 	{
 	public:
-		static void CloseAllSessions() throw ();
-		static void CloseLibrary();
-		static void CreateKeyfile(CK_SLOT_ID slotId, vector <uint8>& keyfileData, const string& name);
-		static void DeleteKeyfile(const SecurityTokenKeyfile& keyfile);
-		static vector <SecurityTokenKeyfile> GetAvailableKeyfiles(CK_SLOT_ID* slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring());
-		static list <SecurityTokenInfo> GetAvailableTokens();
-		static SecurityTokenInfo GetTokenInfo(CK_SLOT_ID slotId);
+		static void UseImpl(shared_ptr<SecurityTokenIface> impl) { SecurityToken::impl = impl; };
+
+		static void CloseAllSessions () throw () { impl->CloseAllSessions(); };
+		static void CloseLibrary () { impl-> CloseLibrary(); };
+		static void CreateKeyfile (CK_SLOT_ID slotId, vector <uint8> &keyfileData, const string &name) { impl->CreateKeyfile (slotId, keyfileData, name); };
+		static void DeleteKeyfile (const SecurityTokenKeyfile &keyfile) { impl->DeleteKeyfile (keyfile); };
+		static vector <SecurityTokenKeyfile> GetAvailableKeyfiles (CK_SLOT_ID *slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring()) { return impl -> GetAvailableKeyfiles (slotIdFilter, keyfileIdFilter); };
+
+		static vector <SecurityTokenScheme> GetAvailablePrivateKeys (CK_SLOT_ID *slotIdFilterm = nullptr, const wstring keyIdFilter = wstring(), const wstring mechanismLabel = wstring()) { return impl->GetAvailablePrivateKeys (slotIdFilterm, keyIdFilter, mechanismLabel); };
+		static vector <SecurityTokenScheme> GetAvailablePublicKeys (CK_SLOT_ID *slotIdFilterm = nullptr, const wstring keyIdFilter = wstring(), const wstring mechanismLabel = wstring()) { return impl->GetAvailablePublicKeys (slotIdFilterm, keyIdFilter, mechanismLabel); };
+		static void GetSecurityTokenScheme (wstring tokenSchemeDescriptor, SecurityTokenScheme &scheme, SecurityTokenKeyOperation mode) { impl->GetSecurityTokenScheme (tokenSchemeDescriptor, scheme, mode); };
+		static void GetDecryptedData (const SecurityTokenScheme &scheme, const vector<uint8> &ciphertext, vector<uint8> &plaintext) { impl->GetDecryptedData (scheme, ciphertext, plaintext); };
+		static void GetEncryptedData (const SecurityTokenScheme &scheme, const vector<uint8> &plaintext, vector<uint8> &ciphertext) { impl->GetEncryptedData (scheme, plaintext, ciphertext); };
+
+
+		static void GetKeyfileData (const SecurityTokenKeyfile &keyfile, vector <uint8> &keyfileData) { impl->GetKeyfileData (keyfile, keyfileData); };
+		static list <SecurityTokenInfo> GetAvailableTokens () { return impl->GetAvailableTokens (); };
+		static SecurityTokenInfo GetTokenInfo (CK_SLOT_ID slotId) { return impl->GetTokenInfo (slotId); };
 #ifdef TC_WINDOWS
-		static void InitLibrary(const wstring& pkcs11LibraryPath, unique_ptr <GetPinFunctor> pinCallback, unique_ptr <SendExceptionFunctor> warningCallback);
+		static void InitLibrary (const wstring &pkcs11LibraryPath, shared_ptr <GetPinFunctor> pinCallback, shared_ptr <SendExceptionFunctor> warningCallback) { impl->InitLibrary (pkcs11LibraryPath, pinCallback, warningCallback); };
 #else
-		static void InitLibrary(const string& pkcs11LibraryPath, unique_ptr <GetPinFunctor> pinCallback, unique_ptr <SendExceptionFunctor> warningCallback);
+		static void InitLibrary (const string &pkcs11LibraryPath, shared_ptr <GetPinFunctor> pinCallback, shared_ptr <SendExceptionFunctor> warningCallback) { impl->InitLibrary (pkcs11LibraryPath, pinCallback, warningCallback); };
 #endif
-		static bool IsInitialized() { return Initialized; }
-		static bool IsKeyfilePathValid(const wstring& securityTokenKeyfilePath);
+		static bool IsInitialized () { return impl->IsInitialized (); };
+		static bool IsKeyfilePathValid (const wstring &securityTokenKeyfilePath) { return impl->IsKeyfilePathValid (securityTokenKeyfilePath); };
+
+		static void GetObjectAttribute (SecurityTokenScheme &scheme, CK_ATTRIBUTE_TYPE attributeType, vector <uint8> &attributeValue) { return impl->GetObjectAttribute (scheme, attributeType, attributeValue); };
+		static bool GetMechanismInfo(CK_SLOT_ID slotId, CK_MECHANISM_TYPE type, CK_MECHANISM_INFO_PTR info) { return impl->GetMechanismInfo (slotId, type, info); };
 
 		static const size_t MaxPasswordLength = 128;
 
 	protected:
-		static void CloseSession(CK_SLOT_ID slotId);
-		static vector <CK_OBJECT_HANDLE> GetObjects(CK_SLOT_ID slotId, CK_ATTRIBUTE_TYPE objectClass);
-		static void GetObjectAttribute(CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, CK_ATTRIBUTE_TYPE attributeType, vector <uint8>& attributeValue);
-		static list <CK_SLOT_ID> GetTokenSlots();
-		static void Login(CK_SLOT_ID slotId, const char* pin);
-		static void LoginUserIfRequired(CK_SLOT_ID slotId);
-		static void OpenSession(CK_SLOT_ID slotId);
-		static void CheckLibraryStatus();
+		static shared_ptr<SecurityTokenIface> impl;
+	};
 
-		static bool Initialized;
-		static unique_ptr <GetPinFunctor> PinCallback;
-		static CK_FUNCTION_LIST_PTR Pkcs11Functions;
+	class SecurityTokenImpl : public SecurityTokenIface {
+		public:
+			SecurityTokenImpl() : Initialized(false), Pkcs11Functions(NULL_PTR), Pkcs11LibraryHandle(nullptr), NextSessionGeneration(0) {} ;
+			// Library shutdown is explicit. Do not call a provider during static destruction.
+			virtual ~SecurityTokenImpl() { }
+			void CloseAllSessions () throw ();
+			void CloseLibrary ();
+			void CreateKeyfile (CK_SLOT_ID slotId, vector <uint8> &keyfileData, const string &name);
+			void DeleteKeyfile (const SecurityTokenKeyfile &keyfile);
+			vector <SecurityTokenKeyfile> GetAvailableKeyfiles (CK_SLOT_ID *slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring());
+
+			vector <SecurityTokenScheme> GetAvailablePrivateKeys(CK_SLOT_ID *slotIdFilterm = nullptr, const wstring keyIdFilter = wstring(), const wstring mechanismLabel = wstring());
+			vector <SecurityTokenScheme> GetAvailablePublicKeys(CK_SLOT_ID *slotIdFilterm = nullptr, const wstring keyIdFilter = wstring(), const wstring mechanismLabel = wstring());
+			void GetSecurityTokenScheme(wstring tokenKeyDescriptor, SecurityTokenScheme &scheme, SecurityTokenKeyOperation mode);
+			void GetDecryptedData(const SecurityTokenScheme &scheme, const vector<uint8> &ciphertext, vector<uint8> &plaintext);
+			void GetEncryptedData(const SecurityTokenScheme &scheme, const vector<uint8> &plaintext, vector<uint8> &ciphertext);
+
+
+			void GetKeyfileData (const SecurityTokenKeyfile &keyfile, vector <uint8> &keyfileData);
+			list <SecurityTokenInfo> GetAvailableTokens ();
+			SecurityTokenInfo GetTokenInfo (CK_SLOT_ID slotId);
 #ifdef TC_WINDOWS
-		static HMODULE Pkcs11LibraryHandle;
+			void InitLibrary (const wstring &pkcs11LibraryPath, shared_ptr <GetPinFunctor> pinCallback, shared_ptr <SendExceptionFunctor> warningCallback);
 #else
-		static void* Pkcs11LibraryHandle;
+			virtual void InitLibrary (const string &pkcs11LibraryPath, shared_ptr <GetPinFunctor> pinCallback, shared_ptr <SendExceptionFunctor> warningCallback);
 #endif
-		static map <CK_SLOT_ID, Pkcs11Session> Sessions;
-		static unique_ptr <SendExceptionFunctor> WarningCallback;
+			bool IsInitialized () { return Initialized; }
+			bool IsKeyfilePathValid (const wstring &securityTokenKeyfilePath);
 
-		friend void SecurityTokenKeyfile::GetKeyfileData(vector <uint8>& keyfileData) const;
+			void GetObjectAttribute (SecurityTokenScheme &scheme, CK_ATTRIBUTE_TYPE attributeType, vector <uint8> &attributeValue);
+			bool GetMechanismInfo(CK_SLOT_ID slotId, CK_MECHANISM_TYPE type, CK_MECHANISM_INFO_PTR info);
+
+	protected:
+			void CloseSession (CK_SLOT_ID slotId);
+			vector <CK_OBJECT_HANDLE> GetObjects (CK_SLOT_ID slotId, CK_ATTRIBUTE_TYPE objectClass);
+			void GetObjectAttribute (CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, CK_ATTRIBUTE_TYPE attributeType, vector <uint8> &attributeValue);
+			list <CK_SLOT_ID> GetTokenSlots ();
+			void Login (CK_SLOT_ID slotId, const char* pin);
+			void LoginContextSpecific (CK_SLOT_ID slotId);
+			vector<SecurityTokenScheme> GetAvailableKeys (CK_SLOT_ID *slotIdFilter, const wstring &keyIdFilter, const wstring &mechanismLabel, SecurityTokenKeyOperation operation, const vector<uint8> *objectIdFilter = NULL_PTR);
+			void LoginUserIfRequired (CK_SLOT_ID slotId);
+			void OpenSession (CK_SLOT_ID slotId);
+			void CheckLibraryStatus ();
+
+
+			bool Initialized;
+			shared_ptr <GetPinFunctor> PinCallback;
+			CK_FUNCTION_LIST_PTR Pkcs11Functions;
+#ifdef TC_WINDOWS
+			HMODULE Pkcs11LibraryHandle;
+#else
+			void *Pkcs11LibraryHandle;
+#endif
+			map <CK_SLOT_ID, Pkcs11Session> Sessions;
+			uint64 NextSessionGeneration;
+			shared_ptr <SendExceptionFunctor> WarningCallback;
+
+	
 	};
 }
 

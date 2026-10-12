@@ -37,10 +37,12 @@ namespace VeraCrypt
 			PreserveTimestamps (true),
 			Protection (VolumeProtection::None),
 			ProtectionPim (-1),
+			ProtectionSecurityTokenSchemeSpec(wstring()),
 			Removable (false),
 			SharedAccessAllowed (false),
 			SlotNumber (0),
 			UseBackupHeaders (false),
+			SecurityTokenSchemeSpec(wstring()),
 			EMVSupportEnabled (false)
 		{
 		}
@@ -74,10 +76,12 @@ namespace VeraCrypt
 		int ProtectionPim;
 		shared_ptr <Pkcs5Kdf> ProtectionKdf;
 		shared_ptr <KeyfileList> ProtectionKeyfiles;
+		wstring ProtectionSecurityTokenSchemeSpec;
 		bool Removable;
 		bool SharedAccessAllowed;
 		VolumeSlotNumber SlotNumber;
 		bool UseBackupHeaders;
+		wstring SecurityTokenSchemeSpec;
 		bool EMVSupportEnabled;
 
 	protected:

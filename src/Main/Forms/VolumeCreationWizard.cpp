@@ -447,6 +447,40 @@ namespace VeraCrypt
 		return VolumeLayoutV2Hidden().GetMaxDataSize (VolumeSize);
 	}
 
+	shared_ptr <VolumePassword> VolumeCreationWizard::GetPasswordKey ()
+	{
+		// Use the same derived credentials for validation, creation and temporary
+		// mounts. A cancelled token operation must never substitute the raw password.
+		if (!PasswordKey)
+			PasswordKey = Keyfile::ApplyListToPassword (Keyfiles, Password, SecurityTokenSchemeSpec, Gui->GetPreferences().EMVSupportEnabled);
+		return PasswordKey;
+	}
+
+	bool VolumeCreationWizard::ValidateHiddenVolumePassword ()
+	{
+		try
+		{
+			shared_ptr <VolumePassword> hiddenPassword = GetPasswordKey();
+			if (!OuterPassword)
+				throw NotInitialized (SRC_POS);
+			if (*hiddenPassword == *OuterPassword && Pim == OuterPim)
+			{
+				Gui->ShowError (LangString["LINUX_HIDDEN_PASS_NO_DIFF"]);
+				return false;
+			}
+			return true;
+		}
+		catch (UserAbort &)
+		{
+			return false;
+		}
+		catch (exception &e)
+		{
+			Gui->ShowError (e);
+			return false;
+		}
+	}
+
 	WizardPage *VolumeCreationWizard::GetPage (WizardStep step)
 	{
 		switch (step)
@@ -456,6 +490,8 @@ namespace VeraCrypt
 				ClearHistory();
 
 				OuterVolume = false;
+				PasswordKey.reset();
+				OuterPassword.reset();
 				LargeFilesSupport = false;
 				QuickFormatEnabled = false;
 				QuickFormatEnabledByWizard = false;
@@ -560,7 +596,7 @@ namespace VeraCrypt
 
 		case Step::VolumePassword:
 			{
-				VolumePasswordWizardPage *page = new VolumePasswordWizardPage (GetPageParent(), Password, Keyfiles);
+				VolumePasswordWizardPage *page = new VolumePasswordWizardPage (GetPageParent(), Password, Keyfiles, SecurityTokenSchemeSpec);
 				page->EnableUsePim (); // force displaying "Use PIM"
 				page->SetPimSelected (Pim > 0);
 
@@ -681,8 +717,7 @@ namespace VeraCrypt
 				ClearHistory();
 
 				MountOptions mountOptions;
-				mountOptions.Keyfiles = Keyfiles;
-				mountOptions.Password = Password;
+				mountOptions.Password = GetPasswordKey();
 				mountOptions.Pim = Pim;
 				mountOptions.Path = make_shared <VolumePath> (SelectedVolumePath);
 
@@ -716,6 +751,7 @@ namespace VeraCrypt
 			{
 				ClearHistory();
 				OuterVolume = false;
+				PasswordKey.reset();
 				LargeFilesSupport = false;
 				Pim = 0;
 
@@ -844,9 +880,10 @@ namespace VeraCrypt
 					mountOptions.Path = make_shared <VolumePath> (SelectedVolumePath);
 					mountOptions.NoFilesystem = true;
 					mountOptions.Protection = VolumeProtection::None;
-					mountOptions.Password = Password;
+					mountOptions.Password = GetPasswordKey();
 					mountOptions.Pim = Pim;
-					mountOptions.Keyfiles = Keyfiles;
+					mountOptions.Keyfiles.reset();
+					mountOptions.SecurityTokenSchemeSpec.clear();
 					mountOptions.Kdf = Kdf;
 					mountOptions.EMVSupportEnabled = Gui->GetPreferences().EMVSupportEnabled;
 
@@ -1200,6 +1237,7 @@ namespace VeraCrypt
 		case Step::VolumePassword:
 			{
 				VolumePasswordWizardPage *page = dynamic_cast <VolumePasswordWizardPage *> (GetCurrentPage());
+				PasswordKey.reset();
 				try
 				{
 					Password = page->GetPassword();
@@ -1212,6 +1250,7 @@ namespace VeraCrypt
 
 				Kdf = page->GetPkcs5Kdf();
 				Keyfiles = page->GetKeyfiles();
+				SecurityTokenSchemeSpec = page->GetSecurityTokenSchemeSpec();
 
 				if (forward && Password && !Password->IsEmpty())
 				{
@@ -1231,32 +1270,9 @@ namespace VeraCrypt
 					// Clear PIM
 					Pim = 0;
 
-					if (forward && !OuterVolume && SelectedVolumeType == VolumeType::Hidden)
-					{
-						shared_ptr <VolumePassword> hiddenPassword;
-						try
-						{
-							hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, Gui->GetPreferences().EMVSupportEnabled);
-						}
-						catch (...)
-						{
-							hiddenPassword = Password;
-						}
-
-						// check if Outer and Hidden passwords are the same
-						if ( 	(hiddenPassword && !hiddenPassword->IsEmpty() && OuterPassword && !OuterPassword->IsEmpty() && (*(OuterPassword.get()) == *(hiddenPassword.get())))
-							||
-								((!hiddenPassword || hiddenPassword->IsEmpty()) && (!OuterPassword || OuterPassword->IsEmpty()))
-							)
-						{
-							//check if they have also the same PIM
-							if (OuterPim == Pim)
-							{
-								Gui->ShowError (LangString["LINUX_HIDDEN_PASS_NO_DIFF"]);
-								return GetCurrentStep();
-							}
-						}
-					}
+					if (forward && !OuterVolume && SelectedVolumeType == VolumeType::Hidden
+						&& !ValidateHiddenVolumePassword())
+						return GetCurrentStep();
 
 					uint64 filesystemSize = GetSelectedVolumeFilesystemSize ();
 					if (filesystemSize > 4 * BYTES_PER_GB)
@@ -1283,32 +1299,9 @@ namespace VeraCrypt
 					return GetCurrentStep();
 				}
 
-				if (forward && !OuterVolume && SelectedVolumeType == VolumeType::Hidden)
-				{
-					shared_ptr <VolumePassword> hiddenPassword;
-					try
-					{
-						hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, Gui->GetPreferences().EMVSupportEnabled);
-					}
-					catch (...)
-					{
-						hiddenPassword = Password;
-					}
-
-					// check if Outer and Hidden passwords are the same
-					if ( 	(hiddenPassword && !hiddenPassword->IsEmpty() && OuterPassword && !OuterPassword->IsEmpty() && (*(OuterPassword.get()) == *(hiddenPassword.get())))
-						||
-							((!hiddenPassword || hiddenPassword->IsEmpty()) && (!OuterPassword || OuterPassword->IsEmpty()))
-						)
-					{
-						//check if they have also the same PIM
-						if (OuterPim == Pim)
-						{
-							Gui->ShowError (LangString["LINUX_HIDDEN_PASS_NO_DIFF"]);
-							return GetCurrentStep();
-						}
-					}
-				}
+				if (forward && !OuterVolume && SelectedVolumeType == VolumeType::Hidden
+					&& !ValidateHiddenVolumePassword())
+					return GetCurrentStep();
 
 				if (forward && Password && !Password->IsEmpty())
 				{
@@ -1449,6 +1442,22 @@ namespace VeraCrypt
 						}
 					}
 
+					// Resolve credentials before entering creation/abort cleanup, which
+					// can remove a partially created container.
+					try
+					{
+						GetPasswordKey();
+					}
+					catch (UserAbort &)
+					{
+						return GetCurrentStep();
+					}
+					catch (exception &e)
+					{
+						Gui->ShowError (e);
+						return GetCurrentStep();
+					}
+
 					AbortRequested = false;
 					AbortConfirmationPending = false;
 					CreationAborted = false;
@@ -1465,9 +1474,8 @@ namespace VeraCrypt
 						options->FilesystemClusterSize = SelectedFilesystemClusterSize;
 						options->SectorSize = SectorSize;
 						options->EA = SelectedEncryptionAlgorithm;
-						options->Password = Password;
+						options->Password = PasswordKey;
 						options->Pim = Pim;
-						options->Keyfiles = Keyfiles;
 						options->Path = SelectedVolumePath;
 						options->Quick = QuickFormatEnabled;
 						options->Size = VolumeSize;
@@ -1521,6 +1529,7 @@ namespace VeraCrypt
 
 			// clear saved credentials
 			Password.reset();
+			PasswordKey.reset();
 			OuterPassword.reset();
 			burn (&Pim, sizeof (Pim));
 			burn (&OuterPim, sizeof (OuterPim));
@@ -1579,7 +1588,7 @@ namespace VeraCrypt
 				});
 #endif
 
-				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, Password, Pim, Kdf, Keyfiles, VolumeProtection::ReadOnly);
+				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, GetPasswordKey(), Pim, Kdf, shared_ptr <KeyfileList>(), wstring(), Gui->GetPreferences().EMVSupportEnabled, VolumeProtection::ReadOnly);
 				uint64 outerVolumeDataSize = outerVolume->GetSize();
 				try
 				{
@@ -1619,16 +1628,8 @@ namespace VeraCrypt
 
 				MaxHiddenVolumeSize -= MaxHiddenVolumeSize % outerVolume->GetSectorSize();		// Must be a multiple of the sector size
 
-				// remember Outer password and keyfiles in order to be able to compare it with those of Hidden volume
-				try
-				{
-					OuterPassword = Keyfile::ApplyListToPassword (Keyfiles, Password, Gui->GetPreferences().EMVSupportEnabled);
-				}
-				catch (...)
-				{
-					OuterPassword = Password;
-				}
-
+				// Remember the credentials that actually opened the outer volume.
+				OuterPassword = GetPasswordKey();
 				OuterPim = Pim;
 			}
 			catch (exception &e)

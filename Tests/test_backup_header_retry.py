@@ -59,7 +59,7 @@ static struct {
     bool IsVolumeMounted (const VolumePath &) const { return false; }
     bool IsPasswordCacheEmpty () const { return !State.Cache; }
 } CoreInstance, *Core = &CoreInstance;
-static struct { bool ArgNoHiddenVolumeProtection = true; } CommandLine, *CmdLine = &CommandLine;
+static struct { bool ArgNoHiddenVolumeProtection = true; bool ArgSecurityTokenSchemeSpecified = false; bool ArgProtectionSecurityTokenSchemeSpecified = false; } CommandLine, *CmdLine = &CommandLine;
 static struct {
     wstring operator[] (const char *key) const { string s (key); return wstring (s.begin(), s.end()); }
 } LangString;
@@ -95,6 +95,7 @@ public:
     int AskPim (const wstring &) const { return 7; }
     shared_ptr<KeyfileList> AskKeyfiles (const wstring & = L"") const { return make_shared<KeyfileList>(); }
     wstring AskString (const wstring &) const { return L""; }
+    wstring AskSecurityTokenSchemeSpec (const wstring & = L"") const { return L""; }
     shared_ptr<VolumePath> AskVolumePath () const { throw std::runtime_error ("unexpected path prompt"); }
     shared_ptr<VolumeInfo> MountVolume (MountOptions &options) const {
         Require (State.Calls.size() < State.Plan.size(), "unexpected additional mount attempt");

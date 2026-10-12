@@ -101,7 +101,7 @@ int main (int argc, char **argv)
 		shared_ptr <VolumePassword> password (new VolumePassword ((const uint8 *) argv[2], strlen (argv[2])));
 		Volume volume;
 		volume.Open (VolumePath (string (argv[1])), false, password, 0, FindKdf (argv[3]),
-			shared_ptr <KeyfileList> (), false, VolumeProtection::ReadOnly);
+			shared_ptr <KeyfileList> (), wstring (), false, VolumeProtection::ReadOnly);
 
 		const uint64 size = volume.GetSize();
 		const size_t sectorSize = volume.GetSectorSize();

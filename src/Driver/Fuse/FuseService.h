@@ -25,8 +25,9 @@ namespace VeraCrypt
 	class FuseService
 	{
 	protected:
-		struct ExecFunctor : public ProcessExecFunctor
+		class ExecFunctor : public ProcessExecFunctor
 		{
+		public:
 			ExecFunctor (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, uint64 serialInstanceNumber)
 				:
 #if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
@@ -48,7 +49,7 @@ namespace VeraCrypt
 			uint64 SerialInstanceNumber;
 		};
 
-		friend struct ExecFunctor;
+		friend class ExecFunctor;
 
 	public:
 		static bool AuxDeviceInfoReceived () { return !OpenVolumeInfo.VirtualDevice.IsEmpty(); }

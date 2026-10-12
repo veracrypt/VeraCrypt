@@ -15,6 +15,7 @@ OBJS += Exception.o
 OBJS += Event.o
 OBJS += FileCommon.o
 OBJS += MemoryStream.o
+OBJS += PipelineStream.o
 OBJS += Memory.o
 OBJS += PlatformTest.o
 OBJS += Serializable.o
@@ -22,6 +23,7 @@ OBJS += Serializer.o
 OBJS += SerializerFactory.o
 OBJS += StringConverter.o
 OBJS += TextReader.o
+OBJS += Unix/AtomicFile.o
 OBJS += Unix/Directory.o
 OBJS += Unix/File.o
 OBJS += Unix/FilesystemPath.o
@@ -36,4 +38,11 @@ OBJS += Unix/SystemLog.o
 OBJS += Unix/Thread.o
 OBJS += Unix/Time.o
 
+TEST_EXECS := PipelineStreamTest.o AtomicFileTest.o
+TEST_LFLAGS := -lpthread
+
 include $(BUILD_INC)/Makefile.inc
+
+ifeq "$(PLATFORM)" "Linux"
+AtomicFileTestRun: TEST_LFLAGS += -Wl,--wrap=fsync -Wl,--wrap=rename
+endif

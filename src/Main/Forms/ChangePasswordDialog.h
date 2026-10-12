@@ -33,7 +33,7 @@ namespace VeraCrypt
 			};
 		};
 
-		ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode = Mode::ChangePasswordAndKeyfiles, shared_ptr <VolumePassword> password = shared_ptr <VolumePassword> (), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList> (), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword> (), shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList> ());
+		ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode = Mode::ChangePasswordAndKeyfiles, shared_ptr <VolumePassword> password = shared_ptr <VolumePassword> (), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList> (), wstring securityTokenKeySpec = wstring(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword> (), shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList> (), wstring newSecurityTokenKeySpec = wstring());
 		virtual ~ChangePasswordDialog ();
 		
 #ifdef TC_MACOSX

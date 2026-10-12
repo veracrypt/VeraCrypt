@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>                      
+<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>           
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Bluekeys.html">Encrypted Keyfiles</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Encrypted Keyfiles (Bluekeys)</h1>
+<p>An encrypted keyfile combines an external file with an RSA private key on a security token.
+VeraCrypt encrypts the secret prefix of a generated random keyfile with the token's public key.
+When opening a volume, the token decrypts that prefix; the resulting keyfile is combined with
+any volume password in the usual way. The private key is not exported.</p>
+
+<h2>Requirements and compatibility</h2>
+<p>This feature is experimental. Linux is the validated build platform; the macOS and other Unix builds have not yet been validated for this feature. It is not implemented
+in the native Windows application and cannot be used for pre-boot authentication.
+It does not change the volume format. Ordinary keyfiles and token-stored data keyfiles continue
+to work as before when no encryption key is selected.</p>
+<p>Configure a compatible PKCS #11 library under <strong>Settings &gt; Security Tokens</strong>,
+or supply <code>--token-lib</code> in text mode. Provision an RSA key pair using the token vendor's tools.
+The public key must permit encryption and the private key must permit decryption.
+VeraCrypt supports RSA keys from 2048 to 16384 bits, subject to the token's limits,
+and requires RSA OAEP with SHA-256 and MGF1-SHA-256. There is no fallback to SHA-1,
+PKCS #1 v1.5 padding, or raw RSA. ECC and signing-only keys are not supported.</p>
+<p>The PKCS #11 library must expose the matching public/private objects and the OAEP mechanism.
+A mechanism listing alone does not guarantee support for its SHA-256 parameters; verify a
+complete create/open/export cycle with the particular card, firmware and library before relying
+on it. The <a href="https://developers.yubico.com/yubico-piv-tool/YKCS11/">Yubico YKCS11 documentation</a>
+describes its PIV PKCS #11 interface. Support is library-dependent; not every PIV library exposes the same operations.</p>
+
+<h2>Creating and using an encrypted keyfile</h2>
+<ol>
+<li>Open <strong>Tools &gt; Keyfile Generator</strong>, select a security token encryption key,
+and generate a keyfile. The size setting describes the decrypted keyfile; encryption adds 66 bytes.</li>
+<li>When creating or opening a volume, enable keyfiles, add the encrypted file, and select
+its matching security token decryption key. Enter the token PIN when requested.</li>
+<li>Use the same file and private key for subsequent mounts, password changes and header
+backup/restore. A hidden volume has a separate token-key selection in its protection options.</li>
+</ol>
+<p>A token-key selection applies to every external file in that keyfile list, including files
+in an added directory. Do not mix ordinary and encrypted files, or files encrypted for different
+keys, in the same list. Token-stored data keyfiles and EMV keyfiles cannot be combined with a
+selected encryption key. The encrypted format has no marker and is not detected automatically:
+always select the decryption key when using it.</p>
+<p>For unattended text-mode use, first list available descriptors:</p>
+<pre>veracrypt --text --token-lib=/path/to/library.so --list-security-token-keys</pre>
+<p>The list distinguishes <code>encrypt</code> and <code>decrypt</code> descriptors.
+Copy the complete descriptor, including spaces, and quote it. For example:</p>
+<pre>veracrypt --text --token-lib=/path/to/library.so --create-keyfile /path/to/bluekey --security-token-key='ENCRYPT_DESCRIPTOR'
+veracrypt --text --token-lib=/path/to/library.so --keyfiles=/path/to/bluekey --security-token-key='DECRYPT_DESCRIPTOR' /path/to/volume</pre>
+<p>The same <code>--security-token-key</code> option applies to <code>--create</code> and to the
+current keyfiles with <code>--change</code>. Use <code>--new-security-token-key</code> with
+<code>--new-keyfiles</code> for the new credentials, and <code>--protection-security-token-key</code>
+for hidden-volume protection. An empty descriptor selects ordinary keyfile processing.
+When the current credentials use a token key, unattended password changes require an explicit
+<code>--new-security-token-key</code>, including an explicit empty value to remove the token requirement.
+The GUI initially follows the current key and asks for confirmation before removing it.
+Text-mode descriptor prompts are shown only on an interactive terminal with a loaded token library;
+redirected-input scripts must supply descriptors as options.</p>
+<p>Creating a volume with an encrypted keyfile but without its token descriptor installs ordinary
+keyfile credentials using the ciphertext bytes. This is a different credential from the decrypted
+keyfile and does not require the token. VeraCrypt cannot identify this mistake from an unmarked file.
+Always check the selected key when creating a volume or replacing credentials.</p>
+<p>Descriptors generated by VeraCrypt use the token serial number and binary key ID when available,
+so public and private key labels may differ and reader slot changes are tolerated.
+Tokens without a serial number use a slot-based descriptor. The listing also includes explicit <code>encrypt-slot</code> and <code>decrypt-slot</code> alternatives for tokens with serial numbers. Use these when the same serial and key ID appear in multiple slots; slot identifiers may change when readers are reconnected. The original
+<code>slot:label:RSA PKCS#1 OAEP</code> syntax remains supported when the label is unique.
+Ambiguous key or token selections are rejected. Keep a record of the correct descriptor; it is
+not stored inside the encrypted keyfile or volume.</p>
+
+<h2>Recovery and security considerations</h2>
+<p>Before using a token to protect important data, prepare and test a recovery method.
+Losing the token, its private key, the PIN or the encrypted keyfile can make the volume inaccessible.
+A copy of the encrypted keyfile alone cannot replace the token.</p>
+<p><strong>Tools &gt; Export Decrypted Keyfile</strong> creates a recovery keyfile after confirmation
+and token authentication. Use this file as an ordinary keyfile with the security token key field
+empty. It provides access without the token (and still requires the volume password, if set),
+so keep it separately in secure storage. Newly written encrypted and decrypted keyfiles have
+owner-only permissions. Export does not overwrite the input file, including aliases to it.</p>
+<p>Console builds also support recovery export:</p>
+<pre>veracrypt --text --token-lib=/path/to/library.so --export-decrypted-keyfile /path/to/bluekey --output /secure/path/to/recovery-keyfile --security-token-key='DECRYPT_DESCRIPTOR'</pre>
+<p>The output can be used with an empty token descriptor. Replacing an existing regular file from
+the command line requires <code>--force</code>. Keep the recovery file outside ordinary keyfile directories.</p>
+<p>Encrypted-keyfile generation, decrypted export and header backup publish complete files by atomic
+replacement. They require a writable destination directory, refuse symbolic links and other non-regular
+destinations, and replace existing files with owner-only (0600) files. Existing ownership, ACLs and
+extended attributes are not copied. If directory synchronization fails after replacement, VeraCrypt
+reports that the complete file has already been written; an exported ordinary keyfile must still be protected.</p>
+<p>Only the initial RSA plaintext block is encrypted; the remaining random bytes are stored in
+cleartext. The format is an encrypted random keyfile prefix, not a general-purpose authenticated
+file-encryption format. Changes to either part change the volume credentials. VeraCrypt processes
+at most the first 1 MiB of the reconstructed keyfile, as with ordinary keyfiles.</p>
+<p>Encrypted keyfiles provide confidentiality of the secret prefix, not provenance. Anyone with the
+public key, which may be available in a PIV certificate, can create an encrypted keyfile with contents
+they know. This does not give them access to a volume created with a different keyfile. Do not treat
+successful token decryption as proof of who generated a file.</p>
+<p>Before deployment, validate generation, decryption, recovery and PIN/touch policies with the exact
+card, firmware and released provider version in use. A provider may support decryption without
+supporting public-key encryption. Software-token tests do not establish hardware compatibility.
+Released SoftHSM 2.6.1 and 2.7.0 do not support the required OAEP parameters; tests using a development
+SoftHSM build are not a released-provider compatibility claim.</p>
+<p>Do not enable password caching when a fresh token operation must be required for every mount.
+Cached derived credentials can open a volume without repeating the token operation. Close token
+sessions when finished; token PIN caching and per-operation PIN or touch requirements depend on
+the token and library. This feature does not protect decrypted key material from a compromised
+host while VeraCrypt is using it.</p>
+</div><div class="ClearBoth"></div></body></html>

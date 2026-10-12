@@ -10,11 +10,26 @@
 # code distribution packages.
 #
 
+.PHONY: $(NAME)
+
+ifneq "$(strip $(OBJS))" ""
 $(NAME): $(NAME).a
+else
+$(NAME):
+endif
+
+TEST_PROGRAMS := $(TEST_EXECS:.o=Run)
+ifeq "$(TEST)" "1"
+$(NAME): $(TEST_PROGRAMS)
+ifneq "$(strip $(TEST_OBJS))" ""
+$(NAME): $(NAME)Test.a
+endif
+endif
 
 clean:
 	@echo Cleaning $(NAME)
 	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO) $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJSAVX2:.oavx2=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d) *.gch
+	rm -f $(NAME)Test.a $(TEST_OBJS) $(TEST_EXECS) $(TEST_PROGRAMS) $(TEST_OBJS:.o=.d) $(TEST_EXECS:.o=.d)
 
 %.o: %.c
 	@echo Compiling $(<F)
@@ -47,6 +62,12 @@ clean:
 %.oarmv8crypto: %.c
 	@echo Compiling $(<F)
 	$(CC) $(CFLAGS) -march=armv8-a+crypto -c $< -o $@
+
+ifneq "$(strip $(TEST_EXECS) $(TEST_OBJS))" ""
+$(TEST_EXECS) $(TEST_OBJS): %.o: %.cpp
+	@echo Compiling test $(<F)
+	$(CXX) $(CXXFLAGS) -I$(BASE_DIR)/Testing -c $< -o $@
+endif
 
 %.o: %.cpp
 	@echo Compiling $(<F)
@@ -125,6 +146,8 @@ TR_SED_BIN := tr '\n' ' ' | tr -s ' ' ',' | sed -e 's/^,//g' -e 's/,$$/n/' | tr 
 -include $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) $(OBJSHANI:.oshani=.d) $(OBJAESNI:.oaesni=.d) $(OBJSSSE41:.osse41=.d) $(OBJSSSSE3:.ossse3=.d) $(OBJSAVX2:.oavx2=.d) $(OBJARMV8CRYPTO:.oarmv8crypto=.d)
 
 
+-include $(TEST_OBJS:.o=.d) $(TEST_EXECS:.o=.d)
+
 # Deterministic static library: the 'D' modifier zeroes member mtime/uid/gid
 # and 'ranlib -D' writes a deterministic index. Both are probed functionally
 # (running them on a throwaway archive) rather than by parsing --help, whose
@@ -140,3 +163,18 @@ $(NAME).a: $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $
 	rm -f $@
 	$(AR) $(AFLAGS) $(AR_DETERMINISTIC)rc $@ $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO)
 	$(RANLIB) $(RANLIB_DETERMINISTIC) $@
+
+
+ifneq "$(strip $(TEST_OBJS))" ""
+$(NAME)Test.a: $(TEST_OBJS)
+	@echo Updating test library $@
+	rm -f $@
+	$(AR) $(AFLAGS) $(AR_DETERMINISTIC)rc $@ $(TEST_OBJS)
+	$(RANLIB) $(RANLIB_DETERMINISTIC) $@
+endif
+
+ifneq "$(strip $(TEST_PROGRAMS))" ""
+$(TEST_PROGRAMS): %Run: %.o $(TEST_OBJS) $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO) $(TEST_LIBS) $(filter %.a,$(LIBS))
+	@echo Linking test $@
+	$(CXX) -o $@ $< $(TEST_OBJS) $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJSHANI) $(OBJAESNI) $(OBJSSSE41) $(OBJSSSSE3) $(OBJSAVX2) $(OBJARMV8CRYPTO) $(TEST_LIBS) $(LIBS) $(TEST_EXT_LIBS) $(LFLAGS) $(TEST_LFLAGS)
+endif

@@ -48,6 +48,9 @@ namespace VeraCrypt
 		ArgEmergencyUnmount (false),
 #endif
 		ArgFilesystem (VolumeCreationOptions::FilesystemType::Unknown),
+		ArgSecurityTokenSchemeSpecified (false),
+		ArgProtectionSecurityTokenSchemeSpecified (false),
+		ArgNewSecurityTokenSchemeSpecified (false),
 		ArgNewPim (-1),
 		ArgNoHiddenVolumeProtection (false),
 		ArgPim (-1),
@@ -89,6 +92,8 @@ namespace VeraCrypt
 		parser.AddOption (L"",	L"encryption",			_("Encryption algorithm"));
 		parser.AddSwitch (L"",	L"explore",				_("Open explorer window for mounted volume"));
 		parser.AddSwitch (L"",	L"export-token-keyfile",_("Export keyfile from token"));
+		parser.AddSwitch (L"", L"export-decrypted-keyfile", _("Export an encrypted keyfile as an ordinary keyfile"));
+		parser.AddOption (L"", L"output", _("Destination for the exported ordinary keyfile"));
 		parser.AddOption (L"",	L"filesystem",			_("Filesystem type"));
 		parser.AddSwitch (L"f", L"force",				_("Force mount/unmount/overwrite"));
 #if !defined(TC_WINDOWS) && !defined(TC_MACOSX)
@@ -99,6 +104,7 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"import-token-keyfiles", _("Import keyfiles to security token"));
 		parser.AddOption (L"k", L"keyfiles",			_("Keyfiles"));
 		parser.AddSwitch (L"l", L"list",				_("List mounted volumes"));
+		parser.AddSwitch (L"", L"list-security-token-keys", _("List encryption and decryption keys on security tokens"));
 		parser.AddSwitch (L"",	L"list-token-keyfiles",	_("List token keyfiles"));
 		parser.AddSwitch (L"",	L"list-securitytoken-keyfiles",	_("List security token keyfiles"));
 		parser.AddSwitch (L"",	L"list-emvtoken-keyfiles",	_("List EMV token keyfiles"));
@@ -124,6 +130,9 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"quick",				_("Enable quick format"));
 		parser.AddOption (L"",	L"size",				_("Size in bytes"));
 		parser.AddOption (L"",	L"slot",				_("Volume slot number"));
+		parser.AddOption (L"",  L"security-token-key",  _("Security token key descriptor for encrypted keyfiles"));
+		parser.AddOption (L"",  L"protection-security-token-key",  _("Security token key descriptor for hidden-volume keyfiles"));
+		parser.AddOption (L"", L"new-security-token-key", _("Security token key descriptor for new keyfiles"));
 		parser.AddSwitch (L"",	L"test",				_("Test internal algorithms"));
 		parser.AddSwitch (L"t", L"text",				_("Use text user interface"));
 		parser.AddOption (L"",	L"token-lib",			_("Security token library"));
@@ -257,6 +266,19 @@ namespace VeraCrypt
 			param1IsMountedVolumeSpec = true;
 		}
 
+		if (parser.Found (L"export-decrypted-keyfile"))
+		{
+			CheckCommandSingle();
+			ArgCommand = CommandId::ExportDecryptedKeyfile;
+			param1IsFile = true;
+		}
+		if (parser.Found (L"output", &str))
+		{
+			if (ArgCommand != CommandId::ExportDecryptedKeyfile || str.empty())
+				throw_err (LangString["TOKEN_EXPORT_ARGUMENTS"]);
+			ArgOutputPath.reset (new FilePath (str.wc_str()));
+		}
+
 		if (parser.Found (L"export-token-keyfile"))
 		{
 			CheckCommandSingle();
@@ -291,6 +313,12 @@ namespace VeraCrypt
             CheckCommandSingle();
             ArgCommand = CommandId::ListEMVTokenKeyfiles;
         }
+
+		if (parser.Found (L"list-security-token-keys"))
+		{
+			CheckCommandSingle();
+			ArgCommand = CommandId::ListSecurityTokenKeys;
+		}
 
 		if (parser.Found (L"mount"))
 		{
@@ -611,6 +639,29 @@ namespace VeraCrypt
 				throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
 		}
 
+		if (parser.Found (L"security-token-key", &str))
+		{
+			ArgSecurityTokenSchemeSpecified = true;
+			ArgSecurityTokenSchemeSpec = wstring (str);
+			ArgMountOptions.SecurityTokenSchemeSpec = ArgSecurityTokenSchemeSpec;
+		}
+
+		if (parser.Found (L"protection-security-token-key", &str))
+		{
+			ArgProtectionSecurityTokenSchemeSpecified = true;
+			ArgMountOptions.ProtectionSecurityTokenSchemeSpec = wstring (str);
+			if (!str.empty() && ArgMountOptions.Protection != VolumeProtection::ReadOnly)
+				ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
+		}
+
+		if (parser.Found (L"new-security-token-key", &str))
+		{
+			if (ArgCommand != CommandId::ChangePassword)
+				throw ParameterIncorrect (SRC_POS);
+			ArgNewSecurityTokenSchemeSpecified = true;
+			ArgNewSecurityTokenSchemeSpec = wstring (str);
+		}
+
 		ArgQuick = parser.Found (L"quick");
 
 		if (parser.Found (L"random-source", &str))
@@ -761,6 +812,10 @@ namespace VeraCrypt
 				ArgFilePath.reset (new FilePath (parser.GetParam (0).wc_str()));
 			}
 		}
+
+		if (ArgCommand == CommandId::ExportDecryptedKeyfile
+			&& (!ArgFilePath || !ArgOutputPath || ArgSecurityTokenSchemeSpec.empty() || parser.GetParamCount() != 1))
+			throw_err (LangString["TOKEN_EXPORT_ARGUMENTS"]);
 
 		if (param1IsMountedVolumeSpec)
 			ArgVolumes = GetMountedVolumes (parser.GetParamCount() > 0 ? parser.GetParam (0) : wxString());

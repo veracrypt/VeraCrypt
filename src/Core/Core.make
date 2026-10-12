@@ -24,9 +24,17 @@ OBJS += Unix/CoreServiceRequest.o
 OBJS += Unix/CoreServiceResponse.o
 OBJS += Unix/CoreUnix.o
 OBJS += Unix/$(PLATFORM)/Core$(PLATFORM).o
-OBJS += Unix/$(PLATFORM)/Core$(PLATFORM).o
+
 ifeq "$(PLATFORM)" "MacOSX"
 OBJS += Unix/FreeBSD/CoreFreeBSD.o
+endif
+
+TEST_EXECS := KeyfileTest.o SecurityTokenTest.o MountOptionsTest.o
+
+TEST_EXT_LIBS += $(shell $(PKG_CONFIG) $(VC_FUSE_PACKAGE) --libs)
+TEST_LFLAGS += -lpthread
+ifeq "$(PLATFORM)" "Linux"
+TEST_LFLAGS += -ldl
 endif
 
 include $(BUILD_INC)/Makefile.inc

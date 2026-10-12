@@ -14,12 +14,15 @@
 #include "Main/GraphicUserInterface.h"
 #include "Volume/Hash.h"
 #include "KeyfileGeneratorDialog.h"
+#include "SecurityTokenSchemesDialog.h"
 #include "WindowEventHandlers.h"
 
 namespace VeraCrypt
 {
 	KeyfileGeneratorDialog::KeyfileGeneratorDialog (wxWindow* parent) : KeyfileGeneratorDialogBase (parent)
 	{
+		RandomSizeCheckBox->SetLabel (LangString["TOKEN_KEYFILE_RANDOM_SIZE"]);
+		ChooseSecurityTokenButton->SetLabel (LangString["TOKEN_KEY_SELECT"]);
 		RandomNumberGenerator::Start();
 
 		Hashes = Hash::GetAvailableAlgorithms();
@@ -60,6 +63,7 @@ namespace VeraCrypt
 			int keyfilesSize = KeyfilesSize->GetValue();
 			bool useRandomSize = RandomSizeCheckBox->IsChecked();
 			wxString keyfileBaseName = KeyfilesBaseName->GetValue();
+			wxString securityTokenSchemeSpec = SecurityTokenSchemeDesc->GetValue();
 			keyfileBaseName.Trim(true);
 			keyfileBaseName.Trim(false);
 
@@ -74,6 +78,18 @@ namespace VeraCrypt
 			{
 				Gui->ShowWarning("KEYFILE_INVALID_BASE_NAME");
 				return;
+			}
+
+			int minimumSize = 64;
+			if (!securityTokenSchemeSpec.IsEmpty())
+			{
+				SecurityTokenScheme scheme;
+				SecurityToken::GetSecurityTokenScheme (securityTokenSchemeSpec.ToStdWstring(), scheme, SecurityTokenKeyOperation::Encrypt);
+				minimumSize = static_cast<int> (scheme.DecryptOutputSize);
+				if (minimumSize < 64 || minimumSize > 1024 * 1024)
+					throw ParameterIncorrect (SRC_POS);
+				if (!useRandomSize && keyfilesSize < minimumSize)
+					throw InsufficientData (SRC_POS);
 			}
 
 			DirectoryPath keyfilesDir = Gui->SelectDirectory (Gui->GetActiveWindow(), LangString["SELECT_KEYFILE_GENERATION_DIRECTORY"], false);
@@ -101,8 +117,8 @@ namespace VeraCrypt
 					/* since keyfilesSize < 1024 * 1024, we mask with 0x000FFFFF */
 					bufferLen = (long) (((unsigned long) bufferLen) & 0x000FFFFF);
 
-					bufferLen %= ((1024*1024 - 64) + 1);
-					bufferLen += 64;
+					bufferLen %= ((1024 * 1024 - minimumSize) + 1);
+					bufferLen += minimumSize;
 				}
 				else
 					bufferLen = keyfilesSize;
@@ -139,13 +155,16 @@ namespace VeraCrypt
 						return;
 				}
 
-				{
-					FilePath keyfilePath((const wchar_t*) keyfileName.GetFullPath().c_str());
+				FilePath keyfilePath((const wchar_t*) keyfileName.GetFullPath().c_str());
+
+				if (!securityTokenSchemeSpec.IsEmpty()) {
+					Keyfile::CreateBluekey(keyfilePath, securityTokenSchemeSpec.wc_str(), keyfileBuffer);
+				} else {
 					File keyfile;
 					keyfile.Open (keyfilePath, File::CreateWrite);
 					keyfile.Write (keyfileBuffer);
+					keyfile.Close();
 				}
-
 			}
 			Gui->ShowInfo ("KEYFILE_CREATED");
 		}
@@ -228,5 +247,25 @@ namespace VeraCrypt
 		}
 
 		textCtrl->SetLabel (str.c_str());
+	}
+
+	void KeyfileGeneratorDialog::OnSelectSecurityTokenSchemeClick (wxCommandEvent& event)
+	{
+		try
+		{
+			SecurityTokenSchemesDialog dialog (this, SecurityTokenKeyOperation::Encrypt);
+			if (dialog.ShowModal() == wxID_OK)
+			{
+				wstring schemeSpec = dialog.GetSelectedSecurityTokenSchemeSpec();
+				SecurityTokenScheme scheme;
+				SecurityToken::GetSecurityTokenScheme (schemeSpec, scheme, SecurityTokenKeyOperation::Encrypt);
+				SecurityTokenSchemeDesc->SetValue (wxString (schemeSpec));
+				KeyfilesSize->SetValue (std::max (KeyfilesSize->GetValue(), static_cast<int> (scheme.DecryptOutputSize)));
+			}
+		}
+		catch (exception &e)
+		{
+			Gui->ShowError (e);
+		}
 	}
 }
