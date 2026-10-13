@@ -9806,15 +9806,16 @@ retry:
 				forced = TRUE;
 				goto retry;
 			}
-
-			// Undo SHCNE_DRIVEREMOVED
-			wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
-			SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH, root, NULL);
-
-			return FALSE;
 		}
+		else
+			Error ("UNMOUNT_FAILED", hwndDlg);
 
-		Error ("UNMOUNT_FAILED", hwndDlg);
+		if (result == ERR_FILES_OPEN && !DeviceChangeBroadcastDisabled)
+		{
+			// Undo SHCNE_DRIVEREMOVED and start delivery without waiting for completion.
+			wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
+			SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH | SHCNF_FLUSHNOWAIT, root, NULL);
+		}
 
 		return FALSE;
 	}

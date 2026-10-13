@@ -6380,8 +6380,9 @@ retry:
 				goto retry;
 			}
 
-			// Undo SHCNE_DRIVEREMOVED
-			if (	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, NULL, 0, &mountList, sizeof (mountList), &dwResult, NULL)
+			// Undo SHCNE_DRIVEREMOVED and start delivery without waiting for completion.
+			if (	!DeviceChangeBroadcastDisabled
+				&& DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, NULL, 0, &mountList, sizeof (mountList), &dwResult, NULL)
 				&& mountList.ulMountedDrives
 				&& (mountList.ulMountedDrives < (1 << 26))
 				)
@@ -6391,7 +6392,7 @@ retry:
 					if (mountList.ulMountedDrives & (1 << i))
 					{
 						wchar_t root[] = { (wchar_t) (i + L'A'), L':', L'\\', 0 };
-						SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH, root, NULL);
+						SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH | SHCNF_FLUSHNOWAIT, root, NULL);
 					}
 				}
 			}
