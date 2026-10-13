@@ -424,6 +424,26 @@ Locate the <em style="text-align:left">IRPStackSize </em>key in the Windows regi
 https://support.microsoft.com/kb/285089/ </a>and <a href="https://support.microsoft.com/kb/177078/" style="text-align:left; color:#0080c0; text-decoration:none">
 https://support.microsoft.com/kb/177078/</a></div>
 <hr style="text-align:left">
+<div id="linux_user_fuse_mounts" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Problem: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">On Linux, a volume stored on a network share opened in the file manager, or on another file system that your user account mounted with FUSE (for example sshfs or rclone), cannot be mounted: VeraCrypt reports &quot;</em>Permission denied<em style="text-align:left">&quot;. Or VeraCrypt warns that it opened the volume file with your user account's access rights.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Probable Cause: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Such file systems are mounted by your user account without the <code>allow_other</code> option. Linux then denies access to every other user, including the administrator (root), even though your account can open the files. VeraCrypt mounts volumes with administrator privileges, so VeraCrypt 1.26.29 and earlier versions cannot open such volume files.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Possible Solutions: </strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Later versions of VeraCrypt open the volume file with your user account's access rights when administrator access is denied, provided that VeraCrypt obtained administrator privileges through sudo or doas, as it does when you enter your password in VeraCrypt. The volume is then served through VeraCrypt's FUSE layer, which is slower than direct mounting by the kernel, and VeraCrypt displays a warning. Keep the share mounted and your session active until you unmount the volume: ejecting the share or logging out while the volume is mounted can cause data loss. If &quot;Permission denied&quot; is still reported, either your account itself cannot open the file, or VeraCrypt was started as root without sudo (for example from a root shell) and cannot determine your user account. In the latter case, start VeraCrypt as your user. Keyfiles stored on such a file system work only when VeraCrypt itself runs as your user, not when it is started with sudo.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+For regular use of an SMB share, mount it with the kernel CIFS client instead (package <em style="text-align:left">cifs-utils</em>), owned by your user account. For example:
+<code>sudo mount -t cifs //server/share /mnt/share -o username=NAME,uid=$(id -u),gid=$(id -g)</code>. Volumes stored on such a mount are mounted directly by the kernel and do not depend on your session.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+For sshfs, rclone and other FUSE file systems that support it, enable <code>user_allow_other</code> in <em style="text-align:left">/etc/fuse.conf</em> and mount the file system with the option <code>-o allow_root</code>. Administrator privileges can then access it, and VeraCrypt opens the volume file normally. The volume still depends on that file system: keep it mounted until you unmount the volume.
+</li></ul>
+<hr style="text-align:left">
 <p><br style="text-align:left">
 <br style="text-align:left">
 <br style="text-align:left">

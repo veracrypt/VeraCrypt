@@ -37,6 +37,12 @@
 <p><strong>Unreleased changes</strong></p>
 <ul>
 <li><strong>Linux, macOS and BSD:</strong> Non-interactive unmount commands return a nonzero exit status when a busy volume cannot be unmounted. Scripts should check the exit status before treating a volume as locked.</li>
+<li><strong>Linux:</strong>
+	<ul>
+	<li>Mount volume files that administrator privileges cannot access but the user who started VeraCrypt can, such as files on a network share opened in the file manager (GVfs) or on another FUSE file system mounted without <code>allow_other</code> (GH #23). VeraCrypt opens such a file with the access rights of the user who obtained administrator privileges through sudo or doas, and mounts the volume through its FUSE layer. A warning reminds you to keep the share mounted and your session active until the volume is unmounted. Creating volumes with a non-FAT file system on such shares works too.</li>
+	<li>On file systems that deny administrator access but grant the user write access, such as NFS with <code>root_squash</code>, volumes are now mounted read-write through the FUSE layer instead of falling back to read-only.</li>
+	</ul>
+</li>
 <li><strong>macOS:</strong>
 	<ul>
 	<li>Improve FUSE-T startup rollback and unmount cleanup, and report when service termination cannot be confirmed.</li>
