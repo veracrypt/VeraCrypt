@@ -67,15 +67,18 @@ namespace VeraCrypt
 		Clear();
     }
 
-	EMVCard::EMVCard(const EMVCard& other) :
-			SCard(other),
-			m_aid(other.m_aid),
-			m_supportedAids(other.m_supportedAids),
-			m_iccCert(other.m_iccCert),
-			m_issuerCert(other.m_issuerCert),
-			m_cplcData(other.m_cplcData),
-			m_lastPANDigits(other.m_lastPANDigits)
+	EMVCard::EMVCard(const EMVCard& other) : SCard()
 	{
+		try
+		{
+			*this = other;
+		}
+		catch (...)
+		{
+			// The destructor won't run if copying a later field fails.
+			Clear();
+			throw;
+		}
 	}
 
 	EMVCard::EMVCard(EMVCard&& other) :
@@ -93,6 +96,7 @@ namespace VeraCrypt
 	{
 		if (this != &other)
 		{
+			Clear();
 			SCard::operator=(other);
 			m_aid = other.m_aid;
 			m_supportedAids = other.m_supportedAids;
@@ -108,6 +112,7 @@ namespace VeraCrypt
 	{
 		if (this != &other)
 		{
+			Clear();
 			SCard::operator=(other);
 			m_reader = std::move(other.m_reader);
 			m_aid = std::move(other.m_aid);
@@ -124,9 +129,17 @@ namespace VeraCrypt
 	{
 		m_aid.clear();
 		m_supportedAids.clear();
+		if (!m_iccCert.empty())
+			burn(m_iccCert.data(), m_iccCert.size());
 		m_iccCert.clear();
+		if (!m_issuerCert.empty())
+			burn(m_issuerCert.data(), m_issuerCert.size());
 		m_issuerCert.clear();
+		if (!m_cplcData.empty())
+			burn(m_cplcData.data(), m_cplcData.size());
 		m_cplcData.clear();
+		if (!m_lastPANDigits.empty())
+			burn(&m_lastPANDigits[0], m_lastPANDigits.size() * sizeof(wchar_t));
 		m_lastPANDigits.clear();
 	}
 
@@ -426,8 +439,14 @@ namespace VeraCrypt
 		if (!issuerFound)
 			throw EMVIssuerCertNotFound();
 
+		if (!m_iccCert.empty())
+			burn(m_iccCert.data(), m_iccCert.size());
 		m_iccCert = iccCert;
+		if (!m_issuerCert.empty())
+			burn(m_issuerCert.data(), m_issuerCert.size());
 		m_issuerCert = issuerCert;
+		if (!m_cplcData.empty())
+			burn(m_cplcData.data(), m_cplcData.size());
 		m_cplcData = cplcData;
 	}
 

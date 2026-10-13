@@ -36,7 +36,7 @@ namespace VeraCrypt
 	class VolumeInfo : public Serializable
 	{
 	public:
-		VolumeInfo () : Discovery (DiscoveryUnknown) { }
+		VolumeInfo () : Discovery (DiscoveryUnknown), RequesterBacked (false) { }
 		virtual ~VolumeInfo () { }
 
 		TC_SERIALIZABLE (VolumeInfo);
@@ -49,6 +49,11 @@ namespace VeraCrypt
 		// entry whose control metadata is now unreadable has no current counters.
 		enum DiscoveryState { DiscoveryUnknown, ImageAttached, ImageAbsent, ControlUnavailable };
 		DiscoveryState Discovery;
+
+		// Mount result only, not part of the control file: the volume file was opened
+		// with the credentials of the requesting user (Linux). Its storage may depend
+		// on that user's session.
+		bool RequesterBacked;
 
 		// Modifying this structure can introduce incompatibility with previous versions
 		DirectoryPath AuxMountPoint;
