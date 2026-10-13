@@ -355,5 +355,8 @@ namespace VeraCrypt
 	TC_SERIALIZER_FACTORY_ADD_CLASS (GetDeviceSizeRequest);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (GetHostDevicesRequest);
 	TC_SERIALIZER_FACTORY_ADD_CLASS (MountVolumeRequest);
+#ifdef TC_LINUX
+	TC_SERIALIZER_FACTORY_ADD_CLASS (MountVolumeRequestV2);
+#endif
 	TC_SERIALIZER_FACTORY_ADD_CLASS (SetFileOwnerRequest);
 }
