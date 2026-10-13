@@ -1337,9 +1337,13 @@ namespace VeraCrypt
 					MountVolumeRequest *mountRequest = dynamic_cast <MountVolumeRequest*> (request.get());
 					if (mountRequest)
 					{
-						MountVolumeResponse (
-							Core->MountVolume (*mountRequest->Options)
-						).Serialize (outputStream);
+						shared_ptr <VolumeInfo> mountedVolume = Core->MountVolume (*mountRequest->Options);
+#ifdef TC_LINUX
+						if (dynamic_cast <MountVolumeRequestV2*> (mountRequest))
+							MountVolumeResponseV2 (mountedVolume).Serialize (outputStream);
+						else
+#endif
+							MountVolumeResponse (mountedVolume).Serialize (outputStream);
 
 						continue;
 					}
@@ -1454,8 +1458,13 @@ namespace VeraCrypt
 
 	shared_ptr <VolumeInfo> CoreService::RequestMountVolume (MountOptions &options)
 	{
+#ifdef TC_LINUX
+		MountVolumeRequestV2 request (&options);
+		return SendRequest <MountVolumeResponseV2> (request)->MountedVolumeInfo;
+#else
 		MountVolumeRequest request (&options);
 		return SendRequest <MountVolumeResponse> (request)->MountedVolumeInfo;
+#endif
 	}
 
 	void CoreService::RequestSetFileOwner (const FilesystemPath &path, const UserId &owner)

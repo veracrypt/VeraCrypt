@@ -116,15 +116,30 @@ namespace VeraCrypt
 	// MountVolumeResponse
 	void MountVolumeResponse::DeserializeData (shared_ptr <Stream> stream)
 	{
-		Serializer sr (stream);
 		MountedVolumeInfo = Serializable::DeserializeNew <VolumeInfo> (stream);
 	}
 
 	void MountVolumeResponse::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Serializer sr (stream);
 		MountedVolumeInfo->Serialize (stream);
 	}
+
+#ifdef TC_LINUX
+	void MountVolumeResponseV2::DeserializeData (shared_ptr <Stream> stream)
+	{
+		MountVolumeResponse::DeserializeData (stream);
+		Serializer sr (stream);
+		sr.Deserialize ("RequesterBacked", MountedVolumeInfo->RequesterBacked);
+	}
+
+	void MountVolumeResponseV2::SerializeData (shared_ptr <Stream> stream) const
+	{
+		MountVolumeResponse::SerializeData (stream);
+		Serializer sr (stream);
+		// Neither the legacy response nor the shared control file gains a field.
+		sr.Serialize ("RequesterBacked", MountedVolumeInfo->RequesterBacked);
+	}
+#endif
 
 	// SetFileOwnerResponse
 	void SetFileOwnerResponse::DeserializeData (shared_ptr <Stream> stream)
@@ -149,5 +164,8 @@ namespace VeraCrypt
 	TC_SERIALIZER_FACTORY_ADD_CLASS (ExecuteOpenBSDFFSFormatterResponse);
 #endif
 	TC_SERIALIZER_FACTORY_ADD_CLASS (MountVolumeResponse);
+#ifdef TC_LINUX
+	TC_SERIALIZER_FACTORY_ADD_CLASS (MountVolumeResponseV2);
+#endif
 	TC_SERIALIZER_FACTORY_ADD_CLASS (SetFileOwnerResponse);
 }

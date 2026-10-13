@@ -1457,6 +1457,10 @@ namespace VeraCrypt
 			if (!mountedVolume)
 				throw ParameterIncorrect (SRC_POS);
 
+#ifdef TC_LINUX
+			mountedVolume->RequesterBacked = volume->GetFile()->IsRequesterBacked();
+#endif
+
 			VolumeEventArgs eventArgs (mountedVolume);
 			VolumeMountedEvent.Raise (eventArgs);
 

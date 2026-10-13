@@ -1367,6 +1367,12 @@ namespace VeraCrypt
 #endif
 		Process::Execute ("fuse", args, -1, &execFunctor);
 
+#ifdef TC_LINUX
+		// The service has started with its copy of the volume file. Its final close
+		// restores the timestamps of a requester-backed file; this copy is only released.
+		openVolume->GetFile()->SetReleaseOnly();
+#endif
+
 #if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
 		close (startup[1]);
 		startup[1] = -1;
@@ -1810,6 +1816,10 @@ namespace VeraCrypt
 		{
 #if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
 			close (StartupFd);
+#endif
+#ifdef TC_LINUX
+			// The FUSE service process, not this one, closes the volume file last.
+			FuseService::MountedVolume->GetFile()->SetReleaseOnly();
 #endif
 			CloseMountedVolume();
 
