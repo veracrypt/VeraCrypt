@@ -41,6 +41,9 @@ extern "C" {
 // Required 16-byte alignment for KEY_INFO buffer to ensure optimal performance and compatibility with SIMD instructions.
 #define TC_KEY_INFO_BUFFER_ALIGNMENT			16
 
+// TRUE if the address meets the given alignment.
+#define TC_IS_ALIGNED(address, alignment)		((((uint64) (address)) % (alignment)) == 0)
+
 // Current volume format version (created by TrueCrypt 6.0+)
 #define TC_VOLUME_FORMAT_VERSION				2
 
