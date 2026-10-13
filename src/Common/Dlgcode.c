@@ -9827,7 +9827,7 @@ retry:
 	   removal before the process exits, leaving a ghost drive letter.
 	   Re-send the notification with SHCNF_FLUSH to force synchronous
 	   processing by Explorer before we return. */
-	if (Silent)
+	if (Silent && !DeviceChangeBroadcastDisabled)
 	{
 		wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
 		SHChangeNotify (SHCNE_DRIVEREMOVED, SHCNF_PATH | SHCNF_FLUSH, root, NULL);

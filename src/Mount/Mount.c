@@ -6350,7 +6350,7 @@ retry:
 	/* GH #337, GH #1426: Flush shell notifications synchronously in
 	   silent/CLI mode to prevent ghost drive letters when the process
 	   exits immediately after dismount. */
-	if (Silent)
+	if (Silent && !DeviceChangeBroadcastDisabled)
 	{
 		DWORD removedDrives = prevMountList.ulMountedDrives & ~mountList.ulMountedDrives;
 		for (i = 0; i < 26; i++)
