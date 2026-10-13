@@ -1282,12 +1282,24 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 }
 
 #ifndef TC_WINDOWS_DRIVER
-// Must stay smaller than the alignment under test: the ABI aligns larger objects by itself.
 #define TC_ALIGNMENT_PROBE_SIZE	4
 
-/* Verifies that CRYPTOPP_ALIGN_DATA actually delivers the alignment it requests. It expands
-   to nothing for compilers that are neither MSVC nor GCC/Clang (see Crypto/config.h), and the
-   SIMD backends issue aligned loads against buffers declared with it. */
+/* Check type alignment at compile time: static probes can be aligned even with an
+   empty CRYPTOPP_ALIGN_DATA, for example in AddressSanitizer builds. */
+typedef struct
+{
+	CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) unsigned char buffer[TC_ALIGNMENT_PROBE_SIZE];
+} DerivedKeyAlignmentProbe;
+
+typedef struct
+{
+	CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) unsigned char buffer[TC_ALIGNMENT_PROBE_SIZE];
+} KeyInfoAlignmentProbe;
+
+typedef char DerivedKeyAlignmentCheck[(__alignof (DerivedKeyAlignmentProbe) >= TC_DERIVED_KEY_BUFFER_ALIGNMENT) ? 1 : -1];
+typedef char KeyInfoAlignmentCheck[(__alignof (KeyInfoAlignmentProbe) >= TC_KEY_INFO_BUFFER_ALIGNMENT) ? 1 : -1];
+
+/* The compiler may fold the address checks using the declared alignment. */
 static BOOL TestBufferAlignment (void)
 {
 	static CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) unsigned char derivedKeyProbe[TC_ALIGNMENT_PROBE_SIZE];

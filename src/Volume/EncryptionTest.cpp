@@ -75,15 +75,26 @@ namespace VeraCrypt
 		TestAll (true);
 	}
 
-	// Must stay smaller than the alignment under test: the ABI aligns larger objects by itself.
 	#define TC_ALIGNMENT_PROBE_SIZE 4
 
-	// Verifies that CRYPTOPP_ALIGN_DATA actually delivers the alignment it requests.
-	// It expands to nothing for compilers that are neither MSVC nor GCC/Clang (see
-	// Crypto/config.h), and the SIMD backends issue aligned loads against buffers
-	// declared with it, so a silent expansion to nothing would fault at run time.
+	// The compiler may fold the address checks using the declared alignment.
 	void EncryptionTest::TestAlignment ()
 	{
+		// Check type alignment at compile time: static probes can be aligned even with an
+		// empty CRYPTOPP_ALIGN_DATA, for example in AddressSanitizer builds.
+		struct DerivedKeyAlignmentProbe
+		{
+			CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) uint8 buffer[TC_ALIGNMENT_PROBE_SIZE];
+		};
+
+		struct KeyInfoAlignmentProbe
+		{
+			CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) uint8 buffer[TC_ALIGNMENT_PROBE_SIZE];
+		};
+
+		static_assert (alignof (DerivedKeyAlignmentProbe) >= TC_DERIVED_KEY_BUFFER_ALIGNMENT, "Insufficient derived key buffer alignment");
+		static_assert (alignof (KeyInfoAlignmentProbe) >= TC_KEY_INFO_BUFFER_ALIGNMENT, "Insufficient key info buffer alignment");
+
 		static CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) uint8 derivedKeyProbe[TC_ALIGNMENT_PROBE_SIZE];
 		static CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) uint8 keyInfoProbe[TC_ALIGNMENT_PROBE_SIZE];
 
