@@ -19,6 +19,8 @@ import shlex
 import subprocess
 import tempfile
 
+from test_volume_read import old_abi
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -300,6 +302,8 @@ def main():
         dependency.write_text('extern "C" int vc_requester_test_dependency () { return 1; }\n')
         subprocess.run(compiler + ["-shared", "-fPIC", str(dependency), "-o",
                                    str(bundled / "libvc_requester_test.so")], check=True)
+        if old_abi(library):
+            compiler.append("-D_GLIBCXX_USE_CXX11_ABI=0")
         for mode in ("close-range", "fd-fallback", "bundled-library"):
             binary = root / ("helper-" + mode)
             command = compiler + [
