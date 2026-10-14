@@ -151,7 +151,6 @@ namespace VeraCrypt
 		bool 								hasBeenReset = false;
 		CommandAPDU 						command;
 		ResponseAPDU 						response;
-		vector<uint8> 						responseData;
 		shared_ptr<TLVNode> 				rootNode;
 		shared_ptr<TLVNode> 				fciNode;
 		shared_ptr<TLVNode> 				dfNameNode;
@@ -218,8 +217,7 @@ namespace VeraCrypt
 						}
 						if (response.getSW() == SW_NO_ERROR && response.getData().size() > 0)
 						{
-							responseData = response.getData();
-							rootNode = TLVParser::TLV_Parse(responseData.data(), responseData.size());
+							rootNode = TLVParser::TLV_Parse(response.getData().data(), response.getData().size());
 							fciNode = TLVParser::TLV_Find(rootNode, EMV_FCI_TAG);
 							if (fciNode && fciNode->Subs->size() >= 2)
 							{
@@ -261,11 +259,9 @@ namespace VeraCrypt
 													m_reader->ApduProcessData(command, response);
 													if (response.getSW() == SW_NO_ERROR && response.getData().size() > 0)
 													{
-														responseData = response.getData();
-
 														try
 														{
-															templateNode = TLVParser::TLV_Parse(responseData.data(), responseData.size());
+															templateNode = TLVParser::TLV_Parse(response.getData().data(), response.getData().size());
 															if (templateNode && templateNode->Tag == EMV_TEMPLATE_TAG && templateNode->Subs->size() >= 1)
 															{
 																for (size_t i = 0; i < templateNode->Subs->size(); i++)
@@ -342,10 +338,15 @@ namespace VeraCrypt
 		shared_ptr<TLVNode>			issuerPublicKeyCertNode;
 		CommandAPDU					command;
 		ResponseAPDU				response;
-		vector<uint8>				responseData;
 
+		if (!iccCert.empty())
+			burn(iccCert.data(), iccCert.size());
 		iccCert.clear();
+		if (!issuerCert.empty())
+			burn(issuerCert.data(), issuerCert.size());
 		issuerCert.clear();
+		if (!cplcData.empty())
+			burn(cplcData.data(), cplcData.size());
 		cplcData.clear();
 
 		if (m_iccCert.size() && m_issuerCert.size() && m_cplcData.size())
@@ -395,11 +396,9 @@ namespace VeraCrypt
 								m_reader->ApduProcessData(command, response);
 								if (response.getSW() == SW_NO_ERROR && response.getData().size() > 0)
 								{
-									responseData = response.getData();
-
 									try
 									{
-										rootNode = TLVParser::TLV_Parse(responseData.data(), responseData.size());
+										rootNode = TLVParser::TLV_Parse(response.getData().data(), response.getData().size());
 									}
 									catch(TLVException)
 									{
@@ -410,6 +409,8 @@ namespace VeraCrypt
 									if (iccPublicKeyCertNode && iccPublicKeyCertNode->Value->size() > 0)
 									{
 										iccFound = true;
+										if (!iccCert.empty())
+											burn(iccCert.data(), iccCert.size());
 										iccCert = *iccPublicKeyCertNode->Value.get();
 									}
 
@@ -417,6 +418,8 @@ namespace VeraCrypt
 									if (issuerPublicKeyCertNode && issuerPublicKeyCertNode->Value->size() > 0)
 									{
 										issuerFound = true;
+										if (!issuerCert.empty())
+											burn(issuerCert.data(), issuerCert.size());
 										issuerCert = *issuerPublicKeyCertNode->Value.get();
 									}
 								}
@@ -456,12 +459,12 @@ namespace VeraCrypt
 		bool						panFound		= false;
 		bool						aidSelected		= false;
 		vector<uint8>				EMVCardAid;
-		vector<uint8>				panData;
+		uint8 panData[2] = { 0 };
+		finally_do_arg (uint8 *, panData, { burn (finally_arg, 2); });
 		shared_ptr<TLVNode>			rootNode;
 		shared_ptr<TLVNode>			panNode;
 		CommandAPDU					command;
 		ResponseAPDU				response;
-		vector<uint8>				responseData;
 
 		lastPANDigits = L"";
 
@@ -501,11 +504,9 @@ namespace VeraCrypt
 							m_reader->ApduProcessData(command, response);
 							if (response.getSW() == SW_NO_ERROR && response.getData().size() > 0)
 							{
-								responseData = response.getData();
-
 								try
 								{
-									rootNode = TLVParser::TLV_Parse(responseData.data(), responseData.size());
+									rootNode = TLVParser::TLV_Parse(response.getData().data(), response.getData().size());
 								}
 								catch(TLVException)
 								{
@@ -516,10 +517,10 @@ namespace VeraCrypt
 								if (panNode && panNode->Value->size() >= 8)
 								{
 									panFound = true;
-									panData = *panNode->Value.get();
-									panData = vector<uint8>(panData.rbegin(), panData.rbegin() + 2); // only interested in last digits
-									std::swap(panData[0], panData[1]);
-									lastPANDigits = ArrayToHexWideString(panData.data(), (int) panData.size());
+									// Only copy the last digits, leaving the full PAN in the wiping TLV node.
+									panData[0] = (*panNode->Value)[panNode->Value->size() - 2];
+									panData[1] = panNode->Value->back();
+									lastPANDigits = ArrayToHexWideString(panData, (int) sizeof(panData));
 								}
 							}
 						}
@@ -528,9 +529,6 @@ namespace VeraCrypt
 			}
 		}
 		
-		if (panData.size())
-			burn(panData.data(), panData.size());
-
 		if (!aidSelected)
 			throw EMVSelectAIDFailed();
 

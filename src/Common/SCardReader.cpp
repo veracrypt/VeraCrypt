@@ -1,5 +1,6 @@
 #include "SCardReader.h"
 #include "PCSCException.h"
+#include "Platform/Finally.h"
 
 #include <locale>
 
@@ -399,7 +400,9 @@ namespace VeraCrypt
 		size_t indexOfLcData = 0;
 
 		vector<uint8> pbSendBuffer;
+		finally_do_arg (vector<uint8> *, &pbSendBuffer, { if (!finally_arg->empty()) burn (finally_arg->data(), finally_arg->size()); });
 		vector<uint8> pbRecvBuffer;
+		finally_do_arg (vector<uint8> *, &pbRecvBuffer, { if (!finally_arg->empty()) burn (finally_arg->data(), finally_arg->size()); });
 		DWORD cbSendLength = 0;
 		DWORD cbRecvLength = 0;
 	
@@ -638,9 +641,6 @@ namespace VeraCrypt
 		}
 
 	end:
-
-		burn(pbSendBuffer.data(), pbSendBuffer.size());
-		burn(pbRecvBuffer.data(), pbRecvBuffer.size());
 
 		if (lRet != SCARD_S_SUCCESS)
 			throw PCSCException(lRet);
