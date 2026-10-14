@@ -1704,6 +1704,7 @@
     <entry lang="pl" key="VOLUME_DISCOVERY_STALLED">Stan wolumenu niedostępny; ponawianie próby…</entry>
     <entry lang="pl" key="VOLUME_DISCOVERY_PARTIAL">Niektóre informacje o wolumenie są niedostępne; ponawianie próby…</entry>
     <entry lang="pl" key="LINUX_ELEVATION_BLOCKED">Bieżący program uruchamiający lub piaskownica uniemożliwia VeraCrypt uzyskanie uprawnień administratora (Linux NoNewPrivs).\n\nZamknij VeraCrypt i uruchom go poza tym ograniczonym środowiskiem. W systemie NixOS użyj natywnego pakietu VeraCrypt zamiast appimage-run.</entry>
+    <entry lang="pl" key="LINUX_REQUESTER_BACKED_VOLUME">VeraCrypt nie mógł otworzyć pliku wolumenu z uprawnieniami administratora, więc otworzył go, korzystając z uprawnień Twojego konta użytkownika:\n{0}\n\nUtrzymuj zamontowany udział źródłowy i aktywną sesję użytkownika do momentu odłączenia tego wolumenu VeraCrypt. Odłączenie udziału lub wylogowanie się może spowodować utratę danych. W przypadku regularnego użytkowania przechowuj wolumen w miejscu, z którego VeraCrypt może go otworzyć z uprawnieniami administratora – na przykład na udziale zamontowanym za pomocą klienta CIFS działającego w jądrze systemu.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

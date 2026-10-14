@@ -71,6 +71,24 @@ namespace VeraCrypt
 			close (FileHandle);
 			FileIsOpen = false;
 
+#ifdef TC_LINUX
+			if (RequesterBacked)
+			{
+				// Root may be denied changing this file's attributes: restore them with the
+				// requester's credentials, unless another process serves the file.
+				RequesterBacked = false;
+				if ((mFileOpenFlags & File::PreserveTimestamps) && !ReleaseOnly)
+				{
+					try
+					{
+						RestoreTimestampsAsRequester();
+					}
+					catch (...) { }
+				}
+				return;
+			}
+#endif
+
 			if ((mFileOpenFlags & File::PreserveTimestamps) && Path.IsFile())
 			{
 				struct utimbuf u;
@@ -311,6 +329,22 @@ namespace VeraCrypt
 		}
 
 		FileHandle = open (string (path).c_str(), sysFlags, S_IRUSR | S_IWUSR);
+#ifdef TC_LINUX
+		if (FileHandle == -1 && (errno == EACCES || errno == EPERM) && (flags & File::AllowRequesterAccess)
+			&& (mode == OpenRead || mode == OpenWrite || mode == OpenReadWrite))
+		{
+			int rootError = errno;
+			if (OpenAsRequester (path, sysFlags))
+			{
+				Path = path;
+				mFileOpenFlags = flags;
+				FileIsOpen = true;
+				return;
+			}
+
+			errno = rootError;
+		}
+#endif
 		throw_sys_sub_if (FileHandle == -1, wstring (path));
 
 #if 0 // File locking is disabled to avoid remote filesystem locking issues

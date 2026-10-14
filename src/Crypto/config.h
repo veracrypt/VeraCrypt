@@ -61,6 +61,8 @@
 	#elif defined(__GNUC__)
 		#define CRYPTOPP_ALIGN_DATA(x) __attribute__((aligned(x)))
 	#else
+		// Note: expands to nothing for the MSVC bootloader build (TC_WINDOWS_BOOT) and for
+		// compilers that are neither MSVC nor GCC/Clang, so alignment is not guaranteed there.
 		#define CRYPTOPP_ALIGN_DATA(x)
 	#endif
 #endif

@@ -9806,15 +9806,16 @@ retry:
 				forced = TRUE;
 				goto retry;
 			}
-
-			// Undo SHCNE_DRIVEREMOVED
-			wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
-			SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH, root, NULL);
-
-			return FALSE;
 		}
+		else
+			Error ("UNMOUNT_FAILED", hwndDlg);
 
-		Error ("UNMOUNT_FAILED", hwndDlg);
+		if (result == ERR_FILES_OPEN && !DeviceChangeBroadcastDisabled)
+		{
+			// Undo SHCNE_DRIVEREMOVED and start delivery without waiting for completion.
+			wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
+			SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH | SHCNF_FLUSHNOWAIT, root, NULL);
+		}
 
 		return FALSE;
 	}
@@ -9827,7 +9828,7 @@ retry:
 	   removal before the process exits, leaving a ghost drive letter.
 	   Re-send the notification with SHCNF_FLUSH to force synchronous
 	   processing by Explorer before we return. */
-	if (Silent)
+	if (Silent && !DeviceChangeBroadcastDisabled)
 	{
 		wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
 		SHChangeNotify (SHCNE_DRIVEREMOVED, SHCNF_PATH | SHCNF_FLUSH, root, NULL);
@@ -13001,6 +13002,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 								finally_do ({ NormalCursor(); });
 
 								vector <uint8> keyfileData;
+								finally_do_arg (vector <uint8> *, &keyfileData, { if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); });
 
 								keyfile->GetKeyfileData (keyfileData);
 
@@ -13010,8 +13012,6 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 									handleWin32Error (hwndDlg, SRC_POS);
 									return 1;
 								}
-
-								finally_do_arg (vector <uint8> *, &keyfileData, { burn (&finally_arg->front(), finally_arg->size()); });
 
 								if (!SaveBufferToFile ((char *) &keyfileData.front(), keyfilePath, (DWORD) keyfileData.size(), FALSE, FALSE))
 									throw SystemException (SRC_POS);

@@ -1705,6 +1705,7 @@
     <entry lang="zh-cn" key="VOLUME_DISCOVERY_STALLED">加密卷状态不可用；正在重试…</entry>
     <entry lang="zh-cn" key="VOLUME_DISCOVERY_PARTIAL">部分加密卷信息不可用；正在重试…</entry>
     <entry lang="zh-cn" key="LINUX_ELEVATION_BLOCKED">当前启动器或沙箱阻止 VeraCrypt 获取管理员权限（Linux NoNewPrivs）。\n\n请关闭 VeraCrypt，并在此受限环境之外启动它。在 NixOS 上，请使用原生 VeraCrypt 软件包，而不要使用 appimage-run。</entry>
+    <entry lang="zh-cn" key="LINUX_REQUESTER_BACKED_VOLUME">VeraCrypt 无法以管理员权限打开该加密卷文件，因此以您的用户账户的访问权限打开了该文件：\n{0}\n\n在此 VeraCrypt 加密卷被卸载之前，请保持源共享挂载状态并且您的用户会话处于活动状态。弹出该共享或注销可能会导致数据丢失。如需日常使用，请将加密卷存储在 VeraCrypt 能够以管理员权限打开的位置，例如挂载到内核 CIFS 客户端的共享上。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

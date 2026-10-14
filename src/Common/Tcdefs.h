@@ -373,7 +373,7 @@ typedef unsigned char  BOOLEAN;
 #if defined(_WIN32) && !defined(_UEFI)
 #define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); size_t burnc = size; RtlSecureZeroMemory (mem, size); while (burnc--) *burnm++ = 0; } while (0)
 #else
-#define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); int burnc = size; while (burnc--) *burnm++ = 0; } while (0)
+#define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); size_t burnc = size; while (burnc--) *burnm++ = 0; } while (0)
 #endif
 
 #define volatile_memcpy(d,s,size) do { volatile char *destm = (volatile char *)(d); volatile char *srcm = (volatile char *)(s); size_t memc = size; while (memc--) *destm++ = *srcm++; } while (0)

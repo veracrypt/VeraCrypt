@@ -259,7 +259,7 @@ namespace VeraCrypt
 						}
 					}
 #ifdef TC_LINUX
-					catch (FilesystemDismountFailed&)
+					catch (FilesystemDismountFailed &e)
 					{
 						if (twoPassMode && firstPass)
 						{
@@ -278,7 +278,9 @@ namespace VeraCrypt
 						}
 						else if (interactive)
 						{
-							if (AskYesNo (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNT_WARNING"], wstring (volume->Path)), false, true))
+							// Show the cause of the failure with the warning
+							wxString warning = StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNT_WARNING"], wstring (volume->Path));
+							if (AskYesNo (ExceptionToMessage (e) + L"\n\n" + warning, false, true))
 							{
 								{
 									BusyScope busy (this);
@@ -1019,6 +1021,12 @@ namespace VeraCrypt
 	void UserInterface::OnVolumeMounted (EventArgs &args)
 	{
 		shared_ptr <VolumeInfo> mountedVolume = (dynamic_cast <VolumeEventArgs &> (args)).mVolume;
+
+#ifdef TC_LINUX
+		// Shown for every mount, including those made to create a volume.
+		if (mountedVolume->RequesterBacked)
+			ShowWarning (StringFormatter (LangString["LINUX_REQUESTER_BACKED_VOLUME"], wstring (mountedVolume->Path)));
+#endif
 
 		if (Preferences.OpenExplorerWindowAfterMount && !mountedVolume->MountPoint.IsEmpty())
 			OpenExplorerWindow (mountedVolume->MountPoint);
