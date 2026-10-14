@@ -160,6 +160,8 @@ int main (int argc, char **argv)
         Require (getrlimit (RLIMIT_NOFILE, &originalLimit) == 0, "get fd limit");
         limit = originalLimit;
         if (limit.rlim_cur <= InheritedFd) limit.rlim_cur = InheritedFd + 1;
+        // Containers often have a hard limit below InheritedFd; root may raise it.
+        if (limit.rlim_max < limit.rlim_cur) limit.rlim_max = limit.rlim_cur;
         Require (setrlimit (RLIMIT_NOFILE, &limit) == 0, "raise soft fd limit");
         Require (fcntl (file, F_DUPFD, InheritedFd) == InheritedFd, "create inherited high fd");
         Require (setrlimit (RLIMIT_NOFILE, &originalLimit) == 0, "restore soft fd limit");
