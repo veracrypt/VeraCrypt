@@ -146,9 +146,12 @@ namespace VeraCrypt
 			File keyfile;
 			keyfile.Open (keyfilePath, File::OpenRead, File::ShareReadWrite, File::PreserveTimestamps);
 
-			if (keyfile.Length() > 0)
+			const uint64 keyfileSize = keyfile.Length();
+			if (keyfileSize > 0)
 			{
-				vector <uint8> keyfileData (keyfile.Length());
+				if (keyfileSize > vector <uint8>().max_size())
+					throw ParameterTooLarge (SRC_POS, keyfilePath);
+				vector <uint8> keyfileData (static_cast <size_t> (keyfileSize));
 				finally_do_arg (
 					vector <uint8> *, &keyfileData,
 					{ if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); }
