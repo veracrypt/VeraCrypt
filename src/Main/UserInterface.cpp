@@ -862,7 +862,7 @@ namespace VeraCrypt
 		}
 
 		if (!newMountedVolumes.empty() && GetPreferences().CloseSecurityTokenSessionsAfterMount)
-			SecurityToken::CloseAllSessions();
+			Token::CloseAllSessions();
 
 		return newMountedVolumes;
 	}
@@ -944,7 +944,7 @@ namespace VeraCrypt
 		}
 
 		if (!newMountedVolumes.empty() && GetPreferences().CloseSecurityTokenSessionsAfterMount)
-			SecurityToken::CloseAllSessions();
+			Token::CloseAllSessions();
 
 		return newMountedVolumes;
 	}
@@ -991,7 +991,7 @@ namespace VeraCrypt
 			ShowInfo ("HIDVOL_PROT_WARN_AFTER_MOUNT");
 
 		if (GetPreferences().CloseSecurityTokenSessionsAfterMount)
-			SecurityToken::CloseAllSessions();
+			Token::CloseAllSessions();
 
 		return volume;
 	}

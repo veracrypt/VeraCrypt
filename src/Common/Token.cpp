@@ -115,4 +115,10 @@ namespace VeraCrypt
 
 		return tokenKeyfile;
 	}
+
+	void Token::CloseAllSessions() throw ()
+	{
+		SecurityToken::CloseAllSessions();
+		EMVToken::CloseAllSessions();
+	}
 }
