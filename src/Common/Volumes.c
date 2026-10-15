@@ -1022,7 +1022,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, unsigned char *header,
 
 	int nUserKeyLen = password? password->Length : 0;
 	PCRYPTO_INFO cryptoInfo = crypto_open ();
-	static char dk[MASTER_KEYDATA_SIZE];
+	static CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) char dk[MASTER_KEYDATA_SIZE];
 	int x;
 	int retVal = 0;
 	int primaryKeyOffset;
