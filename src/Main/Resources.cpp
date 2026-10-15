@@ -149,14 +149,24 @@ namespace VeraCrypt
 		}
 		FilesystemPath xml(filename);
 		if ( xml.IsFile() ){
-			File file;
-			file.Open (xml, File::OpenRead, File::ShareRead);
-			vector <uint8> keyfileData (file.Length());
-			BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
-			file.ReadCompleteBuffer (keyfileDataBuf);
-			file.Close();
-			string langxml(keyfileData.begin(), keyfileData.end());
-			return langxml;
+			try
+			{
+				File file;
+				file.Open (xml, File::OpenRead, File::ShareRead);
+				vector <uint8> keyfileData (file.Length());
+				if (!keyfileData.empty())
+				{
+					BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
+					file.ReadCompleteBuffer (keyfileDataBuf);
+				}
+				file.Close();
+				string langxml(keyfileData.begin(), keyfileData.end());
+				return langxml;
+			}
+			// An optional translation must not prevent startup if it cannot be
+			// opened or read completely (for example, if it shrinks while reading).
+			catch (SystemException&) { }
+			catch (InsufficientData&) { }
 		}
 		static uint8 LanguageXml[] =
 		{

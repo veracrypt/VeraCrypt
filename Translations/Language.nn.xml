@@ -1705,6 +1705,7 @@
     <entry lang="nn" key="VOLUME_DISCOVERY_PARTIAL">Noko voluminformasjon er utilgjengeleg; prøver igjen…</entry>
     <entry lang="nn" key="LINUX_ELEVATION_BLOCKED">Det gjeldande startprogrammet eller sandkassen hindrar VeraCrypt i å få administratorrettar (Linux NoNewPrivs).\n\nLukk VeraCrypt og start det utanfor dette avgrensa miljøet. På NixOS bruker du VeraCrypt-pakken for NixOS i staden for appimage-run.</entry>
     <entry lang="nn" key="LINUX_REQUESTER_BACKED_VOLUME">VeraCrypt kunne ikkje opna volumfila med administratorrettar, så fila vart opna med tilgangsrettane til brukarkontoen din:\n{0}\n\nHald kjeldedelinga montert og brukarøkta aktiv til dette VeraCrypt-volumet er demontert. Å løysa ut delinga eller logga ut kan føra til tap av data. For vanleg bruk bør du lagra volumet ein stad der VeraCrypt kan opna det med administratorrettar, til dømes på ei deling montert med CIFS-klienten i kjernen.</entry>
+    <entry lang="nn" key="PCSC_ERROR">Feil på smartkortet</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

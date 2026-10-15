@@ -40,7 +40,7 @@ namespace VeraCrypt
 		static uint16 CheckBit(uint8 value, int bit);
 
 		/* Parsing one TLV node */
-		static shared_ptr<TLVNode> TLV_Parse_One(uint8* buf, size_t size);
+		static shared_ptr<TLVNode> TLV_Parse_One(const uint8* buf, size_t size);
 
 		/* Parsing all TLV nodes */
 		static int TLV_Parse_SubNodes(shared_ptr<TLVNode> parent);
@@ -54,7 +54,7 @@ namespace VeraCrypt
 	public:
 
 		/* Parsing TLV from a buffer and constructing TLV structure */
-		static shared_ptr<TLVNode> TLV_Parse(uint8* buf, size_t size);
+		static shared_ptr<TLVNode> TLV_Parse(const uint8* buf, size_t size);
 
 		/* Finding a TLV node with a particular tag */
 		static shared_ptr<TLVNode> TLV_Find(shared_ptr<TLVNode> node, uint16 tag);

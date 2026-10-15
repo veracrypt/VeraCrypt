@@ -25,6 +25,7 @@ on:
       - 'Tests/test.*.hc'
       - 'Tests/test_volume_read.py'
       - 'Tests/volume_read_test.cpp'
+      - 'Tests/response_apdu_test.cpp'
       - '.github/workflows/build-linux.yml'
   pull_request:
     branches: [ "master" ]
@@ -50,6 +51,7 @@ on:
       - 'Tests/test.*.hc'
       - 'Tests/test_volume_read.py'
       - 'Tests/volume_read_test.cpp'
+      - 'Tests/response_apdu_test.cpp'
       - '.github/workflows/build-linux.yml'
 
 concurrency:
@@ -102,6 +104,13 @@ jobs:
 
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y wget tar libpcsclite-dev libfuse-dev yasm libgtk-3-dev libayatana-appindicator3-dev cmake debhelper
+
+    # Checks with synthetic data that APDU responses are erased before their
+    # storage is released; no smart card is required.
+    - name: Check APDU response erasure
+      run: |
+        c++ -std=c++11 -O2 -Isrc Tests/response_apdu_test.cpp src/Common/ResponseAPDU.cpp src/Common/TLVParser.cpp -o /tmp/response_apdu_test
+        /tmp/response_apdu_test
 
     - name: Install system wxWidgets for GUI
       if: matrix.os == 'ubuntu-26.04'
