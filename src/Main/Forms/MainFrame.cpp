@@ -969,7 +969,7 @@ namespace VeraCrypt
 		{
 			{
 				wxBusyCursor busy;
-				SecurityToken::CloseAllSessions();
+				Token::CloseAllSessions();
 			}
 			Gui->ShowInfo ("ALL_TOKEN_SESSIONS_CLOSED");
 		}
@@ -1095,7 +1095,7 @@ namespace VeraCrypt
 		case Hotkey::Id::CloseAllSecurityTokenSessions:
 			try
 			{
-				SecurityToken::CloseAllSessions();
+				Token::CloseAllSessions();
 				Gui->ShowInfo ("ALL_TOKEN_SESSIONS_CLOSED");
 			}
 			catch (exception &e) { Gui->ShowError (e); }

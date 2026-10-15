@@ -57,14 +57,30 @@ namespace VeraCrypt
 		}
 
 		string translatedXml = Resources::GetLanguageXml(PreferredLang);
-		foreach (XmlNode node, XmlParser (translatedXml).GetNodes (L"entry"))
+		XmlNodeList translatedEntries, languageNodes;
+		try
+		{
+			translatedEntries = XmlParser (translatedXml).GetNodes (L"entry");
+			languageNodes = XmlParser (translatedXml).GetNodes (L"language");
+		}
+		catch (ParameterIncorrect&) { }
+
+		// Keep the built-in strings if the language file is empty, malformed or has no language element
+		if (languageNodes.empty())
+		{
+			translatedEntries.clear();
+			languageNodes = XmlParser (def).GetNodes (L"language");
+			PreferredLang = "en";
+		}
+
+		foreach (XmlNode node, translatedEntries)
 		{
 			wxString text = node.InnerText;
 			text.Replace (L"\\n", L"\n");
 			Map[StringConverter::ToSingle (wstring (node.Attributes[L"key"]))] = text;
 		}
 
-		XmlNode node = XmlParser (translatedXml).GetNodes (L"language").front();
+		XmlNode node = languageNodes.front();
 		Map["LANGUAGE_TRANSLATORS"] = wxString (node.Attributes[L"translators"]);
 		Map["CURRENT_LANGUAGE_PACK"] = wxString (node.Attributes[L"name"]);
 	}

@@ -104,10 +104,17 @@ namespace VeraCrypt
 					wxBusyCursor busy;
 
 					vector <uint8> keyfileData;
+					finally_do_arg (
+						vector <uint8> *, &keyfileData,
+						{ if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); }
+					);
+
 					keyfile->GetKeyfileData (keyfileData);
 
+					if (keyfileData.empty())
+						throw InsufficientData (SRC_POS);
+
 					BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
-					finally_do_arg (BufferPtr, keyfileDataBuf, { finally_arg.Erase(); });
 
 					File keyfile;
 					keyfile.Open (*files.front(), File::CreateWrite);
@@ -139,13 +146,20 @@ namespace VeraCrypt
 			File keyfile;
 			keyfile.Open (keyfilePath, File::OpenRead, File::ShareReadWrite, File::PreserveTimestamps);
 
-			if (keyfile.Length() > 0)
+			const uint64 keyfileSize = keyfile.Length();
+			if (keyfileSize > 0)
 			{
-				vector <uint8> keyfileData (keyfile.Length());
+				if (keyfileSize > vector <uint8>().max_size())
+					throw ParameterTooLarge (SRC_POS, keyfilePath);
+				vector <uint8> keyfileData (static_cast <size_t> (keyfileSize));
+				finally_do_arg (
+					vector <uint8> *, &keyfileData,
+					{ if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); }
+				);
+
 				BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
 
 				keyfile.ReadCompleteBuffer (keyfileDataBuf);
-				finally_do_arg (BufferPtr, keyfileDataBuf, { finally_arg.Erase(); });
 
 				NewSecurityTokenKeyfileDialog newKeyfileDialog (this, keyfilePath.ToBaseName());
 

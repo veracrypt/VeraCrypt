@@ -1473,7 +1473,7 @@ namespace VeraCrypt
 		if (GetPreferences().WipeCacheOnAutoDismount)
 		{
 			Core->WipePasswordCache();
-			SecurityToken::CloseAllSessions();
+			Token::CloseAllSessions();
 		}
 	}
 
