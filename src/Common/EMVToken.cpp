@@ -40,6 +40,7 @@ namespace VeraCrypt
 
 	/* ****************************************************************************************************************************************** */
 
+	std::mutex EMVToken::EMVCardsMutex;
 	map <unsigned long int, shared_ptr<EMVCard>> EMVToken::EMVCards;
 
 	EMVTokenInfo::~EMVTokenInfo()
@@ -76,6 +77,7 @@ namespace VeraCrypt
 
 	void EMVTokenKeyfile::GetKeyfileData(vector <uint8>& keyfileData) const
 	{
+		std::lock_guard<std::mutex> lock (EMVToken::EMVCardsMutex);
 		map <unsigned long int, shared_ptr<EMVCard>>::iterator emvCardsIt;
 		shared_ptr<EMVCard> card;
 		vector<uint8> iccCert;
@@ -140,6 +142,7 @@ namespace VeraCrypt
 
 	vector<EMVTokenKeyfile> EMVToken::GetAvailableKeyfiles(unsigned long int* slotIdFilter, const wstring& keyfileIdFilter)
 	{
+		std::lock_guard<std::mutex> lock (EMVCardsMutex);
 		vector <EMVTokenKeyfile> keyfiles;
 		vector<wstring> readers;
 
@@ -153,7 +156,7 @@ namespace VeraCrypt
 
 			try
 			{
-				token = GetTokenInfo(slotId);
+				token = GetTokenInfoLocked(slotId);
 			}
 			catch(ParameterIncorrect&)
 			{
@@ -195,6 +198,20 @@ namespace VeraCrypt
 	}
 
 	EMVTokenInfo EMVToken::GetTokenInfo(unsigned long int slotId)
+	{
+		std::lock_guard<std::mutex> lock (EMVCardsMutex);
+		return GetTokenInfoLocked(slotId);
+	}
+
+	void EMVToken::CloseAllSessions() throw ()
+	{
+		std::lock_guard<std::mutex> lock (EMVCardsMutex);
+		// In-flight card operations have finished and released their local copies.
+		// Releasing the cache erases the keyfile material and disconnects the cards.
+		EMVCards.clear();
+	}
+
+	EMVTokenInfo EMVToken::GetTokenInfoLocked(unsigned long int slotId)
 	{
 		EMVTokenInfo token;
 		wstring lastPANDigits;

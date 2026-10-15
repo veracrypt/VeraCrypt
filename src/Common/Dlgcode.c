@@ -523,14 +523,18 @@ char *LoadFile (const wchar_t *fileName, DWORD *size)
 {
 	char *buf;
 	DWORD fileSize = INVALID_FILE_SIZE;
+	DWORD fileSizeHigh = 0;
 	HANDLE h = CreateFile (fileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 	*size = 0;
 	if (h == INVALID_HANDLE_VALUE)
 		return NULL;
 
-	if ((fileSize = GetFileSize (h, NULL)) == INVALID_FILE_SIZE)
+	if ((fileSize = GetFileSize (h, &fileSizeHigh)) == INVALID_FILE_SIZE || fileSizeHigh != 0)
 	{
 		CloseHandle (h);
+		// Refuse a file of 4 GiB or more, which would otherwise be truncated to its size modulo 4 GiB
+		if (fileSizeHigh != 0)
+			SetLastError (ERROR_FILE_TOO_LARGE);
 		return NULL;
 	}
 
@@ -9806,15 +9810,16 @@ retry:
 				forced = TRUE;
 				goto retry;
 			}
-
-			// Undo SHCNE_DRIVEREMOVED
-			wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
-			SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH, root, NULL);
-
-			return FALSE;
 		}
+		else
+			Error ("UNMOUNT_FAILED", hwndDlg);
 
-		Error ("UNMOUNT_FAILED", hwndDlg);
+		if (result == ERR_FILES_OPEN && !DeviceChangeBroadcastDisabled)
+		{
+			// Undo SHCNE_DRIVEREMOVED and start delivery without waiting for completion.
+			wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
+			SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH | SHCNF_FLUSHNOWAIT, root, NULL);
+		}
 
 		return FALSE;
 	}
@@ -9827,7 +9832,7 @@ retry:
 	   removal before the process exits, leaving a ghost drive letter.
 	   Re-send the notification with SHCNF_FLUSH to force synchronous
 	   processing by Explorer before we return. */
-	if (Silent)
+	if (Silent && !DeviceChangeBroadcastDisabled)
 	{
 		wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
 		SHChangeNotify (SHCNE_DRIVEREMOVED, SHCNF_PATH | SHCNF_FLUSH, root, NULL);

@@ -54,6 +54,7 @@ namespace VeraCrypt
 		static bool IsKeyfilePathValid(const wstring& tokenKeyfilePath, bool isEMVSupportEnabled);
 		static list < shared_ptr<TokenInfo> > GetAvailableTokens();
 		static shared_ptr<TokenKeyfile> getTokenKeyfile(const TokenKeyfilePath& path);
+		static void CloseAllSessions() throw ();
 	};
 };
 

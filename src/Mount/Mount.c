@@ -6309,7 +6309,7 @@ ret:
 		bCacheInDriver = bCacheInDriverDefault;
 
 	if (result == MountResultSucceeded && CloseSecurityTokenSessionsAfterMount && !MultipleMountOperationInProgress)
-		SecurityToken::CloseAllSessions(); // TODO Use Token
+		Token::CloseAllSessions();
 
 	if (bMountCancelled)
 	{
@@ -6502,9 +6502,10 @@ retry:
 		return FALSE;
 
 	memset (&mountList, 0, sizeof (mountList));
-	if (	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mountList, sizeof (mountList), &mountList, sizeof (mountList), &dwResult, NULL)
-		&& (mountList.ulMountedDrives < (1 << 26))
-		)
+	status = DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mountList, sizeof (mountList), &mountList, sizeof (mountList), &dwResult, NULL)
+		&& (dwResult == sizeof (mountList))
+		&& (mountList.ulMountedDrives < (1 << 26));
+	if (status)
 	{
 		// remove any custom label from registry
 		if (prevMountList.ulMountedDrives)
@@ -6519,14 +6520,16 @@ retry:
 		}
 	}
 
-	BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, 0, prevMountList.ulMountedDrives & ~mountList.ulMountedDrives);
+	// A failed query doesn't mean that every volume was dismounted.
+	DWORD removedDrives = status ? prevMountList.ulMountedDrives & ~mountList.ulMountedDrives : 0;
+	if (removedDrives)
+		BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, 0, removedDrives);
 
 	/* GH #337, GH #1426: Flush shell notifications synchronously in
 	   silent/CLI mode to prevent ghost drive letters when the process
 	   exits immediately after dismount. */
-	if (Silent)
+	if (Silent && !DeviceChangeBroadcastDisabled)
 	{
-		DWORD removedDrives = prevMountList.ulMountedDrives & ~mountList.ulMountedDrives;
 		for (i = 0; i < 26; i++)
 		{
 			if (removedDrives & (1 << i))
@@ -6554,8 +6557,9 @@ retry:
 				goto retry;
 			}
 
-			// Undo SHCNE_DRIVEREMOVED
-			if (	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, NULL, 0, &mountList, sizeof (mountList), &dwResult, NULL)
+			// Undo SHCNE_DRIVEREMOVED and start delivery without waiting for completion.
+			if (	!DeviceChangeBroadcastDisabled
+				&& DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, NULL, 0, &mountList, sizeof (mountList), &dwResult, NULL)
 				&& mountList.ulMountedDrives
 				&& (mountList.ulMountedDrives < (1 << 26))
 				)
@@ -6565,7 +6569,7 @@ retry:
 					if (mountList.ulMountedDrives & (1 << i))
 					{
 						wchar_t root[] = { (wchar_t) (i + L'A'), L':', L'\\', 0 };
-						SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH, root, NULL);
+						SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH | SHCNF_FLUSHNOWAIT, root, NULL);
 					}
 				}
 			}
@@ -6578,7 +6582,7 @@ retry:
 	}
 	else
 	{
-		if (bBeep)
+		if (bBeep && status)
 			MessageBeep (0xFFFFFFFF);
 	}
 
@@ -6870,7 +6874,7 @@ post_mount:
 	}
 
 	if (status && CloseSecurityTokenSessionsAfterMount)
-		SecurityToken::CloseAllSessions();  // TODO Use Token
+		Token::CloseAllSessions();
 
 ret:
 	MultipleMountOperationInProgress = FALSE;
@@ -8887,7 +8891,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (bWipeCacheOnAutoDismount)
 				{
 					DeviceIoControl (hDriver, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0, &dwResult, NULL);
-					SecurityToken::CloseAllSessions();  // TODO Use Token
+					Token::CloseAllSessions();
 				}
 
 				DismountAll (hwndDlg, bForceAutoDismount, TRUE, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY);
@@ -8963,7 +8967,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (bWipeCacheOnAutoDismount)
 			{
 				DeviceIoControl (hDriver, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0, &dwResult, NULL);
-				SecurityToken::CloseAllSessions();  // TODO Use Token
+				Token::CloseAllSessions();
 			}
 
 			DismountAll (hwndDlg, bForceAutoDismount, TRUE, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY);
@@ -9020,7 +9024,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							if (bWipeCacheOnAutoDismount)
 							{
 								DeviceIoControl (hDriver, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0, &dwResult, NULL);
-								SecurityToken::CloseAllSessions();  // TODO Use Token
+								Token::CloseAllSessions();
 							}
 
 							DismountAll (hwndDlg, bForceAutoDismount, FALSE, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY);
@@ -9917,7 +9921,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				WaitCursor();
 				finally_do ({ NormalCursor(); });
 
-				SecurityToken::CloseAllSessions();  // TODO Use Token
+				Token::CloseAllSessions();
 			}
 
 			InfoBalloon (NULL, "ALL_TOKEN_SESSIONS_CLOSED", hwndDlg);
@@ -11918,7 +11922,7 @@ void DismountIdleVolumes ()
 							if (bWipeCacheOnAutoDismount)
 							{
 								DeviceIoControl (hDriver, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0, &dwResult, NULL);
-								SecurityToken::CloseAllSessions();  // TODO Use Token
+								Token::CloseAllSessions();
 							}
 						}
 					}
@@ -12353,7 +12357,7 @@ ret:
 	burn (&VolumePim, sizeof (VolumePim));
 
 	if ((batchResult.Success || ((batchResult.StopReason == MountResultCancelled || batchResult.StopReason == MountResultArrivalPasswordPromptDeclined) && batchResult.MountedAny)) && CloseSecurityTokenSessionsAfterMount)
-		SecurityToken::CloseAllSessions();  // TODO Use Token
+		Token::CloseAllSessions();
 
 	if (batchResult.StopReason == MountResultCancelled)
 		SetLastError (ERROR_CANCELLED);
@@ -12547,7 +12551,7 @@ static void HandleHotKey (HWND hwndDlg, WPARAM wParam)
 		break;
 
 	case HK_CLOSE_SECURITY_TOKEN_SESSIONS:
-		SecurityToken::CloseAllSessions();  // TODO Use Token
+		Token::CloseAllSessions();
 
 		InfoBalloon (NULL, "ALL_TOKEN_SESSIONS_CLOSED", hwndDlg);
 

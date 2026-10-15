@@ -109,6 +109,16 @@ namespace VeraCrypt
 			}		
 		}
 
+		// Callers use the keyfile directly, so any other path is an error.
+		if (!tokenKeyfile)
+			throw InvalidSecurityTokenKeyfilePath();
+
 		return tokenKeyfile;
+	}
+
+	void Token::CloseAllSessions() throw ()
+	{
+		SecurityToken::CloseAllSessions();
+		EMVToken::CloseAllSessions();
 	}
 }

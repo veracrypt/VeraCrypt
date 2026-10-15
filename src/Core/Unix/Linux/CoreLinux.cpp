@@ -1052,7 +1052,10 @@ namespace VeraCrypt
 			|| !xts
 			|| algoNotSupported
 			|| volume->IsEncryptionNotCompleted ()
-			|| volume->GetProtectionType() == VolumeProtection::HiddenVolumeReadOnly)
+			|| volume->GetProtectionType() == VolumeProtection::HiddenVolumeReadOnly
+			// Only the open descriptor gives root access to a requester-backed file:
+			// serve it to the loop device through the FUSE volume image.
+			|| volume->GetFile()->IsRequesterBacked())
 		{
 			throw NotApplicable (SRC_POS);
 		}
