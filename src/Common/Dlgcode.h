@@ -133,7 +133,7 @@ extern int ScreenDPI;
 extern double DlgAspectRatio;
 extern HWND MainDlg;
 extern BOOL Silent;
-extern BOOL ProcessExitsAfterCommand;
+extern BOOL FlushDriveRemovalNotifications;
 extern BOOL bHistory;
 extern BOOL bPreserveTimestamp;
 extern BOOL bShowDisconnectedNetworkDrives;

@@ -6351,12 +6351,9 @@ retry:
 	if (removedDrives)
 		BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, 0, removedDrives);
 
-	/* GH #337, GH #1426: Flush shell notifications synchronously when running
-	   from the command line, to prevent ghost drive letters when the process
-	   exits immediately after dismount. ProcessExitsAfterCommand covers /q,
-	   which is what actually makes the process exit; testing Silent alone
-	   missed "VeraCrypt /d /q" because /q does not imply /s. */
-	if ((Silent || ProcessExitsAfterCommand) && !DeviceChangeBroadcastDisabled)
+	/* GH #337, GH #1426: as in UnmountVolumeBase, send the notifications again
+	   with SHCNF_FLUSH when Silent or FlushDriveRemovalNotifications is set. */
+	if ((Silent || FlushDriveRemovalNotifications) && !DeviceChangeBroadcastDisabled)
 	{
 		for (i = 0; i < 26; i++)
 		{
@@ -8448,6 +8445,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			// Dismount
+			/* With /q, flush the drive removal notifications of this dismount even
+			   without /s (see UnmountVolumeBase). Only for this request: a process
+			   that goes on as the background task doesn't flush later dismounts. */
+			FlushDriveRemovalNotifications = Quit;
 			if (cmdUnmountDrive >= 0)
 			{
 				MOUNT_LIST_STRUCT mountList;
@@ -8469,6 +8470,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (!DismountAll (hwndDlg, bForceUnmount, !Silent, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY))
 					exitCode = 1;
 			}
+			FlushDriveRemovalNotifications = FALSE;
 
 			// TaskBar icon
 			if (bEnableBkgTask)
@@ -10735,7 +10737,6 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 						else if (!_wcsicmp (szTmp, L"preferences"))
 						{
 							Quit = TRUE;
-							ProcessExitsAfterCommand = TRUE;
 							UsePreferences = TRUE;
 							break;
 						}
@@ -10748,7 +10749,6 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					}
 
 					Quit = TRUE;
-					ProcessExitsAfterCommand = TRUE;
 					UsePreferences = FALSE;
 				}
 				break;
