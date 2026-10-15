@@ -7,7 +7,7 @@ Information about Corsican localization:
 
 2. History of Corsican translation for VeraCrypt:
 	- Updated in 2026 by Patriccollu di Santa Maria è Sichè: May 2nd (1.26.28), May 9th (1.26.28), May 13th (1.26.28),
-	          May 27th (1.26.29), June 15th (1.26.30), June 18th (1.26.30), June 22nd (1.26.30), Oct. 13th (1.26.30)
+	          May 27th (1.26.29), June 15th (1.26.30), June 18th (1.26.30), June 22nd (1.26.30), Oct. 15th (1.26.30)
 	- Updated in 2025 by Patriccollu di Santa Maria è Sichè: May 5th (1.26.21), May 25th (1.26.24), June 26th (1.26.27),
 	          Aug. 31st (1.26.27), Sep. 27th (1.26.27)
 	- Updated in 2024 by Patriccollu di Santa Maria è Sichè: Aug. 2nd (1.26.13), Aug. 10th (1.26.13)
@@ -1727,6 +1727,7 @@ Information about Corsican localization:
 	    <entry lang="co" key="VOLUME_DISCOVERY_PARTIAL">Qualchì infurmazione di u vulume hè indispunibule ; prova in corsu…</entry>
 	    <entry lang="co" key="LINUX_ELEVATION_BLOCKED">U lanciadore o l’ambiente di prova attuale impedisce VeraCrypt d’ottene i privileghji d’amministratore (Linux NoNewPrivs).\n\nChjode VeraCrypt è rilanciallu fora di st’ambiente ristrintu. Nant’à NixOS, impiegà u pacchettu VeraCrypt nativu invece di appimage-run.</entry>
 	    <entry lang="co" key="LINUX_REQUESTER_BACKED_VOLUME">VeraCrypt ùn hà micca pussutu apre u schedariu di u vulume cù i privileghji d’amministratore, dunque l’hà apertu cù i diritti d’accessu assuciati à u vostru contu d’utilizatore :\n{0}\n\nMantene muntata a spartera di fonte è a vostra sessione attiva durante a smuntatura di stu vulume VeraCrypt. A scacciatura di a spartera o a scunnessione pò fà perde i vostri dati. Per un impiegu regulare, piazzà u vulume induve VeraCrypt pò aprelu cù i privileghji d’amministratore, per indettu nant’à una spartera muntata cù u cliente CIFS di u nocciulu.</entry>
+	    <entry lang="co" key="PCSC_ERROR">Sbagliu di a carta à stampinu</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
