@@ -234,6 +234,14 @@ ifeq "$(shell uname -s)" "Linux"
 		LFLAGS += -Wl,-z,max-page-size=4096
 	endif
 	
+	# Keep NOAESNI consistent with assembler object selection even with NOSSE2.
+	ifneq (,$(filter x86 x64,$(CPU_ARCH)))
+		ifeq "$(DISABLE_AESNI)" "1"
+			CFLAGS += -mno-aes -DCRYPTOPP_DISABLE_AESNI
+			CXXFLAGS += -mno-aes -DCRYPTOPP_DISABLE_AESNI
+		endif
+	endif
+
 	ifeq "$(SIMD_SUPPORTED)" "1"
 		CFLAGS += -msse2
 		CXXFLAGS += -msse2
@@ -243,10 +251,7 @@ ifeq "$(shell uname -s)" "Linux"
 		GCC_GTEQ_470 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40700)
 		GCC_GTEQ_500 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 50000)
 
-		ifeq "$(DISABLE_AESNI)" "1"
-			CFLAGS += -mno-aes -DCRYPTOPP_DISABLE_AESNI
-			CXXFLAGS += -mno-aes -DCRYPTOPP_DISABLE_AESNI
-		else
+		ifeq "$(DISABLE_AESNI)" "0"
 			ifeq "$(GCC_GTEQ_440)" "1"
 				CFLAGS += -maes
 				CXXFLAGS += -maes
@@ -289,8 +294,8 @@ ifeq "$(shell uname -s)" "Linux"
 	endif
 	
 	ifeq "$(origin NOSSE2)" "command line"
-		CFLAGS += -mno-sse2
-		CXXFLAGS += -mno-sse2
+		CFLAGS += -mno-sse2 -DCRYPTOPP_DISABLE_SHANI
+		CXXFLAGS += -mno-sse2 -DCRYPTOPP_DISABLE_SHANI
 		WXCONFIG_CFLAGS += -mno-sse2
 		WXCONFIG_CXXFLAGS += -mno-sse2
 	endif
@@ -726,6 +731,18 @@ CXXFLAGS :=
 LFLAGS :=
 endif
 
+# The wxWidgets build runs 4 jobs by default, but follows the job count and
+# jobserver of a parent "make -jN" (e.g. a distribution package build).
+# MFLAGS may group single-letter options into one word (GNU make 3.81 gives
+# "-sj" for "-s -j"), so look for "j" in every single-dash option word,
+# skipping the options that take an argument. Some arguments can still look
+# like job flags after MFLAGS is split into words (e.g. -I '/x -project');
+# set WX_MAKE_JOBS explicitly to override that choice.
+# GNU make before 4.2 omits -j1 from MFLAGS; use WX_MAKE_JOBS= to preserve
+# serial execution with those versions instead of falling back to 4 jobs.
+WX_MAKE_OPTS = $(filter-out --% -C% -E% -I% -O% -W% -f% -o%,$(filter -%,$(MFLAGS)))
+WX_MAKE_JOBS = $(if $(findstring j,$(WX_MAKE_OPTS))$(filter --jobserver%,$(MFLAGS)),,-j 4)
+
 wxbuild:
 
 ifneq "$(shell test -f $(WX_ROOT)/configure || test -f $(WX_BUILD_DIR)/../configure && echo 1)" "1"
@@ -746,4 +763,4 @@ endif
 	"$(WX_ROOT)/configure" $(WX_CONFIGURE_FLAGS) $(WX_CONFIGURE_EXTRA_FLAGS) $$WX_CONFIGURE_LEGACY_FLAGS >/dev/null
 
 	@echo Building wxWidgets library...
-	cd "$(WX_BUILD_DIR)" && $(MAKE) -j 4
+	cd "$(WX_BUILD_DIR)" && $(MAKE) $(WX_MAKE_JOBS)

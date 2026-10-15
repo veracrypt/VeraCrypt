@@ -687,6 +687,23 @@ namespace VeraCrypt
 			} while (options->Path.IsEmpty());
 		}
 
+		// Normal file-hosted volumes replace their destination. Require explicit
+		// overwrite authorization, matching the graphical creation wizard.
+		if (options->Type == VolumeType::Normal
+			&& !options->Path.IsDevice()
+			&& FilesystemPath (wstring (options->Path)).IsFile()
+			&& !CmdLine->ArgForce)
+		{
+			wxString confirmMsg = wxString::Format (
+				LangString["OVERWRITEPROMPT"], wstring (options->Path).c_str());
+
+			if (Preferences.NonInteractive)
+				throw_err (confirmMsg);
+
+			if (!AskYesNo (confirmMsg, false, true))
+				throw UserAbort (SRC_POS);
+		}
+
 		if (options->Path.IsDevice())
 		{
 			foreach_ref (const HostDevice &drive, Core->GetHostDevices())
@@ -1269,10 +1286,17 @@ namespace VeraCrypt
         shared_ptr<TokenKeyfile> tokenKeyfile = Token::getTokenKeyfile(keyfilePath);
 
 		vector <uint8> keyfileData;
+		finally_do_arg (
+			vector <uint8> *, &keyfileData,
+			{ if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); }
+		);
+
 		tokenKeyfile->GetKeyfileData (keyfileData);
 
+		if (keyfileData.empty())
+			throw InsufficientData (SRC_POS);
+
 		BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
-		finally_do_arg (BufferPtr, keyfileDataBuf, { finally_arg.Erase(); });
 
 		FilePath exportFilePath = AskFilePath();
 
@@ -1333,13 +1357,20 @@ namespace VeraCrypt
 			File keyfile;
 			keyfile.Open (keyfilePath, File::OpenRead, File::ShareReadWrite, File::PreserveTimestamps);
 
-			if (keyfile.Length() > 0)
+			const uint64 keyfileSize = keyfile.Length();
+			if (keyfileSize > 0)
 			{
-				vector <uint8> keyfileData (keyfile.Length());
+				if (keyfileSize > vector <uint8>().max_size())
+					throw ParameterTooLarge (SRC_POS, FilePath (keyfilePath));
+				vector <uint8> keyfileData (static_cast <size_t> (keyfileSize));
+				finally_do_arg (
+					vector <uint8> *, &keyfileData,
+					{ if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); }
+				);
+
 				BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
 
 				keyfile.ReadCompleteBuffer (keyfileDataBuf);
-				finally_do_arg (BufferPtr, keyfileDataBuf, { finally_arg.Erase(); });
 
 				SecurityToken::CreateKeyfile (slotId, keyfileData, string (FilePath (keyfilePath).ToBaseName()));
 			}
@@ -1508,6 +1539,38 @@ namespace VeraCrypt
 
 		options.EMVSupportEnabled = true;
 
+		bool retryWithCachedPasswords = false;
+		bool autoBackupHeaderUsed = false;
+
+		auto mountWithProtectionRecovery = [&] () -> shared_ptr <VolumeInfo>
+		{
+			// The proxy clears options.Password after a cached attempt, so remember
+			// to reuse the cache while correcting hidden-volume credentials.
+			retryWithCachedPasswords = (!options.Password || options.Password->IsEmpty())
+				&& (!options.Keyfiles || options.Keyfiles->empty())
+				&& !Core->IsPasswordCacheEmpty();
+
+			try
+			{
+				return UserInterface::MountVolume (options);
+			}
+			catch (ProtectionPasswordIncorrect &e)
+			{
+				ShowInfo (e);
+				options.ProtectionPassword.reset();
+				options.ProtectionPim = -1;
+			}
+			catch (ProtectionPasswordKeyfilesIncorrect &e)
+			{
+				ShowInfo (e);
+				options.ProtectionPassword.reset();
+				options.ProtectionPim = -1;
+				options.ProtectionKeyfiles.reset();
+			}
+
+			return shared_ptr <VolumeInfo>();
+		};
+
 		if (tryCachedPasswords
 			&& (!options.Password || options.Password->IsEmpty())
 			&& (!options.Keyfiles || options.Keyfiles->empty())
@@ -1516,29 +1579,35 @@ namespace VeraCrypt
 			// Cached password
 			try
 			{
-				volume = UserInterface::MountVolume (options);
+				volume = mountWithProtectionRecovery();
 			}
-			catch (PasswordException&) { }
+			catch (PasswordException&)
+			{
+				retryWithCachedPasswords = false;
+			}
 		}
 
 		int incorrectPasswordCount = 0;
 
 		while (!volume)
 		{
-			// Password
-			if (!options.Password)
+			if (!retryWithCachedPasswords)
 			{
-				options.Password = AskPassword (StringFormatter (_("Enter password for {0}"), wstring (*options.Path)));
-			}
+				// Password
+				if (!options.Password)
+				{
+					options.Password = AskPassword (StringFormatter (_("Enter password for {0}"), wstring (*options.Path)));
+				}
 
-			if (options.Pim < 0)
-			{
-				options.Pim = AskPim (StringFormatter (_("Enter PIM for {0}"), wstring (*options.Path)));
-			}
+				if (options.Pim < 0)
+				{
+					options.Pim = AskPim (StringFormatter (_("Enter PIM for {0}"), wstring (*options.Path)));
+				}
 
-			// Keyfiles
-			if (!options.Keyfiles)
-				options.Keyfiles = AskKeyfiles();
+				// Keyfiles
+				if (!options.Keyfiles)
+					options.Keyfiles = AskKeyfiles();
+			}
 
 			// Hidden volume protection
 			if (options.Protection == VolumeProtection::None
@@ -1558,32 +1627,35 @@ namespace VeraCrypt
 
 			try
 			{
-				volume = UserInterface::MountVolume (options);
-			}
-			catch (ProtectionPasswordIncorrect &e)
-			{
-				ShowInfo (e);
-				options.ProtectionPassword.reset();
-				options.ProtectionPim = -1;
+				volume = mountWithProtectionRecovery();
 			}
 			catch (PasswordIncorrect &e)
 			{
+				retryWithCachedPasswords = false;
 				if (++incorrectPasswordCount > 2 && !options.UseBackupHeaders)
 				{
 					// Try to mount the volume using the backup header
 					options.UseBackupHeaders = true;
+					autoBackupHeaderUsed = true;
 
 					try
 					{
-						volume = UserInterface::MountVolume (options);
-						ShowWarning ("HEADER_DAMAGED_AUTO_USED_HEADER_BAK");
+						volume = mountWithProtectionRecovery();
 					}
-					catch (...)
+					catch (PasswordException&)
 					{
+						retryWithCachedPasswords = false;
+						autoBackupHeaderUsed = false;
 						options.UseBackupHeaders = false;
 						ShowInfo (e);
 						options.Password.reset();
 						options.Pim = -1;
+					}
+					catch (...)
+					{
+						autoBackupHeaderUsed = false;
+						options.UseBackupHeaders = false;
+						throw;
 					}
 				}
 				else
@@ -1597,10 +1669,14 @@ namespace VeraCrypt
 			}
 			catch (PasswordException &e)
 			{
+				retryWithCachedPasswords = false;
 				ShowInfo (e);
 				options.Password.reset();
 			}
 		}
+
+		if (autoBackupHeaderUsed)
+			ShowWarning ("HEADER_DAMAGED_AUTO_USED_HEADER_BAK");
 
 #ifdef TC_LINUX
 		if (!Preferences.NonInteractive && !Preferences.DisableKernelEncryptionModeWarning

@@ -38,9 +38,9 @@ namespace VeraCrypt
 	{
 	}
 
-	void SystemException::Deserialize (shared_ptr <Stream> stream)
+	void SystemException::DeserializeData (shared_ptr <Stream> stream)
 	{
-		Exception::Deserialize (stream);
+		Exception::DeserializeData (stream);
 		Serializer sr (stream);
 		sr.Deserialize ("ErrorCode", ErrorCode);
 	}
@@ -50,9 +50,9 @@ namespace VeraCrypt
 		return ErrorCode != 0;
 	}
 
-	void SystemException::Serialize (shared_ptr <Stream> stream) const
+	void SystemException::SerializeData (shared_ptr <Stream> stream) const
 	{
-		Exception::Serialize (stream);
+		Exception::SerializeData (stream);
 		Serializer sr (stream);
 		sr.Serialize ("ErrorCode", ErrorCode);
 	}

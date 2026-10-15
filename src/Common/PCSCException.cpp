@@ -99,7 +99,7 @@ namespace VeraCrypt
 		}
 
 		stringstream s;
-		s << "0x" << ErrorCode;
+		s << "0x" << hex << ErrorCode;
 		return s.str();
 	}
 
@@ -122,7 +122,7 @@ namespace VeraCrypt
 					}
 				}
 				wchar_t err[8192];
-				StringCbPrintfW(err, sizeof(err), L"%s:\n\n%hs%s", GetString("PCSC_ERROR"), errorString.c_str());
+				StringCbPrintfW(err, sizeof(err), L"%s:\n\n%hs", GetString("PCSC_ERROR"), errorString.c_str());
 				ErrorDirect(err, parent);
 			}
 			else
@@ -136,18 +136,18 @@ namespace VeraCrypt
 
 #ifdef TC_HEADER_Platform_Exception
 
-	void PCSCException::Deserialize(shared_ptr <Stream> stream)
+	void PCSCException::DeserializeData(shared_ptr <Stream> stream)
 	{
-		Exception::Deserialize(stream);
+		Exception::DeserializeData(stream);
 		Serializer sr(stream);
 		int64 v;
 		sr.Deserialize("ErrorCode", v);
 		ErrorCode = (LONG_PCSC)v;
 	}
 
-	void PCSCException::Serialize(shared_ptr <Stream> stream) const
+	void PCSCException::SerializeData(shared_ptr <Stream> stream) const
 	{
-		Exception::Serialize(stream);
+		Exception::SerializeData(stream);
 		Serializer sr(stream);
 		int64 v = (int64)ErrorCode;
 		sr.Serialize("ErrorCode", v);
@@ -176,17 +176,17 @@ namespace VeraCrypt
 
 #ifdef TC_HEADER_Platform_Exception
 
-	void CommandAPDUNotValid::Deserialize(shared_ptr <Stream> stream)
+	void CommandAPDUNotValid::DeserializeData(shared_ptr <Stream> stream)
 	{
-		Exception::Deserialize(stream);
+		Exception::DeserializeData(stream);
 		Serializer sr(stream);
 		sr.Deserialize("SrcPos", SrcPos);
 		sr.Deserialize("ErrorStr", ErrorStr);
 	}
 
-	void CommandAPDUNotValid::Serialize(shared_ptr <Stream> stream) const
+	void CommandAPDUNotValid::SerializeData(shared_ptr <Stream> stream) const
 	{
-		Exception::Serialize(stream);
+		Exception::SerializeData(stream);
 		Serializer sr(stream);
 		sr.Serialize("SrcPos", SrcPos);
 		sr.Serialize("ErrorStr", ErrorStr);

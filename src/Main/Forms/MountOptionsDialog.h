@@ -24,6 +24,7 @@ namespace VeraCrypt
 	public:
 		MountOptionsDialog (wxWindow* parent, MountOptions &options, const wxString &title = wxEmptyString, bool disableMountOptions = false);
 		void OnShow ();
+		void SetProtectionRecovery (bool recovery);
 		
 #ifdef TC_MACOSX
 		virtual bool ProcessEvent(wxEvent& event);
@@ -47,6 +48,7 @@ namespace VeraCrypt
 #endif
 
 		MountOptions &Options;
+		bool ProtectionRecovery;
 #ifdef TC_UNIX
 		bool m_showRedBorder;
 #endif

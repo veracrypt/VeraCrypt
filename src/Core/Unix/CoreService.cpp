@@ -23,6 +23,13 @@
 #include <sys/wait.h>
 #include <termios.h>
 #include <stdio.h>
+#ifdef TC_LINUX
+#include <sys/prctl.h>
+// Allow builds with headers predating Linux 3.5.
+#ifndef PR_GET_NO_NEW_PRIVS
+#define PR_GET_NO_NEW_PRIVS 39
+#endif
+#endif
 #include "Platform/FileStream.h"
 #include "Platform/MemoryStream.h"
 #include "Platform/Serializable.h"
@@ -188,6 +195,17 @@ namespace VeraCrypt
 		return false;
 	}
 #endif
+
+	static void CheckPrivilegeElevationAllowed ()
+	{
+#ifdef TC_LINUX
+		// NoNewPrivs is inherited across fork/exec and prevents sudo or doas
+		// from gaining privileges. A password cannot remove this restriction.
+		// Older kernels reject the query; let normal elevation handle that case.
+		if (prctl (PR_GET_NO_NEW_PRIVS, 0L, 0L, 0L, 0L) == 1)
+			throw ElevationBlocked (SRC_POS);
+#endif
+	}
 
 	static PrivilegeHelper FindPrivilegeHelper ()
 	{
@@ -574,14 +592,12 @@ namespace VeraCrypt
 		if (errOutput.empty())
 			return;
 
-		unique_ptr <Serializable> deserializedObject;
-		Exception *deserializedException = nullptr;
+		shared_ptr <Exception> deserializedException;
 
 		try
 		{
 			shared_ptr <Stream> stream (new MemoryStream (ConstBufferPtr ((uint8 *) &errOutput[0], errOutput.size())));
-			deserializedObject.reset (Serializable::DeserializeNew (stream));
-			deserializedException = dynamic_cast <Exception*> (deserializedObject.get());
+			deserializedException = Serializable::DeserializeNew <Exception> (stream);
 		}
 		catch (...)	{ }
 
@@ -1076,9 +1092,21 @@ namespace VeraCrypt
 	}
 #endif
 
-	unique_ptr <Serializable> CoreService::GetResponseObject ()
+	template <class T>
+	static bool IsResponseType (const Serializable &object)
 	{
-		unique_ptr <Serializable> deserializedObject (Serializable::DeserializeNew (ServiceOutputStream));
+		return Serializable::IsType <T> (object) || Serializable::IsType <Exception> (object);
+	}
+
+	template <class T>
+	static bool IsInitialResponseType (const Serializable &object)
+	{
+		return IsResponseType <T> (object) || Serializable::IsType <ElevatedServiceStartedResponse> (object);
+	}
+
+	unique_ptr <Serializable> CoreService::GetResponseObject (Serializable::TypeValidator isExpectedType)
+	{
+		unique_ptr <Serializable> deserializedObject (Serializable::DeserializeNew (ServiceOutputStream, isExpectedType));
 
 		Exception *deserializedException = dynamic_cast <Exception*> (deserializedObject.get());
 		if (deserializedException)
@@ -1090,7 +1118,7 @@ namespace VeraCrypt
 	template <class T>
 	unique_ptr <T> CoreService::GetResponse ()
 	{
-		unique_ptr <Serializable> deserializedObject (GetResponseObject());
+		unique_ptr <Serializable> deserializedObject (GetResponseObject (&IsResponseType <T>));
 
 		if (dynamic_cast <T *> (deserializedObject.get()) == nullptr)
 			throw ParameterIncorrect (SRC_POS);
@@ -1206,7 +1234,7 @@ namespace VeraCrypt
 							ElevatedServiceStartedResponse().Serialize (outputStream);
 
 						request->Serialize (ServiceInputStream);
-						GetResponse <Serializable>()->Serialize (outputStream);
+						GetResponse <CoreServiceResponse>()->Serialize (outputStream);
 						continue;
 					}
 
@@ -1309,9 +1337,13 @@ namespace VeraCrypt
 					MountVolumeRequest *mountRequest = dynamic_cast <MountVolumeRequest*> (request.get());
 					if (mountRequest)
 					{
-						MountVolumeResponse (
-							Core->MountVolume (*mountRequest->Options)
-						).Serialize (outputStream);
+						shared_ptr <VolumeInfo> mountedVolume = Core->MountVolume (*mountRequest->Options);
+#ifdef TC_LINUX
+						if (dynamic_cast <MountVolumeRequestV2*> (mountRequest))
+							MountVolumeResponseV2 (mountedVolume).Serialize (outputStream);
+						else
+#endif
+							MountVolumeResponse (mountedVolume).Serialize (outputStream);
 
 						continue;
 					}
@@ -1426,8 +1458,13 @@ namespace VeraCrypt
 
 	shared_ptr <VolumeInfo> CoreService::RequestMountVolume (MountOptions &options)
 	{
+#ifdef TC_LINUX
+		MountVolumeRequestV2 request (&options);
+		return SendRequest <MountVolumeResponseV2> (request)->MountedVolumeInfo;
+#else
 		MountVolumeRequest request (&options);
 		return SendRequest <MountVolumeResponse> (request)->MountedVolumeInfo;
+#endif
 	}
 
 	void CoreService::RequestSetFileOwner (const FilesystemPath &path, const UserId &owner)
@@ -1456,6 +1493,9 @@ namespace VeraCrypt
 			
 			while (!ElevatedServiceAvailable)
 			{
+				// Check before authentication, but allow reuse of an elevated service.
+				CheckPrivilegeElevationAllowed ();
+
 				//	Test if the user has an active privilege helper session.
 				bool authCheckDone = false;
 				bool passwordCollected = false;
@@ -1500,7 +1540,7 @@ namespace VeraCrypt
 				{
 					request.Serialize (ServiceInputStream);
 
-					unique_ptr <Serializable> response (GetResponseObject());
+					unique_ptr <Serializable> response (GetResponseObject (&IsInitialResponseType <T>));
 					if (dynamic_cast <ElevatedServiceStartedResponse *> (response.get()) != nullptr)
 					{
 						// The elevated channel is usable even if the forwarded request fails.
@@ -1570,6 +1610,7 @@ namespace VeraCrypt
 
 	void CoreService::StartElevated (const CoreServiceRequest &request)
 	{
+		CheckPrivilegeElevationAllowed ();
 		PrivilegeHelper privilegeHelper = FindPrivilegeHelper ();
 		int doasAuthTerminal = -1;
 		string doasAuthTerminalPath;

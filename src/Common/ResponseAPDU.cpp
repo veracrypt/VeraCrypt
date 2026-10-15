@@ -1,33 +1,18 @@
 #include "ResponseAPDU.h"
+#include "Tcdefs.h"
+#include <stdexcept>
 #include <string.h>
 
 using namespace std;
 
 namespace VeraCrypt
 {
-	uint16 BytesToUInt16(const vector<uint8>& buff)
-	{
-		uint16 value = 0;
-		for (uint16 i = 0; i < buff.size(); i++)
-		{
-			value <<= 8;
-			value |= (uint16)buff.at(i);
-		}
-
-		return value;
-	}
-
-	void AppendData (vector<uint8>& buffer, const uint8* pbData, size_t cbData)
-	{
-		size_t orgSize = buffer.size ();
-		buffer.resize (orgSize + cbData);
-		memcpy (buffer.data () + orgSize, pbData, cbData);
-	}
-
 	/*********************************************************************************/
 
 	void ResponseAPDU::clear()
 	{
+		if (!m_data.empty())
+			burn(m_data.data(), m_data.size());
 		m_data.clear();
 		m_SW = 0;
 	}
@@ -36,10 +21,28 @@ namespace VeraCrypt
 	{
 	}
 
-	ResponseAPDU::ResponseAPDU(const vector<uint8>& data, uint16 SW)
+	ResponseAPDU::ResponseAPDU(const vector<uint8>& data, uint16 SW) : m_data(data), m_SW(SW)
 	{
-		m_data = data;
-		m_SW = SW;
+	}
+
+	ResponseAPDU::ResponseAPDU(const ResponseAPDU& other) : m_data(other.m_data), m_SW(other.m_SW)
+	{
+	}
+
+	ResponseAPDU& ResponseAPDU::operator=(const ResponseAPDU& other)
+	{
+		if (this != &other)
+		{
+			ResponseAPDU replacement(other);
+			m_data.swap(replacement.m_data);
+			m_SW = other.m_SW;
+		}
+		return *this;
+	}
+
+	ResponseAPDU::~ResponseAPDU()
+	{
+		clear();
 	}
 
 	uint32 ResponseAPDU::getNr()
@@ -47,7 +50,7 @@ namespace VeraCrypt
 		return (uint32)m_data.size();
 	}
 
-	const vector<uint8> ResponseAPDU::getData()
+	const vector<uint8>& ResponseAPDU::getData() const
 	{
 		return m_data;
 	}
@@ -67,13 +70,17 @@ namespace VeraCrypt
 		return m_SW;
 	}
 
-	const vector<uint8> ResponseAPDU::getBytes()
+	vector<uint8> ResponseAPDU::getBytes()
 	{
 		vector<uint8> apdu;
-
-		AppendData(apdu, m_data.data(), m_data.size());
-		apdu.push_back((uint8)getSW1());
-		apdu.push_back((uint8)getSW2());
+		if (m_data.size() > apdu.max_size() - 2)
+			throw length_error("APDU response too large");
+		// Allocate the complete output before copying sensitive data.
+		apdu.resize(m_data.size() + 2);
+		if (!m_data.empty())
+			memcpy(apdu.data(), m_data.data(), m_data.size());
+		apdu[m_data.size()] = (uint8)getSW1();
+		apdu[m_data.size() + 1] = (uint8)getSW2();
 
 		return apdu;
 	}
@@ -85,7 +92,34 @@ namespace VeraCrypt
 
 	void ResponseAPDU::appendData(const uint8* data, size_t dataLen)
 	{
-		AppendData(m_data, data, dataLen);
+		if (dataLen == 0)
+			return;
+		if (dataLen > m_data.max_size() - m_data.size())
+			throw length_error("APDU response too large");
+
+		size_t oldSize = m_data.size();
+		size_t newSize = oldSize + dataLen;
+		if (newSize > m_data.capacity())
+		{
+			// vector growth would otherwise release the previous contents without wiping.
+			vector<uint8> replacement;
+			size_t capacity = m_data.capacity();
+			if (capacity <= m_data.max_size() / 2 && capacity * 2 > newSize)
+				replacement.reserve(capacity * 2);
+			replacement.resize(newSize);
+			if (oldSize > 0)
+				memcpy(replacement.data(), m_data.data(), oldSize);
+			memcpy(replacement.data() + oldSize, data, dataLen);
+			// Copy the appended bytes before erasing, as data may refer to m_data.
+			if (oldSize > 0)
+				burn(m_data.data(), oldSize);
+			m_data.swap(replacement);
+		}
+		else
+		{
+			m_data.resize(newSize);
+			memcpy(m_data.data() + oldSize, data, dataLen);
+		}
 	}
 
 	void ResponseAPDU::setSW(uint16 SW)
@@ -95,17 +129,14 @@ namespace VeraCrypt
 
 	void ResponseAPDU::setBytes(const vector<uint8>& bytes)
 	{
-		clear();
+		ResponseAPDU replacement;
 		if (bytes.size() >= 2)
 		{
-			vector<uint8> SWBytes;
-			m_data.resize(bytes.size() - 2);
-			SWBytes.resize(2);
-
-			memcpy(m_data.data(), bytes.data(), bytes.size() - 2);
-			memcpy(SWBytes.data(), bytes.data() + bytes.size() - 2, 2);
-			m_SW = BytesToUInt16(SWBytes);
+			replacement.appendData(bytes.data(), bytes.size() - 2);
+			replacement.m_SW = (static_cast<uint16>(bytes[bytes.size() - 2]) << 8) | bytes.back();
 		}
+		m_data.swap(replacement.m_data);
+		m_SW = replacement.m_SW;
 	}
 }
 

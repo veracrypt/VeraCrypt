@@ -67,15 +67,18 @@ namespace VeraCrypt
 		Clear();
     }
 
-	EMVCard::EMVCard(const EMVCard& other) :
-			SCard(other),
-			m_aid(other.m_aid),
-			m_supportedAids(other.m_supportedAids),
-			m_iccCert(other.m_iccCert),
-			m_issuerCert(other.m_issuerCert),
-			m_cplcData(other.m_cplcData),
-			m_lastPANDigits(other.m_lastPANDigits)
+	EMVCard::EMVCard(const EMVCard& other) : SCard()
 	{
+		try
+		{
+			*this = other;
+		}
+		catch (...)
+		{
+			// The destructor won't run if copying a later field fails.
+			Clear();
+			throw;
+		}
 	}
 
 	EMVCard::EMVCard(EMVCard&& other) :
@@ -93,6 +96,7 @@ namespace VeraCrypt
 	{
 		if (this != &other)
 		{
+			Clear();
 			SCard::operator=(other);
 			m_aid = other.m_aid;
 			m_supportedAids = other.m_supportedAids;
@@ -108,6 +112,7 @@ namespace VeraCrypt
 	{
 		if (this != &other)
 		{
+			Clear();
 			SCard::operator=(other);
 			m_reader = std::move(other.m_reader);
 			m_aid = std::move(other.m_aid);
@@ -124,9 +129,17 @@ namespace VeraCrypt
 	{
 		m_aid.clear();
 		m_supportedAids.clear();
+		if (!m_iccCert.empty())
+			burn(m_iccCert.data(), m_iccCert.size());
 		m_iccCert.clear();
+		if (!m_issuerCert.empty())
+			burn(m_issuerCert.data(), m_issuerCert.size());
 		m_issuerCert.clear();
+		if (!m_cplcData.empty())
+			burn(m_cplcData.data(), m_cplcData.size());
 		m_cplcData.clear();
+		if (!m_lastPANDigits.empty())
+			burn(&m_lastPANDigits[0], m_lastPANDigits.size() * sizeof(wchar_t));
 		m_lastPANDigits.clear();
 	}
 
@@ -138,7 +151,6 @@ namespace VeraCrypt
 		bool 								hasBeenReset = false;
 		CommandAPDU 						command;
 		ResponseAPDU 						response;
-		vector<uint8> 						responseData;
 		shared_ptr<TLVNode> 				rootNode;
 		shared_ptr<TLVNode> 				fciNode;
 		shared_ptr<TLVNode> 				dfNameNode;
@@ -205,8 +217,7 @@ namespace VeraCrypt
 						}
 						if (response.getSW() == SW_NO_ERROR && response.getData().size() > 0)
 						{
-							responseData = response.getData();
-							rootNode = TLVParser::TLV_Parse(responseData.data(), responseData.size());
+							rootNode = TLVParser::TLV_Parse(response.getData().data(), response.getData().size());
 							fciNode = TLVParser::TLV_Find(rootNode, EMV_FCI_TAG);
 							if (fciNode && fciNode->Subs->size() >= 2)
 							{
@@ -241,18 +252,24 @@ namespace VeraCrypt
 											{
 												sfi = sfiNode->Value->at(0);
 
-												uint8 rec = 1;
-												do
+												// Record numbers 0 and 255 are reserved. Use a wider counter
+												// so a full directory cannot wrap back to the first record.
+												const unsigned int maxDirectoryRecords = 254;
+												// Also bound the total data retained across all short records.
+												size_t remainingDirectoryBytes = maxDirectoryRecords * SCardReader::shortAPDUMaxTransSize;
+												for (unsigned int rec = 1; rec <= maxDirectoryRecords; ++rec)
 												{
-													command = CommandAPDU(CLA_ISO7816, INS_READ_RECORD, rec++, (sfi << 3) | 4, SCardReader::shortAPDUMaxTransSize);
+													command = CommandAPDU(CLA_ISO7816, INS_READ_RECORD, rec, (sfi << 3) | 4, SCardReader::shortAPDUMaxTransSize);
 													m_reader->ApduProcessData(command, response);
 													if (response.getSW() == SW_NO_ERROR && response.getData().size() > 0)
 													{
-														responseData = response.getData();
+														if (response.getData().size() > remainingDirectoryBytes)
+															throw PCSCException(SCARD_E_UNEXPECTED);
+														remainingDirectoryBytes -= response.getData().size();
 
 														try
 														{
-															templateNode = TLVParser::TLV_Parse(responseData.data(), responseData.size());
+															templateNode = TLVParser::TLV_Parse(response.getData().data(), response.getData().size());
 															if (templateNode && templateNode->Tag == EMV_TEMPLATE_TAG && templateNode->Subs->size() >= 1)
 															{
 																for (size_t i = 0; i < templateNode->Subs->size(); i++)
@@ -269,7 +286,11 @@ namespace VeraCrypt
 															continue;
 														}
 													}
-												} while (response.getData().size() > 0);
+													else
+													{
+														break;
+													}
+												}
 											}
 										}
 									}
@@ -329,10 +350,15 @@ namespace VeraCrypt
 		shared_ptr<TLVNode>			issuerPublicKeyCertNode;
 		CommandAPDU					command;
 		ResponseAPDU				response;
-		vector<uint8>				responseData;
 
+		if (!iccCert.empty())
+			burn(iccCert.data(), iccCert.size());
 		iccCert.clear();
+		if (!issuerCert.empty())
+			burn(issuerCert.data(), issuerCert.size());
 		issuerCert.clear();
+		if (!cplcData.empty())
+			burn(cplcData.data(), cplcData.size());
 		cplcData.clear();
 
 		if (m_iccCert.size() && m_issuerCert.size() && m_cplcData.size())
@@ -382,11 +408,9 @@ namespace VeraCrypt
 								m_reader->ApduProcessData(command, response);
 								if (response.getSW() == SW_NO_ERROR && response.getData().size() > 0)
 								{
-									responseData = response.getData();
-
 									try
 									{
-										rootNode = TLVParser::TLV_Parse(responseData.data(), responseData.size());
+										rootNode = TLVParser::TLV_Parse(response.getData().data(), response.getData().size());
 									}
 									catch(TLVException)
 									{
@@ -397,6 +421,8 @@ namespace VeraCrypt
 									if (iccPublicKeyCertNode && iccPublicKeyCertNode->Value->size() > 0)
 									{
 										iccFound = true;
+										if (!iccCert.empty())
+											burn(iccCert.data(), iccCert.size());
 										iccCert = *iccPublicKeyCertNode->Value.get();
 									}
 
@@ -404,6 +430,8 @@ namespace VeraCrypt
 									if (issuerPublicKeyCertNode && issuerPublicKeyCertNode->Value->size() > 0)
 									{
 										issuerFound = true;
+										if (!issuerCert.empty())
+											burn(issuerCert.data(), issuerCert.size());
 										issuerCert = *issuerPublicKeyCertNode->Value.get();
 									}
 								}
@@ -426,8 +454,14 @@ namespace VeraCrypt
 		if (!issuerFound)
 			throw EMVIssuerCertNotFound();
 
+		if (!m_iccCert.empty())
+			burn(m_iccCert.data(), m_iccCert.size());
 		m_iccCert = iccCert;
+		if (!m_issuerCert.empty())
+			burn(m_issuerCert.data(), m_issuerCert.size());
 		m_issuerCert = issuerCert;
+		if (!m_cplcData.empty())
+			burn(m_cplcData.data(), m_cplcData.size());
 		m_cplcData = cplcData;
 	}
 
@@ -437,12 +471,12 @@ namespace VeraCrypt
 		bool						panFound		= false;
 		bool						aidSelected		= false;
 		vector<uint8>				EMVCardAid;
-		vector<uint8>				panData;
+		uint8 panData[2] = { 0 };
+		finally_do_arg (uint8 *, panData, { burn (finally_arg, 2); });
 		shared_ptr<TLVNode>			rootNode;
 		shared_ptr<TLVNode>			panNode;
 		CommandAPDU					command;
 		ResponseAPDU				response;
-		vector<uint8>				responseData;
 
 		lastPANDigits = L"";
 
@@ -482,11 +516,9 @@ namespace VeraCrypt
 							m_reader->ApduProcessData(command, response);
 							if (response.getSW() == SW_NO_ERROR && response.getData().size() > 0)
 							{
-								responseData = response.getData();
-
 								try
 								{
-									rootNode = TLVParser::TLV_Parse(responseData.data(), responseData.size());
+									rootNode = TLVParser::TLV_Parse(response.getData().data(), response.getData().size());
 								}
 								catch(TLVException)
 								{
@@ -497,10 +529,10 @@ namespace VeraCrypt
 								if (panNode && panNode->Value->size() >= 8)
 								{
 									panFound = true;
-									panData = *panNode->Value.get();
-									panData = vector<uint8>(panData.rbegin(), panData.rbegin() + 2); // only interested in last digits
-									std::swap(panData[0], panData[1]);
-									lastPANDigits = ArrayToHexWideString(panData.data(), (int) panData.size());
+									// Only copy the last digits, leaving the full PAN in the wiping TLV node.
+									panData[0] = (*panNode->Value)[panNode->Value->size() - 2];
+									panData[1] = panNode->Value->back();
+									lastPANDigits = ArrayToHexWideString(panData, (int) sizeof(panData));
 								}
 							}
 						}
@@ -509,9 +541,6 @@ namespace VeraCrypt
 			}
 		}
 		
-		if (panData.size())
-			burn(panData.data(), panData.size());
-
 		if (!aidSelected)
 			throw EMVSelectAIDFailed();
 

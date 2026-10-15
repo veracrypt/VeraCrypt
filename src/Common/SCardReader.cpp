@@ -1,5 +1,6 @@
 #include "SCardReader.h"
 #include "PCSCException.h"
+#include "Platform/Finally.h"
 
 #include <locale>
 
@@ -399,7 +400,9 @@ namespace VeraCrypt
 		size_t indexOfLcData = 0;
 
 		vector<uint8> pbSendBuffer;
+		finally_do_arg (vector<uint8> *, &pbSendBuffer, { if (!finally_arg->empty()) burn (finally_arg->data(), finally_arg->size()); });
 		vector<uint8> pbRecvBuffer;
+		finally_do_arg (vector<uint8> *, &pbRecvBuffer, { if (!finally_arg->empty()) burn (finally_arg->data(), finally_arg->size()); });
 		DWORD cbSendLength = 0;
 		DWORD cbRecvLength = 0;
 	
@@ -587,8 +590,18 @@ namespace VeraCrypt
 
 				//	Send get response to get the rest as long as we receive SW == 0x61XX
 				//	In case of PACE, this is never the case
+				//	A GET RESPONSE returns at most 256 bytes and no response exceeds 65536 bytes,
+				//	so stop a card that keeps answering 0x61XX instead of looping without end
+				uint32 getResponseCount = 0;
 				while ((lRet == SCARD_S_SUCCESS) && ((BYTE)(SW >> 8) == (BYTE)(SW_BYTES_REMAINING_00 >> 8))) // 0x61
 				{
+					if (++getResponseCount > extendedAPDUMaxTransSize / shortAPDUMaxTransSize)
+					{
+						responseAPDU.clear();
+						lRet = SCARD_E_UNEXPECTED;
+						break;
+					}
+
 					//	GET RESPONSE APDU
 					pbSendBuffer[0] = commandAPDU.getCLA();
 					pbSendBuffer[1] = INS_GET_RESPONSE;
@@ -638,9 +651,6 @@ namespace VeraCrypt
 		}
 
 	end:
-
-		burn(pbSendBuffer.data(), pbSendBuffer.size());
-		burn(pbRecvBuffer.data(), pbRecvBuffer.size());
 
 		if (lRet != SCARD_S_SUCCESS)
 			throw PCSCException(lRet);

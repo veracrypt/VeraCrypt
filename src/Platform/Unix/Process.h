@@ -34,6 +34,12 @@ namespace VeraCrypt
 		static bool IsExecutable(const std::string& path);
 		static std::string FindSystemBinary(const char* name, std::string& errorMsg);
 		static string Execute (const string &processName, const list <string> &arguments, int timeOut = -1, ProcessExecFunctor *execFunctor = nullptr, const Buffer *inputData = nullptr);
+#ifdef TC_MACOSX
+		static uint64 GetProcessStartTime (pid_t processId);
+		static bool IsProcessRunning (pid_t processId, uint64 expectedStartTime = 0);
+		// For read-only discovery only: a deadline aborts and reaps the child.
+		static string ExecuteBounded (const string &processName, const list <string> &arguments, int timeOut, size_t outputLimit = 16 * 1024 * 1024);
+#endif
 #if defined(TC_LINUX)
 		static bool IsRunningUnderAppImage (const string &executablePath);
 #endif

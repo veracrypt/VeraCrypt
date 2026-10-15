@@ -7,9 +7,13 @@ namespace VeraCrypt
 
 	SCardManager::SCardManager()
 	{
-#ifndef TC_OPENBSD
-		loader->Initialize();
-#endif
+		// The PC/SC library is loaded lazily on first use (see GetReaders/GetReader).
+		// SCardManager instances are static objects, so initializing here would run
+		// before main(). On macOS, establishing a PC/SC context opens an XPC connection,
+		// which starts a helper thread and marks libdispatch as fork-unsafe. The core
+		// service fork() would then happen in a multithreaded process, and the FUSE
+		// service (which libfuse runs after fork() without exec()) would inherit
+		// poisoned dispatch queues and armed Objective-C fork-safety checks.
 	}
 
 	SCardManager::~SCardManager()
@@ -27,6 +31,8 @@ namespace VeraCrypt
 		DWORD dwReaders = 0;
 		SCARDCONTEXT hScardContext = 0;
 		LONG lRet = SCARD_S_SUCCESS;
+
+		loader->Initialize();
 
 		hScardContext = loader->GetSCardContext();
 		lRet = loader->SCardIsValidContext(hScardContext);

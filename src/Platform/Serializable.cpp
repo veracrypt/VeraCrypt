@@ -10,30 +10,42 @@
  code distribution packages.
 */
 
+#include "Exception.h"
 #include "Serializable.h"
 #include "SerializerFactory.h"
 
 namespace VeraCrypt
 {
+	void Serializable::Deserialize (shared_ptr <Stream> stream)
+	{
+		SerializationScope scope (stream);
+		DeserializeData (stream);
+	}
+
 	string Serializable::DeserializeHeader (shared_ptr <Stream> stream)
 	{
 		Serializer sr (stream);
 		return sr.DeserializeString ("SerializableName");
 	}
 
-	Serializable *Serializable::DeserializeNew (shared_ptr <Stream> stream)
+	Serializable *Serializable::DeserializeNew (shared_ptr <Stream> stream, TypeValidator isExpectedType)
 	{
 		string name = Serializable::DeserializeHeader (stream);
-		Serializable *serializable = SerializerFactory::GetNewSerializable (name);
+		unique_ptr <Serializable> serializable (SerializerFactory::GetNewSerializable (name));
+		// Allow legitimate subtypes, but never run an unexpected object's parser.
+		if (isExpectedType && !isExpectedType (*serializable))
+			throw ParameterIncorrect (SRC_POS);
 		serializable->Deserialize (stream);
 
-		return serializable;
+		return serializable.release();
 	}
 
 	void Serializable::Serialize (shared_ptr <Stream> stream) const
 	{
+		SerializationScope scope (stream);
 		Serializer sr (stream);
 		Serializable::SerializeHeader (sr, SerializerFactory::GetName (typeid (*this)));
+		SerializeData (stream);
 	}
 
 	void Serializable::SerializeHeader (Serializer &serializer, const string &name)

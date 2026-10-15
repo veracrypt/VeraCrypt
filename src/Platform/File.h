@@ -18,6 +18,10 @@
 #include "FilesystemPath.h"
 #include "SystemException.h"
 
+#ifdef TC_LINUX
+#define TC_REQUESTER_HELPER_CMDLINE_OPTION "--requester-helper"
+#endif
+
 namespace VeraCrypt
 {
 	class File
@@ -45,7 +49,10 @@ namespace VeraCrypt
 			// Bitmap
 			FlagsNone = 0,
 			PreserveTimestamps = 1 << 0,
-			DisableWriteCaching = 1 << 1
+			DisableWriteCaching = 1 << 1,
+			// Linux: when root is denied access to an existing file, open it with
+			// the credentials of the user who requested elevation.
+			AllowRequesterAccess = 1 << 2
 		};
 
 #ifdef TC_WINDOWS
@@ -79,6 +86,15 @@ namespace VeraCrypt
 		static size_t GetOptimalWriteSize ()  { return OptimalWriteSize; }
 		uint64 GetPartitionDeviceStartOffset () const;
 		bool IsOpen () const { return FileIsOpen; }
+#ifdef TC_LINUX
+		// Internal, freshly executed process; called before core/UI initialization.
+		static int RunRequesterHelperService (const char *socketDescriptor);
+		// The descriptor was opened with the requester's credentials (AllowRequesterAccess).
+		bool IsRequesterBacked () const { return RequesterBacked; }
+		// For copies held by processes that do not serve the volume: release the
+		// descriptor without restoring timestamps through a requester process.
+		void SetReleaseOnly () { ReleaseOnly = true; }
+#endif
 		FilePath GetPath () const;
 		uint64 Length () const;
 		void Open (const FilePath &path, FileOpenMode mode = OpenRead, FileShareMode shareMode = ShareReadWrite, FileOpenFlags flags = FlagsNone);
@@ -87,6 +103,9 @@ namespace VeraCrypt
 		uint64 ReadAt (const BufferPtr &buffer, uint64 position) const;
 		void SeekAt (uint64 position) const;
 		void SeekEnd (int ofset) const;
+#ifndef TC_WINDOWS
+		void SetCloseOnExec () const;
+#endif
 		void SetLength (uint64 length) const;
 		void Write (const ConstBufferPtr &buffer) const;
 		void Write (const ConstBufferPtr &buffer, size_t length) const { Write (buffer.GetRange (0, length)); }
@@ -108,6 +127,15 @@ namespace VeraCrypt
 #else
 		time_t AccTime;
 		time_t ModTime;
+#endif
+#ifdef TC_LINUX
+		bool OpenAsRequester (const FilePath &path, int sysFlags);
+		void RestoreTimestampsAsRequester () const;
+
+		bool RequesterBacked = false;
+		bool ReleaseOnly = false;
+		uid_t RequesterUserId = 0;
+		gid_t RequesterGroupId = 0;
 #endif
 
 	private:

@@ -46,6 +46,7 @@ namespace VeraCrypt
 	TC_EXCEPTION_NODECL (RootDeviceUnavailable); \
 	TC_EXCEPTION (DriveLetterUnavailable); \
 	TC_EXCEPTION (DriverError); \
+	TC_EXCEPTION (ElevationBlocked); \
 	TC_EXCEPTION (EncryptedSystemRequired); \
 	TC_EXCEPTION (HigherFuseVersionRequired); \
 	TC_EXCEPTION (KernelCryptoServiceTestFailed); \
@@ -53,6 +54,11 @@ namespace VeraCrypt
 	TC_EXCEPTION (LoopDeviceSetupFailed); \
 	TC_EXCEPTION (MountPointRequired); \
 	TC_EXCEPTION (MountPointUnavailable); \
+	TC_EXCEPTION (MountServiceIncompatible); \
+	TC_EXCEPTION (MountServiceCleanupFailed); \
+	TC_EXCEPTION (DismountServiceCleanupFailed); \
+	TC_EXCEPTION (MountServiceUnavailable); \
+	TC_EXCEPTION (VolumeDiscoveryFailed); \
 	TC_EXCEPTION (NoDriveLetterAvailable); \
 	TC_EXCEPTION (TemporaryDirectoryFailure); \
 	TC_EXCEPTION (UnsupportedSectorSizeHiddenVolumeProtection); \

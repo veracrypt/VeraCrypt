@@ -18,6 +18,9 @@
 #include "Main.h"
 #include "UserInterface.h"
 #include "Forms/WaitDialog.h"
+#ifdef TC_MACOSX
+#include <wx/weakref.h>
+#endif
 
 namespace VeraCrypt
 {
@@ -97,6 +100,13 @@ namespace VeraCrypt
 		virtual void UserEnrichRandomPool (wxWindow *parent, shared_ptr <Hash> hash = shared_ptr <Hash>()) const;
 		virtual void Yield () const;
 		virtual shared_ptr <VolumeInfo> MountVolumeThread (MountOptions &options) const;
+#ifdef TC_MACOSX
+		virtual shared_ptr <VolumeInfo> DismountVolumeThread (shared_ptr <VolumeInfo> volume, bool ignoreOpenFiles, bool interactive = true) const;
+		virtual void DismountAllVolumes (bool ignoreOpenFiles = false, bool interactive = true) const;
+		bool HasUnconfirmedCleanupWarnings () const { return !mUnconfirmedCleanupWarnings.empty(); }
+		void ShowUnconfirmedCleanupWarnings () const;
+#endif
+		VolumeInfoList GetMountedVolumesForUI () const;
 		WaitDialog* GetWaitDialog () { return mWaitDialog; }
 		void ExecuteWaitThreadRoutine (wxWindow *parent, WaitThreadRoutine *pRoutine) const;
 
@@ -120,12 +130,17 @@ namespace VeraCrypt
 		Event OpenVolumeSystemRequestEvent;
 
 	protected:
+		virtual shared_ptr <VolumeInfo> MountVolumeWithProtectionRecovery (MountOptions &options, const PasswordException &protectionError) const;
 		virtual void OnEndSession (wxCloseEvent& event) { OnLogOff(); }
 #ifdef wxHAS_POWER_EVENTS
 		virtual void OnPowerSuspending (wxPowerEvent& event);
 #endif
 		static void OnSignal (int signal);
 		virtual void OnVolumesAutoDismounted ();
+#ifdef TC_MACOSX
+		VolumeInfoList GetVolumesForAutoDismount () const;
+		void ReportUnconfirmedCleanup (const exception &e) const;
+#endif
 		virtual int ShowMessage (const wxString &message, long style, bool topMost = false) const;
 		void ThrowTextModeRequired () const;
 
@@ -134,10 +149,18 @@ namespace VeraCrypt
 #ifdef TC_WINDOWS
 		unique_ptr <wxDDEServer> DDEServer;
 #endif
+#ifdef TC_MACOSX
+		wxWeakRef <wxFrame> mMainFrame;
+#else
 		wxFrame *mMainFrame;
+#endif
 		unique_ptr <wxSingleInstanceChecker> SingleInstanceChecker;
 
 		mutable WaitDialog* mWaitDialog;
+#ifdef TC_MACOSX
+		mutable list <wxString> mUnconfirmedCleanupWarnings;
+		mutable bool mShowingCleanupWarning;
+#endif
 public:	
 #ifdef TC_MACOSX
 		static int g_customIdCmdV;
@@ -145,6 +168,7 @@ public:
 #endif
 
 	private:
+		shared_ptr <VolumeInfo> MountVolumeInternal (MountOptions &options, bool tryCachedPasswords, bool protectionRecovery) const;
 		GraphicUserInterface (const GraphicUserInterface &);
 		GraphicUserInterface &operator= (const GraphicUserInterface &);
 	};

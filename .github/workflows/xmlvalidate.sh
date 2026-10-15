@@ -116,18 +116,16 @@ for file in "${FILES_TO_PROCESS[@]}"; do
     # 1. Validate XML using fxparser
     log_detail "Validating XML structure..."
     # Capture stdout and stderr, get exit code
-    FXPARSER_OUTPUT=$(fxparser -V "$file" 2>&1)
-    FXPARSER_EXIT_CODE=$?
-
-    if [ "$FXPARSER_EXIT_CODE" -ne 0 ]; then
+    if FXPARSER_OUTPUT=$(fxparser -V "$file" 2>&1); then
+        log_detail_success "XML structure is valid."
+    else
+        FXPARSER_EXIT_CODE=$?
         CURRENT_FILE_PASSES=false
         FAIL_FLAG=true
         log_detail_error "XML Validation Failed for $file (fxparser exit code: $FXPARSER_EXIT_CODE):"
         while IFS= read -r line; do
             log_detail_error "    $line"
         done <<< "$FXPARSER_OUTPUT"
-    else
-        log_detail_success "XML structure is valid."
     fi
 
     # 2. Check for invalid backslash escape sequences
@@ -165,7 +163,7 @@ for file in "${FILES_TO_PROCESS[@]}"; do
                 log_detail_error "Key '$key_entry' (from $COMMON_FILE) not found in $file"
                 CURRENT_FILE_PASSES=false
                 FAIL_FLAG=true
-                ((KEYS_MISSING_IN_CURRENT_FILE++))
+                KEYS_MISSING_IN_CURRENT_FILE=$((KEYS_MISSING_IN_CURRENT_FILE + 1))
             fi
         done
         if [ "$KEYS_MISSING_IN_CURRENT_FILE" -eq 0 ]; then

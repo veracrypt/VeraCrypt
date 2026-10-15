@@ -254,6 +254,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 			{
 				// Apply security token keyfile
 				vector <uint8> keyfileData;
+				finally_do_arg (vector <uint8> *, &keyfileData, { if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); });
 				TokenKeyfilePath secPath (kf->FileName);
 				Token::getTokenKeyfile (secPath)->GetKeyfileData (keyfileData);
 
@@ -286,7 +287,6 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 						break;
 				}
 
-				burn (&keyfileData.front(), keyfileData.size());
 				continue;
 			}
 		}

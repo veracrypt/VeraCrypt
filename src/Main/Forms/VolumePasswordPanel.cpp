@@ -401,16 +401,18 @@ namespace VeraCrypt
 		}
 	}
 
-	void VolumePasswordPanel::OnDisplayPasswordCheckBoxClick (wxCommandEvent& event)
+	void VolumePasswordPanel::SetPasswordVisible (bool visible)
 	{
+		DisplayPasswordCheckBox->SetValue (visible);
+
 		if (PasswordTextCtrl->IsShown())
-			DisplayPassword (event.IsChecked(), &PasswordTextCtrl, 1);
+			DisplayPassword (visible, &PasswordTextCtrl, 1);
 
 		if (ConfirmPasswordTextCtrl->IsShown())
-			DisplayPassword (event.IsChecked(), &ConfirmPasswordTextCtrl, 2);
+			DisplayPassword (visible, &ConfirmPasswordTextCtrl, 2);
 
 		if (VolumePimTextCtrl->IsShown())
-			DisplayPassword (event.IsChecked(), &VolumePimTextCtrl, 3);
+			DisplayPassword (visible, &VolumePimTextCtrl, 3);
 
 		OnUpdate();
 	}

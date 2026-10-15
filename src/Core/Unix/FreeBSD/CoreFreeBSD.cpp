@@ -153,7 +153,12 @@ namespace VeraCrypt
 	MountedFilesystemList CoreFreeBSD::GetMountedFilesystems (const DevicePath &devicePath, const DirectoryPath &mountPoint) const
 	{
 
+#ifdef TC_MACOSX
+		// A detached discovery worker can finish during static teardown.
+		static Mutex &mutex = *new Mutex;
+#else
 		static Mutex mutex;
+#endif
 		ScopeLock sl (mutex);
 
 		struct statfs *sysMountList;
@@ -175,6 +180,11 @@ namespace VeraCrypt
 				mf->MountPoint = DirectoryPath (sysMountList[i].f_mntonname);
 
 			mf->Type = sysMountList[i].f_fstypename;
+#ifdef TC_MACOSX
+			mf->Owner = sysMountList[i].f_owner;
+			mf->MountId[0] = sysMountList[i].f_fsid.val[0];
+			mf->MountId[1] = sysMountList[i].f_fsid.val[1];
+#endif
 
 			if ((devicePath.IsEmpty() || devicePath == mf->Device) && (mountPoint.IsEmpty() || mountPoint == mf->MountPoint))
 				mountedFilesystems.push_back (mf);

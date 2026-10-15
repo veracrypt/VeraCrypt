@@ -30,6 +30,12 @@ using namespace VeraCrypt;
 
 int main (int argc, char **argv)
 {
+#ifdef TC_LINUX
+	// The requester helper must never initialize a core service or handle secrets.
+	if (argc > 1 && strcmp (argv[1], TC_REQUESTER_HELPER_CMDLINE_OPTION) == 0)
+		return argc == 3 ? File::RunRequesterHelperService (argv[2]) : 1;
+#endif
+
 	try
 	{
 		// Make sure all required commands can be executed via default search path
