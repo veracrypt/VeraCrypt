@@ -1705,6 +1705,7 @@
     <entry lang="sv" key="VOLUME_DISCOVERY_PARTIAL">Viss volyminformation saknas; försöker igen…</entry>
     <entry lang="sv" key="LINUX_ELEVATION_BLOCKED">Den aktuella programstartaren eller sandlådan hindrar VeraCrypt från att få administratörsbehörighet (Linux NoNewPrivs).\n\nStäng VeraCrypt och starta det utanför den här begränsade miljön. På NixOS ska du använda VeraCrypt-paketet för NixOS i stället för appimage-run.</entry>
     <entry lang="sv" key="LINUX_REQUESTER_BACKED_VOLUME">VeraCrypt kunde inte öppna volymfilen med administratörsbehörighet och öppnade därför filen med ditt användarkontos åtkomsträttigheter:\n{0}\n\nLåt den nätverksresurs där filen finns vara monterad och håll din användarsession aktiv tills den här VeraCrypt-volymen har demonterats. Om du kopplar från nätverksresursen eller loggar ut kan data gå förlorade. Vid regelbunden användning bör du lagra volymen på en plats där VeraCrypt kan öppna den med administratörsbehörighet, till exempel på en nätverksresurs som monterats med kärnans CIFS-klient.</entry>
+    <entry lang="en" key="PCSC_ERROR">Smart card error</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

@@ -99,7 +99,7 @@ namespace VeraCrypt
 		}
 
 		stringstream s;
-		s << "0x" << ErrorCode;
+		s << "0x" << hex << ErrorCode;
 		return s.str();
 	}
 
@@ -122,7 +122,7 @@ namespace VeraCrypt
 					}
 				}
 				wchar_t err[8192];
-				StringCbPrintfW(err, sizeof(err), L"%s:\n\n%hs%s", GetString("PCSC_ERROR"), errorString.c_str());
+				StringCbPrintfW(err, sizeof(err), L"%s:\n\n%hs", GetString("PCSC_ERROR"), errorString.c_str());
 				ErrorDirect(err, parent);
 			}
 			else
