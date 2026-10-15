@@ -252,13 +252,21 @@ namespace VeraCrypt
 											{
 												sfi = sfiNode->Value->at(0);
 
-												uint8 rec = 1;
-												do
+												// Record numbers 0 and 255 are reserved. Use a wider counter
+												// so a full directory cannot wrap back to the first record.
+												const unsigned int maxDirectoryRecords = 254;
+												// Also bound the total data retained across all short records.
+												size_t remainingDirectoryBytes = maxDirectoryRecords * SCardReader::shortAPDUMaxTransSize;
+												for (unsigned int rec = 1; rec <= maxDirectoryRecords; ++rec)
 												{
-													command = CommandAPDU(CLA_ISO7816, INS_READ_RECORD, rec++, (sfi << 3) | 4, SCardReader::shortAPDUMaxTransSize);
+													command = CommandAPDU(CLA_ISO7816, INS_READ_RECORD, rec, (sfi << 3) | 4, SCardReader::shortAPDUMaxTransSize);
 													m_reader->ApduProcessData(command, response);
 													if (response.getSW() == SW_NO_ERROR && response.getData().size() > 0)
 													{
+														if (response.getData().size() > remainingDirectoryBytes)
+															throw PCSCException(SCARD_E_UNEXPECTED);
+														remainingDirectoryBytes -= response.getData().size();
+
 														try
 														{
 															templateNode = TLVParser::TLV_Parse(response.getData().data(), response.getData().size());
@@ -278,7 +286,11 @@ namespace VeraCrypt
 															continue;
 														}
 													}
-												} while (response.getData().size() > 0);
+													else
+													{
+														break;
+													}
+												}
 											}
 										}
 									}

@@ -590,8 +590,18 @@ namespace VeraCrypt
 
 				//	Send get response to get the rest as long as we receive SW == 0x61XX
 				//	In case of PACE, this is never the case
+				//	A GET RESPONSE returns at most 256 bytes and no response exceeds 65536 bytes,
+				//	so stop a card that keeps answering 0x61XX instead of looping without end
+				uint32 getResponseCount = 0;
 				while ((lRet == SCARD_S_SUCCESS) && ((BYTE)(SW >> 8) == (BYTE)(SW_BYTES_REMAINING_00 >> 8))) // 0x61
 				{
+					if (++getResponseCount > extendedAPDUMaxTransSize / shortAPDUMaxTransSize)
+					{
+						responseAPDU.clear();
+						lRet = SCARD_E_UNEXPECTED;
+						break;
+					}
+
 					//	GET RESPONSE APDU
 					pbSendBuffer[0] = commandAPDU.getCLA();
 					pbSendBuffer[1] = INS_GET_RESPONSE;
