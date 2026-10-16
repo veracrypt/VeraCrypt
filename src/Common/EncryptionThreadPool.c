@@ -131,6 +131,8 @@ static TC_MUTEX DequeueMutex;
 static TC_EVENT WorkItemReadyEvent;
 static TC_EVENT WorkItemCompletedEvent;
 
+static void EncryptionThreadPoolCleanup (void);
+
 void EncryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci)
 {
 	if (IsRamEncryptionEnabled())
@@ -379,11 +381,11 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 #else
 	WorkItemReadyEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 	if (!WorkItemReadyEvent)
-		return FALSE;
+		goto err;
 
 	WorkItemCompletedEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 	if (!WorkItemCompletedEvent)
-		return FALSE;
+		goto err;
 #endif
 
 #ifdef DEVICE_DRIVER
@@ -392,11 +394,11 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 #else
 	DequeueMutex = CreateMutex (NULL, FALSE, NULL);
 	if (!DequeueMutex)
-		return FALSE;
+		goto err;
 
 	EnqueueMutex = CreateMutex (NULL, FALSE, NULL);
 	if (!EnqueueMutex)
-		return FALSE;
+		goto err;
 #endif
 
 	memset (WorkItemQueue, 0, sizeof (WorkItemQueue));
@@ -410,10 +412,7 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 #else
 		WorkItemQueue[i].ItemCompletedEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 		if (!WorkItemQueue[i].ItemCompletedEvent)
-		{
-			EncryptionThreadPoolStop();
-			return FALSE;
-		}
+			goto err;
 #endif
 	}
 
@@ -454,25 +453,36 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 #endif
 
 		{
-			EncryptionThreadPoolStop();
-			return FALSE;
+			goto err;
 		}
 	}
 
 	ThreadPoolRunning = TRUE;
 	return TRUE;
+
+err:
+	EncryptionThreadPoolCleanup();
+	return FALSE;
 }
 
 
 void EncryptionThreadPoolStop ()
 {
-	size_t i;
-
 	if (!ThreadPoolRunning)
 		return;
 
+	EncryptionThreadPoolCleanup();
+}
+
+
+// Also used before ThreadPoolRunning is published if startup fails partway through.
+static void EncryptionThreadPoolCleanup (void)
+{
+	size_t i;
+
 	StopPending = TRUE;
-	TC_SET_EVENT (WorkItemReadyEvent);
+	if (ThreadCount > 0)
+		TC_SET_EVENT (WorkItemReadyEvent);
 
 	for (i = 0; i < ThreadCount; ++i)
 	{
@@ -480,22 +490,33 @@ void EncryptionThreadPoolStop ()
 		TCStopThread (ThreadHandles[i], &WorkItemReadyEvent);
 #else
 		TC_WAIT_EVENT (ThreadHandles[i]);
+		CloseHandle (ThreadHandles[i]);
 #endif
+		ThreadHandles[i] = NULL;
 	}
 
 	ThreadCount = 0;
 
 #ifndef DEVICE_DRIVER
-	CloseHandle (DequeueMutex);
-	CloseHandle (EnqueueMutex);
+	if (DequeueMutex)
+		CloseHandle (DequeueMutex);
+	DequeueMutex = NULL;
+	if (EnqueueMutex)
+		CloseHandle (EnqueueMutex);
+	EnqueueMutex = NULL;
 
-	CloseHandle (WorkItemReadyEvent);
-	CloseHandle (WorkItemCompletedEvent);
+	if (WorkItemReadyEvent)
+		CloseHandle (WorkItemReadyEvent);
+	WorkItemReadyEvent = NULL;
+	if (WorkItemCompletedEvent)
+		CloseHandle (WorkItemCompletedEvent);
+	WorkItemCompletedEvent = NULL;
 
 	for (i = 0; i < sizeof (WorkItemQueue) / sizeof (WorkItemQueue[0]); ++i)
 	{
 		if (WorkItemQueue[i].ItemCompletedEvent)
 			CloseHandle (WorkItemQueue[i].ItemCompletedEvent);
+		WorkItemQueue[i].ItemCompletedEvent = NULL;
 	}
 #endif
 

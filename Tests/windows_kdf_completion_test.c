@@ -4,14 +4,27 @@
  */
 #include "Common/EncryptionThreadPool.h"
 #include "Common/Pkcs5.h"
+#include <process.h>
 #include <stdio.h>
 
 static BOOL TestSetEvent (HANDLE event);
 static DWORD TestWait (HANDLE event);
+static HANDLE WINAPI TestCreateEvent (LPSECURITY_ATTRIBUTES attributes, BOOL manualReset, BOOL initialState, LPCWSTR name);
+static HANDLE WINAPI TestCreateMutex (LPSECURITY_ATTRIBUTES attributes, BOOL initialOwner, LPCWSTR name);
+static uintptr_t TestBeginThread (void *security, unsigned stackSize, unsigned (__stdcall *proc) (void *), void *arg, unsigned flags, unsigned *id);
+static BOOL WINAPI TestCloseHandle (HANDLE handle);
 #undef TC_WAIT_EVENT
 #define TC_WAIT_EVENT(event) TestWait (event)
 #define SetEvent TestSetEvent
+#define CreateEventW TestCreateEvent
+#define CreateMutexW TestCreateMutex
+#define _beginthreadex TestBeginThread
+#define CloseHandle TestCloseHandle
 #include "Common/EncryptionThreadPool.c"
+#undef CloseHandle
+#undef _beginthreadex
+#undef CreateMutexW
+#undef CreateEventW
 #undef SetEvent
 #include "kdf_item.inc"
 
@@ -46,6 +59,14 @@ static int RequestCount;
 static __declspec(thread) Job *CurrentJob;
 static __declspec(thread) Request *DrainingRequest;
 
+typedef struct
+{
+    HANDLE Handle;
+    BOOL Thread, Open;
+} PoolResource;
+static PoolResource Resources[1024];
+static int ResourceCount, OpenResources, CreateAttempts, FailCreateAt;
+
 static void Require (BOOL condition, const char *message)
 {
     if (!condition)
@@ -53,6 +74,66 @@ static void Require (BOOL condition, const char *message)
         fprintf (stderr, "FAIL: %s\n", message);
         ExitProcess (1);
     }
+}
+
+static BOOL FailCreation (void)
+{
+    if (++CreateAttempts == FailCreateAt)
+    {
+        SetLastError (ERROR_NOT_ENOUGH_MEMORY);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+static HANDLE TrackResource (HANDLE handle, BOOL thread)
+{
+    if (handle)
+    {
+        PoolResource *resource;
+        Require (ResourceCount < sizeof (Resources) / sizeof (Resources[0]), "resource fixture capacity");
+        resource = &Resources[ResourceCount++];
+        resource->Handle = handle;
+        resource->Thread = thread;
+        resource->Open = TRUE;
+        ++OpenResources;
+    }
+    return handle;
+}
+
+static HANDLE WINAPI TestCreateEvent (LPSECURITY_ATTRIBUTES attributes, BOOL manualReset, BOOL initialState, LPCWSTR name)
+{
+    return FailCreation () ? NULL : TrackResource (CreateEventW (attributes, manualReset, initialState, name), FALSE);
+}
+
+static HANDLE WINAPI TestCreateMutex (LPSECURITY_ATTRIBUTES attributes, BOOL initialOwner, LPCWSTR name)
+{
+    return FailCreation () ? NULL : TrackResource (CreateMutexW (attributes, initialOwner, name), FALSE);
+}
+
+static uintptr_t TestBeginThread (void *security, unsigned stackSize, unsigned (__stdcall *proc) (void *), void *arg, unsigned flags, unsigned *id)
+{
+    return FailCreation () ? 0 : (uintptr_t) TrackResource ((HANDLE) _beginthreadex (security, stackSize, proc, arg, flags, id), TRUE);
+}
+
+static BOOL WINAPI TestCloseHandle (HANDLE handle)
+{
+    int i;
+    for (i = ResourceCount - 1; i >= 0; --i)
+    {
+        PoolResource *resource = &Resources[i];
+        if (resource->Open && resource->Handle == handle)
+        {
+            if (resource->Thread)
+                Require (WaitForSingleObject (handle, 0) == WAIT_OBJECT_0, "worker handle closed before join");
+            resource->Open = FALSE;
+            --OpenResources;
+            Require (CloseHandle (handle), "close pool resource");
+            return TRUE;
+        }
+    }
+    Require (FALSE, "closing unknown pool resource");
+    return FALSE;
 }
 
 static HANDLE Event (void)
@@ -285,6 +366,34 @@ static void PublicationBoundaries (void)
     JobDone (job);
 }
 
+static void ResetResources (int failurePoint)
+{
+    Require (OpenResources == 0, "pool resources leaked");
+    ResourceCount = CreateAttempts = 0;
+    FailCreateAt = failurePoint;
+}
+
+static void StartupFailures (size_t available)
+{
+    int i, creationCount;
+    Require (EncryptionThreadPoolStart (available - 2), "start baseline pool");
+    creationCount = CreateAttempts;
+    EncryptionThreadPoolStop ();
+    ResetResources (0);
+    for (i = 1; i <= creationCount; ++i)
+    {
+        ResetResources (i);
+        Require (!EncryptionThreadPoolStart (available - 2), "injected startup failure accepted");
+        Require (!IsEncryptionThreadPoolRunning () && GetEncryptionThreadCount () == 0, "failed pool published");
+        EncryptionThreadPoolStop ();
+        ResetResources (0);
+        Require (EncryptionThreadPoolStart (available - 2), "restart after failure");
+        EncryptionThreadPoolStop ();
+    }
+    ResetResources (0);
+    printf ("PASS: %d startup failure points, each followed by a successful restart\n", creationCount);
+}
+
 int main (int argc, char **argv)
 {
     WORD groups;
@@ -292,6 +401,11 @@ int main (int argc, char **argv)
     size_t wanted = argc > 1 ? (size_t) atoi (argv[1]) : 2;
     int i, j;
     if (available < 2) { puts ("SKIP: at least two logical CPUs required"); return 0; }
+    if (argc > 1 && strcmp (argv[1], "startup") == 0)
+    {
+        StartupFailures (available);
+        return 0;
+    }
     if (wanted > available) wanted = available;
     Require (EncryptionThreadPoolStart (available - wanted), "start production pool");
     Require (GetEncryptionThreadCount () == wanted, "pool worker count");
@@ -303,6 +417,7 @@ int main (int argc, char **argv)
 
     /* Join every worker before releasing any request-owned allocation or event. */
     EncryptionThreadPoolStop ();
+    Require (OpenResources == 0, "pool resources leaked");
     for (i = 0; i < RequestCount; ++i)
     {
         Request *r = &Requests[i];

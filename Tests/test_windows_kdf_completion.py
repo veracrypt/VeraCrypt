@@ -8,6 +8,7 @@ The harness compiles the production thread pool with event-controlled KDF stubs.
 Initialization and draining are extracted from ReadVolumeHeaderWithAbort, so the
 caller and worker reference protocol are checked together. All request storage
 is retained until pool shutdown joins the workers.
+Startup checks fail each resource creation in turn and verify cleanup and restart.
 """
 import argparse
 import os
@@ -68,6 +69,7 @@ def main():
         raise RuntimeError(result.stdout + result.stderr)
     for workers in (2, 8):
         subprocess.run([str(exe), str(workers)], cwd=build, check=True, timeout=90)
+    subprocess.run([str(exe), "startup"], cwd=build, check=True, timeout=90)
 
 
 if __name__ == "__main__":
