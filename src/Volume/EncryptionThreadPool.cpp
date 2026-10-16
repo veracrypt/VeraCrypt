@@ -27,6 +27,23 @@
 
 namespace VeraCrypt
 {
+	bool EncryptionThreadPool::AcquirePoolReference ()
+	{
+		uint32 references = PoolReferences.load();
+		while (!(references & PoolClosing))
+		{
+			if (PoolReferences.compare_exchange_weak (references, references + 1))
+				return true;
+		}
+		return false;
+	}
+
+	void EncryptionThreadPool::ReleasePoolReference ()
+	{
+		if (PoolReferences.fetch_sub (1) == PoolClosing + 1)
+			PoolDrainedEvent.Signal();
+	}
+
 	EncryptionThreadPool::KeyDerivationWorkItem::KeyDerivationWorkItem (shared_ptr <Pkcs5Kdf> kdf, size_t derivedKeySize)
 		: Completed (false), DerivedKey (derivedKeySize), Kdf (kdf), Processed (false), Result (0)
 	{
@@ -38,8 +55,22 @@ namespace VeraCrypt
 
 	void EncryptionThreadPool::BeginKeyDerivation (KeyDerivationWorkItem &keyDerivationWorkItem, const VolumePassword &password, int pim, const ConstBufferPtr &salt, SyncEvent &completionEvent, SyncEvent &noOutstandingWorkItemEvent, SharedVal <size_t> &outstandingWorkItemCount, long volatile *abortFlag)
 	{
-		if (!ThreadPoolRunning)
-			throw NotInitialized (SRC_POS);
+		PoolReference reference;
+		if (!reference.IsAcquired())
+		{
+			keyDerivationWorkItem.Completed.Set (false);
+			keyDerivationWorkItem.ItemException.reset();
+			keyDerivationWorkItem.Processed = false;
+			keyDerivationWorkItem.Result = abortFlag && *abortFlag ? ERR_USER_ABORT
+				: keyDerivationWorkItem.Kdf->DeriveKey (keyDerivationWorkItem.DerivedKey, password, pim, salt, abortFlag);
+			keyDerivationWorkItem.Completed.Set (true);
+			completionEvent.Signal();
+			// No worker was submitted, but the caller still waits on the drain event.
+			ScopeLock outstandingWorkItemLock (KeyDerivationCompletionMutex);
+			if (outstandingWorkItemCount.Get() == 0)
+				noOutstandingWorkItemEvent.Signal();
+			return;
+		}
 
 		ScopeLock lock (EnqueueMutex);
 
@@ -75,6 +106,8 @@ namespace VeraCrypt
 				noOutstandingWorkItemEvent.Reset();
 		}
 
+		// The submitter and worker may finish in either order.
+		PoolReferences.fetch_add (1);
 		workItem->State.Set (WorkItem::State::Ready);
 		WorkItemReadyEvent.Signal();
 	}
@@ -94,7 +127,8 @@ namespace VeraCrypt
 		if (unitCount == 0)
 			return;
 
-		if (!ThreadPoolRunning || unitCount == 1)
+		PoolReference reference (unitCount > 1);
+		if (!reference.IsAcquired())
 		{
 			switch (type)
 			{
@@ -230,6 +264,9 @@ namespace VeraCrypt
 			cpuCount = MaxThreadCount;
 
 		StopPending = false;
+		PoolDrainedEvent.Reset();
+		WorkItemReadyEvent.Reset();
+		WorkItemCompletedEvent.Reset();
 		DequeuePosition = 0;
 		EnqueuePosition = 0;
 
@@ -251,21 +288,32 @@ namespace VeraCrypt
 				};
 
 				make_shared_auto (Thread, thread);
-				thread->Start (new ThreadFunctor ());
+				unique_ptr <ThreadFunctor> functor (new ThreadFunctor ());
+				// Allocate the list entry before starting a thread that cleanup must join.
 				RunningThreads.push_back (thread);
+				try
+				{
+					thread->Start (functor.get());
+					functor.release();
+				}
+				catch (...)
+				{
+					RunningThreads.pop_back();
+					throw;
+				}
 			}
 		}
 		catch (...)
 		{
 			try
 			{
-				ThreadPoolRunning = true;
-				Stop();
+				StopWorkers();
 			} catch (...) { }
 
 			throw;
 		}
 
+		PoolReferences.store (0);
 		ThreadPoolRunning = true;
 	}
 
@@ -274,6 +322,14 @@ namespace VeraCrypt
 		if (!ThreadPoolRunning)
 			return;
 
+		ThreadPoolRunning = false;
+		if (PoolReferences.fetch_or (PoolClosing) != 0)
+			PoolDrainedEvent.Wait();
+		StopWorkers();
+	}
+
+	void EncryptionThreadPool::StopWorkers ()
+	{
 		StopPending = true;
 		WorkItemReadyEvent.Signal();
 
@@ -281,6 +337,7 @@ namespace VeraCrypt
 		{
 			thread.Join();
 		}
+		RunningThreads.clear();
 
 		ThreadCount = 0;
 		ThreadPoolRunning = false;
@@ -307,11 +364,10 @@ namespace VeraCrypt
 						WorkItemReadyEvent.Wait();
 					}
 
+					if (StopPending)
+						break;
 					workItem->State.Set (WorkItem::State::Busy);
 				}
-
-				if (StopPending)
-					break;
 
 				try
 				{
@@ -384,6 +440,7 @@ namespace VeraCrypt
 					}
 					workItem->State.Set (WorkItem::State::Free);
 					WorkItemCompletedEvent.Signal();
+					ReleasePoolReference();
 					continue;
 				}
 
@@ -409,8 +466,10 @@ namespace VeraCrypt
 		}
 	}
 
-	volatile bool EncryptionThreadPool::ThreadPoolRunning = false;
-	volatile bool EncryptionThreadPool::StopPending = false;
+	std::atomic <bool> EncryptionThreadPool::ThreadPoolRunning (false);
+	std::atomic <bool> EncryptionThreadPool::StopPending (false);
+	std::atomic <uint32> EncryptionThreadPool::PoolReferences (PoolClosing);
+	SyncEvent EncryptionThreadPool::PoolDrainedEvent;
 
 	size_t EncryptionThreadPool::ThreadCount;
 

@@ -13,6 +13,7 @@
 #ifndef TC_HEADER_Volume_EncryptionThreadPool
 #define TC_HEADER_Volume_EncryptionThreadPool
 
+#include <atomic>
 #include "Platform/Platform.h"
 #include "EncryptionMode.h"
 
@@ -95,17 +96,38 @@ namespace VeraCrypt
 		};
 
 		// Caller-owned references and pointers must remain valid until noOutstandingWorkItemEvent is signaled.
+		// Derivation runs synchronously when the pool is unavailable or closing.
 		static void BeginKeyDerivation (KeyDerivationWorkItem &keyDerivationWorkItem, const VolumePassword &password, int pim, const ConstBufferPtr &salt, SyncEvent &completionEvent, SyncEvent &noOutstandingWorkItemEvent, SharedVal <size_t> &outstandingWorkItemCount, long volatile *abortFlag);
 		static void DoWork (WorkType::Enum type, const EncryptionMode *mode, uint8 *data, uint64 startUnitNo, uint64 unitCount, size_t sectorSize);
 		static bool IsRunning () { return ThreadPoolRunning; }
+		// Start and Stop must be serialized by the caller. Stop drains accepted pool users;
+		// callers must still keep their objects alive for work running synchronously.
 		static void Start ();
 		static void Stop ();
 
 	protected:
+		static bool AcquirePoolReference ();
+		static void ReleasePoolReference ();
+		static void StopWorkers ();
 		static void WorkThreadProc ();
+
+		class PoolReference
+		{
+		public:
+			explicit PoolReference (bool acquire = true) : Acquired (acquire && AcquirePoolReference()) { }
+			~PoolReference () { if (Acquired) ReleasePoolReference(); }
+			bool IsAcquired () const { return Acquired; }
+		private:
+			bool Acquired;
+			PoolReference (const PoolReference &);
+			PoolReference &operator= (const PoolReference &);
+		};
 
 		static const size_t MaxThreadCount = 32;
 		static const size_t QueueSize = MaxThreadCount * 2;
+		static const uint32 PoolClosing = 0x80000000U;
+		static std::atomic <uint32> PoolReferences;
+		static SyncEvent PoolDrainedEvent;
 
 		static Mutex DequeueMutex;
 		static volatile size_t DequeuePosition;
@@ -116,9 +138,9 @@ namespace VeraCrypt
 		// Orders KDF outstanding-count transitions against no-outstanding event updates.
 		static Mutex KeyDerivationCompletionMutex;
 		static list < shared_ptr <Thread> > RunningThreads;
-		static volatile bool StopPending;
+		static std::atomic <bool> StopPending;
 		static size_t ThreadCount;
-		static volatile bool ThreadPoolRunning;
+		static std::atomic <bool> ThreadPoolRunning;
 		static SyncEvent WorkItemCompletedEvent;
 		static WorkItem WorkItemQueue[QueueSize];
 		static SyncEvent WorkItemReadyEvent;
