@@ -51,6 +51,7 @@ namespace VeraCrypt
 
 			struct WorkItem *FirstFragment;
 			unique_ptr <Exception> ItemException;
+			std::atomic <bool> ExceptionCaptureFailed;
 			SyncEvent ItemCompletedEvent;
 			SharedVal <size_t> OutstandingFragmentCount;
 			SharedVal <State::Enum> State;
@@ -90,6 +91,7 @@ namespace VeraCrypt
 			SharedVal <bool> Completed;
 			SecureBuffer DerivedKey;
 			unique_ptr <Exception> ItemException;
+			bool ExceptionCaptureFailed;
 			shared_ptr <Pkcs5Kdf> Kdf;
 			bool Processed;
 			int Result;

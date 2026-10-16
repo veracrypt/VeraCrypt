@@ -144,12 +144,14 @@ namespace VeraCrypt
 							++processedWorkItemCount;
 							processed = true;
 
-							if (keyDerivationWorkItem->ItemException.get())
+							if (keyDerivationWorkItem->ItemException.get() || keyDerivationWorkItem->ExceptionCaptureFailed)
 							{
 								// KDF exceptions are fatal setup/runtime errors; candidate failures are reported via Result.
 								abortKeyDerivation = 1;
 								DrainKeyDerivationWorkItems (noOutstandingWorkItemEvent, enqueuedWorkItemCount, workItemsDrained);
-								keyDerivationWorkItem->ItemException->Throw();
+								if (keyDerivationWorkItem->ItemException.get())
+									keyDerivationWorkItem->ItemException->Throw();
+								throw UnknownException (SRC_POS);
 							}
 
 							if (keyDerivationWorkItem->Result != 0)

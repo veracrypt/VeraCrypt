@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check concurrent fragment exceptions in the production Unix encryption pool.
+"""Check fragment/KDF exceptions and exception-capture failures in the Unix pool.
 
 Uses real pool, encryption-mode dispatch and platform synchronization code with
 an event-controlled test cipher. Requires Linux, Python 3 and a C++11 compiler.
@@ -14,6 +14,16 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def source_block(source, start):
+    first = source.index("{", start)
+    depth = 1
+    for end in range(first + 1, len(source)):
+        depth += (source[end] == "{") - (source[end] == "}")
+        if depth == 0:
+            return source[start:end + 1]
+    raise RuntimeError("Unbalanced production source block")
 
 
 def build_test(build, sanitize, test_source, extra_sources=(), extra_flags=()):
@@ -51,7 +61,19 @@ def main():
     if not sys.platform.startswith("linux"):
         parser.error("This build runner requires Linux")
     build = (args.build_dir or Path(tempfile.mkdtemp(prefix="vc-pool-exceptions-"))).resolve()
-    exe = build_test(build, args.sanitize, "encryption_thread_pool_exception_test.cpp")
+    build.mkdir(parents=True, exist_ok=True)
+    header = (ROOT / "src/Volume/VolumeHeader.cpp").read_text()
+    drain = source_block(header, header.index("static void DrainKeyDerivationWorkItems ("))
+    failure = source_block(header, header.index("if (keyDerivationWorkItem->ItemException.get()"))
+    (build / "kdf_exception_completion.inc").write_text(drain + "\n" + """
+static void HandleKdfFailure (
+    shared_ptr<EncryptionThreadPool::KeyDerivationWorkItem> keyDerivationWorkItem,
+    SyncEvent &noOutstandingWorkItemEvent, size_t enqueuedWorkItemCount,
+    bool &workItemsDrained, long volatile &abortKeyDerivation)
+{
+""" + failure + "\n}\n")
+    exe = build_test(build, args.sanitize, "encryption_thread_pool_exception_test.cpp",
+                     ("Volume/Pkcs5Kdf.cpp", "Volume/VolumePassword.cpp"), ["-I" + str(build)])
     result = subprocess.run([str(exe)], timeout=60)
     if result.returncode not in (0, 77):
         raise SystemExit(result.returncode)

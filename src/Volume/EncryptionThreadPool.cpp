@@ -27,6 +27,21 @@
 
 namespace VeraCrypt
 {
+	// Called from a catch handler. Failure to copy/format an exception must not
+	// bypass completion or turn a failed operation into a successful one.
+	static bool CaptureWorkItemException (unique_ptr <Exception> &itemException) noexcept
+	{
+		try
+		{
+			try { throw; }
+			catch (Exception &e) { itemException.reset (e.CloneNew()); }
+			catch (exception &e) { itemException.reset (new ExternalException (SRC_POS, StringConverter::ToExceptionString (e))); }
+			catch (...) { itemException.reset (new UnknownException (SRC_POS)); }
+			return itemException.get() != nullptr;
+		}
+		catch (...) { return false; }
+	}
+
 	bool EncryptionThreadPool::AcquirePoolReference ()
 	{
 		uint32 references = PoolReferences.load();
@@ -45,7 +60,7 @@ namespace VeraCrypt
 	}
 
 	EncryptionThreadPool::KeyDerivationWorkItem::KeyDerivationWorkItem (shared_ptr <Pkcs5Kdf> kdf, size_t derivedKeySize)
-		: Completed (false), DerivedKey (derivedKeySize), Kdf (kdf), Processed (false), Result (0)
+		: Completed (false), DerivedKey (derivedKeySize), ExceptionCaptureFailed (false), Kdf (kdf), Processed (false), Result (0)
 	{
 	}
 
@@ -60,6 +75,7 @@ namespace VeraCrypt
 		{
 			keyDerivationWorkItem.Completed.Set (false);
 			keyDerivationWorkItem.ItemException.reset();
+			keyDerivationWorkItem.ExceptionCaptureFailed = false;
 			keyDerivationWorkItem.Processed = false;
 			keyDerivationWorkItem.Result = abortFlag && *abortFlag ? ERR_USER_ABORT
 				: keyDerivationWorkItem.Kdf->DeriveKey (keyDerivationWorkItem.DerivedKey, password, pim, salt, abortFlag);
@@ -86,6 +102,7 @@ namespace VeraCrypt
 
 		keyDerivationWorkItem.Completed.Set (false);
 		keyDerivationWorkItem.ItemException.reset();
+		keyDerivationWorkItem.ExceptionCaptureFailed = false;
 		keyDerivationWorkItem.Processed = false;
 		keyDerivationWorkItem.Result = 0;
 
@@ -177,6 +194,7 @@ namespace VeraCrypt
 
 			firstFragmentWorkItem->OutstandingFragmentCount.Set (fragmentCount);
 			firstFragmentWorkItem->ItemException.reset();
+			firstFragmentWorkItem->ExceptionCaptureFailed = false;
 
 			while (fragmentCount-- > 0)
 			{
@@ -215,12 +233,15 @@ namespace VeraCrypt
 		unique_ptr <Exception> itemException;
 		if (firstFragmentWorkItem->ItemException.get())
 			itemException = move_ptr(firstFragmentWorkItem->ItemException);
+		bool exceptionCaptureFailed = firstFragmentWorkItem->ExceptionCaptureFailed.load();
 
 		firstFragmentWorkItem->State.Set (WorkItem::State::Free);
 		WorkItemCompletedEvent.Signal();
 
 		if (itemException.get())
 			itemException->Throw();
+		if (exceptionCaptureFailed)
+			throw UnknownException (SRC_POS);
 	}
 
 	void EncryptionThreadPool::Start ()
@@ -395,37 +416,23 @@ namespace VeraCrypt
 						throw ParameterIncorrect (SRC_POS);
 					}
 				}
-				catch (Exception &e)
-				{
-					if (workItem->Type == WorkType::DeriveKey)
-						workItem->KeyDerivation.WorkItem->ItemException.reset (e.CloneNew());
-					else
-					{
-						ScopeLock exceptionLock (FragmentExceptionMutex);
-						if (!workItem->FirstFragment->ItemException.get())
-							workItem->FirstFragment->ItemException.reset (e.CloneNew());
-					}
-				}
-				catch (exception &e)
-				{
-					if (workItem->Type == WorkType::DeriveKey)
-						workItem->KeyDerivation.WorkItem->ItemException.reset (new ExternalException (SRC_POS, StringConverter::ToExceptionString (e)));
-					else
-					{
-						ScopeLock exceptionLock (FragmentExceptionMutex);
-						if (!workItem->FirstFragment->ItemException.get())
-							workItem->FirstFragment->ItemException.reset (new ExternalException (SRC_POS, StringConverter::ToExceptionString (e)));
-					}
-				}
 				catch (...)
 				{
 					if (workItem->Type == WorkType::DeriveKey)
-						workItem->KeyDerivation.WorkItem->ItemException.reset (new UnknownException (SRC_POS));
+					{
+						KeyDerivationWorkItem &item = *workItem->KeyDerivation.WorkItem;
+						item.ExceptionCaptureFailed = !CaptureWorkItemException (item.ItemException);
+					}
 					else
 					{
-						ScopeLock exceptionLock (FragmentExceptionMutex);
-						if (!workItem->FirstFragment->ItemException.get())
-							workItem->FirstFragment->ItemException.reset (new UnknownException (SRC_POS));
+						WorkItem &firstFragment = *workItem->FirstFragment;
+						try
+						{
+							ScopeLock exceptionLock (FragmentExceptionMutex);
+							if (!firstFragment.ItemException.get() && !firstFragment.ExceptionCaptureFailed)
+								firstFragment.ExceptionCaptureFailed = !CaptureWorkItemException (firstFragment.ItemException);
+						}
+						catch (...) { firstFragment.ExceptionCaptureFailed = true; }
 					}
 				}
 
