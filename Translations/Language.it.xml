@@ -45,7 +45,7 @@
     <entry lang="it" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Prova prima a montare con una password vuota</entry>
     <entry lang="it" key="IDC_KEYFILES_RANDOM_SIZE">Dimensione casuale ( 64&lt;-&gt; 1048576 )</entry>
     <entry lang="it" key="IDC_KEY_FILES">Keyfile...</entry>
-    <entry lang="it" key="IDC_LINK_HASH_INFO">Info sugli algoritmi hash</entry>
+    <entry lang="it" key="IDC_LINK_HASH_INFO">Info sugli algoritmi di hash</entry>
     <entry lang="it" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Altre informazioni</entry>
     <entry lang="it" key="IDC_LINK_PIM_INFO">Informazioni su PIM</entry>
     <entry lang="it" key="IDC_MB">MB</entry>
@@ -1395,7 +1395,7 @@
     <entry lang="it" key="PIM_TOO_BIG">Il valore massimo del Moltiplicatore delle Iterazioni Personali (PIM) è 2147468.</entry>
     <entry lang="it" key="IDC_SKIP_RESCUE_VERIFICATION">Salta verifica del Disco di Recupero</entry>
     <entry lang="it" key="IDC_HIDE_WAITING_DIALOG">Non mostrare messaggi di dialogo mentre sta eseguendo operazioni</entry>
-    <entry lang="it" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Non richiedere algoritmo Hash nella schermata di autenticazione pre-boot</entry>
+    <entry lang="it" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Non richiedere l'algoritmo di hash nella schermata di autenticazione pre-boot</entry>
     <entry lang="it" key="KUZNYECHIK_HELP">Kuznyechik è un cifrario a blocchi pubblicato nel 2015 e definito nello Standard Nazionale della Federazione Russa GOST R 34.12-2015 e anche nel RFC 7801. Chiave a 256 bit, blocco a 128 bit. Il modo di funzionamento è XTS.</entry>
     <entry lang="it" key="CAMELLIA_HELP">Sviluppato congiuntamente da Mitsubishi Electric e NTT del Giappone. Pubblicato per la prima volta nel 2000. Chiave a 256 bit, blocco a 128 bit. La modalità operativa è XTS. È stato approvato per l'uso dall'ISO / IEC, dal progetto NESSIE dell'Unione Europea e dal progetto giapponese CRYPTREC.</entry>
     <entry lang="it" key="TIME">Tempo</entry>
