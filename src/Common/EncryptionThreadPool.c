@@ -32,7 +32,6 @@ static volatile int ThreadQueueSize = TC_ENC_THREAD_POOL_LEGACY_QUEUE_SIZE;
 #define TC_THREAD_PROC VOID
 
 #define TC_SET_EVENT(EVENT) KeSetEvent (&EVENT, IO_DISK_INCREMENT, FALSE)
-#define TC_CLEAR_EVENT(EVENT) KeClearEvent (&EVENT)
 
 #define TC_MUTEX FAST_MUTEX
 #define TC_ACQUIRE_MUTEX(MUTEX) ExAcquireFastMutex (MUTEX)
@@ -44,7 +43,6 @@ static volatile int ThreadQueueSize = TC_ENC_THREAD_POOL_LEGACY_QUEUE_SIZE;
 #define TC_THREAD_PROC unsigned __stdcall
 
 #define TC_SET_EVENT(EVENT) SetEvent (EVENT)
-#define TC_CLEAR_EVENT(EVENT) ResetEvent (EVENT)
 
 #define TC_MUTEX HANDLE
 #define TC_ACQUIRE_MUTEX(MUTEX) WaitForSingleObject (*(MUTEX), INFINITE)
@@ -110,18 +108,6 @@ typedef struct EncryptionThreadPoolWorkItemStruct
 			unsigned char *Salt;
 			LONG volatile *pAbortKeyDerivation; 
 		} KeyDerivation;
-
-		struct
-		{
-			TC_EVENT *KeyDerivationCompletedEvent;
-			TC_EVENT *NoOutstandingWorkItemEvent;
-			LONG *outstandingWorkItemCount;
-			void* keyInfoBuffer;
-			int keyInfoBufferSize;
-			void* keyDerivationWorkItems;
-			int keyDerivationWorkItemsSize;
-
-		} ReadVolumeHeaderFinalization;
 	};
 
 } EncryptionThreadPoolWorkItem;
@@ -300,37 +286,6 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			continue;
 			}
 
-		case ReadVolumeHeaderFinalizationWork:
-			TC_WAIT_EVENT (*(workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent));
-
-			if (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems)
-			{
-				burn (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems, workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItemsSize);
-#if !defined(DEVICE_DRIVER)
-				VirtualUnlock (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems, workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItemsSize);
-#endif
-				TCfree (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems);
-			}
-
-			if (workItem->ReadVolumeHeaderFinalization.keyInfoBuffer)
-			{
-				burn (workItem->ReadVolumeHeaderFinalization.keyInfoBuffer, workItem->ReadVolumeHeaderFinalization.keyInfoBufferSize);
-#if !defined(DEVICE_DRIVER)
-				VirtualUnlock (workItem->ReadVolumeHeaderFinalization.keyInfoBuffer, workItem->ReadVolumeHeaderFinalization.keyInfoBufferSize);
-#endif
-				TCfree (workItem->ReadVolumeHeaderFinalization.keyInfoBuffer);
-			}
-
-#if !defined(DEVICE_DRIVER) 
-			CloseHandle (*(workItem->ReadVolumeHeaderFinalization.KeyDerivationCompletedEvent));
-			CloseHandle (*(workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent));
-#endif
-			TCfree (workItem->ReadVolumeHeaderFinalization.KeyDerivationCompletedEvent);
-			TCfree (workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent);
-			TCfree (workItem->ReadVolumeHeaderFinalization.outstandingWorkItemCount);
-			SetWorkItemState (workItem, WorkItemFree);
-			TC_SET_EVENT (WorkItemCompletedEvent);
-			continue;
 		default:
 			TC_THROW_FATAL_EXCEPTION;
 		}
@@ -587,41 +542,6 @@ void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT
 	TC_SET_EVENT (WorkItemReadyEvent);
 	TC_RELEASE_MUTEX (&EnqueueMutex);
 }
-
-void EncryptionThreadPoolBeginReadVolumeHeaderFinalization (TC_EVENT *keyDerivationCompletedEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG* outstandingWorkItemCount, 
-	void* keyInfoBuffer, int keyInfoBufferSize,
-	void* keyDerivationWorkItems, int keyDerivationWorkItemsSize)
-{
-	EncryptionThreadPoolWorkItem *workItem;
-
-	if (!ThreadPoolRunning)
-		TC_THROW_FATAL_EXCEPTION;
-
-	TC_ACQUIRE_MUTEX (&EnqueueMutex);
-
-	workItem = &WorkItemQueue[EnqueuePosition++];
-	if (EnqueuePosition >= ThreadQueueSize)
-		EnqueuePosition = 0;
-
-	while (GetWorkItemState (workItem) != WorkItemFree)
-	{
-		TC_WAIT_EVENT (WorkItemCompletedEvent);
-	}
-
-	workItem->Type = ReadVolumeHeaderFinalizationWork;
-	workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent = noOutstandingWorkItemEvent;
-	workItem->ReadVolumeHeaderFinalization.KeyDerivationCompletedEvent = keyDerivationCompletedEvent;
-	workItem->ReadVolumeHeaderFinalization.keyInfoBuffer = keyInfoBuffer;
-	workItem->ReadVolumeHeaderFinalization.keyInfoBufferSize = keyInfoBufferSize;
-	workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems = keyDerivationWorkItems;
-	workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItemsSize = keyDerivationWorkItemsSize;
-	workItem->ReadVolumeHeaderFinalization.outstandingWorkItemCount = outstandingWorkItemCount;
-
-	SetWorkItemState (workItem, WorkItemReady);
-	TC_SET_EVENT (WorkItemReadyEvent);
-	TC_RELEASE_MUTEX (&EnqueueMutex);
-}
-
 
 void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, uint8 *data, const UINT64_STRUCT *startUnitNo, uint32 unitCount, PCRYPTO_INFO cryptoInfo)
 {

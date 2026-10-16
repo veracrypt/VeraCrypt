@@ -24,8 +24,7 @@ typedef enum
 {
 	EncryptDataUnitsWork,
 	DecryptDataUnitsWork,
-	DeriveKeyWork,
-	ReadVolumeHeaderFinalizationWork
+	DeriveKeyWork
 } EncryptionThreadPoolWorkType;
 
 #ifndef DEVICE_DRIVER
@@ -42,7 +41,6 @@ size_t GetCpuCount (WORD* pGroupCount);
  * derivationResult receives 0 on success; PRFs that can fail store their native nonzero result.
  */
 void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, unsigned char *password, int passwordLength, unsigned char *salt, int iterationCount,  int memoryCost, unsigned char *derivedKey, LONG *derivationResult, LONG volatile *pAbortKeyDerivation);
-void EncryptionThreadPoolBeginReadVolumeHeaderFinalization (TC_EVENT *keyDerivationCompletedEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG* outstandingWorkItemCount, void* keyInfoBuffer, int keyInfoBufferSize, void* keyDerivationWorkItems, int keyDerivationWorkItemsSize);
 void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, uint8 *data, const UINT64_STRUCT *startUnitNo, uint32 unitCount, PCRYPTO_INFO cryptoInfo);
 BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount);
 void EncryptionThreadPoolStop ();
