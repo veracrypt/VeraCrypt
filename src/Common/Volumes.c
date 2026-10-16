@@ -283,10 +283,11 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 		for (i = 0; i < pkcs5PrfCount; ++i)
 			keyDerivationWorkItems[i].Free = TRUE;
 
-		*outstandingWorkItemCount = 0;
+		// Retain a requester reference until no further KDFs can be submitted.
+		*outstandingWorkItemCount = 1;
 #ifdef DEVICE_DRIVER
 		KeInitializeEvent (keyDerivationCompletedEvent, SynchronizationEvent, FALSE);
-		KeInitializeEvent (noOutstandingWorkItemEvent, SynchronizationEvent, TRUE);
+		KeInitializeEvent (noOutstandingWorkItemEvent, SynchronizationEvent, FALSE);
 #else
 		*keyDerivationCompletedEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 		if (!*keyDerivationCompletedEvent)
@@ -298,7 +299,7 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 			return ERR_OUTOFMEMORY;
 		}
 
-		*noOutstandingWorkItemEvent = CreateEvent (NULL, FALSE, TRUE, NULL);
+		*noOutstandingWorkItemEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 		if (!*noOutstandingWorkItemEvent)
 		{
 			CloseHandle (*keyDerivationCompletedEvent);
@@ -736,10 +737,10 @@ ret:
 #if !defined(_UEFI)
 	if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 	{
-		// Wait for all outstanding threads to finish or cancel
-		TC_WAIT_EVENT(*noOutstandingWorkItemEvent);
-		// Cleanup is now synchronous because we already waited for all threads to stop.
-		// The asynchronous finalization is no longer needed.
+		// Release the requester reference after the last possible submission.
+		// If workers remain, the last one signals completion before cleanup.
+		if (InterlockedDecrement (outstandingWorkItemCount) != 0)
+			TC_WAIT_EVENT (*noOutstandingWorkItemEvent);
 #if !defined(DEVICE_DRIVER)
 		CloseHandle(*keyDerivationCompletedEvent);
 		CloseHandle(*noOutstandingWorkItemEvent);

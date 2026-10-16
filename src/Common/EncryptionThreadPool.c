@@ -291,6 +291,7 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			InterlockedExchange (workItem->KeyDerivation.CompletionFlag, TRUE);
 			TC_SET_EVENT (*workItem->KeyDerivation.CompletionEvent);
 
+			// The requester retains a reference until it has finished submitting work.
 			if (InterlockedDecrement (workItem->KeyDerivation.OutstandingWorkItemCount) == 0)
 				TC_SET_EVENT (*workItem->KeyDerivation.NoOutstandingWorkItemEvent);
 
@@ -581,7 +582,6 @@ void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT
 	workItem->KeyDerivation.pAbortKeyDerivation = pAbortKeyDerivation;
 
 	InterlockedIncrement (outstandingWorkItemCount);
-	TC_CLEAR_EVENT (*noOutstandingWorkItemEvent);
 
 	SetWorkItemState (workItem, WorkItemReady);
 	TC_SET_EVENT (WorkItemReadyEvent);
