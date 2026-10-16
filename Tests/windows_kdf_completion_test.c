@@ -221,13 +221,15 @@ static int InitializeRequest (Request *request)
     TC_EVENT *keyDerivationCompletedEvent = NULL, *noOutstandingWorkItemEvent = NULL;
     LONG *outstandingWorkItemCount = NULL;
     KeyDerivationWorkItem *keyDerivationWorkItems = NULL;
-    int keyDerivationWorkItemsSize = 0, pkcs5PrfCount = PRF_COUNT, i;
+    int keyDerivationWorkItemsSize = 0, pkcs5PrfCount = PRF_COUNT, i, status;
 #include "kdf_init.inc"
     request->Ready = keyDerivationCompletedEvent;
     request->Drained = noOutstandingWorkItemEvent;
     request->References = outstandingWorkItemCount;
     request->Items = keyDerivationWorkItems;
     return 0;
+err_early:
+    return status;
 }
 
 static Request *NewRequest (void)
