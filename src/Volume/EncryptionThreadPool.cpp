@@ -375,14 +375,16 @@ namespace VeraCrypt
 					continue;
 				}
 
-				if (workItem != workItem->FirstFragment)
+				// Keep the parent reference before releasing this queue slot.
+				WorkItem *firstFragment = workItem->FirstFragment;
+				if (workItem != firstFragment)
 				{
 					workItem->State.Set (WorkItem::State::Free);
 					WorkItemCompletedEvent.Signal();
 				}
 
-				if (workItem->FirstFragment->OutstandingFragmentCount.Decrement() == 0)
-					workItem->FirstFragment->ItemCompletedEvent.Signal();
+				if (firstFragment->OutstandingFragmentCount.Decrement() == 0)
+					firstFragment->ItemCompletedEvent.Signal();
 			}
 		}
 		catch (exception &e)

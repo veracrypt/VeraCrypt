@@ -192,6 +192,7 @@ static void SetWorkItemState (EncryptionThreadPoolWorkItem *workItem, WorkItemSt
 static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 {
 	EncryptionThreadPoolWorkItem *workItem;
+	EncryptionThreadPoolWorkItem *firstFragment;
 	if (threadArg)
 	{
 #ifdef DEVICE_DRIVER
@@ -333,14 +334,16 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			TC_THROW_FATAL_EXCEPTION;
 		}
 
-		if (workItem != workItem->FirstFragment)
+		// Keep the parent reference before releasing this queue slot.
+		firstFragment = workItem->FirstFragment;
+		if (workItem != firstFragment)
 		{
 			SetWorkItemState (workItem, WorkItemFree);
 			TC_SET_EVENT (WorkItemCompletedEvent);
 		}
 
-		if (InterlockedDecrement (&workItem->FirstFragment->OutstandingFragmentCount) == 0)
-			TC_SET_EVENT (workItem->FirstFragment->ItemCompletedEvent);
+		if (InterlockedDecrement (&firstFragment->OutstandingFragmentCount) == 0)
+			TC_SET_EVENT (firstFragment->ItemCompletedEvent);
 	}
 
 #ifdef DEVICE_DRIVER
