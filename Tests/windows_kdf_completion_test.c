@@ -58,6 +58,17 @@ static Request Requests[MAX_REQUESTS];
 static int RequestCount;
 static __declspec(thread) Job *CurrentJob;
 static __declspec(thread) Request *DrainingRequest;
+typedef struct
+{
+    unsigned char Data[6 * ENCRYPTION_DATA_UNIT_SIZE];
+    LONG volatile Started, Processed;
+    HANDLE BothStarted, MayProcess, Waiting, Paused, MayReturn, Done, Thread;
+    BOOL HoldWorkers, HoldRequester;
+    uint32 Units;
+    EncryptionThreadPoolWorkType Type;
+} CipherJob;
+static __declspec(thread) CipherJob *CurrentCipherJob;
+static HANDLE StopWaiting, StopDone;
 
 typedef struct
 {
@@ -155,9 +166,20 @@ static LONG References (Request *request)
 
 static DWORD TestWait (HANDLE event)
 {
+    DWORD result;
     if (DrainingRequest && event == *DrainingRequest->Drained)
         SetEvent (DrainingRequest->WaitEntered);
-    return WaitForSingleObject (event, INFINITE);
+    if (StopWaiting && event == ThreadPoolDrainedEvent)
+        SetEvent (StopWaiting);
+    if (CurrentCipherJob && event != WorkItemCompletedEvent)
+        SetEvent (CurrentCipherJob->Waiting);
+    result = WaitForSingleObject (event, INFINITE);
+    if (CurrentCipherJob && CurrentCipherJob->HoldRequester && event != WorkItemCompletedEvent)
+    {
+        SetEvent (CurrentCipherJob->Paused);
+        Wait (CurrentCipherJob->MayReturn);
+    }
+    return result;
 }
 
 static BOOL TestSetEvent (HANDLE event)
@@ -252,7 +274,7 @@ static void EndFinish (Request *request)
     Require (References (request) == 0 && request->Signals == 1, "last worker completion");
 }
 
-static Job *Submit (Request *request, int prf, BOOL holdAfterReady, int result)
+static Job *NewJob (Request *request, int prf, BOOL holdAfterReady, int result)
 {
     Job *job;
     Require (request->JobCount < PRF_COUNT, "job fixture capacity");
@@ -267,9 +289,21 @@ static Job *Submit (Request *request, int prf, BOOL holdAfterReady, int result)
     job->HoldAfterReady = holdAfterReady;
     job->Started = Event (); job->MayReturn = Event (); job->ReadyPublished = Event ();
     job->MayReleaseReference = Event (); job->WorkerDone = Event ();
+    return job;
+}
+
+static void SubmitJob (Job *job)
+{
+    Request *request = job->Owner;
     EncryptionThreadPoolBeginKeyDerivation (request->Ready, request->Drained, &job->Item->KeyReady,
-        request->References, prf, (unsigned char *) job, sizeof (*job), NULL, 1, 8,
+        request->References, job->Item->Pkcs5Prf, (unsigned char *) job, sizeof (*job), NULL, 1, 8,
         job->Item->DerivedKey, &job->Item->DerivationResult, &request->Abort);
+}
+
+static Job *Submit (Request *request, int prf, BOOL holdAfterReady, int result)
+{
+    Job *job = NewJob (request, prf, holdAfterReady, result);
+    SubmitJob (job);
     return job;
 }
 
@@ -306,8 +340,21 @@ int GetMaxPkcs5OutSize (void) { return MASTER_KEYDATA_SIZE; }
 BOOL IsRamEncryptionEnabled (void) { return FALSE; }
 uint64 VcGetEncryptionID (PCRYPTO_INFO ci) { return 0; }
 void VcUnprotectKeys (PCRYPTO_INFO ci, uint64 id) { }
-void EncryptDataUnitsCurrentThread (unsigned __int8 *data, const UINT64_STRUCT *start, TC_LARGEST_COMPILER_UINT count, PCRYPTO_INFO ci) { }
-void DecryptDataUnitsCurrentThread (unsigned __int8 *data, const UINT64_STRUCT *start, TC_LARGEST_COMPILER_UINT count, PCRYPTO_INFO ci) { }
+static void FakeCrypt (unsigned char *data, TC_LARGEST_COMPILER_UINT count, PCRYPTO_INFO ci, int value)
+{
+    CipherJob *job = (CipherJob *) ci;
+    if (job->HoldWorkers)
+    {
+        if (InterlockedIncrement (&job->Started) == 2) SetEvent (job->BothStarted);
+        Wait (job->MayProcess);
+    }
+    memset (data, value, (size_t) count * ENCRYPTION_DATA_UNIT_SIZE);
+    InterlockedExchangeAdd (&job->Processed, (LONG) count);
+}
+void EncryptDataUnitsCurrentThread (unsigned __int8 *data, const UINT64_STRUCT *start, TC_LARGEST_COMPILER_UINT count, PCRYPTO_INFO ci)
+{ FakeCrypt (data, count, ci, 0xa5); }
+void DecryptDataUnitsCurrentThread (unsigned __int8 *data, const UINT64_STRUCT *start, TC_LARGEST_COMPILER_UINT count, PCRYPTO_INFO ci)
+{ FakeCrypt (data, count, ci, 0x5a); }
 
 static void RequesterLast (int count)
 {
@@ -394,29 +441,125 @@ static void StartupFailures (size_t available)
     printf ("PASS: %d startup failure points, each followed by a successful restart\n", creationCount);
 }
 
-int main (int argc, char **argv)
+static unsigned __stdcall StopPool (void *unused)
 {
-    WORD groups;
-    size_t available = GetCpuCount (&groups);
-    size_t wanted = argc > 1 ? (size_t) atoi (argv[1]) : 2;
-    int i, j;
-    if (available < 2) { puts ("SKIP: at least two logical CPUs required"); return 0; }
-    if (argc > 1 && strcmp (argv[1], "startup") == 0)
-    {
-        StartupFailures (available);
-        return 0;
-    }
-    if (wanted > available) wanted = available;
-    Require (EncryptionThreadPoolStart (available - wanted), "start production pool");
-    Require (GetEncryptionThreadCount () == wanted, "pool worker count");
-    RequesterLast (0); RequesterLast (1); RequesterLast (5); RequesterLast (6);
-    WorkerLast (2, FALSE, 0); WorkerLast (6, FALSE, 0);
-    WorkerLast (2, TRUE, ARGON2_OPERATION_CANCELLED); WorkerLast (6, TRUE, ARGON2_OPERATION_CANCELLED);
-    WorkerLast (2, FALSE, ARGON2_MEMORY_ALLOCATION_ERROR);
-    PublicationBoundaries ();
-
-    /* Join every worker before releasing any request-owned allocation or event. */
     EncryptionThreadPoolStop ();
+    SetEvent (StopDone);
+    return 0;
+}
+
+static HANDLE BeginStop (void)
+{
+    HANDLE thread;
+    StopWaiting = Event (); StopDone = Event ();
+    thread = (HANDLE) _beginthreadex (NULL, 0, StopPool, NULL, 0, NULL);
+    Require (thread != NULL, "start shutdown thread");
+    Wait (StopWaiting);
+    Require (!IsEncryptionThreadPoolRunning (), "shutdown still accepts pool work");
+    Require (WaitForSingleObject (StopDone, 0) == WAIT_TIMEOUT, "shutdown did not drain accepted work");
+    return thread;
+}
+
+static void EndStop (HANDLE thread)
+{
+    Wait (StopDone); Wait (thread);
+    CloseHandle (thread); CloseHandle (StopWaiting); CloseHandle (StopDone);
+    StopWaiting = StopDone = NULL;
+    ResetResources (0);
+}
+
+static unsigned __stdcall RunCipher (void *context)
+{
+    CipherJob *job = (CipherJob *) context;
+    UINT64_STRUCT start = { 0 };
+    CurrentCipherJob = job;
+    EncryptionThreadPoolDoWork (job->Type, job->Data, &start, job->Units, (PCRYPTO_INFO) job);
+    CurrentCipherJob = NULL;
+    SetEvent (job->Done);
+    return 0;
+}
+
+static void StartCipher (CipherJob *job, BOOL hold, EncryptionThreadPoolWorkType type)
+{
+    memset (job, 0, sizeof (*job));
+    job->Units = 6; job->Type = type;
+    job->HoldWorkers = job->HoldRequester = hold;
+    job->BothStarted = Event (); job->MayProcess = CreateEvent (NULL, TRUE, FALSE, NULL);
+    Require (job->MayProcess != NULL, "create cipher gate");
+    job->Waiting = Event (); job->Paused = Event (); job->MayReturn = Event (); job->Done = Event ();
+    job->Thread = (HANDLE) _beginthreadex (NULL, 0, RunCipher, job, 0, NULL);
+    Require (job->Thread != NULL, "start cipher requester");
+    Wait (job->Waiting);
+}
+
+static void CheckCipher (CipherJob *job)
+{
+    size_t i;
+    unsigned char expected = job->Type == EncryptDataUnitsWork ? 0xa5 : 0x5a;
+    Require (job->Processed == job->Units, "incorrect number of processed units");
+    for (i = 0; i < job->Units * ENCRYPTION_DATA_UNIT_SIZE; ++i)
+        Require (job->Data[i] == expected, "incomplete cipher output");
+}
+
+static void EndCipher (CipherJob *job)
+{
+    Wait (job->Done); Wait (job->Thread);
+    CheckCipher (job);
+    CloseHandle (job->Thread); CloseHandle (job->BothStarted); CloseHandle (job->MayProcess);
+    CloseHandle (job->Waiting); CloseHandle (job->Paused); CloseHandle (job->MayReturn); CloseHandle (job->Done);
+}
+
+static void InlineKdf (void)
+{
+    Request *request = NewRequest ();
+    Job *job = NewJob (request, SHA512, FALSE, 0);
+    SetEvent (job->MayReturn);
+    SubmitJob (job);
+    CurrentJob = NULL;
+    Require (job->Item->KeyReady && job->Item->DerivationResult == 0 && References (request) == 1,
+        "synchronous KDF fallback");
+    FinishRequest (request);
+    Wait (request->FinishDone);
+}
+
+static void ShutdownInFlight (size_t available)
+{
+    CipherJob first, queued, synchronous = { 0 };
+    UINT64_STRUCT start = { 0 };
+    HANDLE stop;
+    Request *request;
+    int i;
+    Require (EncryptionThreadPoolStart (available - 2), "start cipher pool");
+    StartCipher (&first, TRUE, EncryptDataUnitsWork);
+    Wait (first.BothStarted);
+    StartCipher (&queued, FALSE, DecryptDataUnitsWork);
+    stop = BeginStop ();
+    synchronous.Units = 6; synchronous.Type = EncryptDataUnitsWork;
+    EncryptionThreadPoolDoWork (synchronous.Type, synchronous.Data, &start, synchronous.Units, (PCRYPTO_INFO) &synchronous);
+    CheckCipher (&synchronous);
+    SetEvent (first.MayProcess);
+    Wait (first.Paused);
+    Require (WaitForSingleObject (StopDone, 0) == WAIT_TIMEOUT, "shutdown closed a requester's completion handle");
+    SetEvent (first.MayReturn);
+    EndCipher (&first); EndCipher (&queued); EndStop (stop);
+
+    Require (EncryptionThreadPoolStart (available - 2), "restart for KDF shutdown");
+    request = NewRequest ();
+    for (i = 0; i < PRF_COUNT; ++i) Submit (request, FIRST_PRF_ID + i, FALSE, 0);
+    BeginFinish (request);
+    stop = BeginStop ();
+    InlineKdf ();
+    for (i = 0; i < request->JobCount; ++i) SetEvent (request->Jobs[i].MayReturn);
+    EndFinish (request);
+    for (i = 0; i < request->JobCount; ++i) JobDone (&request->Jobs[i]);
+    EndStop (stop);
+    InlineKdf ();
+    puts ("PASS: shutdown drains active and queued encryption, KDFs and requesters; synchronous fallback and restart");
+}
+
+static void FreeRequests (void)
+{
+    int i, j;
     Require (OpenResources == 0, "pool resources leaked");
     for (i = 0; i < RequestCount; ++i)
     {
@@ -433,6 +576,37 @@ int main (int argc, char **argv)
         VirtualUnlock (r->Items, sizeof (*r->Items) * PRF_COUNT);
         free (r->Ready); free (r->Drained); free (r->References); free (r->Items);
     }
+}
+
+int main (int argc, char **argv)
+{
+    WORD groups;
+    size_t available = GetCpuCount (&groups);
+    size_t wanted = argc > 1 ? (size_t) atoi (argv[1]) : 2;
+    if (available < 2) { puts ("SKIP: at least two logical CPUs required"); return 0; }
+    if (argc > 1 && strcmp (argv[1], "startup") == 0)
+    {
+        StartupFailures (available);
+        return 0;
+    }
+    if (argc > 1 && strcmp (argv[1], "shutdown") == 0)
+    {
+        ShutdownInFlight (available);
+        FreeRequests ();
+        return 0;
+    }
+    if (wanted > available) wanted = available;
+    Require (EncryptionThreadPoolStart (available - wanted), "start production pool");
+    Require (GetEncryptionThreadCount () == wanted, "pool worker count");
+    RequesterLast (0); RequesterLast (1); RequesterLast (5); RequesterLast (6);
+    WorkerLast (2, FALSE, 0); WorkerLast (6, FALSE, 0);
+    WorkerLast (2, TRUE, ARGON2_OPERATION_CANCELLED); WorkerLast (6, TRUE, ARGON2_OPERATION_CANCELLED);
+    WorkerLast (2, FALSE, ARGON2_MEMORY_ALLOCATION_ERROR);
+    PublicationBoundaries ();
+
+    /* Join every worker before releasing any request-owned allocation or event. */
+    EncryptionThreadPoolStop ();
+    FreeRequests ();
     printf ("PASS: %d KDF lifetime scenarios with %u workers\n", RequestCount, (unsigned) wanted);
     return 0;
 }

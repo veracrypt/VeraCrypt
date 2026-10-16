@@ -130,8 +130,34 @@ static TC_MUTEX DequeueMutex;
 
 static TC_EVENT WorkItemReadyEvent;
 static TC_EVENT WorkItemCompletedEvent;
+static TC_EVENT ThreadPoolDrainedEvent;
+
+// The high bit closes admission; the remaining bits count users of pool resources.
+#define TC_THREAD_POOL_CLOSING ((LONG) 0x80000000)
+static volatile LONG ThreadPoolReferences = TC_THREAD_POOL_CLOSING;
 
 static void EncryptionThreadPoolCleanup (void);
+
+static BOOL AcquireThreadPoolReference (void)
+{
+	LONG references = InterlockedCompareExchange (&ThreadPoolReferences, 0, 0);
+	for (;;)
+	{
+		LONG previous;
+		if (references & TC_THREAD_POOL_CLOSING)
+			return FALSE;
+		previous = InterlockedCompareExchange (&ThreadPoolReferences, references + 1, references);
+		if (previous == references)
+			return TRUE;
+		references = previous;
+	}
+}
+
+static void ReleaseThreadPoolReference (void)
+{
+	if (InterlockedDecrement (&ThreadPoolReferences) == TC_THREAD_POOL_CLOSING)
+		TC_SET_EVENT (ThreadPoolDrainedEvent);
+}
 
 void EncryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci)
 {
@@ -177,6 +203,58 @@ static void SetWorkItemState (EncryptionThreadPoolWorkItem *workItem, WorkItemSt
 }
 
 
+static void DeriveKey (EncryptionThreadPoolWorkItem *workItem)
+{
+	int derivationResult = 0;
+
+	switch (workItem->KeyDerivation.Pkcs5Prf)
+	{
+	case BLAKE2S:
+		derive_key_blake2s (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
+			workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
+		break;
+
+	case SHA512:
+		derive_key_sha512 (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
+			workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
+		break;
+
+	case WHIRLPOOL:
+		derive_key_whirlpool (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
+			workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
+		break;
+
+	case SHA256:
+		derive_key_sha256 (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
+			workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
+		break;
+
+	case STREEBOG:
+		derive_key_streebog(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
+			workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
+		break;
+
+	case ARGON2:
+		derivationResult = derive_key_argon2(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
+			workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.Memorycost, workItem->KeyDerivation.DerivedKey, ARGON2_HEADER_KEYDATA_SIZE, workItem->KeyDerivation.pAbortKeyDerivation);
+		break;
+
+	default:
+		TC_THROW_FATAL_EXCEPTION;
+	}
+
+	if (workItem->KeyDerivation.DerivationResult)
+		InterlockedExchange (workItem->KeyDerivation.DerivationResult, derivationResult);
+
+	InterlockedExchange (workItem->KeyDerivation.CompletionFlag, TRUE);
+	TC_SET_EVENT (*workItem->KeyDerivation.CompletionEvent);
+
+	// The requester retains a reference until it has finished submitting work.
+	if (InterlockedDecrement (workItem->KeyDerivation.OutstandingWorkItemCount) == 0)
+		TC_SET_EVENT (*workItem->KeyDerivation.NoOutstandingWorkItemEvent);
+}
+
+
 static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 {
 	EncryptionThreadPoolWorkItem *workItem;
@@ -216,12 +294,15 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			TC_WAIT_EVENT (WorkItemReadyEvent);
 		}
 
+		if (StopPending)
+		{
+			TC_RELEASE_MUTEX (&DequeueMutex);
+			break;
+		}
+
 		SetWorkItemState (workItem, WorkItemBusy);
 
 		TC_RELEASE_MUTEX (&DequeueMutex);
-
-		if (StopPending)
-			break;
 
 		switch (workItem->Type)
 		{
@@ -234,59 +315,11 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			break;
 
 		case DeriveKeyWork:
-			{
-			int derivationResult = 0;
-
-			switch (workItem->KeyDerivation.Pkcs5Prf)
-			{
-			case BLAKE2S:
-				derive_key_blake2s (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
-				break;
-
-			case SHA512:
-				derive_key_sha512 (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
-				break;
-
-			case WHIRLPOOL:
-				derive_key_whirlpool (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
-				break;
-
-			case SHA256:
-				derive_key_sha256 (workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
-				break;
-
-			case STREEBOG:
-				derive_key_streebog(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize(), workItem->KeyDerivation.pAbortKeyDerivation);
-				break;
-
-			case ARGON2:
-				derivationResult = derive_key_argon2(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
-					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.Memorycost, workItem->KeyDerivation.DerivedKey, ARGON2_HEADER_KEYDATA_SIZE, workItem->KeyDerivation.pAbortKeyDerivation);
-				break;
-
-			default:
-				TC_THROW_FATAL_EXCEPTION;
-			}
-
-			if (workItem->KeyDerivation.DerivationResult)
-				InterlockedExchange (workItem->KeyDerivation.DerivationResult, derivationResult);
-
-			InterlockedExchange (workItem->KeyDerivation.CompletionFlag, TRUE);
-			TC_SET_EVENT (*workItem->KeyDerivation.CompletionEvent);
-
-			// The requester retains a reference until it has finished submitting work.
-			if (InterlockedDecrement (workItem->KeyDerivation.OutstandingWorkItemCount) == 0)
-				TC_SET_EVENT (*workItem->KeyDerivation.NoOutstandingWorkItemEvent);
-
+			DeriveKey (workItem);
 			SetWorkItemState (workItem, WorkItemFree);
 			TC_SET_EVENT (WorkItemCompletedEvent);
+			ReleaseThreadPoolReference();
 			continue;
-			}
 
 		default:
 			TC_THROW_FATAL_EXCEPTION;
@@ -378,6 +411,7 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 #ifdef DEVICE_DRIVER
 	KeInitializeEvent (&WorkItemReadyEvent, SynchronizationEvent, FALSE);
 	KeInitializeEvent (&WorkItemCompletedEvent, SynchronizationEvent, FALSE);
+	KeInitializeEvent (&ThreadPoolDrainedEvent, SynchronizationEvent, FALSE);
 #else
 	WorkItemReadyEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 	if (!WorkItemReadyEvent)
@@ -385,6 +419,10 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 
 	WorkItemCompletedEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 	if (!WorkItemCompletedEvent)
+		goto err;
+
+	ThreadPoolDrainedEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
+	if (!ThreadPoolDrainedEvent)
 		goto err;
 #endif
 
@@ -457,6 +495,7 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 		}
 	}
 
+	InterlockedExchange (&ThreadPoolReferences, 0);
 	ThreadPoolRunning = TRUE;
 	return TRUE;
 
@@ -470,6 +509,11 @@ void EncryptionThreadPoolStop ()
 {
 	if (!ThreadPoolRunning)
 		return;
+
+	ThreadPoolRunning = FALSE;
+	// Accepted requests retain their resources through completion and requester wakeup.
+	if (InterlockedOr (&ThreadPoolReferences, TC_THREAD_POOL_CLOSING) != 0)
+		TC_WAIT_EVENT (ThreadPoolDrainedEvent);
 
 	EncryptionThreadPoolCleanup();
 }
@@ -511,6 +555,9 @@ static void EncryptionThreadPoolCleanup (void)
 	if (WorkItemCompletedEvent)
 		CloseHandle (WorkItemCompletedEvent);
 	WorkItemCompletedEvent = NULL;
+	if (ThreadPoolDrainedEvent)
+		CloseHandle (ThreadPoolDrainedEvent);
+	ThreadPoolDrainedEvent = NULL;
 
 	for (i = 0; i < sizeof (WorkItemQueue) / sizeof (WorkItemQueue[0]); ++i)
 	{
@@ -527,20 +574,24 @@ static void EncryptionThreadPoolCleanup (void)
 void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, unsigned char *password, int passwordLength, unsigned char *salt, int iterationCount, int memoryCost, unsigned char *derivedKey, LONG *derivationResult, LONG volatile *pAbortKeyDerivation)
 {
 	EncryptionThreadPoolWorkItem *workItem;
+	EncryptionThreadPoolWorkItem localWorkItem;
+	BOOL usePool = AcquireThreadPoolReference();
 
-	if (!ThreadPoolRunning)
-		TC_THROW_FATAL_EXCEPTION;
-
-	TC_ACQUIRE_MUTEX (&EnqueueMutex);
-
-	workItem = &WorkItemQueue[EnqueuePosition++];
-	if (EnqueuePosition >= ThreadQueueSize)
-		EnqueuePosition = 0;
-
-	while (GetWorkItemState (workItem) != WorkItemFree)
+	if (usePool)
 	{
-		TC_WAIT_EVENT (WorkItemCompletedEvent);
+		TC_ACQUIRE_MUTEX (&EnqueueMutex);
+
+		workItem = &WorkItemQueue[EnqueuePosition++];
+		if (EnqueuePosition >= ThreadQueueSize)
+			EnqueuePosition = 0;
+
+		while (GetWorkItemState (workItem) != WorkItemFree)
+		{
+			TC_WAIT_EVENT (WorkItemCompletedEvent);
+		}
 	}
+	else
+		workItem = &localWorkItem;
 
 	workItem->Type = DeriveKeyWork;
 	workItem->KeyDerivation.CompletionEvent = completionEvent;
@@ -559,9 +610,17 @@ void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT
 
 	InterlockedIncrement (outstandingWorkItemCount);
 
-	SetWorkItemState (workItem, WorkItemReady);
-	TC_SET_EVENT (WorkItemReadyEvent);
-	TC_RELEASE_MUTEX (&EnqueueMutex);
+	if (usePool)
+	{
+		// Keep a separate reference for the worker, which can finish before enqueue returns.
+		InterlockedIncrement (&ThreadPoolReferences);
+		SetWorkItemState (workItem, WorkItemReady);
+		TC_SET_EVENT (WorkItemReadyEvent);
+		TC_RELEASE_MUTEX (&EnqueueMutex);
+		ReleaseThreadPoolReference();
+	}
+	else
+		DeriveKey (workItem);
 }
 
 void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, uint8 *data, const UINT64_STRUCT *startUnitNo, uint32 unitCount, PCRYPTO_INFO cryptoInfo)
@@ -579,7 +638,7 @@ void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, uint8 *data,
 	if (unitCount == 0)
 		return;
 
-	if (!ThreadPoolRunning || unitCount == 1)
+	if (unitCount == 1 || !AcquireThreadPoolReference())
 	{
 		switch (type)
 		{
@@ -665,6 +724,7 @@ void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, uint8 *data,
 	TC_WAIT_EVENT (firstFragmentWorkItem->ItemCompletedEvent);
 	SetWorkItemState (firstFragmentWorkItem, WorkItemFree);
 	TC_SET_EVENT (WorkItemCompletedEvent);
+	ReleaseThreadPoolReference();
 }
 
 

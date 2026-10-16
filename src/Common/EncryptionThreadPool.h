@@ -38,10 +38,12 @@ size_t GetCpuCount (WORD* pGroupCount);
  * event if the result is nonzero, before releasing any caller-owned buffers.
  * Each worker releases its reference after publishing completion. A worker that
  * drops the count to zero signals the event, which must not be reset during submission.
+ * Derivation runs synchronously if the pool is unavailable or shutting down.
  * derivationResult receives 0 on success; PRFs that can fail store their native nonzero result.
  */
 void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, unsigned char *password, int passwordLength, unsigned char *salt, int iterationCount,  int memoryCost, unsigned char *derivedKey, LONG *derivationResult, LONG volatile *pAbortKeyDerivation);
 void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, uint8 *data, const UINT64_STRUCT *startUnitNo, uint32 unitCount, PCRYPTO_INFO cryptoInfo);
+/* Start and Stop calls must be serialized by the caller. Stop drains accepted work. */
 BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount);
 void EncryptionThreadPoolStop ();
 size_t GetEncryptionThreadCount ();

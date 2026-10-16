@@ -9,6 +9,8 @@ Initialization and draining are extracted from ReadVolumeHeaderWithAbort, so the
 caller and worker reference protocol are checked together. All request storage
 is retained until pool shutdown joins the workers.
 Startup checks fail each resource creation in turn and verify cleanup and restart.
+Shutdown checks hold workers and requesters at completion boundaries, then verify
+draining, synchronous fallback, and restart.
 """
 import argparse
 import os
@@ -70,6 +72,7 @@ def main():
     for workers in (2, 8):
         subprocess.run([str(exe), str(workers)], cwd=build, check=True, timeout=90)
     subprocess.run([str(exe), "startup"], cwd=build, check=True, timeout=90)
+    subprocess.run([str(exe), "shutdown"], cwd=build, check=True, timeout=90)
 
 
 if __name__ == "__main__":
