@@ -28,7 +28,7 @@
     <entry lang="it" key="IDC_BENCHMARK">&amp;Prestazioni</entry>
     <entry lang="it" key="IDC_CIPHER_TEST">&amp;Test</entry>
     <entry lang="it" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Crea e formatta un volume cifrato</entry>
-    <entry lang="it" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Cripta la partizione sul posto</entry>
+    <entry lang="it" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Cifra la partizione sul posto</entry>
     <entry lang="it" key="IDC_DISPLAY_KEYS">Visualizza chiavi generate (loro porzioni)</entry>
     <entry lang="it" key="IDC_DISPLAY_POOL_CONTENTS">Visualizza contenuto pool</entry>
     <entry lang="it" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Scarica software masterizzazione CD/DVD</entry>
@@ -149,7 +149,7 @@
     <entry lang="it" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Uteriori informazioni</entry>
     <entry lang="it" key="IDC_MORE_SETTINGS">Altre impostazioni...</entry>
     <entry lang="it" key="IDC_MOUNTALL">Montaggio &amp;automatico</entry>
-    <entry lang="it" key="IDC_MOUNT_OPTIONS">&amp;Opzioni di montaggio...</entry>
+    <entry lang="it" key="IDC_MOUNT_OPTIONS">&amp;Opzioni di mount...</entry>
     <entry lang="it" key="IDC_MOUNT_READONLY">Monta il volume in &amp;sola lettura</entry>
     <entry lang="it" key="IDC_NEW_KEYFILES">Keyfile...</entry>
     <entry lang="it" key="IDC_OLD_PIM_HELP">(Vuoto o 0 per iterazioni di default)</entry>
@@ -181,10 +181,10 @@
     <entry lang="it" key="IDC_TRAVEL_OPEN_EXPLORER">Apri la finestra di Esplora risorse per il volume montato</entry>
     <entry lang="it" key="IDC_TRAV_CACHE_PASSWORDS">Mantieni la password nella cache</entry>
     <entry lang="it" key="IDC_TRUECRYPT_MODE">Modalità TrueCrypt</entry>
-    <entry lang="it" key="IDC_UNMOUNTALL">&amp;Smonta tutti</entry>
-    <entry lang="it" key="IDC_VOLUME_PROPERTIES">Proprietà &amp;volume...</entry>
+    <entry lang="it" key="IDC_UNMOUNTALL">Sm&amp;onta tutti</entry>
+    <entry lang="it" key="IDC_VOLUME_PROPERTIES">Proprietà v&amp;olume...</entry>
     <entry lang="it" key="IDC_VOLUME_TOOLS">Strumen&amp;ti volume...</entry>
-    <entry lang="it" key="IDC_WIPE_CACHE">&amp;Azzera la cache</entry>
+    <entry lang="it" key="IDC_WIPE_CACHE">A&amp;zzera la cache</entry>
     <entry lang="it" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Parametri di Montaggio</entry>
     <entry lang="it" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Volumi preferiti</entry>
     <entry lang="it" key="IDD_HOTKEYS_DLG">VeraCrypt - Tasti di scelta rapida (hotkey)</entry>
@@ -200,7 +200,7 @@
     <entry lang="it" key="IDM_ABOUT">Info...</entry>
     <entry lang="it" key="IDM_ADD_REMOVE_VOL_KEYFILES">Aggiungi o rimuovi i keyfile dal volume...</entry>
     <entry lang="it" key="IDM_ADD_VOLUME_TO_FAVORITES">Aggiungi il volume montato ai preferiti...</entry>
-    <entry lang="it" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Aggiungi il volume montato ai preferiti...</entry>
+    <entry lang="it" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Aggiungi il volume montato ai preferiti di sistema...</entry>
     <entry lang="it" key="IDM_ANALYZE_SYSTEM_CRASH">Analizza crash del sistema...</entry>
     <entry lang="it" key="IDM_BACKUP_VOL_HEADER">Backup dell'header del volume...</entry>
     <entry lang="it" key="IDM_BENCHMARK">Riferimenti...</entry>
@@ -501,8 +501,8 @@
     <entry lang="it" key="WIPE_FINISHED">Il contenuto della partizione/unità è stata cancellata con successo.</entry>
     <entry lang="it" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">Il contenuto della partizione dove il sistema originale (del quale il sistema nascosto è un clone) risiede è stato cancellato con successo.</entry>
     <entry lang="it" key="DECOY_OS_VERSION_WARNING">Assicuratevi che la versione di Windows che state installando (nella partizione pulita) è la stessa come la versione di Windows che state eseguendo attualmente. Questo è richiesto perché entrambi i sistemi condividono una partizione di avvio comune.</entry>
-    <entry lang="it" key="SYSTEM_ENCRYPTION_FINISHED">La partizione/disco di sistema è stato decifrato con successo.\n\nNota: Se cisono dei volumi VeraCrypt non di sistema che desiderate mountare automaticamente ogni volta che viene avviato Windows, potete impostare questo montando ognuno di essi e selezionando 'Preferiti' &gt; 'Aggiungi volume montato ai preferiti di sistema').</entry>
-    <entry lang="it" key="SYSTEM_DECRYPTION_FINISHED">La partizione/disco di sistema è stato decifrato con successo.</entry>
+    <entry lang="it" key="SYSTEM_ENCRYPTION_FINISHED">La partizione o il disco di sistema è stato cifrato con successo.\n\nNota: Se ci sono dei volumi VeraCrypt non di sistema che desiderate montare automaticamente ogni volta che viene avviato Windows, potete farlo montando ognuno di essi e selezionando 'Preferiti' &gt; 'Aggiungi il volume montato ai preferiti di sistema'.</entry>
+    <entry lang="it" key="SYSTEM_DECRYPTION_FINISHED">La partizione o il disco di sistema è stato decifrato con successo.</entry>
     <entry lang="it" key="FORMAT_FINISHED_HELP">\n\nIl volume VeraCrypt è stato creato ed è pronto per l'uso. Se si desidera creare un altro volume VeraCrypt, fate click su 'Avanti'. Altrimenti, fate click su 'Esci'.</entry>
     <entry lang="it" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">n\nIl volume VeraCrypt nascosto è stato creato con successo (il sistema operativo nascosto deve risiedere all'interno di questo volume nascosto).\n\nFate click su Avanti per continuare.</entry>
     <entry lang="it" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volume cifrato totalmente</entry>
@@ -651,7 +651,7 @@
     <entry lang="it" key="PIM_TITLE">Volume PIM</entry>
     <entry lang="it" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nATTENZIONE: dei file nascosti sono stati trovati nel percorso di ricerca del keyfile. Tali file nascosti non possono essere usati come file-chiave. Se avete bisogno di usarli come un file-chiave, rimuovere l'attributo 'Nascosto' (tasto destro del mouse su ogni file, selezionare 'Proprietà' e deselezionare l'attributo 'Nascosto', quindi clic su OK). Nota: I file nascosti sono visibili solo se l'opzione che ne permette la visione è abilitata (Computer &gt; Organizza &gt; 'Opzioni cartelle e ricerca' &gt; Visualizzazione).</entry>
     <entry lang="it" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">Se state tentando di proteggere un volume nascosto contenente un sistema operativo nascosto, assicuratevi di usare la tastiera standard con layout americano quando digitate la password per il volume nascosto. Questo è richiesto dal fatto che la password deve essere digitata in ambiente di pre-avvio (prima dell'avvio di Windows) dove le tastiere con layout non americano non sono disponibili.</entry>
-    <entry lang="it" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt non ha trovato nessun volume dove la codifica non di sistema è stata interrotta e dove l'header del volume può essere decifrato usando la password e il keyfile fornito.\n\nAssicuratevi che la password e il keyfile forniti siano corretti e che la partizione/volume non sia in uso dal sistema o da applicazioni (compresi i software antivirus).</entry>
+    <entry lang="it" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt non ha trovato alcun volume dove il processo di cifratura o decifratura di un volume non di sistema sia stato interrotto e dove l'header del volume possa essere decifrato con la password o i keyfile, o entrambi, se forniti.\n\nAssicurarsi che la password o i keyfile siano corretti e che la partizione o il volume non siano in uso dal sistema o da applicazioni (compreso il software antivirus).</entry>
     <entry lang="it" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">La partizione/dispositivo selezionata è già completamente cifrata.\nHeader Flags = 0x%.8X</entry>
     <entry lang="it" key="SELECTED_PARTITION_NOT_INPLACE_ENC">La partizione/dispositivo selezionato non sta usando cifratura sul posto.\nHeader Flags = 0x%8X</entry>
     <entry lang="it" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\nNota: Se state tentando di montare una partizione collocata su un percorso di sistema cifrato senza autenticazione di pre-boot oppure di montare la partizione di sistema cifrata su un sistema operativo che non è in esecuzione, dovete fare questo selezionando 'Sistema' &gt; 'Monta senza autenticazione di pre-boot'.</entry>
@@ -778,7 +778,7 @@
     <entry lang="it" key="ALPHABETICAL_CATEGORIZED">Alfabetico/Per categoria</entry>
     <entry lang="it" key="MEAN_SPEED">Velocità media (decrescente)</entry>
     <entry lang="it" key="ALGORITHM">Algoritmo</entry>
-    <entry lang="it" key="ENCRYPTION">Cifra</entry>
+    <entry lang="it" key="ENCRYPTION">Cifratura</entry>
     <entry lang="it" key="DECRYPTION">Decodifica</entry>
     <entry lang="it" key="MEAN">Media</entry>
     <entry lang="it" key="DRIVE">Seleziona unità</entry>
@@ -1074,7 +1074,7 @@
     <entry lang="it" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt non supporta più la codifica della partizione/disco di sistema in Windows Vista con nessun Service Pack installato. Prima di aggiornare VeraCrypt, installare il Service Pack 1 o superiore per Windows Vista.</entry>
     <entry lang="it" key="FEATURE_REQUIRES_INSTALLATION">Errore: Questa funzione richiede che VeraCrypt sia installato nel sistema (state eseguendo VeraCrypt in modalità portabile).\n\nInstallate VeraCrypt e ritentate.</entry>
     <entry lang="it" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">AVVERTENZA: Windows non sembra essere installato nel drive dal quale esso viene avviato. Questo non è supportato.\n\nDovete continuare solo se voi siete sicuri che Windows sia installato nel drive dal quale esso viene avviato.\n\nVolete continuare?</entry>
-    <entry lang="it" key="TC_BOOT_LOADER_ALREADY_INSTALLED">ATTENZIONE: Il loader di avvio di VeraCrypt Boot già installato nel vostro system drive!\n\nNon è possibile che un altro sistema sul vostro computer sia già cifrato.\n\nATTENZIONE: PROCEDERE CON LA CODIFICA DEL SISTEMA ATTUALMENTE IN ESECUZIONE PUÒ RENDERE GLI ALTRI SISTEMI IMPOSSIBILE DA AVVIARE ED I RELATIVI DATI  INACCESSIBILI.\n\nSiete sicuri di voler continuare?</entry>
+    <entry lang="it" key="TC_BOOT_LOADER_ALREADY_INSTALLED">ATTENZIONE: Il boot loader di VeraCrypt è già installato nel disco di sistema!\n\nÈ possibile che un altro sistema operativo sul computer sia già cifrato.\n\nATTENZIONE: PROCEDERE CON LA CIFRATURA DEL SISTEMA ATTUALMENTE IN USO PUÒ RENDERE GLI ALTRI SISTEMI IMPOSSIBILI DA AVVIARE E I RELATIVI DATI  INACCESSIBILI.\n\nSiete sicuri di voler continuare?</entry>
     <entry lang="it" key="SYS_LOADER_RESTORE_FAILED">Errore nel ripristino del loader originale di sistema.\n\nDovete usare il vostro disco di ripristino di VeraCrypt ('Opzioni riparazione' &gt; 'Ripristina il loader di sistema originale') oppure il supporto di installazione di Windows per sostituire il loader di avvio di VeraCrypt con il loader di sistema di Windows.</entry>
     <entry lang="it" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Il system loader originale non sarà salvato sul disco di ripristino (causa probabile: file di backup mancante).</entry>
     <entry lang="it" key="ERROR_MBR_PROTECTED">Errore nello scrivere il settore MBR .\n\nIl vostro BIOS non è configurato per proteggere il settore MBR. Verificate le impostazioni del vostro BIOS (pemete F2, Canc oppure Esc dopo aver acceso il vostro computer) per la protezione MBR/antivirus.</entry>
