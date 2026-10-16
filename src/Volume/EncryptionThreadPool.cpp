@@ -344,21 +344,33 @@ namespace VeraCrypt
 					if (workItem->Type == WorkType::DeriveKey)
 						workItem->KeyDerivation.WorkItem->ItemException.reset (e.CloneNew());
 					else
-						workItem->FirstFragment->ItemException.reset (e.CloneNew());
+					{
+						ScopeLock exceptionLock (FragmentExceptionMutex);
+						if (!workItem->FirstFragment->ItemException.get())
+							workItem->FirstFragment->ItemException.reset (e.CloneNew());
+					}
 				}
 				catch (exception &e)
 				{
 					if (workItem->Type == WorkType::DeriveKey)
 						workItem->KeyDerivation.WorkItem->ItemException.reset (new ExternalException (SRC_POS, StringConverter::ToExceptionString (e)));
 					else
-						workItem->FirstFragment->ItemException.reset (new ExternalException (SRC_POS, StringConverter::ToExceptionString (e)));
+					{
+						ScopeLock exceptionLock (FragmentExceptionMutex);
+						if (!workItem->FirstFragment->ItemException.get())
+							workItem->FirstFragment->ItemException.reset (new ExternalException (SRC_POS, StringConverter::ToExceptionString (e)));
+					}
 				}
 				catch (...)
 				{
 					if (workItem->Type == WorkType::DeriveKey)
 						workItem->KeyDerivation.WorkItem->ItemException.reset (new UnknownException (SRC_POS));
 					else
-						workItem->FirstFragment->ItemException.reset (new UnknownException (SRC_POS));
+					{
+						ScopeLock exceptionLock (FragmentExceptionMutex);
+						if (!workItem->FirstFragment->ItemException.get())
+							workItem->FirstFragment->ItemException.reset (new UnknownException (SRC_POS));
+					}
 				}
 
 				if (workItem->Type == WorkType::DeriveKey)
@@ -409,6 +421,7 @@ namespace VeraCrypt
 
 	Mutex EncryptionThreadPool::EnqueueMutex;
 	Mutex EncryptionThreadPool::DequeueMutex;
+	Mutex EncryptionThreadPool::FragmentExceptionMutex;
 	Mutex EncryptionThreadPool::KeyDerivationCompletionMutex;
 
 	SyncEvent EncryptionThreadPool::WorkItemReadyEvent;

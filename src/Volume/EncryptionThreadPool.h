@@ -111,6 +111,8 @@ namespace VeraCrypt
 		static volatile size_t DequeuePosition;
 		static volatile size_t EnqueuePosition;
 		static Mutex EnqueueMutex;
+		// Fragments of one request share the first fragment's exception pointer.
+		static Mutex FragmentExceptionMutex;
 		// Orders KDF outstanding-count transitions against no-outstanding event updates.
 		static Mutex KeyDerivationCompletionMutex;
 		static list < shared_ptr <Thread> > RunningThreads;
