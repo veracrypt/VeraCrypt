@@ -15,6 +15,8 @@ import subprocess
 import sys
 import tempfile
 
+from test_volume_read import old_abi
+
 ROOT = Path(__file__).resolve().parents[1]
 
 HARNESS = r'''
@@ -298,6 +300,8 @@ def main():
         unit.write_text(HARNESS.replace("// PRODUCTION_METHODS", "\n".join(methods)))
         command = shlex.split(os.environ.get("CXX", "c++")) + ["-std=c++11", "-DTC_UNIX"]
         command += ["-DTC_MACOSX"] if sys.platform == "darwin" else ["-DTC_LINUX"]
+        if sys.platform != "darwin" and old_abi(args.build_dir.resolve() / "Volume/Volume.a"):
+            command.append("-D_GLIBCXX_USE_CXX11_ABI=0")
         command += ["-I" + str(ROOT / p) for p in ("src", "src/Crypto", "src/Crypto/Argon2/include")]
         command += [str(unit)] + [str(args.build_dir.resolve() / p) for p in ("Core/Core.a", "Volume/Volume.a", "Platform/Platform.a")]
         command += ["-Wl,-dead_strip"] if sys.platform == "darwin" else ["-Wl,--gc-sections", "-pthread", "-ldl"]

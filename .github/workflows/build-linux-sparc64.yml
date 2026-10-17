@@ -1,0 +1,115 @@
+name: Build and test Linux sparc64
+
+# Cross-builds the console version for sparc64 in a Debian sid container
+# (sparc64 libraries from Debian Ports) and runs it under qemu-user: the
+# algorithm self-tests, a read of known data from the Tests/*.hc volumes
+# without mounting, and a header compatibility check of these volumes.
+#
+# sparc64 is big-endian and, unlike s390x, raises SIGBUS on misaligned
+# accesses, also under qemu-user. Its GOT limit for -fpic/-fpie code is
+# 8 KB, which the console build exceeds, so linking also checks that the
+# Makefile uses -fPIE.
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - 'src/Build/Include/Makefile.inc'
+      - 'src/Common/*.h'
+      - 'src/Common/*.cpp'
+      - 'src/Common/*.c'
+      - 'src/Core/**'
+      - 'src/Crypto/**'
+      - 'src/Driver/Fuse/**'
+      - 'src/Main/**'
+      - 'src/Platform/**'
+      - 'src/Volume/**'
+      - 'src/Makefile'
+      - 'Tests/test.*.hc'
+      - 'Tests/test_byte_order_interop.py'
+      - 'Tests/test_volume_read.py'
+      - 'Tests/volume_read_test.cpp'
+      - '.github/workflows/build-linux-sparc64.yml'
+  pull_request:
+    branches: [ "master" ]
+    paths:
+      - 'src/Build/Include/Makefile.inc'
+      - 'src/Common/*.h'
+      - 'src/Common/*.cpp'
+      - 'src/Common/*.c'
+      - 'src/Core/**'
+      - 'src/Crypto/**'
+      - 'src/Driver/Fuse/**'
+      - 'src/Main/**'
+      - 'src/Platform/**'
+      - 'src/Volume/**'
+      - 'src/Makefile'
+      - 'Tests/test.*.hc'
+      - 'Tests/test_byte_order_interop.py'
+      - 'Tests/test_volume_read.py'
+      - 'Tests/volume_read_test.cpp'
+      - '.github/workflows/build-linux-sparc64.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  WXWIDGETS_VERSION: 3.2.5
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    name: build-sparc64
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Registers the qemu-user handlers on the runner, so that sparc64
+    # programs also run inside the container.
+    - name: Install qemu-user
+      run: sudo apt-get update && sudo apt-get install -y qemu-user-static
+
+    - name: Download and extract wxWidgets
+      run: |
+        wget -q https://github.com/wxWidgets/wxWidgets/releases/download/v${{ env.WXWIDGETS_VERSION }}/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2 -O /tmp/wxWidgets.tar.bz2
+        mkdir -p /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}
+        tar -xjf /tmp/wxWidgets.tar.bz2 -C /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }} --strip-components=1
+
+    - name: Build and test in a Debian sid container
+      run: |
+        docker run --rm -i -v "$PWD:/src" -v /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}:/wx:ro \
+          debian:sid bash -eu -s <<'EOF'
+        export DEBIAN_FRONTEND=noninteractive
+        apt-get update -qq
+        apt-get install -y -qq debian-ports-archive-keyring > /dev/null
+        dpkg --add-architecture sparc64
+        sed -i 's/^Types: deb$/Types: deb\nArchitectures: amd64/' /etc/apt/sources.list.d/debian.sources
+        printf 'Types: deb\nURIs: http://ftp.ports.debian.org/debian-ports\nSuites: sid unreleased\nComponents: main\nArchitectures: sparc64\nSigned-By: /usr/share/keyrings/debian-ports-archive-keyring.gpg\n' \
+          > /etc/apt/sources.list.d/ports.sources
+        apt-get update -qq
+        apt-get install -y -qq g++-sparc64-linux-gnu make pkg-config python3 \
+          libfuse3-dev:sparc64 libpcsclite-dev:sparc64 libstdc++6:sparc64 > /dev/null
+        cp -r /wx /tmp/wx
+        cd /src/src
+        # $(shell pkg-config ...) in the Makefile only sees the environment.
+        export PKG_CONFIG_LIBDIR=/usr/lib/sparc64-linux-gnu/pkgconfig:/usr/share/pkgconfig
+        export PKG_CONFIG_PATH=$PKG_CONFIG_LIBDIR
+        set -- NOGUI=1 WITHFUSE3=1 WXSTATIC=1 NOTEST=1 WX_ROOT=/tmp/wx WX_BUILD_DIR=/tmp/wxBuildConsole \
+          ARCH=sparc64 NOSTRIP=1 CC=sparc64-linux-gnu-gcc CXX=sparc64-linux-gnu-g++ \
+          AR=sparc64-linux-gnu-ar RANLIB=sparc64-linux-gnu-ranlib \
+          WX_CONFIGURE_EXTRA_FLAGS="--host=sparc64-linux-gnu --build=x86_64-linux-gnu"
+        make "$@" wxbuild
+        make "$@" -j"$(nproc)"
+        cd /src
+        export LANG=C LC_ALL=C XDG_CONFIG_HOME=$(mktemp -d)
+        src/Main/veracrypt --text --test
+        CXX=sparc64-linux-gnu-g++ NM=sparc64-linux-gnu-nm python3 Tests/test_volume_read.py --build-dir src --require-thread-pool
+        python3 Tests/test_byte_order_interop.py --binary-a src/Main/veracrypt
+        EOF
