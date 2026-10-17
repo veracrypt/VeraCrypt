@@ -1,23 +1,41 @@
 #!/bin/sh
-# mount.veracrypt <device> <mountpoint> [flags] [-o comma-options]
+# mount.veracrypt <device> <mountpoint> [-sfnv] [-N ns] [-o options] [-t type]
 DEV=$1
 MNTPT=$2
 MOUNTOPTS=
 OPTIONS=
+OPTSTR=
+FAKE=
+PASSWORD=
+HAVEPW=
+PASSFILE=
 
 shift 2
-while [ "$#" -gt 0 ] && [ "$1" != "-o" ]; do shift; done
-[ "$#" -gt 0 ] && shift
+while [ "$#" -gt 0 ]; do
+	case $1 in
+		-o)
+			[ "$#" -gt 1 ] || break
+			OPTSTR=$2; shift 2 ;;
+		-o*)	OPTSTR=${1#-o}; shift ;;
+		-N|-t)
+			[ "$#" -gt 1 ] || break
+			shift 2 ;;
+		-*f*)	FAKE=1; shift ;;
+		*)	shift ;;
+	esac
+done
 
 OLDIFS=$IFS
 IFS=,
 set -f
-OPTSTR="$*"
 # Collect veracrypt arguments as positional parameters so values with spaces
 # (e.g. keyfile paths) stay single arguments.
 set --
 for arg in $OPTSTR; do
 	case $arg in
+		ro|readonly)
+			MOUNTOPTS="${MOUNTOPTS:+$MOUNTOPTS,}ro"
+			OPTIONS="${OPTIONS}ro," ;;
 		system|nokernelcrypto|headerbak|timestamp)
 		                  MOUNTOPTS="${MOUNTOPTS:+$MOUNTOPTS,}$arg" ;;
 		truecrypt)
@@ -25,7 +43,8 @@ for arg in $OPTSTR; do
 			exit 1 ;;
 		fs=*)             set -- "$@" "--filesystem=${arg#*=}" ;;
 		keyfiles=*)       set -- "$@" "--keyfiles=${arg#*=}" ;;
-		password=*)       set -- "$@" "--password=${arg#*=}" ;;
+		password=*)       PASSWORD=${arg#*=}; HAVEPW=1 ;;
+		passwordfile=*)   PASSFILE=${arg#*=} ;;
 		pim=*)            set -- "$@" "--pim=${arg#*=}" ;;
 		protect-hidden=*) set -- "$@" "--protect-hidden=${arg#*=}" ;;
 		slot=*)           set -- "$@" "--slot=${arg#*=}" ;;
@@ -35,8 +54,35 @@ done
 IFS=$OLDIFS
 set +f
 
+if [ -n "$HAVEPW" ] && [ -n "$PASSFILE" ]; then
+	echo "mount.veracrypt: use either password= or passwordfile=" >&2
+	exit 1
+fi
+
+if [ -n "$PASSFILE" ] && [ ! -r "$PASSFILE" ]; then
+	echo "mount.veracrypt: cannot read passwordfile $PASSFILE" >&2
+	exit 1
+fi
+
 # veracrypt reads a single --mount-options value, so pass one comma list.
 [ -n "$MOUNTOPTS" ] && set -- "$@" "--mount-options=$MOUNTOPTS"
+set -- "$@" --fs-options="${OPTIONS%,}" "$DEV" "$MNTPT"
 
-exec /usr/bin/veracrypt --text --non-interactive "$@" \
-	--fs-options="${OPTIONS%,}" "$DEV" "$MNTPT"
+# -f (fake): parse and validate the options, but do not mount.
+[ -n "$FAKE" ] && exit 0
+
+# The password goes to veracrypt on stdin, not on its command line. With
+# password= it is still in fstab and in mount(8)'s arguments while mount
+# runs; only passwordfile= keeps it out of the process list. An empty
+# password= (keyfiles only) is not a secret.
+if [ -n "$PASSFILE" ]; then
+	exec /usr/bin/veracrypt --text --non-interactive --stdin "$@" < "$PASSFILE"
+elif [ -n "$PASSWORD" ]; then
+	exec /usr/bin/veracrypt --text --non-interactive --stdin "$@" <<EOF
+$PASSWORD
+EOF
+elif [ -n "$HAVEPW" ]; then
+	exec /usr/bin/veracrypt --text --non-interactive --password= "$@"
+else
+	exec /usr/bin/veracrypt --text --non-interactive "$@"
+fi
