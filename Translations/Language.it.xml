@@ -1706,6 +1706,7 @@
     <entry lang="it" key="LINUX_ELEVATION_BLOCKED">L'attuale launcher o sandbox impedisce a VeraCrypt di ottenere i privilegi di amministratore (Linux NoNewPrivs).\n\nChiudere VeraCrypt e avviarlo al di fuori di questo ambiente limitato. Su NixOS, usare il pacchetto VeraCrypt nativo invece di appimage-run.</entry>
     <entry lang="it" key="LINUX_REQUESTER_BACKED_VOLUME">VeraCrypt non è riuscito ad aprire il file del volume con i privilegi di amministratore, quindi lo ha aperto con i diritti di accesso dell'account utente corrente:\n{0}\n\nMantenere montata la condivisione di origine e attiva la sessione utente finché questo volume VeraCrypt non viene smontato. Espellere la condivisione o terminare la sessione può causare la perdita di dati. Per un uso regolare, salvare il volume in una posizione in cui VeraCrypt possa aprirlo con i privilegi di amministratore, ad esempio su una condivisione montata con il client CIFS del kernel.</entry>
     <entry lang="it" key="PCSC_ERROR">Errore della smart card</entry>
+    <entry lang="en" key="IDC_PREF_REMEMBER_MONITOR">Remember which monitor the main window was shown on</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

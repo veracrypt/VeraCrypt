@@ -124,6 +124,7 @@ BOOL bCmdTryEmptyPasswordWhenKeyfileUsed = FALSE;
 BOOL bCmdTryEmptyPasswordWhenKeyfileUsedValid = FALSE;
 BOOL bHistoryCmdLine = FALSE;		/* History control is always disabled */
 BOOL bUseDifferentTrayIconIfVolMounted = TRUE;
+BOOL bRememberWindowMonitor = FALSE;	/* Open the main window on the monitor it was last shown on */
 BOOL bCloseDismountedWindows=TRUE;	/* Close all open explorer windows of dismounted volume */
 BOOL bWipeCacheOnExit = FALSE;		/* Wipe password from chace on exit */
 BOOL bWipeCacheOnAutoDismount = TRUE;
@@ -967,6 +968,151 @@ void EndMainDlg (HWND hwndDlg)
    the parking dimensions, so neither IsIconic nor the current size can be trusted. */
 static SIZE MainDlgNormalSize = {0};
 
+/* Display device name, such as \\.\DISPLAY2, of the monitor the main window was last
+   shown on, or empty. Used when bRememberWindowMonitor is set. The monitor is kept by
+   name because a monitor handle cannot be kept from one run to the next, and
+   EnumDisplayMonitors does not define an order that an index could rely on. */
+static wchar_t LastMainWindowMonitorDevice[CCHDEVICENAME] = {0};
+
+/* TRUE once the main window is on a monitor of the user's choosing: it was placed on the
+   remembered monitor at startup, or since then the user moved it to another monitor or
+   turned the option on. It is cleared when the remembered monitor is detached. While it
+   is not set, the window is where the system put it, for instance because the remembered
+   monitor was not attached at startup, and saving the settings must not replace the
+   remembered monitor with that one. */
+static BOOL MainWindowMonitorChosen = FALSE;
+
+/* Monitor of the main window when the user started moving it */
+static HMONITOR MainWindowMonitorAtMoveStart = NULL;
+
+/* Search state for FindMonitorByDeviceProc */
+typedef struct
+{
+	const wchar_t *device;	/* in: display device name */
+	HMONITOR hMonitor;		/* out: monitor with that name, NULL if none is attached */
+} MonitorByDeviceSearch;
+
+static BOOL CALLBACK FindMonitorByDeviceProc (HMONITOR hMonitor, HDC hdc, LPRECT rect, LPARAM lParam)
+{
+	MonitorByDeviceSearch *search = (MonitorByDeviceSearch *) lParam;
+	MONITORINFOEXW mi;
+
+	UNREFERENCED_PARAMETER (hdc);
+	UNREFERENCED_PARAMETER (rect);
+
+	memset (&mi, 0, sizeof (mi));
+	mi.cbSize = sizeof (mi);
+	if (GetMonitorInfoW (hMonitor, (LPMONITORINFO) &mi) && wcscmp (mi.szDevice, search->device) == 0)
+	{
+		search->hMonitor = hMonitor;
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+/* Returns the attached monitor with the given display device name, NULL if there is none. */
+static HMONITOR FindMonitorByDevice (const wchar_t *device)
+{
+	MonitorByDeviceSearch search;
+
+	search.device = device;
+	search.hMonitor = NULL;
+	if (device[0])
+		EnumDisplayMonitors (NULL, NULL, FindMonitorByDeviceProc, (LPARAM) &search);
+	return search.hMonitor;
+}
+
+/* Returns the monitor the main window was last shown on when bRememberWindowMonitor is
+   set and that monitor is attached, NULL otherwise. */
+static HMONITOR GetRememberedMainWindowMonitor (void)
+{
+	return bRememberWindowMonitor ? FindMonitorByDevice (LastMainWindowMonitorDevice) : NULL;
+}
+
+/* Records the monitor the main window is shown on. Nothing is recorded while the window
+   is hidden, minimized or outside every monitor. When the settings are saved, the monitor
+   is only recorded if none was remembered yet, or if MainWindowMonitorChosen is set and
+   the remembered monitor is still attached: saving then also picks up a move made without
+   dragging, such as with Win+Shift+Arrow, but not a monitor the system chose because the
+   remembered one was missing at startup or was detached since. */
+static void RememberMainWindowMonitor (BOOL saving)
+{
+	HMONITOR hMonitor;
+	MONITORINFOEXW mi;
+
+	if (!bRememberWindowMonitor || !MainDlg || !IsWindowVisible (MainDlg) || IsIconic (MainDlg))
+		return;
+
+	if (saving && LastMainWindowMonitorDevice[0]
+		&& (!MainWindowMonitorChosen || !FindMonitorByDevice (LastMainWindowMonitorDevice)))
+		return;
+
+	hMonitor = MonitorFromWindow (MainDlg, MONITOR_DEFAULTTONULL);
+	if (!hMonitor)
+		return;
+
+	memset (&mi, 0, sizeof (mi));
+	mi.cbSize = sizeof (mi);
+	if (GetMonitorInfoW (hMonitor, (LPMONITORINFO) &mi))
+	{
+		StringCbCopyW (LastMainWindowMonitorDevice, sizeof (LastMainWindowMonitorDevice), mi.szDevice);
+		MainWindowMonitorChosen = TRUE;
+	}
+}
+
+/* Returns the position that centers a window of the given size on the work area of a
+   monitor. A window larger than the work area is moved right and down so that its
+   caption stays on the work area. */
+static POINT GetCenteredWindowPosition (const MONITORINFO *mi, LONG width, LONG height)
+{
+	POINT pt;
+
+	pt.x = mi->rcWork.left + ((mi->rcWork.right - mi->rcWork.left) - width) / 2;
+	pt.y = mi->rcWork.top  + ((mi->rcWork.bottom - mi->rcWork.top) - height) / 2;
+
+	if (pt.x < mi->rcWork.left)
+		pt.x = mi->rcWork.left;
+	if (pt.y < mi->rcWork.top)
+		pt.y = mi->rcWork.top;
+
+	return pt;
+}
+
+/* Moves the main window to the monitor it was last shown on, centered on its work area.
+   Called at the end of WM_INITDIALOG, before the window is first shown: InitMainDialog
+   has given it its final size, and the prompts displayed during startup, such as for
+   mounting from the command line, have kept their usual placement. Until then the window
+   is where DS_CENTER put it, on a monitor chosen by the system. Whether it is then shown
+   normally or minimized, or kept hidden in the notification area, it restores to this
+   position. As it is neither minimized nor visible yet, its position is set in screen
+   coordinates; SetWindowPlacement would also apply a show command. */
+static void PlaceMainWindowOnRememberedMonitor (HWND hwnd)
+{
+	HMONITOR hMonitor = GetRememberedMainWindowMonitor ();
+	MONITORINFO mi;
+	POINT pt;
+
+	/* The window can already have been shown from the notification area or with the
+	   hotkey while a startup prompt was displayed, and then minimized or hidden again.
+	   It then stays where it is. */
+	if (!hMonitor || IsWindowVisible (hwnd) || IsIconic (hwnd))
+		return;
+
+	if (hMonitor != MonitorFromWindow (hwnd, MONITOR_DEFAULTTONULL))
+	{
+		mi.cbSize = sizeof (mi);
+		if (MainDlgNormalSize.cx <= 0 || MainDlgNormalSize.cy <= 0 || !GetMonitorInfo (hMonitor, &mi))
+			return;
+
+		pt = GetCenteredWindowPosition (&mi, MainDlgNormalSize.cx, MainDlgNormalSize.cy);
+		if (!SetWindowPos (hwnd, NULL, pt.x, pt.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE))
+			return;
+	}
+
+	MainWindowMonitorChosen = TRUE;
+}
+
 static void InitMainDialog (HWND hwndDlg)
 {
 	MENUITEMINFOW info;
@@ -1467,6 +1613,15 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 
 	ConfigReadCompareInt ("UseLegacyMaxPasswordLength", FALSE, &bUseLegacyMaxPasswordLength, bOnlyCheckModified, pbSettingsModified);
 
+	ConfigReadCompareInt ("RememberWindowMonitor", FALSE, &bRememberWindowMonitor, bOnlyCheckModified, pbSettingsModified);
+	{
+		char szTmp[CCHDEVICENAME * 3] = {0};
+		WideCharToMultiByte (CP_UTF8, 0, LastMainWindowMonitorDevice, -1, szTmp, sizeof (szTmp), NULL, NULL);
+		ConfigReadCompareString ("LastMainWindowMonitor", "", szTmp, sizeof (szTmp) - 1, bOnlyCheckModified, pbSettingsModified);
+		if (!MultiByteToWideChar (CP_UTF8, 0, szTmp, -1, LastMainWindowMonitorDevice, ARRAYSIZE (LastMainWindowMonitorDevice)))
+			LastMainWindowMonitorDevice[0] = 0;
+	}
+
 	ConfigReadCompareInt ("MountVolumesRemovable", FALSE, &defaultMountOptions.Removable, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("MountVolumesReadOnly", FALSE, &defaultMountOptions.ReadOnly, bOnlyCheckModified, pbSettingsModified);
 
@@ -1586,6 +1741,9 @@ void SaveSettings (HWND hwndDlg)
 {
 	WaitCursor ();
 
+	// Update the monitor the main window was last shown on, so that a change is detected below
+	RememberMainWindowMonitor (TRUE);
+
 	// Check first if modifications ocurred before writing to the settings and history files
 	// This avoids leaking information about VeraCrypt usage when user only mount volumes without changing setttings or history
 	BOOL bSettingsChanged = FALSE;
@@ -1626,6 +1784,8 @@ void SaveSettings (HWND hwndDlg)
 		ConfigWriteInt ("UseSecureDesktop",					bUseSecureDesktop);
 		ConfigWriteInt ("EnableIMEInSecureDesktop",			bEnableIMEInSecureDesktop);
 		ConfigWriteInt ("UseLegacyMaxPasswordLength",		bUseLegacyMaxPasswordLength);
+		ConfigWriteInt ("RememberWindowMonitor",			bRememberWindowMonitor);
+		ConfigWriteStringW ("LastMainWindowMonitor",		LastMainWindowMonitorDevice);
 
 		ConfigWriteInt ("EnableBackgroundTask",				bEnableBkgTask);
 		ConfigWriteInt ("CloseBackgroundTaskOnNoVolumes",	bCloseBkgTaskWhenNoVolumes);
@@ -4096,6 +4256,8 @@ static INT_PTR CALLBACK PrefsGeneralTabProc (HWND hDlg, UINT msg, WPARAM wParam,
 			bEnableIMEInSecureDesktop ? BST_CHECKED : BST_UNCHECKED, 0);
 		SendMessage (GetDlgItem (hDlg, IDC_USE_LEGACY_MAX_PASSWORD_LENGTH), BM_SETCHECK,
 			bUseLegacyMaxPasswordLength ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendMessage (GetDlgItem (hDlg, IDC_PREF_REMEMBER_MONITOR), BM_SETCHECK,
+			bRememberWindowMonitor ? BST_CHECKED : BST_UNCHECKED, 0);
 		if (!bUseSecureDesktop)
 		{
 			EnableWindow (GetDlgItem (hDlg, IDC_SECURE_DESKTOP_ENABLE_IME), FALSE);
@@ -4360,6 +4522,18 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			bUseSecureDesktop = IsButtonChecked (GetDlgItem (TabDialogs[0], IDC_SECURE_DESKTOP_PASSWORD_ENTRY));
 			bEnableIMEInSecureDesktop = IsButtonChecked (GetDlgItem (TabDialogs[0], IDC_SECURE_DESKTOP_ENABLE_IME));
 			bUseLegacyMaxPasswordLength = IsButtonChecked (GetDlgItem (TabDialogs[0], IDC_USE_LEGACY_MAX_PASSWORD_LENGTH));
+			if (!IsButtonChecked (GetDlgItem (TabDialogs[0], IDC_PREF_REMEMBER_MONITOR)))
+			{
+				// Do not keep the monitor in the settings once the option is off
+				bRememberWindowMonitor = FALSE;
+				LastMainWindowMonitorDevice[0] = 0;
+			}
+			else if (!bRememberWindowMonitor)
+			{
+				// Just turned on: the main window is on the monitor the user wants
+				bRememberWindowMonitor = TRUE;
+				RememberMainWindowMonitor (FALSE);
+			}
 
 			// Actions Tab
 			bEnableBkgTask				= IsButtonChecked (GetDlgItem (TabDialogs[1], IDC_PREF_BKG_TASK_ENABLE));
@@ -8057,6 +8231,7 @@ static BOOL RepairMainWindowPlacement (HWND hwnd)
 	MONITORINFO mi;
 	HMONITOR hMonitor;
 	RECT rcScreen;
+	POINT pt;
 	LONG width, height, offsetX, offsetY;
 
 	memset (&wp, 0, sizeof (wp));
@@ -8075,7 +8250,7 @@ static BOOL RepairMainWindowPlacement (HWND hwnd)
 	   with the window: the origin of its rcWork minus the origin of its rcMonitor.
 	   For a minimized window, MonitorFromWindow uses the restore position. A window
 	   that intersects no monitor falls back to the primary one, which is also where
-	   the repair puts it. */
+	   the repair puts it, unless bRememberWindowMonitor selects another one below. */
 	hMonitor = MonitorFromWindow (hwnd, MONITOR_DEFAULTTOPRIMARY);
 	mi.cbSize = sizeof (mi);
 	if (!hMonitor || !GetMonitorInfo (hMonitor, &mi))
@@ -8098,12 +8273,31 @@ static BOOL RepairMainWindowPlacement (HWND hwnd)
 		&& (rcScreen.bottom - rcScreen.top) > GetSystemMetrics (SM_CYMINIMIZED))
 		return FALSE;
 
-	/* Center the window on the work area of that monitor, then convert the result
-	   to workspace coordinates with the same offset. */
-	wp.rcNormalPosition.left   = mi.rcWork.left + ((mi.rcWork.right - mi.rcWork.left) - width) / 2;
-	wp.rcNormalPosition.top    = mi.rcWork.top  + ((mi.rcWork.bottom - mi.rcWork.top) - height) / 2;
-	wp.rcNormalPosition.right  = wp.rcNormalPosition.left + width;
-	wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + height;
+	/* With bRememberWindowMonitor, a window whose restore position lies outside every
+	   monitor is brought back on the monitor it was last shown on, as that position
+	   tells nothing about where the window was. The restore rectangle then lies on
+	   that monitor, so its offset is the one used below. */
+	if (!MonitorFromRect (&rcScreen, MONITOR_DEFAULTTONULL))
+	{
+		HMONITOR hRemembered = GetRememberedMainWindowMonitor ();
+		MONITORINFO miRemembered;
+
+		miRemembered.cbSize = sizeof (miRemembered);
+		if (hRemembered && hRemembered != hMonitor && GetMonitorInfo (hRemembered, &miRemembered))
+		{
+			mi = miRemembered;
+			offsetX = mi.rcWork.left - mi.rcMonitor.left;
+			offsetY = mi.rcWork.top - mi.rcMonitor.top;
+		}
+	}
+
+	/* Center the window on the work area of the chosen monitor, then convert the
+	   result to workspace coordinates with its offset. */
+	pt = GetCenteredWindowPosition (&mi, width, height);
+	wp.rcNormalPosition.left   = pt.x;
+	wp.rcNormalPosition.top    = pt.y;
+	wp.rcNormalPosition.right  = pt.x + width;
+	wp.rcNormalPosition.bottom = pt.y + height;
 	OffsetRect (&wp.rcNormalPosition, -offsetX, -offsetY);
 
 	return SetWindowPlacement (hwnd, &wp);
@@ -8612,6 +8806,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				RegisterWtsAndPowerNotification(hwndDlg);
 			DoPostInstallTasks (hwndDlg);
 			ResetCurrentDirectory ();
+
+			PlaceMainWindowOnRememberedMonitor (hwndDlg);
+
 			// unlock the init mutex
 			ReleaseMainInitMutex ();
 		}
@@ -8717,7 +8914,23 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 		return 0;
 
+	case WM_ENTERSIZEMOVE:
+		MainWindowMonitorAtMoveStart = MonitorFromWindow (hwndDlg, MONITOR_DEFAULTTONULL);
+		return 0;
+
+	case WM_EXITSIZEMOVE:
+		/* The user has finished moving the window. A click on the caption also enters
+		   and leaves this loop, so only a move to another monitor is recorded. */
+		if (MonitorFromWindow (hwndDlg, MONITOR_DEFAULTTONULL) != MainWindowMonitorAtMoveStart)
+			RememberMainWindowMonitor (FALSE);
+		return 0;
+
 	case WM_DISPLAYCHANGE:
+		/* If the remembered monitor was detached, the system may have moved the
+		   window to another monitor, which saving the settings must not record. */
+		if (LastMainWindowMonitorDevice[0] && !FindMonitorByDevice (LastMainWindowMonitorDevice))
+			MainWindowMonitorChosen = FALSE;
+
 		/* The display topology changed. Correct the restore position now if it
 		   was left outside every monitor, instead of waiting until the window is
 		   activated or shown. A window hidden in the notification area is

@@ -1728,6 +1728,7 @@ Information about Corsican localization:
 	    <entry lang="co" key="LINUX_ELEVATION_BLOCKED">U lanciadore o l’ambiente isulatu attuale impedisce VeraCrypt d’ottene i privileghji d’amministratore (Linux NoNewPrivs).\n\nChjode VeraCrypt è rilanciallu fora di st’ambiente ristrintu. Nant’à NixOS, impiegà u pacchettu VeraCrypt nativu invece di appimage-run.</entry>
 	    <entry lang="co" key="LINUX_REQUESTER_BACKED_VOLUME">VeraCrypt ùn hà micca pussutu apre u schedariu di u vulume cù i privileghji d’amministratore, dunque l’hà apertu cù i diritti d’accessu assuciati à u vostru contu d’utilizatore :\n{0}\n\nMantene muntata a spartera di fonte è a vostra sessione attiva sin’à a smuntatura di stu vulume VeraCrypt. A scacciatura di a spartera o a scunnessione pò fà perde i vostri dati. Per un impiegu regulare, piazzà u vulume induve VeraCrypt pò aprelu cù i privileghji d’amministratore, per indettu nant’à una spartera muntata cù u cliente CIFS di u nocciulu.</entry>
 	    <entry lang="co" key="PCSC_ERROR">Sbagliu di a carta à stampinu</entry>
+    <entry lang="en" key="IDC_PREF_REMEMBER_MONITOR">Remember which monitor the main window was shown on</entry>
 	</localization>
 	<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:element name="VeraCrypt">
