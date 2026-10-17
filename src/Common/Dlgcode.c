@@ -162,6 +162,10 @@ HWND MainDlg = NULL;
 wchar_t *lpszTitle = NULL;
 
 BOOL Silent = FALSE;
+/* Set by Mount.c only while it carries out a dismount requested on the command line
+   with /q. UnmountVolumeBase and DismountAll then send the drive removal notification
+   again with SHCNF_FLUSH, as they do when Silent is set. */
+BOOL FlushDriveRemovalNotifications = FALSE;
 BOOL bPreserveTimestamp = TRUE;
 BOOL bShowDisconnectedNetworkDrives = FALSE;
 BOOL bHideWaitingDialog = FALSE;
@@ -9826,13 +9830,13 @@ retry:
 
 	BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, nDosDriveNo, 0);
 
-	/* GH #337, GH #1426: When running in silent/CLI mode, the process may
-	   exit immediately after unmount. BroadcastDeviceChange sends
-	   SHChangeNotify asynchronously, so Explorer may not process the drive
-	   removal before the process exits, leaving a ghost drive letter.
-	   Re-send the notification with SHCNF_FLUSH to force synchronous
-	   processing by Explorer before we return. */
-	if (Silent && !DeviceChangeBroadcastDisabled)
+	/* GH #337, GH #1426: ghost drive letters were reported after dismounts
+	   requested on the command line; their cause hasn't been established.
+	   When Silent or FlushDriveRemovalNotifications is set, the notification
+	   is sent again with SHCNF_FLUSH. According to the documentation,
+	   SHChangeNotify then returns only once it has been delivered, which
+	   doesn't mean that Explorer has finished updating its display. */
+	if ((Silent || FlushDriveRemovalNotifications) && !DeviceChangeBroadcastDisabled)
 	{
 		wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
 		SHChangeNotify (SHCNE_DRIVEREMOVED, SHCNF_PATH | SHCNF_FLUSH, root, NULL);

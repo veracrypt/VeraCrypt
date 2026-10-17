@@ -6351,10 +6351,9 @@ retry:
 	if (removedDrives)
 		BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, 0, removedDrives);
 
-	/* GH #337, GH #1426: Flush shell notifications synchronously in
-	   silent/CLI mode to prevent ghost drive letters when the process
-	   exits immediately after dismount. */
-	if (Silent && !DeviceChangeBroadcastDisabled)
+	/* GH #337, GH #1426: as in UnmountVolumeBase, send the notifications again
+	   with SHCNF_FLUSH when Silent or FlushDriveRemovalNotifications is set. */
+	if ((Silent || FlushDriveRemovalNotifications) && !DeviceChangeBroadcastDisabled)
 	{
 		for (i = 0; i < 26; i++)
 		{
@@ -8446,6 +8445,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			// Dismount
+			/* With /q, flush the drive removal notifications of this dismount even
+			   without /s (see UnmountVolumeBase). Only for this request: a process
+			   that goes on as the background task doesn't flush later dismounts. */
+			FlushDriveRemovalNotifications = Quit;
 			if (cmdUnmountDrive >= 0)
 			{
 				MOUNT_LIST_STRUCT mountList;
@@ -8467,6 +8470,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (!DismountAll (hwndDlg, bForceUnmount, !Silent, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY))
 					exitCode = 1;
 			}
+			FlushDriveRemovalNotifications = FALSE;
 
 			// TaskBar icon
 			if (bEnableBkgTask)
