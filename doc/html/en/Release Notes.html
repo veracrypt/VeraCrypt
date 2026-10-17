@@ -36,18 +36,63 @@
 
 <p><strong>Unreleased changes</strong></p>
 <ul>
-<li><strong>Linux, macOS and BSD:</strong> Non-interactive unmount commands return a nonzero exit status when a busy volume cannot be unmounted. Scripts should check the exit status before treating a volume as locked.</li>
+<li><strong>All OSes:</strong>
+	<ul>
+	<li>Security: Improve erasure of security token data and limit smart card responses to prevent hangs or excessive memory use.</li>
+	<li>Fix cryptographic errors on processors using big endian byte order. Prevent alignment crashes on affected processors, including 32 bit ARM (GH #1899, GH #1908, GH #1909).</li>
+	<li>Improve encryption worker error handling and wait for active work to finish before shutdown.</li>
+	</ul>
+</li>
+<li><strong>Windows:</strong>
+	<ul>
+	<li>Security: Fix a local disclosure of limited disk metadata (<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-9mgv-w2fw-3m78" target="_blank">CVE-2026-77572</a>).</li>
+	<li>Fix driver stability regressions reported with VeraCrypt 1.26.29 and improve cleanup during mounting and dismounting.</li>
+	<li>Prevent incompatible EFI bootloader installation when Secure Boot is enabled. Refresh the Windows Boot Manager copy from compatible Windows files.</li>
+	<li>Warn when installed boot components need CA migration and prompt users to recreate the Rescue Disk after bootloader certificate changes.</li>
+	<li>Correct dismount status reporting and drive removal notifications, including command line dismounts (GH #1852).</li>
+	<li>Fix windows and dialogs appearing off screen or on the wrong monitor (GH #1858, GH #1865, GH #1912).</li>
+	<li>Update bundled zlib to 1.3.2 and LZMA SDK to 26.02.</li>
+	</ul>
+</li>
+<li><strong>Linux, macOS and BSD:</strong>
+	<ul>
+	<li>Security: Fix memory safety errors when processing requests in the privileged service (<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-4j3p-7hp7-xw73" target="_blank">CVE-2026-77372</a>).</li>
+	<li>Make unattended unmount commands return a nonzero exit status when a busy volume can't be unmounted.</li>
+	<li>Support doas when sudo isn't available, including opendoas on FreeBSD. Avoid repeated password prompts after successful authentication.</li>
+	<li>Preserve hidden volume protection when mounting favorites, including during credential retries. Keep each favorite's mount options separate.</li>
+	<li>Require confirmation before replacing an existing container file during command line creation. Use <code>--force</code> to allow replacement without a prompt (GH #1861).</li>
+	</ul>
+</li>
+<li><strong>Linux and FreeBSD:</strong>
+	<ul>
+	<li>Security: Fix a generic installer vulnerability that could let a separate local user replace the embedded package and gain root privileges (<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-wf3r-pjv3-fcxx" target="_blank">GHSA-wf3r-pjv3-fcxx</a>). Distribution packages and AppImage builds aren't affected.</li>
+	</ul>
+</li>
 <li><strong>Linux:</strong>
 	<ul>
-	<li>Mount volume files that administrator privileges cannot access but the user who started VeraCrypt can, such as files on a network share opened in the file manager (GVfs) or on another FUSE file system mounted without <code>allow_other</code> (GH #23). VeraCrypt opens such a file with the access rights of the user who obtained administrator privileges through sudo or doas, and mounts the volume through its FUSE layer. A warning reminds you to keep the share mounted and your session active until the volume is unmounted. Creating volumes with a non-FAT file system on such shares works too.</li>
-	<li>On file systems that deny administrator access but grant the user write access, such as NFS with <code>root_squash</code>, volumes are now mounted read-write through the FUSE layer instead of falling back to read-only.</li>
+	<li>Forward sync requests for volumes mounted through FUSE to the backing file or device and report flush failures. Previously, a successful sync could leave data in the host cache.</li>
+	<li>Check that devices belong to the selected volume before dismount or filesystem checks. Leave externally supplied host devices attached and refuse normal dismount while a decrypted loop device remains in use.</li>
+	<li>Support writable volume files on shares that restrict root access, including GVfs and NFS with <code>root_squash</code> (GH #23). Keep the share mounted and the user session active until dismount.</li>
+	<li>Improve mounting on minimal systems, including FAT and exFAT detection. Use FUSE automatically when <code>dmsetup</code> isn't installed (GH #1898).</li>
+	<li>Support NixOS helper locations and report when launcher restrictions block administrator authentication (GH #1911).</li>
+	<li>Fix option handling and quoting in <code>mount.veracrypt</code> (GH #1895).</li>
+	<li>Fix installation on systems with a merged <code>/usr</code> layout (GH #1764).</li>
 	</ul>
 </li>
 <li><strong>macOS:</strong>
 	<ul>
-	<li>Improve FUSE-T startup rollback and unmount cleanup, and report when service termination cannot be confirmed.</li>
-	<li>Keep volume status refresh and interactive unmount waits off the main window thread, and limit disk-image inventory queries to one per refresh with a timeout.</li>
-	<li>Distinguish unavailable volume status and detached disk images in the volume list.</li>
+	<li>Security: Fix FUSE-T cleanup that could leave decrypted volumes accessible after dismount (<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-f3px-f8h2-fm4c" target="_blank">CVE-2026-108982</a>). Protect auxiliary mounts and report when service shutdown can't be confirmed.</li>
+	<li>Security: Validate disk device ownership changes and prefer trusted system utilities when running privileged operations (GH #1758, GH #1790).</li>
+	<li>Fix mounting and dismounting crashes with macFUSE 5.3.3 and later (GH #1887).</li>
+	<li>Fix Check Filesystem and Repair Filesystem so they operate on the selected volume and show their results in Terminal (GH #1791).</li>
+	<li>Add a preference to disable screen protection, which remains enabled by default.</li>
+	<li>Avoid detaching unrelated disks when device numbers are reused after an external eject. Keep volume status updates responsive.</li>
+	</ul>
+<p><strong>Upgrade note for FUSE-T users:</strong> When upgrading from VeraCrypt 1.26.29, dismount your volumes and restart macOS before using the updated build. Replacing the application doesn't end services that are already running.</p>
+</li>
+<li><strong>OpenBSD:</strong>
+	<ul>
+	<li>Add FFS volume creation in the wizard and on the command line.</li>
 	</ul>
 </li>
 </ul>
@@ -71,11 +116,12 @@
 	<li>When changing a volume password or changing only a volume header KDF, use the selected KDF's default PIM when a different KDF is selected unless a new PIM is explicitly specified.</li>
 	<li>Update logo icons with simplified icons without extra label text.</li>
 	<li>Harden XML and TLV parsers against malformed input.</li>
-	<li>Security: Fix <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-94c6-mgmv-mqc5" target="_blank">GHSA-94c6-mgmv-mqc5</a>: non-default <code>WOLFCRYPT=1</code> builds now use wolfCrypt PBKDF2 instead of HKDF and honor VeraCrypt's PBKDF2 iteration count.
+	<li>Security: Fix <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-94c6-mgmv-mqc5" target="_blank">GHSA-94c6-mgmv-mqc5</a>: builds made with <code>WOLFCRYPT=1</code> now derive SHA-256 and SHA-512 volume header keys with PBKDF2 instead of HKDF and honor the configured iteration count and PIM. Official VeraCrypt binaries and standard builds aren't affected.
 		<ul>
 			<li>Reported by https://github.com/vastblast </li>
 			<li>CVE-2026-53762</li>
 		</ul>
+		<p><strong>Upgrade note for users of older <code>WOLFCRYPT=1</code> builds:</strong> Before upgrading an affected build, back up the data in SHA-256 or SHA-512 volumes while the old build can still mount them. Recreate those volumes with a fixed build and restore the data. Fixed builds can't mount headers created with the former HKDF behavior.</p>
 	</li>
 	<li>Fix CPU feature detection and crypto implementation edge cases, including AVX2/leaf 7 detection, BLAKE2s/Argon2 no-SSE2 x86 fallback paths, Camellia SSSE3 dispatch, Twofish x64 multiblock tail handling and Whirlpool alignment.</li>
 	<li>Update documentation, including Argon2id/KDF information and split Windows/Unix command line usage pages.</li>
