@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version="1.26.30">
-    <language langid="nb" name="Norsk Bokmål" en-name="Norwegian (Bokmål)" version="10-10-2026" translators="Marius Kjærstad" />
+    <language langid="nb" name="Norsk Bokmål" en-name="Norwegian (Bokmål)" version="0.2.0" translators="Marius Kjærstad" />
     <font lang="nb" class="normal" size="11" face="default" />
     <font lang="nb" class="bold" size="13" face="Arial" />
     <font lang="nb" class="fixed" size="12" face="Lucida Console" />
@@ -18,7 +18,7 @@
     <entry lang="nb" key="IDC_UNINSTALL">&amp;Avinstaller</entry>
     <entry lang="nb" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Pakk ut</entry>
     <entry lang="nb" key="IDC_WIZARD_MODE_INSTALL">&amp;Installer</entry>
-    <entry lang="nb" key="IDD_INSTL_DLG">VeraCrypt-oppsettsveiviser</entry>
+    <entry lang="nb" key="IDD_INSTL_DLG">Oppsettsveiviser for VeraCrypt</entry>
     <entry lang="nb" key="IDD_UNINSTALL">Avinstaller VeraCrypt</entry>
     <entry lang="nb" key="IDHELP">&amp;Hjelp</entry>
     <entry lang="nb" key="IDT_EXTRACT_DESTINATION">Vennligst velg eller skriv inn plasseringen der du vil plassere de utpakkede filene:</entry>
@@ -475,7 +475,7 @@
     <entry lang="nb" key="DEVICE_HELP">Krypterte enhetsbaserte VeraCrypt-volumer kan opprettes innenfor partisjoner på harddisker, SSD-er, USB-minnepinner, og på andre støttede lagringsenheter. Partisjoner kan også krypteres på plass.\n\nI tillegg kan krypterte enhetsbaserte VeraCrypt-volumer opprettes innenfor enheter som ikke inneholder noen partisjoner (inkludert harddisker og SSD-er).\n\nMerk: En enhet som inneholder partisjoner kan krypteres helt på plass (ved bruk av en enkelt nøkkel) bare hvis det er disken hvor Windows er installert og hvorfra den starter.</entry>
     <entry lang="nb" key="DEVICE_HELP_NO_INPLACE">Et enhetsbasert VeraCrypt-volum kan opprettes innenfor en harddiskpartisjon, SSD, USB-minnepinne og andre lagringsenheter.\n\nADVARSEL: Merk at partisjonen/enheten vil bli formatert og alle data som er lagret på den vil gå tapt.</entry>
     <entry lang="nb" key="DEVICE_HELP_HIDDEN_HOST_VOL">\nVelg hvor det ytre volumet skal opprettes (innenfor dette volumet vil det skjulte volumet opprettes senere).\n\nYtre volumer kan opprettes innenfor partisjoner på harddisker, SSD-er, USB-minnepinner og på andre støttede lagringsenheter. Ytre volumer kan også opprettes innenfor enheter som ikke inneholder noen partisjoner (inkludert harddisker og SSD-er).\n\nADVARSEL: Merk at partisjonen/enheten vil bli formatert og alle data som er lagret på den vil gå tapt.</entry>
-    <entry lang="nb" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">\nVelg hvor i VeraCrypt-volumet du ønsker å opprette et skjult volum.</entry>
+    <entry lang="nb" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">\nVelg VeraCrypt-volumet du vil opprette ett skjult volum i.</entry>
     <entry lang="nb" key="FILE_IN_USE">ADVARSEL: Vertsfilen/enheten er allerede i bruk!\n\nÅ ignorere dette kan føre til uønskede resultater inkludert systemustabilitet. Alle programmer som kan bruke vertsfilen/enheten (for eksempel antivirus- eller sikkerhetskopiapplikasjoner) bør lukkes før volumet monteres.\n\nVil du fortsette monteringen?</entry>
     <entry lang="nb" key="FILE_IN_USE_FAILED">Feil: Kan ikke montere volum. Vertsfilen/enheten er allerede i bruk. Forsøk å montere uten eksklusiv tilgang mislyktes også.</entry>
     <entry lang="nb" key="FILE_OPEN_FAILED">Kunne ikke åpne filen.</entry>
@@ -1705,7 +1705,7 @@
     <entry lang="nb" key="VOLUME_DISCOVERY_PARTIAL">Noe voluminformasjon er utilgjengelig; prøver igjen…</entry>
     <entry lang="nb" key="LINUX_ELEVATION_BLOCKED">Det gjeldende startprogrammet eller sandkassen hindrer VeraCrypt i å få administratorrettigheter (Linux NoNewPrivs).\n\nLukk VeraCrypt og start det utenfor dette begrensede miljøet. På NixOS bruker du VeraCrypt-pakken for NixOS i stedet for appimage-run.</entry>
     <entry lang="nb" key="LINUX_REQUESTER_BACKED_VOLUME">VeraCrypt kunne ikke åpne volumfilen med administratorrettigheter, så filen ble åpnet med brukerkontoens tilgangsrettigheter:\n{0}\n\nHold kildedelingen montert og brukerøkten aktiv til dette VeraCrypt-volumet er demontert. Å løse ut delingen eller logge ut kan føre til tap av data. For vanlig bruk bør du lagre volumet et sted der VeraCrypt kan åpne det med administratorrettigheter, for eksempel på en deling montert med kjernens CIFS-klient.</entry>
-    <entry lang="en" key="PCSC_ERROR">Smart card error</entry>
+    <entry lang="nb" key="PCSC_ERROR">Feil på smartkortet</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
