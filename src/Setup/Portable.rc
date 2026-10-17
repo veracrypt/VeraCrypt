@@ -112,6 +112,7 @@ IDR_LANG_TH             LANGUAGES               "..\\..\\Translations\\Language.
 IDR_LANG_TR             LANGUAGES               "..\\..\\Translations\\Language.tr.xml"
 IDR_LANG_UK             LANGUAGES               "..\\..\\Translations\\Language.uk.xml"
 IDR_LANG_UZ             LANGUAGES               "..\\..\\Translations\\Language.uz.xml"
+IDR_LANG_VA             LANGUAGES               "..\\..\\Translations\\Language.va.xml"
 IDR_LANG_ZHTW           LANGUAGES               "..\\..\\Translations\\Language.zh-tw.xml"
 
 /////////////////////////////////////////////////////////////////////////////
