@@ -25,10 +25,8 @@ namespace VeraCrypt
 	{
     protected:
 
-        // The following fields will only be empty if the card has not been read yet.
-        // After the card has been read, and if some or all fields cannot be read, the EMVCard
-        // object will be considered invalid and will not be included in the list of available cards
-        // of EMVToken.
+        // Reuse certificate and CPLC data while the card handle remains valid.
+        // Clear erases the cached keyfile bytes when the card is discarded.
         vector<uint8> m_aid;
         vector<vector<uint8>> m_supportedAids;
         vector<uint8> m_iccCert;

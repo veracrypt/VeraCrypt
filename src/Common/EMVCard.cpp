@@ -82,7 +82,7 @@ namespace VeraCrypt
 	}
 
 	EMVCard::EMVCard(EMVCard&& other) :
-			SCard(other),
+			SCard(std::move(other)),
 			m_aid(std::move(other.m_aid)),
 			m_supportedAids(std::move(other.m_supportedAids)),
 			m_iccCert(std::move(other.m_iccCert)),
@@ -259,7 +259,7 @@ namespace VeraCrypt
 												size_t remainingDirectoryBytes = maxDirectoryRecords * SCardReader::shortAPDUMaxTransSize;
 												for (unsigned int rec = 1; rec <= maxDirectoryRecords; ++rec)
 												{
-													command = CommandAPDU(CLA_ISO7816, INS_READ_RECORD, rec, (sfi << 3) | 4, SCardReader::shortAPDUMaxTransSize);
+													command = CommandAPDU(CLA_ISO7816, INS_READ_RECORD, static_cast<uint8>(rec), (sfi << 3) | 4, SCardReader::shortAPDUMaxTransSize);
 													m_reader->ApduProcessData(command, response);
 													if (response.getSW() == SW_NO_ERROR && response.getData().size() > 0)
 													{

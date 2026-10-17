@@ -243,6 +243,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 	if (firstKeyFile == NULL) return TRUE;
 
 	VirtualLock (keyPool, sizeof (keyPool));
+	finally_do_arg (unsigned __int8 *, keyPool, { burn (finally_arg, KEYFILE_POOL_SIZE); });
 	memset (keyPool, 0, sizeof (keyPool));
 
 	for (kf = firstKeyFile; kf != NULL; kf = kf->Next)
@@ -292,6 +293,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 		}
 		catch (Exception &e)
 		{
+			burn (keyPool, sizeof (keyPool));
 			e.Show (NULL);
 			return FALSE;
 		}
@@ -399,8 +401,6 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 
 	if (password->Length < keyPoolSize)
         password->Length = keyPoolSize;
-
-	burn (keyPool, sizeof (keyPool));
 
 	return status;
 }
