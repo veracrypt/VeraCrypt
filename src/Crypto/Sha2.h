@@ -39,14 +39,20 @@ extern "C" {
 typedef struct wc_Sha512 sha512_ctx;
 typedef struct wc_Sha256 sha256_ctx;
 #else
-typedef struct
+typedef struct sha512_ctx
 {   uint_64t count[2];
+#if defined(DEVICE_DRIVER) && !defined(_M_ARM64)
+    void (*transform)(struct sha512_ctx*, void*, uint_64t);
+#endif
     SHA2_ALIGN uint_64t hash[8];
     SHA2_ALIGN uint_64t wbuf[16];
 } sha512_ctx;
 
-typedef struct
+typedef struct sha256_ctx
 {   uint_32t count[2];
+#if defined(DEVICE_DRIVER) && !defined(_M_ARM64)
+    void (*transform)(struct sha256_ctx*, void*, uint_64t);
+#endif
     SHA2_ALIGN uint_32t hash[8];
     SHA2_ALIGN uint_32t wbuf[16];
 } sha256_ctx;
@@ -62,6 +68,12 @@ void sha256_begin(sha256_ctx* ctx);
 void sha256_hash(const unsigned char * source, uint_32t sourceLen, sha256_ctx *ctx);
 void sha256_end(unsigned char * result, sha256_ctx* ctx);
 void sha256(unsigned char * result, const unsigned char* source, uint_32t sourceLen);
+
+#if defined(DEVICE_DRIVER) && !defined(_M_ARM64)
+/* Per-context fallback when the driver cannot save extended processor state. */
+void sha512_begin_software(sha512_ctx* ctx);
+void sha256_begin_software(sha256_ctx* ctx);
+#endif
 
 #if defined(__cplusplus)
 }

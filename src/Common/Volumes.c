@@ -193,7 +193,7 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 	int keyInfoBufferSize = sizeof (KEY_INFO) + TC_KEY_INFO_BUFFER_ALIGNMENT;
 	size_t keyInfoBufferOffset;
 	PKEY_INFO keyInfo;
-	PCRYPTO_INFO cryptoInfo;
+	PCRYPTO_INFO cryptoInfo = NULL;
 	CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) unsigned char dk[MASTER_KEYDATA_SIZE];
 	int enqPkcs5Prf, pkcs5_prf;
 	uint16 headerVersion;
@@ -240,12 +240,15 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 	}
 	else
 	{
-      if (!retInfo)
-         return ERR_PARAMETER_INCORRECT;
+		if (!retInfo)
+			goto err_early;
 
 		cryptoInfo = *retInfo = crypto_open ();
 		if (cryptoInfo == NULL)
-			return ERR_OUTOFMEMORY;
+		{
+			status = ERR_OUTOFMEMORY;
+			goto err_early;
+		}
 	}
 #if !defined(_UEFI)
 	/* use thread pool only if no PRF was specified */
@@ -253,13 +256,17 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 	{
 		keyDerivationCompletedEvent = TCalloc (sizeof (TC_EVENT));
 		if (!keyDerivationCompletedEvent)
-			return ERR_OUTOFMEMORY;
+		{
+			status = ERR_OUTOFMEMORY;
+			goto err_early;
+		}
 
 		noOutstandingWorkItemEvent = TCalloc (sizeof (TC_EVENT));
 		if (!noOutstandingWorkItemEvent)
 		{
 			TCfree(keyDerivationCompletedEvent);
-			return ERR_OUTOFMEMORY;
+			status = ERR_OUTOFMEMORY;
+			goto err_early;
 		}
 
 		outstandingWorkItemCount = TCalloc (sizeof (LONG));
@@ -267,7 +274,8 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 		{
 			TCfree(keyDerivationCompletedEvent);
 			TCfree(noOutstandingWorkItemEvent);
-			return ERR_OUTOFMEMORY;
+			status = ERR_OUTOFMEMORY;
+			goto err_early;
 		}
 
 		keyDerivationWorkItemsSize = sizeof (KeyDerivationWorkItem) * pkcs5PrfCount;
@@ -277,16 +285,18 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 			TCfree(keyDerivationCompletedEvent);
 			TCfree(noOutstandingWorkItemEvent);
 			TCfree(outstandingWorkItemCount);
-			return ERR_OUTOFMEMORY;
+			status = ERR_OUTOFMEMORY;
+			goto err_early;
 		}
 
 		for (i = 0; i < pkcs5PrfCount; ++i)
 			keyDerivationWorkItems[i].Free = TRUE;
 
-		*outstandingWorkItemCount = 0;
+		// Retain a requester reference until no further KDFs can be submitted.
+		*outstandingWorkItemCount = 1;
 #ifdef DEVICE_DRIVER
 		KeInitializeEvent (keyDerivationCompletedEvent, SynchronizationEvent, FALSE);
-		KeInitializeEvent (noOutstandingWorkItemEvent, SynchronizationEvent, TRUE);
+		KeInitializeEvent (noOutstandingWorkItemEvent, SynchronizationEvent, FALSE);
 #else
 		*keyDerivationCompletedEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 		if (!*keyDerivationCompletedEvent)
@@ -295,10 +305,11 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 			TCfree(keyDerivationCompletedEvent);
 			TCfree(noOutstandingWorkItemEvent);
 			TCfree(outstandingWorkItemCount);
-			return ERR_OUTOFMEMORY;
+			status = ERR_OUTOFMEMORY;
+			goto err_early;
 		}
 
-		*noOutstandingWorkItemEvent = CreateEvent (NULL, FALSE, TRUE, NULL);
+		*noOutstandingWorkItemEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 		if (!*noOutstandingWorkItemEvent)
 		{
 			CloseHandle (*keyDerivationCompletedEvent);
@@ -306,7 +317,8 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 			TCfree(keyDerivationCompletedEvent);
 			TCfree(noOutstandingWorkItemEvent);
 			TCfree(outstandingWorkItemCount);
-			return ERR_OUTOFMEMORY;
+			status = ERR_OUTOFMEMORY;
+			goto err_early;
 		}
 
 		VirtualLock (keyDerivationWorkItems, keyDerivationWorkItemsSize);
@@ -736,10 +748,10 @@ ret:
 #if !defined(_UEFI)
 	if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 	{
-		// Wait for all outstanding threads to finish or cancel
-		TC_WAIT_EVENT(*noOutstandingWorkItemEvent);
-		// Cleanup is now synchronous because we already waited for all threads to stop.
-		// The asynchronous finalization is no longer needed.
+		// Release the requester reference after the last possible submission.
+		// If workers remain, the last one signals completion before cleanup.
+		if (InterlockedDecrement (outstandingWorkItemCount) != 0)
+			TC_WAIT_EVENT (*noOutstandingWorkItemEvent);
 #if !defined(DEVICE_DRIVER)
 		CloseHandle(*keyDerivationCompletedEvent);
 		CloseHandle(*noOutstandingWorkItemEvent);
@@ -758,12 +770,22 @@ ret:
 	}
 #endif
 
+ret_key_info:
 	burn (keyInfo, sizeof (KEY_INFO));
 #if !defined(DEVICE_DRIVER) && !defined(_UEFI)
 	VirtualUnlock (keyInfoBuffer, keyInfoBufferSize);
 #endif
 	TCfree(keyInfoBuffer);
 	return status;
+
+err_early:
+	// Partial KDF setup has already been freed; no worker was submitted.
+	if (cryptoInfo && cryptoInfo != retHeaderCryptoInfo)
+	{
+		crypto_close (cryptoInfo);
+		*retInfo = NULL;
+	}
+	goto ret_key_info;
 }
 
 int ReadVolumeHeader (BOOL bBoot, unsigned char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)

@@ -24,18 +24,26 @@ typedef enum
 {
 	EncryptDataUnitsWork,
 	DecryptDataUnitsWork,
-	DeriveKeyWork,
-	ReadVolumeHeaderFinalizationWork
+	DeriveKeyWork
 } EncryptionThreadPoolWorkType;
 
 #ifndef DEVICE_DRIVER
 size_t GetCpuCount (WORD* pGroupCount);
 #endif
 
-/* derivationResult receives 0 on success; PRFs that can fail store their native nonzero result. */
+/*
+ * The caller initializes outstandingWorkItemCount to 1 and noOutstandingWorkItemEvent
+ * to non-signaled, retaining its own reference while submissions are possible.
+ * After the last possible submission, it decrements the count and waits on the
+ * event if the result is nonzero, before releasing any caller-owned buffers.
+ * Each worker releases its reference after publishing completion. A worker that
+ * drops the count to zero signals the event, which must not be reset during submission.
+ * Derivation runs synchronously if the pool is unavailable or shutting down.
+ * derivationResult receives 0 on success; PRFs that can fail store their native nonzero result.
+ */
 void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, unsigned char *password, int passwordLength, unsigned char *salt, int iterationCount,  int memoryCost, unsigned char *derivedKey, LONG *derivationResult, LONG volatile *pAbortKeyDerivation);
-void EncryptionThreadPoolBeginReadVolumeHeaderFinalization (TC_EVENT *keyDerivationCompletedEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG* outstandingWorkItemCount, void* keyInfoBuffer, int keyInfoBufferSize, void* keyDerivationWorkItems, int keyDerivationWorkItemsSize);
 void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, uint8 *data, const UINT64_STRUCT *startUnitNo, uint32 unitCount, PCRYPTO_INFO cryptoInfo);
+/* Start and Stop calls must be serialized by the caller. Stop drains accepted work. */
 BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount);
 void EncryptionThreadPoolStop ();
 size_t GetEncryptionThreadCount ();

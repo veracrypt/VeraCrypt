@@ -222,8 +222,12 @@ endif
 endif
 
 ifeq "$(PLATFORM)" "MacOSX"
-prepare: $(APPNAME)
+.PHONY: bundle prepare
+
+# Keep bundle assembly available to builds that do not have signing credentials.
+bundle: $(APPNAME)
 	mkdir -p $(APPNAME).app/Contents/MacOS $(APPNAME).app/Contents/Resources/doc
+	rm -rf $(APPNAME).app/Contents/_CodeSignature
 	rm -rf $(APPNAME).app/Contents/Resources/doc/HTML
 	mkdir -p $(APPNAME).app/Contents/Resources/doc/HTML
 	mkdir -p $(APPNAME).app/Contents/MacOS $(APPNAME).app/Contents/Resources/languages
@@ -258,8 +262,10 @@ else
 	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist
 endif
 	chmod -R go-w $(APPNAME).app
+
+prepare: bundle
 ifneq ("$(LOCAL_DEVELOPMENT_BUILD)","true")
-	codesign -s "Developer ID Application: IDRIX (Z933746L2S)" --timestamp $(APPNAME).app
+	codesign -s "Developer ID Application: Mounir Joseph IDRASSI (HLTN5GLG99)" --timestamp $(APPNAME).app
 endif
 
 install: prepare
@@ -268,7 +274,7 @@ install: prepare
 package: prepare
 ifdef VC_LEGACY_BUILD
 	/usr/local/bin/packagesbuild $(BASE_DIR)/Setup/MacOSX/veracrypt_Legacy.pkgproj
-	productsign --sign "Developer ID Installer: IDRIX (Z933746L2S)" --timestamp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt Legacy $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
+	productsign --sign "Developer ID Installer: Mounir Joseph IDRASSI (HLTN5GLG99)" --timestamp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt Legacy $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
 	rm -f $(APPNAME)_Legacy_$(TC_VERSION).dmg
 else
 ifeq "$(VC_OSX_FUSET)" "1"
@@ -277,7 +283,7 @@ else
 	/usr/local/bin/packagesbuild $(BASE_DIR)/Setup/MacOSX/veracrypt.pkgproj
 endif
 ifneq ("$(LOCAL_DEVELOPMENT_BUILD)","true")
-	productsign --sign "Developer ID Installer: IDRIX (Z933746L2S)" --timestamp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
+	productsign --sign "Developer ID Installer: Mounir Joseph IDRASSI (HLTN5GLG99)" --timestamp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
 else
 	# copy the unsigned package to the expected location
 	cp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
