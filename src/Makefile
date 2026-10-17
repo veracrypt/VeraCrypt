@@ -31,6 +31,7 @@
 #------ Targets ------
 # all
 # clean
+# bundle:           Assemble the macOS app bundle without signing or packaging
 # wxbuild:		Configure and build wxWidgets - source code must be located at $(WX_ROOT)
 
 
@@ -713,6 +714,12 @@ all clean:
 		$(MAKE) -C $$DIR -f $$PROJ.make NAME=$$PROJ $(MAKECMDGOALS) || exit $?; \
 		export LIBS="$(BASE_DIR)/$$DIR/$$PROJ.a $$LIBS"; \
 	done
+
+ifeq "$(PLATFORM)" "MacOSX"
+.PHONY: bundle
+bundle:
+	$(MAKE) -C Main -f Main.make NAME=Main bundle
+endif
 
 install:
 	$(MAKE) -C Main -f Main.make NAME=Main install
