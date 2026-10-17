@@ -149,7 +149,7 @@
     <entry lang="it" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Uteriori informazioni</entry>
     <entry lang="it" key="IDC_MORE_SETTINGS">Altre impostazioni...</entry>
     <entry lang="it" key="IDC_MOUNTALL">Montaggio &amp;automatico</entry>
-    <entry lang="it" key="IDC_MOUNT_OPTIONS">&amp;Opzioni di mount...</entry>
+    <entry lang="it" key="IDC_MOUNT_OPTIONS">&amp;Opzioni...</entry>
     <entry lang="it" key="IDC_MOUNT_READONLY">Monta il volume in &amp;sola lettura</entry>
     <entry lang="it" key="IDC_NEW_KEYFILES">Keyfile...</entry>
     <entry lang="it" key="IDC_OLD_PIM_HELP">(Vuoto o 0 per iterazioni di default)</entry>
@@ -181,7 +181,7 @@
     <entry lang="it" key="IDC_TRAVEL_OPEN_EXPLORER">Apri la finestra di Esplora risorse per il volume montato</entry>
     <entry lang="it" key="IDC_TRAV_CACHE_PASSWORDS">Mantieni la password nella cache</entry>
     <entry lang="it" key="IDC_TRUECRYPT_MODE">Modalità TrueCrypt</entry>
-    <entry lang="it" key="IDC_UNMOUNTALL">Sm&amp;onta tutti</entry>
+    <entry lang="it" key="IDC_UNMOUNTALL">Smo&amp;nta tutti</entry>
     <entry lang="it" key="IDC_VOLUME_PROPERTIES">Proprietà v&amp;olume...</entry>
     <entry lang="it" key="IDC_VOLUME_TOOLS">Strumen&amp;ti volume...</entry>
     <entry lang="it" key="IDC_WIPE_CACHE">A&amp;zzera la cache</entry>
