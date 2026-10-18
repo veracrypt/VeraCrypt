@@ -56,6 +56,11 @@ int main (int argc, char **argv)
 			try
 			{
 				bool forkProcess = strcmp (argv[1], TC_CORE_SERVICE_CMDLINE_OPTION) == 0;
+
+				// Optional TMPDIR of the user who started us via sudo (see CoreService::StartElevated)
+				if (forkProcess && argc > 2)
+					setenv ("VERACRYPT_USER_TMPDIR", argv[2], 1);
+
 				if (!forkProcess)
 					setenv (TC_DOAS_CORE_SERVICE_ENV, "1", 1);
 

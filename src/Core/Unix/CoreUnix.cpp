@@ -785,6 +785,28 @@ namespace VeraCrypt
 		const char *tmpdir = getenv ("TMPDIR");
 		string envDir = tmpdir ? tmpdir : "/tmp";
 
+		/*
+		 * Under sudo (the elevated core service) TMPDIR is that of root, while
+		 * the auxiliary FUSE mount must be visible to the user who started
+		 * VeraCrypt (pam_mktemp, pam_tmpdir, systemd and so on give each
+		 * user a different TMPDIR). The calling user's TMPDIR is passed
+		 * to the service as VERACRYPT_USER_TMPDIR; use it if the directory
+		 * belongs to that user or is writable by the user's group.
+		 */
+		const char *userTmpDir = getenv ("VERACRYPT_USER_TMPDIR");
+		if (getuid () == 0 && userTmpDir && userTmpDir[0] == '/')
+		{
+			uid_t realUid = GetRealUserId ();
+			gid_t realGid = GetRealGroupId ();
+			struct stat st;
+			if (realUid != 0 && lstat (userTmpDir, &st) == 0 && S_ISDIR (st.st_mode)
+				&& (st.st_uid == realUid
+					|| (st.st_gid == realGid && (st.st_mode & S_IWGRP))))
+			{
+				return string (userTmpDir);
+			}
+		}
+
 #ifdef TC_LINUX
 		/*
 		 * If pam_tmpdir.so is in use, a different temporary directory is
