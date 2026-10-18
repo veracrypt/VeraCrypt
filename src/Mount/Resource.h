@@ -275,7 +275,7 @@
 #define IDM_DEFAULT_MOUNT_PARAMETERS    40066
 #define IDM_DECRYPT_NONSYS_VOL          40067
 #define IDM_VERIFY_RESCUE_DISK_ISO      40068
-#define IDM_MOUNIT_NO_CACHE             40069
+#define IDM_MOUNT_NO_CACHE              40069
 #define IDM_REPAIR_EFI_BOOT_LOADER      40070
 
 // Next default values for new objects

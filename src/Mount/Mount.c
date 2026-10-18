@@ -891,7 +891,7 @@ static HMENU CreateMountNoCacheDropdownMenu()
 	HMENU hmenu = CreatePopupMenu();
 
 	// add menu items
-	AppendMenu(hmenu, MF_STRING, IDM_MOUNIT_NO_CACHE, GetString("IDM_MOUNT_NO_CACHE"));
+	AppendMenu(hmenu, MF_STRING, IDM_MOUNT_NO_CACHE, GetString("IDM_MOUNT_NO_CACHE"));
 
 	return hmenu;
 }
@@ -1113,11 +1113,46 @@ static void PlaceMainWindowOnRememberedMonitor (HWND hwnd)
 	MainWindowMonitorChosen = TRUE;
 }
 
+static void LocalizeMainMenu (HMENU menu)
+{
+	int count = GetMenuItemCount (menu);
+	int i;
+
+	for (i = 0; i < count; i++)
+	{
+		MENUITEMINFOW info = {0};
+		wchar_t *str;
+
+		info.cbSize = sizeof (info);
+		info.fMask = MIIM_ID | MIIM_SUBMENU | MIIM_FTYPE | MIIM_BITMAP | MIIM_STRING;
+		if (!GetMenuItemInfoW (menu, i, TRUE, &info))
+			continue;
+
+		if (info.hSubMenu != NULL)
+		{
+			LocalizeMainMenu (info.hSubMenu);
+			continue;
+		}
+
+		if ((info.fType & (MFT_SEPARATOR | MFT_OWNERDRAW | MFT_BITMAP))
+			|| (info.hbmpItem != NULL && info.cch == 0))
+			continue;
+
+		// Missing mappings (including user-defined favorites) must not stop localization.
+		str = (wchar_t *) GetDictionaryValueByInt (info.wID);
+		if (str == NULL)
+			continue;
+
+		info.fMask = MIIM_STRING;
+		info.dwTypeData = str;
+		info.cch = (UINT) wcslen (str);
+		SetMenuItemInfoW (menu, i, TRUE, &info);
+	}
+}
+
 static void InitMainDialog (HWND hwndDlg)
 {
-	MENUITEMINFOW info;
 	char *popupTexts[] = {"MENU_VOLUMES", "MENU_SYSTEM_ENCRYPTION", "MENU_FAVORITES", "MENU_TOOLS", "MENU_SETTINGS", "MENU_HELP", "MENU_WEBSITE", 0};
-	wchar_t *str;
 	int i;
 
 	if (MainDlgNormalSize.cx == 0)
@@ -1149,28 +1184,24 @@ static void InitMainDialog (HWND hwndDlg)
 		InitHelpFileName();
 
 		// Localize menu strings
-		for (i = 40001; str = (wchar_t *)GetDictionaryValueByInt (i); i++)
-		{
-			info.cbSize = sizeof (info);
-			info.fMask = MIIM_TYPE;
-			info.fType = MFT_STRING;
-			info.dwTypeData = str;
-			info.cch = (UINT) wcslen (str);
-
-			SetMenuItemInfoW (GetMenu (hwndDlg), i, FALSE,  &info);
-		}
+		LocalizeMainMenu (GetMenu (hwndDlg));
 
 		for (i = 0; popupTexts[i] != 0; i++)
 		{
-			str = GetString (popupTexts[i]);
+			MENUITEMINFOW info = {0};
+			wchar_t *str = GetString (popupTexts[i]);
 
 			info.cbSize = sizeof (info);
-			info.fMask = MIIM_TYPE;
+			info.fMask = MIIM_STRING;
 
 			if (strcmp (popupTexts[i], "MENU_WEBSITE") == 0)
-				info.fType = MFT_STRING | MFT_RIGHTJUSTIFY;
-			else
-				info.fType = MFT_STRING;
+			{
+				info.fMask = MIIM_FTYPE;
+				if (!GetMenuItemInfoW (GetMenu (hwndDlg), i, TRUE, &info))
+					continue;
+				info.fMask = MIIM_STRING | MIIM_FTYPE;
+				info.fType |= MFT_RIGHTJUSTIFY;
+			}
 
 			if (strcmp (popupTexts[i], "MENU_FAVORITES") == 0)
 				FavoriteVolumesMenu = GetSubMenu (GetMenu (hwndDlg), i);
@@ -9561,9 +9592,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return 1;
 		}
 
-		if ((lw == IDOK || lw == IDM_MOUNT_VOLUME || lw == IDM_MOUNT_VOLUME_OPTIONS || lw == IDM_MOUNIT_NO_CACHE))
+		if ((lw == IDOK || lw == IDM_MOUNT_VOLUME || lw == IDM_MOUNT_VOLUME_OPTIONS || lw == IDM_MOUNT_NO_CACHE))
 		{
-			MountSelectedVolume (hwndDlg, lw == IDM_MOUNT_VOLUME_OPTIONS, lw == IDM_MOUNIT_NO_CACHE);
+			MountSelectedVolume (hwndDlg, lw == IDM_MOUNT_VOLUME_OPTIONS, lw == IDM_MOUNT_NO_CACHE);
 			return 1;
 		}
 

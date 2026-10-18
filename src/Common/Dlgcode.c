@@ -23,6 +23,7 @@
 #include <fcntl.h>
 #include <io.h>
 #include <math.h>
+#include <new>
 #include <shlobj.h>
 #include <shlwapi.h>
 #include <sys/stat.h>
@@ -552,6 +553,8 @@ char *LoadFile (const wchar_t *fileName, DWORD *size)
 
 	if (!ReadFile (h, buf, fileSize, size, NULL))
 	{
+		// A failed read may have already copied part of a keyfile into the buffer.
+		burn (buf, fileSize);
 		free (buf);
 		buf = NULL;
 	}
@@ -6966,6 +6969,7 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			hCboxList = GetDlgItem (hwndDlg, IDC_BENCHMARK_LIST);
 
 			LocalizeDialog (hwndDlg, "IDD_BENCHMARK_DLG");
+			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BENCHMARK_PREBOOT), GetString ("PRE-BOOT"));
 
 			benchmarkBufferSize = BENCHMARK_DEFAULT_BUF_SIZE;
 			benchmarkSortMethod = BENCHMARK_SORT_BY_SPEED;
@@ -12889,6 +12893,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 		}
 
 	case WM_DESTROY:
+		keyfiles.clear();
 		DetachProtectionFromCurrentThread();
 		break;
 
@@ -12937,34 +12942,36 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 			case IDC_IMPORT_KEYFILE:
 				{
-					wchar_t keyfilePath[TC_MAX_PATH];
-
-					if (BrowseFiles (hwndDlg, "SELECT_KEYFILE", keyfilePath, bHistory, FALSE))
+					try
 					{
-						DWORD keyfileSize;
-						uint8 *keyfileData = (uint8 *) LoadFile (keyfilePath, &keyfileSize);
-						if (!keyfileData)
+						wchar_t keyfilePath[TC_MAX_PATH];
+
+						if (BrowseFiles (hwndDlg, "SELECT_KEYFILE", keyfilePath, bHistory, FALSE))
 						{
-							handleWin32Error (hwndDlg, SRC_POS);
-							return 1;
-						}
-
-						if (keyfileSize != 0)
-						{
-							NewSecurityTokenKeyfileDlgProcParams newParams;
-							newParams.Name = WideToUtf8String (keyfilePath);
-
-							size_t lastBackSlash = newParams.Name.find_last_of ('\\');
-							if (lastBackSlash != string::npos)
-								newParams.Name = newParams.Name.substr (lastBackSlash + 1);
-
-							if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_NEW_TOKEN_KEYFILE), hwndDlg, (DLGPROC) NewSecurityTokenKeyfileDlgProc, (LPARAM) &newParams) == IDOK)
+							DWORD keyfileSize;
+							uint8 *keyfileData = (uint8 *) LoadFile (keyfilePath, &keyfileSize);
+							if (!keyfileData)
 							{
-								vector <uint8> keyfileDataVector (keyfileSize);
-								memcpy (&keyfileDataVector.front(), keyfileData, keyfileSize);
+								handleWin32Error (hwndDlg, SRC_POS);
+								return 1;
+							}
+							finally_do_arg2 (uint8 *, keyfileData, DWORD, keyfileSize, { burn (finally_arg, finally_arg2); TCfree (finally_arg); });
 
-								try
+							if (keyfileSize != 0)
+							{
+								NewSecurityTokenKeyfileDlgProcParams newParams;
+								newParams.Name = WideToUtf8String (keyfilePath);
+
+								size_t lastBackSlash = newParams.Name.find_last_of ('\\');
+								if (lastBackSlash != string::npos)
+									newParams.Name = newParams.Name.substr (lastBackSlash + 1);
+
+								if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_NEW_TOKEN_KEYFILE), hwndDlg, (DLGPROC) NewSecurityTokenKeyfileDlgProc, (LPARAM) &newParams) == IDOK)
 								{
+									vector <uint8> keyfileDataVector (keyfileSize);
+									finally_do_arg (vector <uint8> *, &keyfileDataVector, { if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); });
+									memcpy (&keyfileDataVector.front(), keyfileData, keyfileSize);
+
 									WaitCursor();
 									finally_do ({ NormalCursor(); });
 
@@ -12973,22 +12980,21 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 									keyfiles = Token::GetAvailableKeyfiles(EMVSupportEnabled? true : false);
 									SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 								}
-								catch (Exception &e)
-								{
-									e.Show (hwndDlg);
-								}
-
-								burn (&keyfileDataVector.front(), keyfileSize);
+							}
+							else
+							{
+								SetLastError (ERROR_HANDLE_EOF);
+								handleWin32Error (hwndDlg, SRC_POS);
 							}
 						}
-						else
-						{
-							SetLastError (ERROR_HANDLE_EOF);
-							handleWin32Error (hwndDlg, SRC_POS);
-						}
-
-						burn (keyfileData, keyfileSize);
-						TCfree (keyfileData);
+					}
+					catch (Exception &e)
+					{
+						e.Show (hwndDlg);
+					}
+					catch (const std::bad_alloc&)
+					{
+						Error ("OUTOFMEMORY", hwndDlg);
 					}
 
 					return 1;
