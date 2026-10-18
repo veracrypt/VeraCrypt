@@ -6969,6 +6969,7 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			hCboxList = GetDlgItem (hwndDlg, IDC_BENCHMARK_LIST);
 
 			LocalizeDialog (hwndDlg, "IDD_BENCHMARK_DLG");
+			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BENCHMARK_PREBOOT), GetString ("PRE-BOOT"));
 
 			benchmarkBufferSize = BENCHMARK_DEFAULT_BUF_SIZE;
 			benchmarkSortMethod = BENCHMARK_SORT_BY_SPEED;
