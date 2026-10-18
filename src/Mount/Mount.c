@@ -890,7 +890,7 @@ static HMENU CreateMountNoCacheDropdownMenu()
 	HMENU hmenu = CreatePopupMenu();
 
 	// add menu items
-	AppendMenu(hmenu, MF_STRING, IDM_MOUNIT_NO_CACHE, GetString("IDM_MOUNT_NO_CACHE"));
+	AppendMenu(hmenu, MF_STRING, IDM_MOUNT_NO_CACHE, GetString("IDM_MOUNT_NO_CACHE"));
 
 	return hmenu;
 }
@@ -9348,9 +9348,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return 1;
 		}
 
-		if ((lw == IDOK || lw == IDM_MOUNT_VOLUME || lw == IDM_MOUNT_VOLUME_OPTIONS || lw == IDM_MOUNIT_NO_CACHE))
+		if ((lw == IDOK || lw == IDM_MOUNT_VOLUME || lw == IDM_MOUNT_VOLUME_OPTIONS || lw == IDM_MOUNT_NO_CACHE))
 		{
-			MountSelectedVolume (hwndDlg, lw == IDM_MOUNT_VOLUME_OPTIONS, lw == IDM_MOUNIT_NO_CACHE);
+			MountSelectedVolume (hwndDlg, lw == IDM_MOUNT_VOLUME_OPTIONS, lw == IDM_MOUNT_NO_CACHE);
 			return 1;
 		}
 
