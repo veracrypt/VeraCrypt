@@ -24,8 +24,8 @@ The package installs only:
 - `/sbin/mount.veracrypt`
 - `/usr/share/licenses/veracrypt/License.txt`
 
-`mount.veracrypt` uses a Bash shebang, so the OpenWrt package declares `bash`
-as a runtime dependency.
+`mount.veracrypt` is a POSIX shell script and runs with BusyBox `ash`, so the
+package does not depend on `bash`.
 
 ## Build
 
@@ -39,7 +39,7 @@ The script downloads and verifies the OpenWrt SDK against a pinned SHA-256 for
 the supported release/target, downloads and verifies wxWidgets 3.2.10, installs
 the required OpenWrt feeds, renders
 `package/utils/veracrypt/Makefile` inside the SDK, builds the `.ipk`, and
-also builds the local userland `bash`, `fuse3`, `util-linux`, and `lvm2` feed
+also builds the local userland `fuse3`, `util-linux`, and `lvm2` feed
 packages used by the QEMU runtime test. Kernel modules for the stock OpenWrt
 image are resolved by the test from the official OpenWrt kmod feed for the
 selected release and target.
@@ -136,7 +136,6 @@ OpenWrt package symbols:
 
 - `libstdcpp`
 - `libfuse3`
-- `bash`
 
 OpenWrt's FUSE3 recipe defines `Package/libfuse3` with ABI version `3`, so the
 binary IPK and package-index metadata are emitted as `libfuse3-3` while still

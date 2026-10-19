@@ -43,7 +43,6 @@ PREINSTALLED_PACKAGES = {
     "opkg",
 }
 DEFAULT_RUNTIME_PACKAGES = [
-    "bash",
     # OpenWrt emits the FUSE3 library IPK with its ABI suffix; it still
     # Provides: libfuse3.
     "libfuse3-3",
