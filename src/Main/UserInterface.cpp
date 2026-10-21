@@ -14,6 +14,8 @@
 #ifdef TC_LINUX
 #include <algorithm>
 #endif
+#include <climits>
+#include <langinfo.h>
 #include <set>
 #include <typeinfo>
 #include <wx/apptrait.h>
@@ -1198,6 +1200,31 @@ const FileManager fileManagers[] = {
 #endif
 	}
 
+	// Decodes all of the bytes in the character set of LC_CTYPE. Fails on an
+	// invalid or incomplete character. NUL bytes are kept, as before. The
+	// result never needs more characters than there are bytes, so reserving
+	// that up front means it is never reallocated (leaving copies behind).
+	static bool DecodeStandardInputPassword (const uint8 *bytes, size_t length, wstring &password)
+	{
+		mbstate_t state;
+		Memory::Zero (&state, sizeof (state));
+		password.clear();
+		password.reserve (length);
+
+		for (size_t i = 0; i < length; )
+		{
+			wchar_t wc;
+			size_t n = mbrtowc (&wc, reinterpret_cast <const char *> (bytes) + i, length - i, &state);
+			if (n == (size_t) -1 || n == (size_t) -2)
+				return false;
+			if (n == 0)
+				n = 1;
+			password.push_back (wc);
+			i += n;
+		}
+		return true;
+	}
+
 	bool UserInterface::ProcessCommandLine ()
 	{
 		CommandLineInterface &cmdLine = *CmdLine;
@@ -1207,8 +1234,58 @@ const FileManager fileManagers[] = {
 
 		if (Preferences.UseStandardInput)
 		{
+			// The password is the first line of standard input (a final line
+			// feed is optional). It is read as bytes into a fixed, wiped buffer
+			// and decoded as a whole in the character set of LC_CTYPE, like a
+			// password typed at the prompt: decoding while reading (wcin)
+			// silently stopped at an invalid or incomplete character. Only the
+			// first line is read.
+			SecureBuffer pwdBytes (VolumePassword::MaxSize * MB_LEN_MAX);
+			size_t pwdLength = 0;
+			bool pwdTooLong = false;
+			int c;
+
+			while ((c = getc (stdin)) != EOF && c != '\n')
+			{
+				if (pwdLength < pwdBytes.Size())
+					pwdBytes.Ptr()[pwdLength++] = (uint8) c;
+				else
+					pwdTooLong = true;
+			}
+
+			bool pwdRead = !ferror (stdin) && (c == '\n' || pwdLength > 0);
+
 			wstring pwdInput;
-			getline(wcin, pwdInput);
+			finally_do_arg (wstring *, &pwdInput, { StringConverter::Erase (*finally_arg); });
+			bool pwdDecoded = pwdRead && !pwdTooLong
+				&& DecodeStandardInputPassword (pwdBytes.Ptr(), pwdLength, pwdInput);
+
+			switch (cmdLine.ArgCommand)
+			{
+			case CommandId::AutoMountDevices:
+			case CommandId::AutoMountFavorites:
+			case CommandId::AutoMountDevicesFavorites:
+			case CommandId::MountVolume:
+			case CommandId::CreateVolume:
+			case CommandId::ChangePassword:
+				// A failed read must not become a shorter or empty password
+				// (keyfiles may open the volume with one).
+				if (!pwdRead)
+					throw_err (L"Cannot read the password from standard input");
+				if (pwdTooLong)
+					throw_err (L"The password from standard input is too long");
+				if (!pwdDecoded)
+					throw_err (StringFormatter (L"The password from standard input is not valid in the character encoding of the current locale ({0})", wstring (StringConverter::ToWide (nl_langinfo (CODESET)))));
+				break;
+			default:
+				break;
+			}
+
+			if (!pwdDecoded)
+			{
+				StringConverter::Erase (pwdInput);
+				pwdInput.clear();
+			}
 
 			size_t maxUtf8Len = cmdLine.ArgUseLegacyPassword? VolumePassword::MaxLegacySize : VolumePassword::MaxSize;
 			cmdLine.ArgPassword = ToUTF8Password ( pwdInput.c_str (), pwdInput.size (), maxUtf8Len);
