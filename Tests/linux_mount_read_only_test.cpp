@@ -10,6 +10,9 @@ using namespace VeraCrypt;
 static bool ReadOnly;
 static unsigned LoopCalls, LoopFailures, Layers, ExpectedLayers;
 static string VolumeFilePath;
+static bool MountFlow, AuxInfoSent;
+static string AuxPath, LoopFilePath;
+static unsigned FuseMountCalls;
 struct StopBeforeDeviceIO { };
 
 static void Require (bool condition, const char *message)
@@ -31,7 +34,7 @@ extern "C" string WrapExecute (const string &program, const list<string> &args,
         if (ReadOnly) expected.push_back ("-r");
         expected.push_back ("--");
         expected.push_back ("/dev/loop" + StringConverter::ToSingle (LoopCalls - 1));
-        expected.push_back (VolumeFilePath);
+        expected.push_back (MountFlow ? LoopFilePath : VolumeFilePath);
         Require (a == expected, "loop retry changed protection or arguments");
         if (LoopCalls <= LoopFailures)
             throw ExecutedProcessFailed (SRC_POS, "losetup", 1, "injected failure");
@@ -53,8 +56,10 @@ extern "C" string WrapExecute (const string &program, const list<string> &args,
 }
 
 extern "C" string WrapFindBinary (const char *, string &) { return "/test/dmsetup"; }
-extern "C" FilesystemPathType::Enum WrapGetType (const FilesystemPath *)
+extern "C" FilesystemPathType::Enum WrapGetType (const FilesystemPath *path)
 {
+    if (MountFlow && string (*path).find ("/dev/loop") != 0)
+        return FilesystemPathType::File;
     return FilesystemPathType::BlockDevice;
 }
 extern "C" shared_ptr<VolumeInfo> WrapAuxInfo (const DirectoryPath &)
@@ -62,6 +67,22 @@ extern "C" shared_ptr<VolumeInfo> WrapAuxInfo (const DirectoryPath &)
     shared_ptr<VolumeInfo> info (new VolumeInfo);
     info->SerialInstanceNumber = 987654321;
     return info;
+}
+
+extern "C" uint64 WrapFuseMount (shared_ptr<Volume>, VolumeSlotNumber, const string &path)
+{
+    Require (MountFlow, "unexpected FUSE service mount");
+    ++FuseMountCalls;
+    AuxPath = path;
+    LoopFilePath = path + "/volume";
+    return 987654321;
+}
+
+extern "C" void WrapSendAuxInfo (const DirectoryPath &path, const DevicePath &device, const DevicePath &loop)
+{
+    Require (MountFlow && string (path) == AuxPath && string (device) == "/dev/loop0"
+        && device == loop, "unexpected FUSE loop metadata");
+    AuxInfoSent = true;
 }
 
 struct TestLayout : VolumeLayoutV2Normal
@@ -96,6 +117,37 @@ struct TestCore : CoreLinux
     using CoreLinux::AttachFileToLoopDevice;
     using CoreLinux::MountVolumeNative;
     using CoreUnix::MountAuxVolumeImage;
+};
+
+// Exercise MountVolume -> MountVolumeNative -> MountAuxVolumeImage with a
+// synthetic opened volume. Only FUSE service creation and final filesystem I/O
+// are intercepted; backend selection and loop arguments use production code.
+struct FallbackCore : TestCore
+{
+    shared_ptr<Volume> Opened;
+    mutable bool FilesystemMounted = false;
+
+    shared_ptr<Volume> OpenVolume (shared_ptr<VolumePath>, bool, shared_ptr<VolumePassword>, int,
+        shared_ptr<Pkcs5Kdf>, shared_ptr<KeyfileList>, bool, VolumeProtection::Enum,
+        shared_ptr<VolumePassword>, int, shared_ptr<Pkcs5Kdf>, shared_ptr<KeyfileList>,
+        bool, VolumeType::Enum, bool, bool) const override { return Opened; }
+    bool IsVolumeMounted (const VolumePath &) const override { return false; }
+    VolumeInfoList GetMountedVolumes (const VolumePath & = VolumePath()) const override { return VolumeInfoList(); }
+    shared_ptr<VolumeInfo> GetMountedVolume (const VolumePath &) const override
+    {
+        return shared_ptr<VolumeInfo> (new VolumeInfo);
+    }
+    shared_ptr<VolumeInfo> DismountVolume (shared_ptr<VolumeInfo> info, bool, bool) override { return info; }
+    MountedFilesystemList GetMountedFilesystems (const DevicePath & = DevicePath(),
+        const DirectoryPath & = DirectoryPath()) const override { return MountedFilesystemList(); }
+    string GetTempDirectory () const override { return VolumeFilePath.substr (0, VolumeFilePath.rfind ('/')); }
+    void MountFilesystem (const DevicePath &device, const DirectoryPath &, const string &,
+        bool readOnly, const string &, bool) const override
+    {
+        Require (string (device) == "/dev/loop0" && readOnly == ReadOnly,
+            "FUSE filesystem lost effective protection");
+        FilesystemMounted = true;
+    }
 };
 
 int main (int argc, char **argv)
@@ -153,6 +205,36 @@ int main (int argc, char **argv)
             Require (Layers == 0, "FUSE fallback created a native mapping");
         }
 
+        MountFlow = true;
+        for (unsigned scenario = 0; scenario < 4; ++scenario)
+        for (bool noFilesystem : {false, true})
+        {
+            const bool incomplete = scenario == 0;
+            const VolumeProtection::Enum protection = scenario == 1 ? VolumeProtection::HiddenVolumeReadOnly
+                : scenario == 3 ? VolumeProtection::None : VolumeProtection::ReadOnly;
+            FallbackCore fallback;
+            fallback.Opened.reset (new TestVolume (false, protection, incomplete));
+            MountOptions mountOptions;
+            mountOptions.Path.reset (new VolumePath (VolumeFilePath));
+            mountOptions.MountPoint.reset (new DirectoryPath (fallback.GetTempDirectory() + "/mount"));
+            mountOptions.SlotNumber = 64;
+            mountOptions.NoFilesystem = noFilesystem;
+            mountOptions.NoKernelCrypto = scenario >= 2;
+            mountOptions.FilesystemType = L"vfat";
+            mountOptions.Protection = incomplete ? VolumeProtection::None : protection;
+            ReadOnly = protection == VolumeProtection::ReadOnly;
+            LoopCalls = LoopFailures = Layers = FuseMountCalls = 0;
+            AuxInfoSent = false;
+            AuxPath.clear();
+            fallback.MountVolume (mountOptions);
+            Require (mountOptions.Protection == protection, "effective protection not propagated or hidden protection changed");
+            Require (FuseMountCalls == 1 && LoopCalls == 1 && Layers == 0 && AuxInfoSent,
+                "FUSE fallback not completed");
+            Require (fallback.FilesystemMounted == !noFilesystem, "FUSE filesystem path not exercised");
+            Require (rmdir (AuxPath.c_str()) == 0, "cannot remove test auxiliary directory");
+        }
+        MountFlow = false;
+
         // The FUSE image caller must propagate loop setup failure as well.
         options.Protection = VolumeProtection::ReadOnly;
         VolumeFilePath = "/test/aux/volume";
@@ -166,7 +248,7 @@ int main (int argc, char **argv)
         }
         catch (LoopDeviceSetupFailed &) { }
         Require (LoopCalls == 256, "FUSE loop failure not exercised");
-        std::cout << "PASS mapping arguments, cascades, effective protection, hidden/incomplete fallback, loop retries and failure\n";
+        std::cout << "PASS mapping arguments, cascades, effective protection through FUSE fallback, hidden protection, loop retries and failure\n";
     }
     catch (const std::exception &e) { std::cerr << e.what() << '\n'; return 1; }
 }

@@ -25,6 +25,8 @@ on:
       - 'Tests/test.*.hc'
       - 'Tests/test_volume_read.py'
       - 'Tests/volume_read_test.cpp'
+      - 'Tests/test_linux_mount_read_only.py'
+      - 'Tests/linux_mount_read_only_test.cpp'
       - 'Tests/response_apdu_test.cpp'
       - '.github/workflows/build-linux.yml'
   pull_request:
@@ -51,6 +53,8 @@ on:
       - 'Tests/test.*.hc'
       - 'Tests/test_volume_read.py'
       - 'Tests/volume_read_test.cpp'
+      - 'Tests/test_linux_mount_read_only.py'
+      - 'Tests/linux_mount_read_only_test.cpp'
       - 'Tests/response_apdu_test.cpp'
       - '.github/workflows/build-linux.yml'
 
@@ -149,6 +153,10 @@ jobs:
     # version) left in src, and checks known data.
     - name: Read known data from the test volumes
       run: python3 Tests/test_volume_read.py --build-dir src --require-thread-pool
+
+    # The package build above defaults to FUSE2 and leaves matching archives.
+    - name: Check Linux mount protection and fallback
+      run: python3 Tests/test_linux_mount_read_only.py --build-dir src --fuse-package=fuse
 
     - name: Install and test VeraCrypt GUI .deb packages
       run: |

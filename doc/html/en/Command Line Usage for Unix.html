@@ -173,7 +173,7 @@
 </tr>
 <tr>
 <td><em>--fs-options=OPTIONS</em></td>
-<td>Filesystem mount options passed to the system mount command with <code>-o</code>. This option is available on Linux and other Unix-like builds where supported, but not on macOS.</td>
+<td>Filesystem mount options passed to the system mount command with <code>-o</code>. This option is available on Linux and other Unix-like builds where supported, but not on macOS. To protect the decrypted device against writes, use <code>--mount-options=ro</code>; filesystem-only <code>--fs-options=ro</code> can still allow journal recovery writes.</td>
 </tr>
 <tr>
 <td><em>--hash=HASH</em></td>
@@ -197,7 +197,7 @@
 </tr>
 <tr>
 <td><em>-m OPTION1[,OPTION2,...]</em> or <em>--mount-options=OPTION1[,OPTION2,...]</em></td>
-<td>Set VeraCrypt volume mount options. Supported options are <em>headerbak</em>, <em>nokernelcrypto</em>, <em>readonly</em> or <em>ro</em>, <em>system</em>, and <em>timestamp</em> or <em>ts</em>. On Linux, <em>kernelntfs</em> enables in-kernel NTFS driver selection for the current mount when NTFS is detected and no filesystem type was supplied.</td>
+<td>Set VeraCrypt volume mount options. Supported options are <em>headerbak</em>, <em>nokernelcrypto</em>, <em>readonly</em> or <em>ro</em>, <em>system</em>, and <em>timestamp</em> or <em>ts</em>. On Linux, <em>kernelntfs</em> enables in-kernel NTFS driver selection for the current mount when NTFS is detected and no filesystem type was supplied. Read-only protection applies to the decrypted device as well as the filesystem. A filesystem that needs journal recovery writes may refuse a read-only mount.</td>
 </tr>
 <tr>
 <td><em>--new-hash=HASH</em></td>

@@ -33,6 +33,8 @@ def main():
         "Process16FindSystemBinaryE": "WrapFindBinary",
         "FilesystemPath7GetTypeE": "WrapGetType",
         "CoreUnix23ReadAuxiliaryVolumeInfoE": "WrapAuxInfo",
+        "FuseService5MountE": "WrapFuseMount",
+        "FuseService17SendAuxDeviceInfoE": "WrapSendAuxInfo",
     }
     flags = []
     for fragment, wrapper in wrappers.items():
@@ -55,6 +57,9 @@ def main():
             "-Wl,--start-group", *map(str, archives), "-Wl,--end-group",
             "-pthread", "-ldl", "-o", str(binary),
         ]
+        # WXSTATIC builds use the old libstdc++ ABI (see test_volume_read.py).
+        if "cxx11" not in symbols:
+            command.append("-D_GLIBCXX_USE_CXX11_ABI=0")
         command += shlex.split(subprocess.check_output(
             ["pkg-config", "--libs", args.fuse_package], text=True))
         subprocess.run(command, check=True, timeout=120)
