@@ -48,6 +48,9 @@
 #include <sys/wait.h>
 
 #include "FuseService.h"
+#if defined(TC_MACOSX) && !defined(VC_MACOSX_FUSET)
+#include <sys/sysctl.h>
+#endif
 #if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
 #include <chrono>
 #include <fuse_lowlevel.h>
@@ -98,6 +101,90 @@ namespace VeraCrypt
 	{
 		statData->st_blksize = VC_FUSE_BLOCK_SIZE;
 		statData->st_blocks = fuse_service_ceil_div ((uint64) statData->st_size, VC_FUSE_STAT_BLOCK_SIZE);
+	}
+
+#if defined(TC_MACOSX) && !defined(VC_MACOSX_FUSET)
+	// macFUSE has offered an FSKit backend (-o backend=fskit) since 5.0. MFMount.framework,
+	// through which this libfuse 2 build mounts, ships since 5.2.0, which is therefore the
+	// minimum. The bundle version is read from the XML Info.plist.
+	static bool fuse_service_macfuse_supports_fskit ()
+	{
+		try
+		{
+			File plist;
+			plist.Open ("/Library/Filesystems/macfuse.fs/Contents/Info.plist");
+			if (plist.Length() > 1024 * 1024)
+				return false;
+			Buffer data ((size_t) plist.Length());
+			plist.ReadCompleteBuffer (data);
+			const string text ((const char *) data.Ptr(), data.Size());
+
+			size_t pos = text.find ("<key>CFBundleVersion</key>");
+			if (pos == string::npos || (pos = text.find ("<string>", pos)) == string::npos)
+				return false;
+			pos += 8;
+
+			const vector <string> version = StringConverter::Split (text.substr (pos, text.find ("</string>", pos) - pos), ".");
+			if (version.size() < 2)
+				return false;
+
+			const uint32 major = StringConverter::ToUInt32 (version[0]);
+			const uint32 minor = StringConverter::ToUInt32 (version[1]);
+			return major > 5 || (major == 5 && minor >= 2);
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+
+	// On macOS 26 and later, macFUSE can run in user space through FSKit, which needs neither its
+	// kernel extension nor Reduced Security. A kernel extension that is already loaded is used
+	// instead, as is the kernel backend of a macFUSE too old for FSKit (the version check in
+	// CoreMacOSX::MountAuxVolumeImage then applies). A kernel extension that is approved but not
+	// yet loaded cannot be told apart from an unapproved one without a privileged load attempt,
+	// so FSKit is used in that case. Evaluated once per mount, so a kernel extension loaded later
+	// is picked up by the next mount.
+	static bool fuse_service_select_fskit_backend ()
+	{
+		if (__builtin_available (macOS 26.0, *))
+		{
+			size_t size = 0;
+			if (sysctlbyname ("vfs.generic.macfuse.version.number", NULL, &size, NULL, 0) != 0)
+				return fuse_service_macfuse_supports_fskit();
+		}
+		return false;
+	}
+#endif
+
+	// Metadata files advertise at least VC_FUSE_METADATA_SIZE, so reads are padded with zeros up to
+	// that size. The macFUSE FSKit backend ignores direct_io and fails any read that ends before the
+	// file size, so the size that getattr reports must be the padded size.
+	static uint64 fuse_service_metadata_file_size (const Buffer &data)
+	{
+		return max (VC_FUSE_METADATA_SIZE, (uint64) data.Size());
+	}
+
+	static int fuse_service_read_metadata_file (const Buffer &data, char *buf, size_t size, off_t offset)
+	{
+		const uint64 fileSize = fuse_service_metadata_file_size (data);
+		if (offset < 0)
+			return -EINVAL;
+
+		if ((uint64) offset >= fileSize)
+			return 0;
+
+		size = (size_t) min ((uint64) size, fileSize - offset);
+		BufferPtr outBuf ((uint8 *) buf, size);
+		outBuf.Zero();
+
+		if ((uint64) offset < data.Size())
+		{
+			size_t dataSize = (size_t) min ((uint64) size, data.Size() - offset);
+			outBuf.GetRange (0, dataSize).CopyFrom (data.GetRange (offset, dataSize));
+		}
+
+		return size;
 	}
 
 	static shared_ptr <Buffer> fuse_service_get_control_info (struct fuse_file_info *fi)
@@ -760,7 +847,7 @@ namespace VeraCrypt
 				{
 					statData->st_mode = S_IFREG | 0600;
 					statData->st_nlink = 1;
-					statData->st_size = VC_FUSE_METADATA_SIZE;
+					statData->st_size = fuse_service_metadata_file_size (*FuseService::GetAuxDeviceInfo());
 					statData->st_ino = VC_FUSE_INODE_AUX_DEVICE_INFO;
 					fuse_service_set_stat_blocks (statData);
 				}
@@ -776,7 +863,7 @@ namespace VeraCrypt
 				{
 					statData->st_mode = S_IFREG | 0600;
 					statData->st_nlink = 1;
-					statData->st_size = VC_FUSE_METADATA_SIZE;
+					statData->st_size = fuse_service_metadata_file_size (*FuseService::GetVolumeInfo());
 					statData->st_ino = VC_FUSE_INODE_CONTROL;
 					fuse_service_set_stat_blocks (statData);
 				}
@@ -958,32 +1045,12 @@ namespace VeraCrypt
 
 			if (strcmp (path, FuseService::GetControlPath()) == 0)
 			{
-				shared_ptr <Buffer> infoBuf = fuse_service_get_control_info (fi);
-				BufferPtr outBuf ((uint8 *)buf, size);
-
-				if (offset >= (off_t) infoBuf->Size())
-					return 0;
-
-				if (offset + size > infoBuf->Size())
-					size = infoBuf->Size () - offset;
-
-				outBuf.CopyFrom (infoBuf->GetRange (offset, size));
-				return size;
+				return fuse_service_read_metadata_file (*fuse_service_get_control_info (fi), buf, size, offset);
 			}
 
 			if (strcmp (path, FuseService::GetAuxDeviceInfoPath()) == 0)
 			{
-				shared_ptr <Buffer> infoBuf = FuseService::GetAuxDeviceInfo();
-				BufferPtr outBuf ((uint8 *)buf, size);
-
-				if (offset >= (off_t) infoBuf->Size())
-					return 0;
-
-				if (offset + size > infoBuf->Size())
-					size = infoBuf->Size () - offset;
-
-				outBuf.CopyFrom (infoBuf->GetRange (offset, size));
-				return size;
+				return fuse_service_read_metadata_file (*FuseService::GetAuxDeviceInfo(), buf, size, offset);
 			}
 
 #if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
@@ -1304,9 +1371,9 @@ namespace VeraCrypt
 
 	uint64 FuseService::Mount (shared_ptr <Volume> openVolume, VolumeSlotNumber slotNumber, const string &fuseMountPoint)
 	{
-#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
+#ifdef TC_MACOSX
 		// Keep the descriptor in the service across fork, but do not let exec'd
-		// helpers retain the backing file after the service exits.
+		// helpers (hdiutil, mount helpers) retain the backing file after the service exits.
 		openVolume->GetFile()->SetCloseOnExec();
 #endif
 
@@ -1329,6 +1396,13 @@ namespace VeraCrypt
 		args.push_back ("nonamedattr");
 		args.push_back ("-o");
 		args.push_back ("rwsize=262144");
+#else
+		FskitBackend = fuse_service_select_fskit_backend();
+		if (FskitBackend)
+		{
+			args.push_back ("-o");
+			args.push_back ("backend=fskit");
+		}
 #endif
 
 		if (getuid() == 0 || geteuid() == 0)
@@ -1855,6 +1929,21 @@ namespace VeraCrypt
 #elif defined(TC_OPENBSD)
 		_exit (fuse_main (argc, argv, &fuse_service_oper, NULL));
 #else
+#ifdef TC_MACOSX
+		// FSKit file system extensions are enabled per user, so root cannot mount through them.
+		// An elevated service serves the volume, which is already open, as the requesting user.
+		// That process holds the master keys and the host device opened by root. Dropping
+		// from root marks the process set-id (P_SUGID), which is inherited by the daemon that
+		// fuse_main forks and keeps the user's other processes from attaching to it or from
+		// getting its task port.
+		if (geteuid() == 0 && FuseService::UserId != 0 && FuseService::FskitBackend)
+		{
+			throw_sys_sub_if (chown (argv[1], FuseService::UserId, FuseService::GroupId) == -1, argv[1]);
+			throw_sys_if (setgroups (0, nullptr) == -1);
+			throw_sys_if (setgid (FuseService::GroupId) == -1);
+			throw_sys_if (setuid (FuseService::UserId) == -1);
+		}
+#endif
 		_exit (fuse_main (argc, argv, &fuse_service_oper));
 #endif
 	}
@@ -1865,5 +1954,8 @@ namespace VeraCrypt
 	VolumeSlotNumber FuseService::SlotNumber;
 	uid_t FuseService::UserId;
 	gid_t FuseService::GroupId;
+#if defined(TC_MACOSX) && !defined(VC_MACOSX_FUSET)
+	bool FuseService::FskitBackend = false;
+#endif
 	unique_ptr <Pipe> FuseService::SignalHandlerPipe;
 }
