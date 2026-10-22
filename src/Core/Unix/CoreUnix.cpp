@@ -1239,6 +1239,11 @@ namespace VeraCrypt
 			break;
 		}
 
+		// Opening a partially encrypted system volume can force read-only
+		// protection. Carry that effective mode into either mount backend.
+		if (volume->GetProtectionType() == VolumeProtection::ReadOnly)
+			options.Protection = VolumeProtection::ReadOnly;
+
 		if (options.Path->IsDevice())
 		{
 			const uint32 devSectorSize = volume->GetFile()->GetDeviceSectorSize();

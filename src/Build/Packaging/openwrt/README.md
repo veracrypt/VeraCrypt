@@ -24,8 +24,8 @@ The package installs only:
 - `/sbin/mount.veracrypt`
 - `/usr/share/licenses/veracrypt/License.txt`
 
-`mount.veracrypt` uses a Bash shebang, so the OpenWrt package declares `bash`
-as a runtime dependency.
+`mount.veracrypt` is a POSIX shell script and runs with BusyBox `ash`, so the
+package does not depend on `bash`.
 
 ## Build
 
@@ -39,7 +39,7 @@ The script downloads and verifies the OpenWrt SDK against a pinned SHA-256 for
 the supported release/target, downloads and verifies wxWidgets 3.2.10, installs
 the required OpenWrt feeds, renders
 `package/utils/veracrypt/Makefile` inside the SDK, builds the `.ipk`, and
-also builds the local userland `bash`, `fuse3`, `util-linux`, and `lvm2` feed
+also builds the local userland `fuse3`, `util-linux`, and `lvm2` feed
 packages used by the QEMU runtime test. Kernel modules for the stock OpenWrt
 image are resolved by the test from the official OpenWrt kmod feed for the
 selected release and target.
@@ -87,7 +87,8 @@ The test script downloads and verifies the matching OpenWrt x86/64 ext4 image,
 boots it with QEMU user networking, waits for OpenWrt network init to settle,
 gets a DHCP lease on `br-lan` or `eth0`, resolves the needed dependency closure
 from local SDK `.ipk` control metadata plus the official OpenWrt kmod feed,
-serves those packages to the guest, and installs them with `opkg`. It then runs:
+serves those packages to the guest, and installs them with `opkg`. It verifies
+that Bash is unavailable, then runs:
 
 ```sh
 veracrypt --text --version
@@ -96,8 +97,10 @@ veracrypt --text --test
 
 By default it also creates a 16 MiB AES/SHA-512 test container, opens it with
 `--filesystem=none`, verifies it appears in `veracrypt --text --list`, and
-unmounts it. Use `--skip-container` to run only the package install, version,
-and algorithm self-test path.
+unmounts it. It repeats the mount/list/unmount check through `mount.veracrypt`.
+The test password must not contain commas because the helper uses comma-separated
+options. Use `--skip-container` to run only the package install, Bash absence,
+version, and algorithm self-test path.
 
 If QEMU was extracted locally instead of installed system-wide, pass the binary
 and firmware directory explicitly:
@@ -136,7 +139,6 @@ OpenWrt package symbols:
 
 - `libstdcpp`
 - `libfuse3`
-- `bash`
 
 OpenWrt's FUSE3 recipe defines `Package/libfuse3` with ABI version `3`, so the
 binary IPK and package-index metadata are emitted as `libfuse3-3` while still

@@ -479,7 +479,7 @@ void DisableCPUExtendedFeatures ()
 #endif
 
 #if CRYPTOPP_BOOL_ARMV8
-#if defined(__linux__) && defined(__aarch64__)
+#if (defined(__linux__) || defined(__FreeBSD__)) && defined(__aarch64__)
 #include <sys/auxv.h>
 #ifndef HWCAP_AES
 # define HWCAP_AES (1 << 3)
@@ -497,6 +497,10 @@ VC_INLINE int CPU_QueryAES()
 #if defined(CRYPTOPP_ARM_AES_AVAILABLE)
 #if defined(__linux__) && defined(__aarch64__)
 	if ((getauxval(AT_HWCAP) & HWCAP_AES) != 0)
+		return 1;
+#elif defined(__FreeBSD__) && defined(__aarch64__)
+	unsigned long hwcap = 0;
+	if (elf_aux_info(AT_HWCAP, &hwcap, sizeof(hwcap)) == 0 && (hwcap & HWCAP_AES) != 0)
 		return 1;
 #elif defined(__APPLE__) && defined(__aarch64__)
 	// Apple Sillcon (M1) and later
@@ -521,6 +525,10 @@ VC_INLINE int CPU_QuerySHA2()
 #if defined(CRYPTOPP_ARM_SHA2_AVAILABLE)
 #if defined(__linux__) && defined(__aarch64__)
 	if ((getauxval(AT_HWCAP) & HWCAP_SHA2) != 0)
+		return 1;
+#elif defined(__FreeBSD__) && defined(__aarch64__)
+	unsigned long hwcap = 0;
+	if (elf_aux_info(AT_HWCAP, &hwcap, sizeof(hwcap)) == 0 && (hwcap & HWCAP_SHA2) != 0)
 		return 1;
 #elif defined(__APPLE__) && defined(__aarch64__)
 	// Apple Sillcon (M1) and later

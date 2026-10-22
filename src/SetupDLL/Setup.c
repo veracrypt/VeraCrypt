@@ -23,6 +23,8 @@
 
 #include "Apidrvr.h"
 #include "BootEncryption.h"
+#include "SystemEncryptionFiles.h"
+#include "Platform/Finally.h"
 #include "Boot/Windows/BootCommon.h"
 #include "Combo.h"
 #include "ComSetup.h"
@@ -1222,10 +1224,11 @@ end:
 BOOL StartStopService_Dll (MSIHANDLE hInstaller, wchar_t *lpszService, BOOL bStart, DWORD argc, LPCWSTR* argv)
 {
 	SC_HANDLE hManager, hService = NULL;
-	BOOL bOK = FALSE, bRet;
+	BOOL bOK = FALSE;
 	SERVICE_STATUS status = {0};
-	int x;
+	DWORD dwError, dwStartTime, dwLastProgress, dwCheckPoint = 0;
 	DWORD dwExpectedState = bStart? SERVICE_RUNNING : SERVICE_STOPPED;
+	DWORD dwPendingState = bStart? SERVICE_START_PENDING : SERVICE_STOP_PENDING;
 
 	hManager = OpenSCManager (NULL, NULL, SC_MANAGER_ALL_ACCESS);
 	if (hManager == NULL)
@@ -1243,47 +1246,55 @@ BOOL StartStopService_Dll (MSIHANDLE hInstaller, wchar_t *lpszService, BOOL bSta
 	if (bStart)
 	{
 		if (!StartService (hService, argc, argv) && (GetLastError () != ERROR_SERVICE_ALREADY_RUNNING))
-		{
-			MSILog(hInstaller, MSI_ERROR_LEVEL, L"Failed to start %s. Error 0x%.8X", lpszService, GetLastError ());
 			goto error;
-		}
 	}
 	else
 		ControlService (hService, SERVICE_CONTROL_STOP, &status);
 
-	for (x = 0; x < WAIT_PERIOD; x++)
+	dwStartTime = dwLastProgress = GetTickCount ();
+	for (;;)
 	{
-		bRet = QueryServiceStatus (hService, &status);
-		if (bRet != TRUE)
+		if (!QueryServiceStatus (hService, &status))
 			goto error;
 
 		if (status.dwCurrentState == dwExpectedState)
+		{
+			bOK = TRUE;
 			break;
+		}
 
+		if (status.dwCurrentState != dwPendingState)
+		{
+			SetLastError (status.dwWin32ExitCode ? status.dwWin32ExitCode : ERROR_SERVICE_REQUEST_TIMEOUT);
+			goto error;
+		}
+
+		DWORD dwNow = GetTickCount ();
+		if (status.dwCheckPoint > dwCheckPoint)
+		{
+			dwCheckPoint = status.dwCheckPoint;
+			dwLastProgress = dwNow;
+		}
+
+		// Honor pending-state progress, but cap the wait at the service's two-minute startup allowance.
+		if (dwNow - dwStartTime >= 120000
+			|| dwNow - dwLastProgress >= (status.dwWaitHint ? status.dwWaitHint : WAIT_PERIOD * 1000))
+		{
+			SetLastError (ERROR_SERVICE_REQUEST_TIMEOUT);
+			goto error;
+		}
 		Sleep (1000);
 	}
 
-	bRet = QueryServiceStatus (hService, &status);
-	if (bRet != TRUE)
-	{
-		MSILog(hInstaller, MSI_ERROR_LEVEL, L"Failed to query status of %s. Error 0x%.8X", lpszService, GetLastError ());
-		goto error;
-	}
-
-	if (status.dwCurrentState != dwExpectedState)
-	{
-		MSILog(hInstaller, MSI_ERROR_LEVEL, L"Current state of %s (0x%.8X) is different from expected one (0x%.8X).", lpszService, status.dwCurrentState, dwExpectedState);
-		goto error;
-	}
-
-	bOK = TRUE;
-
 error:
+	dwError = bOK ? ERROR_SUCCESS : GetLastError ();
 
-	if (bOK == FALSE && GetLastError () == ERROR_SERVICE_DOES_NOT_EXIST)
+	if (bOK == FALSE && hService == NULL && dwError == ERROR_SERVICE_DOES_NOT_EXIST)
 	{
 		bOK = TRUE;
 	}
+	else if (!bOK)
+		MSILog(hInstaller, MSI_ERROR_LEVEL, L"Failed to %s service %s. Error 0x%.8X", bStart ? L"start" : L"stop", lpszService, dwError);
 
 	if (hService != NULL)
 		CloseServiceHandle (hService);
@@ -1291,6 +1302,7 @@ error:
 	if (hManager != NULL)
 		CloseServiceHandle (hManager);
 
+	SetLastError (dwError);
 	return bOK;
 }
 
@@ -1894,6 +1906,8 @@ BOOL DoApplicationDataUninstall_Dll (MSIHANDLE hInstaller)
 	wchar_t path[MAX_PATH];
 	wchar_t path2[MAX_PATH];
 	BOOL bOK = TRUE;
+	try { BootEncryption::UpdateSetupConfigFile (false); }
+	catch (Exception &e) { e.Show (NULL); return FALSE; }
 
 	MSILog(hInstaller, MSI_INFO_LEVEL, GetString("REMOVING_APPDATA"));
 
@@ -1939,14 +1953,8 @@ BOOL DoApplicationDataUninstall_Dll (MSIHANDLE hInstaller)
 	{
 		StringCbCatW (path, sizeof(path), L"\\VeraCrypt");
 
-		// Delete original bootloader
-		StringCbPrintfW (path2, sizeof(path2), L"%s\\%s", path, TC_SYS_BOOT_LOADER_BACKUP_NAME);
-		MSILog(hInstaller, MSI_INFO_LEVEL, L"REMOVING %s", path2);
-		StatDeleteFile (path2, FALSE);
-
-		// remove VeraCrypt folder
-		MSILog(hInstaller, MSI_INFO_LEVEL, L"REMOVING %s", path);
-		StatRemoveDirectory (path);
+		// Preserve both legacy backup names for recovery.
+		RemoveDirectoryW (path);
 	}
 
 	MSILog(hInstaller, MSI_INFO_LEVEL, L"End DoApplicationDataUninstall");
@@ -1972,10 +1980,12 @@ BOOL DoUninstall_Dll (MSIHANDLE hInstaller, HWND hwndDlg)
 	}
 	else
 	{
+		try { BootEncryption::UpdateSetupConfigFile (false); }
+		catch (Exception &e) { e.Show (hwndDlg); bOK = FALSE; }
 		if (!Rollback && bSystemRestore && !bTempSkipSysRestore)
 			SetSystemRestorePoint_Dll (hInstaller, FALSE);
 
-		if (DoServiceUninstall_Dll (hInstaller, hwndDlg, L"veracrypt") == FALSE)
+		if (!bOK || DoServiceUninstall_Dll (hInstaller, hwndDlg, L"veracrypt") == FALSE)
 		{
 			bOK = FALSE;
 		}
@@ -2490,11 +2500,17 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PreInstall(MSIHANDLE hInstaller)
 
 	bootEnc.SetParentWindow(hwndDlg);
 
+	try { BootEncryption::UpdateSetupConfigFile (false); }
+	catch (Exception &e) { e.Show (hwndDlg); goto end; }
+
 	if (DoDriverUnload_Dll (hInstaller, hwndDlg) == FALSE)
 	{
 		MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PreInstall: DoDriverUnload_Dll() failed");
 		goto end;
 	}
+	try { if (SystemEncryptionUpdate) BootEncryption::PrepareSystemEncryptionInstallation (InstallationPath); }
+	catch (Exception &e) { e.Show (hwndDlg); goto end; }
+
 
 	if (bSystemRestore)
 	{
@@ -2800,8 +2816,12 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 			try
 			{
-				if (BootEncObj.GetDriverServiceStartType() == SERVICE_BOOT_START)
+				if (SystemEncryptionUpdate || BootEncObj.IsSystemFavoritesServiceInstalled ())
 				{
+					SystemEncryptionFiles::Directory sourceDirectory;
+					SystemEncryptionFiles::Handle sourceFile;
+					DWORD sourceError = SystemEncryptionFiles::OpenInstallerFile (szTmp, sourceDirectory, sourceFile);
+					if (sourceError != ERROR_SUCCESS) { SetLastError (sourceError); throw SystemException (SRC_POS); }
 					uint32 driverFlags = ReadDriverConfigurationFlags ();
 					uint32 serviceFlags = BootEncObj.ReadServiceConfigurationFlags ();
 
@@ -2811,32 +2831,29 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 					// Tell the service not to update loader on stop
 					BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, true);
+					finally_do_arg2 (BootEncryption *, &BootEncObj, uint32, serviceFlags, {
+						try { finally_arg->SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, (finally_arg2 & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER) != 0); } catch (...) { }
+					});
+					finally_do_arg2 (BootEncryption *, &BootEncObj, uint32, driverFlags, {
+						try { finally_arg->SetDriverConfigurationFlag (finally_arg2, true); } catch (...) { }
+					});
 
-					if (StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL))
-					{
-						// we tell the service not to load system favorites on startup and to update bootloader on startup
-						LPCWSTR szArgs[3] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT, VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_LOADER};
-						if (!CopyFile (szTmp, servicePath.c_str(), FALSE))
-							ForceCopyFile (szTmp, servicePath.c_str());
-
-						MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: SystemEncryptionUpdate = %s", SystemEncryptionUpdate? L"TRUE" : L"FALSE");
-
-						StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, SystemEncryptionUpdate? 3 : 2, szArgs);
-					}
-					else
-					{
-						MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: failed to stop %S", servicePath.c_str());
-						ForceCopyFile (szTmp, servicePath.c_str());
-					}
+					throw_sys_if (!StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL));
+					throw_sys_if (!CopyFile (szTmp, servicePath.c_str(), FALSE));
+					LPCWSTR szArgs[3] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT, VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_LOADER };
+					throw_sys_if (!StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, SystemEncryptionUpdate ? 3 : 2, szArgs));
 
 					BootEncObj.SetDriverConfigurationFlag (driverFlags, true);
-
-					// remove the service flag if it was set originally
-					if (!(serviceFlags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER))
-						BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, false);
+					BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER,
+						(serviceFlags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER) != 0);
 				}
 			}
-			catch (...) {}
+			catch (Exception &e)
+			{
+				e.Show (hwndDlg);
+				EnableWow64FsRedirection (TRUE);
+				goto end;
+			}
 		}
 
 		// delete files from legacy path
@@ -2970,9 +2987,11 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 	try
 	{
-		bootEnc.RenameDeprecatedSystemLoaderBackup();
+		BootEncryption::UpdateSetupConfigFile (bOK && SystemEncryptionUpdate);
 	}
-	catch (...)	{ }
+	catch (Exception &e) { e.Show (hwndDlg); bOK = FALSE; }
+	try { bootEnc.RenameDeprecatedSystemLoaderBackup (SystemEncryptionUpdate != FALSE); }
+	catch (Exception &e) { e.Show (hwndDlg); Warning ("SYS_LOADER_BACKUP_MIGRATION_FAILED", hwndDlg); }
 
 	if (bSystemRestore)
 		SetSystemRestorePoint_Dll (hInstaller, TRUE);
@@ -2984,7 +3003,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 	else
 	{
 		MSILog(hInstaller, MSI_INFO_LEVEL, L"Post install failed");
-		if (!SystemEncryptionUpdate)
+		if (!SystemEncryptionUpdate && !bUpgrade && !bDowngrade && !bReinstallMode && !bRepairMode)
 		{
 			bUninstall = TRUE;
 			Rollback = TRUE;
@@ -2998,7 +3017,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 			MSILog(hInstaller, MSI_INFO_LEVEL, GetString("ROLLBACK"));
 		}
-		else
+		else if (SystemEncryptionUpdate)
 		{
 			MSILog(hInstaller, MSI_WARNING_LEVEL, GetString("SYS_ENC_UPGRADE_FAILED"));
 		}
@@ -3232,10 +3251,12 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PreUninstall(MSIHANDLE hInstaller)
 	}
 	else
 	{
+		try { BootEncryption::UpdateSetupConfigFile (false); }
+		catch (Exception &e) { e.Show (hwndDlg); bOK = FALSE; }
 		if (!Rollback && bSystemRestore && !bTempSkipSysRestore)
 			SetSystemRestorePoint_Dll (hInstaller, FALSE);
 
-		if (DoServiceUninstall_Dll (hInstaller, hwndDlg, L"veracrypt") == FALSE)
+		if (!bOK || DoServiceUninstall_Dll (hInstaller, hwndDlg, L"veracrypt") == FALSE)
 		{
 			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PreUninstall: DoServiceUninstall_Dll(veracrypt) failed");
 			bOK = FALSE;

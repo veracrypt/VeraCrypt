@@ -25,7 +25,7 @@ define Package/veracrypt
   SUBMENU:=Filesystem
   TITLE:=VeraCrypt console
   URL:=https://www.veracrypt.fr/
-  DEPENDS:=+libstdcpp +libfuse3 +bash
+  DEPENDS:=+libstdcpp +libfuse3
 endef
 
 define Package/veracrypt/description

@@ -95,7 +95,9 @@ else
 	OBJS += ../Crypto/Aescrypt.o
 endif
 
-ifeq "$(PLATFORM):$(LOCAL_DEVELOPMENT_BUILD):$(CPU_ARCH)" "MacOSX:true:arm64"
+# Keep flagged helpers for x86 NOSSE2 builds; SIMD_SUPPORTED also covers
+# the x86 slice of macOS universal builds on ARM hosts.
+ifeq "$(filter x86 x64,$(CPU_ARCH)):$(SIMD_SUPPORTED)" ":0"
 	OBJS += ../Crypto/blake2s_SSE41.o
 	OBJS += ../Crypto/blake2s_SSSE3.o
 	OBJS += ../Crypto/Sha2Intel.o
