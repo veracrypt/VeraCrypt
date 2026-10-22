@@ -22,6 +22,7 @@ on:
       - 'src/Volume/**'
       - 'src/Makefile'
       - 'Tests/test_linux_privilege_helpers.py'
+      - 'Tests/test_mount_helper.py'
       - 'Tests/test.*.hc'
       - 'Tests/test_volume_read.py'
       - 'Tests/volume_read_test.cpp'
@@ -50,6 +51,7 @@ on:
       - 'src/Volume/**'
       - 'src/Makefile'
       - 'Tests/test_linux_privilege_helpers.py'
+      - 'Tests/test_mount_helper.py'
       - 'Tests/test.*.hc'
       - 'Tests/test_volume_read.py'
       - 'Tests/volume_read_test.cpp'
@@ -194,6 +196,7 @@ jobs:
           exit 1
         fi
         sudo veracrypt -d
+        sudo python3 Tests/test_mount_helper.py --helper /usr/sbin/mount.veracrypt
         sudo apt remove -y veracrypt
 
     - name: Install and test VeraCrypt Console .deb packages
