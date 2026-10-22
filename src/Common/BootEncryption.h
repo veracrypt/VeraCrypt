@@ -13,6 +13,8 @@
 #ifndef TC_HEADER_Common_BootEncryption
 #define TC_HEADER_Common_BootEncryption
 
+#define TC_ERROR_BOOT_LOADER_ALREADY_INSTALLED 0xe0560001UL
+
 #include "Tcdefs.h"
 #include "Dlgcode.h"
 #include "Exception.h"
@@ -31,7 +33,7 @@ namespace VeraCrypt
 	{
 	public:
 		File () : Elevated (false), FileOpen (false), ReadOnly (false), FilePointerPosition(0), Handle(INVALID_HANDLE_VALUE), IsDevice(false), LastError(0) { }
-		File (wstring path,bool readOnly = false, bool create = false);
+		File (wstring path, bool readOnly = false, bool create = false, DWORD sharing = FILE_SHARE_READ | FILE_SHARE_WRITE);
 		virtual ~File () { Close(); }
 
 		bool IsOpened () const { return FileOpen;}
@@ -204,7 +206,7 @@ namespace VeraCrypt
 		void SaveFile(const wchar_t* name, uint8* data, DWORD size);
 		void GetFileSize(const wchar_t* name, unsigned __int64& size);
 		void ReadFile(const wchar_t* name, uint8* data, DWORD size);
-		bool ReadFileToBuffer (const wchar_t* name, std::vector<uint8>& fileContent);
+		bool ReadFileToBuffer (const wchar_t* name, std::vector<uint8>& fileContent, bool requireStableRead = false);
 		void CopyFile(const wchar_t* name, const wchar_t* targetName);
 		bool FileExists(const wchar_t* name);
 		static bool CompareFiles (const wchar_t* fileName1, const wchar_t* fileName2);
@@ -310,8 +312,9 @@ namespace VeraCrypt
 		void RegisterSystemFavoritesService (BOOL registerService);
 		void RegisterSystemFavoritesService (BOOL registerService, BOOL noFileHandling);
 		bool IsSystemFavoritesServiceRunning ();
+		bool IsSystemFavoritesServiceInstalled ();
 		void UpdateSystemFavoritesService ();
-		void RenameDeprecatedSystemLoaderBackup ();
+		void RenameDeprecatedSystemLoaderBackup (bool requireBackup);
 		bool RestartComputer (BOOL bShutdown = FALSE);
 		void InitialSecurityChecksForHiddenOS ();
 		void RestrictPagingFilesToSystemPartition ();
@@ -339,6 +342,8 @@ namespace VeraCrypt
 		void BackupSystemLoader ();
 		void RestoreSystemLoader ();
 		static void UpdateSetupConfigFile (bool bForInstall);
+		static void PrepareSystemEncryptionStorage ();
+		static void PrepareSystemEncryptionInstallation (const wchar_t *path);
 		void GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
 		void GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported);
 		bool GetEfiBootChainTrustStatus (EfiBootChainTrustStatus& status);
@@ -349,7 +354,9 @@ namespace VeraCrypt
 
 		void CreateBootLoaderInMemory (uint8 *buffer, size_t bufferSize, bool rescueDisk, bool hiddenOSCreation = false);
 		void CreateVolumeHeader (uint64 volumeSize, uint64 encryptedAreaStart, Password *password, int ea, int mode, int pkcs5, int pim);
-		wstring GetSystemLoaderBackupPath ();
+		void ReadSystemLoaderBackup (std::vector<uint8> &data);
+		void ReadSystemLoaderBackupForRestore (std::vector<uint8> &data);
+		void RestoreSystemLoader (const std::vector<uint8> &validatedBiosBackup);
 		uint32 GetChecksum (uint8 *data, size_t size);
 		DISK_GEOMETRY_EX GetDriveGeometry (int driveNumber);
 		PartitionList GetDrivePartitions (int driveNumber);

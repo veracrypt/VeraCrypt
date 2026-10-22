@@ -45,6 +45,7 @@
 </li>
 <li><strong>Windows:</strong>
 	<ul>
+	<li>Security: Protect system encryption recovery backups and Windows feature update support files. Reject untrusted backup migration and driver sources, and warn when an encrypted system's original loader backup is unavailable. Retain recovery backups during uninstall and keep Windows Setup configuration failures independent of boot-loader repair.</li>
 	<li>Security: Fix a local disclosure of limited disk metadata (<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-9mgv-w2fw-3m78" target="_blank">CVE-2026-77572</a>).</li>
 	<li>Fix driver stability regressions reported with VeraCrypt 1.26.29 and improve cleanup during mounting and dismounting.</li>
 	<li>Prevent incompatible EFI bootloader installation when Secure Boot is enabled. Refresh the Windows Boot Manager copy from compatible Windows files.</li>
@@ -53,6 +54,7 @@
 	<li>Fix windows and dialogs appearing off screen or on the wrong monitor (GH #1858, GH #1865, GH #1912).</li>
 	<li>Update bundled zlib to 1.3.2 and LZMA SDK to 26.02.</li>
 	</ul>
+<p><strong>Upgrade note for system encryption:</strong> Install the updated VeraCrypt before preparing a Windows feature update, and resolve any Windows update support or original loader backup warning. If Windows Setup has already staged support files, restart feature-update preparation so it stages the updated files; installing VeraCrypt does not replace a previously staged script. Preserve existing recovery backups and a known trustworthy VeraCrypt Rescue Disk. Changing an old backup's ownership or permissions does not establish that its contents are safe.</p>
 </li>
 <li><strong>Linux, macOS and BSD:</strong>
 	<ul>
