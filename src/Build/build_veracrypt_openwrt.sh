@@ -302,7 +302,6 @@ render_package_makefile() {
 configure_sdk() {
 	[ -f "$OPENWRT_CONFIG" ] || die "Missing OpenWrt config seed: $OPENWRT_CONFIG"
 
-	cp "$OPENWRT_CONFIG" "$SDK_DIR/.config"
 	(
 		cd "$SDK_DIR"
 		if ! PATH="$HOST_TOOLS/bin:$PATH" ./scripts/feeds update packages base; then
@@ -311,6 +310,8 @@ configure_sdk() {
 			PATH="$HOST_TOOLS/bin:$PATH" ./scripts/feeds update packages base
 		fi
 		PATH="$HOST_TOOLS/bin:$PATH" ./scripts/feeds install fuse3 lvm2 util-linux pcsc-lite
+		# Feed updates run defconfig before feed package symbols are available.
+		cp "$OPENWRT_CONFIG" "$SDK_DIR/.config"
 		PATH="$HOST_TOOLS/bin:$PATH" make defconfig
 	)
 }

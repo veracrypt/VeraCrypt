@@ -87,7 +87,8 @@ The test script downloads and verifies the matching OpenWrt x86/64 ext4 image,
 boots it with QEMU user networking, waits for OpenWrt network init to settle,
 gets a DHCP lease on `br-lan` or `eth0`, resolves the needed dependency closure
 from local SDK `.ipk` control metadata plus the official OpenWrt kmod feed,
-serves those packages to the guest, and installs them with `opkg`. It then runs:
+serves those packages to the guest, and installs them with `opkg`. It verifies
+that Bash is unavailable, then runs:
 
 ```sh
 veracrypt --text --version
@@ -96,8 +97,10 @@ veracrypt --text --test
 
 By default it also creates a 16 MiB AES/SHA-512 test container, opens it with
 `--filesystem=none`, verifies it appears in `veracrypt --text --list`, and
-unmounts it. Use `--skip-container` to run only the package install, version,
-and algorithm self-test path.
+unmounts it. It repeats the mount/list/unmount check through `mount.veracrypt`.
+The test password must not contain commas because the helper uses comma-separated
+options. Use `--skip-container` to run only the package install, Bash absence,
+version, and algorithm self-test path.
 
 If QEMU was extracted locally instead of installed system-wide, pass the binary
 and firmware directory explicitly:
