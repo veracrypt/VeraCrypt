@@ -5,6 +5,8 @@ Requires the same tools as test_linux_loop_identity.py, plus blockdev and
 debugfs. Read-only cases reject raw writes and preserve the encrypted host's
 SHA-256. Dirty ext4 cases must refuse journal recovery without changing the
 host or leaking devices; an explicit noload mount is the positive control.
+Volumes hosted on read only loop devices also test automatic detection when
+the kernel permits opening the protected device with write access.
 Run:
   python3 Tests/test_linux_read_only_integration.py --binary /usr/bin/veracrypt
 
@@ -163,6 +165,21 @@ def check(checks, path, kernel, readonly, filesystem, layers, effective_readonly
         checks.cleanup()
 
 
+def check_read_only_block_device(checks, path, layers):
+    label = path.name + "-readonly-host"
+    host = checks.run(label + "-attach", ["losetup", "--find", "--show", "--read-only", path]).stdout.strip()
+    # This is the backing device, so each mount must leave it attached.
+    checks.existing_loops.add(host)
+    try:
+        for kernel in (True, False):
+            for filesystem in (False, True):
+                check(checks, Path(host), kernel, False, filesystem, layers, effective_readonly=True)
+        checks.expect(label + "-kept", host in loop_devices(), "backing loop remains attached")
+    finally:
+        checks.run(label + "-detach", ["losetup", "-d", host])
+        checks.existing_loops.discard(host)
+
+
 def check_journal_recovery(checks, path, kernel):
     label = f"{path.name}-{'native' if kernel else 'fuse'}-journal"
     args = ["--mount", path, checks.mountpoint, f"--slot={checks.slot}",
@@ -238,8 +255,9 @@ def main():
                 for readonly in (True, False):
                     for filesystem in (False, True):
                         check(checks, source, kernel, readonly, filesystem, layers)
-        # A read-only host mount makes the initial O_RDWR open fail with
-        # EROFS. A block device's read-only flag alone need not reject open().
+        check_read_only_block_device(checks, path, layers)
+        # A read-only host filesystem rejects O_RDWR itself, while a block
+        # device's protection flag need not prevent the open from succeeding.
         checks.run("host-bind", ["mount", "--bind", path, path])
         try:
             checks.run("host-readonly", ["mount", "-o", "remount,bind,ro", path])

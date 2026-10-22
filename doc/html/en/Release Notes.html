@@ -70,6 +70,7 @@
 </li>
 <li><strong>Linux:</strong>
 	<ul>
+	<li>Automatically mount volumes as read only when the backing block device reports write protection, even if it permits an open request with write access.</li>
 	<li>Forward sync requests for volumes mounted through FUSE to the backing file or device and report flush failures. Previously, a successful sync could leave data in the host cache.</li>
 	<li>Check that devices belong to the selected volume before dismount or filesystem checks. Leave externally supplied host devices attached and refuse normal dismount while a decrypted loop device remains in use.</li>
 	<li>Support writable volume files on shares that restrict root access, including GVfs and NFS with <code>root_squash</code> (GH #23). Keep the share mounted and the user session active until dismount.</li>
