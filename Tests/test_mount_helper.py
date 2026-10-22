@@ -11,8 +11,10 @@ mounted through the helper and through mount(8). Checked:
 
 - password= mounts the volume;
 - the helper itself rejects -N, unknown options, a missing -o or -t
-  argument (also when another flag follows -t) and extra arguments; these
+  argument (also when another flag follows) and extra arguments; these
   run with -f, so veracrypt cannot be what refused them;
+- readonly is rejected, including in fstab with an rw override; ro in
+  fstab can be overridden with rw;
 - -f checks the options and does not mount;
 - the last of ro/rw sets both VeraCrypt's protection and the filesystem;
   repeated -o lists are joined and empty elements ignored.
@@ -114,8 +116,11 @@ def main():
                 ("-N namespace", pw, ("-N", "1")),
                 ("unknown option", pw, ("-x",)),
                 ("missing -o argument", None, ("-o",)),
+                ("missing -o argument before -f", pw, ("-o", "-f")),
+                ("missing -o argument before -N", pw, ("-o", "-N1")),
                 ("missing -t argument at the end", pw, ("-t",)),
                 ("missing -t argument before -f", pw, ("-t", "-f")),
+                ("readonly alias", pw + ",readonly", ()),
                 ("extra argument", pw, ("extra",))):
             cmd = ["sh", args.helper, str(volume), str(mnt), "-f"]
             if options is not None:
@@ -149,12 +154,26 @@ def main():
                     text(r) + props + "fs=%s" % fs)
             unmount()
 
-        # Through mount(8).
-        r = run(["mount", "-t", "veracrypt", "-o", pw, str(volume),
-                 str(mnt)])
-        c.check("mount -t veracrypt mounts", r.returncode == 0 and mounted(),
-                text(r))
-        unmount()
+        # Use a private fstab so mount(8) resolves the override before the helper.
+        fstab = work / "fstab"
+        source, target = (str(p).replace("\\", "\\134").replace(" ", "\\040")
+                          .replace("\t", "\\011").replace("\n", "\\012")
+                          for p in (volume, mnt))
+        for mode in ("ro", "readonly"):
+            fstab.write_text("%s %s veracrypt %s,%s 0 0\n"
+                             % (source, target, pw, mode))
+            r = run(["mount", "--fstab", str(fstab), "-o", "rw", str(mnt)])
+            if mode == "ro":
+                c.check("rw overrides ro from fstab",
+                        r.returncode == 0 and mounted() and fs_mode(mnt) == "rw",
+                        text(r))
+            else:
+                c.check("readonly from fstab rejected despite rw override",
+                        r.returncode != 0 and
+                        "mount.veracrypt: readonly is not supported; use ro" in text(r)
+                        and not mounted(), text(r))
+            unmount()
+
         r = run(["mount", "-f", "-t", "veracrypt", "-o", pw, str(volume),
                  str(mnt)])
         c.check("mount -f -t veracrypt does not mount",

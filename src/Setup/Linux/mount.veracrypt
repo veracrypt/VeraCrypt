@@ -23,6 +23,7 @@ while [ "$#" -gt 0 ]; do
 	case $1 in
 		-o)
 			[ "$#" -gt 1 ] || die "option -o needs an argument"
+			case $2 in -*) die "option -o needs an argument" ;; esac
 			OPTSTR="${OPTSTR:+$OPTSTR,}$2"; shift 2 ;;
 		-o*)	OPTSTR="${OPTSTR:+$OPTSTR,}${1#-o}"; shift ;;
 		-t)
@@ -51,8 +52,11 @@ set --
 for arg in $OPTSTR; do
 	case $arg in
 		'')               ;;
-		ro|readonly)      READONLY=1 ;;
+		ro)               READONLY=1 ;;
 		rw)               READONLY= ;;
+		readonly)
+			# mount(8) doesn't preserve readonly's position relative to rw.
+			die "readonly is not supported; use ro" ;;
 		system|nokernelcrypto|headerbak|timestamp)
 		                  MOUNTOPTS="${MOUNTOPTS:+$MOUNTOPTS,}$arg" ;;
 		truecrypt)
