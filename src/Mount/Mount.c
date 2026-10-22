@@ -11081,6 +11081,16 @@ enum
 
 static DWORD SystemFavoritesServiceLastEfiBootChainWarningMask = MAXDWORD;
 
+static void SystemFavoritesServiceUpdateSetupConfigFile ()
+{
+	try
+	{
+		BootEncryption bootEnc (NULL);
+		BootEncryption::UpdateSetupConfigFile (bootEnc.GetDriverServiceStartType () == SERVICE_BOOT_START);
+	}
+	catch (Exception &) { SystemFavoritesServiceLogError (L"Windows feature update configuration could not be secured. Repair/Reinstall VeraCrypt before a Windows feature update."); }
+}
+
 static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce)
 {
 	SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing called");
@@ -11091,8 +11101,6 @@ static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce)
 		SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing processing");
 		try
 		{
-			BootEncryption::UpdateSetupConfigFile (true);
-			SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing: UpdateSetupConfigFile called");
 			if (!BootEncStatus.HiddenSystem)
 			{
 				// re-install our bootloader again in case the update process has removed it.
@@ -11152,6 +11160,7 @@ static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce)
 			SystemFavoritesServiceLogError (L"SystemFavoritesServiceUpdateLoaderProcessing failed with an unexpected exception while updating the boot loader.");
 		}
 	}
+	SystemFavoritesServiceUpdateSetupConfigFile ();
 }
 
 // Global vector containing all devices previsouly knwon to the system
@@ -11449,7 +11458,6 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 		InitOSVersionInfo();
 		try
 		{
-			BootEncryption::UpdateSetupConfigFile (true);
 			SystemFavoritesServiceBootLoaderUpdateOptions updateOptions;
 			uint32 serviceFlags = ReadServiceConfigurationFlags ();
 			if (GetSystemFavoritesServiceBootLoaderUpdateOptions (serviceFlags, FALSE, updateOptions))
@@ -11471,6 +11479,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 		{
 			SystemFavoritesServiceLogError (L"PostOOBE boot loader update failed with an unexpected exception.");
 		}
+		SystemFavoritesServiceUpdateSetupConfigFile ();
 		return 0;
 	}
 

@@ -1,28 +1,62 @@
 #!/bin/sh
-# mount.veracrypt <device> <mountpoint> [flags] [-o comma-options]
+# mount.veracrypt <device> <mountpoint> [-sfnv] [-o options] [-t type]
+#
+# Options (comma-separated, as in fstab): ro/rw, fs=, keyfiles=, password=,
+# pim=, protect-hidden=, slot=, system, nokernelcrypto, headerbak,
+# timestamp; anything else goes to the filesystem.
 DEV=$1
 MNTPT=$2
 MOUNTOPTS=
 OPTIONS=
+OPTSTR=
+FAKE=
+READONLY=
 
+die() {
+	echo "mount.veracrypt: $1" >&2
+	exit 1
+}
+
+[ "$#" -ge 2 ] || die "usage: mount.veracrypt <device> <mountpoint> [-o options]"
 shift 2
-while [ "$#" -gt 0 ] && [ "$1" != "-o" ]; do shift; done
-[ "$#" -gt 0 ] && shift
+while [ "$#" -gt 0 ]; do
+	case $1 in
+		-o)
+			[ "$#" -gt 1 ] || die "option -o needs an argument"
+			OPTSTR="${OPTSTR:+$OPTSTR,}$2"; shift 2 ;;
+		-o*)	OPTSTR="${OPTSTR:+$OPTSTR,}${1#-o}"; shift ;;
+		-t)
+			[ "$#" -gt 1 ] || die "option -t needs an argument"
+			case $2 in -*) die "option -t needs an argument" ;; esac
+			shift 2 ;;
+		-N*)
+			# The volume would be mounted in this namespace instead.
+			die "mount namespaces (-N) are not supported" ;;
+		-[sfnv]*)
+			# Only the flags mount(8) passes to helpers.
+			case ${1#-} in *[!sfnv]*) die "unknown option: $1" ;; esac
+			case $1 in *f*) FAKE=1 ;; esac
+			shift ;;
+		-*)	die "unknown option: $1" ;;
+		*)	die "unexpected argument: $1" ;;
+	esac
+done
 
 OLDIFS=$IFS
 IFS=,
 set -f
-OPTSTR="$*"
 # Collect veracrypt arguments as positional parameters so values with spaces
 # (e.g. keyfile paths) stay single arguments.
 set --
 for arg in $OPTSTR; do
 	case $arg in
+		'')               ;;
+		ro|readonly)      READONLY=1 ;;
+		rw)               READONLY= ;;
 		system|nokernelcrypto|headerbak|timestamp)
 		                  MOUNTOPTS="${MOUNTOPTS:+$MOUNTOPTS,}$arg" ;;
 		truecrypt)
-			echo "mount.veracrypt: TrueCrypt mode is no longer supported" >&2
-			exit 1 ;;
+			die "TrueCrypt mode is no longer supported" ;;
 		fs=*)             set -- "$@" "--filesystem=${arg#*=}" ;;
 		keyfiles=*)       set -- "$@" "--keyfiles=${arg#*=}" ;;
 		password=*)       set -- "$@" "--password=${arg#*=}" ;;
@@ -35,8 +69,17 @@ done
 IFS=$OLDIFS
 set +f
 
+# The last of ro and rw wins, for VeraCrypt's protection and the filesystem.
+if [ -n "$READONLY" ]; then
+	MOUNTOPTS="${MOUNTOPTS:+$MOUNTOPTS,}ro"
+	OPTIONS="${OPTIONS}ro,"
+fi
+
 # veracrypt reads a single --mount-options value, so pass one comma list.
 [ -n "$MOUNTOPTS" ] && set -- "$@" "--mount-options=$MOUNTOPTS"
+set -- "$@" --fs-options="${OPTIONS%,}" "$DEV" "$MNTPT"
 
-exec /usr/bin/veracrypt --text --non-interactive "$@" \
-	--fs-options="${OPTIONS%,}" "$DEV" "$MNTPT"
+# -f (fake): the options are checked, nothing is mounted.
+[ -n "$FAKE" ] && exit 0
+
+exec /usr/bin/veracrypt --text --non-interactive "$@"

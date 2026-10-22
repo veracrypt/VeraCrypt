@@ -22,6 +22,8 @@
 
 #include "Apidrvr.h"
 #include "BootEncryption.h"
+#include "SystemEncryptionFiles.h"
+#include "Platform/Finally.h"
 #include "Boot/Windows/BootCommon.h"
 #include "Combo.h"
 #include "ComSetup.h"
@@ -103,10 +105,11 @@ void localcleanup (void)
 BOOL StartStopService (HWND hwndDlg, wchar_t *lpszService, BOOL bStart, DWORD argc, LPCWSTR* argv)
 {
 	SC_HANDLE hManager, hService = NULL;
-	BOOL bOK = FALSE, bRet;
+	BOOL bOK = FALSE;
 	SERVICE_STATUS status = {0};
-	int x;
+	DWORD dwError, dwStartTime, dwLastProgress, dwCheckPoint = 0;
 	DWORD dwExpectedState = bStart? SERVICE_RUNNING : SERVICE_STOPPED;
+	DWORD dwPendingState = bStart? SERVICE_START_PENDING : SERVICE_STOP_PENDING;
 
 	hManager = OpenSCManager (NULL, NULL, SC_MANAGER_ALL_ACCESS);
 	if (hManager == NULL)
@@ -129,30 +132,45 @@ BOOL StartStopService (HWND hwndDlg, wchar_t *lpszService, BOOL bStart, DWORD ar
 	else
 		ControlService (hService, SERVICE_CONTROL_STOP, &status);
 
-	for (x = 0; x < WAIT_PERIOD; x++)
+	dwStartTime = dwLastProgress = GetTickCount ();
+	for (;;)
 	{
-		bRet = QueryServiceStatus (hService, &status);
-		if (bRet != TRUE)
+		if (!QueryServiceStatus (hService, &status))
 			goto error;
 
 		if (status.dwCurrentState == dwExpectedState)
+		{
+			bOK = TRUE;
 			break;
+		}
 
+		if (status.dwCurrentState != dwPendingState)
+		{
+			SetLastError (status.dwWin32ExitCode ? status.dwWin32ExitCode : ERROR_SERVICE_REQUEST_TIMEOUT);
+			goto error;
+		}
+
+		DWORD dwNow = GetTickCount ();
+		if (status.dwCheckPoint > dwCheckPoint)
+		{
+			dwCheckPoint = status.dwCheckPoint;
+			dwLastProgress = dwNow;
+		}
+
+		// Honor pending-state progress, but cap the wait at the service's two-minute startup allowance.
+		if (dwNow - dwStartTime >= 120000
+			|| dwNow - dwLastProgress >= (status.dwWaitHint ? status.dwWaitHint : WAIT_PERIOD * 1000))
+		{
+			SetLastError (ERROR_SERVICE_REQUEST_TIMEOUT);
+			goto error;
+		}
 		Sleep (1000);
 	}
 
-	bRet = QueryServiceStatus (hService, &status);
-	if (bRet != TRUE)
-		goto error;
-
-	if (status.dwCurrentState != dwExpectedState)
-		goto error;
-
-	bOK = TRUE;
-
 error:
+	dwError = bOK ? ERROR_SUCCESS : GetLastError ();
 
-	if (bOK == FALSE && GetLastError () == ERROR_SERVICE_DOES_NOT_EXIST)
+	if (bOK == FALSE && hService == NULL && dwError == ERROR_SERVICE_DOES_NOT_EXIST)
 	{
 		bOK = TRUE;
 	}
@@ -163,6 +181,7 @@ error:
 	if (hManager != NULL)
 		CloseServiceHandle (hManager);
 
+	SetLastError (dwError);
 	return bOK;
 }
 
@@ -991,8 +1010,12 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 
 						try
 						{
-							if (BootEncObj.GetDriverServiceStartType() == SERVICE_BOOT_START)
+							if (SystemEncryptionUpdate || BootEncObj.IsSystemFavoritesServiceInstalled ())
 							{
+								SystemEncryptionFiles::Directory sourceDirectory;
+								SystemEncryptionFiles::Handle sourceFile;
+								DWORD sourceError = SystemEncryptionFiles::OpenInstallerFile (szTmp, sourceDirectory, sourceFile);
+								if (sourceError != ERROR_SUCCESS) { SetLastError (sourceError); throw SystemException (SRC_POS); }
 								uint32 driverFlags = ReadDriverConfigurationFlags ();
 								uint32 serviceFlags = BootEncObj.ReadServiceConfigurationFlags ();
 
@@ -1002,27 +1025,32 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 
 								// Tell the service not to update loader on stop
 								BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, true);
+								finally_do_arg2 (BootEncryption *, &BootEncObj, uint32, serviceFlags, {
+									try { finally_arg->SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, (finally_arg2 & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER) != 0); } catch (...) { }
+								});
+								finally_do_arg2 (BootEncryption *, &BootEncObj, uint32, driverFlags, {
+									try { finally_arg->SetDriverConfigurationFlag (finally_arg2, true); } catch (...) { }
+								});
 
-								if (StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL))
-								{
-									// we tell the service not to load system favorites on startup
-									LPCWSTR szArgs[2] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT};
-									if (!CopyFile (szTmp, servicePath.c_str(), FALSE))
-										ForceCopyFile (szTmp, servicePath.c_str());
-
-									StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, 2, szArgs);
-								}
-								else
-									ForceCopyFile (szTmp, servicePath.c_str());
+								throw_sys_if (!StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL));
+								throw_sys_if (!CopyFile (szTmp, servicePath.c_str(), FALSE));
+								LPCWSTR szArgs[2] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT };
+								throw_sys_if (!StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, 2, szArgs));
 
 								BootEncObj.SetDriverConfigurationFlag (driverFlags, true);
-
-								// remove the service flag if it was set originally
-								if (!(serviceFlags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER))
-									BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, false);
+								BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER,
+									(serviceFlags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER) != 0);
 							}
 						}
-						catch (...) {}
+						catch (Exception &e)
+						{
+							e.Show (hwndDlg);
+							EnableWow64FsRedirection (TRUE);
+#ifndef PORTABLE
+							RestorePrivilegeState (&originalPrivileges);
+#endif
+							return FALSE;
+						}
 					}
 
 					// delete files from legacy path
@@ -1090,6 +1118,16 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 		}
 
 err:
+		// These executables contain the security fix. Keeping an old copy must
+		// not be offered as a successful installation, including in silent mode.
+		if (!bResult && !bUninstall && (wcscmp (szFiles[i], L"AVeraCrypt.exe") == 0
+			|| wcscmp (szFiles[i], L"AVeraCrypt Format.exe") == 0))
+		{
+#ifndef PORTABLE
+			RestorePrivilegeState (&originalPrivileges);
+#endif
+			return FALSE;
+		}
 		if (bResult == FALSE)
 		{
 			LPVOID lpMsgBuf;
@@ -1366,6 +1404,8 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 	wchar_t path[MAX_PATH];
 	wchar_t path2[MAX_PATH];
 	BOOL bOK = TRUE;
+	try { BootEncryption::UpdateSetupConfigFile (false); }
+	catch (Exception &e) { e.Show (NULL); return FALSE; }
 
 	StatusMessage (hwndDlg, "REMOVING_APPDATA");
 
@@ -1411,14 +1451,8 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 	{
 		StringCbCatW (path, sizeof(path), L"\\VeraCrypt");
 
-		// Delete original bootloader
-		StringCbPrintfW (path2, sizeof(path2), L"%s\\%s", path, TC_SYS_BOOT_LOADER_BACKUP_NAME);
-		RemoveMessage (hwndDlg, path2);
-		StatDeleteFile (path2, FALSE);
-
-		// remove VeraCrypt folder
-		RemoveMessage (hwndDlg, path);
-		StatRemoveDirectory (path);
+		// Preserve both legacy backup names for recovery.
+		RemoveDirectoryW (path);
 	}
 
 
@@ -2191,10 +2225,13 @@ void DoUninstall (void *arg)
 	}
 	else
 	{
+		// Resolve the old installation identity before deleting its registry keys.
+		try { BootEncryption::UpdateSetupConfigFile (false); }
+		catch (Exception &e) { e.Show (hwndDlg); bOK = FALSE; }
 		if (!Rollback && bSystemRestore && !bTempSkipSysRestore)
 			SetSystemRestorePoint (hwndDlg, FALSE);
 
-		if (DoServiceUninstall (hwndDlg, L"veracrypt") == FALSE)
+		if (!bOK || DoServiceUninstall (hwndDlg, L"veracrypt") == FALSE)
 		{
 			bOK = FALSE;
 		}
@@ -2304,12 +2341,18 @@ void DoInstall (void *arg)
 
 	UpdateProgressBarProc(2);
 
+	try { BootEncryption::UpdateSetupConfigFile (false); }
+	catch (Exception &e) { e.Show (hwndDlg); PostMessage (MainDlg, TC_APPMSG_INSTALL_FAILURE, 0, 0); return; }
+
 	if (DoDriverUnload (hwndDlg) == FALSE)
 	{
 		NormalCursor ();
 		PostMessage (MainDlg, TC_APPMSG_INSTALL_FAILURE, 0, 0);
 		return;
 	}
+	try { if (SystemEncryptionUpdate) BootEncryption::PrepareSystemEncryptionInstallation (InstallationPath); }
+	catch (Exception &e) { e.Show (hwndDlg); PostMessage (MainDlg, TC_APPMSG_INSTALL_FAILURE, 0, 0); return; }
+
 
 	if (bUpgrade
 		&& (IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L".exe")
@@ -2399,9 +2442,11 @@ void DoInstall (void *arg)
 
 	try
 	{
-		bootEnc.RenameDeprecatedSystemLoaderBackup();
+		BootEncryption::UpdateSetupConfigFile (bOK && SystemEncryptionUpdate);
 	}
-	catch (...)	{ }
+	catch (Exception &e) { e.Show (hwndDlg); bOK = FALSE; }
+	try { bootEnc.RenameDeprecatedSystemLoaderBackup (SystemEncryptionUpdate != FALSE); }
+	catch (Exception &e) { e.Show (hwndDlg); Warning ("SYS_LOADER_BACKUP_MIGRATION_FAILED", hwndDlg); }
 
 	if (bOK)
 		UpdateProgressBarProc(97);
@@ -2437,7 +2482,7 @@ void DoInstall (void *arg)
 	{
 		UpdateProgressBarProc(0);
 
-		if (!SystemEncryptionUpdate)
+		if (!SystemEncryptionUpdate && !bUpgrade && !bDowngrade && !bReinstallMode && !bRepairMode)
 		{
 			bUninstall = TRUE;
 			Rollback = TRUE;
@@ -2451,7 +2496,7 @@ void DoInstall (void *arg)
 
 			StatusMessage (hwndDlg, "ROLLBACK");
 		}
-		else
+		else if (SystemEncryptionUpdate)
 		{
 			Warning ("SYS_ENC_UPGRADE_FAILED", hwndDlg);
 		}

@@ -14967,12 +14967,31 @@ void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, B
 	HKEY hkey;
 	BOOL bInstallPathDetermined = FALSE;
 	wchar_t path[MAX_PATH+20];
-	ITEMIDLIST *itemList;
+	ITEMIDLIST *itemList = NULL;
+	if (pbInstallPathDetermined) *pbInstallPathDetermined = FALSE;
+	if (!szInstallPath || !cchSize) return;
 
 	memset (szInstallPath, 0, cchSize * sizeof (wchar_t));
 
+	// Both installers record this in the driver's service key. SYSTEM has a
+	// shared registry view, so the native service and 32-bit COM agree, including
+	// MSI installations whose EXE uninstall entry has been removed.
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", 0, KEY_QUERY_VALUE, &hkey) == ERROR_SUCCESS)
+	{
+		DWORD size = sizeof (path), type = 0;
+		if (RegQueryValueEx (hkey, L"InstallationPath", NULL, &type, (LPBYTE) path, &size) == ERROR_SUCCESS
+			&& type == REG_SZ && size >= 4 * sizeof (wchar_t) && size <= sizeof (path) && size % sizeof (wchar_t) == 0
+			&& path[size / sizeof (wchar_t) - 1] == 0 && wcslen (path) == size / sizeof (wchar_t) - 1
+			&& path[1] == L':' && path[2] == L'\\' && wcslen (path) + 2 <= cchSize)
+		{
+			StringCchCopyW (szInstallPath, cchSize, path);
+			bInstallPathDetermined = TRUE;
+		}
+		RegCloseKey (hkey);
+	}
+
 	// Determine if VeraCrypt is already installed and try to determine its "Program Files" location
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ | KEY_WOW64_32KEY, &hkey) == ERROR_SUCCESS)
+	if (!bInstallPathDetermined && RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ | KEY_WOW64_32KEY, &hkey) == ERROR_SUCCESS)
 	{
 		/* Default 'UninstallString' registry strings written by VeraCrypt:
 		------------------------------------------------------------------------------------
@@ -14980,23 +14999,20 @@ void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, B
 		*/
 
 		wchar_t rv[MAX_PATH*4];
-		DWORD size = sizeof (rv);
-		if (RegQueryValueEx (hkey, L"UninstallString", 0, 0, (LPBYTE) &rv, &size) == ERROR_SUCCESS && wcsrchr (rv, L'/'))
+		DWORD size = sizeof (rv), type = 0;
+		if (RegQueryValueEx (hkey, L"UninstallString", 0, &type, (LPBYTE) &rv, &size) == ERROR_SUCCESS
+			&& type == REG_SZ && size >= 2 * sizeof (wchar_t) && size <= sizeof (rv) && size % sizeof (wchar_t) == 0
+			&& rv[size / sizeof (wchar_t) - 1] == 0 && wcslen (rv) == size / sizeof (wchar_t) - 1 && rv[0] == L'"')
 		{
-			size_t len = 0;
-
-			// Cut and paste the location (path) where VeraCrypt is installed to InstallationPath
-			if (rv[0] == L'"')
+			const wchar_t *end = wcschr (rv + 1, L'"');
+			if (end && wcsstr (end + 1, L"/u"))
 			{
-				len = wcsrchr (rv, L'/') - rv - 2;
-				StringCchCopyNW (szInstallPath, cchSize, rv + 1, len);
-				szInstallPath [len] = 0;
-				bInstallPathDetermined = TRUE;
-
-				if (szInstallPath [wcslen (szInstallPath) - 1] != L'\\')
+				wstring executable (rv + 1, end - rv - 1);
+				size_t slash = executable.find_last_of (L'\\');
+				if (slash != wstring::npos && slash >= 2 && slash + 2 <= cchSize && executable[1] == L':' && executable[2] == L'\\')
 				{
-					len = wcsrchr (szInstallPath, L'\\') - szInstallPath;
-					szInstallPath [len] = 0;
+					StringCchCopyNW (szInstallPath, cchSize, executable.c_str (), slash + 1);
+					bInstallPathDetermined = TRUE;
 				}
 			}
 
@@ -15009,8 +15025,10 @@ void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, B
 		/* VeraCrypt is not installed or it wasn't possible to determine where it is installed. */
 
 		// Default "Program Files" path.
-		SHGetSpecialFolderLocation (hwndDlg, CSIDL_PROGRAM_FILES, &itemList);
-		SHGetPathFromIDList (itemList, path);
+		if (FAILED (SHGetSpecialFolderLocation (hwndDlg, CSIDL_PROGRAM_FILES, &itemList))) return;
+		BOOL found = SHGetPathFromIDList (itemList, path);
+		CoTaskMemFree (itemList);
+		if (!found) return;
 
 		// Use a unified default installation path (registry redirection of %ProgramFiles% does not work if the installation path is user-selectable)
 		wstring s = path;
@@ -15023,13 +15041,13 @@ void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, B
 		}
 
 		StringCbCatW (path, sizeof(path), L"\\VeraCrypt\\");
-		StringCbCopyW (szInstallPath, cchSize, path);
+		StringCchCopyW (szInstallPath, cchSize, path);
 	}
 
 	// Make sure the path ends with a backslash
-	if (szInstallPath [wcslen (szInstallPath) - 1] != L'\\')
+	if (szInstallPath[0] && szInstallPath [wcslen (szInstallPath) - 1] != L'\\')
 	{
-		StringCbCatW (szInstallPath, cchSize, L"\\");
+		StringCchCatW (szInstallPath, cchSize, L"\\");
 	}
 
 	if (pbInstallPathDetermined)

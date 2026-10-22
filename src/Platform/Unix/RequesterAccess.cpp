@@ -431,7 +431,7 @@ namespace VeraCrypt
 			return errno;
 
 		// Prepare all allocations before fork; only async-signal-safe calls until exec.
-		const string socketArgument = to_string (sockets[1]);
+		const string socketArgument = to_string (static_cast <long long> (sockets[1]));
 		// AppImage's AppRun supplies the library path used to load this executable.
 		// Preserve that setting only, not the caller's other environment/loader hooks.
 		const char *libraryPath = getenv ("LD_LIBRARY_PATH");

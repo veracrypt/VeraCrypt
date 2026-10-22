@@ -649,12 +649,8 @@ namespace VeraCrypt
 
 			list <string> args;
 
-			list <string>::iterator readOnlyArg;
 			if (readOnly)
-			{
 				args.push_back ("-r");
-				readOnlyArg = --args.end();
-			}
 
 			args.push_back ("--");
 			args.push_back (loopDev);
@@ -665,19 +661,7 @@ namespace VeraCrypt
 				Process::Execute ("losetup", args);
 				return loopDev;
 			}
-			catch (ExecutedProcessFailed&)
-			{
-				if (readOnly)
-				{
-					try
-					{
-						args.erase (readOnlyArg);
-						Process::Execute ("losetup", args);
-						return loopDev;
-					}
-					catch (ExecutedProcessFailed&) { }
-				}
-			}
+			catch (ExecutedProcessFailed&) { }
 		}
 
 		throw LoopDeviceSetupFailed (SRC_POS, wstring (filePath));
@@ -1036,6 +1020,8 @@ namespace VeraCrypt
 
 	void CoreLinux::MountVolumeNative (shared_ptr <Volume> volume, MountOptions &options, const DirectoryPath &auxMountPoint) const
 	{
+		// Use the protection of the opened volume, including a read-only open after an access error.
+		const bool readOnly = volume->GetProtectionType() == VolumeProtection::ReadOnly;
 		bool xts = (typeid (*volume->GetEncryptionMode()) == 
             #ifdef WOLFCRYPT_BACKEND
                         typeid (EncryptionModeWolfCryptXTS));
@@ -1107,7 +1093,7 @@ namespace VeraCrypt
 			struct stat containerStat;
 			throw_sys_sub_if (stat (containerPath.c_str(), &containerStat) != 0, containerPath);
 
-			volumePath = AttachFileToLoopDevice (volumePath, options.Protection == VolumeProtection::ReadOnly);
+			volumePath = AttachFileToLoopDevice (volumePath, readOnly);
 			loopDevAttached = true;
 
 			const string loopDevice = volumePath;
@@ -1194,6 +1180,8 @@ namespace VeraCrypt
 
 				execArgs.clear();
 				execArgs.push_back ("create");
+				if (readOnly)
+					execArgs.push_back ("--readonly");
 				execArgs.push_back ("--uuid");
 				execArgs.push_back (GetDeviceMapperUuid (serialInstanceNumber, nativeDevName.str()));
 				execArgs.push_back (nativeDevName.str());
@@ -1248,7 +1236,7 @@ namespace VeraCrypt
 				MountFilesystemWithFallback (nativeDevPath, *options.MountPoint,
 					StringConverter::ToSingle (filesystemType),
 					allowFilesystemTypeFallback,
-					options.Protection == VolumeProtection::ReadOnly,
+					readOnly,
 					StringConverter::ToSingle (options.FilesystemOptions),
 					internalMountOnly);
 

@@ -1613,6 +1613,8 @@ const FileManager fileManagers[] = {
 					" Filesystem mount options. The OPTIONS argument is passed to mount(8)\n"
 					" command with option -o when a filesystem on a VeraCrypt volume is mounted.\n"
 					" This option is not available on some platforms.\n"
+					" Use --mount-options=ro for device read-only protection; filesystem-only\n"
+					" ro can still allow journal recovery writes.\n"
 					"\n"
 					"--hash=HASH\n"
 					" Use specified header key derivation algorithm when creating a new volume\n"
@@ -1650,6 +1652,7 @@ const FileManager fileManagers[] = {
 					"   detected and no filesystem type was supplied.\n"
 #endif
 					" See also option --fs-options.\n"
+					" A filesystem requiring journal recovery writes may refuse a read-only mount.\n"
 					"\n"
 					"--new-keyfiles=KEYFILE1[,KEYFILE2,KEYFILE3,...]\n"
 					" Add specified keyfiles to a volume. This option can only be used with command\n"

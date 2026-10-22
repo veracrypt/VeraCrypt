@@ -347,6 +347,24 @@ namespace VeraCrypt
 #endif
 		throw_sys_sub_if (FileHandle == -1, wstring (path));
 
+#ifdef TC_LINUX
+		if (mode != OpenRead)
+		{
+			// Some block devices accept writable opens even when write protected.
+			// Report EROFS so the volume mount can retry with read only protection.
+			struct stat statData;
+			int readOnly = 0;
+			if (fstat (FileHandle, &statData) == 0 && S_ISBLK (statData.st_mode)
+				&& ioctl (FileHandle, BLKROGET, &readOnly) == 0 && readOnly)
+			{
+				close (FileHandle);
+				FileHandle = -1;
+				errno = EROFS;
+				throw SystemException (SRC_POS, wstring (path));
+			}
+		}
+#endif
+
 #if 0 // File locking is disabled to avoid remote filesystem locking issues
 		try
 		{

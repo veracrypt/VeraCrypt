@@ -325,8 +325,8 @@ namespace VeraCrypt
 		bool nixos = false;
 		while (std::getline (contents, line))
 		{
-			if (!line.empty() && line.back() == '\r')
-				line.pop_back();
+			if (!line.empty() && line[line.size() - 1] == '\r')
+				line.erase (line.size() - 1);
 			if (line.compare (0, 3, "ID=") != 0)
 				continue;
 			if (foundId)
