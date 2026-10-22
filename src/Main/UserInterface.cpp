@@ -1234,12 +1234,26 @@ const FileManager fileManagers[] = {
 
 		if (Preferences.UseStandardInput)
 		{
+			bool commandUsesPassword = false;
+			switch (cmdLine.ArgCommand)
+			{
+			case CommandId::AutoMountDevices:
+			case CommandId::AutoMountFavorites:
+			case CommandId::AutoMountDevicesFavorites:
+			case CommandId::MountVolume:
+			case CommandId::CreateVolume:
+			case CommandId::ChangePassword:
+				commandUsesPassword = true;
+				break;
+			default:
+				break;
+			}
+
 			// The password is the first line of standard input (a final line
 			// feed is optional). It is read as bytes into a fixed, wiped buffer
-			// and decoded as a whole in the character set of LC_CTYPE, like a
-			// password typed at the prompt: decoding while reading (wcin)
-			// silently stopped at an invalid or incomplete character. Only the
-			// first line is read.
+			// and decoded as a whole in the character set of LC_CTYPE. Decoding
+			// while reading (wcin) silently stopped at an invalid or incomplete
+			// character. Only the first line is read.
 			SecureBuffer pwdBytes (VolumePassword::MaxSize * MB_LEN_MAX);
 			size_t pwdLength = 0;
 			bool pwdTooLong = false;
@@ -1250,7 +1264,12 @@ const FileManager fileManagers[] = {
 				if (pwdLength < pwdBytes.Size())
 					pwdBytes.Ptr()[pwdLength++] = (uint8) c;
 				else
+				{
+					// The writer may never close the pipe or send a line feed.
+					if (commandUsesPassword)
+						throw_err (L"The password from standard input is too long");
 					pwdTooLong = true;
+				}
 			}
 
 			bool pwdRead = !ferror (stdin) && (c == '\n' || pwdLength > 0);
@@ -1260,25 +1279,14 @@ const FileManager fileManagers[] = {
 			bool pwdDecoded = pwdRead && !pwdTooLong
 				&& DecodeStandardInputPassword (pwdBytes.Ptr(), pwdLength, pwdInput);
 
-			switch (cmdLine.ArgCommand)
+			if (commandUsesPassword)
 			{
-			case CommandId::AutoMountDevices:
-			case CommandId::AutoMountFavorites:
-			case CommandId::AutoMountDevicesFavorites:
-			case CommandId::MountVolume:
-			case CommandId::CreateVolume:
-			case CommandId::ChangePassword:
 				// A failed read must not become a shorter or empty password
 				// (keyfiles may open the volume with one).
 				if (!pwdRead)
 					throw_err (L"Cannot read the password from standard input");
-				if (pwdTooLong)
-					throw_err (L"The password from standard input is too long");
 				if (!pwdDecoded)
 					throw_err (StringFormatter (L"The password from standard input is not valid in the character encoding of the current locale ({0})", wstring (StringConverter::ToWide (nl_langinfo (CODESET)))));
-				break;
-			default:
-				break;
 			}
 
 			if (!pwdDecoded)

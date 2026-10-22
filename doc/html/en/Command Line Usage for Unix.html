@@ -269,7 +269,7 @@
 </tr>
 <tr>
 <td><em>--stdin</em></td>
-<td>Read the password from standard input. This option can be used only with <em>--non-interactive</em> and cannot be combined with <em>--password</em>. The password is the first line; a final line feed is optional, and a carriage return or NUL byte is part of the password. It is decoded in the character set of the current locale (LC_CTYPE), like a password typed at the prompt. An empty line is an empty password (for keyfiles only). For commands that use the password, missing input, input that is not valid in that character set, and a line longer than a password can be are errors.</td>
+<td>Read the password from standard input. This option can be used only with <em>--non-interactive</em> and cannot be combined with <em>--password</em>. The password is the first line; a final line feed is optional, and a carriage return or NUL byte is part of the password. It is decoded in the character set of the active locale (LC_CTYPE), then converted to UTF-8 for use as the volume password. An empty line is an empty password (for keyfiles only). For commands that use the password, missing input, input that is not valid in that character set, and a line longer than a password can be are errors.</td>
 </tr>
 <tr>
 <td><em>-t</em> or <em>--text</em></td>

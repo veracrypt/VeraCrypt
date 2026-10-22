@@ -12,6 +12,8 @@ here with --stdin. Checked:
 - no input, an invalid byte, an incomplete character at the end of input
   and a line longer than a password can be fail with their own messages
   instead of becoming a shorter or empty password;
+- oversized input is rejected even if the writer keeps the pipe open
+  without sending a line feed;
 - only the first line is used, a final line feed is optional, and a
   carriage return is part of the password;
 - NUL bytes are part of the password: a volume created with "te\\0st"
@@ -27,6 +29,7 @@ here with --stdin. Checked:
 import argparse
 import os
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -47,6 +50,40 @@ class Checks:
             self.failures += 1
             if detail:
                 print("     " + detail.strip().replace("\n", "\n     "))
+
+
+def check_overflow_without_eof(vc, checks, work, env):
+    path = work / "overflow.hc"
+    read_fd, write_fd = os.pipe()
+    try:
+        # This fits in a Linux pipe and exceeds the reader's raw input cap.
+        os.write(write_fd, b"x" * 4096)
+        with subprocess.Popen(
+                [vc, "--text", "--non-interactive", "--stdin", "--create",
+                 str(path)], stdin=read_fd, stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT, env=env,
+                start_new_session=True) as process:
+            try:
+                # Keep write_fd open: communicate must not supply EOF.
+                output, _ = process.communicate(timeout=10)
+            except subprocess.TimeoutExpired:
+                # Stop the core service too, since it inherits the output pipe.
+                try:
+                    os.killpg(process.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                process.communicate()
+                checks.check("oversized input is rejected without EOF", False,
+                             "VeraCrypt waited for the writer to close")
+            else:
+                checks.check("oversized input is rejected without EOF",
+                             process.returncode != 0
+                             and b"The password from standard input is too long" in output
+                             and not path.exists(),
+                             output.decode("utf-8", "replace"))
+    finally:
+        os.close(read_fd)
+        os.close(write_fd)
 
 
 def main():
@@ -109,6 +146,7 @@ def main():
             print("skip " + reason)
 
     try:
+        check_overflow_without_eof(vc, c, work, utf8)
         ok, r = mount(volume, b"test\n", target=mnt)
         c.check("the first line is the password", ok, text(r))
         for desc, data, want in (
