@@ -65,6 +65,9 @@ namespace VeraCrypt
 #ifndef TC_WINDOWS
 				,AccTime(0), ModTime (0)
 #endif
+#ifdef TC_LINUX
+				,RequesterBacked (false), ReleaseOnly (false), RequesterUserId (0), RequesterGroupId (0)
+#endif
 		 { }
 		virtual ~File ();
 
@@ -132,10 +135,10 @@ namespace VeraCrypt
 		bool OpenAsRequester (const FilePath &path, int sysFlags);
 		void RestoreTimestampsAsRequester () const;
 
-		bool RequesterBacked = false;
-		bool ReleaseOnly = false;
-		uid_t RequesterUserId = 0;
-		gid_t RequesterGroupId = 0;
+		bool RequesterBacked;
+		bool ReleaseOnly;
+		uid_t RequesterUserId;
+		gid_t RequesterGroupId;
 #endif
 
 	private:
