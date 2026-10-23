@@ -88,6 +88,8 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	Extension->TrimEnabled = FALSE;
 
 	Extension->DeviceNumber = (ULONG) -1;
+	Extension->PartitionNumber = (ULONG) -1;
+	Extension->HostPartitionStartingOffset = -1;
 
 	RtlInitUnicodeString (&FullFileName, pwszMountVolume);
 	InitializeObjectAttributes (&oaFileAttributes, &FullFileName, OBJ_CASE_INSENSITIVE | (forceAccessCheck ? OBJ_FORCE_ACCESS_CHECK : 0) | OBJ_KERNEL_HANDLE, NULL, NULL);
@@ -113,7 +115,9 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		DISK_GEOMETRY_EX dg;
 		STORAGE_PROPERTY_QUERY storagePropertyQuery = { 0 };
 		uint8* dgBuffer;
-		STORAGE_DEVICE_NUMBER storageDeviceNumber;
+		STORAGE_DEVICE_NUMBER storageDeviceNumber = { 0 };
+		BOOL hostDeviceNumberValid = FALSE;
+		BOOL hostPartitionOffsetKnown = FALSE;
 
 		ntStatus = IoGetDeviceObjectPointer(&FullFileName,
 			FILE_READ_DATA | FILE_READ_ATTRIBUTES,
@@ -168,7 +172,14 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			IOCTL_STORAGE_GET_DEVICE_NUMBER,
 			(char*)&storageDeviceNumber, sizeof(storageDeviceNumber))))
 		{
-			Extension->DeviceNumber = storageDeviceNumber.DeviceNumber;
+			if (storageDeviceNumber.DeviceType == FILE_DEVICE_DISK
+				&& storageDeviceNumber.DeviceNumber != (ULONG) -1
+				&& storageDeviceNumber.PartitionNumber != (ULONG) -1)
+			{
+				Extension->DeviceNumber = storageDeviceNumber.DeviceNumber;
+				Extension->PartitionNumber = storageDeviceNumber.PartitionNumber;
+				hostDeviceNumberValid = TRUE;
+			}
 		}
 
 		lDiskLength.QuadPart = dg.DiskSize.QuadPart;
@@ -233,17 +244,24 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		{
 			lDiskLength.QuadPart = pix.PartitionLength.QuadPart;
 			partitionStartingOffset = pix.StartingOffset.QuadPart;
+			hostPartitionOffsetKnown = TRUE;
 		}
 		// If IOCTL_DISK_GET_PARTITION_INFO_EX fails, switch to IOCTL_DISK_GET_PARTITION_INFO
 		else if (NT_SUCCESS(TCSendHostDeviceIoControlRequest(DeviceObject, Extension, IOCTL_DISK_GET_PARTITION_INFO, (char*)&pi, sizeof(pi))))
 		{
 			lDiskLength.QuadPart = pi.PartitionLength.QuadPart;
 			partitionStartingOffset = pi.StartingOffset.QuadPart;
+			hostPartitionOffsetKnown = TRUE;
 		}
 		else if (NT_SUCCESS(TCSendHostDeviceIoControlRequest(DeviceObject, Extension, IOCTL_DISK_GET_LENGTH_INFO, &diskLengthInfo, sizeof(diskLengthInfo))))
 		{
 			lDiskLength = diskLengthInfo;
+			if (hostDeviceNumberValid && storageDeviceNumber.PartitionNumber == 0)
+				hostPartitionOffsetKnown = TRUE;
 		}
+
+		if (hostPartitionOffsetKnown)
+			Extension->HostPartitionStartingOffset = partitionStartingOffset;
 
 		ProbingHostDeviceForWrite = TRUE;
 
