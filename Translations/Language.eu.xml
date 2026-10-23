@@ -797,14 +797,14 @@
     <entry lang="eu" key="TYPE_HIDDEN_SYSTEM_ADJECTIVE">Ezkutukoa (sistema)</entry>
     <entry lang="eu" key="READ_ONLY">Irakurri-Bakarrik</entry>
     <entry lang="eu" key="SYSTEM_DRIVE">Sistemaren unitatea</entry>
-    <entry lang="eu" key="SYSTEM_DRIVE_ENCRYPTING">Sistemaren unitatea (zifratzen - %%.2f% eginda)</entry>
-    <entry lang="eu" key="SYSTEM_DRIVE_DECRYPTING">Sistemaren unitatea (argitzen - %%.2f% eginda)</entry>
-    <entry lang="eu" key="SYSTEM_DRIVE_PARTIALLY_ENCRYPTED">Sistemaren unitatea (%%.2f% zifratuta)</entry>
+    <entry lang="eu" key="SYSTEM_DRIVE_ENCRYPTING">Sistemaren unitatea (zifratzen - %%%.2f eginda)</entry>
+    <entry lang="eu" key="SYSTEM_DRIVE_DECRYPTING">Sistemaren unitatea (argitzen - %%%.2f eginda)</entry>
+    <entry lang="eu" key="SYSTEM_DRIVE_PARTIALLY_ENCRYPTED">Sistemaren unitatea (%%%.2f zifratuta)</entry>
     <entry lang="eu" key="SYSTEM_PARTITION">Sistemaren partizioa</entry>
     <entry lang="eu" key="HIDDEN_SYSTEM_PARTITION">Ezkutuko sistemaren partizioa</entry>
-    <entry lang="eu" key="SYSTEM_PARTITION_ENCRYPTING">Sistemaren partizioa (zifratzen - %%.2f% egindae)</entry>
-    <entry lang="eu" key="SYSTEM_PARTITION_DECRYPTING">Sistemaren partizioan (argitzen - %%.2f% eginda)</entry>
-    <entry lang="eu" key="SYSTEM_PARTITION_PARTIALLY_ENCRYPTED">Sistemaren partizioa (%%.2f% zifratuta)</entry>
+    <entry lang="eu" key="SYSTEM_PARTITION_ENCRYPTING">Sistemaren partizioa (zifratzen - %%%.2f eginda)</entry>
+    <entry lang="eu" key="SYSTEM_PARTITION_DECRYPTING">Sistemaren partizioan (argitzen - %%%.2f eginda)</entry>
+    <entry lang="eu" key="SYSTEM_PARTITION_PARTIALLY_ENCRYPTED">Sistemaren partizioa (%%%.2f zifratuta)</entry>
     <entry lang="eu" key="HID_VOL_DAMAGE_PREVENTED">Bai (kaltea eragotzita!)</entry>
     <entry lang="eu" key="NONE">Ezer</entry>
     <entry lang="eu" key="KEY_SIZE">Gako Nagusiaren Tamaina</entry>

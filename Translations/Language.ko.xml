@@ -556,8 +556,8 @@
     <entry lang="ko" key="ERR_VOLUME_SIZE_TOO_SMALL">명령줄에 지정된 볼륨 크기가 너무 작습니다. 볼륨을 생성할 수 없습니다.</entry>
     <entry lang="ko" key="ERR_VOLUME_SIZE_TOO_BIG">명령줄에 지정된 볼륨 크기가 너무 큽니다. 볼륨을 생성할 수 없습니다.</entry>
     <entry lang="ko" key="INIT_SYS_ENC">시스템 암호화에 대한 애플리케이션 구성 요소를 초기화할 수 없습니다.</entry>
-    <entry lang="ko" key="INIT_RAND">무작위 번호 생성기를 초기화하지 못했습니다!\n\n\n(이 문제와 관련하여 버그를 보고하는 경우 버그 보고서에 다음 기술 정보를 포함하세요.\n%hs, 마지막 오류 = 0x%).8X)</entry>
-    <entry lang="ko" key="CAPI_RAND">Windows Crypto API가 실패했습니다!\n\n\n(이 문제와 관련하여 버그를 보고하는 경우 버그 보고서에 다음 기술 정보를 포함하세요.\n%hs, 마지막 오류 = 0x%).8X)</entry>
+    <entry lang="ko" key="INIT_RAND">무작위 번호 생성기를 초기화하지 못했습니다!\n\n\n(이 문제와 관련하여 버그를 보고하는 경우 버그 보고서에 다음 기술 정보를 포함하세요.\n%hs, 마지막 오류 = 0x%.8X)</entry>
+    <entry lang="ko" key="CAPI_RAND">Windows Crypto API가 실패했습니다!\n\n\n(이 문제와 관련하여 버그를 보고하는 경우 버그 보고서에 다음 기술 정보를 포함하세요.\n%hs, 마지막 오류 = 0x%.8X)</entry>
     <entry lang="ko" key="INIT_REGISTER">응용 프로그램을 초기화할 수 없습니다. Dialog 클래스를 등록하지 못했습니다.</entry>
     <entry lang="ko" key="INIT_RICHEDIT">오류: 리치 편집 시스템 라이브러리를 로드하지 못했습니다.</entry>
     <entry lang="ko" key="INTRO_TITLE">VeraCrypt 볼륨 생성 마법사</entry>

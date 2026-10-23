@@ -560,7 +560,7 @@
     <entry lang="de" key="ERR_VOLUME_SIZE_TOO_BIG">Auf der Kommandozeile angegebene Volume-Größe ist zu groß. Das Volume kann nicht erstellt werden.</entry>
     <entry lang="de" key="INIT_SYS_ENC">Die Anwendungskomponenten konnten nicht initialisiert werden.</entry>
     <entry lang="de" key="INIT_RAND">Der Zufallszahlengenerator konnte nicht initialisiert werden!\n\n\nSollten Sie in diesem Zusammenhang einen Fehler melden, fügen Sie bitte folgende technische Informationen dem Fehlerbericht hinzu: %hs, letzter Fehler = 0x%.8X</entry>
-    <entry lang="de" key="CAPI_RAND">Windows Crypto API ist fehlgeschlagen!\n\n\nSollten Sie in diesem Zusammenhang einen Fehler melden, fügen Sie bitte folgende technische Informationen dem Fehlerbericht hinzu: %s, letzter Fehler = 0x%.8X</entry>
+    <entry lang="de" key="CAPI_RAND">Windows Crypto API ist fehlgeschlagen!\n\n\nSollten Sie in diesem Zusammenhang einen Fehler melden, fügen Sie bitte folgende technische Informationen dem Fehlerbericht hinzu: %hs, letzter Fehler = 0x%.8X</entry>
     <entry lang="de" key="INIT_REGISTER">Die Anwendung konnte nicht initialisiert werden. Die Registrierung der Dialogklasse ist fehlgeschlagen.</entry>
     <entry lang="de" key="INIT_RICHEDIT">FEHLER: Kann die Systembibliothek „RichEdit“ nicht laden.</entry>
     <entry lang="de" key="INTRO_TITLE">VeraCrypt-Volume erstellen</entry>

@@ -601,7 +601,7 @@
     <entry lang="tr" key="NONSYS_INPLACE_ENC_CONFIRM">UYARI: Tümüyle şifrelenene kadar birimi ekleyemez veya üzerindeki dosyalara erişemezsiniz.\n\nSeçilmiş %s '%s'%s için şifreleme işlemini başlatmak istediğinize emin misiniz?</entry>
     <entry lang="tr" key="NONSYS_INPLACE_DEC_CONFIRM">UYARI: Tümüyle şifresi çözülene kadar birimi ekleyemez veya üzerindeki dosyalara erişemezsiniz.\n\nSeçilmiş %s '%s'%s için şifre çözme işlemini başlatmak istediğinize emin misiniz?</entry>
     <entry lang="tr" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">UYARI: Var olan verileri yerinde şifrelerken ya da şifrelerini çözerken güç aniden kesilirse ya da işletim sistemindeki bir yazılım hatası veya donanım arızası nedeniyle VeraCrypt çökerse, verilerin bazı kısımları bozulabilir veya kaybolabilir. Bu nedenle, şifrelemeye ya da şifre çözme işlemine başlamadan önce lütfen şifrelemek ya da şifresini çözmek istediğiniz dosyaların yedek kopyalarına sahip olduğunuzdan emin olun.\n\nBöyle bir yedeğiniz var mı?</entry>
-    <entry lang="tr" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">DİKKAT: %s '%s'%s BÖLÜMÜNDEKİ (SİSTEM BÖLÜMÜNÜN ARKASINDAKİ İLK BÖLÜM GİBİ) TÜM DOSYALAR SİLİNECEK VE KAYBOLACAK (ŞİFRELENMEYECEK)!\n\nBiçimlendirme işlemini sürdürmek istediğinize emin misiniz?</entry>
+    <entry lang="tr" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">DİKKAT: '%s'%s BÖLÜMÜNDEKİ (SİSTEM BÖLÜMÜNÜN ARKASINDAKİ İLK BÖLÜM GİBİ) TÜM DOSYALAR SİLİNECEK VE KAYBOLACAK (ŞİFRELENMEYECEK)!\n\nBiçimlendirme işlemini sürdürmek istediğinize emin misiniz?</entry>
     <entry lang="tr" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">UYARI: SEÇİLMİŞ BÖLÜMDE BÜYÜK MİKTARDA VERİ VAR! Bölümdeki tüm dosyalar silinecek ve kaybolacak (şifrelenmeyecek)!</entry>
     <entry lang="tr" key="ERASE_FILES_BY_CREATING_VOLUME">İçinde bir VeraCrypt birimi oluşturarak, bölüme kaydedilmiş tüm dosyaları silin</entry>
     <entry lang="tr" key="PASSWORD">Parola</entry>
@@ -942,7 +942,7 @@
     <entry lang="tr" key="KEYFILE_INCORRECT_SIZE">Anahtar dosya boyutu 64 ila 1048576 bayt arasında olmalıdır.</entry>
     <entry lang="tr" key="KEYFILE_EMPTY_BASE_NAME">Lütfen oluşturulacak anahtar dosyalar için bir ad yazın</entry>
     <entry lang="tr" key="KEYFILE_INVALID_BASE_NAME">Anahtar dosyaların temel adı geçersiz</entry>
-    <entry lang="tr" key="KEYFILE_ALREADY_EXISTS">'%is' anahtar dosyası zaten var.\nBu dosyanın üzerine yazılmasını istiyor musunuz? Hayır yanıtını verirseniz oluşturma işlemi durdurulacak.</entry>
+    <entry lang="tr" key="KEYFILE_ALREADY_EXISTS">'%s' anahtar dosyası zaten var.\nBu dosyanın üzerine yazılmasını istiyor musunuz? Hayır yanıtını verirseniz oluşturma işlemi durdurulacak.</entry>
     <entry lang="tr" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">UYARI: Bu birimin üst bilgisi bozuk! VeraCrypt otomatik olarak birime gömülü birim yedek üst bilgisini kullandı.\n\n'Araçlar' &gt; 'Birim üst bilgisini geri yükle' seçeneğini kullanarak birim üst bilgisini onarmalısınız.</entry>
     <entry lang="tr" key="VOL_HEADER_BACKED_UP">Birimin yedek üst bilgisi oluşturuldu.\n\nÖNEMLİ: Bu yedeği kullanarak birim üst bilgisini geri yüklemek, şu anki birim parolasını da geri yükler. Ayrıca, birimi bağlamak için anahtar dosyaları gerekiyorsa, birim üst bilgisi geri yüklendiğinde aynı anahtar dosyaların kullanılması gerekir.\n\nUYARI: Bu birim yedek üst bilgisi, yalnızca bu birime özgüdür ve YALNIZCA bu birimin üst bilgisini geri yüklemek için kullanılabilir. Bu yedek üst bilgiyi farklı bir birimin üst bilgisini geri yüklemek için kullanırsanız, birimi bağlayabilirsiniz fakat birimde depolanmış olan hiçbir verinin ŞİFRESİNİ ÇÖZEMEZSİNİZ (birimin ana anahtarını değiştirmiş olacağınızdan).</entry>
     <entry lang="tr" key="VOL_HEADER_RESTORED">Birim üst bilgisi geri yüklendi.\n\nÖNEMLİ: Lütfen eski bir parolanın da geri yüklenmiş olabileceğini unutmayın. Ayrıca, yedek oluşturulduğunda birimi bağlamak için anahtar dosyalar kullanılıyorsa, birimi bağlamak için aynı anahtar dosyaları gerekir.</entry>
@@ -1379,7 +1379,7 @@
     <entry lang="tr" key="IDC_BOOT_LOADER_CACHE_PIM">Başlatma öncesi kimlik doğrulama parolası ön belleğe alınırken &amp;KÇÇ katılsın</entry>
     <entry lang="tr" key="IDC_PREF_CACHE_PIM">Bir parola ön belleğe alınırken KÇÇ katılsın</entry>
     <entry lang="tr" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Bağlantısı kesilen ağ sürücüleri yeniden bağlanabilsin</entry>
-    <entry lang="tr" key="PASSWORD_UTF8_TOO_LONG">Yazılan parola çok uzun: UTF-8 gösterimi 64 baytı aşıyor.</entry>
+    <entry lang="tr" key="PASSWORD_UTF8_TOO_LONG">Yazılan parola çok uzun: UTF-8 gösterimi %d baytı aşıyor.</entry>
     <entry lang="tr" key="PASSWORD_UTF8_INVALID">Yazılan parolada, UTF-8 gösterimine dönüştürülemeyen Unicode karakterler var.</entry>
     <entry lang="tr" key="INIT_DLL">Hata: Bir sistem kitaplığı yüklenemedi.</entry>
     <entry lang="tr" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Komut satırında belirtilen birim dosyası boyutu seçilmiş exFAT dosya sistemine uygun değil.</entry>
@@ -1422,8 +1422,8 @@
     <entry lang="tr" key="IDC_BLOCK_SYSENC_TRIM">Sistem bölümü ya da sürücüsünde TRIM komutu kullanılamasın</entry>
     <entry lang="tr" key="WINDOWS_EFI_BOOT_LOADER_MISSING">HATA: Diskte Windows EFI sistem yükleyicisi bulunamadı. İşlem iptal edilecek.</entry>
     <entry lang="tr" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">SecureBoot seçeneği etkinse ve VeraCrypt özel anahtarları makine yazılımına yüklenmemişse, sistemi şu anda şifrelenemez. Sistem şifrelemesini sürdürebilmek için BIOS yapılandırmasında SecureBoot seçeneğinin kapatılması gerekir.</entry>
-    <entry lang="tr" key="PASSWORD_PASTED_TRUNCATED">Parola en fazla 64 karakter uzunluğunda olabildiğinden yapıştırılan metin budandı</entry>
-    <entry lang="tr" key="PASSWORD_MAXLENGTH_REACHED">Parola olabilecek en fazla 64 karakter uzunluğuna ulaştı.\nEk karakterlere izin verilmiyor.</entry>
+    <entry lang="tr" key="PASSWORD_PASTED_TRUNCATED">Parola en fazla %d karakter uzunluğunda olabildiğinden yapıştırılan metin budandı</entry>
+    <entry lang="tr" key="PASSWORD_MAXLENGTH_REACHED">Parola olabilecek en fazla %d karakter uzunluğuna ulaştı.\nEk karakterlere izin verilmiyor.</entry>
     <entry lang="tr" key="IDC_SELECT_LANGUAGE_LABEL">Kurulum süresince kullanılacak dili seçin:</entry>
     <entry lang="tr" key="VOLUME_TOO_LARGE_FOR_HOST">HATA: Dosya boyutu, diskte kullanılabilecek boş alandan daha büyük.</entry>
     <entry lang="tr" key="IDC_ALLOW_WINDOWS_DEFRAG">Windows Disk Birleştiricisi sistem olmayan bölümü/sürücüyü birleştirebilsin</entry>
