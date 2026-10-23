@@ -39,27 +39,28 @@ extern "C" {
 
 typedef void (*SigHandler)(int);
 
-static jmp_buf s_jmpNoCPUID;
+// Restore the signal mask when a probe returns from SIGILL.
+static sigjmp_buf s_jmpNoCPUID;
 static void SigIllHandlerCPUID(int p)
 {
-	longjmp(s_jmpNoCPUID, 1);
+	siglongjmp(s_jmpNoCPUID, 1);
 }
 
 #if !defined (_UEFI) && ((defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE)
 
-static jmp_buf s_jmpNoAESNI;
+static sigjmp_buf s_jmpNoAESNI;
 static void SigIllHandlerAESNI(int p)
 {
-	longjmp(s_jmpNoAESNI, 1);
+	siglongjmp(s_jmpNoAESNI, 1);
 }
 
 #endif
 
 #if CRYPTOPP_BOOL_X64 == 0
-static jmp_buf s_jmpNoSSE2;
+static sigjmp_buf s_jmpNoSSE2;
 static void SigIllHandlerSSE2(int p)
 {
-	longjmp(s_jmpNoSSE2, 1);
+	siglongjmp(s_jmpNoSSE2, 1);
 }
 #endif
 
@@ -109,7 +110,7 @@ int CpuId(uint32 input, uint32 output[4])
 	if (oldHandler == SIG_ERR)
 		result = 0;
 
-	if (setjmp(s_jmpNoCPUID))
+	if (sigsetjmp(s_jmpNoCPUID, 1))
 		result = 0;
 	else
 	{
@@ -164,8 +165,8 @@ static int TrySSE2()
 	if (oldHandler == SIG_ERR)
 		return 0;
 
-	if (setjmp(s_jmpNoSSE2))
-		result = 1;
+	if (sigsetjmp(s_jmpNoSSE2, 1))
+		result = 0;
 	else
 	{
 #if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
@@ -239,7 +240,7 @@ static int TryAESNI ()
 	if (oldHandler == SIG_ERR)
 		return 0;
 
-	if (setjmp(s_jmpNoAESNI))
+	if (sigsetjmp(s_jmpNoAESNI, 1))
 		result = 0;
 	else
 #endif

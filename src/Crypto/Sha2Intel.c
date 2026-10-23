@@ -27,10 +27,11 @@
 
 typedef void (*SigHandler)(int);
 
-static jmp_buf s_jmpNoSHA;
+// Restore the signal mask when the probe returns from SIGILL.
+static sigjmp_buf s_jmpNoSHA;
 static void SigIllHandlerSHA(int p)
 {
-	longjmp(s_jmpNoSHA, 1);
+	siglongjmp(s_jmpNoSHA, 1);
 }
 #endif
 
@@ -43,7 +44,7 @@ int TrySHA256()
     SigHandler oldHandler = signal(SIGILL, SigIllHandlerSHA);
     if (oldHandler == SIG_ERR)
         return 0;
-    if (setjmp(s_jmpNoSHA))
+    if (sigsetjmp(s_jmpNoSHA, 1))
         result = 0;
     else
 #endif
