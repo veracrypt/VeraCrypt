@@ -2,7 +2,7 @@
 <VeraCrypt>
   <localization prog-version="1.26.30">
     <language langid="et" name="Eesti" en-name="Estonian" version="0.1.0" translators="Maiko Mõtsar" />
-    <font lang="et" class="normal" size="11" face="vaikimisi" />
+    <font lang="et" class="normal" size="11" face="default" />
     <font lang="et" class="bold" size="13" face="Arial" />
     <font lang="et" class="fixed" size="12" face="Lucida Console" />
     <font lang="et" class="title" size="21" face="Times New Roman" />
