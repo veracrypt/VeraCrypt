@@ -576,6 +576,38 @@ namespace VeraCrypt
 	}
 
 
+	/* Decodes in place the escapes XmlQuoteTextW writes, "&lt;", "&gt;" and "&amp;", in an
+	   attribute value, which XmlGetAttributeText returns as written */
+	static void UnquoteXmlText (char *text)
+	{
+		char *in = text;
+		char *out = text;
+
+		while (*in)
+		{
+			if (strncmp (in, "&lt;", 4) == 0)
+			{
+				*out++ = '<';
+				in += 4;
+			}
+			else if (strncmp (in, "&gt;", 4) == 0)
+			{
+				*out++ = '>';
+				in += 4;
+			}
+			else if (strncmp (in, "&amp;", 5) == 0)
+			{
+				*out++ = '&';
+				in += 5;
+			}
+			else
+				*out++ = *in++;
+		}
+
+		*out = 0;
+	}
+
+
 	void LoadFavoriteVolumes (vector <FavoriteVolume> &favorites, bool systemFavorites, bool noUacElevation)
 	{
 		bool bVolumeIdInUse = false;
@@ -635,6 +667,7 @@ namespace VeraCrypt
 			}
 
 			XmlGetAttributeText (xml, "label", label, sizeof (label));
+			UnquoteXmlText (label);
 			favorite.Label = Utf8StringToWide (label);
 
 			XmlGetAttributeText (xml, "pim", label, sizeof (label));
@@ -817,7 +850,14 @@ namespace VeraCrypt
 				s += L" ID=\"" + ArrayToHexWideString (favorite.VolumeID, sizeof (favorite.VolumeID)) + L"\"";
 
 			if (!favorite.Label.empty())
-				s += L" label=\"" + favorite.Label + L"\"";
+			{
+				/* Escaped like the path, as a '<' or '>' in the label would end the element
+				   when the file is read. LoadFavoriteVolumes decodes it. */
+				wchar_t quotedLabel[ARRAYSIZE (tq)];
+
+				if (XmlQuoteTextW (favorite.Label.c_str(), quotedLabel, ARRAYSIZE (quotedLabel)))
+					s += L" label=\"" + wstring (quotedLabel) + L"\"";
+			}
 
 			if (favorite.Pim >= 0)
 				s += L" pim=\"" + IntToWideString(favorite.Pim) + L"\"";
