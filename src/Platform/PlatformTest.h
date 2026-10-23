@@ -36,7 +36,11 @@ namespace VeraCrypt
 		};
 
 		PlatformTest ();
+		static void BufferTest ();
+		static void ExceptionTransportTest ();
+		static void FileTest ();
 		static void SerializerTest ();
+		static void StringConverterTest ();
 		static void ThreadTest ();
 		static TC_THREAD_PROC ThreadTestProc (void *param);
 
