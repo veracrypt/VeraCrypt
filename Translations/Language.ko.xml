@@ -598,7 +598,7 @@
     <entry lang="ko" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">중요: 경험이없는 사용자는 전체 장치/파티션을 암호화하는 대신 선택된 장치/파티션에 VeraCrypt 파일 컨테이너를 만들 것을 강력히 권장합니다.\n\nVeraCrypt 파일 컨테이너를 만들 때 (장치 또는 파티션 암호화) 예를 들어 많은 수의 파일이 손상 될 위험이 없습니다. VeraCrypt 파일 컨테이너 (가상 암호화 된 디스크가 포함되어 있음에도 불구하고)는 실제로 일반 파일과 같습니다. 자세한 내용은 VeraCrypt 사용자 가이드의 초보자 안내서를 참조하세요.\n\n전체 장치/파티션을 암호화 하시겠습니까?</entry>
     <entry lang="ko" key="OVERWRITEPROMPT">경고: '%s'파일이 이미 존재합니다!\n\n중요: VERACRYPT는 파일을 암호화하지 않지만 삭제합니다. 파일을 삭제하고 새로운 VeraCrypt 컨테이너로 바꾸시겠습니까?</entry>
     <entry lang="ko" key="OVERWRITEPROMPT_DEVICE">주의: 현재 선택한 %s'%s'%s에 저장된 모든 파일은 지워지고 손실됩니다(암호화되지 않음)!\n\n포맷을 계속 하시겠습니까?</entry>
-    <entry lang="ko" key="NONSYS_INPLACE_ENC_CONFIRM">경고: 완전히 암호화 될 때까지 볼륨을 마운트하거나 볼륨에 저장된 파일에 액세스 할 수 없습니다.\n\n선택한 %s의 암호화를 시작 하시겠습니까?</entry>
+    <entry lang="ko" key="NONSYS_INPLACE_ENC_CONFIRM">경고: 완전히 암호화 될 때까지 볼륨을 마운트하거나 볼륨에 저장된 파일에 액세스 할 수 없습니다.\n\n선택한 %s '%s'%s의 암호화를 시작 하시겠습니까?</entry>
     <entry lang="ko" key="NONSYS_INPLACE_DEC_CONFIRM">경고: 완전히 해독되기 전까지는 볼륨을 마운트하거나 파일에 액세스 할 수 없습니다.\n\n선택한 %s의 %s의 %s을 (를) 해독 하시겠습니까?</entry>
     <entry lang="ko" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">경고: VeraCrypt가 기존 데이터를 암호화/해독하는 동안 소프트웨어 오류 또는 하드웨어 오작동으로 인해 전원 공급이 갑자기 중단되거나 운영 체제에 오류가 발생할 경우 기존 데이터가 암호화/해독되는 동안 데이터의 일부가 삭제될 수 있습니다. 따라서 암호화/해독을 시작하기 전에 암호화/해독 할 파일의 백업 복사본이 있는지 확인하세요.\n\n그런 백업이 있습니까?</entry>
     <entry lang="ko" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">주의: 파티션 '%s'%s (시스템 파티션 뒤에있는 첫 번째 파티션)에 현재 저장된 모든 파일이 지워지고 손실됩니다(암호화되지 않음)!\n\n계속 하시겠습니까?</entry>
@@ -1112,7 +1112,7 @@
     <entry lang="ko" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">참고: 비미국 Windows 키보드 레이아웃을 사용할 수 없는 사전 부트 환경(Windows가 시작되기 전)에서 암호를 입력해야 합니다. 따라서 항상 표준 미국 키보드 레이아웃을 사용하여 암호를 입력해야 합니다. 그러나 실제 미국 키보드는 필요하지 않습니다. VeraCrypt는 실제 미국 키보드가 없는 경우에도 암호(지금 및 사전 부트 환경)를 안전하게 입력할 수 있도록 자동으로 합니다.</entry>
     <entry lang="ko" key="RESCUE_DISK_INFO">파티션/드라이브를 암호화하려면 먼저 VRD(VeraCrypt 복구 디스크)를 생성해야 합니다. VRD는 VeraCrypt 부트로더, 마스터 키 또는 기타 중요 데이터가 손상된 경우 VRD를 사용하여 복원할 수 있습니다(그러나 올바른 암호를 입력해야 함).\n\n- Windows가 손상되어 시작할 수 없는 경우 VRD를 사용하여 Windows가 시작되기 전에 파티션/드라이브의 영구적 암호를 해독할 수 있습니다.\n\n- VRD에는 첫 번째 드라이브 트랙(일반적으로 시스템 로더 또는 부트 관리자 포함)의 현재 컨텐츠의 백업이 포함되어 있으며 필요한 경우 복원할 수 있습니다.\n\nVeraCrypt 복구 디스크 ISO 이미지가 아래에 지정된 위치에 생성됩니다.</entry>
     <entry lang="ko" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">확인을 클릭하면 Microsoft Windows 디스크 이미지 버너가 시작됩니다. VeraCrypt 복구 디스크 ISO 이미지를 CD 또는 DVD에 구울 때 사용합니다.\n\n그렇게 한 후 VeraCrypt 볼륨 생성 마법사로 돌아가서 지침을 따릅니다.</entry>
-    <entry lang="ko" key="RESCUE_DISK_BURN_INFO">복구 디스크 이미지가 생성되어 이 파일에 저장되었습니다.\n%s\n\n이제 CD 또는 DVD에 구워야 합니다.\n\n%복구 디스크를 구운 후 다음을 클릭하여 올바르게 구웠는지 확인합니다.</entry>
+    <entry lang="ko" key="RESCUE_DISK_BURN_INFO">복구 디스크 이미지가 생성되어 이 파일에 저장되었습니다.\n%s\n\n이제 CD 또는 DVD에 구워야 합니다.\n\n%ls복구 디스크를 구운 후 다음을 클릭하여 올바르게 구웠는지 확인합니다.</entry>
     <entry lang="ko" key="RESCUE_DISK_BURN_INFO_NO_CHECK">복구 디스크 이미지가 생성되어 이 파일에 저장되었습니다:\n%s\n\n이제 이미지를 CD/DVD에 굽거나 나중에 사용할 수 있도록 안전한 위치로 이동하십시오.\n계속하려면 다음을 클릭합니다.</entry>
     <entry lang="ko" key="RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER">중요: 파일은 개별 파일이 아닌 ISO 디스크 이미지로 CD/DVD에 기록해야 합니다. 이 방법에 대한 자세한 내용은 CD/DVD 기록 소프트웨어의 설명서를 참조하시기 바랍니다. ISO 디스크 이미지를 CD/DVD에 쓸 수 있는 CD/DVD 레코딩 소프트웨어가 없는 경우 아래 링크를 클릭하여 이러한 무료 소프트웨어를 다운로드합니다.\n\n</entry>
     <entry lang="ko" key="LAUNCH_WIN_ISOBURN">Microsoft Windows 디스크 이미지 버너 실행</entry>
