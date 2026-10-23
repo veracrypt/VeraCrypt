@@ -166,7 +166,7 @@ static int TrySSE2()
 		return 0;
 
 	if (sigsetjmp(s_jmpNoSSE2, 1))
-		result = 1;
+		result = 0;
 	else
 	{
 #if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
