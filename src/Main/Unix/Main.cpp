@@ -18,6 +18,7 @@
 #include "Volume/EncryptionThreadPool.h"
 #include "Core/Unix/CoreService.h"
 #include "Core/Unix/UnixUser.h"
+#include "Crypto/cpu.h"
 #include "Main/Application.h"
 #include "Main/Main.h"
 #include "Main/UserInterface.h"
@@ -38,6 +39,15 @@ int main (int argc, char **argv)
 
 	try
 	{
+		// Detect CPU features before starting services or encryption threads.
+		// Forked services inherit the flags, and elevated services skip UI initialization.
+#ifdef CRYPTOPP_CPUID_AVAILABLE
+		DetectX86Features ();
+#endif
+#if CRYPTOPP_BOOL_ARMV8
+		DetectArmFeatures();
+#endif
+
 		// Make sure all required commands can be executed via default search path
 		string sysPathStr = "/usr/sbin:/sbin:/usr/bin:/bin";
 

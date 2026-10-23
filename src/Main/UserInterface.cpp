@@ -20,7 +20,6 @@
 #include <typeinfo>
 #include <wx/apptrait.h>
 #include <wx/cmdline.h>
-#include "Crypto/cpu.h"
 #include "Core/CoreTest.h"
 #include "Platform/PlatformTest.h"
 #include "Common/PCSCException.h"
@@ -681,12 +680,6 @@ namespace VeraCrypt
 		SetAppName (Application::GetName());
 		SetClassName (Application::GetName());
 
-#ifdef CRYPTOPP_CPUID_AVAILABLE
-		DetectX86Features ();
-#endif
-#if CRYPTOPP_BOOL_ARMV8
-		DetectArmFeatures();
-#endif
 		LangString.Init();
 		Core->Init();
 
