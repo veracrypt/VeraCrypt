@@ -557,7 +557,7 @@
     <entry lang="ar" key="ERR_VOLUME_SIZE_TOO_BIG">حجم القرص المحدد في سطر الأوامر كبير جدا. لا يمكن إنشاء القرص.</entry>
     <entry lang="ar" key="INIT_SYS_ENC">‮تعذّر استبداء مكونات التطبيق لتعمية النظام.</entry>
     <entry lang="ar" key="INIT_RAND">‮فشل استبداء مُولِّد الأرقام العشوائيّة!</entry>
-    <entry lang="ar" key="CAPI_RAND">فشل الواجهة البرمجية لويندوز!\n\n\n(إذا قررت رفع تقرير عن هذا، فيرجى تضمين التالي في تقريرك:\n%s, الخطأ الأخير = 0x%.8X)</entry>
+    <entry lang="ar" key="CAPI_RAND">فشل الواجهة البرمجية لويندوز!\n\n\n(إذا قررت رفع تقرير عن هذا، فيرجى تضمين التالي في تقريرك:\n%hs, الخطأ الأخير = 0x%.8X)</entry>
     <entry lang="ar" key="INIT_REGISTER">‮تعذَّر استبداء التطبيق. فشل تسجيل فئة الحوار.</entry>
     <entry lang="ar" key="INIT_RICHEDIT">‮عطل: تعذَّر تحميل مكتبة التحرير الغني.</entry>
     <entry lang="ar" key="INTRO_TITLE">‮مرشِد ڤيراكربت لإنشاء المجلدات</entry>
@@ -1051,8 +1051,8 @@
     <entry lang="ar" key="FAILED_TO_INTERRUPT_WIPING">‮عطل: تعذَّرت مقاطعة صيرورة المحو.</entry>
     <entry lang="ar" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">‮عطل: تعذّرت معاودة صيرورة تعمية/تظهير قسم\\سواقة النظام.</entry>
     <entry lang="ar" key="FAILED_TO_START_WIPING">‮عطل: تعذَّر بدء صيرورة المحو.</entry>
-    <entry lang="ar" key="INCONSISTENCY_RESOLVED">‮تم حل عدم الاتساق. ‮ ‮ ‮(إن أبلغت عن علة بهذا الشأن فرجاءً ضمِّن البيانات التقنية التالية في البلاغ: ‪%s‬)</entry>
-    <entry lang="ar" key="UNEXPECTED_STATE">‮عطل: حالة غير متوقعة. ‮ ‮ ‮(إن أبلغت عن علة ذات علاقة بهذا فرجاء ضمِّن التقرير البيانات التقنية التالية: ‮‪%s‬)</entry>
+    <entry lang="ar" key="INCONSISTENCY_RESOLVED">‮تم حل عدم الاتساق. ‮ ‮ ‮(إن أبلغت عن علة بهذا الشأن فرجاءً ضمِّن البيانات التقنية التالية في البلاغ: ‪%hs‬)</entry>
+    <entry lang="ar" key="UNEXPECTED_STATE">‮عطل: حالة غير متوقعة. ‮ ‮ ‮(إن أبلغت عن علة ذات علاقة بهذا فرجاء ضمِّن التقرير البيانات التقنية التالية: ‮‪%hs‬)</entry>
     <entry lang="ar" key="NO_SYS_ENC_PROCESS_TO_RESUME">لا يوجد أي عملية معلقة لتشفير/فك تشفير جزء/قرص نظامي لاستكمال بدئها.\n\nملاحظة: إذا كنت تريد استكمال عملية تشفير/فك تشفير لجزء/قرص غير نظامي, اختر 'أقراص' &gt; 'استكمل عملية معلقة'.</entry>
     <entry lang="ar" key="HIDVOL_PROT_BKG_TASK_WARNING">‮تحذير: عُطِّلت مهمة ڤيراكربت الخلفية. بعد أن تغلق ڤيراكربت لن تُبلغ إن أحيل دون تلف في مجلد مخفي ‮ ‮ملاحظة: يمكنك إغلاق المهمة الخلفية في أي وقت بالنقر باليمين على أيقونة ڤيراكربت في اللوحة و اختيار 'اخرج'. ‮ ‮أأفعِّل مهمة ڤيراكربت الخلفية؟</entry>
     <entry lang="ar" key="LANG_PACK_VERSION">‮إصدارة حزمة اللغة:	‪%s‬</entry>
