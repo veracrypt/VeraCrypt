@@ -35,6 +35,9 @@ int XmlWriteHeaderUtf8 (FILE *file);
 int XmlWriteFooterUtf8 (FILE *file);
 /* Write a complete UTF-16 string to a byte text stream. Returns EOF on failure. */
 int XmlWriteTextUtf8 (FILE *file, const wchar_t *text);
+/* Escape XML element text on a byte stream. Narrow input is UTF-8. */
+int XmlWriteEscapedText (FILE *file, const char *text);
+int XmlWriteEscapedTextUtf8 (FILE *file, const wchar_t *text);
 #endif !defined(_UEFI)
 
 #ifdef __cplusplus

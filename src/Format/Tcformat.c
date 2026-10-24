@@ -839,10 +839,11 @@ static void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified,
 	ConfigReadCompareInt ("EMVSupportEnabled", 0, &EMVSupportEnabled, bOnlyCheckModified, pbSettingsModified);
 
 	{
-		char szTmp[MAX_PATH] = {0};
-		WideCharToMultiByte (CP_UTF8, 0, SecurityTokenLibraryPath, -1, szTmp, MAX_PATH, NULL, NULL);
-		ConfigReadCompareString ("SecurityTokenLibrary", "", szTmp, sizeof (szTmp) - 1, bOnlyCheckModified, pbSettingsModified);
-		MultiByteToWideChar (CP_UTF8, 0, szTmp, -1, SecurityTokenLibraryPath, ARRAYSIZE (SecurityTokenLibraryPath));
+		char szTmp[ARRAYSIZE (SecurityTokenLibraryPath) * 3] = {0};
+		WideCharToMultiByte (CP_UTF8, 0, SecurityTokenLibraryPath, -1, szTmp, sizeof (szTmp), NULL, NULL);
+		ConfigReadCompareString ("SecurityTokenLibrary", "", szTmp, sizeof (szTmp), bOnlyCheckModified, pbSettingsModified);
+		if (MultiByteToWideChar (CP_UTF8, 0, szTmp, -1, SecurityTokenLibraryPath, ARRAYSIZE (SecurityTokenLibraryPath)) == 0)
+			SecurityTokenLibraryPath[0] = 0;
 
 		if (!bOnlyCheckModified && SecurityTokenLibraryPath[0])
 			InitSecurityTokenLibrary(hwndDlg);

@@ -1540,10 +1540,11 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	}
 
 	{
-		char szTmp[MAX_PATH];
-		WideCharToMultiByte (CP_UTF8, 0, SecurityTokenLibraryPath, -1, szTmp, MAX_PATH, NULL, NULL);
-		ConfigReadCompareString ("SecurityTokenLibrary", "", szTmp, sizeof (szTmp) - 1, bOnlyCheckModified, pbSettingsModified);
-		MultiByteToWideChar (CP_UTF8, 0, szTmp, -1, SecurityTokenLibraryPath, ARRAYSIZE (SecurityTokenLibraryPath));
+		char szTmp[ARRAYSIZE (SecurityTokenLibraryPath) * 3] = {0};
+		WideCharToMultiByte (CP_UTF8, 0, SecurityTokenLibraryPath, -1, szTmp, sizeof (szTmp), NULL, NULL);
+		ConfigReadCompareString ("SecurityTokenLibrary", "", szTmp, sizeof (szTmp), bOnlyCheckModified, pbSettingsModified);
+		if (MultiByteToWideChar (CP_UTF8, 0, szTmp, -1, SecurityTokenLibraryPath, ARRAYSIZE (SecurityTokenLibraryPath)) == 0)
+			SecurityTokenLibraryPath[0] = 0;
 		if (!bOnlyCheckModified && SecurityTokenLibraryPath[0])
 		{
 			InitSecurityTokenLibrary(hwndDlg);
@@ -12257,9 +12258,15 @@ static void SaveDefaultKeyFilesParam (HWND hwnd)
 
 		while (kf != NULL)
 		{
-			wchar_t q[TC_MAX_PATH * 2];
+			wchar_t q[ARRAYSIZE (kf->FileName) * 5];
 
-			XmlQuoteTextW (kf->FileName, q, ARRAYSIZE (q));
+			if (XmlQuoteTextW (kf->FileName, q, ARRAYSIZE (q)) == NULL)
+			{
+				fclose (f);
+				SetLastError (ERROR_INSUFFICIENT_BUFFER);
+				handleWin32Error (hwnd, SRC_POS);
+				return;
+			}
 			fputs ("\n\t\t<keyfile>", f);
 			if (XmlWriteTextUtf8 (f, q) == EOF)
 			{

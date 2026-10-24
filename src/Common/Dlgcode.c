@@ -11215,7 +11215,9 @@ BOOL ConfigWriteEnd (HWND hwnd)
 		XmlGetAttributeText (xml, "key", key, sizeof (key));
 		XmlGetNodeText (xml, value, sizeof (value));
 
-		fprintf (ConfigFileHandle, "\n\t\t<config key=\"%s\">%s</config>", key, value);
+		fprintf (ConfigFileHandle, "\n\t\t<config key=\"%s\">", key);
+		XmlWriteEscapedText (ConfigFileHandle, value);
+		fputs ("</config>", ConfigFileHandle);
 		xml++;
 	}
 
@@ -11254,9 +11256,9 @@ BOOL ConfigWriteString (char *configKey, char *configValue)
 			c[1] = '!';
 	}
 
-	return fprintf (
-		ConfigFileHandle, "\n\t\t<config key=\"%s\">%s</config>",
-		configKey, configValue) >= 0;
+	return fprintf (ConfigFileHandle, "\n\t\t<config key=\"%s\">", configKey) > 0
+		&& XmlWriteEscapedText (ConfigFileHandle, configValue) != EOF
+		&& fputs ("</config>", ConfigFileHandle) != EOF;
 }
 
 BOOL ConfigWriteStringW (char *configKey, wchar_t *configValue)
@@ -11273,8 +11275,8 @@ BOOL ConfigWriteStringW (char *configKey, wchar_t *configValue)
 			c[1] = '!';
 	}
 
-	return fprintf (ConfigFileHandle, "\n\t\t<config key=\"%s\">", configKey) >= 0
-		&& XmlWriteTextUtf8 (ConfigFileHandle, configValue) != EOF
+	return fprintf (ConfigFileHandle, "\n\t\t<config key=\"%s\">", configKey) > 0
+		&& XmlWriteEscapedTextUtf8 (ConfigFileHandle, configValue) != EOF
 		&& fputs ("</config>", ConfigFileHandle) != EOF;
 }
 
@@ -11446,11 +11448,10 @@ BOOL LoadDefaultKeyFilesParam (void)
 		kf = (KeyFile *) malloc (sizeof (KeyFile));
 		if (kf)
 		{
-			char fileName [MAX_PATH + 1];
-			if (XmlGetNodeText (xml, fileName, sizeof (fileName)) != NULL)
+			char fileName [ARRAYSIZE (kf->FileName) * 3];
+			if (XmlGetNodeText (xml, fileName, sizeof (fileName)) != NULL
+				&& MultiByteToWideChar (CP_UTF8, 0, fileName, -1, kf->FileName, ARRAYSIZE (kf->FileName)) != 0)
 			{
-				std::wstring wszFileName = Utf8StringToWide(fileName);
-				StringCbCopyW (kf->FileName, sizeof (kf->FileName), wszFileName.c_str ());
 				defaultKeyFilesParam.FirstKeyFile = KeyFileAdd (defaultKeyFilesParam.FirstKeyFile, kf);
 			}
 			else

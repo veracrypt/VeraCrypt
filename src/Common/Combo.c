@@ -140,7 +140,7 @@ void LoadCombo (HWND hComboBox, BOOL bEnabled, BOOL bOnlyCheckModified, BOOL *pb
 	DWORD size;
 	char *history = LoadFile (GetConfigPath (TC_APPD_FILENAME_HISTORY), &size);
 	char *xml = history;
-	char volume[MAX_PATH];
+	char volume[MAX_PATH * 3];
 	int i, nComboIdx[SIZEOF_MRU_LIST] = {0};
 	int count = (int) SendMessage (hComboBox, CB_GETCOUNT, 0, 0);
 
@@ -178,9 +178,14 @@ void LoadCombo (HWND hComboBox, BOOL bEnabled, BOOL bOnlyCheckModified, BOOL *pb
 				SendMessage (hComboBox, CB_GETLBTEXT, nComboIdx[i], (LPARAM) & szTmp[0]);
 		}
 
-		XmlGetNodeText (xml, volume, sizeof (volume));
-		if (0 == MultiByteToWideChar (CP_UTF8, 0, volume, -1, wszVolume, MAX_PATH))
-			wszVolume [0] = 0;
+		if (XmlGetNodeText (xml, volume, sizeof (volume)) == NULL
+			|| MultiByteToWideChar (CP_UTF8, 0, volume, -1, wszVolume, ARRAYSIZE (wszVolume)) == 0)
+		{
+			if (pbModified)
+				*pbModified = TRUE;
+			xml++;
+			continue;
+		}
 		if (!bOnlyCheckModified)
 			AddComboItem (hComboBox, wszVolume, TRUE);
 
@@ -231,8 +236,12 @@ void DumpCombo (HWND hComboBox, int bClear)
 
 		if (szTmp[0] != 0)
 		{
-			wchar_t q[MAX_PATH * 2] = { 0 };
-			XmlQuoteTextW (szTmp, q, ARRAYSIZE (q));
+			wchar_t q[ARRAYSIZE (szTmp) * 5] = { 0 };
+			if (XmlQuoteTextW (szTmp, q, ARRAYSIZE (q)) == NULL)
+			{
+				fclose (f);
+				return;
+			}
 
 			fputs ("\n\t\t<volume>", f);
 			if (XmlWriteTextUtf8 (f, q) == EOF)

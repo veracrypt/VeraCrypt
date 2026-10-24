@@ -358,7 +358,23 @@ int XmlWriteFooterUtf8 (FILE *file)
 }
 
 
-int XmlWriteTextUtf8 (FILE *file, const wchar_t *text)
+int XmlWriteEscapedText (FILE *file, const char *text)
+{
+	const char *segment = text;
+	const char *special;
+	while ((special = strpbrk (segment, "&<>")) != NULL)
+	{
+		size_t size = (size_t) (special - segment);
+		const char *escaped = *special == '&' ? "&amp;" : (*special == '<' ? "&lt;" : "&gt;");
+		if (fwrite (segment, 1, size, file) != size || fputs (escaped, file) == EOF)
+			return EOF;
+		segment = special + 1;
+	}
+	return fputs (segment, file);
+}
+
+
+static int XmlWriteWideTextUtf8 (FILE *file, const wchar_t *text, BOOL escape)
 {
 	int size = WideCharToMultiByte (CP_UTF8, 0, text, -1, NULL, 0, NULL, NULL);
 	char *utf8;
@@ -376,12 +392,24 @@ int XmlWriteTextUtf8 (FILE *file, const wchar_t *text)
 
 	// Convert the complete string so a CRT buffer can't split a surrogate pair.
 	if (WideCharToMultiByte (CP_UTF8, 0, text, -1, utf8, size, NULL, NULL) != 0)
-		result = fputs (utf8, file);
+		result = escape ? XmlWriteEscapedText (file, utf8) : fputs (utf8, file);
 
 	error = GetLastError ();
 	free (utf8);
 	SetLastError (error);
 	return result;
+}
+
+
+int XmlWriteTextUtf8 (FILE *file, const wchar_t *text)
+{
+	return XmlWriteWideTextUtf8 (file, text, FALSE);
+}
+
+
+int XmlWriteEscapedTextUtf8 (FILE *file, const wchar_t *text)
+{
+	return XmlWriteWideTextUtf8 (file, text, TRUE);
 }
 #endif !defined(_UEFI)
 
