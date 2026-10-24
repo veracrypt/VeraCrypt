@@ -124,7 +124,7 @@
     <entry lang="pt-br" key="IDC_ENABLE_NEW_KEYFILES">Usar arquivos-chave</entry>
     <entry lang="pt-br" key="IDC_EXIT">Sai&amp;r</entry>
     <entry lang="pt-br" key="IDC_FAVORITES_HELP_LINK">Ajuda sobre volumes favoritos</entry>
-    <entry lang="pt-br" key="IDC_FAVORITE_DISABLE_HOTKEY">Não montar o volume selecionado quando a tecla de atalho &apos;Montar Volumes Favoritos&apos; for pressionada</entry>
+    <entry lang="pt-br" key="IDC_FAVORITE_DISABLE_HOTKEY">Não montar o volume selecionado quando a tecla de atalho 'Montar Volumes Favoritos' for pressionada</entry>
     <entry lang="pt-br" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">Montar o volume selecionado quando seu dispositivo host for &amp;conectado</entry>
     <entry lang="pt-br" key="IDC_FAVORITE_MOUNT_ON_LOGON">Montar o volume selecionado ao fazer lo&amp;gin</entry>
     <entry lang="pt-br" key="IDC_FAVORITE_MOUNT_READONLY">Montar o volume selecionado como somente leit&amp;ura</entry>
