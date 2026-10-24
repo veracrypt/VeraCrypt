@@ -189,10 +189,59 @@ class CatalogueTests(unittest.TestCase):
 
     def test_literal_placeholders_with_named_entities_and_utf8_pass(self):
         self.write_raw_translation(
-            "LINUX_NOT_FAT_HINT", "&quot;{0}&quot; &lt;é&gt; &amp; café",
+            "LINUX_NOT_FAT_HINT", '"{0}" &lt;é&gt; &amp; café',
         )
         result = self.run_validator()
         self.assertEqual(result.returncode, 0, result.stdout)
+
+    def test_quote_entities_are_rejected_in_unformatted_entries(self):
+        key = "IDC_FAVORITE_DISABLE_HOTKEY"
+        for entity in ("&apos;", "&quot;"):
+            with self.subTest(entity=entity):
+                path = self.write_raw_translation(key, "café\\n" + entity + "Favorites" + entity)
+                result = self.run_validator()
+                self.assertEqual(result.returncode, 1, result.stdout)
+                self.assertIn(f"{path}:", result.stdout)
+                self.assertIn(f"{key}: unsupported XML entity {entity!r}", result.stdout)
+                self.assertIn("at line ", result.stdout)
+
+    def test_repeated_entity_escaping_is_rejected(self):
+        key = "IDT_SYS_DEVICE"
+        for entity in ("&amp;apos;", "&amp;quot;", "&amp;lt;", "&amp;gt;",
+                       "&amp;amp;", "&amp;amp;quot;"):
+            with self.subTest(entity=entity):
+                path = self.write_raw_translation(key, "עברית " + entity)
+                result = self.run_validator()
+                self.assertEqual(result.returncode, 1, result.stdout)
+                self.assertIn(f"{path}:", result.stdout)
+                self.assertIn(f"{key}: repeatedly escaped XML entity {entity!r}", result.stdout)
+
+    def test_quote_entities_in_reference_are_rejected(self):
+        path = self.root / "src/Common/Language.xml"
+        path.write_text(
+            path.read_text(encoding="utf-8").replace("Beginner's Tutorial", "Beginner&apos;s Tutorial"),
+            encoding="utf-8",
+        )
+        result = self.run_validator()
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertIn(f"{path}:", result.stdout)
+        self.assertIn("unsupported XML entity '&apos;'", result.stdout)
+
+    def test_entity_check_only_inspects_entry_text(self):
+        path = self.write_translation(changes={"LINUX_NOT_FAT_HINT": '"{0}" <é> & café'})
+        xml = path.read_text(encoding="utf-8").replace(
+            '<language langid="tr"', '<language name="&quot;Quoted&quot;" langid="tr"',
+        ).replace(
+            "<localization", "<!-- Examples: &apos; &amp;quot; -->\n<localization", 1,
+        )
+        path.write_text(xml, encoding="utf-8")
+        result = self.run_validator()
+        self.assertEqual(result.returncode, 0, result.stdout)
+
+    def test_entity_diagnostic_tracks_source_lines_after_utf8_text(self):
+        xml = '<localization>\n<entry key="MESSAGE">café\n&apos;</entry></localization>'
+        with self.assertRaisesRegex(ValueError, "MESSAGE: unsupported XML entity '&apos;' at line 3;"):
+            FORMATS.check_entry_entities(xml)
 
     def test_escaped_numeric_entity_text_does_not_supply_placeholders(self):
         key = "LINUX_NOT_FAT_HINT"

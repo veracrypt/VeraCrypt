@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate translation format contracts without platform-specific libraries.
+"""Validate translation text and format contracts without platform-specific libraries.
 
 Run with: python3 .github/workflows/validate_translation_formats.py [repo-root]
 
@@ -16,6 +16,7 @@ from pathlib import Path
 import re
 import sys
 import xml.etree.ElementTree as ET
+from xml.parsers import expat
 
 
 # These wxString::Format callers pass wide strings, as on Windows, but their
@@ -121,6 +122,10 @@ PRINTF_FIELD = re.compile(
     r"(I64|I32|I|hh|ll|h|l|w|z|t|j|L)?([diouxXfFeEgGaAcCsSpn])"
 )
 
+# Windows leaves quote entities undecoded. Repeated escaping also leaves entity
+# text visible, with different results from the Unix reader for &amp;quot;.
+ENTRY_ENTITY = re.compile(rb"&(?:apos|quot);|&amp;(?:amp;)*(?:lt|gt|amp|apos|quot);")
+
 
 def printf_arguments(text, *, portable=False):
     """Return Windows argument types, optionally rejecting nonportable modifiers."""
@@ -194,6 +199,44 @@ def formatter_arguments(text):
     return referenced
 
 
+def check_entry_entities(xml):
+    """Inspect the source entity spelling, restricted to actual entry text."""
+    raw = xml.encode("utf-8")
+    parser = expat.ParserCreate()
+    # Expat reports each entity at its source byte offset. Buffering character
+    # data would combine it with adjacent text and lose that position.
+    parser.buffer_text = False
+    entry_key = None
+
+    def start(name, attributes):
+        nonlocal entry_key
+        if name == "entry":
+            entry_key = attributes.get("key", "?")
+
+    def end(name):
+        nonlocal entry_key
+        if name == "entry":
+            entry_key = None
+
+    def text(value):
+        if entry_key is None:
+            return
+        entity = ENTRY_ENTITY.match(raw, parser.CurrentByteIndex)
+        if entity is not None:
+            spelling = entity.group().decode("ascii")
+            problem = "repeatedly escaped" if spelling.startswith("&amp;") else "unsupported"
+            raise ValueError(
+                f"{entry_key}: {problem} XML entity {spelling!r} "
+                f"at line {parser.CurrentLineNumber}; use literal punctuation "
+                "and escape XML characters only once"
+            )
+
+    parser.StartElementHandler = start
+    parser.EndElementHandler = end
+    parser.CharacterDataHandler = text
+    parser.Parse(raw, True)
+
+
 def read_catalogue(path):
     xml = path.read_text(encoding="utf-8")
     # VeraCrypt's XML readers do not expand numeric or custom entities. Reject
@@ -208,6 +251,7 @@ def read_catalogue(path):
             "use literal UTF-8 characters"
         )
     root = ET.fromstring(xml)
+    check_entry_entities(xml)
     entries = {}
     for entry in root.iter("entry"):
         key = entry.attrib["key"]
