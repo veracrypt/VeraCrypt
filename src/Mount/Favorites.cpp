@@ -576,6 +576,62 @@ namespace VeraCrypt
 	}
 
 
+	/* Longest label, in UTF-16 units, that the Organize Favorite Volumes dialog keeps */
+	static const size_t MaxFavoriteLabelLength = 1023;
+
+
+	/* Escapes '&', '<' and '>' as XmlQuoteTextW does, without a limit on the length */
+	static wstring QuoteXmlText (const wstring &text)
+	{
+		wstring quoted;
+
+		for (wchar_t c : text)
+		{
+			switch (c)
+			{
+			case L'&':	quoted += L"&amp;";	break;
+			case L'<':	quoted += L"&lt;";	break;
+			case L'>':	quoted += L"&gt;";	break;
+			default:	quoted += c;		break;
+			}
+		}
+
+		return quoted;
+	}
+
+
+	/* Decodes in place the escapes QuoteXmlText writes, "&lt;", "&gt;" and "&amp;", in an
+	   attribute value, which XmlGetAttributeText returns as written */
+	static void UnquoteXmlText (char *text)
+	{
+		char *in = text;
+		char *out = text;
+
+		while (*in)
+		{
+			if (strncmp (in, "&lt;", 4) == 0)
+			{
+				*out++ = '<';
+				in += 4;
+			}
+			else if (strncmp (in, "&gt;", 4) == 0)
+			{
+				*out++ = '>';
+				in += 4;
+			}
+			else if (strncmp (in, "&amp;", 5) == 0)
+			{
+				*out++ = '&';
+				in += 5;
+			}
+			else
+				*out++ = *in++;
+		}
+
+		*out = 0;
+	}
+
+
 	void LoadFavoriteVolumes (vector <FavoriteVolume> &favorites, bool systemFavorites, bool noUacElevation)
 	{
 		bool bVolumeIdInUse = false;
@@ -634,8 +690,32 @@ namespace VeraCrypt
 				}
 			}
 
-			XmlGetAttributeText (xml, "label", label, sizeof (label));
-			favorite.Label = Utf8StringToWide (label);
+			/* The label is read into a buffer as long as the start tag that holds it. Earlier
+			   versions wrote labels as is, so only a label marked with labelEscaped is decoded.
+			   A favorite whose label is longer than the dialog keeps is skipped: escaped, each
+			   UTF-16 unit of an accepted label takes at most 5 bytes ("&amp;"), so a longer one
+			   is rejected before Utf8StringToWide, whose buffer it could exceed. */
+			const char *tagEnd = XmlFindTagEnd (xml);
+			vector <char> labelText ((tagEnd ? (size_t) (tagEnd - xml) : strlen (xml)) + 1);
+			char labelEscaped[2];
+
+			XmlGetAttributeText (xml, "label", &labelText[0], (int) labelText.size());
+			if (strlen (&labelText[0]) > MaxFavoriteLabelLength * 5)
+			{
+				xml++;
+				continue;
+			}
+
+			XmlGetAttributeText (xml, "labelEscaped", labelEscaped, sizeof (labelEscaped));
+			if (labelEscaped[0] == '1')
+				UnquoteXmlText (&labelText[0]);
+
+			favorite.Label = Utf8StringToWide (&labelText[0]);
+			if (favorite.Label.size() > MaxFavoriteLabelLength)
+			{
+				xml++;
+				continue;
+			}
 
 			XmlGetAttributeText (xml, "pim", label, sizeof (label));
 			if (strlen(label) == 0)
@@ -816,9 +896,6 @@ namespace VeraCrypt
 			if (!IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)))
 				s += L" ID=\"" + ArrayToHexWideString (favorite.VolumeID, sizeof (favorite.VolumeID)) + L"\"";
 
-			if (!favorite.Label.empty())
-				s += L" label=\"" + favorite.Label + L"\"";
-
 			if (favorite.Pim >= 0)
 				s += L" pim=\"" + IntToWideString(favorite.Pim) + L"\"";
 
@@ -854,6 +931,22 @@ namespace VeraCrypt
 				s += L" useVolumeID=\"1\"";
 				if (!systemFavorites)
 					bVolumeIdInUse = true;
+			}
+
+			if (!favorite.Label.empty())
+			{
+				/* A '<' or '>' in the label would end the element when the file is read, so the
+				   label is escaped like the path. Earlier versions wrote labels as is, so a label
+				   that escaping changes is marked with labelEscaped, for LoadFavoriteVolumes to
+				   decode it. Other labels are written as before. XmlGetAttributeText takes the
+				   first match of a name, even inside a value, so the marker comes before the label
+				   and the label after all other attributes. */
+				wstring quotedLabel = QuoteXmlText (favorite.Label);
+
+				if (quotedLabel != favorite.Label)
+					s += L" labelEscaped=\"1\"";
+
+				s += L" label=\"" + quotedLabel + L"\"";
 			}
 
 			s += L">" + wstring (tq) + L"</volume>";
@@ -1050,7 +1143,7 @@ namespace VeraCrypt
 
 	static void SetFavoriteVolume (HWND hwndDlg, FavoriteVolume &favorite, bool systemFavoritesMode)
 	{
-		wchar_t label[1024];
+		wchar_t label[MaxFavoriteLabelLength + 1];
 		if (GetDlgItemTextW (hwndDlg, IDC_FAVORITE_LABEL, label, ARRAYSIZE (label)) != 0)
 		{
 			favorite.Label = label;
