@@ -182,7 +182,7 @@ class Checks:
         source = os.path.join(os.path.dirname(os.path.realpath(__file__)), "linux_user_fuse_fixture.c")
         self.fixture = os.path.join(self.root, "userfs")
         flags = subprocess.run(["pkg-config", "--cflags", "--libs", "fuse3"], capture_output=True, text=True, check=True).stdout.split()
-        subprocess.run(["cc", "-O2", "-Wall", "-o", self.fixture, source, *flags], check=True)
+        subprocess.run(["cc", "-O2", "-Wall", "-D_FILE_OFFSET_BITS=64", "-o", self.fixture, source, *flags], check=True)
         env_args = ["USERFS_BACKING=" + self.dirs["backing"], "USERFS_CONTROL=" + self.dirs["control"]]
         result = self.run("fixture-mount", ["env", *env_args, self.fixture, self.dirs["fuse"]], user=True)
         if result.returncode != 0:
