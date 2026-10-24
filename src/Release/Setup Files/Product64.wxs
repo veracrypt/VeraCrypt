@@ -1047,6 +1047,33 @@
 				<File Id="fil21EEF98CAEE8AF1A7263353EE9D83C38" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Whirlpool.html" Checksum="yes" DiskId="1" />
 			</Component>
 			
+			<Component Id="cmp253A4ADB518741AEA84CFB759CDC7354" Guid="{84F6F08C-669A-4662-8B35-8A544DF060B9}">
+				<File Id="filAB3F48EAD1064F76928CB161F3C209BB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Argon2id.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmp7A2FEC5E47814A0787CC9450035A2C73" Guid="{5268C412-5026-470B-BD1B-B4DF8F2C497F}">
+				<File Id="fil12F1A4CC9AA141EB831426516204219D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\BLAKE2b-512.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmp8C20CE3BF15A42BB9B6FD7A0BD2DA733" Guid="{1FAFFBCC-5C28-42BD-A363-5B205A6A3147}">
+				<File Id="fil89DF35FF1FF74BDFB4A19854D0816B4D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Command Line Usage for Unix.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmpF370C522DD7B4933B150640A95975B71" Guid="{A7583498-498D-467A-AA0A-F383D7B08B1D}">
+				<File Id="filC6794FA24A7C492C952D5F1E97101AA3" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Command Line Usage for Windows.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmpE025235A4D6D4EF4904551D598D5BC85" Guid="{E2FCBBF9-F065-4BFE-8021-03C8CCF604DA}">
+				<File Id="filC6094863948A4D17ADAA69A03F5FE2B6" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\EFISecureBoot.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmpECFB49BE3B8F44EC9D695F685C119E11" Guid="{7219846E-8A60-4FA6-839F-0D8D92FD35C5}">
+				<File Id="fil56F75C241EC2401B9BAC6DFCF76ACB92" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Key Derivation Algorithms.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmpADAB92D8F6E3411C842AD3A1ED3EF070" Guid="{E2BE7D11-5616-415D-B032-C6BB26E2257C}">
+				<File Id="fil9ED3C4ED160F403FA8C41A61039ECCED" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\SM4.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmpBFD76C8FD6DC430FA78BCB654EE6DC69" Guid="{203F110B-903E-44D0-AC18-80D04E880BB4}">
+				<File Id="filFF282C0CF9304574B6A7B27001406683" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\donation.js" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmp048E8A228D954DB5A8C3A74EB24A7659" Guid="{4578467B-D00C-4BBF-A069-2693BD22A779}">
+				<File Id="filB711985A2F664EF68AD78DFEA10E6031" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\pbkdf2.html" Checksum="yes" DiskId="1" />
+			</Component>
 		</DirectoryRef>
 		
 	   <DirectoryRef Id="ENGUIDEHTMLFOLDER">
@@ -1688,6 +1715,27 @@
 			</Component>
 			<Component Id="cmpCB7AD9B47FC8C557168958B7EC0363D5" Guid="{5FC67C64-1AE4-49E0-8341-438316E349E9}">
 				<File Id="fil025AA83D381AD8CED0AB1CA421211A87" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Whirlpool.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmpDD3024EC10E04E8BB2E33E92F1070695" Guid="{56E167D7-A189-406C-B989-4F718D78A83D}">
+				<File Id="filC6BD5356C08741CF8B7E45E524366B9D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Argon2id.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmpA186EE5F9D804F97A9BC6C814598CB77" Guid="{B9DC0DD8-9543-43FF-8265-F26F79DA04EA}">
+				<File Id="filF3CD1013B60C4CC6A29570D854D08D0D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\BLAKE2b-512.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmp67B0B2337DD441408E9A31E7B126FC8C" Guid="{02E2F02A-CA17-4E98-B492-FC92C03C4BFA}">
+				<File Id="fil9F559CA0D95C4290B88F4CF5F8A64288" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\EFISecureBoot.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmp54211D53C7494B558AF7BAA04163BD93" Guid="{7C9F59A3-8438-4DC7-8D21-62D427393979}">
+				<File Id="fil4D388CBBD6BB43E9B10AF27819BCA406" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\Key Derivation Algorithms.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmp0A69C59E80454597A832976EF3216E4F" Guid="{72740229-3C77-4EB8-912E-5715ECF163F6}">
+				<File Id="fil29B1DE96B92A4F058B5A9BE612869790" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\SM4.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmp606738E3EA2E4875B608D7B4816991B6" Guid="{89F6FB39-747F-4468-8711-1F177A34700F}">
+				<File Id="fil596F4F0323A842B7BE7324404BB2065E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\donation.js" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmp2BD9A157DDC54DD79866222D245F4542" Guid="{DD91B4E6-D9A7-42DC-B102-73FD36CF7277}">
+				<File Id="filF0780C232A6947BE8DE299B5BCFC32CC" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\ru\pbkdf2.html" Checksum="yes" DiskId="1" />
 			</Component>
 		</DirectoryRef>
 
@@ -2331,6 +2379,27 @@
 	   	<Component Id="cmp905E2A8598A42BC0BB5100E24CAFF3A1" Guid="{A724DE56-E62F-1942-5017-0DC5926838B0}">
 	   		<File Id="fil00E560A1DCA267BFCFD074392C9B0A49" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Whirlpool.html" Checksum="yes" DiskId="1" />
 	   		</Component>
+			<Component Id="cmp063D6F97C58848178289DCC4F4BE59C0" Guid="{B5961789-8922-446F-BECC-EBE4E6E8830D}">
+				<File Id="fil3470875B38B8405FBC61CBDCE2E56045" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Argon2id.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmpBB870E1465D04589BCD456A65679326F" Guid="{63DA7993-98FF-4EB0-9AA4-7B8568568AA8}">
+				<File Id="filE8A9A24DBB83435394F6DE6C391FC151" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\BLAKE2b-512.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmp6C09FC311A81424A9F26BB77096395DE" Guid="{B6874756-7F53-4E38-BD56-7C6EA6EC3409}">
+				<File Id="fil0EF12CCB59CD4AFEB60DAD40B3CECA16" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\EFISecureBoot.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmp852D8B5D7F554AF8A782F9531206CC0E" Guid="{6FAA9F26-0265-4ECF-BE18-F5F7995DEF03}">
+				<File Id="filBB2E0AEDFF5A454A8EFA0340B138DE8E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\Key Derivation Algorithms.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmp1B77CC03DE924D6BA24CAC4791454059" Guid="{7F842737-C060-4FE7-9F7E-EFBD5CF327A8}">
+				<File Id="fil193EC9710534484FA3751AA7F720494A" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\SM4.html" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmpD0DA63DF0F7C46A29AA675471852A158" Guid="{2A89827C-D744-4B1D-BC1C-F5DF13869049}">
+				<File Id="fil3BCEC85D2CF44B46A4C36DC1B0F04DD2" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\donation.js" Checksum="yes" DiskId="1" />
+			</Component>
+			<Component Id="cmp25EA022E2EA34537A7A7128B14925097" Guid="{66DF9864-4DB9-46A2-B477-92506165060E}">
+				<File Id="fil6BD148F61737451E9C14B7A2A214F0AC" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\zh-cn\pbkdf2.html" Checksum="yes" DiskId="1" />
+			</Component>
 	   	</DirectoryRef>
 
 		<DirectoryRef Id="ZHCNGUIDEHTMLFOLDER">
@@ -3351,6 +3420,29 @@
 			<ComponentRef Id="cmpCD5E7723D74CF9A159E484772F3CFB8C" />
 			<ComponentRef Id="cmp89605BCCD5003961A8FE31B316D29110" />
 			
+			<ComponentRef Id="cmp253A4ADB518741AEA84CFB759CDC7354" />
+			<ComponentRef Id="cmp7A2FEC5E47814A0787CC9450035A2C73" />
+			<ComponentRef Id="cmp8C20CE3BF15A42BB9B6FD7A0BD2DA733" />
+			<ComponentRef Id="cmpF370C522DD7B4933B150640A95975B71" />
+			<ComponentRef Id="cmpE025235A4D6D4EF4904551D598D5BC85" />
+			<ComponentRef Id="cmpECFB49BE3B8F44EC9D695F685C119E11" />
+			<ComponentRef Id="cmpADAB92D8F6E3411C842AD3A1ED3EF070" />
+			<ComponentRef Id="cmpBFD76C8FD6DC430FA78BCB654EE6DC69" />
+			<ComponentRef Id="cmp048E8A228D954DB5A8C3A74EB24A7659" />
+			<ComponentRef Id="cmpDD3024EC10E04E8BB2E33E92F1070695" />
+			<ComponentRef Id="cmpA186EE5F9D804F97A9BC6C814598CB77" />
+			<ComponentRef Id="cmp67B0B2337DD441408E9A31E7B126FC8C" />
+			<ComponentRef Id="cmp54211D53C7494B558AF7BAA04163BD93" />
+			<ComponentRef Id="cmp0A69C59E80454597A832976EF3216E4F" />
+			<ComponentRef Id="cmp606738E3EA2E4875B608D7B4816991B6" />
+			<ComponentRef Id="cmp2BD9A157DDC54DD79866222D245F4542" />
+			<ComponentRef Id="cmp063D6F97C58848178289DCC4F4BE59C0" />
+			<ComponentRef Id="cmpBB870E1465D04589BCD456A65679326F" />
+			<ComponentRef Id="cmp6C09FC311A81424A9F26BB77096395DE" />
+			<ComponentRef Id="cmp852D8B5D7F554AF8A782F9531206CC0E" />
+			<ComponentRef Id="cmp1B77CC03DE924D6BA24CAC4791454059" />
+			<ComponentRef Id="cmpD0DA63DF0F7C46A29AA675471852A158" />
+			<ComponentRef Id="cmp25EA022E2EA34537A7A7128B14925097" />
 		</Feature>
 			
 		<Feature 	Id="Install_Registry"

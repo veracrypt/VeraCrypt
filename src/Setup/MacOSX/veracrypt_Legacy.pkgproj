@@ -1062,7 +1062,7 @@ https://macfuse.github.io/
 				</dict>
 			</array>
 			<key>NAME</key>
-			<string>VeraCrypt Legacy 10</string>
+			<string>VeraCrypt Legacy 1.26.30</string>
 			<key>PAYLOAD_ONLY</key>
 			<false/>
 			<key>TREAT_MISSING_PRESENTATION_DOCUMENTS_AS_WARNING</key>

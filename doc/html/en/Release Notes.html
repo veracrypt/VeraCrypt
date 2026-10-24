@@ -34,26 +34,36 @@
 <div class="wikidoc">
 <h1>Release Notes</h1>
 
-<p><strong>Unreleased changes</strong></p>
+<p><strong style="text-align:left">1.26.30</strong> (October 24<sup>th</sup>, 2026):</p>
 <ul>
 <li><strong>All OSes:</strong>
 	<ul>
 	<li>Security: Improve erasure of security token data and limit smart card responses to prevent hangs or excessive memory use.</li>
+	<li>Fix unintended reuse of the current PIM when switching KDFs in the password-change and header-KDF dialogs. The selected KDF's default PIM is now used unless a new PIM is explicitly specified.</li>
 	<li>Fix cryptographic errors on processors using big endian byte order. Prevent alignment crashes on affected processors, including 32 bit ARM (GH #1899, GH #1908, GH #1909).</li>
+	<li>Fix ChaCha output when processing successive partial blocks.</li>
 	<li>Improve encryption worker error handling and wait for active work to finish before shutdown.</li>
+	<li>Update translations and correct missing entries, formatting placeholders and escaped punctuation.</li>
+	<li>Expand documentation for EFI Secure Boot certificate migration, KDF selection, supported operating systems and Windows builds.</li>
 	</ul>
 </li>
 <li><strong>Windows:</strong>
 	<ul>
-	<li>Security: Protect system encryption recovery backups and Windows feature update support files. Reject untrusted backup migration and driver sources, and warn when an encrypted system's original loader backup is unavailable. Retain recovery backups during uninstall and keep Windows Setup configuration failures independent of boot-loader repair.</li>
+	<li>Security: Fix insufficient protection of system encryption support files that could enable local privilege escalation during a qualifying Windows feature update or tampering with the BIOS loader during restoration (<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-w98h-pqh6-wfjj" target="_blank">GHSA-w98h-pqh6-wfjj</a>). Protect setup scripts, driver packages and recovery backups, and reject untrusted legacy backups and driver sources.</li>
 	<li>Security: Fix a local disclosure of limited disk metadata (<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-9mgv-w2fw-3m78" target="_blank">CVE-2026-77572</a>).</li>
-	<li>Fix driver stability regressions reported with VeraCrypt 1.26.29 and improve cleanup during mounting and dismounting.</li>
+	<li>Fix driver stability regressions reported with VeraCrypt 1.26.29 and improve cleanup during mounting and dismounting. Restore the previous I/O completion behavior and disable ordered flush barriers by default.</li>
+	<li>Handle processor state-save failures safely during key derivation and fix KDF worker completion and startup cleanup.</li>
+	<li>Improve system encryption setup and upgrade failure handling. Retain recovery backups during uninstall, warn when an encrypted system's original loader backup is unavailable, and keep Windows Setup configuration failures independent of boot-loader repair.</li>
 	<li>Prevent incompatible EFI bootloader installation when Secure Boot is enabled. Refresh the Windows Boot Manager copy from compatible Windows files.</li>
 	<li>Warn when installed boot components need CA migration and prompt users to recreate the Rescue Disk after bootloader certificate changes.</li>
 	<li>Correct dismount status reporting and drive removal notifications, including command line dismounts (GH #1852).</li>
+	<li>Prevent repeated errors when a favorite set to mount on device arrival has a drive letter already occupied by another device.</li>
+	<li>Update stored favorite volume PIM/KDF metadata after password or header KDF changes.</li>
+	<li>Fix <code>Argon2</code> and <code>Argon2id</code> command line aliases, and accept <code>n</code> to disable <code>/protectScreen</code> and <code>/protectMemory</code>.</li>
 	<li>Fix windows and dialogs appearing off screen or on the wrong monitor (GH #1858, GH #1865, GH #1912).</li>
 	<li>Fix favorite labels containing XML characters and prevent label text from changing saved mount options (GH #1946).</li>
 	<li>Preserve Unicode paths and literal XML entity text in saved settings. Prevent extra carriage returns from accumulating when configuration files are rewritten.</li>
+	<li>Fix partially translated interfaces and untranslated menu items and benchmark controls (GH #1587, GH #1929, GH #1930).</li>
 	<li>Update bundled zlib to 1.3.2 and LZMA SDK to 26.02.</li>
 	</ul>
 <p><strong>Favorite labels when downgrading:</strong> Back up your ordinary and system favorite volume configuration files before downgrading. Older versions can display XML escapes in labels and keep that text when saving, even after you upgrade again. Restore your backups or correct the labels after returning to this version.</p>
@@ -61,27 +71,37 @@
 </li>
 <li><strong>Linux, macOS and BSD:</strong>
 	<ul>
-	<li>Security: Fix memory safety errors when processing requests in the privileged service (<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-4j3p-7hp7-xw73" target="_blank">CVE-2026-77372</a>).</li>
+	<li>Security: Fix a heap buffer overflow, out-of-bounds reads and excessive memory allocations when deserializing requests in the privileged service (<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-4j3p-7hp7-xw73" target="_blank">CVE-2026-77372</a>).</li>
+	<li>Security: Prevent privileged-service communication and authentication file descriptors from leaking into child processes.</li>
+	<li>Detect CPU features before starting core services so mounted volumes use available hardware acceleration. Correct failed instruction probes on older processors (GH #1939).</li>
+	<li>Preserve forced read-only protection when mounting partially encrypted system volumes through FUSE.</li>
 	<li>Make unattended unmount commands return a nonzero exit status when a busy volume can't be unmounted.</li>
 	<li>Support doas when sudo isn't available, including opendoas on FreeBSD. Avoid repeated password prompts after successful authentication.</li>
 	<li>Preserve hidden volume protection when mounting favorites, including during credential retries. Keep each favorite's mount options separate.</li>
+	<li>Cache the credentials actually used to mount a volume and preserve cancellation and other non-credential errors during automatic backup-header retries.</li>
+	<li>Reject missing, oversized or incorrectly encoded <code>--stdin</code> passwords instead of silently using an empty or truncated password. Decode the complete first line using the current locale (GH #1935).</li>
 	<li>Require confirmation before replacing an existing container file during command line creation. Use <code>--force</code> to allow replacement without a prompt (GH #1861).</li>
+	<li>Honor <code>--no-size-check</code> during command line container creation (GH #1756).</li>
+	<li>Expose BLAKE2b-512 in random-pool, keyfile-generation and hash-benchmark dialogs, including when using Argon2id.</li>
+	<li>Preserve paths containing XML special characters and literal XML entity text in favorites, volume history and settings (GH #1943).</li>
+	<li>Fall back to English when a language file is unusable, and fix password-length warnings and busy-volume dismount confirmation messages (GH #1944).</li>
 	</ul>
 </li>
 <li><strong>Linux and FreeBSD:</strong>
 	<ul>
 	<li>Security: Fix a generic installer vulnerability that could let a separate local user replace the embedded package and gain root privileges (<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-wf3r-pjv3-fcxx" target="_blank">GHSA-wf3r-pjv3-fcxx</a>). Distribution packages and AppImage builds aren't affected.</li>
+	<li>Improve volume-file and tray icons, and make desktop cache updates optional when the required utilities aren't installed.</li>
 	</ul>
 </li>
 <li><strong>Linux:</strong>
 	<ul>
-	<li>Automatically mount volumes as read only when the backing block device reports write protection, even if it permits an open request with write access.</li>
+	<li>Enforce read-only protection on loop devices, all device-mapper layers and filesystems. Automatically mount volumes as read only when the backing block device reports write protection, even if it permits an open request with write access.</li>
 	<li>Forward sync requests for volumes mounted through FUSE to the backing file or device and report flush failures. Previously, a successful sync could leave data in the host cache.</li>
 	<li>Check that devices belong to the selected volume before dismount or filesystem checks. Leave externally supplied host devices attached and refuse normal dismount while a decrypted loop device remains in use.</li>
 	<li>Support writable volume files on shares that restrict root access, including GVfs and NFS with <code>root_squash</code> (GH #23). Keep the share mounted and the user session active until dismount.</li>
 	<li>Improve mounting on minimal systems, including FAT and exFAT detection. Use FUSE automatically when <code>dmsetup</code> isn't installed (GH #1898).</li>
 	<li>Support NixOS helper locations and report when launcher restrictions block administrator authentication (GH #1911).</li>
-	<li>Fix option handling and quoting in <code>mount.veracrypt</code> (GH #1895).</li>
+	<li>Rewrite <code>mount.veracrypt</code> in POSIX shell, honor read-only options and supported <code>mount(8)</code> flags, reject invalid options, and fix argument quoting (GH #1895, GH #1928).</li>
 	<li>Fix installation on systems with a merged <code>/usr</code> layout (GH #1764).</li>
 	</ul>
 </li>
@@ -92,13 +112,28 @@
 	<li>Fix mounting and dismounting crashes with macFUSE 5.3.3 and later (GH #1887).</li>
 	<li>Fix Check Filesystem and Repair Filesystem so they operate on the selected volume and show their results in Terminal (GH #1791).</li>
 	<li>Add a preference to disable screen protection, which remains enabled by default.</li>
-	<li>Avoid detaching unrelated disks when device numbers are reused after an external eject. Keep volume status updates responsive.</li>
+	<li>Improve disk-image discovery and avoid detaching unrelated disks when device numbers are reused after an external eject. Keep volume status updates responsive.</li>
 	</ul>
 <p><strong>Upgrade note for FUSE-T users:</strong> When upgrading from VeraCrypt 1.26.29, dismount your volumes and restart macOS before using the updated build. Replacing the application doesn't end services that are already running.</p>
+</li>
+<li><strong>FreeBSD:</strong>
+	<ul>
+	<li>Detect ARM64 AES and SHA-256 hardware acceleration while retaining software fallbacks.</li>
+	</ul>
 </li>
 <li><strong>OpenBSD:</strong>
 	<ul>
 	<li>Add FFS volume creation in the wizard and on the command line.</li>
+	</ul>
+</li>
+<li><strong>Building and packaging:</strong>
+	<ul>
+	<li>Fix builds with <code>NOASM</code> or <code>NOSSE2</code>, and Argon2 builds targeting x86-64-v3/v4 or XOP (GH #1891, GH #1896, GH #1906).</li>
+	<li>Fix FreeBSD ARM builds and local Apple Silicon builds (GH #1678, GH #1934). Restore Linux builds with GCC 4.4 and fix <code>INDICATOR=1</code> tray-menu builds (GH #1823).</li>
+	<li>Let wxWidgets builds follow the parent make's parallel job settings, including OpenWrt builds (GH #1903).</li>
+	<li>Remove OpenWrt's Bash dependency and preserve SDK package selections (GH #1932).</li>
+	<li>Improve macOS signing and notarization validation, and refresh app bundles before packaging.</li>
+	<li>Remove the MFC dependency from Windows driver resource compilation.</li>
 	</ul>
 </li>
 </ul>
@@ -119,7 +154,6 @@
 	<ul>
 	<li>Add Argon2id as an alternative memory-hard KDF for non-system volumes.</li>
 	<li>Use "KDF" terminology in the user interface and documentation instead of "PKCS-5 PRF".</li>
-	<li>When changing a volume password or changing only a volume header KDF, use the selected KDF's default PIM when a different KDF is selected unless a new PIM is explicitly specified.</li>
 	<li>Update logo icons with simplified icons without extra label text.</li>
 	<li>Harden XML and TLV parsers against malformed input.</li>
 	<li>Security: Fix <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-94c6-mgmv-mqc5" target="_blank">GHSA-94c6-mgmv-mqc5</a>: builds made with <code>WOLFCRYPT=1</code> now derive SHA-256 and SHA-512 volume header keys with PBKDF2 instead of HKDF and honor the configured iteration count and PIM. Official VeraCrypt binaries and standard builds aren't affected.
@@ -156,7 +190,7 @@
 <li>Fix EFI <code>DcsProp</code> rewrite handling.</li>
 <li>Fix ghost drive letter after command line unmount (GH #337, GH #1426).</li>
 <li>Fix favorite volume mount race.</li>
-<li>Update stored favorite volume PIM/KDF metadata after password or header KDF changes.</li>
+<li>Validate PIM when changing only the KDF.</li>
 <li>Fix elevated COM format drive validation and device path normalization (GH #1670).</li>
 <li>Fix ReFS formatting during volume creation.</li>
 <li>Fix MSI traveler disk creation with WHQL-signed drivers, ARM64 MSI build, Start Menu folder upgrades, and discovery of newer SDK MSI tools.</li>

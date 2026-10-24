@@ -34,6 +34,110 @@
 <div class="wikidoc">
 <h1>发行说明</h1>
 
+<p><strong style="text-align:left">1.26.30</strong> (2026年10月24日):</p>
+<ul>
+<li><strong>所有操作系统:</strong>
+	<ul>
+	<li>安全：改进安全令牌数据的擦除，并限制智能卡响应，防止程序无响应或过度占用内存。</li>
+	<li>修复在更改密码和卷头 KDF 对话框中切换 KDF 时意外沿用当前 PIM 的问题。除非明确指定新的 PIM，否则现在使用所选 KDF 的默认 PIM。</li>
+	<li>修复使用大端字节序的处理器上的加密运算错误。防止在受影响的处理器（包括 32 位 ARM）上因对齐问题发生崩溃（GH #1899, GH #1908, GH #1909）。</li>
+	<li>修复 ChaCha 连续处理非整块数据时的输出。</li>
+	<li>改进加密工作线程的错误处理，并在停止线程前等待正在执行的任务完成。</li>
+	<li>更新翻译，并修正缺失条目、格式占位符和转义标点。</li>
+	<li>补充 EFI 安全启动证书迁移、KDF 选择、支持的操作系统以及 Windows 构建相关文档。</li>
+	</ul>
+</li>
+<li><strong>Windows:</strong>
+	<ul>
+	<li>安全：修复系统加密支持文件保护不足的问题；该问题可能导致在符合特定条件的 Windows 功能更新期间发生本地提权，或在恢复过程中篡改 BIOS 引导加载程序（<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-w98h-pqh6-wfjj" target="_blank">GHSA-w98h-pqh6-wfjj</a>）。保护安装脚本、驱动程序包和恢复备份，并拒绝不可信的旧备份和驱动程序来源。</li>
+	<li>安全：修复少量磁盘元数据的本地泄露问题（<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-9mgv-w2fw-3m78" target="_blank">CVE-2026-77572</a>）。</li>
+	<li>修复 VeraCrypt 1.26.29 中报告的驱动程序稳定性回归问题，并改进挂载和卸载期间的清理。恢复之前的 I/O 完成行为，并默认禁用有序刷新屏障。</li>
+	<li>安全处理密钥推导期间处理器状态保存失败的情况，并修复 KDF 任务完成处理及工作线程启动失败时的资源清理。</li>
+	<li>改进系统加密设置和升级失败时的处理。卸载程序时保留恢复备份，在加密系统的原始引导加载程序备份不可用时发出警告，并将 Windows 安装程序配置失败的处理与引导加载程序修复分开。</li>
+	<li>防止在启用安全启动时安装不兼容的 EFI 引导加载程序。使用兼容的 Windows 文件更新 Windows 启动管理器副本。</li>
+	<li>当已安装的启动组件需要切换证书颁发机构（CA）时发出警告，并在引导加载程序证书更改后提示重新创建应急盘。</li>
+	<li>修正卸载状态报告和驱动器移除通知，包括通过命令行卸载的情况（GH #1852）。</li>
+	<li>防止在设备连接时自动挂载收藏卷因驱动器号已被其他设备占用而反复报错。</li>
+	<li>更改密码或卷头 KDF 后，现在会更新已保存的收藏卷 PIM/KDF 元数据。</li>
+	<li>修复命令行中 <code>Argon2</code> 和 <code>Argon2id</code> 别名的处理，并允许使用 <code>n</code> 禁用 <code>/protectScreen</code> 和 <code>/protectMemory</code>。</li>
+	<li>修复窗口和对话框出现在屏幕外或错误显示器上的问题（GH #1858, GH #1865, GH #1912）。</li>
+	<li>修复收藏卷的卷标包含 XML 字符时的处理问题，并防止卷标文本改变已保存的挂载选项（GH #1946）。</li>
+	<li>保留已保存设置中的 Unicode 路径和按字面保存的 XML 实体文本。防止在重写配置文件时不断累积多余的回车字符。</li>
+	<li>修复界面翻译不完整以及菜单项和基准测试控件未翻译的问题（GH #1587, GH #1929, GH #1930）。</li>
+	<li>将捆绑的 zlib 更新至 1.3.2，LZMA SDK 更新至 26.02。</li>
+	</ul>
+<p><strong>降级时的收藏卷卷标：</strong> 降级前，请备份普通收藏卷和系统收藏卷的配置文件。旧版本可能会在卷标中显示 XML 转义文本，并在保存时保留这些文本，即使再次升级后也会保留。返回此版本后，请恢复备份或修正卷标。</p>
+<p><strong>系统加密升级注意事项：</strong> 准备 Windows 功能更新前，请安装更新后的 VeraCrypt，并解决所有关于 Windows 更新支持或原始引导加载程序备份的警告。如果 Windows 安装程序已经暂存了支持文件，请重新开始功能更新准备流程，以便暂存更新后的文件；安装 VeraCrypt 不会替换之前已暂存的脚本。请保留现有的恢复备份和已确认可信的 VeraCrypt 应急盘。更改旧备份的所有者或权限并不能证明其内容安全。</p>
+</li>
+<li><strong>Linux、macOS 和 BSD:</strong>
+	<ul>
+	<li>安全：修复特权服务在反序列化请求时发生的堆缓冲区溢出、越界读取和过量内存分配问题（<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-4j3p-7hp7-xw73" target="_blank">CVE-2026-77372</a>）。</li>
+	<li>安全：防止用于特权服务通信和认证的文件描述符泄漏到子进程。</li>
+	<li>在启动核心服务前检测 CPU 特性，使已挂载卷能够使用可用的硬件加速。修复旧处理器上指令支持检测失败时的处理（GH #1939）。</li>
+	<li>通过 FUSE 挂载部分加密的系统卷时，保留强制只读保护。</li>
+	<li>无人值守运行的卸载命令在无法卸载被占用的卷时，现在会返回非零退出状态。</li>
+	<li>新增在 sudo 不可用时使用 doas 的支持，包括 FreeBSD 上的 opendoas。避免在认证成功后反复提示输入密码。</li>
+	<li>挂载收藏卷时保留隐藏卷保护，包括重试凭据时的情况。各收藏卷的挂载选项保持独立。</li>
+	<li>缓存实际用于挂载卷的凭据，并在自动尝试备用卷头时正确传递取消操作及其他与凭据无关的错误。</li>
+	<li>拒绝缺失、超长或编码错误的 <code>--stdin</code> 密码，不再静默使用空密码或截断的密码。按照当前区域设置解码完整的第一行（GH #1935）。</li>
+	<li>通过命令行创建容器时，替换现有容器文件前现在需要确认。使用 <code>--force</code> 可允许无提示替换（GH #1861）。</li>
+	<li>通过命令行创建容器时，现在会遵循 <code>--no-size-check</code>（GH #1756）。</li>
+	<li>在随机池、密钥文件生成和哈希基准测试对话框中提供 BLAKE2b-512，包括使用 Argon2id 时的情况。</li>
+	<li>在收藏卷、卷历史记录和设置中保留包含 XML 特殊字符的路径及按字面保存的 XML 实体文本（GH #1943）。</li>
+	<li>语言文件不可用时回退到英语，并修复密码长度警告和卷被占用时的卸载确认消息（GH #1944）。</li>
+	</ul>
+</li>
+<li><strong>Linux 和 FreeBSD:</strong>
+	<ul>
+	<li>安全：修复通用安装程序中的一个漏洞，该漏洞可能使另一名本地用户替换内嵌软件包并获取 root 权限（<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-wf3r-pjv3-fcxx" target="_blank">GHSA-wf3r-pjv3-fcxx</a>）。发行版软件包和 AppImage 构建不受影响。</li>
+	<li>改进卷文件和托盘图标，并在未安装所需工具时将桌面缓存更新设为可选操作。</li>
+	</ul>
+</li>
+<li><strong>Linux:</strong>
+	<ul>
+	<li>确保只读保护在 loop 设备、所有 device-mapper 层和文件系统上生效。当底层块设备报告写保护时，自动以只读方式挂载卷，即使该设备允许以写入权限打开。</li>
+	<li>将通过 FUSE 挂载的卷的同步请求转发到底层文件或设备，并报告刷新失败。此前，即使同步成功，数据仍可能留在宿主缓存中。</li>
+	<li>在卸载或检查文件系统前验证设备属于所选卷。保持外部提供的宿主设备连接，并在解密后的 loop 设备仍被使用时拒绝正常卸载。</li>
+	<li>支持以可写方式挂载位于限制 root 访问的共享资源上的卷文件，包括 GVfs 和启用 <code>root_squash</code> 的 NFS（GH #23）。卸载卷前，请保持共享资源已挂载且用户会话处于活动状态。</li>
+	<li>改进最小化系统上的挂载，包括 FAT 和 exFAT 检测。未安装 <code>dmsetup</code> 时自动使用 FUSE（GH #1898）。</li>
+	<li>支持 NixOS 的辅助程序位置，并在启动环境的限制阻止管理员认证时给出提示（GH #1911）。</li>
+	<li>使用 POSIX shell 重写 <code>mount.veracrypt</code>，遵循只读选项和受支持的 <code>mount(8)</code> 标志，拒绝无效选项，并修复参数引号处理（GH #1895, GH #1928）。</li>
+	<li>修复在采用合并 <code>/usr</code> 布局的系统上的安装问题（GH #1764）。</li>
+	</ul>
+</li>
+<li><strong>macOS:</strong>
+	<ul>
+	<li>安全：修复 FUSE-T 清理不完整、可能导致解密后的卷在卸载后仍可访问的问题（<a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-f3px-f8h2-fm4c" target="_blank">CVE-2026-108982</a>）。保护辅助挂载，并在无法确认服务已退出时给出提示。</li>
+	<li>安全：验证磁盘设备所有权的更改，并在执行特权操作时优先使用可信的系统工具（GH #1758, GH #1790）。</li>
+	<li>修复使用 macFUSE 5.3.3 及更高版本时挂载和卸载崩溃的问题（GH #1887）。</li>
+	<li>修复“检查文件系统”和“修复文件系统”功能，使其作用于所选卷并在终端中显示结果（GH #1791）。</li>
+	<li>新增用于禁用屏幕保护功能的首选项，该保护仍默认启用。</li>
+	<li>改进磁盘映像发现，避免在 VeraCrypt 之外弹出设备后，因设备编号被复用而断开无关磁盘。避免卷状态更新阻塞界面。</li>
+	</ul>
+<p><strong>FUSE-T 用户升级注意事项：</strong> 从 VeraCrypt 1.26.29 升级时，请先卸载卷并重新启动 macOS，然后再使用更新后的构建。替换应用程序不会终止已经运行的服务。</p>
+</li>
+<li><strong>FreeBSD:</strong>
+	<ul>
+	<li>新增 ARM64 AES 和 SHA-256 硬件加速检测，同时保留软件后备实现。</li>
+	</ul>
+</li>
+<li><strong>OpenBSD:</strong>
+	<ul>
+	<li>新增在向导和命令行中创建 FFS 卷的支持。</li>
+	</ul>
+</li>
+<li><strong>构建和打包:</strong>
+	<ul>
+	<li>修复使用 <code>NOASM</code> 或 <code>NOSSE2</code> 时的构建问题，以及面向 x86-64-v3/v4 或 XOP 的 Argon2 构建问题（GH #1891, GH #1896, GH #1906）。</li>
+	<li>修复 FreeBSD ARM 构建和 Apple Silicon 本机构建（GH #1678, GH #1934）。恢复使用 GCC 4.4 的 Linux 构建，并修复 <code>INDICATOR=1</code> 托盘菜单构建（GH #1823）。</li>
+	<li>wxWidgets 构建现在会遵循父 make 进程的并行任务设置，包括 OpenWrt 构建（GH #1903）。</li>
+	<li>移除 OpenWrt 对 Bash 的依赖，并保留 SDK 软件包选择（GH #1932）。</li>
+	<li>改进 macOS 签名和公证验证，并在打包前刷新应用程序包。</li>
+	<li>移除 Windows 驱动程序资源编译对 MFC 的依赖。</li>
+	</ul>
+</li>
+</ul>
+
 <p>
 <strong>给使用VeraCrypt 1.17版本或更早版本创建卷的用户的注意事项： </strong><br/>
 <span style="color:#ff0000;">为避免暴露您的卷是否包含隐藏卷，或者如果您在使用隐藏卷/操作系统时依赖似是而非的否认能力，那么您必须重新创建外部和隐藏卷，包括系统加密和隐藏操作系统，并丢弃VeraCrypt 1.18a版本之前创建的现有卷。</span></li>
@@ -52,11 +156,12 @@
 	<li>用户界面和文档中改用“KDF”术语，替代“PKCS-5 PRF”。</li>
 	<li>更新 Logo 图标，采用不带额外文字标签的简化图标。</li>
 	<li>增强 XML 和 TLV 解析器对格式错误输入的防护。</li>
-	<li>安全：修复 <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-94c6-mgmv-mqc5" target="_blank">GHSA-94c6-mgmv-mqc5</a>：非默认启用的 <code>WOLFCRYPT=1</code> 构建现在使用 wolfCrypt PBKDF2 而非 HKDF，并使用 VeraCrypt 的 PBKDF2 迭代次数。
+	<li>安全：修复 <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-94c6-mgmv-mqc5" target="_blank">GHSA-94c6-mgmv-mqc5</a>：使用 <code>WOLFCRYPT=1</code> 的构建现在以 PBKDF2 而非 HKDF 推导 SHA-256 和 SHA-512 卷头密钥，并遵循配置的迭代次数和 PIM。官方 VeraCrypt 二进制文件和标准构建不受影响。
 		<ul>
 			<li>由 https://github.com/vastblast 报告 </li>
 			<li>CVE-2026-53762</li>
 		</ul>
+		<p><strong>旧版 <code>WOLFCRYPT=1</code> 构建用户升级注意事项：</strong> 升级受影响的构建前，请在旧构建仍能挂载使用 SHA-256 或 SHA-512 的卷时备份卷内数据。使用已修复的构建重新创建这些卷，然后恢复数据。已修复的构建无法挂载卷头采用旧 HKDF 方式创建的卷。</p>
 	</li>
 	<li>修复 CPU 特性检测和加密实现中的边界情况，包括 AVX2/leaf 7 检测、x86 无 SSE2 构建中的 BLAKE2s/Argon2 后备路径、Camellia SSSE3 调度、Twofish x64 多块尾部处理以及 Whirlpool 对齐。</li>
 	<li>更新文档，包括 Argon2id/KDF 信息，并将 Windows/Unix 命令行用法拆分为独立页面。</li>
@@ -70,7 +175,7 @@
 <li>安全：修复 <a href="https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-jjcr-75w7-58jp" target="_blank">GHSA-jjcr-75w7-58jp</a>：隐藏卷快速格式化不再使用文件容器快速分配方法；该方法曾每隔 128 MiB 写入明文零扇区。此修复保持似是而非的否认性。
 	<ul>
 		<li>由 https://github.com/vastblast 报告 </li>
-		<li>此回归问题引入于 1.26.6</li>.
+		<li>此回归问题引入于 1.26.6</li>
 		<li>CVE-2026-54073</li>
 	</ul>
 </li>
