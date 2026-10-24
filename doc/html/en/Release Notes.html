@@ -52,8 +52,11 @@
 	<li>Warn when installed boot components need CA migration and prompt users to recreate the Rescue Disk after bootloader certificate changes.</li>
 	<li>Correct dismount status reporting and drive removal notifications, including command line dismounts (GH #1852).</li>
 	<li>Fix windows and dialogs appearing off screen or on the wrong monitor (GH #1858, GH #1865, GH #1912).</li>
+	<li>Fix favorite labels containing XML characters and prevent label text from changing saved mount options (GH #1946).</li>
+	<li>Preserve Unicode paths and literal XML entity text in saved settings. Prevent extra carriage returns from accumulating when configuration files are rewritten.</li>
 	<li>Update bundled zlib to 1.3.2 and LZMA SDK to 26.02.</li>
 	</ul>
+<p><strong>Favorite labels when downgrading:</strong> Back up your ordinary and system favorite volume configuration files before downgrading. Older versions can display XML escapes in labels and keep that text when saving, even after you upgrade again. Restore your backups or correct the labels after returning to this version.</p>
 <p><strong>Upgrade note for system encryption:</strong> Install the updated VeraCrypt before preparing a Windows feature update, and resolve any Windows update support or original loader backup warning. If Windows Setup has already staged support files, restart feature-update preparation so it stages the updated files; installing VeraCrypt does not replace a previously staged script. Preserve existing recovery backups and a known trustworthy VeraCrypt Rescue Disk. Changing an old backup's ownership or permissions does not establish that its contents are safe.</p>
 </li>
 <li><strong>Linux, macOS and BSD:</strong>

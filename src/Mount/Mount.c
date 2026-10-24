@@ -12245,7 +12245,7 @@ static void SaveDefaultKeyFilesParam (HWND hwnd)
 		FILE *f;
 		KeyFile *kf = FirstKeyFile;
 
-		f = _wfopen (GetConfigPath (TC_APPD_FILENAME_DEFAULT_KEYFILES), L"wt");
+		f = _wfopen (GetConfigPath (TC_APPD_FILENAME_DEFAULT_KEYFILES), L"wb");
 		if (f == NULL)
 		{
 			handleWin32Error (MainDlg, SRC_POS);
@@ -12254,7 +12254,7 @@ static void SaveDefaultKeyFilesParam (HWND hwnd)
 
 		XmlWriteHeaderUtf8 (f);
 
-		fputs ("\n\t<defaultkeyfiles>", f);
+		fputs ("\r\n\t<defaultkeyfiles>", f);
 
 		while (kf != NULL)
 		{
@@ -12267,7 +12267,7 @@ static void SaveDefaultKeyFilesParam (HWND hwnd)
 				handleWin32Error (hwnd, SRC_POS);
 				return;
 			}
-			fputs ("\n\t\t<keyfile>", f);
+			fputs ("\r\n\t\t<keyfile>", f);
 			if (XmlWriteTextUtf8 (f, q) == EOF)
 			{
 				handleWin32Error (hwnd, SRC_POS);
@@ -12279,7 +12279,7 @@ static void SaveDefaultKeyFilesParam (HWND hwnd)
 			kf = kf->Next;
 		}
 
-		fputs ("\n\t</defaultkeyfiles>", f);
+		fputs ("\r\n\t</defaultkeyfiles>", f);
 
 		XmlWriteFooterUtf8 (f);
 

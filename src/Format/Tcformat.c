@@ -600,7 +600,7 @@ static BOOL SaveSysEncSettings (HWND hwndDlg)
 		return TRUE;
 	}
 
-	f = _wfopen (GetConfigPath (TC_APPD_FILENAME_SYSTEM_ENCRYPTION), L"w,ccs=UTF-8");
+	f = _wfopen (GetConfigPath (TC_APPD_FILENAME_SYSTEM_ENCRYPTION), L"wb");
 	if (f == NULL)
 	{
 		Error ("CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS", hwndDlg);
@@ -608,17 +608,17 @@ static BOOL SaveSysEncSettings (HWND hwndDlg)
 		return FALSE;
 	}
 
-	if (XmlWriteHeader (f) < 0
+	if (XmlWriteHeaderUtf8 (f) < 0
 
-	|| fputws (L"\n\t<sysencryption>", f) < 0
+	|| fputs ("\r\n\t<sysencryption>", f) < 0
 
-	|| fwprintf (f, L"\n\t\t<config key=\"SystemEncryptionStatus\">%d</config>", SystemEncryptionStatus) < 0
+	|| fprintf (f, "\r\n\t\t<config key=\"SystemEncryptionStatus\">%d</config>", SystemEncryptionStatus) < 0
 
-	|| fwprintf (f, L"\n\t\t<config key=\"WipeMode\">%d</config>", (int) nWipeMode) < 0
+	|| fprintf (f, "\r\n\t\t<config key=\"WipeMode\">%d</config>", (int) nWipeMode) < 0
 
-	|| fputws (L"\n\t</sysencryption>", f) < 0
+	|| fputs ("\r\n\t</sysencryption>", f) < 0
 
-	|| XmlWriteFooter (f) < 0)
+	|| XmlWriteFooterUtf8 (f) < 0)
 	{
 		handleWin32Error (hwndDlg, SRC_POS);
 		fclose (f);

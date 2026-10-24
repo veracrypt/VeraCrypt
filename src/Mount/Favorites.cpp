@@ -580,7 +580,7 @@ namespace VeraCrypt
 	static const size_t MaxFavoriteLabelLength = 1023;
 
 
-	/* Escapes '&', '<' and '>' as XmlQuoteTextW does, without a limit on the length */
+	/* Escape text for a double quoted XML attribute without a fixed buffer. */
 	static wstring QuoteXmlText (const wstring &text)
 	{
 		wstring quoted;
@@ -592,6 +592,7 @@ namespace VeraCrypt
 			case L'&':	quoted += L"&amp;";	break;
 			case L'<':	quoted += L"&lt;";	break;
 			case L'>':	quoted += L"&gt;";	break;
+			case L'"':	quoted += L"&quot;";	break;
 			default:	quoted += c;		break;
 			}
 		}
@@ -600,8 +601,7 @@ namespace VeraCrypt
 	}
 
 
-	/* Decodes in place the escapes QuoteXmlText writes, "&lt;", "&gt;" and "&amp;", in an
-	   attribute value, which XmlGetAttributeText returns as written */
+	/* Decode the escapes written by QuoteXmlText in a marked label. */
 	static void UnquoteXmlText (char *text)
 	{
 		char *in = text;
@@ -623,6 +623,11 @@ namespace VeraCrypt
 			{
 				*out++ = '&';
 				in += 5;
+			}
+			else if (strncmp (in, "&quot;", 6) == 0)
+			{
+				*out++ = '"';
+				in += 6;
 			}
 			else
 				*out++ = *in++;
@@ -663,7 +668,7 @@ namespace VeraCrypt
 			DeleteFile (GetConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES));
 
 		char *xml = favoritesXml;
-		char mountPoint[MAX_PATH], volume[MAX_PATH];
+		char mountPoint[MAX_PATH], volume[MAX_PATH * 3];
 
 		if (xml == NULL)
 			return;
@@ -682,8 +687,14 @@ namespace VeraCrypt
 			XmlGetAttributeText (xml, "mountpoint", mountPoint, sizeof (mountPoint));
 			favorite.MountPoint = Utf8StringToWide (mountPoint);
 
-			XmlGetNodeText (xml, volume, sizeof (volume));
-			favorite.Path = Utf8StringToWide (volume);
+			wchar_t volumePath[MAX_PATH];
+			if (XmlGetNodeText (xml, volume, sizeof (volume)) == NULL
+				|| MultiByteToWideChar (CP_UTF8, 0, volume, -1, volumePath, ARRAYSIZE (volumePath)) == 0)
+			{
+				xml = tagEnd;
+				continue;
+			}
+			favorite.Path = volumePath;
 
 			char label[1024];
 
@@ -700,13 +711,13 @@ namespace VeraCrypt
 			/* The label is read into a buffer as long as the start tag that holds it. Earlier
 			   versions wrote labels as is, so only a label marked with labelEscaped is decoded.
 			   A favorite whose label is longer than the dialog keeps is skipped: escaped, each
-			   UTF-16 unit of an accepted label takes at most 5 bytes ("&amp;"), so a longer one
+			   UTF-16 unit of an accepted label takes at most 6 bytes ("&quot;"), so a longer one
 			   is rejected before Utf8StringToWide, whose buffer it could exceed. */
 			vector <char> labelText ((size_t) (tagEnd - xml) + 1);
 			char labelEscaped[2];
 
 			XmlGetAttributeText (xml, "label", &labelText[0], (int) labelText.size());
-			if (strlen (&labelText[0]) > MaxFavoriteLabelLength * 5)
+			if (strlen (&labelText[0]) > MaxFavoriteLabelLength * 6)
 			{
 				xml = tagEnd;
 				continue;
@@ -879,7 +890,7 @@ namespace VeraCrypt
 		int cnt = 0;
 		bool bVolumeIdInUse = false;
 
-		f = _wfopen (GetConfigPath (systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES), L"wt");
+		f = _wfopen (GetConfigPath (systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES), L"wb");
 		if (f == NULL)
 		{
 			handleWin32Error (MainDlg, SRC_POS);
@@ -889,7 +900,7 @@ namespace VeraCrypt
 		finally_do_arg (FILE*&, f, { if (finally_arg) fclose (finally_arg); });
 
 		XmlWriteHeaderUtf8 (f);
-		fputs ("\n\t<favorites>", f);
+		fputs ("\r\n\t<favorites>", f);
 
 		for (const FavoriteVolume& favorite: favorites)
 		{
@@ -900,7 +911,7 @@ namespace VeraCrypt
 
 			XmlQuoteTextW (!favorite.VolumePathId.empty() ? favorite.VolumePathId.c_str() : favorite.Path.c_str(), tq, ARRAYSIZE (tq));
 
-			wstring s = L"\n\t\t<volume mountpoint=\"" + favorite.MountPoint + L"\"";
+			wstring s = L"\r\n\t\t<volume mountpoint=\"" + favorite.MountPoint + L"\"";
 
 			if (!IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)))
 				s += L" ID=\"" + ArrayToHexWideString (favorite.VolumeID, sizeof (favorite.VolumeID)) + L"\"";
@@ -966,7 +977,7 @@ namespace VeraCrypt
 			cnt++;
 		}
 
-		fputs ("\n\t</favorites>", f);
+		fputs ("\r\n\t</favorites>", f);
 		XmlWriteFooterUtf8 (f);
 
 		if (!systemFavorites)

@@ -2307,7 +2307,7 @@ namespace VeraCrypt
 	EfiBootConf::EfiBootConf() : passwordType (0),
 		passwordMsg ("Password: "),
 		passwordPicture ("login.bmp"),
-		hashMsg ("(0) TEST ALL (1) SHA512 (2) WHIRLPOOL (3) SHA256 (4) BLAKE2S (5) STREEBOG\nHash: "),
+		hashMsg ("(0) TEST ALL (1) SHA512 (2) WHIRLPOOL (3) SHA256 (4) BLAKE2S (5) STREEBOG\r\nHash: "),
 		hashAlgo (0),
 		requestHash (0),
 		pimMsg ("PIM (Leave empty for default): "),
@@ -2397,7 +2397,7 @@ namespace VeraCrypt
 
 			string quotedValue = XmlQuoteConfigValue (configValue);
 			if (fprintf (
-					configFile, "\n\t\t<config key=\"%s\">%s</config>",
+					configFile, "\r\n\t\t<config key=\"%s\">%s</config>",
 					configKey, quotedValue.c_str()) > 0)
 			{
 				bRet = TRUE;
@@ -2463,7 +2463,7 @@ namespace VeraCrypt
 		DWORD size = 0;
 		char* configContent = LoadFile (fileName, &size);
 
-		FILE *configFile = _wfopen (fileName, L"wt");
+		FILE *configFile = _wfopen (fileName, L"wb");
 		if (configFile == NULL) {
 			burn (configContent, size);
 			free (configContent);
@@ -2472,7 +2472,7 @@ namespace VeraCrypt
 		
 
 		XmlWriteHeaderUtf8 (configFile);
-		fputs ("\n\t<configuration>", configFile);
+		fputs ("\r\n\t<configuration>", configFile);
 
 		WriteConfigInteger (configFile, configContent, "PasswordType", passwordType);
 		WriteConfigString (configFile, configContent, "PasswordMsg", passwordMsg.c_str());
@@ -2527,11 +2527,11 @@ namespace VeraCrypt
 			XmlGetNodeText (xml, value, sizeof (value));
 
 			string quotedValue = XmlQuoteConfigValue (value);
-			fprintf (configFile, "\n\t\t<config key=\"%s\">%s</config>", key, quotedValue.c_str());
+			fprintf (configFile, "\r\n\t\t<config key=\"%s\">%s</config>", key, quotedValue.c_str());
 			xml++;
 		}
 
-		fputs ("\n\t</configuration>", configFile);
+		fputs ("\r\n\t</configuration>", configFile);
 		XmlWriteFooterUtf8 (configFile);
 
 		TCFlushFile (configFile);

@@ -331,20 +331,8 @@ wchar_t *XmlQuoteTextW (const wchar_t *textSrc, wchar_t *textDst, int textDstMax
 
 #if !defined(_UEFI)
 #pragma warning( default : 4706 )
-#define TC_XML_HEADER "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<VeraCrypt>"
-#define TC_XML_FOOTER "\n</VeraCrypt>"
-
-int XmlWriteHeader (FILE *file)
-{
-	return fputws (L"" TC_XML_HEADER, file);
-}
-
-
-int XmlWriteFooter (FILE *file)
-{
-	return fputws (L"" TC_XML_FOOTER, file);
-}
-
+#define TC_XML_HEADER "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<VeraCrypt>"
+#define TC_XML_FOOTER "\r\n</VeraCrypt>"
 
 int XmlWriteHeaderUtf8 (FILE *file)
 {

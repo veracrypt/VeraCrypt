@@ -28,12 +28,10 @@ BOOL XmlTest (void);
 
 #if !defined(_UEFI)
 wchar_t *XmlQuoteTextW(const wchar_t *textSrc, wchar_t *textDst, int textDstMaxSize);
-int XmlWriteHeader (FILE *file);
-int XmlWriteFooter (FILE *file);
-/* For byte text streams. The header includes the UTF-8 byte order mark. */
+/* For binary streams. Formatting uses CRLF; the header includes the UTF-8 BOM. */
 int XmlWriteHeaderUtf8 (FILE *file);
 int XmlWriteFooterUtf8 (FILE *file);
-/* Write a complete UTF-16 string to a byte text stream. Returns EOF on failure. */
+/* Write a complete UTF-16 string to a byte stream. Returns EOF on failure. */
 int XmlWriteTextUtf8 (FILE *file, const wchar_t *text);
 /* Escape XML element text on a byte stream. Narrow input is UTF-8. */
 int XmlWriteEscapedText (FILE *file, const char *text);

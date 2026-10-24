@@ -11188,7 +11188,7 @@ BOOL ConfigWriteBegin ()
 	if (ConfigBuffer == NULL)
 		ConfigBuffer = LoadFile (GetConfigPath (TC_APPD_FILENAME_CONFIGURATION), &size);
 
-	ConfigFileHandle = _wfopen (GetConfigPath (TC_APPD_FILENAME_CONFIGURATION), L"wt");
+	ConfigFileHandle = _wfopen (GetConfigPath (TC_APPD_FILENAME_CONFIGURATION), L"wb");
 	if (ConfigFileHandle == NULL)
 	{
 		free (ConfigBuffer);
@@ -11196,7 +11196,7 @@ BOOL ConfigWriteBegin ()
 		return FALSE;
 	}
 	XmlWriteHeaderUtf8 (ConfigFileHandle);
-	fputs ("\n\t<configuration>", ConfigFileHandle);
+	fputs ("\r\n\t<configuration>", ConfigFileHandle);
 
 	return TRUE;
 }
@@ -11215,13 +11215,13 @@ BOOL ConfigWriteEnd (HWND hwnd)
 		XmlGetAttributeText (xml, "key", key, sizeof (key));
 		XmlGetNodeText (xml, value, sizeof (value));
 
-		fprintf (ConfigFileHandle, "\n\t\t<config key=\"%s\">", key);
+		fprintf (ConfigFileHandle, "\r\n\t\t<config key=\"%s\">", key);
 		XmlWriteEscapedText (ConfigFileHandle, value);
 		fputs ("</config>", ConfigFileHandle);
 		xml++;
 	}
 
-	fputs ("\n\t</configuration>", ConfigFileHandle);
+	fputs ("\r\n\t</configuration>", ConfigFileHandle);
 	XmlWriteFooterUtf8 (ConfigFileHandle);
 
 	TCFlushFile (ConfigFileHandle);
@@ -11256,7 +11256,7 @@ BOOL ConfigWriteString (char *configKey, char *configValue)
 			c[1] = '!';
 	}
 
-	return fprintf (ConfigFileHandle, "\n\t\t<config key=\"%s\">", configKey) > 0
+	return fprintf (ConfigFileHandle, "\r\n\t\t<config key=\"%s\">", configKey) > 0
 		&& XmlWriteEscapedText (ConfigFileHandle, configValue) != EOF
 		&& fputs ("</config>", ConfigFileHandle) != EOF;
 }
@@ -11275,7 +11275,7 @@ BOOL ConfigWriteStringW (char *configKey, wchar_t *configValue)
 			c[1] = '!';
 	}
 
-	return fprintf (ConfigFileHandle, "\n\t\t<config key=\"%s\">", configKey) > 0
+	return fprintf (ConfigFileHandle, "\r\n\t\t<config key=\"%s\">", configKey) > 0
 		&& XmlWriteEscapedTextUtf8 (ConfigFileHandle, configValue) != EOF
 		&& fputs ("</config>", ConfigFileHandle) != EOF;
 }

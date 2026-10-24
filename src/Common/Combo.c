@@ -216,11 +216,11 @@ void DumpCombo (HWND hComboBox, int bClear)
 		return;
 	}
 
-	f = _wfopen (GetConfigPath (TC_APPD_FILENAME_HISTORY), L"wt");
+	f = _wfopen (GetConfigPath (TC_APPD_FILENAME_HISTORY), L"wb");
 	if (f == NULL) return;
 
 	XmlWriteHeaderUtf8 (f);
-	fputs ("\n\t<history>", f);
+	fputs ("\r\n\t<history>", f);
 
 	/* combo list part:- get mru items */
 	for (i = 0; i < SIZEOF_MRU_LIST; i++)
@@ -243,7 +243,7 @@ void DumpCombo (HWND hComboBox, int bClear)
 				return;
 			}
 
-			fputs ("\n\t\t<volume>", f);
+			fputs ("\r\n\t\t<volume>", f);
 			if (XmlWriteTextUtf8 (f, q) == EOF)
 			{
 				fclose (f);
@@ -253,7 +253,7 @@ void DumpCombo (HWND hComboBox, int bClear)
 		}
 	}
 
-	fputs ("\n\t</history>", f);
+	fputs ("\r\n\t</history>", f);
 	XmlWriteFooterUtf8 (f);
 	fclose (f);
 }
