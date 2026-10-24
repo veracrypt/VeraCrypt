@@ -122,8 +122,8 @@ PRINTF_FIELD = re.compile(
     r"(I64|I32|I|hh|ll|h|l|w|z|t|j|L)?([diouxXfFeEgGaAcCsSpn])"
 )
 
-# Windows leaves quote entities undecoded. Repeated escaping also leaves entity
-# text visible, with different results from the Unix reader for &amp;quot;.
+# Windows leaves quote entities undecoded. Repeated escaping leaves entity text
+# visible instead of the intended punctuation.
 ENTRY_ENTITY = re.compile(rb"&(?:apos|quot);|&amp;(?:amp;)*(?:lt|gt|amp|apos|quot);")
 
 

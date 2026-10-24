@@ -30,8 +30,9 @@ namespace VeraCrypt
 	{
 		xmlString.Replace (L"&lt;", L"<");
 		xmlString.Replace (L"&gt;", L">");
-		xmlString.Replace (L"&amp;", L"&");
 		xmlString.Replace (L"&quot;", L"\"");
+		// Decode '&' last so escaped entity text is not interpreted a second time.
+		xmlString.Replace (L"&amp;", L"&");
 		return xmlString;
 	}
 
