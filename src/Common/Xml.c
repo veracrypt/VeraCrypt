@@ -405,6 +405,7 @@ int XmlWriteEscapedTextUtf8 (FILE *file, const wchar_t *text)
 BOOL XmlTest (void)
 {
 	char buffer[10];
+	char largeBuffer[256];
 
 	/* XmlGetAttributeText tests */
 
@@ -426,7 +427,8 @@ BOOL XmlTest (void)
 
 	/* 4. closing quote belongs to a later tag, not the current one */
 	char xmlAttrCrossTag[] = "<Node attr=\"123456789></Node><Other attr=\"test\"></Other>";
-	if (XmlGetAttributeText (xmlAttrCrossTag, "attr", buffer, sizeof (buffer)) != NULL)
+	if (XmlGetAttributeText (xmlAttrCrossTag, "attr", largeBuffer, sizeof (largeBuffer)) != NULL
+		|| largeBuffer[0] != 0 || XmlFindTagEnd (xmlAttrCrossTag) != NULL)
 		return FALSE;
 
 
@@ -462,6 +464,76 @@ BOOL XmlTest (void)
 	buffer[1] = 0;
 	if (XmlGetNodeText (xmlNodeOverflowSeed, buffer, sizeof (buffer)) != NULL || buffer[0] != 0)
 		return FALSE;
+
+	/* A label must not hide a real option or encoding marker, regardless of order. */
+	{
+		char *tags[] = {
+			"<volume label=\"Archive > readonly=\" readonly=\"1\">path</volume>",
+			"<volume readonly=\"1\" label=\"Archive > readonly=\">path</volume>",
+			"<volume label=\"&amp; labelEscaped=\" labelEscaped=\"1\">path</volume>",
+			"<volume labelEscaped=\"1\" label=\"&amp; labelEscaped=\">path</volume>"
+		};
+		int i;
+		for (i = 0; i < 4; ++i)
+		{
+			if (!XmlGetAttributeText (tags[i], i < 2 ? "readonly" : "labelEscaped", buffer, sizeof (buffer))
+				|| strcmp (buffer, "1") != 0
+				|| !XmlGetNodeText (tags[i], buffer, sizeof (buffer)) || strcmp (buffer, "path") != 0)
+				return FALSE;
+		}
+	}
+
+	/* Match complete attribute names and allow XML whitespace around '='. */
+	{
+		char xml[] = "<readonly xreadonly=\"0\" readonlyExtra=\"0\" label=\" readonly=\"\r\n\treadonly \t=\r\n\"1\" />";
+		if (!XmlGetAttributeText (xml, "readonly", buffer, sizeof (buffer)) || strcmp (buffer, "1") != 0)
+			return FALSE;
+		buffer[0] = 's';
+		if (XmlGetAttributeText (xml, "missing", buffer, sizeof (buffer)) || buffer[0] != 0)
+			return FALSE;
+	}
+
+	/* Legacy label text stays literal, even when it resembles markup. */
+	{
+		char xml[] = "<volume label=\"Old <volume copy> &lt; O'Brien\">path</volume>";
+		if (!XmlGetAttributeText (xml, "label", largeBuffer, sizeof (largeBuffer))
+			|| strcmp (largeBuffer, "Old <volume copy> &lt; O'Brien") != 0
+			|| XmlFindTagEnd (xml) != strstr (xml, "\">path") + 1)
+			return FALSE;
+	}
+
+	/* Reject a damaged tag even if the requested attribute precedes the damage. */
+	{
+		char *tags[] = {
+			"<Node attr=\"x><Other q=\"\">ok</Other>",
+			"<Node attr=\"ok\" label=\"broken >path</Node>\r\n<Other q=\"value\">next</Other>",
+			"<Node attr=\"ok\"extra=\"value\">text</Node>",
+			"<Node attr=unquoted>text</Node>",
+			"<Node attr=\"ok\" trailing>text</Node>",
+			"<Node attr=\"ok\"", "<Node", "<", ""
+		};
+		int i;
+		for (i = 0; i < sizeof (tags) / sizeof (tags[0]); ++i)
+		{
+			largeBuffer[0] = 's';
+			if (XmlFindTagEnd (tags[i])
+				|| XmlGetAttributeText (tags[i], "attr", largeBuffer, sizeof (largeBuffer)) || largeBuffer[0] != 0
+				|| XmlGetNodeText (tags[i], largeBuffer, sizeof (largeBuffer)) || largeBuffer[0] != 0)
+				return FALSE;
+		}
+	}
+
+	/* Searching by attribute must skip names inside values and distinguish absent from empty. */
+	{
+		char xml[] = "<config label=\"old <config key=\" key=\"first\">one</config>"
+			"<config\tkey=\"second\">two</config><config key=\"\">empty</config>";
+		char absent[] = "<config other=\"x\">value</config>";
+		if (XmlFindElementByAttributeValue (xml, "config", "key", "second") != strstr (xml, "<config\t")
+			|| XmlFindElementByAttributeValue (xml, "config", "key", "") != strstr (xml, "<config key=\"\"")
+			|| XmlFindElementByAttributeValue (absent, "config", "key", "") != NULL
+			|| XmlFindElement (xml + strlen (xml), "config") != NULL)
+			return FALSE;
+	}
 
 	return TRUE;
 }
