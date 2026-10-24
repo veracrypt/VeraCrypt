@@ -670,6 +670,13 @@ namespace VeraCrypt
 
 		while (xml = XmlFindElement (xml, "volume"))
 		{
+			char *tagEnd = XmlFindTagEnd (xml);
+			if (!tagEnd)
+			{
+				xml++;
+				continue;
+			}
+
 			FavoriteVolume favorite;
 
 			XmlGetAttributeText (xml, "mountpoint", mountPoint, sizeof (mountPoint));
@@ -695,14 +702,13 @@ namespace VeraCrypt
 			   A favorite whose label is longer than the dialog keeps is skipped: escaped, each
 			   UTF-16 unit of an accepted label takes at most 5 bytes ("&amp;"), so a longer one
 			   is rejected before Utf8StringToWide, whose buffer it could exceed. */
-			const char *tagEnd = XmlFindTagEnd (xml);
-			vector <char> labelText ((tagEnd ? (size_t) (tagEnd - xml) : strlen (xml)) + 1);
+			vector <char> labelText ((size_t) (tagEnd - xml) + 1);
 			char labelEscaped[2];
 
 			XmlGetAttributeText (xml, "label", &labelText[0], (int) labelText.size());
 			if (strlen (&labelText[0]) > MaxFavoriteLabelLength * 5)
 			{
-				xml++;
+				xml = tagEnd;
 				continue;
 			}
 
@@ -713,7 +719,7 @@ namespace VeraCrypt
 			favorite.Label = Utf8StringToWide (&labelText[0]);
 			if (favorite.Label.size() > MaxFavoriteLabelLength)
 			{
-				xml++;
+				xml = tagEnd;
 				continue;
 			}
 
@@ -800,7 +806,8 @@ namespace VeraCrypt
 				bVolumeIdInUse = true;
 
 			favorites.push_back (favorite);
-			xml++;
+			// Old labels may contain '<volume '. Resume after the complete start tag.
+			xml = tagEnd;
 		}
 
 		if (!systemFavorites)
@@ -938,9 +945,8 @@ namespace VeraCrypt
 				/* A '<' or '>' in the label would end the element when the file is read, so the
 				   label is escaped like the path. Earlier versions wrote labels as is, so a label
 				   that escaping changes is marked with labelEscaped, for LoadFavoriteVolumes to
-				   decode it. Other labels are written as before. XmlGetAttributeText takes the
-				   first match of a name, even inside a value, so the marker comes before the label
-				   and the label after all other attributes. */
+				   decode it. Other labels are written as before. Keep the label last so that
+				   older readers don't mistake text inside it for another attribute. */
 				wstring quotedLabel = QuoteXmlText (favorite.Label);
 
 				if (quotedLabel != favorite.Label)

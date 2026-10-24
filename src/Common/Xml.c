@@ -32,34 +32,72 @@ static BOOL BeginsWith (char *string, char *subString)
 }
 
 
-/* Returns the '>' that ends the start tag at xmlNode, or NULL. A '>' inside an attribute value
-   does not end it: earlier versions wrote the labels of favorite volumes unescaped. A value
-   starts at a '"' that follows '=' and ends at the next '"'. */
+static BOOL XmlIsSpace (char c)
+{
+	return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+}
+
+
+static BOOL XmlIsNameChar (char c)
+{
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9') || c == '_' || c == '-' || c == '.' || c == ':';
+}
+
+
+/* Read the complete start tag before accepting an attribute. VeraCrypt writes
+   double quoted values. Raw '<' and '>' inside them are kept for old favorites.
+   Checking the syntax after each value also rejects a missing closing quote
+   that would otherwise consume the opening quote of a later element. */
+static char *XmlParseStartTag (char *xmlNode, const char *xmlAttrName, char **value, size_t *valueLen)
+{
+	char *t = xmlNode;
+	size_t wantedLen = xmlAttrName ? strlen (xmlAttrName) : 0;
+
+	if (!t || *t != '<') return NULL;
+	++t;
+	if (!XmlIsNameChar (*t)) return NULL;
+	while (XmlIsNameChar (*t)) ++t;
+
+	for (;;)
+	{
+		char *name, *text;
+		size_t nameLen;
+
+		if (*t == '>') return t;
+		if (*t == '/' && t[1] == '>') return t + 1;
+		if (!XmlIsSpace (*t)) return NULL;
+		while (XmlIsSpace (*t)) ++t;
+		if (*t == '>') return t;
+		if (*t == '/' && t[1] == '>') return t + 1;
+
+		name = t;
+		while (XmlIsNameChar (*t)) ++t;
+		nameLen = (size_t) (t - name);
+		if (nameLen == 0) return NULL;
+		while (XmlIsSpace (*t)) ++t;
+		if (*t != '=') return NULL;
+		++t;
+		while (XmlIsSpace (*t)) ++t;
+		if (*t != '"') return NULL;
+		text = ++t;
+		t = strchr (text, '"');
+		if (!t) return NULL;
+
+		if (xmlAttrName && !*value && nameLen == wantedLen && memcmp (name, xmlAttrName, nameLen) == 0)
+		{
+			*value = text;
+			*valueLen = (size_t) (t - text);
+		}
+		++t;
+	}
+}
+
+
+/* Returns the '>' ending a valid start tag, ignoring angle brackets in values. */
 char *XmlFindTagEnd (char *xmlNode)
 {
-	char *t;
-	char last = 0;
-	BOOL inValue = FALSE;
-
-	for (t = xmlNode; *t; t++)
-	{
-		if (inValue)
-		{
-			if (*t == '"')
-			{
-				inValue = FALSE;
-				last = '"';
-			}
-		}
-		else if (*t == '"' && last == '=')
-			inValue = TRUE;
-		else if (*t == '>')
-			return t;
-		else if (*t != ' ' && *t != '\t' && *t != '\r' && *t != '\n')
-			last = *t;
-	}
-
-	return NULL;
+	return XmlParseStartTag (xmlNode, NULL, NULL, NULL);
 }
 
 
@@ -83,11 +121,13 @@ char *XmlFindElement (char *xmlNode, char *nodeName)
 	char *t = xmlNode;
 	size_t nameLen = strlen (nodeName);
 
+	if (!t || !*t || nameLen == 0) return NULL;
+
 	do
 	{
-		if (BeginsWith (t + 1, nodeName)
+		if (*t == '<' && BeginsWith (t + 1, nodeName)
 			&& (t[nameLen + 1] == '>'
-			|| t[nameLen + 1] == ' ')) return t;
+			|| XmlIsSpace (t[nameLen + 1]))) return t;
 
 	} while (t = XmlNextNode (t));
 
@@ -101,11 +141,11 @@ char *XmlFindElementByAttributeValue (char *xml, char *nodeName, const char *att
 
 	while (xml = XmlFindElement (xml, nodeName))
 	{
-		XmlGetAttributeText (xml, attrName, attr, sizeof (attr));
-		if (strcmp (attr, attrValue) == 0)
+		char *tagEnd = XmlFindTagEnd (xml);
+		if (XmlGetAttributeText (xml, attrName, attr, sizeof (attr)) && strcmp (attr, attrValue) == 0)
 			return xml;
 
-		xml++;
+		xml = tagEnd ? tagEnd : xml + 1;
 	}
 
 	return NULL;
@@ -114,49 +154,19 @@ char *XmlFindElementByAttributeValue (char *xml, char *nodeName, const char *att
 
 char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttrValue, int xmlAttrValueSize)
 {
-	char *t = xmlNode;
-	char *nodeEnd = xmlNode;
-	char *quote1, *quote2;
-	int l = 0;
+	char *value = NULL;
+	size_t valueLen = 0;
 
 	if (xmlAttrValueSize <= 0)
 		return NULL;
 
 	xmlAttrValue[0] = 0;
-	if (t[0] != '<') return NULL;
+	if (!XmlParseStartTag (xmlNode, xmlAttrName, &value, &valueLen)
+		|| !value || valueLen >= (size_t) xmlAttrValueSize)
+		return NULL;
 
-	nodeEnd = XmlFindTagEnd (nodeEnd);
-	if (nodeEnd == NULL) return NULL;
-
-	while ((t = strstr (t, xmlAttrName)) && t < nodeEnd)
-	{
-		char *o = t + strlen (xmlAttrName);
-		if (t[-1] == ' '
-			&&
-			(BeginsWith (o, "=\"")
-			|| BeginsWith (o, "= \"")
-			|| BeginsWith (o, " =\"")
-			|| BeginsWith (o, " = \""))
-			)
-			break;
-
-		t++;
-	}
-
-	if (t == NULL || t > nodeEnd) return NULL;
-
-	quote1 = strchr (t, '"');
-	if (quote1 == NULL || quote1 > nodeEnd) return NULL;
-	t = quote1 + 1;
-
-	quote2 = strchr (t, '"');
-	if (quote2 == NULL || quote2 > nodeEnd) return NULL;
-
-	l = (int)(quote2 - t);
-	if (l < 0 || l >= xmlAttrValueSize) return NULL;
-
-	memcpy (xmlAttrValue, t, l);
-	xmlAttrValue[l] = 0;
+	memcpy (xmlAttrValue, value, valueLen);
+	xmlAttrValue[valueLen] = 0;
 
 	return xmlAttrValue;
 }
