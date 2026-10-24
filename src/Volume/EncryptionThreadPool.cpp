@@ -29,7 +29,12 @@ namespace VeraCrypt
 {
 	// Called from a catch handler. Failure to copy/format an exception must not
 	// bypass completion or turn a failed operation into a successful one.
-	static bool CaptureWorkItemException (unique_ptr <Exception> &itemException) noexcept
+	static bool CaptureWorkItemException (unique_ptr <Exception> &itemException)
+#if defined(__GNUC__) && !defined(__clang__) && (__GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 6))
+		throw () // GCC did not support noexcept until version 4.6.
+#else
+		noexcept
+#endif
 	{
 		try
 		{
@@ -309,7 +314,7 @@ namespace VeraCrypt
 				};
 
 				make_shared_auto (Thread, thread);
-				unique_ptr <ThreadFunctor> functor (new ThreadFunctor ());
+				unique_ptr <Functor> functor (new ThreadFunctor ());
 				// Allocate the list entry before starting a thread that cleanup must join.
 				RunningThreads.push_back (thread);
 				try

@@ -13,7 +13,12 @@
 #ifndef TC_HEADER_Volume_EncryptionThreadPool
 #define TC_HEADER_Volume_EncryptionThreadPool
 
+// GCC 4.4 (CentOS 6) provides the atomic types under the old header name.
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+#include <cstdatomic>
+#else
 #include <atomic>
+#endif
 #include "Platform/Platform.h"
 #include "EncryptionMode.h"
 
