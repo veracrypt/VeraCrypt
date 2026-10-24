@@ -27,6 +27,7 @@ ifndef TC_NO_GUI
 OBJS += FatalErrorHandler.o
 OBJS += GraphicUserInterface.o
 ifeq "$(PLATFORM)" "MacOSX"
+OBJS += MacOSXAppActivation.o
 OBJS += MacOSXSecureTextFieldHotkeys.o
 endif
 OBJS += VolumeHistory.o
