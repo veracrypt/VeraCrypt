@@ -75,7 +75,12 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	BOOL bAutoCachePassword = mount->bProtectHiddenVolume? FALSE : mount->bCache;
 
 	Extension->pfoDeviceFile = NULL;
+	Extension->pfoDirectDeviceFile = NULL;
+	Extension->pDirectFsdDevice = NULL;
+	Extension->pfoFastIoDeviceFile = NULL;
+	Extension->pFastIoFsdDevice = NULL;
 	Extension->hDeviceFile = NULL;
+	Extension->hFastIoDeviceFile = NULL;
 	Extension->bTimeStampValid = FALSE;
 
 	/* default value for storage alignment */
@@ -447,17 +452,68 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	}
 	else
 	{
-		// Try to gain "raw" access to the partition in case there is a live filesystem on it (otherwise,
-		// the NTFS driver guards hidden sectors and prevents mounting using a backup header e.g. after the user
-		// accidentally quick-formats a dismounted partition-hosted TrueCrypt volume as NTFS).
-
-		PFILE_OBJECT pfoTmpDeviceFile = NULL;
-
-		if (NT_SUCCESS (ObReferenceObjectByHandle (Extension->hDeviceFile, FILE_ALL_ACCESS, *IoFileObjectType, KernelMode, &pfoTmpDeviceFile, NULL))
-			&& pfoTmpDeviceFile != NULL)
+		// Preserve raw access for legacy reads, including backup headers that a
+		// live filesystem would otherwise hide.
+		if (NT_SUCCESS (ObReferenceObjectByHandle (
+			Extension->hDeviceFile,
+			0,
+			*IoFileObjectType,
+			KernelMode,
+			&Extension->pfoDirectDeviceFile,
+			NULL))
+			&& Extension->pfoDirectDeviceFile != NULL)
 		{
-			TCFsctlCall (pfoTmpDeviceFile, FSCTL_ALLOW_EXTENDED_DASD_IO, NULL, 0, NULL, 0);
-			ObDereferenceObject (pfoTmpDeviceFile);
+			Extension->pDirectFsdDevice = IoGetRelatedDeviceObject (Extension->pfoDirectDeviceFile);
+			TCFsctlCall (Extension->pfoDirectDeviceFile, FSCTL_ALLOW_EXTENDED_DASD_IO, NULL, 0, NULL, 0);
+		}
+
+		if (IsMountedVolumeFastReadIoEnabled ()
+			|| (IsMountedVolumeFastWriteIoEnabled () && !Extension->bReadOnly))
+		{
+			ACCESS_MASK directAccess = GENERIC_READ;
+			NTSTATUS directStatus;
+
+			if (IsMountedVolumeFastWriteIoEnabled () && !Extension->bReadOnly)
+				directAccess |= GENERIC_WRITE;
+
+			// Direct requests are issued concurrently by queue-owned threads.
+			// Keep their asynchronous file object separate from the synchronous
+			// legacy handle and its file-object serialization.
+			directStatus = ZwCreateFile (
+				&Extension->hFastIoDeviceFile,
+				directAccess,
+				&oaFileAttributes,
+				&IoStatusBlock,
+				NULL,
+				FILE_ATTRIBUTE_NORMAL | FILE_ATTRIBUTE_SYSTEM,
+				FILE_SHARE_READ | FILE_SHARE_WRITE,
+				FILE_OPEN,
+				FILE_RANDOM_ACCESS | FILE_WRITE_THROUGH | FILE_NO_INTERMEDIATE_BUFFERING,
+				NULL,
+				0);
+
+			if (NT_SUCCESS (directStatus))
+			{
+				directStatus = ObReferenceObjectByHandle (
+					Extension->hFastIoDeviceFile,
+					0,
+					*IoFileObjectType,
+					KernelMode,
+					&Extension->pfoFastIoDeviceFile,
+					NULL);
+
+				if (NT_SUCCESS (directStatus) && Extension->pfoFastIoDeviceFile != NULL)
+				{
+					Extension->pFastIoFsdDevice = IoGetRelatedDeviceObject (Extension->pfoFastIoDeviceFile);
+					TCFsctlCall (Extension->pfoFastIoDeviceFile, FSCTL_ALLOW_EXTENDED_DASD_IO, NULL, 0, NULL, 0);
+				}
+				else
+				{
+					ZwClose (Extension->hFastIoDeviceFile);
+					Extension->hFastIoDeviceFile = NULL;
+					Extension->pfoFastIoDeviceFile = NULL;
+				}
+			}
 		}
 	}
 
@@ -910,12 +966,21 @@ error:
 	if (Extension->hDeviceFile != NULL)
 		ZwClose (Extension->hDeviceFile);
 
+	if (Extension->hFastIoDeviceFile != NULL)
+		ZwClose (Extension->hFastIoDeviceFile);
+
 	/* The cryptoInfo pointer is deallocated if the readheader routines
 	   fail so there is no need to deallocate here  */
 
 	/* Dereference the user-mode file object */
 	if (Extension->pfoDeviceFile != NULL)
 		ObDereferenceObject (Extension->pfoDeviceFile);
+
+	if (Extension->pfoDirectDeviceFile != NULL)
+		ObDereferenceObject (Extension->pfoDirectDeviceFile);
+
+	if (Extension->pfoFastIoDeviceFile != NULL)
+		ObDereferenceObject (Extension->pfoFastIoDeviceFile);
 
 	/* Free the tmp IO buffers */
 	if (readBuffer != NULL)
@@ -935,7 +1000,8 @@ void TCCloseVolume (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 		{
 			RestoreTimeStamp (Extension);
 		}
-		if (!Extension->bReadOnly && IsOrderedFlushBarriersEnabled ())
+		if (!Extension->bReadOnly
+			&& (IsOrderedFlushBarriersEnabled () || Extension->Queue.DirectHostWriteConfigured))
 		{
 			IO_STATUS_BLOCK ioStatus;
 			NTSTATUS flushStatus = ZwFlushBuffersFile (Extension->hDeviceFile, &ioStatus);
@@ -945,10 +1011,27 @@ void TCCloseVolume (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 		ZwClose (Extension->hDeviceFile);
 		Extension->hDeviceFile = NULL;
 	}
+	if (Extension->hFastIoDeviceFile != NULL)
+	{
+		ZwClose (Extension->hFastIoDeviceFile);
+		Extension->hFastIoDeviceFile = NULL;
+	}
 	if (Extension->pfoDeviceFile != NULL)
 	{
 		ObDereferenceObject (Extension->pfoDeviceFile);
 		Extension->pfoDeviceFile = NULL;
+	}
+	if (Extension->pfoDirectDeviceFile != NULL)
+	{
+		ObDereferenceObject (Extension->pfoDirectDeviceFile);
+		Extension->pfoDirectDeviceFile = NULL;
+		Extension->pDirectFsdDevice = NULL;
+	}
+	if (Extension->pfoFastIoDeviceFile != NULL)
+	{
+		ObDereferenceObject (Extension->pfoFastIoDeviceFile);
+		Extension->pfoFastIoDeviceFile = NULL;
+		Extension->pFastIoFsdDevice = NULL;
 	}
 	if (Extension->cryptoInfo)
 	{
