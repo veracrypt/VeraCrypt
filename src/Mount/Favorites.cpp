@@ -576,7 +576,27 @@ namespace VeraCrypt
 	}
 
 
-	/* Decodes in place the escapes XmlQuoteTextW writes, "&lt;", "&gt;" and "&amp;", in an
+	/* Escapes '&', '<' and '>' as XmlQuoteTextW does, without a limit on the length */
+	static wstring QuoteXmlText (const wstring &text)
+	{
+		wstring quoted;
+
+		for (wchar_t c : text)
+		{
+			switch (c)
+			{
+			case L'&':	quoted += L"&amp;";	break;
+			case L'<':	quoted += L"&lt;";	break;
+			case L'>':	quoted += L"&gt;";	break;
+			default:	quoted += c;		break;
+			}
+		}
+
+		return quoted;
+	}
+
+
+	/* Decodes in place the escapes QuoteXmlText writes, "&lt;", "&gt;" and "&amp;", in an
 	   attribute value, which XmlGetAttributeText returns as written */
 	static void UnquoteXmlText (char *text)
 	{
@@ -666,9 +686,19 @@ namespace VeraCrypt
 				}
 			}
 
-			XmlGetAttributeText (xml, "label", label, sizeof (label));
-			UnquoteXmlText (label);
-			favorite.Label = Utf8StringToWide (label);
+			/* The label is read into a buffer as long as the start tag that holds it, so that
+			   it fits however much escaping lengthens it. Earlier versions wrote labels as is,
+			   so only a label marked with labelEscaped is decoded. */
+			const char *tagEnd = strchr (xml, '>');
+			vector <char> labelText ((tagEnd ? (size_t) (tagEnd - xml) : strlen (xml)) + 1);
+			char labelEscaped[2];
+
+			XmlGetAttributeText (xml, "label", &labelText[0], (int) labelText.size());
+			XmlGetAttributeText (xml, "labelEscaped", labelEscaped, sizeof (labelEscaped));
+			if (labelEscaped[0] == '1')
+				UnquoteXmlText (&labelText[0]);
+
+			favorite.Label = Utf8StringToWide (&labelText[0]);
 
 			XmlGetAttributeText (xml, "pim", label, sizeof (label));
 			if (strlen(label) == 0)
@@ -851,12 +881,16 @@ namespace VeraCrypt
 
 			if (!favorite.Label.empty())
 			{
-				/* Escaped like the path, as a '<' or '>' in the label would end the element
-				   when the file is read. LoadFavoriteVolumes decodes it. */
-				wchar_t quotedLabel[ARRAYSIZE (tq)];
+				/* A '<' or '>' in the label would end the element when the file is read, so the
+				   label is escaped like the path. Earlier versions wrote labels as is, so a label
+				   that escaping changes is marked with labelEscaped, for LoadFavoriteVolumes to
+				   decode it. Other labels are written as before. */
+				wstring quotedLabel = QuoteXmlText (favorite.Label);
 
-				if (XmlQuoteTextW (favorite.Label.c_str(), quotedLabel, ARRAYSIZE (quotedLabel)))
-					s += L" label=\"" + wstring (quotedLabel) + L"\"";
+				s += L" label=\"" + quotedLabel + L"\"";
+
+				if (quotedLabel != favorite.Label)
+					s += L" labelEscaped=\"1\"";
 			}
 
 			if (favorite.Pim >= 0)
