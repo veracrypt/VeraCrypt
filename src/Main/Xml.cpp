@@ -177,9 +177,10 @@ namespace VeraCrypt
 
 	wxString XmlWriter::EscapeChars (wxString rawString) const
 	{
+		// '&' first, so that the entities written for the other characters are not escaped again
+		rawString.Replace (L"&", L"&amp;");
 		rawString.Replace (L"<", L"&lt;");
 		rawString.Replace (L">", L"&gt;");
-		rawString.Replace (L"&", L"&amp;");
 		rawString.Replace (L"\"", L"&quot;");
 		return rawString;
 	}
