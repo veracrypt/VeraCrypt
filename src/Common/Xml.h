@@ -14,6 +14,7 @@
 extern "C" {
 #endif
 
+char *XmlFindTagEnd (char *xmlNode);
 char *XmlNextNode (char *xmlNode);
 char *XmlFindElement (char *xmlNode, char *nodeName);
 char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttrValue, int xmlAttrValueSize);

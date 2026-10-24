@@ -32,6 +32,37 @@ static BOOL BeginsWith (char *string, char *subString)
 }
 
 
+/* Returns the '>' that ends the start tag at xmlNode, or NULL. A '>' inside an attribute value
+   does not end it: earlier versions wrote the labels of favorite volumes unescaped. A value
+   starts at a '"' that follows '=' and ends at the next '"'. */
+char *XmlFindTagEnd (char *xmlNode)
+{
+	char *t;
+	char last = 0;
+	BOOL inValue = FALSE;
+
+	for (t = xmlNode; *t; t++)
+	{
+		if (inValue)
+		{
+			if (*t == '"')
+			{
+				inValue = FALSE;
+				last = '"';
+			}
+		}
+		else if (*t == '"' && last == '=')
+			inValue = TRUE;
+		else if (*t == '>')
+			return t;
+		else if (*t != ' ' && *t != '\t' && *t != '\r' && *t != '\n')
+			last = *t;
+	}
+
+	return NULL;
+}
+
+
 char *XmlNextNode (char *xmlNode)
 {
 	char *t = xmlNode + 1;
@@ -94,7 +125,7 @@ char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttr
 	xmlAttrValue[0] = 0;
 	if (t[0] != '<') return NULL;
 
-	nodeEnd = strchr (nodeEnd, '>');
+	nodeEnd = XmlFindTagEnd (nodeEnd);
 	if (nodeEnd == NULL) return NULL;
 
 	while ((t = strstr (t, xmlAttrName)) && t < nodeEnd)
@@ -145,11 +176,11 @@ char *XmlGetNodeText (char *xmlNode, char *xmlText, int xmlTextSize)
 	if (t[0] != '<')
 		return NULL;
 
-	t = (char*) strchr (t, '>');
+	t = XmlFindTagEnd (t);
 	if (t == NULL) return NULL;
 
 	t++;
-	e = strchr (e, '<');
+	e = strchr (t, '<');
 	if (e == NULL) return NULL;
 
 	l = (int)(e - t);
