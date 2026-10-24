@@ -879,15 +879,17 @@ namespace VeraCrypt
 		int cnt = 0;
 		bool bVolumeIdInUse = false;
 
-		f = _wfopen (GetConfigPath (systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES), L"w,ccs=UTF-8");
+		f = _wfopen (GetConfigPath (systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES), L"wt");
 		if (f == NULL)
 		{
 			handleWin32Error (MainDlg, SRC_POS);
 			return false;
 		}
 
-		XmlWriteHeader (f);
-		fputws (L"\n\t<favorites>", f);
+		finally_do_arg (FILE*&, f, { if (finally_arg) fclose (finally_arg); });
+
+		XmlWriteHeaderUtf8 (f);
+		fputs ("\n\t<favorites>", f);
 
 		for (const FavoriteVolume& favorite: favorites)
 		{
@@ -957,12 +959,15 @@ namespace VeraCrypt
 
 			s += L">" + wstring (tq) + L"</volume>";
 
-			fwprintf (f, L"%ws", s.c_str());
+			// The CRT UTF-8 stream can split a surrogate pair while converting its
+			// internal buffers. Convert the complete record before writing bytes.
+			string utf8 = WideToUtf8String (s);
+			fwrite (utf8.data(), 1, utf8.size(), f);
 			cnt++;
 		}
 
-		fputws (L"\n\t</favorites>", f);
-		XmlWriteFooter (f);
+		fputs ("\n\t</favorites>", f);
+		XmlWriteFooterUtf8 (f);
 
 		if (!systemFavorites)
 		{
@@ -972,13 +977,12 @@ namespace VeraCrypt
 				NeedPeriodicDeviceListUpdate = FALSE;
 		}
 
+		fflush (f);
 		if (!CheckFileStreamWriteErrors (hwndDlg, f, systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES))
-		{
-			fclose (f);
 			return false;
-		}
 
 		fclose (f);
+		f = NULL;
 
 		BootEncryption bootEnc (MainDlg);
 

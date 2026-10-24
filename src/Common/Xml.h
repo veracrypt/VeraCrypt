@@ -30,6 +30,9 @@ BOOL XmlTest (void);
 wchar_t *XmlQuoteTextW(const wchar_t *textSrc, wchar_t *textDst, int textDstMaxSize);
 int XmlWriteHeader (FILE *file);
 int XmlWriteFooter (FILE *file);
+/* For byte text streams. The header includes the UTF-8 byte order mark. */
+int XmlWriteHeaderUtf8 (FILE *file);
+int XmlWriteFooterUtf8 (FILE *file);
 #endif !defined(_UEFI)
 
 #ifdef __cplusplus
