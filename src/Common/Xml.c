@@ -12,6 +12,7 @@
 #if !defined(_UEFI)
 #include <windows.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <strsafe.h>
 #else
 #include "Tcdefs.h"
@@ -354,6 +355,33 @@ int XmlWriteHeaderUtf8 (FILE *file)
 int XmlWriteFooterUtf8 (FILE *file)
 {
 	return fputs (TC_XML_FOOTER, file);
+}
+
+
+int XmlWriteTextUtf8 (FILE *file, const wchar_t *text)
+{
+	int size = WideCharToMultiByte (CP_UTF8, 0, text, -1, NULL, 0, NULL, NULL);
+	char *utf8;
+	int result = EOF;
+	DWORD error;
+	if (size == 0)
+		return EOF;
+
+	utf8 = (char *) malloc (size);
+	if (!utf8)
+	{
+		SetLastError (ERROR_NOT_ENOUGH_MEMORY);
+		return EOF;
+	}
+
+	// Convert the complete string so a CRT buffer can't split a surrogate pair.
+	if (WideCharToMultiByte (CP_UTF8, 0, text, -1, utf8, size, NULL, NULL) != 0)
+		result = fputs (utf8, file);
+
+	error = GetLastError ();
+	free (utf8);
+	SetLastError (error);
+	return result;
 }
 #endif !defined(_UEFI)
 

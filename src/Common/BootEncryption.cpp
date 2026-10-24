@@ -2396,9 +2396,9 @@ namespace VeraCrypt
 			}
 
 			string quotedValue = XmlQuoteConfigValue (configValue);
-			if ( 0 != fwprintf (
-					configFile, L"\n\t\t<config key=\"%hs\">%hs</config>",
-					configKey, quotedValue.c_str()))
+			if (fprintf (
+					configFile, "\n\t\t<config key=\"%s\">%s</config>",
+					configKey, quotedValue.c_str()) > 0)
 			{
 				bRet = TRUE;
 			}
@@ -2463,7 +2463,7 @@ namespace VeraCrypt
 		DWORD size = 0;
 		char* configContent = LoadFile (fileName, &size);
 
-		FILE *configFile = _wfopen (fileName, L"w,ccs=UTF-8");
+		FILE *configFile = _wfopen (fileName, L"wt");
 		if (configFile == NULL) {
 			burn (configContent, size);
 			free (configContent);
@@ -2471,8 +2471,8 @@ namespace VeraCrypt
 		}
 		
 
-		XmlWriteHeader (configFile);
-		fputws (L"\n\t<configuration>", configFile);
+		XmlWriteHeaderUtf8 (configFile);
+		fputs ("\n\t<configuration>", configFile);
 
 		WriteConfigInteger (configFile, configContent, "PasswordType", passwordType);
 		WriteConfigString (configFile, configContent, "PasswordMsg", passwordMsg.c_str());
@@ -2527,12 +2527,12 @@ namespace VeraCrypt
 			XmlGetNodeText (xml, value, sizeof (value));
 
 			string quotedValue = XmlQuoteConfigValue (value);
-			fwprintf (configFile, L"\n\t\t<config key=\"%hs\">%hs</config>", key, quotedValue.c_str());
+			fprintf (configFile, "\n\t\t<config key=\"%s\">%s</config>", key, quotedValue.c_str());
 			xml++;
 		}
 
-		fputws (L"\n\t</configuration>", configFile);
-		XmlWriteFooter (configFile);
+		fputs ("\n\t</configuration>", configFile);
+		XmlWriteFooterUtf8 (configFile);
 
 		TCFlushFile (configFile);
 

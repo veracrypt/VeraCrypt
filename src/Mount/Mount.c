@@ -12244,31 +12244,39 @@ static void SaveDefaultKeyFilesParam (HWND hwnd)
 		FILE *f;
 		KeyFile *kf = FirstKeyFile;
 
-		f = _wfopen (GetConfigPath (TC_APPD_FILENAME_DEFAULT_KEYFILES), L"w,ccs=UTF-8");
+		f = _wfopen (GetConfigPath (TC_APPD_FILENAME_DEFAULT_KEYFILES), L"wt");
 		if (f == NULL)
 		{
 			handleWin32Error (MainDlg, SRC_POS);
 			return;
 		}
 
-		XmlWriteHeader (f);
+		XmlWriteHeaderUtf8 (f);
 
-		fputws (L"\n\t<defaultkeyfiles>", f);
+		fputs ("\n\t<defaultkeyfiles>", f);
 
 		while (kf != NULL)
 		{
 			wchar_t q[TC_MAX_PATH * 2];
 
 			XmlQuoteTextW (kf->FileName, q, ARRAYSIZE (q));
-			fwprintf (f, L"\n\t\t<keyfile>%s</keyfile>", q);
+			fputs ("\n\t\t<keyfile>", f);
+			if (XmlWriteTextUtf8 (f, q) == EOF)
+			{
+				handleWin32Error (hwnd, SRC_POS);
+				fclose (f);
+				return;
+			}
+			fputs ("</keyfile>", f);
 
 			kf = kf->Next;
 		}
 
-		fputws (L"\n\t</defaultkeyfiles>", f);
+		fputs ("\n\t</defaultkeyfiles>", f);
 
-		XmlWriteFooter (f);
+		XmlWriteFooterUtf8 (f);
 
+		fflush (f);
 		CheckFileStreamWriteErrors (hwnd, f, TC_APPD_FILENAME_DEFAULT_KEYFILES);
 		fclose (f);
 		return;

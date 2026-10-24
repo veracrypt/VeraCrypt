@@ -11188,15 +11188,15 @@ BOOL ConfigWriteBegin ()
 	if (ConfigBuffer == NULL)
 		ConfigBuffer = LoadFile (GetConfigPath (TC_APPD_FILENAME_CONFIGURATION), &size);
 
-	ConfigFileHandle = _wfopen (GetConfigPath (TC_APPD_FILENAME_CONFIGURATION), L"w,ccs=UTF-8");
+	ConfigFileHandle = _wfopen (GetConfigPath (TC_APPD_FILENAME_CONFIGURATION), L"wt");
 	if (ConfigFileHandle == NULL)
 	{
 		free (ConfigBuffer);
 		ConfigBuffer = NULL;
 		return FALSE;
 	}
-	XmlWriteHeader (ConfigFileHandle);
-	fputws (L"\n\t<configuration>", ConfigFileHandle);
+	XmlWriteHeaderUtf8 (ConfigFileHandle);
+	fputs ("\n\t<configuration>", ConfigFileHandle);
 
 	return TRUE;
 }
@@ -11215,12 +11215,12 @@ BOOL ConfigWriteEnd (HWND hwnd)
 		XmlGetAttributeText (xml, "key", key, sizeof (key));
 		XmlGetNodeText (xml, value, sizeof (value));
 
-		fwprintf (ConfigFileHandle, L"\n\t\t<config key=\"%hs\">%hs</config>", key, value);
+		fprintf (ConfigFileHandle, "\n\t\t<config key=\"%s\">%s</config>", key, value);
 		xml++;
 	}
 
-	fputws (L"\n\t</configuration>", ConfigFileHandle);
-	XmlWriteFooter (ConfigFileHandle);
+	fputs ("\n\t</configuration>", ConfigFileHandle);
+	XmlWriteFooterUtf8 (ConfigFileHandle);
 
 	TCFlushFile (ConfigFileHandle);
 
@@ -11254,9 +11254,9 @@ BOOL ConfigWriteString (char *configKey, char *configValue)
 			c[1] = '!';
 	}
 
-	return 0 != fwprintf (
-		ConfigFileHandle, L"\n\t\t<config key=\"%hs\">%hs</config>",
-		configKey, configValue);
+	return fprintf (
+		ConfigFileHandle, "\n\t\t<config key=\"%s\">%s</config>",
+		configKey, configValue) >= 0;
 }
 
 BOOL ConfigWriteStringW (char *configKey, wchar_t *configValue)
@@ -11273,9 +11273,9 @@ BOOL ConfigWriteStringW (char *configKey, wchar_t *configValue)
 			c[1] = '!';
 	}
 
-	return 0 != fwprintf (
-		ConfigFileHandle, L"\n\t\t<config key=\"%hs\">%ls</config>",
-		configKey, configValue);
+	return fprintf (ConfigFileHandle, "\n\t\t<config key=\"%s\">", configKey) >= 0
+		&& XmlWriteTextUtf8 (ConfigFileHandle, configValue) != EOF
+		&& fputs ("</config>", ConfigFileHandle) != EOF;
 }
 
 BOOL ConfigWriteInt (char *configKey, int configValue)

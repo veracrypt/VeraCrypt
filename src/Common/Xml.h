@@ -33,6 +33,8 @@ int XmlWriteFooter (FILE *file);
 /* For byte text streams. The header includes the UTF-8 byte order mark. */
 int XmlWriteHeaderUtf8 (FILE *file);
 int XmlWriteFooterUtf8 (FILE *file);
+/* Write a complete UTF-16 string to a byte text stream. Returns EOF on failure. */
+int XmlWriteTextUtf8 (FILE *file, const wchar_t *text);
 #endif !defined(_UEFI)
 
 #ifdef __cplusplus
