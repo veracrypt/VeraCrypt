@@ -5798,11 +5798,51 @@ stop:
 	return 0;
 }
 
+/* Returns the width of the Size column of the drive list: the default width, or more if
+   that is needed to show the column title or the widest values GetSizeString produces in
+   the current language, four digits with each unit. Translated units can be wider than
+   the English ones the default width was chosen for, and some translations spell them
+   out. The margin around the text is the one LoadDriveLetters allows in the Volume
+   column. */
+static int GetDriveListSizeColumnWidth (HWND hTree)
+{
+	/* "1023 B", then "1024 KiB" up to "1024 PiB" */
+	static const unsigned __int64 widestSizes[] =
+	{
+		1023,
+		1024I64 * 1024,
+		1024I64 * 1024 * 1024,
+		1024I64 * 1024 * 1024 * 1024,
+		1024I64 * 1024 * 1024 * 1024 * 1024,
+		1024I64 * 1024 * 1024 * 1024 * 1024 * 1024
+	};
+	int margin = GetTextGfxWidth (hTree, L"___", hUserFont);
+	int columnWidth = CompensateXDPI (55);
+	int width;
+	wchar_t sizeText[64];
+	size_t i;
+
+	width = GetTextGfxWidth (hTree, GetString ("SIZE"), hUserFont) + margin;
+	if (width > columnWidth)
+		columnWidth = width;
+
+	for (i = 0; i < ARRAYSIZE (widestSizes); i++)
+	{
+		GetSizeString (widestSizes[i], sizeText, sizeof (sizeText));
+		width = GetTextGfxWidth (hTree, sizeText, hUserFont) + margin;
+		if (width > columnWidth)
+			columnWidth = width;
+	}
+
+	return columnWidth;
+}
+
 void BuildTree (HWND hwndDlg, HWND hTree)
 {
 	HIMAGELIST hList;
 	HBITMAP hBitmap, hBitmapMask;
 	LVCOLUMNW lvCol;
+	int sizeColumnWidth = GetDriveListSizeColumnWidth (hTree);
 
 	ListView_DeleteColumn (hTree,0);
 	ListView_DeleteColumn (hTree,0);
@@ -5824,14 +5864,16 @@ void BuildTree (HWND hwndDlg, HWND hTree)
 	lvCol.fmt = LVCFMT_COL_HAS_IMAGES|LVCFMT_LEFT ;
 	SendMessage (hTree,LVM_INSERTCOLUMNW,0,(LPARAM)&lvCol);
 
+	/* The Volume column, whose paths are fitted to its width, gives up what the Size
+	   column needs beyond its default width, so that the columns keep their total width */
 	lvCol.pszText = GetString ("VOLUME");
-	lvCol.cx = CompensateXDPI (200);
+	lvCol.cx = CompensateXDPI (200) - (sizeColumnWidth - CompensateXDPI (55));
 	lvCol.fmt = LVCFMT_LEFT;
 	SendMessage (hTree,LVM_INSERTCOLUMNW,1,(LPARAM)&lvCol);
 	LastDriveListVolumeColumnWidth = ListView_GetColumnWidth (hTree, 1);
 
 	lvCol.pszText = GetString ("SIZE");
-	lvCol.cx = CompensateXDPI (55);
+	lvCol.cx = sizeColumnWidth;
 	lvCol.fmt = LVCFMT_RIGHT;
 	SendMessage (hTree,LVM_INSERTCOLUMNW,2,(LPARAM)&lvCol);
 
