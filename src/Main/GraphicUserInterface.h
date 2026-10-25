@@ -168,6 +168,9 @@ public:
 #endif
 
 	private:
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+		shared_ptr <VolumeInfo> MountVolumeAndHandleProtectionError (MountOptions &options, bool &protectionError) const;
+#endif
 		shared_ptr <VolumeInfo> MountVolumeInternal (MountOptions &options, bool tryCachedPasswords, bool protectionRecovery) const;
 		GraphicUserInterface (const GraphicUserInterface &);
 		GraphicUserInterface &operator= (const GraphicUserInterface &);

@@ -191,8 +191,14 @@ namespace VeraCrypt
 	static void ThrowUnconfirmedCleanups (const list <DismountServiceCleanupFailed> &failures, const wstring &otherFailure)
 	{
 		wstring details;
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 6
+		// GCC did not support range-based for loops until version 4.6.
+		for (list <DismountServiceCleanupFailed>::const_iterator failure = failures.begin(); failure != failures.end(); ++failure)
+			details += (details.empty() ? L"" : L"\n\n") + failure->GetSubject();
+#else
 		for (const DismountServiceCleanupFailed &failure : failures)
 			details += (details.empty() ? L"" : L"\n\n") + failure.GetSubject();
+#endif
 
 		if (!otherFailure.empty())
 			details += L"\n\n" + otherFailure;

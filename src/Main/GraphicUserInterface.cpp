@@ -11,6 +11,9 @@
 */
 
 #include "System.h"
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+#include <functional>
+#endif
 #include <chrono>
 
 #ifdef TC_UNIX
@@ -935,6 +938,32 @@ namespace VeraCrypt
 		return MountVolumeInternal (options, false, true);
 	}
 
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+	shared_ptr <VolumeInfo> GraphicUserInterface::MountVolumeAndHandleProtectionError (MountOptions &options, bool &protectionError) const
+	{
+		protectionError = false;
+		try
+		{
+			return UserInterface::MountVolume (options);
+		}
+		catch (ProtectionPasswordIncorrect &e)
+		{
+			ShowWarning (e);
+		}
+		catch (ProtectionPasswordKeyfilesIncorrect &e)
+		{
+			ShowWarning (e);
+		}
+
+		protectionError = true;
+		// Keep the accepted outer credential source, including the password
+		// cache. An explicit empty list prevents default keyfiles being added.
+		if (!options.Keyfiles)
+			options.Keyfiles = make_shared <KeyfileList>();
+		return shared_ptr <VolumeInfo>();
+	}
+#endif
+
 	shared_ptr <VolumeInfo> GraphicUserInterface::MountVolumeInternal (MountOptions &options, bool tryCachedPasswords, bool protectionRecovery) const
 	{
 		CheckRequirementsForMountingVolume();
@@ -969,6 +998,11 @@ namespace VeraCrypt
 		try
 		{
 			bool protectionError = protectionRecovery;
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+			// GCC 4.4 has std::bind, but does not support lambda expressions.
+			std::function <shared_ptr <VolumeInfo> ()> mountWithProtectionRecovery = std::bind (
+				&GraphicUserInterface::MountVolumeAndHandleProtectionError, this, std::ref (options), std::ref (protectionError));
+#else
 			auto mountWithProtectionRecovery = [&] () -> shared_ptr <VolumeInfo>
 			{
 				protectionError = false;
@@ -992,6 +1026,7 @@ namespace VeraCrypt
 					options.Keyfiles = make_shared <KeyfileList>();
 				return shared_ptr <VolumeInfo>();
 			};
+#endif
 
 			if (!protectionError && tryCachedPasswords
 				&& (!options.Password || options.Password->IsEmpty())

@@ -123,10 +123,12 @@ public:
 };
 class TextUserInterface : public UserInterface {
 public:
+    shared_ptr<VolumeInfo> MountVolumeAndHandleProtectionError (MountOptions &, bool &) const;
     shared_ptr<VolumeInfo> MountVolume (MountOptions &, bool) const;
 };
 class GraphicUserInterface : public UserInterface {
 public:
+    shared_ptr<VolumeInfo> MountVolumeAndHandleProtectionError (MountOptions &, bool &) const;
     shared_ptr<VolumeInfo> MountVolumeInternal (MountOptions &, bool, bool) const;
     int GetActiveWindow () const { return 0; }
     int GetTopWindow () const { return 0; }
@@ -284,6 +286,7 @@ int main (int argc, char **argv) {
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--build-dir", type=Path, default=ROOT / "src")
+    parser.add_argument("--legacy-gcc", action="store_true", help="Exercise the GCC 4.4 mount callbacks with the current compiler")
     args = parser.parse_args()
     methods = []
     for filename, start, end in (
@@ -291,7 +294,15 @@ def main():
         ("GraphicUserInterface.cpp", "\tshared_ptr <VolumeInfo> GraphicUserInterface::MountVolumeInternal (", "\tvoid GraphicUserInterface::OnAutoDismountAllEvent"),
     ):
         source = (ROOT / "src/Main" / filename).read_text()
-        methods.append(source[source.index(start):source.index(end)])
+        helper_start = source.index("\tshared_ptr <VolumeInfo> " + filename[:-4] + "::MountVolumeAndHandleProtectionError (")
+        helper_end = source.index("\n#endif", helper_start)
+        methods.append(source[helper_start:helper_end])
+        method = source[source.index(start):source.index(end)]
+        if args.legacy_gcc:
+            method = method.replace(
+                "#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5",
+                "#if 1")
+        methods.append(method)
     with tempfile.TemporaryDirectory(prefix="vc-backup-retry-") as temporary:
         work = Path(temporary)
         unit = work / "backup_retry.cpp"

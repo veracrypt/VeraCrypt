@@ -11,6 +11,9 @@
 */
 
 #include "System.h"
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+#include <functional>
+#endif
 #ifdef TC_UNIX
 #include <signal.h>
 #include <termios.h>
@@ -1497,6 +1500,37 @@ namespace VeraCrypt
 		}
 	}
 
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+	shared_ptr <VolumeInfo> TextUserInterface::MountVolumeAndHandleProtectionError (MountOptions &options, bool &retryWithCachedPasswords) const
+	{
+		// The proxy clears options.Password after a cached attempt, so remember
+		// to reuse the cache while correcting hidden-volume credentials.
+		retryWithCachedPasswords = (!options.Password || options.Password->IsEmpty())
+			&& (!options.Keyfiles || options.Keyfiles->empty())
+			&& !Core->IsPasswordCacheEmpty();
+
+		try
+		{
+			return UserInterface::MountVolume (options);
+		}
+		catch (ProtectionPasswordIncorrect &e)
+		{
+			ShowInfo (e);
+			options.ProtectionPassword.reset();
+			options.ProtectionPim = -1;
+		}
+		catch (ProtectionPasswordKeyfilesIncorrect &e)
+		{
+			ShowInfo (e);
+			options.ProtectionPassword.reset();
+			options.ProtectionPim = -1;
+			options.ProtectionKeyfiles.reset();
+		}
+
+		return shared_ptr <VolumeInfo>();
+	}
+#endif
+
 	shared_ptr <VolumeInfo> TextUserInterface::MountVolume (MountOptions &options, bool tryCachedPasswords) const
 	{
 		shared_ptr <VolumeInfo> volume;
@@ -1542,6 +1576,11 @@ namespace VeraCrypt
 		bool retryWithCachedPasswords = false;
 		bool autoBackupHeaderUsed = false;
 
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+		// GCC 4.4 has std::bind, but does not support lambda expressions.
+		std::function <shared_ptr <VolumeInfo> ()> mountWithProtectionRecovery = std::bind (
+			&TextUserInterface::MountVolumeAndHandleProtectionError, this, std::ref (options), std::ref (retryWithCachedPasswords));
+#else
 		auto mountWithProtectionRecovery = [&] () -> shared_ptr <VolumeInfo>
 		{
 			// The proxy clears options.Password after a cached attempt, so remember
@@ -1570,6 +1609,7 @@ namespace VeraCrypt
 
 			return shared_ptr <VolumeInfo>();
 		};
+#endif
 
 		if (tryCachedPasswords
 			&& (!options.Password || options.Password->IsEmpty())

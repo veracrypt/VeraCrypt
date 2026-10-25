@@ -161,16 +161,30 @@ namespace VeraCrypt
 		{NULL, NULL, NULL}
 	};
 
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+	static bool InitializeCoreUnixProcessState ()
+	{
+		signal (SIGPIPE, SIG_IGN);
+		char *loc = setlocale (LC_ALL, "");
+		if (!loc || string (loc) == "C") setlocale (LC_ALL, "en_US.UTF-8");
+		return true;
+	}
+#endif
+
 	CoreUnix::CoreUnix ()
 	{
 		// Additional read-only core instances may be created for GUI discovery.
 		// Locale and signal disposition are process state, not instance state.
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+		static const bool initialized = InitializeCoreUnixProcessState ();
+#else
 		static const bool initialized = [] () {
 			signal (SIGPIPE, SIG_IGN);
 			char *loc = setlocale (LC_ALL, "");
 			if (!loc || string (loc) == "C") setlocale (LC_ALL, "en_US.UTF-8");
 			return true;
 		} ();
+#endif
 		(void) initialized;
 	}
 

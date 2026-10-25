@@ -92,8 +92,14 @@ namespace VeraCrypt
 			CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) uint8 buffer[TC_ALIGNMENT_PROBE_SIZE];
 		};
 
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+		// GCC 4.4 supports static_assert, but requires __alignof__ instead of alignof.
+		static_assert (__alignof__ (DerivedKeyAlignmentProbe) >= TC_DERIVED_KEY_BUFFER_ALIGNMENT, "Insufficient derived key buffer alignment");
+		static_assert (__alignof__ (KeyInfoAlignmentProbe) >= TC_KEY_INFO_BUFFER_ALIGNMENT, "Insufficient key info buffer alignment");
+#else
 		static_assert (alignof (DerivedKeyAlignmentProbe) >= TC_DERIVED_KEY_BUFFER_ALIGNMENT, "Insufficient derived key buffer alignment");
 		static_assert (alignof (KeyInfoAlignmentProbe) >= TC_KEY_INFO_BUFFER_ALIGNMENT, "Insufficient key info buffer alignment");
+#endif
 
 		static CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) uint8 derivedKeyProbe[TC_ALIGNMENT_PROBE_SIZE];
 		static CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) uint8 keyInfoProbe[TC_ALIGNMENT_PROBE_SIZE];
