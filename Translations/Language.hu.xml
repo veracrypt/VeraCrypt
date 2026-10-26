@@ -1715,6 +1715,7 @@
     <entry lang="en" key="SYSENC_STORAGE_UNTRUSTED">The VeraCryptSystem support directory under the native Common Files folder, one of its protected subdirectories, or an ancestor has unsafe ownership, permissions, or a redirected path. This prevents access to protected system encryption storage. Existing files have been preserved.\n\nHave an administrator investigate and relocate the obstructing object, then run VeraCrypt Repair/Reinstall. Do not approve an old loader backup merely by changing its ownership or permissions.</entry>
     <entry lang="en" key="SYSENC_SETUP_CONFIG_REMOVE_FAILED">VeraCrypt could not remove its Windows feature update registrations.\n\nResolve the preceding configuration error, then run VeraCrypt Repair/Reinstall to retry cleanup. Do not start a Windows feature update until these registrations have been removed.</entry>
     <entry lang="en" key="SYSENC_SETUP_CONFIG_CONFLICT">Windows Setup configuration contains a PostOOBE or ReflectDrivers registration that VeraCrypt cannot identify as its own. That registration has been preserved.\n\nHave an administrator resolve the configuration conflict, then run VeraCrypt Repair/Reinstall before starting a Windows feature update.</entry>
+    <entry lang="en" key="IDC_PREF_REMEMBER_MONITOR">Remember which monitor the main window was shown on</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

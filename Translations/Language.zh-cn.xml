@@ -1716,6 +1716,7 @@
     <entry lang="zh-cn" key="SYSENC_STORAGE_UNTRUSTED">本机 Common Files 文件夹下的 VeraCryptSystem 支持目录、其某个受保护的子目录或某个上级目录存在不安全的所有权、权限或重定向路径。这会阻止访问受保护的系统加密存储。现有文件已被保留。\n\n请让管理员调查并重新定位造成阻碍的对象，然后运行 VeraCrypt 修复/重新安装。请勿仅通过更改所有权或权限来认可旧的引导器备份。</entry>
     <entry lang="zh-cn" key="SYSENC_SETUP_CONFIG_REMOVE_FAILED">VeraCrypt 无法移除其 Windows 功能更新注册项。\n\n请解决前面的配置错误，然后运行 VeraCrypt 修复/重新安装以重试清理。在这些注册项被移除之前，请勿启动 Windows 功能更新。</entry>
     <entry lang="zh-cn" key="SYSENC_SETUP_CONFIG_CONFLICT">Windows 安装程序配置中包含一个 VeraCrypt 无法识别为其自身的 PostOOBE 或 ReflectDrivers 注册项。该注册项已被保留。\n\n请让管理员解决配置冲突，然后在启动 Windows 功能更新之前运行 VeraCrypt 修复/重新安装。</entry>
+    <entry lang="en" key="IDC_PREF_REMEMBER_MONITOR">Remember which monitor the main window was shown on</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
