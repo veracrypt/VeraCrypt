@@ -233,6 +233,8 @@ static BOOL LoadLanguageData (int resourceid, BOOL bForceSetPreferredLanguage, B
 	char *xml, *header, *headerPtr;
 	char langId[6] = "en", attr[32768], key[128];
 	BOOL defaultLangParsed = FALSE, langFound = FALSE;
+	BOOL incompatibleLangFound = FALSE;
+	char requiredVersion[128], incompatibleVersion[128] = {0};
 	WCHAR wattr[32768];
 	int i, intKey, len;
 
@@ -270,18 +272,7 @@ static BOOL LoadLanguageData (int resourceid, BOOL bForceSetPreferredLanguage, B
 		if (!xml)
 			continue;
 
-		// Required TrueCrypt version
-		XmlGetAttributeText (xml, "prog-version", attr, sizeof (attr));
-
-		// Check version of external language file
-		if (defaultLangParsed && strcmp (attr, VERSION_STRING) && strcmp (attr, "DEBUG"))
-		{
-			wchar_t m[2048];
-			StringCbPrintfW (m, sizeof(m), L"The installed language pack is incompatible with this version of VeraCrypt (the language pack is for VeraCrypt %hs). A newer version may be available at veracrypt.jp.\n\nTo prevent this message from being displayed, do any of the following:\n\n- Select 'Settings' > 'Language'; then select 'English' and click 'OK'.\n\n- Remove or replace the language pack with a compatible version (the language pack may reside e.g. in 'C:\\Program Files\\VeraCrypt' or '%%LOCALAPPDATA%%\\VirtualStore\\Program Files\\VeraCrypt', etc.)", attr);
-			if (!bForceSilent)
-				MessageBoxW (NULL, m, L"VeraCrypt", MB_ICONERROR);
-			continue;
-		}
+		XmlGetAttributeText (xml, "prog-version", requiredVersion, sizeof (requiredVersion));
 
 		// Search language id in language file
 		if (defaultLangParsed)
@@ -289,23 +280,23 @@ static BOOL LoadLanguageData (int resourceid, BOOL bForceSetPreferredLanguage, B
 			while (xml = XmlFindElement (xml, "language"))
 			{
 				XmlGetAttributeText (xml, "langid", attr, sizeof (attr));
-				if (resourceid == 0)
+				if (resourceid != 0 || strcmp (attr, langId) == 0)
 				{
-					if (strcmp (attr, langId) == 0)
+					// Unrelated old translations must not produce a dialog. Keep
+					// looking in case another file contains a compatible copy.
+					if (strcmp (requiredVersion, VERSION_STRING) && strcmp (requiredVersion, "DEBUG"))
 					{
-						XmlGetAttributeText (xml++, "version", ActiveLangPackVersion, sizeof (ActiveLangPackVersion));
-						langFound = TRUE;
+						incompatibleLangFound = TRUE;
+						StringCbCopyA (incompatibleVersion, sizeof (incompatibleVersion), requiredVersion);
 						break;
 					}
-					xml++;
-				}
-				else
-				{
-					StringCbCopyA (langId, sizeof (langId), attr);
+					if (resourceid != 0)
+						StringCbCopyA (langId, sizeof (langId), attr);
 					XmlGetAttributeText (xml++, "version", ActiveLangPackVersion, sizeof (ActiveLangPackVersion));
 					langFound = TRUE;
 					break;
 				}
+				xml++;
 			}
 
 			if (!langFound) continue;
@@ -419,6 +410,13 @@ static BOOL LoadLanguageData (int resourceid, BOOL bForceSetPreferredLanguage, B
 
 	LocalizationActive = langFound && strcmp (langId, "en") != 0;
 	LocalizationSerialNo++;
+	if (!langFound && incompatibleLangFound && !bForceSilent)
+	{
+		wchar_t message[2048];
+		StringCbPrintfW (message, sizeof (message), L"The selected language pack is for VeraCrypt %hs and is incompatible with VeraCrypt %hs. VeraCrypt will use English.\n\nInstall a compatible language pack in the Languages folder next to VeraCrypt.exe, or select English in Settings > Language.\n\nIf this followed a failed upgrade, run the new VeraCrypt installer again to complete the installation.",
+			incompatibleVersion[0] ? incompatibleVersion : "(unknown version)", VERSION_STRING);
+		MessageBoxW (NULL, message, L"VeraCrypt", MB_ICONWARNING);
+	}
 
 	if (bForceSetPreferredLanguage)
 		StringCbCopyA (PreferredLangId, sizeof (PreferredLangId), langId);
