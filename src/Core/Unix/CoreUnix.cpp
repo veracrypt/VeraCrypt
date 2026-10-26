@@ -1234,7 +1234,10 @@ namespace VeraCrypt
 					options.PartitionInSystemEncryptionScope
 					);
 
+				// The volume no longer needs the passwords; do not keep them while
+				// the service, and the process forked for it, stay running.
 				options.Password.reset();
+				options.ProtectionPassword.reset();
 			}
 			catch (SystemException &e)
 			{
@@ -1247,6 +1250,7 @@ namespace VeraCrypt
 				}
 
 				options.Password.reset();
+				options.ProtectionPassword.reset();
 				throw;
 			}
 
