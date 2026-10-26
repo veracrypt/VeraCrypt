@@ -24,6 +24,7 @@
 #include "Apidrvr.h"
 #include "BootEncryption.h"
 #include "SystemEncryptionFiles.h"
+#include "SetupService.h"
 #include "Platform/Finally.h"
 #include "Boot/Windows/BootCommon.h"
 #include "Combo.h"
@@ -121,37 +122,6 @@ BOOL bDesktopIconStatusDetermined = FALSE;
 
 /* Defined in this file, but a little bit late */
 BOOL IsSystemRestoreEnabled ();
-
-/* 
- * Same as in Setup.c
- */
-BOOL ForceCopyFile (LPCWSTR szSrcFile, LPCWSTR szDestFile)
-{
-	BOOL bRet = CopyFileW (szSrcFile, szDestFile, FALSE);
-	if (!bRet)
-	{
-		wstring renamedPath = szDestFile;
-		renamedPath += VC_FILENAME_RENAMED_SUFFIX;
-
-		/* rename the locked file in order to be able to create a new one */
-		if (MoveFileExW (szDestFile, renamedPath.c_str(), MOVEFILE_REPLACE_EXISTING))
-		{
-			bRet = CopyFileW (szSrcFile, szDestFile, FALSE);
-			if (bRet)
-			{
-				/* delete the renamed file when the machine reboots */
-				MoveFileEx (renamedPath.c_str(), NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
-			}
-			else
-			{
-				/* restore the original file name */
-				MoveFileEx (renamedPath.c_str(), szDestFile, MOVEFILE_REPLACE_EXISTING);
-			}
-		}
-	}
-
-	return bRet;
-}
 
 /* 
  * Same as in Setup.c
@@ -1225,10 +1195,7 @@ BOOL StartStopService_Dll (MSIHANDLE hInstaller, wchar_t *lpszService, BOOL bSta
 {
 	SC_HANDLE hManager, hService = NULL;
 	BOOL bOK = FALSE;
-	SERVICE_STATUS status = {0};
-	DWORD dwError, dwStartTime, dwLastProgress, dwCheckPoint = 0;
-	DWORD dwExpectedState = bStart? SERVICE_RUNNING : SERVICE_STOPPED;
-	DWORD dwPendingState = bStart? SERVICE_START_PENDING : SERVICE_STOP_PENDING;
+	DWORD dwError;
 
 	hManager = OpenSCManager (NULL, NULL, SC_MANAGER_ALL_ACCESS);
 	if (hManager == NULL)
@@ -1243,55 +1210,17 @@ BOOL StartStopService_Dll (MSIHANDLE hInstaller, wchar_t *lpszService, BOOL bSta
 	else
 		MSILog(hInstaller, MSI_INFO_LEVEL, L"STOPPING %s", lpszService);
 
-	if (bStart)
-	{
-		if (!StartService (hService, argc, argv) && (GetLastError () != ERROR_SERVICE_ALREADY_RUNNING))
-			goto error;
-	}
-	else
-		ControlService (hService, SERVICE_CONTROL_STOP, &status);
-
-	dwStartTime = dwLastProgress = GetTickCount ();
-	for (;;)
-	{
-		if (!QueryServiceStatus (hService, &status))
-			goto error;
-
-		if (status.dwCurrentState == dwExpectedState)
-		{
-			bOK = TRUE;
-			break;
-		}
-
-		if (status.dwCurrentState != dwPendingState)
-		{
-			SetLastError (status.dwWin32ExitCode ? status.dwWin32ExitCode : ERROR_SERVICE_REQUEST_TIMEOUT);
-			goto error;
-		}
-
-		DWORD dwNow = GetTickCount ();
-		if (status.dwCheckPoint > dwCheckPoint)
-		{
-			dwCheckPoint = status.dwCheckPoint;
-			dwLastProgress = dwNow;
-		}
-
-		// Honor pending-state progress, but cap the wait at the service's two-minute startup allowance.
-		if (dwNow - dwStartTime >= 120000
-			|| dwNow - dwLastProgress >= (status.dwWaitHint ? status.dwWaitHint : WAIT_PERIOD * 1000))
-		{
-			SetLastError (ERROR_SERVICE_REQUEST_TIMEOUT);
-			goto error;
-		}
-		Sleep (1000);
-	}
+	dwError = SetupService::ChangeState (hService, bStart != FALSE, argc, argv);
+	bOK = dwError == ERROR_SUCCESS;
+	SetLastError (dwError);
 
 error:
 	dwError = bOK ? ERROR_SUCCESS : GetLastError ();
 
-	if (bOK == FALSE && hService == NULL && dwError == ERROR_SERVICE_DOES_NOT_EXIST)
+	if (!bStart && bOK == FALSE && hService == NULL && dwError == ERROR_SERVICE_DOES_NOT_EXIST)
 	{
 		bOK = TRUE;
+		dwError = ERROR_SUCCESS;
 	}
 	else if (!bOK)
 		MSILog(hInstaller, MSI_ERROR_LEVEL, L"Failed to %s service %s. Error 0x%.8X", bStart ? L"start" : L"stop", lpszService, dwError);
@@ -2839,7 +2768,8 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 					});
 
 					throw_sys_if (!StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL));
-					throw_sys_if (!CopyFile (szTmp, servicePath.c_str(), FALSE));
+					DWORD copyError = SetupService::ReplaceExecutable (szTmp, servicePath);
+					if (copyError != ERROR_SUCCESS) { SetLastError (copyError); throw SystemException (SRC_POS); }
 					LPCWSTR szArgs[3] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT, VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_LOADER };
 					throw_sys_if (!StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, SystemEncryptionUpdate ? 3 : 2, szArgs));
 
