@@ -156,7 +156,7 @@
     <entry lang="sv" key="IDC_PIM_HELP">(Tomt eller 0 för standardvärden)</entry>
     <entry lang="sv" key="IDC_PREF_BKG_TASK_ENABLE">Aktiverad</entry>
     <entry lang="sv" key="IDC_PREF_CACHE_PASSWORDS">Lagra lösenord i drivrutinens minnescache</entry>
-    <entry lang="sv" key="IDC_PREF_UNMOUNT_INACTIVE">Demontera volymen automatiskt om inga data har lästs eller skrivits på den under</entry>
+    <entry lang="sv" key="IDC_PREF_UNMOUNT_INACTIVE">Demontera automatiskt om inget lästs eller skrivits på</entry>
     <entry lang="sv" key="IDC_PREF_UNMOUNT_LOGOFF">Användaren loggar ut</entry>
     <entry lang="sv" key="IDC_PREF_UNMOUNT_SESSION_LOCKED">Användarsession låst</entry>
     <entry lang="sv" key="IDC_PREF_UNMOUNT_POWERSAVING">Går in i strömsparläge</entry>
@@ -818,7 +818,7 @@
     <entry lang="sv" key="VOLUME_HEADER_DATE">Volymhuvudet senast ändrat</entry>
     <entry lang="sv" key="VOLUME_HEADER_DAYS"> (%I64d dagar sedan)</entry>
     <entry lang="sv" key="VOLUME_FORMAT_VERSION">Volymformatversion</entry>
-    <entry lang="sv" key="BACKUP_HEADER">Inbäddad säkerhetskopia av volymhuvudet</entry>
+    <entry lang="sv" key="BACKUP_HEADER">Inbäddat reservhuvud</entry>
     <entry lang="sv" key="VC_BOOT_LOADER_VERSION">Version av VeraCrypt-startinläsaren</entry>
     <entry lang="sv" key="FIRST_AVAILABLE">Första tillgängliga</entry>
     <entry lang="sv" key="REMOVABLE_DISK">Borttagningsbar disk</entry>
@@ -1306,7 +1306,7 @@
     <entry lang="sv" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Vill du att VeraCrypt ska försöka inaktivera skrivskydd för partitionen/enheten?</entry>
     <entry lang="sv" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">VARNING: Denna inställning kan ge försämrade prestanda.\n\nÄr du säker på att du vill använda denna inställning?</entry>
     <entry lang="sv" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN_TITLE">Varning: VeraCrypt-volym automatiskt demonterad</entry>
-    <entry lang="sv" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Innan du fysiskt tar bort eller stänger av en enhet som innehåller en monterad volym, bör du alltid demontera den i VeraCrypt först.\n\nOväntade spontana demonteringar orsakas oftast av en kabel, enhet (diskkabinett) eller liknande som fungerar felaktigt emellanåt.</entry>
+    <entry lang="sv" key="HOST_DEVICE_REMOVAL_UNMOUNT_WARN">Demontera alltid volymen i VeraCrypt innan du kopplar bort eller stänger av enheten.\n\nOväntade, spontana demonteringar beror oftast på en kabel, enhet (diskkabinett) eller liknande som fungerar felaktigt emellanåt.</entry>
     <entry lang="sv" key="UNSUPPORTED_TRUECRYPT_FORMAT">Den här volymen skapades med TrueCrypt %x.%x men VeraCrypt stöder endast TrueCrypt-volymer skapade med TrueCrypt 6.x/7.x-serien</entry>
     <entry lang="sv" key="TEST">Testa</entry>
     <entry lang="sv" key="KEYFILE">Nyckelfil</entry>
