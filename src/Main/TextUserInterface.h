@@ -74,6 +74,7 @@ namespace VeraCrypt
 		virtual void Yield () const { }
 
 	protected:
+		void ConfirmFileOverwrite (const FilePath &path, const wxString &message) const;
 		static void OnSignal (int signal);
 		virtual void ReadInputStreamLine (wxString &line) const;
 		virtual wxString ReadInputStreamLine () const;

@@ -460,6 +460,9 @@ namespace VeraCrypt
 		if (filePath.IsEmpty())
 			throw UserAbort (SRC_POS);
 
+		// Same prompt as the file dialog of the graphical interface
+		ConfirmFileOverwrite (filePath, wxString::Format (_("File '%s' already exists, do you really want to overwrite it?"), wstring (filePath).c_str()));
+
 		File backupFile;
 		backupFile.Open (filePath, File::CreateWrite);
 
@@ -617,27 +620,43 @@ namespace VeraCrypt
 		ShowInfo ("PASSWORD_CHANGED");
 	}
 
+	void TextUserInterface::ConfirmFileOverwrite (const FilePath &path, const wxString &message) const
+	{
+		// Replacing a keyfile or header backup cannot be undone. As in the
+		// graphical interface, ask first; --force overwrites without asking.
+		if (CmdLine->ArgForce || !FilesystemPath (wstring (path)).IsFile())
+			return;
+
+		if (Preferences.NonInteractive)
+			throw_err (message);
+
+		if (!AskYesNo (message, false, true))
+			throw UserAbort (SRC_POS);
+	}
+
 	void TextUserInterface::CreateKeyfile (shared_ptr <FilePath> keyfilePath) const
 	{
 		FilePath path;
+
+		if (keyfilePath)
+		{
+			path = *keyfilePath;
+		}
+		else
+		{
+			path = AskFilePath();
+			if (path.IsEmpty())
+				return;
+		}
+
+		ConfirmFileOverwrite (path, wxString::Format (LangString["KEYFILE_ALREADY_EXISTS"], wstring (path).c_str()));
 
 		RandomNumberGenerator::Start();
 		/* force the display of the random enriching interface */
 		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 		UserEnrichRandomPool();
 
-		if (keyfilePath)
-		{
-			Core->CreateKeyfile (*keyfilePath);
-		}
-		else
-		{
-			wstring fileName = AskFilePath();
-			if (fileName.empty())
-				return;
-
-			Core->CreateKeyfile (fileName);
-		}
+		Core->CreateKeyfile (path);
 
 		ShowInfo ("KEYFILE_CREATED");
 	}
