@@ -22,6 +22,7 @@ on:
       - 'src/Volume/**'
       - 'src/Makefile'
       - 'Tests/test_linux_privilege_helpers.py'
+      - 'Tests/test_linux_service_inheritance.py'
       - 'Tests/test_stdin_password.py'
       - 'Tests/test_mount_helper.py'
       - 'Tests/test.*.hc'
@@ -52,6 +53,7 @@ on:
       - 'src/Volume/**'
       - 'src/Makefile'
       - 'Tests/test_linux_privilege_helpers.py'
+      - 'Tests/test_linux_service_inheritance.py'
       - 'Tests/test_stdin_password.py'
       - 'Tests/test_mount_helper.py'
       - 'Tests/test.*.hc'
@@ -166,6 +168,7 @@ jobs:
       run: |
         sudo apt install -y /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.deb
         python3 Tests/test_linux_privilege_helpers.py --veracrypt "$(command -v veracrypt)"
+        python3 Tests/test_linux_service_inheritance.py --veracrypt "$(command -v veracrypt)"
         veracrypt --text --test && veracrypt --text --version
         sudo veracrypt --text --non-interactive Tests/test.sha256.hc --hash sha256 --slot 1 --password test --mount-options=ro
         sudo veracrypt --text --non-interactive Tests/test.sha512.hc --hash sha512 --slot 2 --password test --mount-options=ro
@@ -206,6 +209,7 @@ jobs:
     - name: Install and test VeraCrypt Console .deb packages
       run: |
         sudo apt install -y /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.deb
+        python3 Tests/test_linux_service_inheritance.py --veracrypt "$(command -v veracrypt)"
         veracrypt --test && veracrypt --version
         sudo veracrypt --non-interactive Tests/test.sha256.hc --hash sha256 --slot 1 --password test --mount-options=ro
         sudo veracrypt --non-interactive Tests/test.sha512.hc --hash sha512 --slot 2 --password test --mount-options=ro

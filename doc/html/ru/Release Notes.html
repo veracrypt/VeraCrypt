@@ -34,6 +34,16 @@
 <div class="wikidoc">
 <h1>История версий</h1>
 
+<p><strong style="text-align:left">Следующая версия (ещё не выпущена)</strong>:</p>
+<ul>
+<li><strong>Linux, macOS и BSD:</strong>
+	<ul>
+	<li>Безопасность: предотвращено наследование программами, запускаемыми VeraCrypt, файловых дескрипторов каналов связи между интерфейсом и основной службой, которые могли позволить этим программам использовать активный сеанс с правами администратора. Это расширяет защиту, добавленную в версии 1.26.30. Сообщил <a href="https://github.com/aorakko" target="_blank">aorakko</a>.</li>
+	<li>В документации уточнено, что разрешение запускать VeraCrypt или её основную службу от имени root с помощью <code>sudo</code> или <code>doas</code> означает предоставление полных прав root. См. <a href="Security%20Model.html#sudo-and-doas">модель безопасности</a>.</li>
+	</ul>
+</li>
+</ul>
+
 <p><strong style="text-align:left">1.26.30</strong> (24 октября 2026 года):</p>
 <ul>
 <li><strong>Все ОС:</strong>

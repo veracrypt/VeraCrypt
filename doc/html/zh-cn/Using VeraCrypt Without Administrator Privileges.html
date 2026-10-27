@@ -39,6 +39,8 @@
 <p>在Windows系统中，没有管理员权限的用户<em>可以</em>使用VeraCrypt，但前提是系统管理员已经在该系统上安装了VeraCrypt。这是因为VeraCrypt需要一个设备驱动程序来提供透明的即时加密/解密功能，而没有管理员权限的用户无法在Windows系统中安装/启动设备驱动程序。<br>
 <br>
 在系统管理员在系统上安装VeraCrypt之后，没有管理员权限的用户将能够运行VeraCrypt，挂载/卸载任何类型的VeraCrypt卷，从卷中加载/保存数据，并在系统上创建文件托管的VeraCrypt卷。然而，没有管理员权限的用户不能对分区进行加密/格式化，不能创建NTFS卷，不能安装/卸载VeraCrypt，不能更改VeraCrypt分区/设备的密码/密钥文件，不能备份/恢复VeraCrypt分区/设备的头部，并且不能以“便携式”模式运行VeraCrypt。</p>
+<p>在Linux、macOS和BSD系统下，允许用户通过<code>sudo</code>或<code>doas</code>以root用户身份运行VeraCrypt或其核心服务，必须视为授予该用户完整的root权限。
+配置此类访问权限前，请参阅<a href="Security%20Model.html#sudo-and-doas">有关sudo和doas的安全模型说明</a>。</p>
 <div>
 <table style="border-collapse:separate; border-spacing:0px; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif">
 <tbody style="text-align:left">
