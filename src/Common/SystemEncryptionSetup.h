@@ -103,16 +103,45 @@ namespace VeraCrypt { namespace SystemEncryptionSetup
 			second.c_str (), (int) second.size (), TRUE) == CSTR_EQUAL;
 	}
 
-	inline std::wstring GetValue (const std::wstring &file, const wchar_t *key)
+	// The profile API returns the default value both for a missing key and for
+	// some read failures. Check that an existing file can be read, and keep it
+	// open against writes while inspecting it. An absent file/key is a successful
+	// empty result.
+	inline DWORD GetValue (const std::wstring &file, const wchar_t *key, std::wstring &value)
 	{
+		value.clear ();
+		HANDLE handle = CreateFileW (file.c_str (), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		if (handle == INVALID_HANDLE_VALUE)
+		{
+			DWORD error = GetLastError ();
+			return error == ERROR_FILE_NOT_FOUND || error == ERROR_PATH_NOT_FOUND ? ERROR_SUCCESS : error;
+		}
+		DWORD error = ERROR_SUCCESS;
 		std::vector<wchar_t> buffer (1024);
 		for (;;)
 		{
+			SetLastError (ERROR_SUCCESS);
 			DWORD length = GetPrivateProfileStringW (L"SetupConfig", key, L"", &buffer[0], (DWORD) buffer.size (), file.c_str ());
-			if (length + 1 < buffer.size () || buffer.size () >= 32768)
-				return std::wstring (&buffer[0], length);
+			DWORD readError = GetLastError ();
+			if (!length && readError != ERROR_SUCCESS && readError != ERROR_FILE_NOT_FOUND)
+			{
+				error = readError;
+				break;
+			}
+			if (length + 1 < buffer.size ())
+			{
+				value.assign (&buffer[0], length);
+				break;
+			}
+			if (buffer.size () >= 32768)
+			{
+				error = ERROR_MORE_DATA;
+				break;
+			}
 			buffer.resize (buffer.size () * 2);
 		}
+		CloseHandle (handle);
+		return error;
 	}
 
 	// A NULL value removes the key.
@@ -223,16 +252,23 @@ namespace VeraCrypt { namespace SystemEncryptionSetup
 		DWORD result = ERROR_SUCCESS;
 		for (size_t i = 0; i < ARRAYSIZE (keys); ++i)
 		{
-			if (PathMatches (GetValue (file, keys[i]), *values[i]))
+			std::wstring value;
+			DWORD error = GetValue (file, keys[i], value);
+			if (error == ERROR_SUCCESS && PathMatches (value, *values[i]))
 				continue;
 			const std::wstring quoted = L"\"" + *values[i] + L"\"";
-			DWORD error = SetValue (file, keys[i], quoted.c_str ());
-			if (error == ERROR_SUCCESS && !PathMatches (GetValue (file, keys[i]), *values[i]))
+			if (error == ERROR_SUCCESS)
+				error = SetValue (file, keys[i], quoted.c_str ());
+			if (error == ERROR_SUCCESS)
+				error = GetValue (file, keys[i], value);
+			if (error == ERROR_SUCCESS && !PathMatches (value, *values[i]))
 			{
 				error = ConvertToUnicode (file);
 				if (error == ERROR_SUCCESS)
 					error = SetValue (file, keys[i], quoted.c_str ());
-				if (error == ERROR_SUCCESS && !PathMatches (GetValue (file, keys[i]), *values[i]))
+				if (error == ERROR_SUCCESS)
+					error = GetValue (file, keys[i], value);
+				if (error == ERROR_SUCCESS && !PathMatches (value, *values[i]))
 					error = ERROR_NO_UNICODE_TRANSLATION;
 			}
 			if (result == ERROR_SUCCESS)
@@ -261,7 +297,10 @@ namespace VeraCrypt { namespace SystemEncryptionSetup
 			DWORD error = ERROR_SUCCESS;
 			for (int removed = 0; error == ERROR_SUCCESS; ++removed)
 			{
-				const std::wstring value = GetValue (file, keys[i]);
+				std::wstring value;
+				error = GetValue (file, keys[i], value);
+				if (error != ERROR_SUCCESS)
+					break;
 				bool ours = false;
 				for (size_t j = 0; j < owned[i]->size () && !ours; ++j)
 					ours = PathMatches (value, (*owned[i])[j]);

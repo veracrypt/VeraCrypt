@@ -4849,8 +4849,9 @@ namespace VeraCrypt
 
 	// Up to VeraCrypt 1.26.29, Windows Setup ran a script of the legacy directory,
 	// in which standard users can create files. Stop them from modifying that
-	// directory, and delete the script. A missing directory is not created. Never
-	// throws: returns the first failure, and optionally the object concerned.
+	// directory, and delete the script. Reserve a missing directory if an old
+	// registration still uses it, or cannot be read. Never throws: returns the
+	// first failure, and optionally the object concerned.
 	DWORD BootEncryption::SecureLegacySystemEncryptionFiles (wstring *failedPath)
 	{
 		try
@@ -4862,7 +4863,17 @@ namespace VeraCrypt
 			if (error == ERROR_SUCCESS)
 				error = SystemEncryptionFiles::SecureLegacyDirectory (legacy, security.Value);
 			if (SystemEncryptionFiles::Missing (error))
-				error = ERROR_SUCCESS;
+			{
+				wchar_t location[TC_MAX_PATH + 20];
+				wstring script;
+				DWORD readError = GetSetupconfigLocation (location, ARRAYSIZE (location))
+					? SystemEncryptionSetup::GetValue (SystemEncryptionSetup::NormalizePath (location) + L"\\SetupConfig.ini", L"PostOOBE", script)
+					: ERROR_PATH_NOT_FOUND;
+				// An absent directory under ProgramData can be recreated by a user.
+				// Protect the name until the old registration is known to be gone.
+				error = readError != ERROR_SUCCESS || SystemEncryptionSetup::PathMatches (script, legacy + L"\\SetupComplete.cmd")
+					? SystemEncryptionFiles::PrepareDirectory (legacy, security.Value) : ERROR_SUCCESS;
+			}
 			if (error != ERROR_SUCCESS && failedPath)
 				*failedPath = legacy;
 
@@ -4958,6 +4969,7 @@ namespace VeraCrypt
 		// VeraCrypt 1.26.29 and older registered a script of the legacy directory.
 		registration.OwnedScripts.push_back (legacyScript);
 		const wstring config = SystemEncryptionSetup::ConfigPath (registration);
+		bool configurationUpdated = false;
 
 		if (bForInstall)
 		{
@@ -4986,18 +4998,21 @@ namespace VeraCrypt
 				if (error == ERROR_SUCCESS)
 					error = record (WriteSystemEncryptionFile (L"SetupComplete.cmd", &script[0], (DWORD) script.size ()), registration.Script);
 				if (error == ERROR_SUCCESS)
-					record (SystemEncryptionSetup::Register (registration), config);
+					configurationUpdated = record (SystemEncryptionSetup::Register (registration), config) == ERROR_SUCCESS;
 			}
 		}
 		else
 		{
-			record (SystemEncryptionSetup::Unregister (registration), config);
+			configurationUpdated = record (SystemEncryptionSetup::Unregister (registration), config) == ERROR_SUCCESS;
 			DeleteFileW (registration.Script.c_str ());
 		}
 
-		// VeraCrypt 1.26.30 registered a copy of its driver package, which is kept
-		// while it is still registered, and serialized its updates with a lock file.
-		if (!SystemEncryptionSetup::PathMatches (SystemEncryptionSetup::GetValue (config, L"ReflectDrivers"), oldDrivers))
+		// VeraCrypt 1.26.30 registered a copy of its driver package. Keep it if
+		// migration failed or the current registration cannot be inspected.
+		wstring reflectedDrivers;
+		if (configurationUpdated
+			&& record (SystemEncryptionSetup::GetValue (config, L"ReflectDrivers", reflectedDrivers), config) == ERROR_SUCCESS
+			&& !SystemEncryptionSetup::PathMatches (reflectedDrivers, oldDrivers))
 		{
 			const wchar_t *oldDriverFiles[] = { L"veracrypt.inf", L"veracrypt.sys", L"veracrypt.cat" };
 			for (size_t i = 0; i < ARRAYSIZE (oldDriverFiles); ++i)
