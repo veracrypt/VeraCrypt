@@ -293,6 +293,9 @@ namespace VeraCrypt
 #else
 		int sysFlags = 0;
 #endif
+#ifdef O_CLOEXEC
+		sysFlags |= O_CLOEXEC;
+#endif
 
 		switch (mode)
 		{

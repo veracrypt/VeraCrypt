@@ -38,6 +38,7 @@
 <ul>
 <li><strong>Linux、macOS 和 BSD:</strong>
 	<ul>
+	<li>安全：防止 VeraCrypt 启动的程序继承其打开的文件和设备的文件描述符。</li>
 	<li>安全：防止 VeraCrypt 启动的程序继承其界面与核心服务之间的管道。这些管道可能使程序使用仍然有效的管理员会话。此更改扩展了 1.26.30 版本中添加的保护。由 <a href="https://github.com/aorakko" target="_blank">aorakko</a> 报告。</li>
 	<li>在文档中明确说明，允许通过 <code>sudo</code> 或 <code>doas</code> 以 root 用户身份运行 VeraCrypt 或其核心服务，即意味着授予完整的 root 权限。请参阅<a href="Security%20Model.html#sudo-and-doas">安全模型</a>。</li>
 	</ul>
