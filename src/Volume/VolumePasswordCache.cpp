@@ -18,26 +18,34 @@ namespace VeraCrypt
 	{
 		CachedPasswordList passwords;
 
-		foreach_ref (const VolumePassword &password, CachedPasswords)
-			passwords.push_back (make_shared <VolumePassword> (VolumePassword (password)));
+		foreach (const CachedPassword &cached, CachedPasswords)
+		{
+			CachedPassword copy;
+			copy.Password = make_shared <VolumePassword> (VolumePassword (*cached.Password));
+			copy.Kdf = cached.Kdf;
+			passwords.push_back (copy);
+		}
 
 		return passwords;
 	}
 
-	void VolumePasswordCache::Store (const VolumePassword &newPassword)
+	void VolumePasswordCache::Store (const VolumePassword &newPassword, shared_ptr <Pkcs5Kdf> kdf)
 	{
-		CachedPasswordList::iterator iter = CachedPasswords.begin();
-		foreach_ref (const VolumePassword &password, CachedPasswords)
+		// A password used with several KDFs gets an entry for each of them
+		for (CachedPasswordList::iterator iter = CachedPasswords.begin(); iter != CachedPasswords.end(); ++iter)
 		{
-			if (newPassword == password)
+			if (*iter->Password == newPassword
+				&& (iter->Kdf ? iter->Kdf->GetName() : wstring()) == (kdf ? kdf->GetName() : wstring()))
 			{
 				CachedPasswords.erase (iter);
 				break;
 			}
-			iter++;
 		}
 
-		CachedPasswords.push_front (make_shared <VolumePassword> (VolumePassword (newPassword)));
+		CachedPassword cached;
+		cached.Password = make_shared <VolumePassword> (VolumePassword (newPassword));
+		cached.Kdf = kdf;
+		CachedPasswords.push_front (cached);
 
 		if (CachedPasswords.size() > Capacity)
 			CachedPasswords.pop_back();
