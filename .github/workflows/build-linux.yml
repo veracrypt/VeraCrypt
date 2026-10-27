@@ -24,6 +24,7 @@ on:
       - 'Tests/test_linux_privilege_helpers.py'
       - 'Tests/test_stdin_password.py'
       - 'Tests/test_mount_helper.py'
+      - 'Tests/test_text_overwrite.py'
       - 'Tests/test.*.hc'
       - 'Tests/test_volume_read.py'
       - 'Tests/volume_read_test.cpp'
@@ -54,6 +55,7 @@ on:
       - 'Tests/test_linux_privilege_helpers.py'
       - 'Tests/test_stdin_password.py'
       - 'Tests/test_mount_helper.py'
+      - 'Tests/test_text_overwrite.py'
       - 'Tests/test.*.hc'
       - 'Tests/test_volume_read.py'
       - 'Tests/volume_read_test.cpp'
@@ -201,6 +203,7 @@ jobs:
         sudo locale-gen en_US en_US.UTF-8
         sudo python3 Tests/test_stdin_password.py --require-locales
         sudo python3 Tests/test_mount_helper.py --helper /usr/sbin/mount.veracrypt
+        python3 Tests/test_text_overwrite.py
         sudo apt remove -y veracrypt
 
     - name: Install and test VeraCrypt Console .deb packages
