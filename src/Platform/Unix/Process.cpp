@@ -16,9 +16,11 @@
 #include <stdio.h>
 #include <sstream>
 #include <unistd.h>
+#include <sys/resource.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
 #ifdef TC_LINUX
+#include <sys/prctl.h>
 #include <sys/statvfs.h>
 #endif
 #include "Process.h"
@@ -209,6 +211,20 @@ namespace VeraCrypt
 		return output[0];
 	}
 #endif
+
+	void Process::DisableCoreDumps ()
+	{
+		// For processes that hold key material. A core_pattern pipe ignores
+		// RLIMIT_CORE on Linux, but not the dumpable flag, which also keeps
+		// other processes of the same user from attaching.
+		struct rlimit limit;
+		limit.rlim_cur = 0;
+		limit.rlim_max = 0;
+		setrlimit (RLIMIT_CORE, &limit);
+#ifdef TC_LINUX
+		prctl (PR_SET_DUMPABLE, 0, 0, 0, 0);
+#endif
+	}
 
 	bool Process::IsExecutable(const std::string& path) {
 		struct stat sb;

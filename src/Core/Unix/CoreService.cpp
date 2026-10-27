@@ -1136,6 +1136,8 @@ namespace VeraCrypt
 		{
 			try
 			{
+				Process::DisableCoreDumps();
+
 				if (forkProcess)
 					RedirectStandardErrorToDevNull ();
 
