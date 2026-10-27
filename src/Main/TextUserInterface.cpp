@@ -460,6 +460,19 @@ namespace VeraCrypt
 		if (filePath.IsEmpty())
 			throw UserAbort (SRC_POS);
 
+		// Same prompt as the file dialog of the graphical interface. Header
+		// backups are interactive anyway; --force overwrites without asking.
+		if (!CmdLine->ArgForce && FilesystemPath (wstring (filePath)).IsFile())
+		{
+			wxString confirmMsg = wxString::Format (_("File '%s' already exists, do you really want to overwrite it?"), wstring (filePath).c_str());
+
+			if (Preferences.NonInteractive)
+				throw_err (confirmMsg);
+
+			if (!AskYesNo (confirmMsg, false, true))
+				throw UserAbort (SRC_POS);
+		}
+
 		File backupFile;
 		backupFile.Open (filePath, File::CreateWrite);
 
@@ -621,23 +634,28 @@ namespace VeraCrypt
 	{
 		FilePath path;
 
+		if (keyfilePath)
+		{
+			path = *keyfilePath;
+		}
+		else
+		{
+			path = AskFilePath();
+			if (path.IsEmpty())
+				return;
+		}
+
+		// Replacing a keyfile makes every volume that uses it unmountable. Refuse
+		// without asking, so that existing scripts are not stopped by a prompt.
+		if (!CmdLine->ArgForce && FilesystemPath (wstring (path)).IsFile())
+			throw_err (wxString::Format (_("The keyfile '%s' already exists. Use --force to replace it."), wstring (path).c_str()));
+
 		RandomNumberGenerator::Start();
 		/* force the display of the random enriching interface */
 		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 		UserEnrichRandomPool();
 
-		if (keyfilePath)
-		{
-			Core->CreateKeyfile (*keyfilePath);
-		}
-		else
-		{
-			wstring fileName = AskFilePath();
-			if (fileName.empty())
-				return;
-
-			Core->CreateKeyfile (fileName);
-		}
+		Core->CreateKeyfile (path);
 
 		ShowInfo ("KEYFILE_CREATED");
 	}
