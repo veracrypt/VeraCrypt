@@ -69,9 +69,9 @@ typedef struct EXTENSION
 	PDEVICE_OBJECT pFsdDevice;	/* lower level device handle */
 	PFILE_OBJECT pfoDirectDeviceFile;	/* File object referenced from hDeviceFile */
 	PDEVICE_OBJECT pDirectFsdDevice;	/* Related device for pfoDirectDeviceFile */
-	HANDLE hFastIoDeviceFile;	/* Asynchronous handle used by direct host I/O */
-	PFILE_OBJECT pfoFastIoDeviceFile;	/* File object referenced from hFastIoDeviceFile */
-	PDEVICE_OBJECT pFastIoFsdDevice;	/* Related device for pfoFastIoDeviceFile */
+	HANDLE hFastIoDeviceFile;	/* Separate asynchronous raw-device handle */
+	PFILE_OBJECT pfoFastIoDeviceFile;
+	PDEVICE_OBJECT pFastIoFsdDevice;
 
 	CRYPTO_INFO *cryptoInfo;	/* Cryptographic and other information for this device */
 
@@ -168,7 +168,6 @@ NTSTATUS TCCreateDeviceObject (PDRIVER_OBJECT DriverObject, PDEVICE_OBJECT * ppD
 NTSTATUS TCReadDevice (PDEVICE_OBJECT deviceObject, PVOID buffer, LARGE_INTEGER offset, ULONG length);
 NTSTATUS TCWriteDevice (PDEVICE_OBJECT deviceObject, PVOID buffer, LARGE_INTEGER offset, ULONG length);
 NTSTATUS TCReadDeviceUsingFileObjectWithInformation (PDEVICE_OBJECT deviceObject, PFILE_OBJECT fileObject, PVOID buffer, LARGE_INTEGER offset, ULONG length, ULONG_PTR *information);
-NTSTATUS TCWriteDeviceUsingFileObjectWithInformation (PDEVICE_OBJECT deviceObject, PFILE_OBJECT fileObject, PVOID buffer, LARGE_INTEGER offset, ULONG length, ULONG_PTR *information);
 NTSTATUS TCStartThread (PKSTART_ROUTINE threadProc, PVOID threadArg, PKTHREAD *kThread);
 NTSTATUS TCStartThreadInProcess (PKSTART_ROUTINE threadProc, PVOID threadArg, PKTHREAD *kThread, PEPROCESS process);
 NTSTATUS TCStartVolumeThread (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension, MOUNT_STRUCT * mount);
@@ -204,7 +203,6 @@ NTSTATUS ProbeRealDriveSize (PDEVICE_OBJECT driveDeviceObject, LARGE_INTEGER *dr
 BOOL UserCanAccessDriveDevice ();
 BOOL IsOrderedFlushBarriersEnabled ();
 BOOL IsMountedVolumeFastReadIoEnabled ();
-BOOL IsMountedVolumeFastWriteIoEnabled ();
 size_t GetCpuCount (WORD* pGroupCount);
 USHORT GetCpuGroup (size_t index);
 void SetThreadCpuGroupAffinity (USHORT index);

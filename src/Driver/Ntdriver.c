@@ -146,7 +146,6 @@ static BOOL AllowTrimCommand = FALSE;
 static BOOL OrderedFlushBarriersEnabled = FALSE;
 static BOOL RamEncryptionActivated = FALSE;
 static BOOL MountedVolumeFastReadIoEnabled = FALSE;
-static BOOL MountedVolumeFastWriteIoEnabled = FALSE;
 int EncryptionIoRequestCount = 0;
 int EncryptionItemCount = 0;
 int EncryptionFragmentSize = 0;
@@ -160,11 +159,6 @@ BOOL IsOrderedFlushBarriersEnabled ()
 BOOL IsMountedVolumeFastReadIoEnabled ()
 {
 	return MountedVolumeFastReadIoEnabled;
-}
-
-BOOL IsMountedVolumeFastWriteIoEnabled ()
-{
-	return MountedVolumeFastWriteIoEnabled;
 }
 
 PDEVICE_OBJECT VirtualVolumeDeviceObjects[MAX_MOUNTED_VOLUME_DRIVE_NUMBER + 1];
@@ -622,6 +616,9 @@ typedef struct
 	PUCHAR DataBuffer;
 	ULONG Length;
 	LARGE_INTEGER HostOffset;
+	PIO_WORKITEM CompletionWorkItem;
+	NTSTATUS CompletionStatus;
+	ULONG_PTR CompletionInformation;
 } VC_DIRECT_HOST_READ_CONTEXT;
 
 
@@ -732,6 +729,22 @@ static BOOL VcCanUseDirectHostRead (PEXTENSION extension, PIRP irp, PIO_STACK_LO
 }
 
 
+static VOID VcCompleteDirectHostRead (PDEVICE_OBJECT deviceObject, PVOID context)
+{
+	VC_DIRECT_HOST_READ_CONTEXT *readContext = (VC_DIRECT_HOST_READ_CONTEXT *) context;
+	EncryptedIoQueue *queue = readContext->Queue;
+	PIRP irp = readContext->OriginalIrp;
+	ULONG length = readContext->Length;
+	NTSTATUS status = readContext->CompletionStatus;
+	ULONG_PTR information = readContext->CompletionInformation;
+	UNREFERENCED_PARAMETER (deviceObject);
+
+	IoFreeWorkItem (readContext->CompletionWorkItem);
+	TCfree (readContext);
+	EncryptedIoQueueCompleteDirectRead (queue, irp, length, status, information);
+}
+
+
 static void VcDirectHostReadTask (VC_DIRECT_HOST_IO_TASK *task)
 {
 	VC_DIRECT_HOST_READ_CONTEXT *readContext =
@@ -747,7 +760,11 @@ static void VcDirectHostReadTask (VC_DIRECT_HOST_IO_TASK *task)
 	BOOL useLegacyIo = FALSE;
 	NTSTATUS status;
 
-	if (originalIrp->Cancel)
+	if (!NT_SUCCESS (task->WorkerStatus))
+	{
+		status = task->WorkerStatus;
+	}
+	else if (originalIrp->Cancel)
 	{
 		status = STATUS_CANCELLED;
 	}
@@ -771,9 +788,9 @@ static void VcDirectHostReadTask (VC_DIRECT_HOST_IO_TASK *task)
 			PUCHAR segmentBuffer = dataBuffer + completedLength;
 			UINT64_STRUCT dataUnit;
 
-			if (originalIrp->Cancel)
+			if (originalIrp->Cancel || queue->ThreadBlockReadWrite)
 			{
-				status = STATUS_CANCELLED;
+				status = originalIrp->Cancel ? STATUS_CANCELLED : STATUS_DEVICE_BUSY;
 				break;
 			}
 
@@ -833,12 +850,24 @@ static void VcDirectHostReadTask (VC_DIRECT_HOST_IO_TASK *task)
 			if (!NT_SUCCESS (status))
 				break;
 
+			if (!ExAcquireRundownProtection (&queue->DirectReadCryptoRundown))
+			{
+				status = STATUS_DEVICE_BUSY;
+				break;
+			}
+			if (queue->ThreadBlockReadWrite)
+			{
+				ExReleaseRundownProtection (&queue->DirectReadCryptoRundown);
+				status = STATUS_DEVICE_BUSY;
+				break;
+			}
 			dataUnit.Value = segmentOffset.QuadPart / ENCRYPTION_DATA_UNIT_SIZE;
 			DecryptDataUnits (
 				segmentBuffer,
 				&dataUnit,
 				segmentLength / ENCRYPTION_DATA_UNIT_SIZE,
 				queue->CryptoInfo);
+			ExReleaseRundownProtection (&queue->DirectReadCryptoRundown);
 			completedLength += segmentLength;
 		}
 
@@ -850,8 +879,10 @@ static void VcDirectHostReadTask (VC_DIRECT_HOST_IO_TASK *task)
 			status = STATUS_END_OF_FILE;
 	}
 
-	TCfree (readContext);
-	EncryptedIoQueueCompleteDirectRead (queue, originalIrp, length, status, information);
+	readContext->CompletionStatus = status;
+	readContext->CompletionInformation = information;
+	EncryptedIoQueueFinishDirectReadIo (queue);
+	IoQueueWorkItem (readContext->CompletionWorkItem, VcCompleteDirectHostRead, DelayedWorkQueue, readContext);
 }
 
 
@@ -862,6 +893,9 @@ static BOOL VcTryDirectHostRead (PEXTENSION extension, PIRP irp, PIO_STACK_LOCAT
 	LARGE_INTEGER hostOffset;
 	PUCHAR dataBuffer;
 	NTSTATUS status;
+
+	if (InterlockedCompareExchange (&queue->DirectHostReadEnabled, FALSE, FALSE) == FALSE)
+		return FALSE;
 
 	status = EncryptedIoQueueBeginDirectRead (queue, irp);
 	if (!NT_SUCCESS (status))
@@ -882,6 +916,12 @@ static BOOL VcTryDirectHostRead (PEXTENSION extension, PIRP irp, PIO_STACK_LOCAT
 	context = (VC_DIRECT_HOST_READ_CONTEXT *) TCalloc (sizeof (*context));
 	if (!context)
 		goto fallback;
+	context->CompletionWorkItem = IoAllocateWorkItem (queue->DeviceObject);
+	if (!context->CompletionWorkItem)
+	{
+		TCfree (context);
+		goto fallback;
+	}
 
 	context->Task.Routine = VcDirectHostReadTask;
 	context->Task.IrpToMarkPending = irp;
@@ -894,12 +934,14 @@ static BOOL VcTryDirectHostRead (PEXTENSION extension, PIRP irp, PIO_STACK_LOCAT
 	status = EncryptedIoQueueAdmitDirectRead (queue);
 	if (!NT_SUCCESS (status))
 	{
+		IoFreeWorkItem (context->CompletionWorkItem);
 		TCfree (context);
 		goto fallback;
 	}
 
 	if (!EncryptedIoQueueSubmitDirectIoTask (queue, &context->Task))
 	{
+		IoFreeWorkItem (context->CompletionWorkItem);
 		TCfree (context);
 		EncryptedIoQueueAbortDirectRead (queue, irp);
 		return FALSE;
@@ -1028,8 +1070,7 @@ NTSTATUS TCDispatchQueueIRP (PDEVICE_OBJECT DeviceObject, PIRP Irp)
 		switch (irpSp->MajorFunction)
 		{
 		case IRP_MJ_READ:
-			if (MountedVolumeFastReadIoEnabled
-				&& VcTryDirectHostRead (Extension, Irp, irpSp))
+			if (VcTryDirectHostRead (Extension, Irp, irpSp))
 				return STATUS_PENDING;
 
 			ntStatus = EncryptedIoQueueAddIrp (&Extension->Queue, Irp);
@@ -1060,7 +1101,7 @@ NTSTATUS TCDispatchQueueIRP (PDEVICE_OBJECT DeviceObject, PIRP Irp)
 			return STATUS_PENDING;
 
 		case IRP_MJ_FLUSH_BUFFERS:
-			if ((!OrderedFlushBarriersEnabled && !Extension->Queue.DirectHostWriteConfigured)
+			if ((!OrderedFlushBarriersEnabled)
 				|| Extension->hDeviceFile == NULL
 				|| Extension->bReadOnly)
 				return TCCompleteDiskIrp (Irp, STATUS_SUCCESS, 0);
@@ -3775,20 +3816,14 @@ VOID VolumeThreadProc (PVOID Context)
 	if (Extension->Queue.HostBytesPerSector != 0)
 		Extension->Queue.HostDeviceIoMaxSize -= Extension->Queue.HostDeviceIoMaxSize % Extension->Queue.HostBytesPerSector;
 	Extension->Queue.DirectHostIoMaxRequestSize = VC_MOUNTED_VOLUME_FAST_IO_MAX_REQUEST_SIZE;
+	// Capture the registry option for this mount. Reloading configuration
+	// changes only subsequent mounts, not an active queue.
 	Extension->Queue.DirectHostReadEnabled = Extension->bRawDevice
 		&& Extension->Queue.HostDeviceObject
 		&& Extension->Queue.HostFileObject
 		&& Extension->Queue.HostDeviceIoMaxSize >= ENCRYPTION_DATA_UNIT_SIZE
 		&& Extension->Queue.DirectHostIoMaxRequestSize >= ENCRYPTION_DATA_UNIT_SIZE
 		&& MountedVolumeFastReadIoEnabled;
-	Extension->Queue.DirectHostWriteConfigured = Extension->bRawDevice
-		&& Extension->Queue.HostDeviceObject
-		&& Extension->Queue.HostFileObject
-		&& Extension->Queue.HostDeviceIoMaxSize >= ENCRYPTION_DATA_UNIT_SIZE
-		&& Extension->Queue.DirectHostIoMaxRequestSize >= ENCRYPTION_DATA_UNIT_SIZE
-		&& !Extension->bReadOnly
-		&& MountedVolumeFastWriteIoEnabled;
-	Extension->Queue.DirectHostWriteEnabled = Extension->Queue.DirectHostWriteConfigured;
 	Extension->Queue.VirtualDeviceLength = Extension->DiskLength;
 	Extension->Queue.MaxReadAheadOffset.QuadPart = Extension->HostLength;
 	if (bDevice && pThreadBlock->mount->bPartitionInInactiveSysEncScope
@@ -4416,11 +4451,6 @@ NTSTATUS TCReadDeviceUsingFileObjectWithInformation (PDEVICE_OBJECT deviceObject
 	return TCReadWriteDevice (FALSE, deviceObject, fileObject, buffer, offset, length, information);
 }
 
-
-NTSTATUS TCWriteDeviceUsingFileObjectWithInformation (PDEVICE_OBJECT deviceObject, PFILE_OBJECT fileObject, PVOID buffer, LARGE_INTEGER offset, ULONG length, ULONG_PTR *information)
-{
-	return TCReadWriteDevice (TRUE, deviceObject, fileObject, buffer, offset, length, information);
-}
 
 
 NTSTATUS TCFsctlCall (PFILE_OBJECT fileObject, LONG IoControlCode,
@@ -5423,17 +5453,8 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 	MountedVolumeFastReadIoEnabled = FALSE;
 	if (NT_SUCCESS (TCReadRegistryKey (&name, VC_MOUNTED_VOLUME_FAST_READ_IO, &data)))
 	{
-		if (data->Type == REG_DWORD)
+		if (data->Type == REG_DWORD && data->DataLength == sizeof (uint32))
 			MountedVolumeFastReadIoEnabled = (*(uint32 *) data->Data) ? TRUE : FALSE;
-
-		TCfree (data);
-	}
-
-	MountedVolumeFastWriteIoEnabled = FALSE;
-	if (NT_SUCCESS (TCReadRegistryKey (&name, VC_MOUNTED_VOLUME_FAST_WRITE_IO, &data)))
-	{
-		if (data->Type == REG_DWORD)
-			MountedVolumeFastWriteIoEnabled = (*(uint32 *) data->Data) ? TRUE : FALSE;
 
 		TCfree (data);
 	}

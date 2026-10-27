@@ -467,21 +467,17 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			TCFsctlCall (Extension->pfoDirectDeviceFile, FSCTL_ALLOW_EXTENDED_DASD_IO, NULL, 0, NULL, 0);
 		}
 
-		if (IsMountedVolumeFastReadIoEnabled ()
-			|| (IsMountedVolumeFastWriteIoEnabled () && !Extension->bReadOnly))
+		if (IsMountedVolumeFastReadIoEnabled ())
 		{
-			ACCESS_MASK directAccess = GENERIC_READ;
 			NTSTATUS directStatus;
-
-			if (IsMountedVolumeFastWriteIoEnabled () && !Extension->bReadOnly)
-				directAccess |= GENERIC_WRITE;
 
 			// Direct requests are issued concurrently by queue-owned threads.
 			// Keep their asynchronous file object separate from the synchronous
-			// legacy handle and its file-object serialization.
+			// legacy handle and its file-object serialization. Raw-device mounts
+			// force shared access above, irrespective of the requested exclusive flag.
 			directStatus = ZwCreateFile (
 				&Extension->hFastIoDeviceFile,
-				directAccess,
+				GENERIC_READ,
 				&oaFileAttributes,
 				&IoStatusBlock,
 				NULL,
@@ -1000,8 +996,7 @@ void TCCloseVolume (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 		{
 			RestoreTimeStamp (Extension);
 		}
-		if (!Extension->bReadOnly
-			&& (IsOrderedFlushBarriersEnabled () || Extension->Queue.DirectHostWriteConfigured))
+		if (!Extension->bReadOnly && IsOrderedFlushBarriersEnabled ())
 		{
 			IO_STATUS_BLOCK ioStatus;
 			NTSTATUS flushStatus = ZwFlushBuffersFile (Extension->hDeviceFile, &ioStatus);

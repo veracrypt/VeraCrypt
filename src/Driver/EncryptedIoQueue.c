@@ -20,14 +20,6 @@
 #include <IntSafe.h>
 
 #define VC_DIRECT_HOST_READ_MAX_IN_FLIGHT 8
-#define VC_DIRECT_HOST_WRITE_MAX_IN_FLIGHT 8
-
-typedef struct
-{
-	LIST_ENTRY ListEntry;
-	ULONGLONG Start;
-	ULONGLONG EndExclusive;
-} VC_DIRECT_HOST_WRITE_RANGE;
 
 // Returns STATUS_SUCCESS on success and sets *outVa.
 // On failure, returns STATUS_INVALID_USER_BUFFER or STATUS_INSUFFICIENT_RESOURCES
@@ -259,6 +251,7 @@ static void ReleaseWriteBarrier (EncryptedIoQueue *queue)
 {
 	LONG remaining = InterlockedDecrement (&queue->PendingWriteBarrierCount);
 	ASSERT (remaining >= 0);
+	UNREFERENCED_PARAMETER (remaining);
 }
 
 
@@ -281,130 +274,13 @@ static void WaitForDirectHostReads (EncryptedIoQueue *queue)
 }
 
 
-static void BeginLegacyIoRequest (EncryptedIoQueue *queue)
+void EncryptedIoQueueBlockDirectReadCrypto (EncryptedIoQueue *queue)
 {
-	if (InterlockedIncrement (&queue->LegacyIoRequestsInFlight) == 1)
-		KeClearEvent (&queue->NoLegacyIoRequestsEvent);
-}
-
-
-static void CompleteLegacyIoRequest (EncryptedIoQueue *queue)
-{
-	LONG remaining = InterlockedDecrement (&queue->LegacyIoRequestsInFlight);
-	ASSERT (remaining >= 0);
-	if (remaining == 0)
-		KeSetEvent (&queue->NoLegacyIoRequestsEvent, IO_DISK_INCREMENT, FALSE);
-}
-
-
-static void WaitForLegacyIoRequests (EncryptedIoQueue *queue)
-{
-	while (InterlockedCompareExchange (&queue->LegacyIoRequestsInFlight, 0, 0) != 0)
-		KeWaitForSingleObject (&queue->NoLegacyIoRequestsEvent, Executive, KernelMode, FALSE, NULL);
-}
-
-
-static BOOL DirectHostWriteRangeOverlaps (
-	const VC_DIRECT_HOST_WRITE_RANGE *left,
-	const VC_DIRECT_HOST_WRITE_RANGE *right)
-{
-	return left->Start < right->EndExclusive && right->Start < left->EndExclusive;
-}
-
-
-static void BeginDirectHostWrite (
-	EncryptedIoQueue *queue,
-	VC_DIRECT_HOST_WRITE_RANGE *range)
-{
-	KIRQL oldIrql;
-	NTSTATUS status = KeWaitForSingleObject (
-		&queue->DirectHostWriteSlots,
-		Executive,
-		KernelMode,
-		FALSE,
-		NULL);
-
-	if (!NT_SUCCESS (status))
-		TC_BUG_CHECK (status);
-
-	for (;;)
-	{
-		PLIST_ENTRY entry;
-		BOOL overlaps = FALSE;
-
-		KeAcquireSpinLock (&queue->DirectHostWriteLock, &oldIrql);
-		for (entry = queue->DirectHostWriteRanges.Flink;
-			entry != &queue->DirectHostWriteRanges;
-			entry = entry->Flink)
-		{
-			VC_DIRECT_HOST_WRITE_RANGE *activeRange =
-				CONTAINING_RECORD (entry, VC_DIRECT_HOST_WRITE_RANGE, ListEntry);
-
-			if (DirectHostWriteRangeOverlaps (range, activeRange))
-			{
-				overlaps = TRUE;
-				break;
-			}
-		}
-
-		if (!overlaps)
-		{
-			InsertTailList (&queue->DirectHostWriteRanges, &range->ListEntry);
-			if (queue->DirectHostWritesInFlight++ == 0)
-				KeClearEvent (&queue->NoDirectHostWritesEvent);
-			KeReleaseSpinLock (&queue->DirectHostWriteLock, oldIrql);
-			return;
-		}
-
-		KeClearEvent (&queue->DirectHostWriteRangeChangedEvent);
-		KeReleaseSpinLock (&queue->DirectHostWriteLock, oldIrql);
-
-		status = KeWaitForSingleObject (
-			&queue->DirectHostWriteRangeChangedEvent,
-			Executive,
-			KernelMode,
-			FALSE,
-			NULL);
-		if (!NT_SUCCESS (status))
-			TC_BUG_CHECK (status);
-	}
-}
-
-
-static void CompleteDirectHostWrite (
-	EncryptedIoQueue *queue,
-	VC_DIRECT_HOST_WRITE_RANGE *range)
-{
-	KIRQL oldIrql;
-
-	KeAcquireSpinLock (&queue->DirectHostWriteLock, &oldIrql);
-	RemoveEntryList (&range->ListEntry);
-	ASSERT (queue->DirectHostWritesInFlight > 0);
-	if (--queue->DirectHostWritesInFlight == 0)
-		KeSetEvent (&queue->NoDirectHostWritesEvent, IO_DISK_INCREMENT, FALSE);
-	KeSetEvent (&queue->DirectHostWriteRangeChangedEvent, IO_DISK_INCREMENT, FALSE);
-	KeReleaseSpinLock (&queue->DirectHostWriteLock, oldIrql);
-
-	KeReleaseSemaphore (&queue->DirectHostWriteSlots, IO_DISK_INCREMENT, 1, FALSE);
-}
-
-
-static void WaitForDirectHostWrites (EncryptedIoQueue *queue)
-{
-	for (;;)
-	{
-		KIRQL oldIrql;
-
-		KeAcquireSpinLock (&queue->DirectHostWriteLock, &oldIrql);
-		if (queue->DirectHostWritesInFlight == 0)
-		{
-			KeReleaseSpinLock (&queue->DirectHostWriteLock, oldIrql);
-			return;
-		}
-		KeReleaseSpinLock (&queue->DirectHostWriteLock, oldIrql);
-
-		KeWaitForSingleObject (&queue->NoDirectHostWritesEvent, Executive, KernelMode, FALSE, NULL);
-	}
+	// Stop admission before key erasure and wait only for decryptions that
+	// already acquired the key schedules. Host reads may finish afterwards,
+	// but they will fail without touching erased keys.
+	InterlockedExchange ((volatile LONG *) &queue->ThreadBlockReadWrite, TRUE);
+	ExWaitForRundownProtectionRelease (&queue->DirectReadCryptoRundown);
 }
 
 
@@ -412,8 +288,15 @@ _Function_class_(KSTART_ROUTINE)
 static VOID DirectHostIoThreadProc (PVOID threadArg)
 {
 	EncryptedIoQueue *queue = (EncryptedIoQueue *) threadArg;
+	NTSTATUS impersonationStatus = STATUS_SUCCESS;
 
 	KeSetPriorityThread (KeGetCurrentThread (), LOW_REALTIME_PRIORITY);
+	if (!queue->IsFilterDevice && queue->SecurityClientContext)
+	{
+		impersonationStatus = SeImpersonateClientEx (queue->SecurityClientContext, NULL);
+		if (!NT_SUCCESS (impersonationStatus))
+			InterlockedExchange (&queue->DirectHostReadEnabled, FALSE);
+	}
 
 	for (;;)
 	{
@@ -443,7 +326,10 @@ static VOID DirectHostIoThreadProc (PVOID threadArg)
 		KeReleaseSpinLock (&queue->DirectHostIoQueueLock, oldIrql);
 
 		if (task && task->Routine)
+		{
+			task->WorkerStatus = impersonationStatus;
 			task->Routine (task);
+		}
 	}
 
 	PsTerminateSystemThread (STATUS_SUCCESS);
@@ -827,276 +713,6 @@ static NTSTATUS TCCachedRead (EncryptedIoQueue *queue, IO_STATUS_BLOCK *ioStatus
 }
 
 
-static BOOL IsAlignedToSize (ULONGLONG value, ULONG size)
-{
-	return size == 0 || (value % size) == 0;
-}
-
-
-static BOOL CanUseDirectHostWrite (EncryptedIoQueue *queue, PIRP irp, EncryptedIoQueueItem *item)
-{
-	ULONGLONG hostEndExclusive;
-	ULONG hostSectorSize;
-
-	if (InterlockedCompareExchange (&queue->DirectHostWriteEnabled, 0, 0) == 0
-		|| !item->Write
-		|| item->Flush)
-		return FALSE;
-
-	if (queue->IsFilterDevice || !queue->HostDeviceObject || !queue->HostFileObject)
-		return FALSE;
-
-	if (item->OriginalLength == 0 || item->OriginalOffset.QuadPart < 0)
-		return FALSE;
-
-	if (queue->HostDeviceIoMaxSize == 0
-		|| queue->DirectHostIoMaxRequestSize == 0
-		|| item->OriginalLength > queue->DirectHostIoMaxRequestSize)
-		return FALSE;
-
-	if (!queue->CryptoInfo || queue->ThreadBlockReadWrite || queue->StopPending || queue->SuspendPending || queue->Suspended)
-		return FALSE;
-
-	if (queue->bSupportPartialEncryption || queue->EncryptedAreaEndUpdatePending || queue->RemapEncryptedArea)
-		return FALSE;
-
-	if ((queue->SecRegionData != NULL && queue->SecRegionSize > 512)
-		|| queue->CryptoInfo->hiddenVolume
-		|| queue->CryptoInfo->bProtectHiddenVolume
-		|| queue->CryptoInfo->bHiddenVolProtectionAction
-		|| queue->CryptoInfo->bPartitionInInactiveSysEncScope)
-	{
-		return FALSE;
-	}
-
-	if ((irp->Flags & (IRP_PAGING_IO | IRP_SYNCHRONOUS_PAGING_IO)) != 0)
-		return FALSE;
-
-	if (!IsAlignedToSize ((ULONGLONG) item->OriginalLength, ENCRYPTION_DATA_UNIT_SIZE)
-		|| !IsAlignedToSize ((ULONGLONG) item->OriginalOffset.QuadPart, ENCRYPTION_DATA_UNIT_SIZE))
-	{
-		return FALSE;
-	}
-
-	hostSectorSize = queue->HostBytesPerSector != 0 ? queue->HostBytesPerSector : ENCRYPTION_DATA_UNIT_SIZE;
-	if (!IsAlignedToSize ((ULONGLONG) item->OriginalLength, hostSectorSize)
-		|| !IsAlignedToSize ((ULONGLONG) item->OriginalOffset.QuadPart, hostSectorSize))
-	{
-		return FALSE;
-	}
-
-	if (queue->MaxReadAheadOffset.QuadPart > 0
-		&& (S_OK != ULongLongAdd ((ULONGLONG) item->OriginalOffset.QuadPart, (ULONGLONG) item->OriginalLength, &hostEndExclusive)
-			|| hostEndExclusive > (ULONGLONG) queue->MaxReadAheadOffset.QuadPart))
-	{
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
-
-static BOOL IsDirectHostIoCompatibilityFailure (NTSTATUS status)
-{
-	switch (status)
-	{
-	case STATUS_ACCESS_DENIED:
-	case STATUS_DATATYPE_MISALIGNMENT:
-	case STATUS_INVALID_DEVICE_REQUEST:
-	case STATUS_INVALID_PARAMETER:
-	case STATUS_NOT_SUPPORTED:
-		return TRUE;
-
-	default:
-		return FALSE;
-	}
-}
-
-
-typedef struct
-{
-	VC_DIRECT_HOST_IO_TASK Task;
-	EncryptedIoQueue *Queue;
-	EncryptedIoQueueItem *Item;
-	PUCHAR BufferAllocation;
-	PUCHAR DataBuffer;
-	ULONG Length;
-	LARGE_INTEGER HostOffset;
-	VC_DIRECT_HOST_WRITE_RANGE Range;
-} VC_DIRECT_HOST_WRITE_CONTEXT;
-
-
-static void DirectHostWriteTask (VC_DIRECT_HOST_IO_TASK *task)
-{
-	VC_DIRECT_HOST_WRITE_CONTEXT *writeContext =
-		CONTAINING_RECORD (task, VC_DIRECT_HOST_WRITE_CONTEXT, Task);
-	EncryptedIoQueue *queue = writeContext->Queue;
-	EncryptedIoQueueItem *item = writeContext->Item;
-	PIRP originalIrp = item->OriginalIrp;
-	PUCHAR bufferAllocation = writeContext->BufferAllocation;
-	PUCHAR dataBuffer = writeContext->DataBuffer;
-	ULONG length = writeContext->Length;
-	LARGE_INTEGER hostOffset = writeContext->HostOffset;
-	IO_STATUS_BLOCK ioStatus = { STATUS_PENDING, 0 };
-	ULONG completedLength = 0;
-	BOOL useLegacyIo = FALSE;
-	NTSTATUS status;
-
-	if (originalIrp->Cancel)
-	{
-		status = STATUS_CANCELLED;
-	}
-	else if (queue->ThreadBlockReadWrite)
-	{
-		status = STATUS_DEVICE_BUSY;
-	}
-	else
-	{
-		status = STATUS_SUCCESS;
-		while (completedLength < length)
-		{
-			ULONG segmentLength = min (length - completedLength, queue->HostDeviceIoMaxSize);
-			ULONG_PTR segmentInformation = 0;
-			LARGE_INTEGER segmentOffset;
-			PUCHAR segmentBuffer = dataBuffer + completedLength;
-
-			if (originalIrp->Cancel)
-			{
-				status = STATUS_CANCELLED;
-				break;
-			}
-
-			if (segmentLength == 0)
-			{
-				status = STATUS_INVALID_PARAMETER;
-				break;
-			}
-
-			segmentOffset.QuadPart = hostOffset.QuadPart + completedLength;
-			if (!useLegacyIo)
-			{
-				status = TCWriteDeviceUsingFileObjectWithInformation (
-					queue->HostDeviceObject,
-					queue->HostFileObject,
-					segmentBuffer,
-					segmentOffset,
-					segmentLength,
-					&segmentInformation);
-
-				if (!NT_SUCCESS (status) || segmentInformation != segmentLength)
-				{
-					if (segmentInformation == 0
-						&& IsDirectHostIoCompatibilityFailure (status))
-					{
-						InterlockedExchange (&queue->DirectHostWriteEnabled, FALSE);
-						useLegacyIo = TRUE;
-					}
-					else
-					{
-						if (NT_SUCCESS (status))
-							status = STATUS_END_OF_FILE;
-						break;
-					}
-				}
-			}
-
-			if (useLegacyIo)
-			{
-				ioStatus.Status = STATUS_PENDING;
-				ioStatus.Information = 0;
-				status = ZwWriteFile (
-					queue->HostFileHandle,
-					NULL,
-					NULL,
-					NULL,
-					&ioStatus,
-					segmentBuffer,
-					segmentLength,
-					&segmentOffset,
-					NULL);
-				segmentInformation = ioStatus.Information;
-				if (NT_SUCCESS (status) && segmentInformation != segmentLength)
-					status = STATUS_END_OF_FILE;
-			}
-
-			if (!NT_SUCCESS (status))
-				break;
-
-			completedLength += segmentLength;
-		}
-
-	}
-
-	TCfree (bufferAllocation);
-	CompleteDirectHostWrite (queue, &writeContext->Range);
-	TCfree (writeContext);
-	CompleteOriginalIrp (
-		item,
-		status,
-		NT_SUCCESS (status) && completedLength == length ? length : 0);
-}
-
-
-static BOOL QueueDirectHostWrite (
-	EncryptedIoQueue *queue,
-	EncryptedIoQueueItem *item,
-	const uint8 *sourceBuffer)
-{
-	VC_DIRECT_HOST_WRITE_CONTEXT *context;
-	PUCHAR bufferAllocation;
-	PUCHAR dataBuffer;
-	ULONG allocationSize;
-	ULONG alignmentMask = queue->HostAlignmentMask;
-	UINT64_STRUCT dataUnit;
-
-	if (S_OK != ULongAdd (item->OriginalLength, alignmentMask, &allocationSize))
-		return FALSE;
-
-	context = (VC_DIRECT_HOST_WRITE_CONTEXT *) TCalloc (sizeof (*context));
-	if (!context)
-		return FALSE;
-
-	bufferAllocation = (PUCHAR) TCalloc (allocationSize);
-	if (!bufferAllocation)
-	{
-		TCfree (context);
-		return FALSE;
-	}
-
-	dataBuffer = (PUCHAR) ((((ULONG_PTR) bufferAllocation) + alignmentMask)
-		& ~((ULONG_PTR) alignmentMask));
-	memcpy (dataBuffer, sourceBuffer, item->OriginalLength);
-
-	dataUnit.Value = item->OriginalOffset.QuadPart / ENCRYPTION_DATA_UNIT_SIZE;
-	EncryptDataUnits (
-		dataBuffer,
-		&dataUnit,
-		item->OriginalLength / ENCRYPTION_DATA_UNIT_SIZE,
-		queue->CryptoInfo);
-
-	context->Queue = queue;
-	context->Task.Routine = DirectHostWriteTask;
-	context->Task.IrpToMarkPending = NULL;
-	context->Item = item;
-	context->BufferAllocation = bufferAllocation;
-	context->DataBuffer = dataBuffer;
-	context->Length = item->OriginalLength;
-	context->HostOffset = item->OriginalOffset;
-	context->Range.Start = (ULONGLONG) item->OriginalOffset.QuadPart;
-	context->Range.EndExclusive = context->Range.Start + item->OriginalLength;
-
-	BeginDirectHostWrite (queue, &context->Range);
-	if (!EncryptedIoQueueSubmitDirectIoTask (queue, &context->Task))
-	{
-		CompleteDirectHostWrite (queue, &context->Range);
-		TCfree (bufferAllocation);
-		TCfree (context);
-		return FALSE;
-	}
-	return TRUE;
-}
-
-
 static VOID IoThreadProc (PVOID threadArg)
 {
 	EncryptedIoQueue *queue = (EncryptedIoQueue *) threadArg;
@@ -1147,7 +763,6 @@ static VOID IoThreadProc (PVOID threadArg)
 
 				HandleCompleteOriginalIrp (queue, request);
 				ReleasePoolBuffer (queue, request);
-				CompleteLegacyIoRequest (queue);
 				continue;
 			}
 
@@ -1313,7 +928,6 @@ static VOID IoThreadProc (PVOID threadArg)
 				}
 			}
 
-			CompleteLegacyIoRequest (queue);
 		}
 	}
 
@@ -1336,7 +950,6 @@ static VOID MainThreadProc (PVOID threadArg)
 	uint32 intersectLength;
 	ULONGLONG addResult;
 	HRESULT hResult;
-	BOOL useDirectHostWrite;
 
 	if (IsEncryptionThreadPoolRunning())
 		KeSetPriorityThread (KeGetCurrentThread(), LOW_REALTIME_PRIORITY);
@@ -1357,8 +970,9 @@ static VOID MainThreadProc (PVOID threadArg)
 			item = GetPoolBuffer (queue, sizeof (EncryptedIoQueueItem));
 			if (!item)
 			{
+				BOOL writeBarrierTracked = IsWriteBarrierIrp (irp);
 				TCCompleteDiskIrp (irp, STATUS_INSUFFICIENT_RESOURCES, 0);
-				if (IsWriteBarrierIrp (irp))
+				if (writeBarrierTracked)
 					ReleaseWriteBarrier (queue);
 				DecrementOutstandingIoCount (queue);
 				IoReleaseRemoveLock (&queue->RemoveLock, irp);
@@ -1415,15 +1029,12 @@ static VOID MainThreadProc (PVOID threadArg)
 
 			if (item->Flush)
 			{
-				WaitForDirectHostWrites (queue);
 				InterlockedIncrement (&queue->IoThreadPendingRequestCount);
-				BeginLegacyIoRequest (queue);
 
 				request = GetPoolBuffer (queue, sizeof (EncryptedIoRequest));
 				if (!request)
 				{
 					InterlockedDecrement (&queue->IoThreadPendingRequestCount);
-					CompleteLegacyIoRequest (queue);
 					CompleteOriginalIrp (item, STATUS_INSUFFICIENT_RESOURCES, 0);
 					continue;
 				}
@@ -1615,20 +1226,6 @@ static VOID MainThreadProc (PVOID threadArg)
 				}
 			}
 
-			useDirectHostWrite = CanUseDirectHostWrite (queue, irp, item);
-			if (useDirectHostWrite)
-			{
-				// Preserve the legacy/direct ordering boundary while allowing
-				// adjacent eligible writes to overlap below this queue.
-				WaitForLegacyIoRequests (queue);
-				queue->ReadAheadBufferValid = FALSE;
-				if (QueueDirectHostWrite (queue, item, dataBuffer))
-					continue;
-			}
-
-			// Reads and legacy requests must not overtake a direct batch.
-			WaitForDirectHostWrites (queue);
-
 			// Divide data block to fragments to enable efficient overlapping of encryption and IO operations
 			dataRemaining = item->OriginalLength;
 			fragmentOffset = item->OriginalOffset;
@@ -1642,14 +1239,12 @@ static VOID MainThreadProc (PVOID threadArg)
 				activeFragmentBuffer = (activeFragmentBuffer == queue->FragmentBufferA ? queue->FragmentBufferB : queue->FragmentBufferA);
 
 				InterlockedIncrement (&queue->IoThreadPendingRequestCount);
-				BeginLegacyIoRequest (queue);
 
 				// Create IO request
 				request = GetPoolBuffer (queue, sizeof (EncryptedIoRequest));
 				if (!request)
 				{
 					InterlockedDecrement(&queue->IoThreadPendingRequestCount);
-					CompleteLegacyIoRequest (queue);
 					CompleteOriginalIrp (item, STATUS_INSUFFICIENT_RESOURCES, 0);
 					break;
 				}
@@ -1769,7 +1364,8 @@ NTSTATUS EncryptedIoQueueAdmitDirectRead (EncryptedIoQueue *queue)
 	// A pending write blocks new direct reads. If this read wins the race,
 	// MainThread observes it under the same lock and waits before writing.
 	KeAcquireSpinLock (&queue->DirectHostReadLock, &oldIrql);
-	if (InterlockedCompareExchange (&queue->PendingWriteBarrierCount, 0, 0) != 0
+	if (queue->ThreadBlockReadWrite
+		|| InterlockedCompareExchange (&queue->PendingWriteBarrierCount, 0, 0) != 0
 		|| queue->DirectHostReadsInFlight >= VC_DIRECT_HOST_READ_MAX_IN_FLIGHT)
 	{
 		status = STATUS_DEVICE_BUSY;
@@ -1813,14 +1409,19 @@ void EncryptedIoQueueAbortDirectRead (EncryptedIoQueue *queue, PIRP irp)
 }
 
 
+void EncryptedIoQueueFinishDirectReadIo (EncryptedIoQueue *queue)
+{
+	ReleaseDirectReadAdmission (queue);
+}
+
+
 void EncryptedIoQueueCompleteDirectRead (EncryptedIoQueue *queue, PIRP irp, ULONG length, NTSTATUS status, ULONG_PTR information)
 {
 	if (NT_SUCCESS (status))
 		InterlockedAdd64 (&queue->TotalBytesRead, length);
 
-	ReleaseDirectReadAdmission (queue);
-	ReleaseDirectReadLifetime (queue, irp);
 	TCCompleteDiskIrp (irp, status, information);
+	ReleaseDirectReadLifetime (queue, irp);
 }
 
 
@@ -1965,8 +1566,6 @@ NTSTATUS EncryptedIoQueueStart (EncryptedIoQueue *queue)
 	queue->OutstandingIoCount = 0;
 	queue->IoThreadPendingRequestCount = 0;
 	queue->DirectHostReadsInFlight = 0;
-	queue->DirectHostWritesInFlight = 0;
-	queue->LegacyIoRequestsInFlight = 0;
 	queue->PendingWriteBarrierCount = 0;
 	queue->DirectHostIoThreadCount = 0;
 	queue->DirectHostIoExitRequested = FALSE;
@@ -1978,15 +1577,10 @@ NTSTATUS EncryptedIoQueueStart (EncryptedIoQueue *queue)
 	KeInitializeEvent (&queue->NoOutstandingIoEvent, SynchronizationEvent, FALSE);
 	KeInitializeEvent (&queue->NoDirectHostReadsEvent, NotificationEvent, TRUE);
 	KeInitializeSpinLock (&queue->DirectHostReadLock);
-	KeInitializeEvent (&queue->NoDirectHostWritesEvent, NotificationEvent, TRUE);
-	KeInitializeEvent (&queue->DirectHostWriteRangeChangedEvent, NotificationEvent, FALSE);
-	KeInitializeSpinLock (&queue->DirectHostWriteLock);
-	KeInitializeSemaphore (&queue->DirectHostWriteSlots, VC_DIRECT_HOST_WRITE_MAX_IN_FLIGHT, VC_DIRECT_HOST_WRITE_MAX_IN_FLIGHT);
-	InitializeListHead (&queue->DirectHostWriteRanges);
+	ExInitializeRundownProtection (&queue->DirectReadCryptoRundown);
 	InitializeListHead (&queue->DirectHostIoQueue);
 	KeInitializeSpinLock (&queue->DirectHostIoQueueLock);
 	KeInitializeSemaphore (&queue->DirectHostIoQueueSemaphore, 0, MAXLONG);
-	KeInitializeEvent (&queue->NoLegacyIoRequestsEvent, NotificationEvent, TRUE);
 	KeInitializeEvent (&queue->PoolBufferFreeEvent, SynchronizationEvent, FALSE);
 	KeInitializeEvent (&queue->QueueResumedEvent, SynchronizationEvent, FALSE);
 
@@ -2148,8 +1742,7 @@ retry_preallocated:
 		goto err;
 	}
 
-	if (InterlockedCompareExchange (&queue->DirectHostReadEnabled, 0, 0) != 0
-		|| queue->DirectHostWriteConfigured)
+	if (InterlockedCompareExchange (&queue->DirectHostReadEnabled, 0, 0) != 0)
 	{
 		for (i = 0; i < VC_DIRECT_HOST_IO_THREAD_COUNT; ++i)
 		{
@@ -2161,8 +1754,6 @@ retry_preallocated:
 			{
 				StopDirectHostIoThreads (queue);
 				InterlockedExchange (&queue->DirectHostReadEnabled, FALSE);
-				InterlockedExchange (&queue->DirectHostWriteEnabled, FALSE);
-				queue->DirectHostWriteConfigured = FALSE;
 				break;
 			}
 			++queue->DirectHostIoThreadCount;

@@ -59,6 +59,7 @@ struct _VC_DIRECT_HOST_IO_TASK
 	LIST_ENTRY ListEntry;
 	VC_DIRECT_HOST_IO_TASK_ROUTINE Routine;
 	PIRP IrpToMarkPending;
+	NTSTATUS WorkerStatus;
 };
 
 typedef struct
@@ -78,18 +79,11 @@ typedef struct
 	ULONG DirectHostIoMaxRequestSize;
 	ULONG HostAlignmentMask;
 	uint32 HostBytesPerSector;
-	BOOL DirectHostWriteConfigured;
 	volatile LONG DirectHostReadEnabled;
-	volatile LONG DirectHostWriteEnabled;
 	KSPIN_LOCK DirectHostReadLock;
 	KEVENT NoDirectHostReadsEvent;
 	volatile LONG DirectHostReadsInFlight;
-	KSPIN_LOCK DirectHostWriteLock;
-	KEVENT NoDirectHostWritesEvent;
-	KEVENT DirectHostWriteRangeChangedEvent;
-	KSEMAPHORE DirectHostWriteSlots;
-	LIST_ENTRY DirectHostWriteRanges;
-	volatile LONG DirectHostWritesInFlight;
+	EX_RUNDOWN_REF DirectReadCryptoRundown;
 	volatile LONG PendingWriteBarrierCount;
 	PKTHREAD DirectHostIoThreads[VC_DIRECT_HOST_IO_THREAD_COUNT];
 	ULONG DirectHostIoThreadCount;
@@ -148,8 +142,6 @@ typedef struct
 	volatile LONG OutstandingIoCount;
 	KEVENT NoOutstandingIoEvent;
 	volatile LONG IoThreadPendingRequestCount;
-	volatile LONG LegacyIoRequestsInFlight;
-	KEVENT NoLegacyIoRequestsEvent;
 
 	KEVENT PoolBufferFreeEvent;
 
@@ -233,8 +225,10 @@ NTSTATUS EncryptedIoQueueStop (EncryptedIoQueue *queue);
 NTSTATUS EncryptedIoQueueHoldWhenIdle (EncryptedIoQueue *queue, int64 timeout);
 NTSTATUS EncryptedIoQueueBeginDirectRead (EncryptedIoQueue *queue, PIRP irp);
 NTSTATUS EncryptedIoQueueAdmitDirectRead (EncryptedIoQueue *queue);
+void EncryptedIoQueueBlockDirectReadCrypto (EncryptedIoQueue *queue);
 void EncryptedIoQueueCancelDirectRead (EncryptedIoQueue *queue, PIRP irp);
 void EncryptedIoQueueAbortDirectRead (EncryptedIoQueue *queue, PIRP irp);
+void EncryptedIoQueueFinishDirectReadIo (EncryptedIoQueue *queue);
 void EncryptedIoQueueCompleteDirectRead (EncryptedIoQueue *queue, PIRP irp, ULONG length, NTSTATUS status, ULONG_PTR information);
 BOOL EncryptedIoQueueSubmitDirectIoTask (EncryptedIoQueue *queue, VC_DIRECT_HOST_IO_TASK *task);
 
