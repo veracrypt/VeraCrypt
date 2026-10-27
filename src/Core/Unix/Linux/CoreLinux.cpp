@@ -718,6 +718,56 @@ namespace VeraCrypt
 		DismountNativeVolumeInternal (mountedVolume, false);
 	}
 
+	bool CoreLinux::IsVolumeUsedByKernelDevice (const struct stat &volumeStat) const
+	{
+		if (S_ISBLK (volumeStat.st_mode))
+		{
+			// A device-mapper device on the volume device
+			stringstream holders;
+			holders << "/sys/dev/block/" << major (volumeStat.st_rdev) << ":" << minor (volumeStat.st_rdev) << "/holders";
+
+			DIR *dir = opendir (holders.str().c_str());
+			if (!dir)
+				return false;
+			finally_do_arg (DIR *, dir, { closedir (finally_arg); });
+
+			struct dirent *entry;
+			while ((entry = readdir (dir)) != nullptr)
+			{
+				if (string (entry->d_name).find ("dm-") == 0)
+					return true;
+			}
+
+			return false;
+		}
+
+		if (!S_ISREG (volumeStat.st_mode))
+			return false;
+
+		// A loop device of the volume file, which carries the device-mapper device
+		DIR *sysBlock = opendir ("/sys/block");
+		if (!sysBlock)
+			return false;
+		finally_do_arg (DIR *, sysBlock, { closedir (finally_arg); });
+
+		struct dirent *entry;
+		while ((entry = readdir (sysBlock)) != nullptr)
+		{
+			const string kernelName = entry->d_name;
+			if (kernelName.find ("loop") != 0)
+				continue;
+
+			try
+			{
+				if (IsLoopDeviceBackedBy ("/dev/" + kernelName, LoopBacking (volumeStat)))
+					return true;
+			}
+			catch (...) { }
+		}
+
+		return false;
+	}
+
 	void CoreLinux::DismountNativeVolumeDeferred (shared_ptr <VolumeInfo> mountedVolume) const
 	{
 		DismountNativeVolumeInternal (mountedVolume, true);
