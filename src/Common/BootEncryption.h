@@ -342,8 +342,8 @@ namespace VeraCrypt
 		void BackupSystemLoader ();
 		void RestoreSystemLoader ();
 		static void UpdateSetupConfigFile (bool bForInstall);
+		static DWORD SecureLegacySystemEncryptionFiles (wstring *failedPath = NULL);
 		static void PrepareSystemEncryptionStorage ();
-		static void PrepareSystemEncryptionInstallation (const wchar_t *path);
 		void GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
 		void GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported);
 		bool GetEfiBootChainTrustStatus (EfiBootChainTrustStatus& status);

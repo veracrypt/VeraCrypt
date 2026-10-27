@@ -11089,7 +11089,20 @@ static void SystemFavoritesServiceUpdateSetupConfigFile ()
 		BootEncryption bootEnc (NULL);
 		BootEncryption::UpdateSetupConfigFile (bootEnc.GetDriverServiceStartType () == SERVICE_BOOT_START);
 	}
-	catch (Exception &) { SystemFavoritesServiceLogError (L"Windows feature update configuration could not be secured. Repair/Reinstall VeraCrypt before a Windows feature update."); }
+	catch (ErrorException &e)
+	{
+		SystemFavoritesServiceLogError (L"Windows feature update configuration could not be updated: "
+			+ (e.ErrMsg.empty () ? wstring (e.ErrLangId ? GetString (e.ErrLangId) : L"") : e.ErrMsg));
+	}
+	catch (SystemException &e)
+	{
+		wchar_t message[128];
+		StringCchPrintfW (message, ARRAYSIZE (message), L"Windows feature update configuration could not be updated: error 0x%.8X.", e.ErrorCode);
+		SystemFavoritesServiceLogError (message);
+	}
+	catch (Exception &) { SystemFavoritesServiceLogError (L"Windows feature update configuration could not be updated."); }
+	// This also runs from the stop and preshutdown handlers. Never end the service.
+	catch (...) { SystemFavoritesServiceLogError (L"Windows feature update configuration could not be updated: unexpected exception."); }
 }
 
 static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce)

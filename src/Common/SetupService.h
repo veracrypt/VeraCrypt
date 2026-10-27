@@ -120,10 +120,10 @@ namespace VeraCrypt { namespace SetupService
 		return path + suffix;
 	}
 
-	// The source and its directory must remain pinned by OpenInstallerFile.
-	// The destination is the service executable in the protected native system
-	// directory. Stage there so publication is a same-volume rename, and never
-	// truncate the working service executable on a failed copy.
+	// The source is the executable of the installation directory. The destination
+	// is the service executable in the native system directory. Stage there so
+	// publication is a same-volume rename, and never truncate the working service
+	// executable on a failed copy.
 	inline DWORD ReplaceExecutable (const std::wstring &source, const std::wstring &destination)
 	{
 		std::wstring staged;
@@ -194,6 +194,69 @@ namespace VeraCrypt { namespace SetupService
 		}
 		DeleteFileW (staged.c_str ());
 		return error;
+	}
+
+	// Replace the executable when Windows restarts, e.g. because the old service
+	// process could not be stopped.
+	inline DWORD ScheduleReplacement (const std::wstring &source, const std::wstring &destination)
+	{
+		for (DWORD attempt = 0; attempt < 16; ++attempt)
+		{
+			std::wstring staged = TemporaryName (destination, L"pending", attempt);
+			if (!CopyFileW (source.c_str (), staged.c_str (), TRUE))
+			{
+				DWORD error = GetLastError ();
+				if (error != ERROR_FILE_EXISTS && error != ERROR_ALREADY_EXISTS)
+					return error;
+				continue;
+			}
+			if (MoveFileExW (staged.c_str (), destination.c_str (), MOVEFILE_DELAY_UNTIL_REBOOT | MOVEFILE_REPLACE_EXISTING))
+				return ERROR_SUCCESS;
+			DWORD error = GetLastError ();
+			DeleteFileW (staged.c_str ());
+			return error;
+		}
+		return ERROR_FILE_EXISTS;
+	}
+
+	// Delete the copies staged by ScheduleReplacement, e.g. at uninstallation, so
+	// that none of them replaces the executable when Windows restarts. Returns
+	// false if one of them may remain.
+	inline bool DeletePendingReplacements (const std::wstring &destination)
+	{
+		size_t separator = destination.find_last_of (L'\\');
+		const std::wstring directory = separator == std::wstring::npos ? std::wstring () : destination.substr (0, separator + 1);
+		WIN32_FIND_DATAW data;
+		HANDLE find = FindFirstFileW ((destination + L".setup-pending.*").c_str (), &data);
+		if (find == INVALID_HANDLE_VALUE)
+		{
+			DWORD error = GetLastError ();
+			return error == ERROR_FILE_NOT_FOUND || error == ERROR_PATH_NOT_FOUND;
+		}
+		bool deleted = true;
+		do
+		{
+			if (!(data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && !DeleteFileW ((directory + data.cFileName).c_str ()))
+				deleted = false;
+		}
+		while (FindNextFileW (find, &data));
+		FindClose (find);
+		return deleted;
+	}
+
+	// Returns ERROR_SUCCESS_REBOOT_REQUIRED if the executable will be replaced
+	// when Windows restarts, or the error of the failed replacement.
+	inline DWORD UpdateExecutable (const std::wstring &source, const std::wstring &destination)
+	{
+		DWORD error = ReplaceExecutable (source, destination);
+		if (error == ERROR_SUCCESS)
+		{
+			// A copy staged by an earlier installation would otherwise replace this
+			// executable when Windows restarts.
+			DeletePendingReplacements (destination);
+			return ERROR_SUCCESS;
+		}
+		return ScheduleReplacement (source, destination) == ERROR_SUCCESS ? ERROR_SUCCESS_REBOOT_REQUIRED : error;
 	}
 
 } }

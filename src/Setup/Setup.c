@@ -22,7 +22,6 @@
 
 #include "Apidrvr.h"
 #include "BootEncryption.h"
-#include "SystemEncryptionFiles.h"
 #include "SetupService.h"
 #include "Platform/Finally.h"
 #include "Boot/Windows/BootCommon.h"
@@ -710,6 +709,30 @@ static BOOL IsFileInUse (const wstring &filePath)
 }
 
 
+#ifndef PORTABLE
+// The system favorites service and the COM servers locate the installation from
+// this value, which is stored in the key of the driver service. If bOnlyIfServiceExists,
+// it is not recorded before the driver service is installed.
+static BOOL RecordInstallationPath (const wchar_t *path, BOOL bOnlyIfServiceExists)
+{
+	const wchar_t *key = L"SYSTEM\\CurrentControlSet\\Services\\veracrypt";
+	// Never replace a recorded path with an invalid one.
+	if (!path || wcslen (path) < 3 || path[1] != L':' || path[2] != L'\\')
+	{
+		SetLastError (ERROR_BAD_PATHNAME);
+		return FALSE;
+	}
+	if (bOnlyIfServiceExists)
+	{
+		HKEY hkey;
+		if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, key, 0, KEY_QUERY_VALUE, &hkey) != ERROR_SUCCESS)
+			return TRUE;
+		RegCloseKey (hkey);
+	}
+	return WriteLocalMachineRegistryString (key, L"InstallationPath", path, FALSE);
+}
+#endif
+
 BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 {
 	/* WARNING: Note that, despite its name, this function is used during UNinstallation as well. */
@@ -745,7 +768,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 
 	for (i = 0; i < sizeof (szFiles) / sizeof (szFiles[0]); i++)
 	{
-		BOOL bResult, zipFile = FALSE;
+		BOOL bResult, zipFile = FALSE, bFileWritten = FALSE;
 		wchar_t szDir[TC_MAX_PATH];
 
 		if (wcsstr (szFiles[i], L"VeraCrypt Setup") != 0)
@@ -918,6 +941,8 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 					EnableWow64FsRedirection (TRUE);
 				}
 
+				bFileWritten = bResult;
+
 				if (bResult && wcscmp (szFiles[i], L"AVeraCrypt.exe") == 0)
 				{
 					EnableWow64FsRedirection (FALSE);
@@ -937,17 +962,15 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 
 					if (bResult)
 					{
-						// Update the path of the service
+						// Update the executable of the system favorites service. A failure does
+						// not fail the installation: the service keeps its previous executable,
+						// and a replacement that is not possible now is done when Windows restarts.
 						BootEncryption BootEncObj (hwndDlg);
 
 						try
 						{
 							if (SystemEncryptionUpdate || BootEncObj.IsSystemFavoritesServiceInstalled ())
 							{
-								SystemEncryptionFiles::Directory sourceDirectory;
-								SystemEncryptionFiles::Handle sourceFile;
-								DWORD sourceError = SystemEncryptionFiles::OpenInstallerFile (szTmp, sourceDirectory, sourceFile);
-								if (sourceError != ERROR_SUCCESS) { SetLastError (sourceError); throw SystemException (SRC_POS); }
 								uint32 driverFlags = ReadDriverConfigurationFlags ();
 								uint32 serviceFlags = BootEncObj.ReadServiceConfigurationFlags ();
 
@@ -964,11 +987,33 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 									try { finally_arg->SetDriverConfigurationFlag (finally_arg2, true); } catch (...) { }
 								});
 
-								throw_sys_if (!StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL));
-								DWORD copyError = SetupService::ReplaceExecutable (szTmp, servicePath);
-								if (copyError != ERROR_SUCCESS) { SetLastError (copyError); throw SystemException (SRC_POS); }
-								LPCWSTR szArgs[2] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT };
-								throw_sys_if (!StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, 2, szArgs));
+#ifndef PORTABLE
+								// The new service locates the installation from this value.
+								RecordInstallationPath (szDestDir, TRUE);
+#endif
+								// The executable of a service that cannot be stopped is replaced when Windows restarts.
+								if (!StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL))
+									bRestartRequired = TRUE; // The previous executable runs until then
+								DWORD copyError = SetupService::UpdateExecutable (szTmp, servicePath);
+								if (copyError == ERROR_SUCCESS)
+								{
+									// we tell the service not to load system favorites on startup
+									LPCWSTR szArgs[2] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT };
+									if (!StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, 2, szArgs))
+										bRestartRequired = TRUE; // The service starts with Windows
+								}
+								else
+								{
+									// Never start the previous executable again: it could reinstall its own,
+									// older boot loader. The service starts when Windows restarts.
+									bRestartRequired = TRUE;
+									if (copyError != ERROR_SUCCESS_REBOOT_REQUIRED)
+									{
+										SetLastError (copyError);
+										handleWin32Error (hwndDlg, SRC_POS);
+										Warning ("SYSTEM_FAVORITES_SERVICE_UPDATE_FAILED", hwndDlg);
+									}
+								}
 
 								BootEncObj.SetDriverConfigurationFlag (driverFlags, true);
 								BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER,
@@ -978,16 +1023,12 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 						catch (Exception &e)
 						{
 							e.Show (hwndDlg);
-							EnableWow64FsRedirection (TRUE);
-#ifndef PORTABLE
-							RestorePrivilegeState (&originalPrivileges);
-#endif
-							return FALSE;
+							Warning ("SYSTEM_FAVORITES_SERVICE_UPDATE_FAILED", hwndDlg);
 						}
 					}
 
-					// delete files from legacy path
-					if (FileExists (favoritesLegacyFile.c_str()))
+					// delete files from legacy path, keeping the favorites if they could not be copied
+					if (FileExists (favoritesLegacyFile.c_str()) && FileExists (favoritesFile.c_str()))
 					{
 						RemoveMessage (hwndDlg, (wchar_t *) favoritesLegacyFile.c_str());
 						ForceDeleteFile (favoritesLegacyFile.c_str());
@@ -1048,26 +1089,33 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 
 				EnableWow64FsRedirection (TRUE);
 			}
+
+			if (wcscmp (szFiles[i], L"AVeraCrypt.exe") == 0)
+			{
+				// Whatever happens to the other files, a copy of the service executable
+				// staged by an upgrade must not be restored when Windows restarts.
+				DWORD dwLastError = GetLastError ();
+				EnableWow64FsRedirection (FALSE);
+				wstring servicePath = GetServiceConfigPath (_T(TC_APP_NAME) L".exe", false);
+				if (!SetupService::DeletePendingReplacements (servicePath))
+					MoveFileExW (servicePath.c_str (), NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
+				EnableWow64FsRedirection (TRUE);
+				SetLastError (dwLastError);
+			}
 		}
 
 err:
-		// These executables contain the security fix. Keeping an old copy must
-		// not be offered as a successful installation, including in silent mode.
-		if (!bResult && !bUninstall && (wcscmp (szFiles[i], L"AVeraCrypt.exe") == 0
-			|| wcscmp (szFiles[i], L"AVeraCrypt Format.exe") == 0))
-		{
-#ifndef PORTABLE
-			RestorePrivilegeState (&originalPrivileges);
-#endif
-			return FALSE;
-		}
 		if (bResult == FALSE)
 		{
-			LPVOID lpMsgBuf;
+			LPVOID lpMsgBuf = NULL;
 			DWORD dwError = GetLastError ();
 			wchar_t szTmp2[700];
 			wchar_t szErrorValue[16];
 			wchar_t* pszDesc;
+			// These executables contain the security fixes. Never offer to keep an
+			// old copy, including in silent mode.
+			BOOL bRequired = !bUninstall && !bFileWritten && (wcscmp (szFiles[i], L"AVeraCrypt.exe") == 0
+				|| wcscmp (szFiles[i], L"AVeraCrypt Format.exe") == 0);
 
 			FormatMessage (
 					      FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
@@ -1092,9 +1140,12 @@ err:
 			else
 				StringCbPrintfW (szTmp2, sizeof(szTmp2), GetString ("UNINSTALL_OF_FAILED"), szTmp, pszDesc);
 
+			if (bRequired)
+				ErrorDirect ((wstring (szTmp) + L"\n\n" + pszDesc).c_str (), hwndDlg);
+
 			if (lpMsgBuf) LocalFree (lpMsgBuf);
 
-			if (!Silent && MessageBoxW(hwndDlg, szTmp2, lpszTitle, MB_YESNO | MB_ICONHAND) != IDYES)
+			if (bRequired || (!Silent && MessageBoxW(hwndDlg, szTmp2, lpszTitle, MB_YESNO | MB_ICONHAND) != IDYES))
 			{
 #ifndef PORTABLE
 				RestorePrivilegeState(&originalPrivileges);
@@ -1337,8 +1388,6 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 	wchar_t path[MAX_PATH];
 	wchar_t path2[MAX_PATH];
 	BOOL bOK = TRUE;
-	try { BootEncryption::UpdateSetupConfigFile (false); }
-	catch (Exception &e) { e.Show (NULL); return FALSE; }
 
 	StatusMessage (hwndDlg, "REMOVING_APPDATA");
 
@@ -1379,15 +1428,11 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 		bOK = FALSE;
 	}
 
-	// remove VeraCrypt under common appdata
-	if (SUCCEEDED (SHGetFolderPath (NULL, CSIDL_COMMON_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, path)))
-	{
-		StringCbCatW (path, sizeof(path), L"\\VeraCrypt");
-
-		// Preserve both legacy backup names for recovery.
-		RemoveDirectoryW (path);
-	}
-
+	// The VeraCrypt directory under common appdata, used by VeraCrypt 1.26.29 and
+	// older, is kept: it can contain backups of the original system loader, and once
+	// secured, it prevents standard users from creating files there. Otherwise, one
+	// of them could create it again, with a script that a remaining Windows Setup
+	// registration would run.
 
 	return bOK;
 }
@@ -2159,12 +2204,13 @@ void DoUninstall (void *arg)
 	else
 	{
 		// Resolve the old installation identity before deleting its registry keys.
+		// A failure does not prevent the uninstallation.
 		try { BootEncryption::UpdateSetupConfigFile (false); }
-		catch (Exception &e) { e.Show (hwndDlg); bOK = FALSE; }
+		catch (Exception &e) { e.Show (hwndDlg); Warning ("SYSENC_SETUP_CONFIG_REMOVE_FAILED", hwndDlg); }
 		if (!Rollback && bSystemRestore && !bTempSkipSysRestore)
 			SetSystemRestorePoint (hwndDlg, FALSE);
 
-		if (!bOK || DoServiceUninstall (hwndDlg, L"veracrypt") == FALSE)
+		if (DoServiceUninstall (hwndDlg, L"veracrypt") == FALSE)
 		{
 			bOK = FALSE;
 		}
@@ -2274,18 +2320,12 @@ void DoInstall (void *arg)
 
 	UpdateProgressBarProc(2);
 
-	try { BootEncryption::UpdateSetupConfigFile (false); }
-	catch (Exception &e) { e.Show (hwndDlg); PostMessage (MainDlg, TC_APPMSG_INSTALL_FAILURE, 0, 0); return; }
-
 	if (DoDriverUnload (hwndDlg) == FALSE)
 	{
 		NormalCursor ();
 		PostMessage (MainDlg, TC_APPMSG_INSTALL_FAILURE, 0, 0);
 		return;
 	}
-	try { if (SystemEncryptionUpdate) BootEncryption::PrepareSystemEncryptionInstallation (InstallationPath); }
-	catch (Exception &e) { e.Show (hwndDlg); PostMessage (MainDlg, TC_APPMSG_INSTALL_FAILURE, 0, 0); return; }
-
 
 	if (bUpgrade
 		&& (IsFileInUse (wstring (InstallationPath) + L'\\' + _T(TC_APP_NAME) L".exe")
@@ -2373,13 +2413,30 @@ void DoInstall (void *arg)
 	if (!UnloadDriver)
 		bRestartRequired = TRUE;
 
-	try
+	if (!bOK)
 	{
-		BootEncryption::UpdateSetupConfigFile (bOK && SystemEncryptionUpdate);
+		// This installer does not roll back an upgrade. Whatever has been installed, an
+		// old Windows Setup registration must not run a script that a standard user controls.
+		BootEncryption::SecureLegacySystemEncryptionFiles ();
 	}
-	catch (Exception &e) { e.Show (hwndDlg); bOK = FALSE; }
-	try { bootEnc.RenameDeprecatedSystemLoaderBackup (SystemEncryptionUpdate != FALSE); }
-	catch (Exception &e) { e.Show (hwndDlg); Warning ("SYS_LOADER_BACKUP_MIGRATION_FAILED", hwndDlg); }
+	else
+	{
+		// Record the installation path again, in case the driver service has just
+		// been installed.
+		if (!RecordInstallationPath (InstallationPath, FALSE))
+			handleWin32Error (hwndDlg, SRC_POS);
+
+		// Windows feature update support. A failure is reported but does not fail
+		// the installation: the system favorites service retries when it starts.
+		try { BootEncryption::UpdateSetupConfigFile (SystemEncryptionUpdate != FALSE); }
+		catch (Exception &e)
+		{
+			e.Show (hwndDlg);
+			WarningDirect (GetString (SystemEncryptionUpdate ? "SYSENC_SETUP_CONFIG_UPDATE_FAILED" : "SYSENC_SETUP_CONFIG_REMOVE_FAILED"), hwndDlg);
+		}
+		try { bootEnc.RenameDeprecatedSystemLoaderBackup (SystemEncryptionUpdate != FALSE); }
+		catch (Exception &e) { e.Show (hwndDlg); Warning ("SYS_LOADER_BACKUP_MIGRATION_FAILED", hwndDlg); }
+	}
 
 	if (bOK)
 		UpdateProgressBarProc(97);
