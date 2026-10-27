@@ -23,6 +23,8 @@ on:
       - 'src/Makefile'
       - 'Tests/test_linux_privilege_helpers.py'
       - 'Tests/test_linux_service_inheritance.py'
+      - 'Tests/test_linux_process.py'
+      - 'Tests/linux_process_test.cpp'
       - 'Tests/test_stdin_password.py'
       - 'Tests/test_mount_helper.py'
       - 'Tests/test.*.hc'
@@ -54,6 +56,8 @@ on:
       - 'src/Makefile'
       - 'Tests/test_linux_privilege_helpers.py'
       - 'Tests/test_linux_service_inheritance.py'
+      - 'Tests/test_linux_process.py'
+      - 'Tests/linux_process_test.cpp'
       - 'Tests/test_stdin_password.py'
       - 'Tests/test_mount_helper.py'
       - 'Tests/test.*.hc'
@@ -159,6 +163,9 @@ jobs:
     # version) left in src, and checks known data.
     - name: Read known data from the test volumes
       run: python3 Tests/test_volume_read.py --build-dir src --require-thread-pool
+
+    - name: Check Unix process descriptors and timeouts
+      run: python3 Tests/test_linux_process.py --build-dir src
 
     # The package build above defaults to FUSE2 and leaves matching archives.
     - name: Check Linux mount protection and fallback

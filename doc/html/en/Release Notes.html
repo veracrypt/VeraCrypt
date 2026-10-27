@@ -38,8 +38,8 @@
 <ul>
 <li><strong>Linux, macOS and BSD:</strong>
 	<ul>
-	<li>Security: Prevent files and devices opened by VeraCrypt from being inherited by programs it launches.</li>
 	<li>Security: Prevent programs launched by VeraCrypt from inheriting the pipes between its interface and service, which could let them use an active administrator session. This extends the protection added in version 1.26.30. Reported by <a href="https://github.com/aorakko" target="_blank">aorakko</a>.</li>
+	<li>Security: Prevent programs launched by VeraCrypt from inheriting its open files, devices and internal pipes.</li>
 	<li>Document that permission to run VeraCrypt or its core service as root through <code>sudo</code> or <code>doas</code> grants full root authority. See the <a href="Security%20Model.html#sudo-and-doas">security model</a>.</li>
 	</ul>
 </li>

@@ -10,9 +10,11 @@
  code distribution packages.
 */
 
+#include <chrono>
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
+#include <poll.h>
 #include <stdio.h>
 #include <sstream>
 #include <unistd.h>
@@ -31,10 +33,7 @@
 #include "Platform/SystemException.h"
 #include "Platform/StringConverter.h"
 #include "Platform/Unix/Pipe.h"
-#include "Platform/Unix/Poller.h"
 #ifdef TC_MACOSX
-#include <chrono>
-#include <poll.h>
 #include <signal.h>
 #include <spawn.h>
 #include <crt_externs.h>
@@ -430,6 +429,7 @@ namespace VeraCrypt
 #endif
 
 		Pipe inPipe, outPipe, errPipe, exceptionPipe;
+		throw_sys_if (fcntl (exceptionPipe.PeekWriteFD(), F_SETFD, FD_CLOEXEC) == -1);
 
 		int forkedPid = fork();
 		throw_sys_if (forkedPid == -1);
@@ -453,6 +453,8 @@ namespace VeraCrypt
 					if (inputData)
 					{
 						throw_sys_if (dup2 (inPipe.GetReadFD(), STDIN_FILENO) == -1);
+						if (inPipe.PeekReadFD() != STDIN_FILENO)
+							inPipe.Close();
 					}
 					else
 					{
@@ -460,10 +462,16 @@ namespace VeraCrypt
 						int nullDev = open ("/dev/null", 0);
 						throw_sys_sub_if (nullDev == -1, "/dev/null");
 						throw_sys_if (dup2 (nullDev, STDIN_FILENO) == -1);
+						if (nullDev != STDIN_FILENO)
+							close (nullDev);
 					}
 
 					throw_sys_if (dup2 (outPipe.GetWriteFD(), STDOUT_FILENO) == -1);
+					if (outPipe.PeekWriteFD() != STDOUT_FILENO)
+						outPipe.Close();
 					throw_sys_if (dup2 (errPipe.GetWriteFD(), STDERR_FILENO) == -1);
+					if (errPipe.PeekWriteFD() != STDERR_FILENO)
+						errPipe.Close();
 					exceptionPipe.GetWriteFD();
 
 					if (execFunctor)
@@ -511,49 +519,101 @@ namespace VeraCrypt
 		errOutput.clear ();
 		exOutput.clear ();
 
-		Poller poller (outPipe.GetReadFD(), errPipe.GetReadFD(), exceptionPipe.GetReadFD());
-		int status, waitRes;
+		struct pollfd fds[3] = {
+			{ outPipe.GetReadFD(), POLLIN, 0 },
+			{ errPipe.GetReadFD(), POLLIN, 0 },
+			{ exceptionPipe.GetReadFD(), POLLIN, 0 }
+		};
+		vector <char> *output[3] = { &stdOutput, &errOutput, &exOutput };
 
 		if (inputData)
 			throw_sys_if (write (inPipe.GetWriteFD(), inputData->Ptr(), inputData->Size()) == -1 && errno != EPIPE);
 
 		inPipe.Close();
 
-		int timeTaken = 0;
-		do
+		// GCC 4.4 through 4.6 used the earlier name for this clock.
+#if defined(__GLIBCXX__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 7
+		typedef chrono::monotonic_clock Clock;
+#else
+		typedef chrono::steady_clock Clock;
+#endif
+		const Clock::time_point deadline = Clock::now() + chrono::milliseconds (timeOut < 0 ? 0 : timeOut);
+		bool childExited = false;
+		int status = 0;
+		int exitPoll = 1;
+		const size_t maxDrainSize = 1024 * 1024;
+		size_t drained[3] = { 0, 0, 0 };
+		while (true)
 		{
-			const int pollTimeout = 200;
-			try
+			if (!childExited)
 			{
-				ssize_t bytesRead = 0;
-				foreach (int fd, poller.WaitForData (pollTimeout))
+				int waited = waitpid (forkedPid, &status, WNOHANG);
+				throw_sys_if (waited == -1 && errno != EINTR);
+				childExited = waited == forkedPid;
+			}
+
+			bool outputClosed = fds[0].fd == -1 && fds[1].fd == -1 && fds[2].fd == -1;
+			if (childExited && outputClosed)
+				break;
+
+			int pollTimeout = childExited ? 0 : 50;
+			// After exit, each pipe's drain limit bounds the remaining reads.
+			if (timeOut >= 0 && !childExited)
+			{
+				int64 remaining = chrono::duration_cast <chrono::milliseconds> (deadline - Clock::now()).count();
+				// Preserve the existing timeout behavior: leave the child running.
+				if (remaining <= 0)
+					throw TimeOut (SRC_POS, StringConverter::ToWide (processName));
+				if (remaining < pollTimeout)
+					pollTimeout = static_cast <int> (remaining);
+			}
+			if (outputClosed)
+			{
+				// EOF can precede exit; check promptly without an untimed waitpid.
+				if (exitPoll < pollTimeout)
+					pollTimeout = exitPoll;
+				exitPoll = exitPoll < 25 ? exitPoll * 2 : 50;
+			}
+
+			int pollRes = poll (fds, array_capacity (fds), pollTimeout);
+			if (pollRes == -1 && errno == EINTR)
+				continue;
+			throw_sys_if (pollRes == -1);
+
+			bool readAgain = false;
+			for (size_t i = 0; i < array_capacity (fds); ++i)
+			{
+				if (fds[i].fd == -1 || !fds[i].revents)
+					continue;
+				size_t readSize = buffer.size();
+				if (childExited && readSize > maxDrainSize - drained[i])
+					readSize = maxDrainSize - drained[i];
+				ssize_t bytesRead = read (fds[i].fd, &buffer[0], readSize);
+				if (bytesRead > 0)
 				{
-					bytesRead = read (fd, &buffer[0], buffer.capacity());
-					if (bytesRead > 0)
+					output[i]->insert (output[i]->end(), buffer.begin(), buffer.begin() + bytesRead);
+					readAgain = true;
+					if (childExited)
 					{
-						if (fd == outPipe.GetReadFD())
-							stdOutput.insert (stdOutput.end(), buffer.begin(), buffer.begin() + bytesRead);
-						else if (fd == errPipe.GetReadFD())
-							errOutput.insert (errOutput.end(), buffer.begin(), buffer.begin() + bytesRead);
-						else if (fd == exceptionPipe.GetReadFD())
-							exOutput.insert (exOutput.end(), buffer.begin(), buffer.begin() + bytesRead);
+						// Bound each pipe's drain even if a descendant keeps writing.
+						drained[i] += bytesRead;
+						if (drained[i] == maxDrainSize)
+							fds[i].fd = -1;
 					}
 				}
+				else if (bytesRead == 0)
+					fds[i].fd = -1;
+				else if (errno == EINTR)
+					readAgain = true;
+				else
+					throw_sys_if (errno != EAGAIN && errno != EWOULDBLOCK);
+			}
 
-				if (bytesRead == 0)
-				{
-					waitRes = waitpid (forkedPid, &status, 0);
-					break;
-				}
-			}
-			catch (TimeOut&)
-			{
-				timeTaken += pollTimeout;
-				if (timeOut >= 0 && timeTaken >= timeOut)
-					throw;
-			}
-		} while ((waitRes = waitpid (forkedPid, &status, WNOHANG)) == 0);
-		throw_sys_if (waitRes == -1);
+			// Drain buffered output, but do not wait for descendants (such as the
+			// forked FUSE service) to close their copies after this child exits.
+			if (childExited && !readAgain)
+				break;
+		}
 
 		if (!exOutput.empty())
 		{
