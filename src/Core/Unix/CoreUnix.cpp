@@ -1276,13 +1276,26 @@ namespace VeraCrypt
 		return openat (directoryFd, name.c_str(), O_RDWR | O_CREAT | O_NOFOLLOW | O_CLOEXEC, S_IRUSR | S_IWUSR);
 	}
 
+	static bool IsSameFile (const struct stat &a, const struct stat &b)
+	{
+		if (S_ISBLK (a.st_mode) || S_ISBLK (b.st_mode))
+			return S_ISBLK (a.st_mode) && S_ISBLK (b.st_mode) && a.st_rdev == b.st_rdev;
+
+		return a.st_dev == b.st_dev && a.st_ino == b.st_ino;
+	}
+
 	// Returns a descriptor holding an exclusive lock for the open volume file, or
 	// -1 if no lock can be created.
-	static int LockVolumeForMount (const File &volumeFile)
+	static int LockVolumeForMount (const CoreUnix &core, const File &volumeFile)
 	{
 		struct stat volumeInfo;
 		if (fstat (volumeFile.GetSystemHandle(), &volumeInfo) == -1)
 			return -1;
+
+		// With kernel crypto, a device-mapper device can keep using the volume
+		// after the FUSE service of an emergency dismount has exited
+		if (core.IsVolumeUsedByKernelDevice (volumeInfo))
+			throw VolumeAlreadyMounted (SRC_POS);
 
 		stringstream lockName;
 		lockName << hex;
@@ -1295,7 +1308,6 @@ namespace VeraCrypt
 		if (fd == -1)
 			return -1;
 
-		// A service that has just been dismounted normally may still be exiting
 		for (int t = 0; flock (fd, LOCK_EX | LOCK_NB) == -1; t++)
 		{
 			const int error = errno;
@@ -1310,6 +1322,21 @@ namespace VeraCrypt
 				return -1;
 			}
 
+			// Mounted under another path: refuse without waiting
+			if (t == 0)
+			{
+				foreach_ref (const VolumeInfo &mounted, core.GetMountedVolumes())
+				{
+					struct stat mountedInfo;
+					if (stat (string (mounted.Path).c_str(), &mountedInfo) == 0 && IsSameFile (mountedInfo, volumeInfo))
+					{
+						close (fd);
+						throw VolumeAlreadyMounted (SRC_POS);
+					}
+				}
+			}
+
+			// A service that has just been dismounted normally may still be exiting
 			Thread::Sleep (100);
 		}
 
@@ -1379,7 +1406,7 @@ namespace VeraCrypt
 		// last file on the volume is closed. Mounting the volume again meanwhile
 		// would let two services write to it. The lock identifies the file that
 		// was opened, whatever path leads to it.
-		int volumeLock = LockVolumeForMount (*volume->GetFile());
+		int volumeLock = LockVolumeForMount (*this, *volume->GetFile());
 		finally_do_arg (int, volumeLock, { if (finally_arg != -1) close (finally_arg); });
 #endif
 
