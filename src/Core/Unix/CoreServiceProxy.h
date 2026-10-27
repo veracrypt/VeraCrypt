@@ -118,11 +118,17 @@ namespace VeraCrypt
 					finally_do_arg (MountOptions*, &options, { if (finally_arg->Password) finally_arg->Password.reset(); });
 
 					PasswordIncorrect passwordException;
-					foreach (shared_ptr <VolumePassword> password, VolumePasswordCache::GetPasswords())
+					foreach (const CachedPassword &cached, VolumePasswordCache::GetPasswords())
 					{
 						try
 						{
-							newOptions.Password = password;
+							newOptions.Password = cached.Password;
+							// With autodetection, try a cached password only with the KDF it
+							// opened a volume with. Otherwise a password that does not match
+							// goes through every KDF, including Argon2, whose time and memory
+							// grow steeply with the PIM.
+							if (!options.Kdf)
+								newOptions.Kdf = cached.Kdf;
 							mountedVolume = CoreService::RequestMountVolume (newOptions);
 							break;
 						}
@@ -170,7 +176,14 @@ namespace VeraCrypt
 			if (!useCachedPasswords && options.CachePassword
 				&& ((options.Password && !options.Password->IsEmpty()) || (options.Keyfiles && !options.Keyfiles->empty())))
 			{
-				VolumePasswordCache::Store (*newOptions.Password);
+				shared_ptr <Pkcs5Kdf> kdf;
+				try
+				{
+					kdf = Pkcs5Kdf::GetAlgorithm (mountedVolume->Pkcs5PrfName);
+				}
+				catch (ParameterIncorrect&) { }
+
+				VolumePasswordCache::Store (*newOptions.Password, kdf);
 			}
 
 			VolumeEventArgs eventArgs (mountedVolume);
