@@ -1287,44 +1287,15 @@ namespace VeraCrypt
 		throw_sys_if (mkdtemp (&mountDirectory[0]) == NULL);
 		fuseMountPoint = &mountDirectory[0];
 #else
-		// Find a free mount point for FUSE service
-		MountedFilesystemList mountedFilesystems = GetMountedFilesystems ();
-		for (int i = 1; true; i++)
-		{
-			stringstream path;
-			path << GetTempDirectory() << "/" << GetFuseMountDirPrefix() << i;
-			FilesystemPath fsPath (path.str());
-
-			bool inUse = false;
-
-			foreach_ref (const MountedFilesystem &mf, mountedFilesystems)
-			{
-				if (mf.MountPoint == path.str())
-				{
-					inUse = true;
-					break;
-				}
-			}
-
-			if (!inUse)
-			{
-				try
-				{
-					if (fsPath.IsDirectory())
-						fsPath.Delete();
-
-					throw_sys_sub_if (mkdir (path.str().c_str(), S_IRUSR | S_IXUSR) == -1, path.str());
-
-					fuseMountPoint = fsPath;
-					break;
-				}
-				catch (...)
-				{
-					if (i > 255)
-						throw TemporaryDirectoryFailure (SRC_POS, StringConverter::ToWide (path.str()));
-				}
-			}
-		}
+		// Create a new directory with an unpredictable name. Numbered names were
+		// reused by parallel mounts, and any local user could create them all in
+		// advance to block mounting.
+		string mountTemplate = GetTempDirectory() + "/" + GetFuseMountDirPrefix() + "-XXXXXX";
+		vector <char> mountDirectory (mountTemplate.begin(), mountTemplate.end());
+		mountDirectory.push_back ('\0');
+		if (mkdtemp (&mountDirectory[0]) == NULL)
+			throw TemporaryDirectoryFailure (SRC_POS, StringConverter::ToWide (mountTemplate));
+		fuseMountPoint = &mountDirectory[0];
 #endif
 
 #ifdef VC_MACOSX_FUSET
