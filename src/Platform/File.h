@@ -71,6 +71,7 @@ namespace VeraCrypt
 		 { }
 		virtual ~File ();
 
+		SystemFileHandleType GetSystemHandle () const { return FileHandle; }
 		void AssignSystemHandle (SystemFileHandleType openFileHandle, bool sharedHandle = true)
 		{
 			if (FileIsOpen)

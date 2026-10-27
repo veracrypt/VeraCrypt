@@ -25,6 +25,8 @@
 #include <sys/mount.h>
 #endif
 #ifdef TC_LINUX
+#include <fcntl.h>
+#include <sys/file.h>
 #include <sys/utsname.h>
 #endif
 #include <stdio.h>
@@ -1245,6 +1247,76 @@ namespace VeraCrypt
 			throw MountPointNotAllowed (SRC_POS);
 	}
 
+#ifdef TC_LINUX
+	// Opens the lock file 'name' in the root owned /var/run/veracrypt, or returns
+	// -1 if that is not possible (not root, or no usable directory). The locks
+	// are taken with flock, so they last until the last copy of the descriptor is
+	// closed: the copy that the FUSE service inherits lasts until it exits.
+	static int OpenMountLockFile (const string &name)
+	{
+		if (geteuid() != 0)
+			return -1;
+
+		// /var/run also exists on systems without /run
+		const char *lockDirectory = "/var/run/veracrypt";
+		if (mkdir (lockDirectory, S_IRWXU) == -1 && errno != EEXIST)
+			return -1;
+
+		// Keep using the directory that was checked
+		int directoryFd = open (lockDirectory, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+		if (directoryFd == -1)
+			return -1;
+		finally_do_arg (int, directoryFd, { close (finally_arg); });
+
+		struct stat directoryInfo;
+		if (fstat (directoryFd, &directoryInfo) == -1 || directoryInfo.st_uid != 0
+			|| (directoryInfo.st_mode & (S_IWGRP | S_IWOTH)))
+			return -1;
+
+		return openat (directoryFd, name.c_str(), O_RDWR | O_CREAT | O_NOFOLLOW | O_CLOEXEC, S_IRUSR | S_IWUSR);
+	}
+
+	// Returns a descriptor holding an exclusive lock for the open volume file, or
+	// -1 if no lock can be created.
+	static int LockVolumeForMount (const File &volumeFile)
+	{
+		struct stat volumeInfo;
+		if (fstat (volumeFile.GetSystemHandle(), &volumeInfo) == -1)
+			return -1;
+
+		stringstream lockName;
+		lockName << hex;
+		if (S_ISBLK (volumeInfo.st_mode))
+			lockName << "device-" << (uint64) volumeInfo.st_rdev;
+		else
+			lockName << "file-" << (uint64) volumeInfo.st_dev << "-" << (uint64) volumeInfo.st_ino;
+
+		int fd = OpenMountLockFile (lockName.str());
+		if (fd == -1)
+			return -1;
+
+		// A service that has just been dismounted normally may still be exiting
+		for (int t = 0; flock (fd, LOCK_EX | LOCK_NB) == -1; t++)
+		{
+			const int error = errno;
+			if (error == EINTR)
+				continue;
+
+			if (error != EWOULDBLOCK || t >= 100)
+			{
+				close (fd);
+				if (error == EWOULDBLOCK)
+					throw VolumeAlreadyMounted (SRC_POS);
+				return -1;
+			}
+
+			Thread::Sleep (100);
+		}
+
+		return fd;
+	}
+#endif
+
 	shared_ptr <VolumeInfo> CoreUnix::MountVolume (MountOptions &options)
 	{
 		CoalesceSlotNumberAndMountPoint (options);
@@ -1300,6 +1372,16 @@ namespace VeraCrypt
 
 			break;
 		}
+
+#ifdef TC_LINUX
+		// An emergency dismount only detaches the file systems: the FUSE service
+		// keeps the volume open after it has left the mount table, until the
+		// last file on the volume is closed. Mounting the volume again meanwhile
+		// would let two services write to it. The lock identifies the file that
+		// was opened, whatever path leads to it.
+		int volumeLock = LockVolumeForMount (*volume->GetFile());
+		finally_do_arg (int, volumeLock, { if (finally_arg != -1) close (finally_arg); });
+#endif
 
 		// Opening a partially encrypted system volume can force read-only
 		// protection. Carry that effective mode into either mount backend.
