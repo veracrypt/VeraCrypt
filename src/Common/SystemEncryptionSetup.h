@@ -9,6 +9,7 @@
 #include <windows.h>
 #include <string>
 #include <vector>
+#include "SystemEncryptionFiles.h"
 
 // Windows feature update support of system encryption. SetupConfig.ini in the
 // Default user profile tells Windows Setup to add the VeraCrypt driver to the
@@ -110,8 +111,8 @@ namespace VeraCrypt { namespace SystemEncryptionSetup
 	inline DWORD GetValue (const std::wstring &file, const wchar_t *key, std::wstring &value)
 	{
 		value.clear ();
-		HANDLE handle = CreateFileW (file.c_str (), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-		if (handle == INVALID_HANDLE_VALUE)
+		SystemEncryptionFiles::Handle handle (CreateFileW (file.c_str (), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL));
+		if (handle.Value == INVALID_HANDLE_VALUE)
 		{
 			DWORD error = GetLastError ();
 			return error == ERROR_FILE_NOT_FOUND || error == ERROR_PATH_NOT_FOUND ? ERROR_SUCCESS : error;
@@ -140,7 +141,6 @@ namespace VeraCrypt { namespace SystemEncryptionSetup
 			}
 			buffer.resize (buffer.size () * 2);
 		}
-		CloseHandle (handle);
 		return error;
 	}
 

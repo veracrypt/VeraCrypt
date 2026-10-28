@@ -4872,7 +4872,7 @@ namespace VeraCrypt
 				// An absent directory under ProgramData can be recreated by a user.
 				// Protect the name until the old registration is known to be gone.
 				error = readError != ERROR_SUCCESS || SystemEncryptionSetup::PathMatches (script, legacy + L"\\SetupComplete.cmd")
-					? SystemEncryptionFiles::PrepareDirectory (legacy, security.Value) : ERROR_SUCCESS;
+					? SystemEncryptionFiles::SecureLegacyDirectory (legacy, security.Value, true, true) : ERROR_SUCCESS;
 			}
 			if (error != ERROR_SUCCESS && failedPath)
 				*failedPath = legacy;

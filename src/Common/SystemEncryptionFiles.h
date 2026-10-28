@@ -500,23 +500,23 @@ namespace VeraCrypt { namespace SystemEncryptionFiles
 			? ERROR_SUCCESS : GetLastError ();
 	}
 
-	// Delete a link (reparse point), never its target, provided that it is still
-	// the inspected object. ERROR_RETRY if it has been replaced meanwhile.
-	inline DWORD DeleteLink (const std::wstring &path, const BY_HANDLE_FILE_INFORMATION &inspected)
+	// Delete a file or reparse point at the legacy directory path, never a real
+	// directory or a link's target. ERROR_RETRY if the inspected object changed.
+	inline DWORD DeleteLegacyEntry (const std::wstring &path, const BY_HANDLE_FILE_INFORMATION &inspected)
 	{
-		Handle link (CreateFileW (path.c_str (), DELETE | FILE_READ_ATTRIBUTES, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL,
+		Handle entry (CreateFileW (path.c_str (), DELETE | FILE_READ_ATTRIBUTES, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL,
 			OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, NULL));
-		if (link.Value == INVALID_HANDLE_VALUE)
+		if (entry.Value == INVALID_HANDLE_VALUE)
 			return GetLastError ();
 		BY_HANDLE_FILE_INFORMATION info;
-		if (!GetFileInformationByHandle (link.Value, &info))
+		if (!GetFileInformationByHandle (entry.Value, &info))
 			return GetLastError ();
-		if (!(info.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT)
+		if (((info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && !(info.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT))
 			|| info.dwVolumeSerialNumber != inspected.dwVolumeSerialNumber
 			|| info.nFileIndexHigh != inspected.nFileIndexHigh || info.nFileIndexLow != inspected.nFileIndexLow)
 			return ERROR_RETRY;
 		FILE_DISPOSITION_INFO disposition = { TRUE };
-		return SetFileInformationByHandle (link.Value, FileDispositionInfo, &disposition, sizeof (disposition))
+		return SetFileInformationByHandle (entry.Value, FileDispositionInfo, &disposition, sizeof (disposition))
 			? ERROR_SUCCESS : GetLastError ();
 	}
 
@@ -525,14 +525,14 @@ namespace VeraCrypt { namespace SystemEncryptionFiles
 	// that neither an old registration nor an older VeraCrypt executable can run
 	// a script that they control. The owners and permissions of existing files
 	// are not changed: a file that a standard user created is still not used.
-	// A reparse point, through which the directory could lead elsewhere, is
-	// deleted and replaced with a new directory, so that it cannot be created
-	// again. Otherwise, a missing directory is not created: ERROR_FILE_NOT_FOUND
-	// or ERROR_PATH_NOT_FOUND is returned.
-	inline DWORD SecureLegacyDirectory (const std::wstring &path, PSECURITY_DESCRIPTOR descriptor, bool owner = true)
+	// A file or reparse point at this path can be replaced by its owner. Delete
+	// it and reserve the name with a protected directory. Otherwise, a missing
+	// directory is created only if createMissing is true; if false, return
+	// ERROR_FILE_NOT_FOUND or ERROR_PATH_NOT_FOUND.
+	inline DWORD SecureLegacyDirectory (const std::wstring &path, PSECURITY_DESCRIPTOR descriptor, bool owner = true, bool createMissing = false)
 	{
 		DWORD error = ERROR_RETRY;
-		bool linkDeleted = false;
+		bool replacingEntry = false;
 		for (int attempt = 0; attempt < 8; ++attempt)
 		{
 			Handle folder (CreateFileW (path.c_str (), READ_CONTROL | WRITE_DAC | (owner ? WRITE_OWNER : 0) | FILE_READ_ATTRIBUTES,
@@ -541,10 +541,10 @@ namespace VeraCrypt { namespace SystemEncryptionFiles
 			if (folder.Value == INVALID_HANDLE_VALUE)
 			{
 				error = GetLastError ();
-				if (!linkDeleted)
+				if (!replacingEntry && !createMissing)
 					return error;
-				// A virus scanner can briefly delay the deletion of the link.
-				if (error == ERROR_ACCESS_DENIED)
+				// A virus scanner can briefly delay the deletion of the old entry.
+				if (replacingEntry && error == ERROR_ACCESS_DENIED)
 				{
 					Sleep (100);
 					continue;
@@ -563,18 +563,15 @@ namespace VeraCrypt { namespace SystemEncryptionFiles
 			BY_HANDLE_FILE_INFORMATION info;
 			if (!GetFileInformationByHandle (folder.Value, &info))
 				return GetLastError ();
-			if (info.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT)
+			if ((info.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) || !(info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 			{
-				// The link disappears once this handle is closed too.
-				error = DeleteLink (path, info);
+				// The entry disappears once this handle is closed too.
+				error = DeleteLegacyEntry (path, info);
 				if (error != ERROR_SUCCESS && error != ERROR_RETRY)
 					return error;
-				linkDeleted = true;
+				replacingEntry = true;
 				continue;
 			}
-			// A file prevents the creation of the directory.
-			if (!(info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-				return ERROR_SUCCESS;
 			if (HasSecurity (folder.Value, descriptor, owner))
 				return ERROR_SUCCESS;
 			// SetSecurityInfo would also rewrite the permissions of the entries that
@@ -582,7 +579,7 @@ namespace VeraCrypt { namespace SystemEncryptionFiles
 			return SetKernelObjectSecurity (folder.Value, (owner ? OWNER_SECURITY_INFORMATION : 0) | DACL_SECURITY_INFORMATION, descriptor)
 				? ERROR_SUCCESS : GetLastError ();
 		}
-		return error;
+		return error != ERROR_SUCCESS ? error : ERROR_RETRY;
 	}
 
 } }
