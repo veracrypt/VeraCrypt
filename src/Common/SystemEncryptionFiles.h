@@ -482,6 +482,50 @@ namespace VeraCrypt { namespace SystemEncryptionFiles
 		return error;
 	}
 
+	// The handle must have DELETE, FILE_READ_ATTRIBUTES and FILE_WRITE_ATTRIBUTES.
+	// POSIX deletion releases the name when this handle closes, even if other
+	// handles that allow deletion remain open.
+	inline DWORD DeleteOpenedFile (HANDLE file, bool posix)
+	{
+		// SDKs expose the extended disposition enum, structure and flags
+		// inconsistently for our compile-time Windows target. Define them locally.
+		const FILE_INFO_BY_HANDLE_CLASS dispositionInfoEx = static_cast<FILE_INFO_BY_HANDLE_CLASS> (21);
+		const DWORD dispositionDelete = 0x00000001;
+		const DWORD dispositionPosixSemantics = 0x00000002;
+		const DWORD dispositionIgnoreReadOnly = 0x00000010;
+		struct DispositionInfoEx
+		{
+			DWORD Flags;
+		};
+		DispositionInfoEx extended = { dispositionDelete | dispositionIgnoreReadOnly };
+		if (posix)
+			extended.Flags |= dispositionPosixSemantics;
+		if (SetFileInformationByHandle (file, dispositionInfoEx, &extended, sizeof (extended)))
+			return ERROR_SUCCESS;
+		DWORD error = GetLastError ();
+		if (error != ERROR_INVALID_PARAMETER && error != ERROR_INVALID_FUNCTION
+			&& error != ERROR_NOT_SUPPORTED && error != ERROR_INVALID_LEVEL)
+			return error;
+
+		// If the file system does not support extended deletion, clear only the
+		// read-only attribute on the same object before using ordinary deletion.
+		FILE_BASIC_INFO current;
+		if (!GetFileInformationByHandleEx (file, FileBasicInfo, &current, sizeof (current)))
+			return GetLastError ();
+		if (current.FileAttributes & FILE_ATTRIBUTE_READONLY)
+		{
+			FILE_BASIC_INFO update = {};
+			update.FileAttributes = current.FileAttributes & ~FILE_ATTRIBUTE_READONLY;
+			if (!update.FileAttributes)
+				update.FileAttributes = FILE_ATTRIBUTE_NORMAL;
+			if (!SetFileInformationByHandle (file, FileBasicInfo, &update, sizeof (update)))
+				return GetLastError ();
+		}
+		FILE_DISPOSITION_INFO disposition = { TRUE };
+		return SetFileInformationByHandle (file, FileDispositionInfo, &disposition, sizeof (disposition))
+			? ERROR_SUCCESS : GetLastError ();
+	}
+
 	// Delete a file of the legacy directory. A link is deleted, not its target.
 	// The file is deleted whatever its permissions if the caller enabled the
 	// privileges of AdministratorPrivileges.
@@ -490,21 +534,19 @@ namespace VeraCrypt { namespace SystemEncryptionFiles
 		Handle folder, file;
 		DWORD error = OpenLegacyDirectory (directory, FILE_READ_ATTRIBUTES | FILE_TRAVERSE, folder);
 		if (error == ERROR_SUCCESS)
-			error = OpenRelative (folder.Value, name, DELETE | FILE_READ_ATTRIBUTES, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, file, true);
+			error = OpenRelative (folder.Value, name, DELETE | FILE_READ_ATTRIBUTES | FILE_WRITE_ATTRIBUTES, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, file, true);
 		if (Missing (error))
 			return ERROR_SUCCESS;
 		if (error != ERROR_SUCCESS)
 			return error;
-		FILE_DISPOSITION_INFO disposition = { TRUE };
-		return SetFileInformationByHandle (file.Value, FileDispositionInfo, &disposition, sizeof (disposition))
-			? ERROR_SUCCESS : GetLastError ();
+		return DeleteOpenedFile (file.Value, false);
 	}
 
 	// Delete a file or reparse point at the legacy directory path, never a real
 	// directory or a link's target. ERROR_RETRY if the inspected object changed.
 	inline DWORD DeleteLegacyEntry (const std::wstring &path, const BY_HANDLE_FILE_INFORMATION &inspected)
 	{
-		Handle entry (CreateFileW (path.c_str (), DELETE | FILE_READ_ATTRIBUTES, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL,
+		Handle entry (CreateFileW (path.c_str (), DELETE | FILE_READ_ATTRIBUTES | FILE_WRITE_ATTRIBUTES, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL,
 			OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, NULL));
 		if (entry.Value == INVALID_HANDLE_VALUE)
 			return GetLastError ();
@@ -515,9 +557,7 @@ namespace VeraCrypt { namespace SystemEncryptionFiles
 			|| info.dwVolumeSerialNumber != inspected.dwVolumeSerialNumber
 			|| info.nFileIndexHigh != inspected.nFileIndexHigh || info.nFileIndexLow != inspected.nFileIndexLow)
 			return ERROR_RETRY;
-		FILE_DISPOSITION_INFO disposition = { TRUE };
-		return SetFileInformationByHandle (entry.Value, FileDispositionInfo, &disposition, sizeof (disposition))
-			? ERROR_SUCCESS : GetLastError ();
+		return DeleteOpenedFile (entry.Value, true);
 	}
 
 	// Stop standard users from creating, deleting or renaming files in the
@@ -565,7 +605,7 @@ namespace VeraCrypt { namespace SystemEncryptionFiles
 				return GetLastError ();
 			if ((info.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) || !(info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 			{
-				// The entry disappears once this handle is closed too.
+				// Release this handle before reserving the directory name.
 				error = DeleteLegacyEntry (path, info);
 				if (error != ERROR_SUCCESS && error != ERROR_RETRY)
 					return error;
