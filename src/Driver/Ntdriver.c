@@ -896,6 +896,10 @@ static BOOL VcTryDirectHostRead (PEXTENSION extension, PIRP irp, PIO_STACK_LOCAT
 
 	if (InterlockedCompareExchange (&queue->DirectHostReadEnabled, FALSE, FALSE) == FALSE)
 		return FALSE;
+	// An oversized request always uses the legacy queue. Avoid taking the
+	// direct-read lifetime lock for a request that cannot use the direct path.
+	if (irpSp->Parameters.Read.Length > queue->DirectHostIoMaxRequestSize)
+		return FALSE;
 
 	status = EncryptedIoQueueBeginDirectRead (queue, irp);
 	if (!NT_SUCCESS (status))
@@ -3815,7 +3819,8 @@ VOID VolumeThreadProc (PVOID Context)
 	Extension->Queue.HostBytesPerSector = Extension->HostBytesPerSector;
 	if (Extension->Queue.HostBytesPerSector != 0)
 		Extension->Queue.HostDeviceIoMaxSize -= Extension->Queue.HostDeviceIoMaxSize % Extension->Queue.HostBytesPerSector;
-	Extension->Queue.DirectHostIoMaxRequestSize = VC_MOUNTED_VOLUME_FAST_IO_MAX_REQUEST_SIZE;
+	// Keep direct reads within one host transfer. Larger reads use the legacy queue.
+	Extension->Queue.DirectHostIoMaxRequestSize = min (VC_MOUNTED_VOLUME_FAST_IO_MAX_REQUEST_SIZE, Extension->Queue.HostDeviceIoMaxSize);
 	// Capture the registry option for this mount. Reloading configuration
 	// changes only subsequent mounts, not an active queue.
 	Extension->Queue.DirectHostReadEnabled = Extension->bRawDevice
