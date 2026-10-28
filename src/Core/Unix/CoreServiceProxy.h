@@ -117,18 +117,53 @@ namespace VeraCrypt
 				{
 					finally_do_arg (MountOptions*, &options, { if (finally_arg->Password) finally_arg->Password.reset(); });
 
+					// A selected KDF is used with every cached password. With autodetection,
+					// each cached password is tried with the KDF it opened a volume with,
+					// then with the other PBKDF2 KDFs, which are cheap. Argon2, whose time
+					// and memory grow steeply with the PIM, is tried only for passwords that
+					// opened an Argon2 volume, or a volume with an unknown KDF: through
+					// autodetection, which also keeps its handling of derivation failures.
+					// If nothing matches, the user is asked for the password instead of
+					// trying Argon2 with every cached password.
+					CachedPasswordList cachedPasswords = VolumePasswordCache::GetPasswords();
+					CachedAttemptList attempts;
+
+					if (options.Kdf)
+					{
+						foreach (const CachedPassword &cached, cachedPasswords)
+							attempts.push_back (CachedAttempt (cached.Password, options.Kdf));
+					}
+					else
+					{
+						foreach (const CachedPassword &cached, cachedPasswords)
+						{
+							if (cached.Kdf && !cached.Kdf->IsArgon2())
+								AddCachedAttempt (attempts, cached.Password, cached.Kdf);
+						}
+
+						foreach (const CachedPassword &cached, cachedPasswords)
+						{
+							foreach (shared_ptr <Pkcs5Kdf> kdf, Pkcs5Kdf::GetAvailableAlgorithms())
+							{
+								if (!kdf->IsArgon2())
+									AddCachedAttempt (attempts, cached.Password, kdf);
+							}
+						}
+
+						foreach (const CachedPassword &cached, cachedPasswords)
+						{
+							if (!cached.Kdf || cached.Kdf->IsArgon2())
+								AddCachedAttempt (attempts, cached.Password, shared_ptr <Pkcs5Kdf>());
+						}
+					}
+
 					PasswordIncorrect passwordException;
-					foreach (const CachedPassword &cached, VolumePasswordCache::GetPasswords())
+					foreach (const CachedAttempt &attempt, attempts)
 					{
 						try
 						{
-							newOptions.Password = cached.Password;
-							// With autodetection, try a cached password only with the KDF it
-							// opened a volume with. Otherwise a password that does not match
-							// goes through every KDF, including Argon2, whose time and memory
-							// grow steeply with the PIM.
-							if (!options.Kdf)
-								newOptions.Kdf = cached.Kdf;
+							newOptions.Password = attempt.first;
+							newOptions.Kdf = attempt.second;
 							mountedVolume = CoreService::RequestMountVolume (newOptions);
 							break;
 						}
@@ -205,6 +240,22 @@ namespace VeraCrypt
 		virtual void WipePasswordCache () const
 		{
 			VolumePasswordCache::Clear();
+		}
+
+	protected:
+		// A cached password with a KDF to try, or with autodetection if null
+		typedef pair < shared_ptr <VolumePassword>, shared_ptr <Pkcs5Kdf> > CachedAttempt;
+		typedef list <CachedAttempt> CachedAttemptList;
+
+		static void AddCachedAttempt (CachedAttemptList &attempts, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf)
+		{
+			foreach (const CachedAttempt &attempt, attempts)
+			{
+				if (*attempt.first == *password && (attempt.second ? attempt.second->GetName() : wstring()) == (kdf ? kdf->GetName() : wstring()))
+					return;
+			}
+
+			attempts.push_back (CachedAttempt (password, kdf));
 		}
 	};
 }
