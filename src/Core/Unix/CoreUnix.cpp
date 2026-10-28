@@ -18,8 +18,8 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
 #include <fcntl.h>
+#if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
 #include <membership.h>
 #include <sys/acl.h>
 #include <sys/mount.h>
@@ -304,7 +304,7 @@ namespace VeraCrypt
 #endif
 
 			// Delete mount directory if a default path has been used
-			if (string (mountedVolume->MountPoint).find (GetDefaultMountPointPrefix()) == 0)
+			if (IsDefaultMountPoint (mountedVolume->MountPoint))
 				mountedVolume->MountPoint.Delete();
 		}
 
@@ -406,7 +406,7 @@ namespace VeraCrypt
 				}
 			}
 
-			if ((!mountPointMounted || mountPointDetached) && string (mountedVolume->MountPoint).find (GetDefaultMountPointPrefix()) == 0)
+			if ((!mountPointMounted || mountPointDetached) && IsDefaultMountPoint (mountedVolume->MountPoint))
 			{
 				try
 				{
@@ -1178,7 +1178,7 @@ namespace VeraCrypt
 	VolumeSlotNumber CoreUnix::MountPointToSlotNumber (const DirectoryPath &mountPoint) const
 	{
 		string mountPointStr (mountPoint);
-		if (mountPointStr.find (GetDefaultMountPointPrefix()) == 0)
+		if (IsDefaultMountPoint (mountPointStr))
 		{
 			try
 			{
@@ -1188,6 +1188,53 @@ namespace VeraCrypt
 		}
 		return GetFirstFreeSlotNumber();
 	}
+
+#ifndef TC_MACOSX
+	// Creates a default mount point in a parent directory that only root can
+	// change, and gives it to the user through its descriptor, so that the path
+	// cannot be redirected between the checks, mkdir() and chown().
+	static void CreateDefaultMountPoint (const string &mountPoint, uid_t userId, gid_t groupId)
+	{
+		const size_t separator = mountPoint.find_last_of ('/');
+		if (separator == string::npos || separator + 1 == mountPoint.size())
+			throw ParameterIncorrect (SRC_POS);
+
+		const string parent = separator == 0 ? string ("/") : mountPoint.substr (0, separator);
+		const string name = mountPoint.substr (separator + 1);
+
+		int parentFd = open (parent.c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC);
+		throw_sys_sub_if (parentFd == -1, parent);
+		finally_do_arg (int, parentFd, { close (finally_arg); });
+
+		struct stat parentInfo;
+		throw_sys_sub_if (fstat (parentFd, &parentInfo) == -1, parent);
+		if (parentInfo.st_uid != 0 || (parentInfo.st_mode & (S_IWGRP | S_IWOTH)))
+		{
+			errno = EPERM;
+			throw SystemException (SRC_POS, parent + ": VeraCrypt creates mount points only in directories that only root can change.");
+		}
+
+		throw_sys_sub_if (mkdirat (parentFd, name.c_str(), S_IRUSR | S_IWUSR | S_IXUSR) == -1, mountPoint);
+
+		int fd = openat (parentFd, name.c_str(), O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+		if (fd == -1)
+		{
+			const int error = errno;
+			unlinkat (parentFd, name.c_str(), AT_REMOVEDIR);
+			errno = error;
+			throw SystemException (SRC_POS, mountPoint);
+		}
+		finally_do_arg (int, fd, { close (finally_arg); });
+
+		if (fchown (fd, userId, groupId) == -1)
+		{
+			const int error = errno;
+			unlinkat (parentFd, name.c_str(), AT_REMOVEDIR);
+			errno = error;
+			throw SystemException (SRC_POS, mountPoint);
+		}
+	}
+#endif
 
 	shared_ptr <VolumeInfo> CoreUnix::MountVolume (MountOptions &options)
 	{
@@ -1368,14 +1415,9 @@ namespace VeraCrypt
 				mountPoint = *options.MountPoint;
 
 #ifndef TC_MACOSX
-				if (mountPoint.find (GetDefaultMountPointPrefix()) == 0 && !options.MountPoint->IsDirectory())
+				if (IsDefaultMountPoint (mountPoint) && !options.MountPoint->IsDirectory())
 				{
-					Directory::Create (*options.MountPoint);
-					try
-					{
-						throw_sys_sub_if (chown (mountPoint.c_str(), GetRealUserId(), GetRealGroupId()) == -1, mountPoint);
-					} catch (ParameterIncorrect&) { }
-
+					CreateDefaultMountPoint (mountPoint, GetRealUserId(), GetRealGroupId());
 					mountDirCreated = true;
 				}
 #endif
@@ -1405,7 +1447,7 @@ namespace VeraCrypt
 			{
 				mountPoint = *options.MountPoint;
 
-				if (mountPoint.find (GetDefaultMountPointPrefix()) == 0)
+				if (IsDefaultMountPoint (mountPoint))
 				{
 					try
 					{
@@ -1588,6 +1630,67 @@ namespace VeraCrypt
 		return s.str();
 	}
 
+	// Only <prefix>N mount points are created and removed by VeraCrypt. Other paths
+	// that start with the prefix can lead anywhere, for example through a symbolic
+	// link in a volume mounted at <prefix>N.
+	bool CoreUnix::IsDefaultMountPoint (const string &mountPoint) const
+	{
+		const string prefix = GetDefaultMountPointPrefix();
+		return mountPoint.size() > prefix.size()
+			&& mountPoint.compare (0, prefix.size(), prefix) == 0
+			&& mountPoint.find_first_not_of ("0123456789", prefix.size()) == string::npos;
+	}
+
+	// Resolves the longest existing part of the path and appends the rest. Returns
+	// false if the rest, which cannot be resolved, contains "." or "..": mkdir()
+	// and mount would follow it to a directory that was not checked. Also returns
+	// false if a part of the path cannot be resolved for another reason than its
+	// absence, e.g. a link loop or a FUSE file system that root cannot access.
+	static bool ResolveMountPointPath (const string &path, string &resolvedPath)
+	{
+		string existing = path;
+		string rest;
+
+		while (true)
+		{
+			char *resolved = realpath (existing.c_str(), NULL);
+			if (resolved)
+			{
+				resolvedPath = resolved;
+				free (resolved);
+				break;
+			}
+
+			if (errno != ENOENT)
+				return false;
+
+			const size_t separator = existing.find_last_of ('/');
+			if (separator == string::npos)
+				return false;
+
+			rest = existing.substr (separator) + rest;
+			if (separator == 0)
+			{
+				resolvedPath = "/";
+				break;
+			}
+			existing = existing.substr (0, separator);
+		}
+
+		stringstream components (rest);
+		string component;
+		while (getline (components, component, '/'))
+		{
+			if (component == "." || component == "..")
+				return false;
+		}
+
+		if (!rest.empty())
+			resolvedPath = (resolvedPath == "/" ? string() : resolvedPath) + rest;
+
+		return true;
+	}
+
 	bool CoreUnix::IsProtectedSystemDirectory (const DirectoryPath &directory) const
 	{
 		static const char* systemDirs[] = {
@@ -1609,14 +1712,10 @@ namespace VeraCrypt
 			NULL
 		};
 
-		// Resolve any symlinks in the path
-		string path(directory);
-		char* resolvedPathCStr = realpath(path.c_str(), NULL);
-		if (resolvedPathCStr)
-		{
-			path = resolvedPathCStr;
-			free(resolvedPathCStr); // Free the allocated memory
-		}
+		// Resolve any symlinks in the path, also when the mount point does not exist yet
+		string path;
+		if (!ResolveMountPointPath (directory, path))
+			return true;
 
 		// reject of the path is the root directory "/"
 		if (path == "/")
@@ -1639,14 +1738,10 @@ namespace VeraCrypt
 		if (!pathEnv[0])
 			return false;
 
-		// Resolve the given directory
-		string dirPath(directory);
-		char* resolvedDir = realpath(dirPath.c_str(), NULL);
-		if (resolvedDir)
-		{
-			dirPath = resolvedDir;
-			free(resolvedDir);
-		}
+		// Resolve the given directory, also when it does not exist yet
+		string dirPath;
+		if (!ResolveMountPointPath (directory, dirPath))
+			return true;
 
 		// Split PATH and compare each entry
 		stringstream ss(pathEnv);
