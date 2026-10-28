@@ -1248,32 +1248,31 @@ namespace VeraCrypt
 	}
 
 #ifdef TC_LINUX
-	// Opens the lock file 'name' in the root owned /var/run/veracrypt, or returns
-	// -1 if that is not possible (not root, or no usable directory). The locks
-	// are taken with flock, so they last until the last copy of the descriptor is
-	// closed: the copy that the FUSE service inherits lasts until it exits.
-	static int OpenMountLockFile (const string &name)
+	// Opens the lock file 'name' in the lock directory, which must belong to the
+	// effective user (root, /var/run/veracrypt) and be writable only by it. The
+	// locks are taken with flock, so they last until the last copy of the
+	// descriptor is closed: the copy that the FUSE service inherits lasts until it
+	// exits.
+	static int OpenMountLockFile (const string &lockDirectory, const string &name)
 	{
-		if (geteuid() != 0)
-			return -1;
-
-		// /var/run also exists on systems without /run
-		const char *lockDirectory = "/var/run/veracrypt";
-		if (mkdir (lockDirectory, S_IRWXU) == -1 && errno != EEXIST)
-			return -1;
+		throw_sys_sub_if (mkdir (lockDirectory.c_str(), S_IRWXU) == -1 && errno != EEXIST, lockDirectory);
 
 		// Keep using the directory that was checked
-		int directoryFd = open (lockDirectory, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
-		if (directoryFd == -1)
-			return -1;
+		int directoryFd = open (lockDirectory.c_str(), O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+		throw_sys_sub_if (directoryFd == -1, lockDirectory);
 		finally_do_arg (int, directoryFd, { close (finally_arg); });
 
 		struct stat directoryInfo;
-		if (fstat (directoryFd, &directoryInfo) == -1 || directoryInfo.st_uid != 0
-			|| (directoryInfo.st_mode & (S_IWGRP | S_IWOTH)))
-			return -1;
+		throw_sys_sub_if (fstat (directoryFd, &directoryInfo) == -1, lockDirectory);
+		if (directoryInfo.st_uid != geteuid() || (directoryInfo.st_mode & (S_IWGRP | S_IWOTH)))
+		{
+			errno = EPERM;
+			throw SystemException (SRC_POS, lockDirectory + ": the directory must belong to the user running VeraCrypt and be writable only by it.");
+		}
 
-		return openat (directoryFd, name.c_str(), O_RDWR | O_CREAT | O_NOFOLLOW | O_CLOEXEC, S_IRUSR | S_IWUSR);
+		int fd = openat (directoryFd, name.c_str(), O_RDWR | O_CREAT | O_NOFOLLOW | O_CLOEXEC, S_IRUSR | S_IWUSR);
+		throw_sys_sub_if (fd == -1, lockDirectory + "/" + name);
+		return fd;
 	}
 
 	static bool IsSameFile (const struct stat &a, const struct stat &b)
@@ -1284,14 +1283,11 @@ namespace VeraCrypt
 		return a.st_dev == b.st_dev && a.st_ino == b.st_ino;
 	}
 
-	// Returns a descriptor holding an exclusive lock for the open volume file, or
-	// -1 if no lock can be created.
-	static int LockVolumeForMount (const CoreUnix &core, const File &volumeFile)
+	// Throws VolumeAlreadyMounted if the volume is in use, or another exception if
+	// that cannot be established. Returns a descriptor holding an exclusive lock
+	// for the volume, which the FUSE service inherits.
+	static int LockVolumeIdentity (const CoreUnix &core, const struct stat &volumeInfo)
 	{
-		struct stat volumeInfo;
-		if (fstat (volumeFile.GetSystemHandle(), &volumeInfo) == -1)
-			return -1;
-
 		// With kernel crypto, a device-mapper device can keep using the volume
 		// after the FUSE service of an emergency dismount has exited
 		if (core.IsVolumeUsedByKernelDevice (volumeInfo))
@@ -1304,9 +1300,9 @@ namespace VeraCrypt
 		else
 			lockName << "file-" << (uint64) volumeInfo.st_dev << "-" << (uint64) volumeInfo.st_ino;
 
-		int fd = OpenMountLockFile (lockName.str());
-		if (fd == -1)
-			return -1;
+		int fd = OpenMountLockFile (core.GetMountLockDirectory(), lockName.str());
+		bool locked = false;
+		finally_do_arg2 (int, fd, bool &, locked, { if (!finally_arg2) close (finally_arg); });
 
 		for (int t = 0; flock (fd, LOCK_EX | LOCK_NB) == -1; t++)
 		{
@@ -1314,13 +1310,14 @@ namespace VeraCrypt
 			if (error == EINTR)
 				continue;
 
-			if (error != EWOULDBLOCK || t >= 100)
+			if (error != EWOULDBLOCK)
 			{
-				close (fd);
-				if (error == EWOULDBLOCK)
-					throw VolumeAlreadyMounted (SRC_POS);
-				return -1;
+				errno = error;
+				throw SystemException (SRC_POS, lockName.str());
 			}
+
+			if (t >= 100)
+				throw VolumeAlreadyMounted (SRC_POS);
 
 			// Mounted under another path: refuse without waiting
 			if (t == 0)
@@ -1329,10 +1326,7 @@ namespace VeraCrypt
 				{
 					struct stat mountedInfo;
 					if (stat (string (mounted.Path).c_str(), &mountedInfo) == 0 && IsSameFile (mountedInfo, volumeInfo))
-					{
-						close (fd);
 						throw VolumeAlreadyMounted (SRC_POS);
-					}
 				}
 			}
 
@@ -1340,7 +1334,36 @@ namespace VeraCrypt
 			Thread::Sleep (100);
 		}
 
+		// Another mount may have finished, and been dismounted in an emergency,
+		// while this one was waiting
+		if (core.IsVolumeUsedByKernelDevice (volumeInfo))
+			throw VolumeAlreadyMounted (SRC_POS);
+
+		locked = true;
 		return fd;
+	}
+
+	// Returns -1 only for a read-only mount whose volume cannot be locked: a
+	// writable mount is refused unless the volume is known not to be in use.
+	static int LockVolumeForMount (const CoreUnix &core, const File &volumeFile, bool writable)
+	{
+		try
+		{
+			struct stat volumeInfo;
+			volumeFile.GetStat (volumeInfo);
+			return LockVolumeIdentity (core, volumeInfo);
+		}
+		catch (VolumeAlreadyMounted&)
+		{
+			throw;
+		}
+		catch (...)
+		{
+			if (writable)
+				throw;
+		}
+
+		return -1;
 	}
 #endif
 
@@ -1406,7 +1429,7 @@ namespace VeraCrypt
 		// last file on the volume is closed. Mounting the volume again meanwhile
 		// would let two services write to it. The lock identifies the file that
 		// was opened, whatever path leads to it.
-		int volumeLock = LockVolumeForMount (*this, *volume->GetFile());
+		int volumeLock = LockVolumeForMount (*this, *volume->GetFile(), volume->GetProtectionType() != VolumeProtection::ReadOnly);
 		finally_do_arg (int, volumeLock, { if (finally_arg != -1) close (finally_arg); });
 #endif
 
