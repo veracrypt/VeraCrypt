@@ -35,6 +35,7 @@
 #include "GraphicUserInterface.h"
 #include "FatalErrorHandler.h"
 #ifdef TC_MACOSX
+#include "MacOSXAppActivation.h"
 #include "MacOSXSecureTextFieldHotkeys.h"
 #endif
 #include "Forms/DeviceSelectionDialog.h"
@@ -1186,6 +1187,10 @@ namespace VeraCrypt
 		InterfaceType = UserInterfaceType::Graphic;
 		try
 		{
+#ifdef TC_MACOSX
+			if (argc > 1)
+				ActivateMacOSXApp();
+#endif
 			FatalErrorHandler::Register();
 			Init();
 
