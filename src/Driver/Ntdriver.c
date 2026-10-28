@@ -705,6 +705,7 @@ static BOOL VcCanUseDirectHostRead (PEXTENSION extension, PIRP irp, PIO_STACK_LO
 		|| queue->HostDeviceIoMaxSize == 0
 		|| queue->DirectHostIoMaxRequestSize == 0
 		|| length > queue->DirectHostIoMaxRequestSize
+		|| length > queue->HostDeviceIoMaxSize
 		|| !IsAlignedDirectHostIoValue ((ULONGLONG) length, ENCRYPTION_DATA_UNIT_SIZE)
 		|| !IsAlignedDirectHostIoValue ((ULONGLONG) virtualOffset, ENCRYPTION_DATA_UNIT_SIZE)
 		|| S_OK != ULongLongAdd ((ULONGLONG) virtualOffset, (ULONGLONG) length, &virtualEndExclusive)
@@ -755,8 +756,8 @@ static void VcDirectHostReadTask (VC_DIRECT_HOST_IO_TASK *task)
 	ULONG length = readContext->Length;
 	LARGE_INTEGER hostOffset = readContext->HostOffset;
 	IO_STATUS_BLOCK ioStatus = { STATUS_PENDING, 0 };
+	ULONG_PTR bytesRead = 0;
 	ULONG_PTR information = 0;
-	ULONG completedLength = 0;
 	BOOL useLegacyIo = FALSE;
 	NTSTATUS status;
 
@@ -779,52 +780,30 @@ static void VcDirectHostReadTask (VC_DIRECT_HOST_IO_TASK *task)
 	}
 	else
 	{
-		status = STATUS_SUCCESS;
-		while (completedLength < length)
+		if (originalIrp->Cancel || queue->ThreadBlockReadWrite)
 		{
-			ULONG segmentLength = min (length - completedLength, queue->HostDeviceIoMaxSize);
-			ULONG_PTR segmentInformation = 0;
-			LARGE_INTEGER segmentOffset;
-			PUCHAR segmentBuffer = dataBuffer + completedLength;
-			UINT64_STRUCT dataUnit;
+			status = originalIrp->Cancel ? STATUS_CANCELLED : STATUS_DEVICE_BUSY;
+		}
+		else
+		{
+			status = TCReadDeviceUsingFileObjectWithInformation (
+				queue->HostDeviceObject,
+				queue->HostFileObject,
+				dataBuffer,
+				hostOffset,
+				length,
+				&bytesRead);
 
-			if (originalIrp->Cancel || queue->ThreadBlockReadWrite)
+			if (!NT_SUCCESS (status) || bytesRead != length)
 			{
-				status = originalIrp->Cancel ? STATUS_CANCELLED : STATUS_DEVICE_BUSY;
-				break;
-			}
-
-			if (segmentLength == 0)
-			{
-				status = STATUS_INVALID_PARAMETER;
-				break;
-			}
-
-			segmentOffset.QuadPart = hostOffset.QuadPart + completedLength;
-			if (!useLegacyIo)
-			{
-				status = TCReadDeviceUsingFileObjectWithInformation (
-					queue->HostDeviceObject,
-					queue->HostFileObject,
-					segmentBuffer,
-					segmentOffset,
-					segmentLength,
-					&segmentInformation);
-
-				if (!NT_SUCCESS (status) || segmentInformation != segmentLength)
+				if (bytesRead == 0 && IsDirectHostReadCompatibilityFailure (status))
 				{
-					if (segmentInformation == 0
-						&& IsDirectHostReadCompatibilityFailure (status))
-					{
-						InterlockedExchange (&queue->DirectHostReadEnabled, FALSE);
-						useLegacyIo = TRUE;
-					}
-					else
-					{
-						if (NT_SUCCESS (status))
-							status = STATUS_END_OF_FILE;
-						break;
-					}
+					InterlockedExchange (&queue->DirectHostReadEnabled, FALSE);
+					useLegacyIo = TRUE;
+				}
+				else if (NT_SUCCESS (status))
+				{
+					status = STATUS_END_OF_FILE;
 				}
 			}
 
@@ -838,50 +817,50 @@ static void VcDirectHostReadTask (VC_DIRECT_HOST_IO_TASK *task)
 					NULL,
 					NULL,
 					&ioStatus,
-					segmentBuffer,
-					segmentLength,
-					&segmentOffset,
+					dataBuffer,
+					length,
+					&hostOffset,
 					NULL);
-				segmentInformation = ioStatus.Information;
-				if (NT_SUCCESS (status) && segmentInformation != segmentLength)
+				bytesRead = ioStatus.Information;
+				if (NT_SUCCESS (status) && bytesRead != length)
 					status = STATUS_END_OF_FILE;
 			}
 
-			if (!NT_SUCCESS (status))
-				break;
-
-			if (!ExAcquireRundownProtection (&queue->DirectReadCryptoRundown))
+			if (NT_SUCCESS (status))
 			{
-				status = STATUS_DEVICE_BUSY;
-				break;
+				if (!ExAcquireRundownProtection (&queue->DirectReadCryptoRundown))
+				{
+					status = STATUS_DEVICE_BUSY;
+				}
+				else
+				{
+					if (queue->ThreadBlockReadWrite)
+					{
+						status = STATUS_DEVICE_BUSY;
+					}
+					else
+					{
+						UINT64_STRUCT dataUnit;
+						dataUnit.Value = hostOffset.QuadPart / ENCRYPTION_DATA_UNIT_SIZE;
+						DecryptDataUnits (
+							dataBuffer,
+							&dataUnit,
+							length / ENCRYPTION_DATA_UNIT_SIZE,
+							queue->CryptoInfo);
+					}
+					ExReleaseRundownProtection (&queue->DirectReadCryptoRundown);
+				}
 			}
-			if (queue->ThreadBlockReadWrite)
-			{
-				ExReleaseRundownProtection (&queue->DirectReadCryptoRundown);
-				status = STATUS_DEVICE_BUSY;
-				break;
-			}
-			dataUnit.Value = segmentOffset.QuadPart / ENCRYPTION_DATA_UNIT_SIZE;
-			DecryptDataUnits (
-				segmentBuffer,
-				&dataUnit,
-				segmentLength / ENCRYPTION_DATA_UNIT_SIZE,
-				queue->CryptoInfo);
-			ExReleaseRundownProtection (&queue->DirectReadCryptoRundown);
-			completedLength += segmentLength;
-		}
 
-		if (NT_SUCCESS (status) && completedLength == length)
-		{
-			information = length;
+			if (NT_SUCCESS (status))
+				information = length;
 		}
-		else if (NT_SUCCESS (status))
-			status = STATUS_END_OF_FILE;
 	}
 
 	readContext->CompletionStatus = status;
 	readContext->CompletionInformation = information;
 	EncryptedIoQueueFinishDirectReadIo (queue);
+	// Upper completion routines can issue nested reads, so run them outside the direct I/O worker pool.
 	IoQueueWorkItem (readContext->CompletionWorkItem, VcCompleteDirectHostRead, DelayedWorkQueue, readContext);
 }
 
