@@ -1248,75 +1248,91 @@ namespace VeraCrypt
 	}
 
 #ifdef TC_LINUX
-	// Opens the lock file 'name' in the root owned /var/run/veracrypt, or returns
-	// -1 if that is not possible (not root, or no usable directory). The locks
-	// are taken with flock, so they last until the last copy of the descriptor is
-	// closed: the copy that the FUSE service inherits lasts until it exits.
-	static int OpenMountLockFile (const string &name)
+	// Opens the lock file 'name' in the lock directory, which must belong to the
+	// effective user (root, /var/run/veracrypt) and be writable only by it. The
+	// locks are taken with flock, so they last until the last copy of the
+	// descriptor is closed: the copy that the FUSE service inherits lasts until it
+	// exits.
+	static int OpenMountLockFile (const string &lockDirectory, const string &name)
 	{
-		if (geteuid() != 0)
-			return -1;
-
-		// /var/run also exists on systems without /run
-		const char *lockDirectory = "/var/run/veracrypt";
-		if (mkdir (lockDirectory, S_IRWXU) == -1 && errno != EEXIST)
-			return -1;
+		throw_sys_sub_if (mkdir (lockDirectory.c_str(), S_IRWXU) == -1 && errno != EEXIST, lockDirectory);
 
 		// Keep using the directory that was checked
-		int directoryFd = open (lockDirectory, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
-		if (directoryFd == -1)
-			return -1;
+		int directoryFd = open (lockDirectory.c_str(), O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+		throw_sys_sub_if (directoryFd == -1, lockDirectory);
 		finally_do_arg (int, directoryFd, { close (finally_arg); });
 
 		struct stat directoryInfo;
-		if (fstat (directoryFd, &directoryInfo) == -1 || directoryInfo.st_uid != 0
-			|| (directoryInfo.st_mode & (S_IWGRP | S_IWOTH)))
-			return -1;
+		throw_sys_sub_if (fstat (directoryFd, &directoryInfo) == -1, lockDirectory);
+		if (directoryInfo.st_uid != geteuid() || (directoryInfo.st_mode & (S_IWGRP | S_IWOTH)))
+		{
+			errno = EPERM;
+			throw SystemException (SRC_POS, lockDirectory + ": the directory must belong to the user running VeraCrypt and be writable only by it.");
+		}
 
-		return openat (directoryFd, name.c_str(), O_RDWR | O_CREAT | O_NOFOLLOW | O_CLOEXEC, S_IRUSR | S_IWUSR);
+		int fd = openat (directoryFd, name.c_str(), O_RDWR | O_CREAT | O_NOFOLLOW | O_CLOEXEC, S_IRUSR | S_IWUSR);
+		throw_sys_sub_if (fd == -1, lockDirectory + "/" + name);
+		return fd;
 	}
-
 	// Reserves the slot of the mount, whose number also names its default mount
-	// point and device-mapper device, until the FUSE service exits. Parallel
-	// mounts could otherwise choose the same free slot. Returns the descriptor
-	// holding the lock, or -1 if no lock can be created.
-	static int LockSlotForMount (const CoreUnix &core, MountOptions &options, bool slotChosen, bool mountPointFromSlot)
+	// point and device-mapper device, until the FUSE service exits: parallel mounts
+	// could otherwise choose the same free slot. The slot is reserved before its
+	// availability is checked, so that a mount published meanwhile is seen. An
+	// automatically chosen slot that is taken is replaced by the next free one.
+	// Returns the descriptor holding the lock.
+	static int ReserveSlotForMount (const CoreUnix &core, MountOptions &options, bool slotChosen, bool mountPointFromSlot)
 	{
+		VolumeSlotNumber slot = slotChosen ? core.GetFirstFreeSlotNumber() : options.SlotNumber;
+
 		for (int t = 0; true; )
 		{
 			stringstream lockName;
-			lockName << "slot-" << options.SlotNumber;
+			lockName << "slot-" << slot;
 
-			int fd = OpenMountLockFile (lockName.str());
-			if (fd == -1)
-				return -1;
+			int fd = OpenMountLockFile (core.GetMountLockDirectory(), lockName.str());
+			bool reserved = false;
+			finally_do_arg2 (int, fd, bool &, reserved, { if (!finally_arg2) close (finally_arg); });
 
 			if (flock (fd, LOCK_EX | LOCK_NB) == 0)
-				return fd;
-
-			const int error = errno;
-			close (fd);
-
-			if (error == EINTR)
-				continue;
-
-			if (error != EWOULDBLOCK)
-				return -1;
-
-			if (slotChosen)
 			{
-				// Another mount is using it: take the next free slot
-				options.SlotNumber = core.GetFirstFreeSlotNumber (options.SlotNumber + 1);
-				if (mountPointFromSlot)
-					options.MountPoint.reset (new DirectoryPath (core.SlotNumberToMountPoint (options.SlotNumber)));
-				continue;
+				if (core.IsSlotNumberAvailable (slot))
+				{
+					options.SlotNumber = slot;
+					if (mountPointFromSlot)
+						options.MountPoint.reset (new DirectoryPath (core.SlotNumberToMountPoint (slot)));
+
+					reserved = true;
+					return fd;
+				}
+
+				if (!slotChosen)
+					throw VolumeSlotUnavailable (SRC_POS);
+			}
+			else
+			{
+				const int error = errno;
+				if (error == EINTR)
+					continue;
+
+				if (error != EWOULDBLOCK)
+				{
+					errno = error;
+					throw SystemException (SRC_POS, lockName.str());
+				}
+
+				if (!slotChosen)
+				{
+					// A service that has just been dismounted normally may still be exiting
+					if (++t > 100)
+						throw VolumeSlotUnavailable (SRC_POS);
+
+					Thread::Sleep (100);
+					continue;
+				}
 			}
 
-			// A service that has just been dismounted normally may still be exiting
-			if (++t > 100)
-				throw VolumeSlotUnavailable (SRC_POS);
-
-			Thread::Sleep (100);
+			// Taken by another mount: try the next free slot
+			slot = core.GetFirstFreeSlotNumber (slot + 1);
 		}
 	}
 #endif
@@ -1324,16 +1340,18 @@ namespace VeraCrypt
 	shared_ptr <VolumeInfo> CoreUnix::MountVolume (MountOptions &options)
 	{
 #ifdef TC_LINUX
-		const bool slotChosen = options.SlotNumber < GetFirstSlotNumber()
-			&& (!options.MountPoint || options.MountPoint->IsEmpty());
-		const bool mountPointFromSlot = !options.NoFilesystem
-			&& (!options.MountPoint || options.MountPoint->IsEmpty());
-#endif
-		CoalesceSlotNumberAndMountPoint (options);
+		// A slot is chosen automatically without --slot, also for a custom mount
+		// directory, unless a default mount point names the slot
+		const bool mountPointGiven = options.MountPoint && !options.MountPoint->IsEmpty();
+		const VolumeSlotNumber mountPointSlot = mountPointGiven ? GetDefaultMountPointSlot (*options.MountPoint) : 0;
+		const bool slotChosen = options.SlotNumber < GetFirstSlotNumber() && mountPointSlot == 0;
+		if (options.SlotNumber < GetFirstSlotNumber() && mountPointSlot != 0)
+			options.SlotNumber = mountPointSlot;
 
-#ifdef TC_LINUX
-		int slotLock = LockSlotForMount (*this, options, slotChosen, mountPointFromSlot);
-		finally_do_arg (int, slotLock, { if (finally_arg != -1) close (finally_arg); });
+		int slotLock = ReserveSlotForMount (*this, options, slotChosen, !options.NoFilesystem && !mountPointGiven);
+		finally_do_arg (int, slotLock, { close (finally_arg); });
+#else
+		CoalesceSlotNumberAndMountPoint (options);
 #endif
 
 		if (IsVolumeMounted (*options.Path))

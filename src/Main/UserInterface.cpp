@@ -765,6 +765,8 @@ namespace VeraCrypt
 		if (!options.MountPoint)
 			options.MountPoint.reset (new DirectoryPath);
 
+		// Without --slot, the core chooses the slot of each mount
+		const bool slotChosen = options.SlotNumber < Core->GetFirstSlotNumber();
 		Core->CoalesceSlotNumberAndMountPoint (options);
 
 		bool sharedAccessAllowed = options.SharedAccessAllowed;
@@ -796,7 +798,7 @@ namespace VeraCrypt
 				continue;
 
 			Yield();
-			options.SlotNumber = Core->GetFirstFreeSlotNumber (options.SlotNumber);
+			options.SlotNumber = slotChosen ? 0 : Core->GetFirstFreeSlotNumber (options.SlotNumber);
 			options.MountPoint.reset (new DirectoryPath);
 			options.Path.reset (new VolumePath (device.Path));
 
