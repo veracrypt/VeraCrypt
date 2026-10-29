@@ -34,14 +34,29 @@
 <div class="wikidoc">
 <h1>发行说明</h1>
 
-<p><strong style="text-align:left">尚未发布</strong>:</p>
+<p><strong style="text-align:left">1.26.31</strong> (2026年10月29日):</p>
 <ul>
+<li><strong>所有操作系统:</strong>
+	<ul>
+	<li>更新翻译和文档。</li>
+	</ul>
+</li>
+<li><strong>Windows:</strong>
+	<ul>
+	<li>修复从 VeraCrypt 1.26.30 升级时因替换系统服务可执行文件而失败的问题。现在会等待服务进程退出，并重新尝试替换被占用的文件；必要时会在 Windows 重新启动时完成替换。</li>
+	<li>改进 Windows 功能更新支持配置、恢复备份迁移和系统服务更新失败时的处理。现在会发出警告并指明相关文件或注册表值，使安装、卸载和系统加密操作能够完成。系统服务启动时会重新尝试配置 Windows 功能更新支持。</li>
+	<li>改进对 ProgramData 中旧版系统加密支持目录的保护和清理，包括只读文件和重定向路径。保留恢复备份，并在确认 Windows 功能更新注册项的更改成功后才删除旧驱动程序文件。</li>
+	<li>避免因与所选语言无关的不兼容语言包而反复显示警告。如果所选语言没有可用的兼容语言包，则仅显示一次警告并回退到英语，同时保留原有的语言设置。</li>
+	</ul>
+</li>
 <li><strong>Linux、macOS 和 BSD:</strong>
 	<ul>
 	<li>安全：防止 VeraCrypt 启动的程序继承其界面与核心服务之间的管道。这些管道可能使程序使用仍然有效的管理员会话。此更改扩展了 1.26.30 版本中添加的保护。由 <a href="https://github.com/aorakko" target="_blank">aorakko</a> 报告。</li>
 	<li>安全：防止 VeraCrypt 启动的程序继承其打开的文件、设备和内部管道的文件描述符。</li>
+	<li>修复 VeraCrypt 等待系统工具完成挂载卷或在文件管理器中打开卷等操作时可能无响应的问题。改进这些工具的超时处理。</li>
 	<li>在文档中明确说明，允许通过 <code>sudo</code> 或 <code>doas</code> 以 root 用户身份运行 VeraCrypt 或其核心服务，即意味着授予完整的 root 权限。请参阅<a href="Security%20Model.html#sudo-and-doas">安全模型</a>。</li>
 	<li>修复对尚不存在的目录进行挂载点验证的问题，包括含有 <code>..</code> 或符号链接的路径（GH #1973）。由 <a href="https://github.com/aorakko" target="_blank">aorakko</a> 报告。</li>
+	<li>修复使用 GCC 4.4 构建 Unix 图形用户界面版本和控制台版本时的兼容性问题。</li>
 	</ul>
 </li>
 <li><strong>Linux 和 BSD:</strong>

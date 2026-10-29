@@ -34,9 +34,9 @@ from launchpadlib.launchpad import Launchpad
 # === CONFIGURATION ===
 PROJECT_NAME    = 'veracrypt'
 SERIES_NAME     = 'trunk'
-MILESTONE_NAME  = '1.26.30'
-RELEASE_VERSION = '1.26.30'
-FILES_DIRECTORY = r"/opt/VeraCrypt_Packages/1.26.30"
+MILESTONE_NAME  = '1.26.31'
+RELEASE_VERSION = '1.26.31'
+FILES_DIRECTORY = r"/opt/VeraCrypt_Packages/1.26.31"
 
 APPLICATION_NAME = 'launchpad-batch-uploader'
 CACHEDIR         = os.path.expanduser(r"~/.launchpadlib/cache")

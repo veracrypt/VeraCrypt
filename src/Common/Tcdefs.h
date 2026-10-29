@@ -59,7 +59,7 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"1.26.30"
+#define VERSION_STRING					"1.26.31"
 
 #ifdef VC_EFI_CUSTOM_MODE
 #define VERSION_STRING_SUFFIX			"-CustomEFI"
@@ -75,7 +75,7 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 // Release date
 #define TC_RELEASE_DATE_YEAR			2026
 #define TC_RELEASE_DATE_MONTH			10
-#define TC_RELEASE_DATE_DAY			24
+#define TC_RELEASE_DATE_DAY			29
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL

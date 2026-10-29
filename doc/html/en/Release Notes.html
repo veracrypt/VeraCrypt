@@ -34,14 +34,29 @@
 <div class="wikidoc">
 <h1>Release Notes</h1>
 
-<p><strong style="text-align:left">Unreleased</strong>:</p>
+<p><strong style="text-align:left">1.26.31</strong> (October 29<sup>th</sup>, 2026):</p>
 <ul>
+<li><strong>All OSes:</strong>
+	<ul>
+	<li>Update translations and documentation.</li>
+	</ul>
+</li>
+<li><strong>Windows:</strong>
+	<ul>
+	<li>Fix upgrades from VeraCrypt 1.26.30 that could fail while replacing the system service executable. Wait for the service process to exit, retry locked files and defer replacement until Windows restarts when necessary.</li>
+	<li>Report Windows feature-update configuration, recovery-backup migration and system-service update failures as warnings identifying the affected file or registry value, allowing installation, uninstallation and system-encryption operations to finish. Retry feature-update configuration when the system service starts.</li>
+	<li>Improve protection and cleanup of the legacy system encryption support directory under ProgramData, including read-only files and redirected paths. Preserve recovery backups and retain old driver files until Windows Setup registration changes are verified.</li>
+	<li>Avoid repeated warnings caused by unrelated incompatible language packs. When no compatible pack is available for the selected language, display a single warning and fall back to English while preserving the language preference.</li>
+	</ul>
+</li>
 <li><strong>Linux, macOS and BSD:</strong>
 	<ul>
 	<li>Security: Prevent programs launched by VeraCrypt from inheriting the pipes between its interface and service, which could let them use an active administrator session. This extends the protection added in version 1.26.30. Reported by <a href="https://github.com/aorakko" target="_blank">aorakko</a>.</li>
 	<li>Security: Prevent programs launched by VeraCrypt from inheriting its open files, devices and internal pipes.</li>
+	<li>Fix cases where VeraCrypt could hang while waiting for system tools used to mount volumes or open them in a file manager. Improve timeout handling for these tools.</li>
 	<li>Document that permission to run VeraCrypt or its core service as root through <code>sudo</code> or <code>doas</code> grants full root authority. See the <a href="Security%20Model.html#sudo-and-doas">security model</a>.</li>
 	<li>Fix mount-point validation for directories that do not yet exist, including paths containing <code>..</code> or symbolic links (GH #1973). Reported by <a href="https://github.com/aorakko" target="_blank">aorakko</a>.</li>
+	<li>Restore compatibility with GCC 4.4 for Unix GUI and console builds.</li>
 	</ul>
 </li>
 <li><strong>Linux and BSD:</strong>
