@@ -41,9 +41,10 @@
 <p><img src="Home_VeraCrypt_Default_Mount_Parameters.png" alt="默认挂载参数对话框"></p>
 <p>进行修改，然后点击“确定”。</p>
 <p>所选值随后会写入VeraCrypt主配置文件（Configuration.xml），使其持久化。</p>
+<p>在Linux下，还可以在<em>挂载选项</em>字段中指定默认的文件系统挂载选项。例如，输入<code>noatime</code>会使VeraCrypt在后续挂载时将此选项传递给Linux的<code>mount -o</code>命令。对于单次挂载，仍可通过密码对话框中的<em>选项</em>按钮更改这些默认值。</p>
 <p>所有后续的密码请求对话框将使用先前选择的默认值。例如，如果在“默认挂载参数”对话框中勾选“TrueCrypt模式”并选择SHA - 512作为PRF，那么后续的密码对话框将如下所示：<br>
 <img src="Default Mount Parameters_VeraCrypt_password_using_default_parameters.png" alt="使用默认值的挂载密码对话框"></p>
 <p>&nbsp;</p>
-<p><strong>注意：</strong>默认挂载参数可以被<a href="Command%20Line%20Usage.html">命令行</a>开关 <strong>/tc</strong> 和 <strong>/hash</strong> 覆盖，这些开关始终具有更高的优先级。</p>
+<p><strong>注意：</strong>默认挂载参数可以被<a href="Command%20Line%20Usage%20for%20Windows.html">命令行</a>开关 <strong>/tc</strong> 和 <strong>/hash</strong> 覆盖，这些开关始终具有更高的优先级。</p>
 <p>&nbsp;</p>
 </div><div class="ClearBoth"></div></body></html>
