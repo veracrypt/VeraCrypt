@@ -32,6 +32,8 @@ on:
       - 'Tests/volume_read_test.cpp'
       - 'Tests/test_linux_mount_read_only.py'
       - 'Tests/linux_mount_read_only_test.cpp'
+      - 'Tests/test_linux_mount_points.py'
+      - 'Tests/linux_mount_points_test.cpp'
       - 'Tests/response_apdu_test.cpp'
       - '.github/workflows/build-linux.yml'
   pull_request:
@@ -65,6 +67,8 @@ on:
       - 'Tests/volume_read_test.cpp'
       - 'Tests/test_linux_mount_read_only.py'
       - 'Tests/linux_mount_read_only_test.cpp'
+      - 'Tests/test_linux_mount_points.py'
+      - 'Tests/linux_mount_points_test.cpp'
       - 'Tests/response_apdu_test.cpp'
       - '.github/workflows/build-linux.yml'
 
@@ -170,6 +174,9 @@ jobs:
     # The package build above defaults to FUSE2 and leaves matching archives.
     - name: Check Linux mount protection and fallback
       run: python3 Tests/test_linux_mount_read_only.py --build-dir src --fuse-package=fuse
+
+    - name: Check Unix mount-point validation and directory handling
+      run: python3 Tests/test_linux_mount_points.py --build-dir src --fuse-package=fuse
 
     - name: Install and test VeraCrypt GUI .deb packages
       run: |

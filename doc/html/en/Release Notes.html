@@ -41,6 +41,12 @@
 	<li>Security: Prevent programs launched by VeraCrypt from inheriting the pipes between its interface and service, which could let them use an active administrator session. This extends the protection added in version 1.26.30. Reported by <a href="https://github.com/aorakko" target="_blank">aorakko</a>.</li>
 	<li>Security: Prevent programs launched by VeraCrypt from inheriting its open files, devices and internal pipes.</li>
 	<li>Document that permission to run VeraCrypt or its core service as root through <code>sudo</code> or <code>doas</code> grants full root authority. See the <a href="Security%20Model.html#sudo-and-doas">security model</a>.</li>
+	<li>Fix mount-point validation for directories that do not yet exist, including paths containing <code>..</code> or symbolic links (GH #1973). Reported by <a href="https://github.com/aorakko" target="_blank">aorakko</a>.</li>
+	</ul>
+</li>
+<li><strong>Linux and BSD:</strong>
+	<ul>
+	<li>Only default mount-point names, consisting of the configured prefix followed by a slot number from 1 to 64, receive automatic directory creation, ownership changes and removal. Custom mount points such as <code>/media/veracrypt-backup</code> or <code>/media/veracrypt1/photos</code> must already exist with suitable permissions; sharing the default prefix no longer makes them automatically managed.</li>
 	</ul>
 </li>
 </ul>
