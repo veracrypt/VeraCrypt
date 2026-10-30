@@ -105,8 +105,9 @@
     <p>
         <ol>
             <li>
-                在以下链接下载“nasm-2.08-installer.exe”： <br>
-                <a href="https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/" target="_blank">https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/</a>
+                在以下链接下载较新版本的NASM安装程序（例如“nasm-2.16.03-installer-x64.exe”）： <br>
+                <a href="https://www.nasm.us/pub/nasm/releasebuilds/" target="_blank">https://www.nasm.us/pub/nasm/releasebuilds/</a> <br>
+                较新版本的NASM均可使用；本指南测试的Windows应用程序构建使用了NASM 2.16.03。
             </li>
             <li>
                 以管理员身份运行该文件
@@ -137,8 +138,9 @@
                         <img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
                     </li>
                     <li>
-                        点击“新建”并添加以下值： <br>
-                        <p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\nasm</p>
+                        点击“新建”并添加NASM的安装文件夹，例如： <br>
+                        <p style="font-family: 'Courier New', monospace;">C:\Program Files\NASM</p>
+                        （32位NASM安装程序则使用“C:\Program Files (x86)\nasm”）
                     </li>
                     <li>
                         点击“确定”关闭窗口
@@ -146,9 +148,9 @@
                 </ol>
             </li>
             <li>
-                要检查配置是否正常工作，请打开命令提示符并查看以下命令的输出： <br>
-                <p style="font-family: 'Courier New', monospace;">nasm</p> <br>
-                <img src="CompilingGuidelineWin/NasmCommandLine.jpg" width="50%">
+                要验证安装，请打开一个新的命令提示符并运行： <br>
+                <p style="font-family: 'Courier New', monospace;">where.exe nasm<br>nasm -v</p>
+                第一条命令列出Path中找到的NASM可执行文件；第二条命令显示将使用的版本。请确认它们指向您打算使用的安装。
             </li>
         </ol>
     </p>
@@ -165,27 +167,14 @@
                 C:\Program Files\YASM
             </li>
             <li>
-                请在以下链接下载预构建的Win64 YASM zip压缩包： <br>
+                在官方发布页面的Assets部分下载“yasm-1.3.0-win64.exe”： <br>
                 <a href="https://github.com/yasm/yasm/releases/tag/v1.3.0" target="_blank">https://github.com/yasm/yasm/releases/tag/v1.3.0</a>
-            </li>
-            <li>
-                由于下载率较低或连接未加密，您的浏览器可能会提示该文件存在安全风险。不过，官方网站是该文件最可靠的来源，因此我们建议允许下载
-            </li>
-            <li>
-                解压ZIP文件并将文件复制到“C:\Program Files\YASM”
-            </li>
-            <li>
-                请在以下链接下载“Win64 .exe”文件： <br>
-                <a href="https://github.com/yasm/yasm/releases/tag/v1.3.0" target="_blank">https://github.com/yasm/yasm/releases/tag/v1.3.0</a>
-            </li>
-            <li>
-                由于下载率较低或连接未加密，您的浏览器可能会提示该文件存在安全风险。不过，官方网站是该文件最可靠的来源，因此我们建议允许下载
             </li>
             <li>
                 将文件重命名为“yasm.exe”并复制到“C:\Program Files\YASM”
             </li>
             <li>
-                将YASM添加到路径变量中，并为YASM创建一个新的系统变量。这样可以使该命令在命令行中全局可用。 <br>
+                将YASM添加到路径变量中。这样可以使该命令在命令行中全局可用。 <br>
                 <ol style="list-style-type: upper-roman;">
                     <li>
                         打开文件资源管理器
@@ -210,28 +199,16 @@
                         点击“新建”并添加以下值： <br>
                         <p style="font-family: 'Courier New', monospace;">C:\Program Files\YASM</p>
                     </li>
-                    <li>
-                        点击“确定”关闭顶部窗口
-                    </li>
-                    <li>
-                        在系统变量区域内，请点击“新建...” <br>
-                        <img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
-                    </li>
-                    <li>
-                        使用以下值填写表单： <br>
-                        <p style="font-family: 'Courier New', monospace;">变量名：YASMPATH<br> 变量值：C:\Program Files\YASM</p>
-                    </li>
+
                     <li>
                         点击“确定”关闭窗口
                     </li>
                 </ol>
             </li>
             <li>
-                要检查配置是否正常工作，请打开命令提示符并查看以下命令的输出： <br>
-                <p style="font-family: 'Courier New', monospace;">yasm</p> <br>
-                以及 <br>
-                <p style="font-family: 'Courier New', monospace;">vsyasm</p> <br>
-                <img src="CompilingGuidelineWin/YasmCommandLine.jpg" width="50%">
+                要验证安装，请打开一个新的命令提示符并运行： <br>
+                <p style="font-family: 'Courier New', monospace;">where.exe yasm<br>yasm --version</p>
+                第一条命令列出Path中找到的YASM可执行文件；第二条命令应报告YASM版本1.3.0。请确认它们指向您打算使用的安装。
             </li>
         </ol>
     </p>
@@ -426,16 +403,16 @@
                 编译过程应仅出现警告，而无错误。部分项目可能会被跳过。
             </li>
             <li>
-                选择“Release|Win32”作为活动配置并构建解决方案，以编译发布打包脚本使用的Win32安装程序/辅助项目。
+                选择“Release|Win32”作为活动配置并构建解决方案，以编译发布打包脚本使用的Setup、Portable、COMReg和SetupDLL项目。标准“Release|x64”和“Release|ARM64”解决方案构建会跳过这些Win32项目，因此准备发布包时必须执行此额外构建。
             </li>
             <li>
                 要构建VeraCrypt驱动程序，请选择“Driver”项目，并分别为“Release|x64”和“Release|ARM64”构建它。
             </li>
             <li>
-                仅当需要自定义EFI/引导加载程序发布配置时，才构建“ReleaseCustomEFI|x64”或“ReleaseCustomEFI|ARM64”。这些配置包含Boot项目，并需要上面列出的可选旧版BIOS引导加载程序工具。
+                仅当需要自定义EFI/引导加载程序发布配置时，才构建“ReleaseCustomEFI|x64”或“ReleaseCustomEFI|ARM64”。这些配置包含Boot项目，并需要上面列出的可选旧版BIOS引导加载程序工具。它们还会使用Win32配置构建Setup、Portable、COMReg和SetupDLL项目。
             </li>
             <li>
-                如果使用Build Tools for Visual Studio 2022而不是Visual Studio IDE，请以管理员身份打开“Developer Command Prompt for VS 2022”或“Developer PowerShell for VS 2022”，切换到VeraCrypt源代码根目录，并运行等效的MSBuild命令：
+                如果使用Build Tools for Visual Studio 2022而不是Visual Studio IDE，请打开“Developer Command Prompt for VS 2022”或“Developer PowerShell for VS 2022”，切换到VeraCrypt源代码根目录，并运行等效的MSBuild命令（编译不需要管理员权限）：
                 <br>
                 <code>
                     msbuild src\VeraCrypt.sln /m /p:Configuration=Release /p:Platform=x64 <br>
@@ -466,7 +443,7 @@
     <p>
         <ol>
             <li>
-                以管理员身份打开Visual Studio 2022命令行，以确保Windows SDK签名工具（包括“signtool.exe”）在Path中可用
+                以管理员身份打开Visual Studio 2022开发人员命令提示符，以执行以下签名和打包流程。请确保Windows SDK签名工具（包括“signtool.exe”）在Path中可用
             </li>
             <li>
                 进入“src/Signing/”文件夹
@@ -513,6 +490,19 @@
   <div class="texttohide">
     <p>
         <ul>
+<li>
+<b>常见构建错误及其原因</b> <br>
+缺少构建组件可能导致以下错误。请检查上面的组件列表中对应的项目：
+<ul>
+<li><p style="font-family: 'Courier New', monospace;">error MSB8040: Spectre-mitigated libraries are required for this project</p>
+在Visual Studio Installer的“单个组件”中，安装与工具集版本和各目标体系结构（x64/x86或ARM64）匹配的MSVC v143 Spectre缓解库，以及对应的“with Spectre Mitigations”ATL组件。</li>
+<li><p style="font-family: 'Courier New', monospace;">error C1083: Cannot open include file: 'atlbase.h' (or 'atlcomcli.h')</p>
+未安装ATL组件。在Visual Studio Installer的“单个组件”中，为每个构建目标体系结构安装“C++ ATL for latest v143 build tools”（及其Spectre版本）。</li>
+<li><p style="font-family: 'Courier New', monospace;">error MSB8066: Custom build for 'Aes_hw_cpu.asm;...' exited with code 9009</p>
+找不到汇编器：“nasm.exe”和“yasm.exe”都必须在Path中可用（退出代码9009表示“找不到命令”）。请注意，更改Path变量时已经打开的命令提示符或Visual Studio实例无法读取新值，请重新打开后再次构建。</li>
+</ul>
+</li>
+
             <li>
                 <b>此分发包已损坏</b> <br>
                 <img src="CompilingGuidelineWin/DistributionPackageDamaged.jpg" width="20%"> <br>

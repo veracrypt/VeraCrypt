@@ -500,6 +500,26 @@ Caps Lock</em>.</li><li style="text-align:left; margin-top:0px; margin-bottom:0p
 https://support.microsoft.com/kb/285089/ </a> и <a href="https://support.microsoft.com/kb/177078/" style="text-align:left; color:#0080c0; text-decoration:none">
 https://support.microsoft.com/kb/177078/</a></div>
 <hr style="text-align:left">
+<div id="linux_user_fuse_mounts" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Проблема: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">В Linux не удаётся смонтировать том, хранящийся на сетевом ресурсе, открытом в файловом менеджере, или в другой файловой системе, смонтированной вашей учётной записью через FUSE (например, sshfs или rclone): VeraCrypt сообщает &quot;</em>Permission denied (Отказано в доступе)<em style="text-align:left">&quot;. Либо VeraCrypt предупреждает, что файл тома открыт с правами доступа вашей учётной записи.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Вероятная причина: </strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Такие файловые системы смонтированы вашей учётной записью без параметра <code>allow_other</code>. В этом случае Linux запрещает доступ всем другим пользователям, включая администратора (root), хотя ваша учётная запись может открывать файлы. VeraCrypt монтирует тома с правами администратора, поэтому VeraCrypt 1.26.29 и более ранние версии не могут открыть такие файлы томов.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможные решения: </strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Более поздние версии VeraCrypt при отказе в доступе администратора открывают файл тома с правами вашей учётной записи, если VeraCrypt получил права администратора через sudo или doas, как это происходит при вводе пароля в VeraCrypt. В этом случае том обслуживается через слой FUSE в VeraCrypt, что медленнее прямого монтирования ядром, и VeraCrypt выводит предупреждение. Не отключайте сетевой ресурс и не завершайте сеанс до размонтирования тома: отключение ресурса или выход из системы при смонтированном томе может привести к потере данных. Если сообщение "Permission denied" сохраняется, либо ваша учётная запись сама не может открыть файл, либо VeraCrypt запущен от имени root без sudo (например, из оболочки root) и не может определить вашу учётную запись. В последнем случае запустите VeraCrypt от имени своего пользователя. Ключевые файлы в такой файловой системе работают, только когда сам VeraCrypt запущен от имени вашего пользователя, а не через sudo.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Для регулярного использования ресурса SMB монтируйте его с помощью клиента CIFS ядра (пакет <em style="text-align:left">cifs-utils</em>), назначив владельцем свою учётную запись. Например:
+<code>sudo mount -t cifs //server/share /mnt/share -o username=NAME,uid=$(id -u),gid=$(id -g)</code>. Тома на таком ресурсе монтируются непосредственно ядром и не зависят от вашего сеанса.
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Для sshfs, rclone и других файловых систем FUSE, поддерживающих эту возможность, включите <code>user_allow_other</code> в <em style="text-align:left">/etc/fuse.conf</em> и смонтируйте файловую систему с параметром <code>-o allow_root</code>. Тогда она станет доступна с правами администратора, и VeraCrypt сможет открыть файл тома обычным образом. Том по-прежнему зависит от этой файловой системы: не размонтируйте её до размонтирования тома.
+</li></ul>
+<hr style="text-align:left">
 <p><br style="text-align:left">
 <br style="text-align:left">
 <br style="text-align:left">

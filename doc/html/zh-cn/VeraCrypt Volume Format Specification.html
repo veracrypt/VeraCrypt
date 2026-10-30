@@ -314,6 +314,28 @@ VeraCrypt卷格式规范：</p>
 <div align="right">4&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;已加密</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;标志位（位0置位：系统加密；位1置位：非系统</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;就地加密/解密的卷；位2–31保留）</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
 &nbsp;</td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
 &nbsp;</td>
@@ -324,7 +346,7 @@ VeraCrypt卷格式规范：</p>
 </tr>
 <tr style="text-align:left">
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="right">72&nbsp;</div>
+<div align="right">128&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
 <div align="right">4&nbsp;</div>
@@ -333,7 +355,7 @@ VeraCrypt卷格式规范：</p>
 <div align="left">&nbsp;已加密</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;字节 256 - 511（解密后）的 CRC - 32 校验和</div>
+<div align="left">&nbsp;扇区大小（字节）</div>
 </td>
 </tr>
 <tr style="text-align:left">
@@ -348,10 +370,10 @@ VeraCrypt卷格式规范：</p>
 </tr>
 <tr style="text-align:left">
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="right">76&nbsp;</div>
+<div align="right">132&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="right">16&nbsp;</div>
+<div align="right">120&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
 <div align="left">&nbsp;已加密</div>
@@ -372,28 +394,6 @@ VeraCrypt卷格式规范：</p>
 </tr>
 <tr style="text-align:left">
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="right">92&nbsp;</div>
-</td>
-<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="right">8&nbsp;</div>
-</td>
-<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;已加密</div>
-</td>
-<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;隐藏卷的大小（非隐藏卷中设置为零）</div>
-</td>
-</tr>
-<tr style="text-align:left">
-<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-&nbsp;</td>
-<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-&nbsp;</td>
-<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-&nbsp;</td>
-<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-&nbsp;</td>
-</tr>
 <div align="right">252&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
@@ -451,7 +451,7 @@ VeraCrypt卷格式规范：</p>
 <div align="left">&nbsp;已加密</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;保留（对于系统加密，此项省略††）</div>
+<div align="left">&nbsp;保留（对于系统加密，此项省略‡‡）</div>
 </td>
 </tr>
 <tr style="text-align:left">
@@ -475,7 +475,7 @@ VeraCrypt卷格式规范：</p>
 <div align="left">&nbsp;已加密 /</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;隐藏卷头区域（如果没有隐藏卷</div>
+<div align="left">&nbsp;隐藏卷头区域（如果卷内没有隐藏卷，</div>
 </td>
 </tr>
 <tr style="text-align:left">
@@ -489,7 +489,7 @@ VeraCrypt卷格式规范：</p>
 <div align="left">&nbsp;未加密&sect;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;在卷内，此区域包含随机数据&dagger;&dagger;）。对于</div>
+<div align="left">&nbsp;此区域包含随机数据††）。对于</div>
 </td>
 </tr>
 <tr style="text-align:left">
@@ -503,7 +503,7 @@ VeraCrypt卷格式规范：</p>
 <div align="left">&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;系统加密，此项省略。&Dagger;&Dagger; 请参阅字节 0&ndash;65535。</div>
+<div align="left">&nbsp;系统加密，此项省略。‡‡ 请参阅字节 0–65535。</div>
 </td>
 </tr>
 <tr style="text-align:left">
@@ -524,7 +524,7 @@ VeraCrypt卷格式规范：</p>
 <div align="right"><em>可变</em>&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;加密</div>
+<div align="left">&nbsp;已加密</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
 <div align="left">&nbsp;数据区域（主密钥范围）。对于系统加密，偏移量</div>
@@ -556,16 +556,16 @@ VeraCrypt卷格式规范：</p>
 </tr>
 <tr style="text-align:left">
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="right"><em>S</em> - 131072&dagger;</div>
+<div align="right"><em>S</em>-131072&Dagger;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
 <div align="right">65536&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;加密 /</div>
+<div align="left">&nbsp;已加密 /</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;备份头（使用不同的盐派生的不同头密钥进行加密）。</div>
+<div align="left">&nbsp;备份头（使用不同的盐值派生的不同头密钥</div>
 </td>
 </tr>
 <tr style="text-align:left">
@@ -579,7 +579,7 @@ VeraCrypt卷格式规范：</p>
 <div align="left">&nbsp;未加密&sect;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;使用不同的盐派生的不同头密钥进行加密）。对于系统加密，此项省略。&Dagger;&Dagger; 请参阅字节 0 - 65535。</div>
+<div align="left">&nbsp;进行加密）。对于系统加密，此项</div>
 </td>
 </tr>
 <tr style="text-align:left">
@@ -593,7 +593,7 @@ VeraCrypt卷格式规范：</p>
 <div align="left">&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;</div>
+<div align="left">&nbsp;省略。‡‡ 请参阅字节 0–65535。</div>
 </td>
 </tr>
 <tr style="text-align:left">
@@ -608,16 +608,16 @@ VeraCrypt卷格式规范：</p>
 </tr>
 <tr style="text-align:left">
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="right"><em>S</em> - 65536&dagger;</div>
+<div align="right"><em>S</em>-65536&Dagger;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
 <div align="right">65536&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;加密 /</div>
+<div align="left">&nbsp;已加密 /</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;隐藏卷的备份头（使用不同的盐派生的不同头密钥进行加密）。</div>
+<div align="left">&nbsp;隐藏卷的备份头（使用不同的盐值派生的</div>
 </td>
 </tr>
 <tr style="text-align:left">
@@ -631,7 +631,7 @@ VeraCrypt卷格式规范：</p>
 <div align="left">&nbsp;未加密&sect;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;使用不同的盐派生的不同头密钥进行加密）。如果没有隐藏卷，</div>
+<div align="left">&nbsp;不同头密钥进行加密）。如果卷内没有</div>
 </td>
 </tr>
 <tr style="text-align:left">
@@ -645,7 +645,7 @@ VeraCrypt卷格式规范：</p>
 <div align="left">&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;如果卷内包含一个隐藏卷，此区域包含随机数据。&dagger;&dagger;</div>
+<div align="left">&nbsp;隐藏卷，此区域包含随机数据。††</div>
 </td>
 </tr>
 <tr style="text-align:left">
@@ -659,7 +659,7 @@ VeraCrypt卷格式规范：</p>
 <div align="left">&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;对于系统加密，此项目省略。&Dagger;&Dagger; 请参阅字节 0 - 65535。</div>
+<div align="left">&nbsp;对于系统加密，此项省略。‡‡ 请参阅字节</div>
 </td>
 </tr>
 <tr style="text-align:left">
@@ -673,7 +673,7 @@ VeraCrypt卷格式规范：</p>
 <div align="left">&nbsp;</div>
 </td>
 <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
-<div align="left">&nbsp;0 - 65535。</div>
+<div align="left">&nbsp;0&ndash;65535。</div>
 </td>
 </tr>
 <tr style="text-align:left">

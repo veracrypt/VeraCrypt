@@ -407,6 +407,26 @@ Windows注册表中的<em style="text-align:left">IRPStackSize</em>值可能设�
 https://support.microsoft.com/kb/285089/ </a>和 <a href="https://support.microsoft.com/kb/177078/" style="text-align:left; color:#0080c0; text-decoration:none">
 https://support.microsoft.com/kb/177078/</a></div>
 <hr style="text-align:left">
+<div id="linux_user_fuse_mounts" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">问题：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">在Linux上，无法挂载存储在文件管理器中打开的网络共享上，或存储在用户帐户通过FUSE挂载的其他文件系统（例如sshfs或rclone）上的卷：VeraCrypt报告“</em>Permission denied（权限被拒绝）<em style="text-align:left">”。或者，VeraCrypt警告它使用了您的用户帐户访问权限打开卷文件。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的原因：</strong></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+此类文件系统由您的用户帐户挂载，且未使用<code>allow_other</code>选项。因此，即使您的帐户可以打开这些文件，Linux也会拒绝其他所有用户（包括管理员root）的访问。VeraCrypt使用管理员权限挂载卷，因此VeraCrypt 1.26.29及更早版本无法打开此类卷文件。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的解决方法：</strong></div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+较新版本的VeraCrypt在管理员访问被拒绝时，会使用您的用户帐户访问权限打开卷文件，前提是VeraCrypt通过sudo或doas获取管理员权限（在VeraCrypt中输入密码时就是如此）。此时卷通过VeraCrypt的FUSE层提供服务，速度比由内核直接挂载更慢，VeraCrypt会显示警告。卸载卷之前，请保持共享处于挂载状态，且用户会话保持活动：在卷仍挂载时弹出共享或注销可能导致数据丢失。如果仍报告“Permission denied”，则可能是您的帐户本身无法打开该文件，或VeraCrypt未通过sudo而直接以root身份启动（例如从root shell启动），因而无法确定您的用户帐户。后一种情况下，请以您的用户身份启动VeraCrypt。存储在此类文件系统上的密钥文件仅在VeraCrypt本身以您的用户身份运行时可用，通过sudo启动时不可用。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果经常使用SMB共享，请改用内核CIFS客户端（<em style="text-align:left">cifs-utils</em>软件包）挂载，并将所有者设为您的用户帐户。例如：
+<code>sudo mount -t cifs //server/share /mnt/share -o username=NAME,uid=$(id -u),gid=$(id -g)</code>。存储在此类挂载点上的卷由内核直接挂载，不依赖您的会话。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+对于sshfs、rclone及其他支持此功能的FUSE文件系统，请在<em style="text-align:left">/etc/fuse.conf</em>中启用<code>user_allow_other</code>，并使用<code>-o allow_root</code>选项挂载该文件系统。这样，管理员权限即可访问它，VeraCrypt也能正常打开卷文件。该卷仍依赖此文件系统：请保持文件系统处于挂载状态，直到卸载卷。
+</li></ul>
+<hr style="text-align:left">
 <p><br style="text-align:left">
 <br style="text-align:left">
 <br style="text-align:left">
