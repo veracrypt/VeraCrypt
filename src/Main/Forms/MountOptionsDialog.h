@@ -39,16 +39,18 @@ namespace VeraCrypt
 		void OnProtectionCheckBoxClick (wxCommandEvent& event);
 		void OnProtectionHyperlinkClick (wxHyperlinkEvent& event);
 		void OnReadOnlyCheckBoxClick (wxCommandEvent& event) { UpdateDialog(); }
+		void OnSize (wxSizeEvent& event);
 		void UpdateDialog ();
+		void UpdateTitle ();
 
 #ifdef TC_UNIX
 		// Used for displaying a red border around the dialog window when insecure mode is enabled
 		void OnPaint(wxPaintEvent& event);
-		void OnSize(wxSizeEvent& event);
 #endif
 
 		MountOptions &Options;
 		bool ProtectionRecovery;
+		const wxString TitlePath;
 #ifdef TC_UNIX
 		bool m_showRedBorder;
 #endif

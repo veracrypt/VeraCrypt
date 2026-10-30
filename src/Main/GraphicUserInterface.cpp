@@ -912,6 +912,8 @@ namespace VeraCrypt
 
 	VolumeInfoList GraphicUserInterface::MountAllDeviceHostedVolumes (MountOptions &options) const
 	{
+		// Discard any incoming path before constructing the generic device prompt.
+		options.Path.reset();
 		MountOptionsDialog dialog (GetTopWindow(), options);
 		while (true)
 		{

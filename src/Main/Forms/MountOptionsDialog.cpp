@@ -14,6 +14,11 @@
 #include "Main/Main.h"
 #include "Main/GraphicUserInterface.h"
 #include "MountOptionsDialog.h"
+#ifdef TC_MACOSX
+#include "Main/MacOSXWindowTitle.h"
+#else
+#include <wx/settings.h>
+#endif
 
 namespace VeraCrypt
 {
@@ -33,15 +38,16 @@ namespace VeraCrypt
 #ifdef __WXGTK__ // GTK apparently needs wxRESIZE_BORDER to support dynamic resizing
 		, wxDefaultPosition, wxSize (-1,-1), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER
 #endif
-		), Options (options), ProtectionRecovery (false)
+		), Options (options), ProtectionRecovery (false),
+		TitlePath (title.empty() && options.Path ? wstring (*options.Path) : wstring())
 #ifdef TC_UNIX
 		, m_showRedBorder(false)
 #endif
 	{
 		if (!title.empty())
 			this->SetTitle (title);
-		else if (options.Path && !options.Path->IsEmpty())
-			this->SetTitle (StringFormatter (LangString["ENTER_PASSWORD_FOR"], wstring (*options.Path)));
+		else if (!TitlePath.empty())
+			this->SetTitle (StringFormatter (LangString["ENTER_PASSWORD_FOR"], TitlePath));
 		else
 			this->SetTitle (LangString["ENTER_TC_VOL_PASSWORD"]);
 
@@ -51,7 +57,6 @@ namespace VeraCrypt
 			this->SetTitle (LangString["INSECURE_MODE"] + L" - " + this->GetTitle());
 			m_showRedBorder = true;
 			Bind(wxEVT_PAINT, &MountOptionsDialog::OnPaint, this);  
-			Bind(wxEVT_SIZE, &MountOptionsDialog::OnSize, this);
 		}
 #endif
 
@@ -102,12 +107,14 @@ namespace VeraCrypt
 		ProtectionPasswordPanel->TopOwnerParent = this;
 		ProtectionPasswordSizer->Add (ProtectionPasswordPanel, 1, wxALL | wxEXPAND);
 
+		Bind (wxEVT_SIZE, &MountOptionsDialog::OnSize, this);
 		UpdateDialog();
 		Center();
 	}
 
 	void MountOptionsDialog::OnInitDialog (wxInitDialogEvent& event)
 	{
+		UpdateTitle();
 		if (ProtectionRecovery)
 			ProtectionPasswordPanel->SetFocusToPasswordTextCtrl();
 		else
@@ -266,6 +273,88 @@ namespace VeraCrypt
 		Fit();
 		Layout();
 		MainSizer->Fit( this );
+		UpdateTitle();
+	}
+
+	void MountOptionsDialog::UpdateTitle ()
+	{
+		if (TitlePath.empty())
+			return;
+
+		wxString titlePrefix;
+#ifdef TC_UNIX
+		if (m_showRedBorder)
+			titlePrefix = LangString["INSECURE_MODE"] + L" - ";
+#endif
+		auto formatTitle = [&] (const wxString &path) -> wxString
+		{
+			return titlePrefix + StringFormatter (LangString["ENTER_PASSWORD_FOR"], path);
+		};
+
+#ifdef TC_MACOSX
+		// AppKit needs the full title to lay out the available caption width.
+		const wxString fullTitle = formatTitle (TitlePath);
+		if (GetTitle() != fullTitle)
+			SetTitle (fullTitle);
+#else
+		// Window-manager decorations and fonts are not exposed by wxGTK. Reserve
+		// space for the caption buttons and margins on both sides of the title.
+		const wxFont titleFont = wxSystemSettings::GetFont (wxSYS_DEFAULT_GUI_FONT).Bold();
+		const int titleWidth = max (1, GetClientSize().GetWidth() - 6 * GetCharHeight());
+#endif
+		auto fits = [&] (const wxString &displayPath) -> bool
+		{
+			wxString title = formatTitle (displayPath);
+#ifdef TC_MACOSX
+			return MacOSXWindowTitleFits (this, title);
+#else
+			int width;
+			GetTextExtent (title, &width, NULL, NULL, NULL, &titleFont);
+			return width <= titleWidth;
+#endif
+		};
+
+		wxString displayPath = TitlePath;
+		if (!fits (TitlePath))
+		{
+			const wxString baseName = wstring (FilesystemPath (wstring (TitlePath)).ToBaseName());
+			displayPath = baseName;
+			const wxString suffix = L"\u2026/" + baseName;
+			if (TitlePath != baseName && fits (suffix))
+			{
+				// Preserve the complete basename, then spend the remaining width on
+				// the beginning of the path. Measure the whole localized title.
+				size_t low = 0, high = TitlePath.length() - baseName.length();
+				while (low < high)
+				{
+					size_t middle = low + (high - low + 1) / 2;
+					if (fits (TitlePath.Left (middle) + suffix))
+						low = middle;
+					else
+						high = middle - 1;
+				}
+				displayPath = TitlePath.Left (low) + suffix;
+			}
+			else if (!fits (baseName))
+			{
+				// If even the basename is too wide, retain its beginning and end
+				// rather than letting the window manager truncate the extension.
+				size_t low = 0, high = baseName.length();
+				while (low < high)
+				{
+					size_t middle = low + (high - low + 1) / 2;
+					if (fits (baseName.Left ((middle + 1) / 2) + L"\u2026" + baseName.Right (middle / 2)))
+						low = middle;
+					else
+						high = middle - 1;
+				}
+				displayPath = baseName.Left ((low + 1) / 2) + L"\u2026" + baseName.Right (low / 2);
+			}
+		}
+
+		const wxString title = formatTitle (displayPath);
+		if (GetTitle() != title)
+			SetTitle (title);
 	}
 
 #ifdef TC_UNIX
@@ -283,11 +372,15 @@ namespace VeraCrypt
 		event.Skip();  
 	}  
 	
-	void MountOptionsDialog::OnSize(wxSizeEvent& event)  
+#endif
+
+	void MountOptionsDialog::OnSize(wxSizeEvent& event)
 	{  
+		UpdateTitle();
 		event.Skip();  
+#ifdef TC_UNIX
 		if (m_showRedBorder)  
 			Refresh();  
-	}
 #endif
+	}
 }
