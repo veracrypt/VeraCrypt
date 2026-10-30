@@ -1714,8 +1714,8 @@
     <entry lang="zh-cn" key="SYS_LOADER_BACKUP_DECRYPT_WITHOUT_RESTORE">由于备份无法使用，无法自动恢复原始 BIOS 系统引导器。\n\n您可以解密该驱动器，但之后 Windows 可能需要使用可信的 Windows 恢复介质或已验证的 VeraCrypt 应急盘进行启动修复。继续之前请获取合适的恢复介质。当系统的任何部分仍处于加密状态时，请勿恢复未加密的引导加载程序。\n\n您希望在无自动引导器恢复的情况下解密吗？</entry>
     <entry lang="zh-cn" key="SYS_LOADER_BACKUP_SKIP_RESTORE">系统驱动器已完全解密并卸载，但其原始 BIOS 系统引导器备份无法使用。\n\n您可以在不恢复引导器的情况下完成移除系统加密。当前引导代码将保持原位。如果启动尚未修复，请使用可信的 Windows 恢复介质或已验证的 VeraCrypt 应急盘进行修复。\n\n您希望在无恢复原始系统引导器的情况下完成清理吗？</entry>
     <entry lang="zh-cn" key="SYSENC_SETUP_CONFIG_REMOVE_FAILED">VeraCrypt 无法移除其 Windows 功能更新注册项。\n\n请解决前面的配置错误，然后运行 VeraCrypt 修复/重新安装以重试清理。在这些注册项被移除之前，请勿启动 Windows 功能更新。</entry>
-    <entry lang="en" key="SYSENC_SETUP_CONFIG_UPDATE_FAILED">VeraCrypt could not configure Windows feature update support for the encrypted system.\n\nVeraCrypt retries automatically when its system service starts. If this warning appears again, resolve the preceding error and run VeraCrypt Repair/Reinstall. Until then, do not start a Windows feature update.</entry>
-    <entry lang="en" key="SYSTEM_FAVORITES_SERVICE_UPDATE_FAILED">VeraCrypt could not update the executable of its system service, which continues to use the previous version.\n\nRestart Windows, then run the VeraCrypt installer again to repair the installation.</entry>
+    <entry lang="zh-cn" key="SYSENC_SETUP_CONFIG_UPDATE_FAILED">VeraCrypt 无法为已加密的系统配置 Windows 功能更新支持。\n\nVeraCrypt 会在其系统服务启动时自动重试。如果此警告再次出现，请解决前面的错误，然后运行 VeraCrypt 修复/重新安装。在此之前，请勿启动 Windows 功能更新。</entry>
+    <entry lang="zh-cn" key="SYSTEM_FAVORITES_SERVICE_UPDATE_FAILED">VeraCrypt 无法更新其系统服务的可执行文件，该服务仍在使用先前的版本。\n\n请重启 Windows，然后再次运行 VeraCrypt 安装程序以修复安装。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
