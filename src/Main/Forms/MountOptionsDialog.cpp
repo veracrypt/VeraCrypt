@@ -22,6 +22,50 @@
 
 namespace VeraCrypt
 {
+	namespace
+	{
+		// Formats password dialog titles and checks whether they fit the title bar.
+		class MountOptionsTitleFormatter
+		{
+		public:
+			MountOptionsTitleFormatter (wxTopLevelWindow *window, const wxString &prefix)
+				: Window (window), Prefix (prefix)
+#ifndef TC_MACOSX
+				, TitleFont (wxSystemSettings::GetFont (wxSYS_DEFAULT_GUI_FONT).Bold())
+				// Window-manager decorations and fonts are not exposed by wxGTK. Reserve
+				// space for the caption buttons and margins on both sides of the title.
+				, TitleWidth (max (1, window->GetClientSize().GetWidth() - 6 * window->GetCharHeight()))
+#endif
+			{
+			}
+
+			wxString Format (const wxString &path) const
+			{
+				return Prefix + StringFormatter (LangString["ENTER_PASSWORD_FOR"], path);
+			}
+
+			bool Fits (const wxString &path) const
+			{
+				const wxString title = Format (path);
+#ifdef TC_MACOSX
+				return MacOSXWindowTitleFits (Window, title);
+#else
+				int width;
+				Window->GetTextExtent (title, &width, NULL, NULL, NULL, &TitleFont);
+				return width <= TitleWidth;
+#endif
+			}
+
+		private:
+			wxTopLevelWindow *Window;
+			wxString Prefix;
+#ifndef TC_MACOSX
+			wxFont TitleFont;
+			int TitleWidth;
+#endif
+		};
+	}
+
 #ifdef TC_MACOSX
 
 	bool MountOptionsDialog::ProcessEvent(wxEvent& event)
@@ -286,41 +330,22 @@ namespace VeraCrypt
 		if (m_showRedBorder)
 			titlePrefix = LangString["INSECURE_MODE"] + L" - ";
 #endif
-		auto formatTitle = [&] (const wxString &path) -> wxString
-		{
-			return titlePrefix + StringFormatter (LangString["ENTER_PASSWORD_FOR"], path);
-		};
+		const MountOptionsTitleFormatter titleFormatter (this, titlePrefix);
 
 #ifdef TC_MACOSX
 		// AppKit needs the full title to lay out the available caption width.
-		const wxString fullTitle = formatTitle (TitlePath);
+		const wxString fullTitle = titleFormatter.Format (TitlePath);
 		if (GetTitle() != fullTitle)
 			SetTitle (fullTitle);
-#else
-		// Window-manager decorations and fonts are not exposed by wxGTK. Reserve
-		// space for the caption buttons and margins on both sides of the title.
-		const wxFont titleFont = wxSystemSettings::GetFont (wxSYS_DEFAULT_GUI_FONT).Bold();
-		const int titleWidth = max (1, GetClientSize().GetWidth() - 6 * GetCharHeight());
 #endif
-		auto fits = [&] (const wxString &displayPath) -> bool
-		{
-			wxString title = formatTitle (displayPath);
-#ifdef TC_MACOSX
-			return MacOSXWindowTitleFits (this, title);
-#else
-			int width;
-			GetTextExtent (title, &width, NULL, NULL, NULL, &titleFont);
-			return width <= titleWidth;
-#endif
-		};
 
 		wxString displayPath = TitlePath;
-		if (!fits (TitlePath))
+		if (!titleFormatter.Fits (TitlePath))
 		{
 			const wxString baseName = wstring (FilesystemPath (wstring (TitlePath)).ToBaseName());
 			displayPath = baseName;
 			const wxString suffix = L"\u2026/" + baseName;
-			if (TitlePath != baseName && fits (suffix))
+			if (TitlePath != baseName && titleFormatter.Fits (suffix))
 			{
 				// Preserve the complete basename, then spend the remaining width on
 				// the beginning of the path. Measure the whole localized title.
@@ -328,14 +353,14 @@ namespace VeraCrypt
 				while (low < high)
 				{
 					size_t middle = low + (high - low + 1) / 2;
-					if (fits (TitlePath.Left (middle) + suffix))
+					if (titleFormatter.Fits (TitlePath.Left (middle) + suffix))
 						low = middle;
 					else
 						high = middle - 1;
 				}
 				displayPath = TitlePath.Left (low) + suffix;
 			}
-			else if (!fits (baseName))
+			else if (!titleFormatter.Fits (baseName))
 			{
 				// If even the basename is too wide, retain its beginning and end
 				// rather than letting the window manager truncate the extension.
@@ -343,7 +368,7 @@ namespace VeraCrypt
 				while (low < high)
 				{
 					size_t middle = low + (high - low + 1) / 2;
-					if (fits (baseName.Left ((middle + 1) / 2) + L"\u2026" + baseName.Right (middle / 2)))
+					if (titleFormatter.Fits (baseName.Left ((middle + 1) / 2) + L"\u2026" + baseName.Right (middle / 2)))
 						low = middle;
 					else
 						high = middle - 1;
@@ -352,7 +377,7 @@ namespace VeraCrypt
 			}
 		}
 
-		const wxString title = formatTitle (displayPath);
+		const wxString title = titleFormatter.Format (displayPath);
 		if (GetTitle() != title)
 			SetTitle (title);
 	}
