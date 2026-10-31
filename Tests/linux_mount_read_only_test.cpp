@@ -133,6 +133,8 @@ struct FallbackCore : TestCore
         bool, VolumeType::Enum, bool, bool) const override { return Opened; }
     bool IsVolumeMounted (const VolumePath &) const override { return false; }
     VolumeInfoList GetMountedVolumes (const VolumePath & = VolumePath()) const override { return VolumeInfoList(); }
+    // The production locks, in a directory that the unprivileged test can create
+    string GetMountLockDirectory () const override { return GetTempDirectory() + "/locks"; }
     shared_ptr<VolumeInfo> GetMountedVolume (const VolumePath &) const override
     {
         return shared_ptr<VolumeInfo> (new VolumeInfo);

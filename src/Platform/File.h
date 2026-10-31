@@ -17,6 +17,9 @@
 #include "Buffer.h"
 #include "FilesystemPath.h"
 #include "SystemException.h"
+#ifndef TC_WINDOWS
+#include <sys/stat.h>
+#endif
 
 #ifdef TC_LINUX
 #define TC_REQUESTER_HELPER_CMDLINE_OPTION "--requester-helper"
@@ -66,11 +69,12 @@ namespace VeraCrypt
 				,AccTime(0), ModTime (0)
 #endif
 #ifdef TC_LINUX
-				,RequesterBacked (false), ReleaseOnly (false), RequesterUserId (0), RequesterGroupId (0)
+				,RequesterBacked (false), ReleaseOnly (false), RequesterUserId (0), RequesterGroupId (0), RequesterDevice (0), RequesterInode (0)
 #endif
 		 { }
 		virtual ~File ();
 
+		SystemFileHandleType GetSystemHandle () const { return FileHandle; }
 		void AssignSystemHandle (SystemFileHandleType openFileHandle, bool sharedHandle = true)
 		{
 			if (FileIsOpen)
@@ -99,6 +103,12 @@ namespace VeraCrypt
 		void SetReleaseOnly () { ReleaseOnly = true; }
 #endif
 		FilePath GetPath () const;
+#ifndef TC_WINDOWS
+		// For a file opened with the requester's credentials, the device and inode
+		// as the requester's process found them: fstat by the caller can fail, as
+		// FUSE checks the credentials of the calling process.
+		void GetStat (struct stat &statData) const;
+#endif
 		uint64 Length () const;
 		void Open (const FilePath &path, FileOpenMode mode = OpenRead, FileShareMode shareMode = ShareReadWrite, FileOpenFlags flags = FlagsNone);
 		uint64 Read (const BufferPtr &buffer) const;
@@ -139,6 +149,8 @@ namespace VeraCrypt
 		bool ReleaseOnly;
 		uid_t RequesterUserId;
 		gid_t RequesterGroupId;
+		uint64 RequesterDevice;
+		uint64 RequesterInode;
 #endif
 
 	private:

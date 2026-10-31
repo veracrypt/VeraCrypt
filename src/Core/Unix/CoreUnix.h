@@ -13,6 +13,7 @@
 #ifndef TC_HEADER_Core_CoreUnix
 #define TC_HEADER_Core_CoreUnix
 
+#include <sys/stat.h>
 #include "System.h"
 #include "Platform/Unix/Process.h"
 #include "Core/CoreBase.h"
@@ -43,6 +44,9 @@ namespace VeraCrypt
 		virtual bool IsDevicePresent (const DevicePath &device) const { throw NotApplicable (SRC_POS); }
 		virtual bool IsInPortableMode () const { return false; }
 		virtual bool IsMountPointAvailable (const DirectoryPath &mountPoint) const;
+		virtual bool IsVolumeUsedByKernelDevice (const struct stat &volumeStat) const { return false; }
+		// Directory of the locks that reserve volumes and slots while mounted
+		virtual string GetMountLockDirectory () const { return "/var/run/veracrypt"; }
 		virtual bool IsOSVersion (int major, int minor) const { throw NotApplicable (SRC_POS); }
 		virtual bool IsOSVersionLower (int major, int minor) const { throw NotApplicable (SRC_POS); }
 		virtual bool IsPasswordCacheEmpty () const { throw NotApplicable (SRC_POS); }

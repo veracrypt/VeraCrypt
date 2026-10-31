@@ -25,6 +25,8 @@
 #include <sys/mount.h>
 #endif
 #ifdef TC_LINUX
+#include <fcntl.h>
+#include <sys/file.h>
 #include <sys/utsname.h>
 #endif
 #include <stdio.h>
@@ -1245,6 +1247,126 @@ namespace VeraCrypt
 			throw MountPointNotAllowed (SRC_POS);
 	}
 
+#ifdef TC_LINUX
+	// Opens the lock file 'name' in the lock directory, which must belong to the
+	// effective user (root, /var/run/veracrypt) and be writable only by it. The
+	// locks are taken with flock, so they last until the last copy of the
+	// descriptor is closed: the copy that the FUSE service inherits lasts until it
+	// exits.
+	static int OpenMountLockFile (const string &lockDirectory, const string &name)
+	{
+		throw_sys_sub_if (mkdir (lockDirectory.c_str(), S_IRWXU) == -1 && errno != EEXIST, lockDirectory);
+
+		// Keep using the directory that was checked
+		int directoryFd = open (lockDirectory.c_str(), O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+		throw_sys_sub_if (directoryFd == -1, lockDirectory);
+		finally_do_arg (int, directoryFd, { close (finally_arg); });
+
+		struct stat directoryInfo;
+		throw_sys_sub_if (fstat (directoryFd, &directoryInfo) == -1, lockDirectory);
+		if (directoryInfo.st_uid != geteuid() || (directoryInfo.st_mode & (S_IWGRP | S_IWOTH)))
+		{
+			errno = EPERM;
+			throw SystemException (SRC_POS, lockDirectory + ": the directory must belong to the user running VeraCrypt and be writable only by it.");
+		}
+
+		int fd = openat (directoryFd, name.c_str(), O_RDWR | O_CREAT | O_NOFOLLOW | O_CLOEXEC, S_IRUSR | S_IWUSR);
+		throw_sys_sub_if (fd == -1, lockDirectory + "/" + name);
+		return fd;
+	}
+
+	static bool IsSameFile (const struct stat &a, const struct stat &b)
+	{
+		if (S_ISBLK (a.st_mode) || S_ISBLK (b.st_mode))
+			return S_ISBLK (a.st_mode) && S_ISBLK (b.st_mode) && a.st_rdev == b.st_rdev;
+
+		return a.st_dev == b.st_dev && a.st_ino == b.st_ino;
+	}
+
+	// Throws VolumeAlreadyMounted if the volume is in use, or another exception if
+	// that cannot be established. Returns a descriptor holding an exclusive lock
+	// for the volume, which the FUSE service inherits.
+	static int LockVolumeIdentity (const CoreUnix &core, const struct stat &volumeInfo)
+	{
+		// With kernel crypto, a device-mapper device can keep using the volume
+		// after the FUSE service of an emergency dismount has exited
+		if (core.IsVolumeUsedByKernelDevice (volumeInfo))
+			throw VolumeAlreadyMounted (SRC_POS);
+
+		stringstream lockName;
+		lockName << hex;
+		if (S_ISBLK (volumeInfo.st_mode))
+			lockName << "device-" << (uint64) volumeInfo.st_rdev;
+		else
+			lockName << "file-" << (uint64) volumeInfo.st_dev << "-" << (uint64) volumeInfo.st_ino;
+
+		int fd = OpenMountLockFile (core.GetMountLockDirectory(), lockName.str());
+		bool locked = false;
+		finally_do_arg2 (int, fd, bool &, locked, { if (!finally_arg2) close (finally_arg); });
+
+		for (int t = 0; flock (fd, LOCK_EX | LOCK_NB) == -1; t++)
+		{
+			const int error = errno;
+			if (error == EINTR)
+				continue;
+
+			if (error != EWOULDBLOCK)
+			{
+				errno = error;
+				throw SystemException (SRC_POS, lockName.str());
+			}
+
+			if (t >= 100)
+				throw VolumeAlreadyMounted (SRC_POS);
+
+			// Mounted under another path: refuse without waiting
+			if (t == 0)
+			{
+				foreach_ref (const VolumeInfo &mounted, core.GetMountedVolumes())
+				{
+					struct stat mountedInfo;
+					if (stat (string (mounted.Path).c_str(), &mountedInfo) == 0 && IsSameFile (mountedInfo, volumeInfo))
+						throw VolumeAlreadyMounted (SRC_POS);
+				}
+			}
+
+			// A service that has just been dismounted normally may still be exiting
+			Thread::Sleep (100);
+		}
+
+		// Another mount may have finished, and been dismounted in an emergency,
+		// while this one was waiting
+		if (core.IsVolumeUsedByKernelDevice (volumeInfo))
+			throw VolumeAlreadyMounted (SRC_POS);
+
+		locked = true;
+		return fd;
+	}
+
+	// Returns -1 only for a read-only mount whose volume cannot be locked: a
+	// writable mount is refused unless the volume is known not to be in use.
+	static int LockVolumeForMount (const CoreUnix &core, const File &volumeFile, bool writable)
+	{
+		try
+		{
+			struct stat volumeInfo;
+			volumeFile.GetStat (volumeInfo);
+			return LockVolumeIdentity (core, volumeInfo);
+		}
+		catch (VolumeAlreadyMounted&)
+		{
+			throw;
+		}
+		catch (...)
+		{
+			if (writable)
+				throw;
+		}
+
+		return -1;
+	}
+#endif
+
 	shared_ptr <VolumeInfo> CoreUnix::MountVolume (MountOptions &options)
 	{
 		CoalesceSlotNumberAndMountPoint (options);
@@ -1300,6 +1422,16 @@ namespace VeraCrypt
 
 			break;
 		}
+
+#ifdef TC_LINUX
+		// An emergency dismount only detaches the file systems: the FUSE service
+		// keeps the volume open after it has left the mount table, until the
+		// last file on the volume is closed. Mounting the volume again meanwhile
+		// would let two services write to it. The lock identifies the file that
+		// was opened, whatever path leads to it.
+		int volumeLock = LockVolumeForMount (*this, *volume->GetFile(), volume->GetProtectionType() != VolumeProtection::ReadOnly);
+		finally_do_arg (int, volumeLock, { if (finally_arg != -1) close (finally_arg); });
+#endif
 
 		// Opening a partially encrypted system volume can force read-only
 		// protection. Carry that effective mode into either mount backend.

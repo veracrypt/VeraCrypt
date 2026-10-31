@@ -219,6 +219,23 @@ namespace VeraCrypt
 #endif
 	}
 
+	void File::GetStat (struct stat &statData) const
+	{
+		if_debug (ValidateState());
+
+#ifdef TC_LINUX
+		if (RequesterBacked)
+		{
+			Memory::Zero (&statData, sizeof (statData));
+			statData.st_mode = S_IFREG;
+			statData.st_dev = (dev_t) RequesterDevice;
+			statData.st_ino = (ino_t) RequesterInode;
+			return;
+		}
+#endif
+		throw_sys_sub_if (fstat (FileHandle, &statData) == -1, wstring (Path));
+	}
+
 	uint64 File::Length () const
 	{
 		if_debug (ValidateState());
