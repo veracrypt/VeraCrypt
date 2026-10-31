@@ -39,27 +39,28 @@ extern "C" {
 
 typedef void (*SigHandler)(int);
 
-static jmp_buf s_jmpNoCPUID;
+// Restore the signal mask when a probe returns from SIGILL.
+static sigjmp_buf s_jmpNoCPUID;
 static void SigIllHandlerCPUID(int p)
 {
-	longjmp(s_jmpNoCPUID, 1);
+	siglongjmp(s_jmpNoCPUID, 1);
 }
 
 #if !defined (_UEFI) && ((defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE)
 
-static jmp_buf s_jmpNoAESNI;
+static sigjmp_buf s_jmpNoAESNI;
 static void SigIllHandlerAESNI(int p)
 {
-	longjmp(s_jmpNoAESNI, 1);
+	siglongjmp(s_jmpNoAESNI, 1);
 }
 
 #endif
 
 #if CRYPTOPP_BOOL_X64 == 0
-static jmp_buf s_jmpNoSSE2;
+static sigjmp_buf s_jmpNoSSE2;
 static void SigIllHandlerSSE2(int p)
 {
-	longjmp(s_jmpNoSSE2, 1);
+	siglongjmp(s_jmpNoSSE2, 1);
 }
 #endif
 
@@ -109,7 +110,7 @@ int CpuId(uint32 input, uint32 output[4])
 	if (oldHandler == SIG_ERR)
 		result = 0;
 
-	if (setjmp(s_jmpNoCPUID))
+	if (sigsetjmp(s_jmpNoCPUID, 1))
 		result = 0;
 	else
 	{
@@ -164,8 +165,8 @@ static int TrySSE2()
 	if (oldHandler == SIG_ERR)
 		return 0;
 
-	if (setjmp(s_jmpNoSSE2))
-		result = 1;
+	if (sigsetjmp(s_jmpNoSSE2, 1))
+		result = 0;
 	else
 	{
 #if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
@@ -239,7 +240,7 @@ static int TryAESNI ()
 	if (oldHandler == SIG_ERR)
 		return 0;
 
-	if (setjmp(s_jmpNoAESNI))
+	if (sigsetjmp(s_jmpNoAESNI, 1))
 		result = 0;
 	else
 #endif
@@ -290,7 +291,10 @@ static int Detect_MS_HyperV_AES ()
 
 #endif
 
-#if defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE
+/* Keep this guard in sync with TrySHA256 in Sha2Intel.c. */
+#if !defined(_UEFI) && !defined(CRYPTOPP_DISABLE_ASM) && \
+	CRYPTOPP_SHANI_AVAILABLE
+#define TC_SHA256_PROBE_AVAILABLE
 extern int TrySHA256();
 #endif
 
@@ -366,7 +370,7 @@ void DetectX86Features()
 	}
 #endif
 
-#if defined(__SHA__) || defined(__INTEL_COMPILER) || CRYPTOPP_SHANI_AVAILABLE
+#ifdef TC_SHA256_PROBE_AVAILABLE
 	if (!g_hasSHA256)
 	{
 		g_hasSHA256 = TrySHA256();
@@ -476,7 +480,7 @@ void DisableCPUExtendedFeatures ()
 #endif
 
 #if CRYPTOPP_BOOL_ARMV8
-#if defined(__linux__) && defined(__aarch64__)
+#if (defined(__linux__) || defined(__FreeBSD__)) && defined(__aarch64__)
 #include <sys/auxv.h>
 #ifndef HWCAP_AES
 # define HWCAP_AES (1 << 3)
@@ -489,11 +493,15 @@ void DisableCPUExtendedFeatures ()
 volatile int g_hasAESARM = 0;
 volatile int g_hasSHA256ARM = 0;
 
-inline int CPU_QueryAES()
+VC_INLINE int CPU_QueryAES()
 {
 #if defined(CRYPTOPP_ARM_AES_AVAILABLE)
 #if defined(__linux__) && defined(__aarch64__)
 	if ((getauxval(AT_HWCAP) & HWCAP_AES) != 0)
+		return 1;
+#elif defined(__FreeBSD__) && defined(__aarch64__)
+	unsigned long hwcap = 0;
+	if (elf_aux_info(AT_HWCAP, &hwcap, sizeof(hwcap)) == 0 && (hwcap & HWCAP_AES) != 0)
 		return 1;
 #elif defined(__APPLE__) && defined(__aarch64__)
 	// Apple Sillcon (M1) and later
@@ -513,11 +521,15 @@ inline int CPU_QueryAES()
 #endif
 }
 
-inline int CPU_QuerySHA2()
+VC_INLINE int CPU_QuerySHA2()
 {
 #if defined(CRYPTOPP_ARM_SHA2_AVAILABLE)
 #if defined(__linux__) && defined(__aarch64__)
 	if ((getauxval(AT_HWCAP) & HWCAP_SHA2) != 0)
+		return 1;
+#elif defined(__FreeBSD__) && defined(__aarch64__)
+	unsigned long hwcap = 0;
+	if (elf_aux_info(AT_HWCAP, &hwcap, sizeof(hwcap)) == 0 && (hwcap & HWCAP_SHA2) != 0)
 		return 1;
 #elif defined(__APPLE__) && defined(__aarch64__)
 	// Apple Sillcon (M1) and later

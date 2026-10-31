@@ -100,6 +100,15 @@ namespace VeraCrypt
 		shared_ptr <VolumeInfo> MountedVolumeInfo;
 	};
 
+#ifdef TC_LINUX
+	struct MountVolumeResponseV2 : MountVolumeResponse
+	{
+		MountVolumeResponseV2 () { }
+		MountVolumeResponseV2 (shared_ptr <VolumeInfo> volumeInfo) : MountVolumeResponse (volumeInfo) { }
+		TC_SERIALIZABLE (MountVolumeResponseV2);
+	};
+#endif
+
 	struct SetFileOwnerResponse : CoreServiceResponse
 	{
 		SetFileOwnerResponse () { }

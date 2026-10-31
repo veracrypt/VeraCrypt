@@ -20,6 +20,7 @@
 #include <string.h>
 #include "Pkcs5.h"
 #include "cpu.h"
+#include "Volumes.h"
 
 typedef struct {
 	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 key1[32];
@@ -1280,6 +1281,40 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 	return (nTestsPerformed == 150);
 }
 
+#ifndef TC_WINDOWS_DRIVER
+#define TC_ALIGNMENT_PROBE_SIZE	4
+
+/* Check type alignment at compile time: static probes can be aligned even with an
+   empty CRYPTOPP_ALIGN_DATA, for example in AddressSanitizer builds. */
+typedef struct
+{
+	CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) unsigned char buffer[TC_ALIGNMENT_PROBE_SIZE];
+} DerivedKeyAlignmentProbe;
+
+typedef struct
+{
+	CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) unsigned char buffer[TC_ALIGNMENT_PROBE_SIZE];
+} KeyInfoAlignmentProbe;
+
+typedef char DerivedKeyAlignmentCheck[(__alignof (DerivedKeyAlignmentProbe) >= TC_DERIVED_KEY_BUFFER_ALIGNMENT) ? 1 : -1];
+typedef char KeyInfoAlignmentCheck[(__alignof (KeyInfoAlignmentProbe) >= TC_KEY_INFO_BUFFER_ALIGNMENT) ? 1 : -1];
+
+/* The compiler may fold the address checks using the declared alignment. */
+static BOOL TestBufferAlignment (void)
+{
+	static CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) unsigned char derivedKeyProbe[TC_ALIGNMENT_PROBE_SIZE];
+	static CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) unsigned char keyInfoProbe[TC_ALIGNMENT_PROBE_SIZE];
+
+	if (!TC_IS_ALIGNED (derivedKeyProbe, TC_DERIVED_KEY_BUFFER_ALIGNMENT))
+		return FALSE;
+
+	if (!TC_IS_ALIGNED (keyInfoProbe, TC_KEY_INFO_BUFFER_ALIGNMENT))
+		return FALSE;
+
+	return TRUE;
+}
+#endif
+
 static BOOL DoAutoTestAlgorithms (void)
 {
 	PCRYPTO_INFO ci;
@@ -1489,6 +1524,13 @@ static BOOL DoAutoTestAlgorithms (void)
 		bFailed = TRUE;
 
 	crypto_close (ci);
+
+#ifndef TC_WINDOWS_DRIVER
+	/* Not run in the driver: a failing self-test there reaches TC_BUG_CHECK and would bugcheck the machine. */
+	if (!TestBufferAlignment ())
+		bFailed = TRUE;
+#endif
+
 	return !bFailed;
 }
 

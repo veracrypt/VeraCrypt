@@ -25,6 +25,7 @@ namespace VeraCrypt
 		static void TestAll (bool enableCpuEncryptionSupport);
 
 	protected:
+		static void TestAlignment ();
 		static void TestCiphers ();
 		static void TestLegacyModes ();
 		static void TestPkcs5 ();

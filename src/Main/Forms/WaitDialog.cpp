@@ -33,12 +33,13 @@ namespace VeraCrypt
 	void WaitDialog::ThrowException(Exception* ex)
 	{
 	#define VC_CONVERT_EXCEPTION(NAME) if (dynamic_cast<NAME*> (ex)) throw (NAME&) *ex;
-		VC_CONVERT_EXCEPTION (PasswordIncorrect);
+		// Handle PasswordIncorrect subclasses before the base class to avoid slicing.
 		VC_CONVERT_EXCEPTION (PasswordKeyfilesIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordOrKeyboardLayoutIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordOrMountOptionsIncorrect);
 		VC_CONVERT_EXCEPTION (ProtectionPasswordIncorrect);
 		VC_CONVERT_EXCEPTION (ProtectionPasswordKeyfilesIncorrect);
+		VC_CONVERT_EXCEPTION (PasswordIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordEmpty);
 		VC_CONVERT_EXCEPTION (PasswordTooLong);
 		VC_CONVERT_EXCEPTION (PasswordUTF8TooLong);
@@ -57,16 +58,22 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (LoopDeviceSetupFailed);
 		VC_CONVERT_EXCEPTION (MountPointRequired);
 		VC_CONVERT_EXCEPTION (MountPointUnavailable);
+		VC_CONVERT_EXCEPTION (MountServiceIncompatible);
+		VC_CONVERT_EXCEPTION (MountServiceCleanupFailed);
+		VC_CONVERT_EXCEPTION (DismountServiceCleanupFailed);
+		VC_CONVERT_EXCEPTION (MountServiceUnavailable);
+		VC_CONVERT_EXCEPTION (VolumeDiscoveryFailed);
 		VC_CONVERT_EXCEPTION (NoDriveLetterAvailable);
 		VC_CONVERT_EXCEPTION (TemporaryDirectoryFailure);
 		VC_CONVERT_EXCEPTION (UnsupportedSectorSizeHiddenVolumeProtection);
 		VC_CONVERT_EXCEPTION (UnsupportedSectorSizeNoKernelCrypto);
 		VC_CONVERT_EXCEPTION (VolumeAlreadyMounted);
 		VC_CONVERT_EXCEPTION (VolumeSlotUnavailable);
-		VC_CONVERT_EXCEPTION (UserInterfaceException);
+		// Handle UserInterfaceException subclasses before the base class to avoid slicing.
 		VC_CONVERT_EXCEPTION (MissingArgument);
 		VC_CONVERT_EXCEPTION (NoItemSelected);
 		VC_CONVERT_EXCEPTION (StringFormatterException);
+		VC_CONVERT_EXCEPTION (UserInterfaceException);
 		VC_CONVERT_EXCEPTION (FilesystemDismountFailed);
 		VC_CONVERT_EXCEPTION (ExecutedProcessFailed);
 		VC_CONVERT_EXCEPTION (AlreadyInitialized);

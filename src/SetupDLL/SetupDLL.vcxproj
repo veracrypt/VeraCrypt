@@ -242,6 +242,7 @@ copy Debug\VeraCryptSetup.dll "..\Debug\Setup Files\VeraCryptSetup.dll" &gt;NUL:
     <ClInclude Include="..\Common\Exception.h" />
     <ClInclude Include="..\Common\Inflate.h" />
     <ClInclude Include="..\Common\Language.h" />
+    <ClInclude Include="..\Common\SetupService.h" />
     <ClInclude Include="..\Common\Registry.h" />
     <ClInclude Include="..\Common\Resource.h" />
     <ClInclude Include="Resource.h" />

@@ -63,6 +63,9 @@
     <ClInclude Include="..\Common\Language.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\SetupService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\Common\Registry.h">
       <Filter>Header Files</Filter>
     </ClInclude>

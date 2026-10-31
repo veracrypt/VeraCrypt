@@ -27,11 +27,25 @@
 #endif
 
 #if defined(__XOP__) && (defined(__GNUC__) || defined(__clang__))
-//#include <x86intrin.h>
+#include <x86intrin.h> /* for _mm_roti_epi64 (-march=bdver*) */
 #endif
 
-#if !defined(__AVX512F__)
-#if !defined(__AVX2__)
+/* The variant is chosen by the file that includes this header
+ * (ARGON2_BLAMKA_SSE2 in opt_sse2.c, ARGON2_BLAMKA_AVX2 in opt_avx2.c), not
+ * only by the compiler flags: with global flags such as -march=x86-64-v3 or
+ * -march=x86-64-v4, every file sees __AVX2__ or __AVX512F__. */
+#if defined(ARGON2_BLAMKA_SSE2)
+#define ARGON2_BLAMKA_USE_SSE2
+#elif defined(ARGON2_BLAMKA_AVX2)
+#define ARGON2_BLAMKA_USE_AVX2
+#elif !defined(__AVX512F__) && !defined(__AVX2__)
+#define ARGON2_BLAMKA_USE_SSE2
+#elif !defined(__AVX512F__)
+#define ARGON2_BLAMKA_USE_AVX2
+#endif
+
+#if defined(ARGON2_BLAMKA_USE_SSE2) || defined(ARGON2_BLAMKA_USE_AVX2)
+#if defined(ARGON2_BLAMKA_USE_SSE2)
 #if !defined(__XOP__)
 #if defined(__SSSE3__)
 #define r16                                                                    \
@@ -179,7 +193,7 @@ static BLAKE2_INLINE __m128i fBlaMka(__m128i x, __m128i y) {
                                                                                \
         UNDIAGONALIZE(A0, B0, C0, D0, A1, B1, C1, D1);                         \
     } while ((void)0, 0)
-#else /* __AVX2__ */
+#else /* ARGON2_BLAMKA_USE_AVX2 */
 
 //#include <immintrin.h>
 
@@ -326,9 +340,9 @@ static BLAKE2_INLINE __m128i fBlaMka(__m128i x, __m128i y) {
         UNDIAGONALIZE_2(A0, A1, B0, B1, C0, C1, D0, D1) \
     } while((void)0, 0);
 
-#endif /* __AVX2__ */
+#endif /* ARGON2_BLAMKA_USE_SSE2 */
 
-#else /* __AVX512F__ */
+#else /* AVX-512 */
 
 //#include <immintrin.h>
 
@@ -468,5 +482,5 @@ static __m512i muladd(__m512i x, __m512i y)
         UNSWAP_QUARTERS(D0, D1); \
     } while ((void)0, 0)
 
-#endif /* __AVX512F__ */
+#endif /* ARGON2_BLAMKA_USE_SSE2 || ARGON2_BLAMKA_USE_AVX2 */
 #endif /* BLAKE_ROUND_MKA_OPT_H */

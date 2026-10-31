@@ -35,5 +35,8 @@ OBJS += Unix/SystemInfo.o
 OBJS += Unix/SystemLog.o
 OBJS += Unix/Thread.o
 OBJS += Unix/Time.o
+ifeq "$(PLATFORM)" "Linux"
+OBJS += Unix/RequesterAccess.o
+endif
 
 include $(BUILD_INC)/Makefile.inc

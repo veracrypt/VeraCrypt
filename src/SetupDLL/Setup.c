@@ -23,6 +23,8 @@
 
 #include "Apidrvr.h"
 #include "BootEncryption.h"
+#include "SetupService.h"
+#include "Platform/Finally.h"
 #include "Boot/Windows/BootCommon.h"
 #include "Combo.h"
 #include "ComSetup.h"
@@ -119,37 +121,6 @@ BOOL bDesktopIconStatusDetermined = FALSE;
 
 /* Defined in this file, but a little bit late */
 BOOL IsSystemRestoreEnabled ();
-
-/* 
- * Same as in Setup.c
- */
-BOOL ForceCopyFile (LPCWSTR szSrcFile, LPCWSTR szDestFile)
-{
-	BOOL bRet = CopyFileW (szSrcFile, szDestFile, FALSE);
-	if (!bRet)
-	{
-		wstring renamedPath = szDestFile;
-		renamedPath += VC_FILENAME_RENAMED_SUFFIX;
-
-		/* rename the locked file in order to be able to create a new one */
-		if (MoveFileExW (szDestFile, renamedPath.c_str(), MOVEFILE_REPLACE_EXISTING))
-		{
-			bRet = CopyFileW (szSrcFile, szDestFile, FALSE);
-			if (bRet)
-			{
-				/* delete the renamed file when the machine reboots */
-				MoveFileEx (renamedPath.c_str(), NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
-			}
-			else
-			{
-				/* restore the original file name */
-				MoveFileEx (renamedPath.c_str(), szDestFile, MOVEFILE_REPLACE_EXISTING);
-			}
-		}
-	}
-
-	return bRet;
-}
 
 /* 
  * Same as in Setup.c
@@ -1222,10 +1193,8 @@ end:
 BOOL StartStopService_Dll (MSIHANDLE hInstaller, wchar_t *lpszService, BOOL bStart, DWORD argc, LPCWSTR* argv)
 {
 	SC_HANDLE hManager, hService = NULL;
-	BOOL bOK = FALSE, bRet;
-	SERVICE_STATUS status = {0};
-	int x;
-	DWORD dwExpectedState = bStart? SERVICE_RUNNING : SERVICE_STOPPED;
+	BOOL bOK = FALSE;
+	DWORD dwError;
 
 	hManager = OpenSCManager (NULL, NULL, SC_MANAGER_ALL_ACCESS);
 	if (hManager == NULL)
@@ -1240,50 +1209,20 @@ BOOL StartStopService_Dll (MSIHANDLE hInstaller, wchar_t *lpszService, BOOL bSta
 	else
 		MSILog(hInstaller, MSI_INFO_LEVEL, L"STOPPING %s", lpszService);
 
-	if (bStart)
-	{
-		if (!StartService (hService, argc, argv) && (GetLastError () != ERROR_SERVICE_ALREADY_RUNNING))
-		{
-			MSILog(hInstaller, MSI_ERROR_LEVEL, L"Failed to start %s. Error 0x%.8X", lpszService, GetLastError ());
-			goto error;
-		}
-	}
-	else
-		ControlService (hService, SERVICE_CONTROL_STOP, &status);
-
-	for (x = 0; x < WAIT_PERIOD; x++)
-	{
-		bRet = QueryServiceStatus (hService, &status);
-		if (bRet != TRUE)
-			goto error;
-
-		if (status.dwCurrentState == dwExpectedState)
-			break;
-
-		Sleep (1000);
-	}
-
-	bRet = QueryServiceStatus (hService, &status);
-	if (bRet != TRUE)
-	{
-		MSILog(hInstaller, MSI_ERROR_LEVEL, L"Failed to query status of %s. Error 0x%.8X", lpszService, GetLastError ());
-		goto error;
-	}
-
-	if (status.dwCurrentState != dwExpectedState)
-	{
-		MSILog(hInstaller, MSI_ERROR_LEVEL, L"Current state of %s (0x%.8X) is different from expected one (0x%.8X).", lpszService, status.dwCurrentState, dwExpectedState);
-		goto error;
-	}
-
-	bOK = TRUE;
+	dwError = SetupService::ChangeState (hService, bStart != FALSE, argc, argv);
+	bOK = dwError == ERROR_SUCCESS;
+	SetLastError (dwError);
 
 error:
+	dwError = bOK ? ERROR_SUCCESS : GetLastError ();
 
-	if (bOK == FALSE && GetLastError () == ERROR_SERVICE_DOES_NOT_EXIST)
+	if (!bStart && bOK == FALSE && hService == NULL && dwError == ERROR_SERVICE_DOES_NOT_EXIST)
 	{
 		bOK = TRUE;
+		dwError = ERROR_SUCCESS;
 	}
+	else if (!bOK)
+		MSILog(hInstaller, MSI_ERROR_LEVEL, L"Failed to %s service %s. Error 0x%.8X", bStart ? L"start" : L"stop", lpszService, dwError);
 
 	if (hService != NULL)
 		CloseServiceHandle (hService);
@@ -1291,6 +1230,7 @@ error:
 	if (hManager != NULL)
 		CloseServiceHandle (hManager);
 
+	SetLastError (dwError);
 	return bOK;
 }
 
@@ -1934,20 +1874,11 @@ BOOL DoApplicationDataUninstall_Dll (MSIHANDLE hInstaller)
 		bOK = FALSE;
 	}
 
-	// remove VeraCrypt under common appdata
-	if (SUCCEEDED (SHGetFolderPath (NULL, CSIDL_COMMON_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, path)))
-	{
-		StringCbCatW (path, sizeof(path), L"\\VeraCrypt");
-
-		// Delete original bootloader
-		StringCbPrintfW (path2, sizeof(path2), L"%s\\%s", path, TC_SYS_BOOT_LOADER_BACKUP_NAME);
-		MSILog(hInstaller, MSI_INFO_LEVEL, L"REMOVING %s", path2);
-		StatDeleteFile (path2, FALSE);
-
-		// remove VeraCrypt folder
-		MSILog(hInstaller, MSI_INFO_LEVEL, L"REMOVING %s", path);
-		StatRemoveDirectory (path);
-	}
+	// The VeraCrypt directory under common appdata, used by VeraCrypt 1.26.29 and
+	// older, is kept: it can contain backups of the original system loader, and once
+	// secured, it prevents standard users from creating files there. Otherwise, one
+	// of them could create it again, with a script that a remaining Windows Setup
+	// registration would run.
 
 	MSILog(hInstaller, MSI_INFO_LEVEL, L"End DoApplicationDataUninstall");
 	return bOK;
@@ -1972,6 +1903,13 @@ BOOL DoUninstall_Dll (MSIHANDLE hInstaller, HWND hwndDlg)
 	}
 	else
 	{
+		// A failure does not prevent the uninstallation.
+		try { BootEncryption::UpdateSetupConfigFile (false); }
+		catch (Exception &e)
+		{
+			e.Show (hwndDlg);
+			MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYSENC_SETUP_CONFIG_REMOVE_FAILED"));
+		}
 		if (!Rollback && bSystemRestore && !bTempSkipSysRestore)
 			SetSystemRestorePoint_Dll (hInstaller, FALSE);
 
@@ -2575,6 +2513,30 @@ end:
 	return uiRet;
 }
 
+/*
+ * Same as Setup.c, function RecordInstallationPath().
+ * Unlike the EXE installer, the MSI records the installation directory nowhere
+ * else that the system favorites service and the COM servers can find it.
+ */
+static BOOL RecordInstallationPath (const wchar_t *path, BOOL bOnlyIfServiceExists)
+{
+	const wchar_t *key = L"SYSTEM\\CurrentControlSet\\Services\\veracrypt";
+	// Never replace a recorded path with an invalid one.
+	if (!path || wcslen (path) < 3 || path[1] != L':' || path[2] != L'\\')
+	{
+		SetLastError (ERROR_BAD_PATHNAME);
+		return FALSE;
+	}
+	if (bOnlyIfServiceExists)
+	{
+		HKEY hkey;
+		if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, key, 0, KEY_QUERY_VALUE, &hkey) != ERROR_SUCCESS)
+			return TRUE;
+		RegCloseKey (hkey);
+	}
+	return WriteLocalMachineRegistryString (key, L"InstallationPath", path, FALSE);
+}
+
 /* 
  * Same as Setup.c, function DoInstall(), but 
  * without the actual installation, it only performs 
@@ -2795,12 +2757,14 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 		if (bResult)
 		{
-			// Update the path of the service
+			// Update the executable of the system favorites service. A failure does
+			// not fail the installation: the service keeps its previous executable,
+			// and a replacement that is not possible now is done when Windows restarts.
 			BootEncryption BootEncObj (hwndDlg);
 
 			try
 			{
-				if (BootEncObj.GetDriverServiceStartType() == SERVICE_BOOT_START)
+				if (SystemEncryptionUpdate || BootEncObj.IsSystemFavoritesServiceInstalled ())
 				{
 					uint32 driverFlags = ReadDriverConfigurationFlags ();
 					uint32 serviceFlags = BootEncObj.ReadServiceConfigurationFlags ();
@@ -2811,36 +2775,59 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 					// Tell the service not to update loader on stop
 					BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, true);
+					finally_do_arg2 (BootEncryption *, &BootEncObj, uint32, serviceFlags, {
+						try { finally_arg->SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, (finally_arg2 & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER) != 0); } catch (...) { }
+					});
+					finally_do_arg2 (BootEncryption *, &BootEncObj, uint32, driverFlags, {
+						try { finally_arg->SetDriverConfigurationFlag (finally_arg2, true); } catch (...) { }
+					});
 
-					if (StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL))
+					// The new service locates the installation from this value.
+					if (!RecordInstallationPath (szInstallDir.c_str (), TRUE))
+						MSILog (hInstaller, MSI_WARNING_LEVEL, L"VC_CustomAction_PostInstall: failed to record the installation path. Error 0x%.8X", GetLastError ());
+
+					// The executable of a service that cannot be stopped is replaced when Windows restarts.
+					if (!StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL))
+					{
+						MSILog (hInstaller, MSI_WARNING_LEVEL, L"VC_CustomAction_PostInstall: failed to stop %s. Error 0x%.8X", TC_SYSTEM_FAVORITES_SERVICE_NAME, GetLastError ());
+						bRestartRequired = TRUE; // The previous executable runs until then
+					}
+					DWORD copyError = SetupService::UpdateExecutable (szTmp, servicePath);
+					if (copyError == ERROR_SUCCESS)
 					{
 						// we tell the service not to load system favorites on startup and to update bootloader on startup
-						LPCWSTR szArgs[3] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT, VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_LOADER};
-						if (!CopyFile (szTmp, servicePath.c_str(), FALSE))
-							ForceCopyFile (szTmp, servicePath.c_str());
-
-						MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: SystemEncryptionUpdate = %s", SystemEncryptionUpdate? L"TRUE" : L"FALSE");
-
-						StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, SystemEncryptionUpdate? 3 : 2, szArgs);
+						LPCWSTR szArgs[3] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT, VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_LOADER };
+						if (!StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, SystemEncryptionUpdate ? 3 : 2, szArgs))
+							bRestartRequired = TRUE; // The service starts with Windows
 					}
 					else
 					{
-						MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: failed to stop %S", servicePath.c_str());
-						ForceCopyFile (szTmp, servicePath.c_str());
+						// Never start the previous executable again: it could reinstall its own,
+						// older boot loader. The service starts when Windows restarts.
+						bRestartRequired = TRUE;
+						if (copyError == ERROR_SUCCESS_REBOOT_REQUIRED)
+							MSILog (hInstaller, MSI_WARNING_LEVEL, L"VC_CustomAction_PostInstall: %s will be replaced when Windows restarts", servicePath.c_str());
+						else
+						{
+							MSILog (hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: failed to update %s. Error 0x%.8X", servicePath.c_str(), copyError);
+							MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYSTEM_FAVORITES_SERVICE_UPDATE_FAILED"));
+						}
 					}
 
 					BootEncObj.SetDriverConfigurationFlag (driverFlags, true);
-
-					// remove the service flag if it was set originally
-					if (!(serviceFlags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER))
-						BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, false);
+					BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER,
+						(serviceFlags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER) != 0);
 				}
 			}
-			catch (...) {}
+			catch (Exception &e)
+			{
+				e.Show (hwndDlg);
+				MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYSTEM_FAVORITES_SERVICE_UPDATE_FAILED"));
+			}
 		}
 
-		// delete files from legacy path
-		if (FileExists (favoritesLegacyFile.c_str()))
+		// delete files from legacy path, keeping the favorites if they could not be copied
+		if (FileExists (favoritesLegacyFile.c_str()) && FileExists (favoritesFile.c_str()))
 		{
 			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: REMOVING %s", favoritesLegacyFile.c_str());
 			ForceDeleteFile (favoritesLegacyFile.c_str());
@@ -2968,11 +2955,28 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 	if (!UnloadDriver)
 		bRestartRequired = TRUE;
 
-	try
+	if (bOK)
 	{
-		bootEnc.RenameDeprecatedSystemLoaderBackup();
+		// Record the installation path again, in case the driver service has just
+		// been installed.
+		if (!RecordInstallationPath (szInstallDir.c_str (), FALSE))
+			MSILog (hInstaller, MSI_WARNING_LEVEL, L"VC_CustomAction_PostInstall: failed to record the installation path. Error 0x%.8X", GetLastError ());
+
+		// Windows feature update support. A failure is reported but does not fail
+		// the installation: the system favorites service retries when it starts.
+		try { BootEncryption::UpdateSetupConfigFile (SystemEncryptionUpdate != FALSE); }
+		catch (Exception &e)
+		{
+			e.Show (hwndDlg);
+			MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString (SystemEncryptionUpdate ? "SYSENC_SETUP_CONFIG_UPDATE_FAILED" : "SYSENC_SETUP_CONFIG_REMOVE_FAILED"));
+		}
+		try { bootEnc.RenameDeprecatedSystemLoaderBackup (SystemEncryptionUpdate != FALSE); }
+		catch (Exception &e)
+		{
+			e.Show (hwndDlg);
+			MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYS_LOADER_BACKUP_MIGRATION_FAILED"));
+		}
 	}
-	catch (...)	{ }
 
 	if (bSystemRestore)
 		SetSystemRestorePoint_Dll (hInstaller, TRUE);
@@ -2984,7 +2988,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 	else
 	{
 		MSILog(hInstaller, MSI_INFO_LEVEL, L"Post install failed");
-		if (!SystemEncryptionUpdate)
+		if (!SystemEncryptionUpdate && !bUpgrade && !bDowngrade && !bReinstallMode && !bRepairMode)
 		{
 			bUninstall = TRUE;
 			Rollback = TRUE;
@@ -2998,7 +3002,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 			MSILog(hInstaller, MSI_INFO_LEVEL, GetString("ROLLBACK"));
 		}
-		else
+		else if (SystemEncryptionUpdate)
 		{
 			MSILog(hInstaller, MSI_WARNING_LEVEL, GetString("SYS_ENC_UPGRADE_FAILED"));
 		}
@@ -3232,6 +3236,13 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PreUninstall(MSIHANDLE hInstaller)
 	}
 	else
 	{
+		// A failure does not prevent the uninstallation.
+		try { BootEncryption::UpdateSetupConfigFile (false); }
+		catch (Exception &e)
+		{
+			e.Show (hwndDlg);
+			MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYSENC_SETUP_CONFIG_REMOVE_FAILED"));
+		}
 		if (!Rollback && bSystemRestore && !bTempSkipSysRestore)
 			SetSystemRestorePoint_Dll (hInstaller, FALSE);
 
@@ -3520,6 +3531,13 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostUninstall(MSIHANDLE hInstaller)
 		{
 			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", servicePath.c_str());
 			ForceDeleteFile (servicePath.c_str());
+		}
+		// A copy of the service executable staged by an upgrade must not be restored
+		// when Windows restarts.
+		if (!SetupService::DeletePendingReplacements (servicePath))
+		{
+			MSILog(hInstaller, MSI_WARNING_LEVEL, L"VC_CustomAction_PostUninstall: %s will be removed again when Windows restarts", servicePath.c_str());
+			MoveFileExW (servicePath.c_str(), NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
 		}
 
 		if (FileExists (favoritesLegacyFile.c_str()))

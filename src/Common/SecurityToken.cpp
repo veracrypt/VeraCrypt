@@ -168,9 +168,9 @@ namespace VeraCrypt
 
 		// Some tokens report success even if the new object was truncated to fit in the available memory
 		vector <uint8> objectData;
+		finally_do_arg(vector <uint8> *, &objectData, { if (!finally_arg->empty()) burn(&finally_arg->front(), finally_arg->size()); });
 
 		GetObjectAttribute(slotId, keyfileHandle, CKA_VALUE, objectData);
-		finally_do_arg(vector <uint8> *, &objectData, { if (!finally_arg->empty()) burn(&finally_arg->front(), finally_arg->size()); });
 
 		if (objectData.size() != keyfileData.size())
 		{
@@ -753,9 +753,9 @@ namespace VeraCrypt
 
 #ifdef TC_HEADER_Platform_Exception
 
-	void Pkcs11Exception::Deserialize(shared_ptr <Stream> stream)
+	void Pkcs11Exception::DeserializeData(shared_ptr <Stream> stream)
 	{
-		Exception::Deserialize(stream);
+		Exception::DeserializeData(stream);
 		Serializer sr(stream);
 		uint64 code;
 		sr.Deserialize("ErrorCode", code);
@@ -764,9 +764,9 @@ namespace VeraCrypt
 		ErrorCode = (CK_RV)code;
 	}
 
-	void Pkcs11Exception::Serialize(shared_ptr <Stream> stream) const
+	void Pkcs11Exception::SerializeData(shared_ptr <Stream> stream) const
 	{
-		Exception::Serialize(stream);
+		Exception::SerializeData(stream);
 		Serializer sr(stream);
 		sr.Serialize("ErrorCode", (uint64)ErrorCode);
 		sr.Serialize("SubjectErrorCodeValid", SubjectErrorCodeValid);

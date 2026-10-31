@@ -23,6 +23,7 @@
 #include <fcntl.h>
 #include <io.h>
 #include <math.h>
+#include <new>
 #include <shlobj.h>
 #include <shlwapi.h>
 #include <sys/stat.h>
@@ -162,6 +163,10 @@ HWND MainDlg = NULL;
 wchar_t *lpszTitle = NULL;
 
 BOOL Silent = FALSE;
+/* Set by Mount.c only while it carries out a dismount requested on the command line
+   with /q. UnmountVolumeBase and DismountAll then send the drive removal notification
+   again with SHCNF_FLUSH, as they do when Silent is set. */
+BOOL FlushDriveRemovalNotifications = FALSE;
 BOOL bPreserveTimestamp = TRUE;
 BOOL bShowDisconnectedNetworkDrives = FALSE;
 BOOL bHideWaitingDialog = FALSE;
@@ -523,14 +528,18 @@ char *LoadFile (const wchar_t *fileName, DWORD *size)
 {
 	char *buf;
 	DWORD fileSize = INVALID_FILE_SIZE;
+	DWORD fileSizeHigh = 0;
 	HANDLE h = CreateFile (fileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 	*size = 0;
 	if (h == INVALID_HANDLE_VALUE)
 		return NULL;
 
-	if ((fileSize = GetFileSize (h, NULL)) == INVALID_FILE_SIZE)
+	if ((fileSize = GetFileSize (h, &fileSizeHigh)) == INVALID_FILE_SIZE || fileSizeHigh != 0)
 	{
 		CloseHandle (h);
+		// Refuse a file of 4 GiB or more, which would otherwise be truncated to its size modulo 4 GiB
+		if (fileSizeHigh != 0)
+			SetLastError (ERROR_FILE_TOO_LARGE);
 		return NULL;
 	}
 
@@ -544,6 +553,8 @@ char *LoadFile (const wchar_t *fileName, DWORD *size)
 
 	if (!ReadFile (h, buf, fileSize, size, NULL))
 	{
+		// A failed read may have already copied part of a keyfile into the buffer.
+		burn (buf, fileSize);
 		free (buf);
 		buf = NULL;
 	}
@@ -6966,6 +6977,7 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			hCboxList = GetDlgItem (hwndDlg, IDC_BENCHMARK_LIST);
 
 			LocalizeDialog (hwndDlg, "IDD_BENCHMARK_DLG");
+			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BENCHMARK_PREBOOT), GetString ("PRE-BOOT"));
 
 			benchmarkBufferSize = BENCHMARK_DEFAULT_BUF_SIZE;
 			benchmarkSortMethod = BENCHMARK_SORT_BY_SPEED;
@@ -9111,6 +9123,29 @@ void BringToForeground (HWND hWnd)
 #endif
 }
 
+/*  Gets the middle of the work area of the monitor that Windows associates with
+    hwnd. Returns FALSE and leaves *pt unchanged when hwnd is NULL, hidden or
+    minimized, or when the monitor information is not available. */
+static BOOL GetWindowMonitorWorkAreaCenter (HWND hwnd, POINT *pt)
+{
+	if (hwnd && IsWindowVisible (hwnd) && !IsIconic (hwnd))
+	{
+		HMONITOR hMonitor = MonitorFromWindow (hwnd, MONITOR_DEFAULTTONEAREST);
+		MONITORINFO monitorInfo;
+
+		memset (&monitorInfo, 0, sizeof (monitorInfo));
+		monitorInfo.cbSize = sizeof (monitorInfo);
+		if (hMonitor && GetMonitorInfoW (hMonitor, &monitorInfo))
+		{
+			pt->x = monitorInfo.rcWork.left + (monitorInfo.rcWork.right - monitorInfo.rcWork.left) / 2;
+			pt->y = monitorInfo.rcWork.top + (monitorInfo.rcWork.bottom - monitorInfo.rcWork.top) / 2;
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
 static LRESULT CALLBACK ShowWaitDialogParentWndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	return DefWindowProcW (hWnd, message, wParam, lParam);
@@ -9153,6 +9188,7 @@ void ShowWaitDialogEx(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback,
 		{		
 			/*  create invisible window and use it as parent */
 			WNDCLASSEXW winClass;
+			POINT parentPos = {0, 0};
 
 			memset (&winClass, 0, sizeof (winClass));
 			winClass.cbSize = sizeof (WNDCLASSEX);
@@ -9161,7 +9197,15 @@ void ShowWaitDialogEx(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback,
 			winClass.lpszClassName = className;
 			RegisterClassExW (&winClass);
 
-			hParent = CreateWindowExW (WS_EX_TOOLWINDOW | WS_EX_LAYERED, className, L"VeraCrypt ShowWaitDialog Parent", 0, 0, 0, 1, 1, NULL, NULL, hInst, NULL);
+			/*  Place the invisible parent in the middle of the work area of the monitor
+			    that Windows associates with the creator window, so that the DS_CENTER
+			    wait dialog is centered on that monitor instead of always appearing on
+			    the primary one. The parent is kept well inside the monitor because
+			    Windows may make it larger than the requested 1x1 size. Falls back to
+			    (0, 0) when the creator window is unavailable, hidden or minimized. */
+			GetWindowMonitorWorkAreaCenter (creatorWnd, &parentPos);
+
+			hParent = CreateWindowExW (WS_EX_TOOLWINDOW | WS_EX_LAYERED, className, L"VeraCrypt ShowWaitDialog Parent", 0, parentPos.x, parentPos.y, 1, 1, NULL, NULL, hInst, NULL);
 			if (hParent)
 			{
 				SetLayeredWindowAttributes (hParent, 0, 1, LWA_ALPHA);
@@ -9791,28 +9835,29 @@ retry:
 				forced = TRUE;
 				goto retry;
 			}
-
-			// Undo SHCNE_DRIVEREMOVED
-			wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
-			SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH, root, NULL);
-
-			return FALSE;
 		}
+		else
+			Error ("UNMOUNT_FAILED", hwndDlg);
 
-		Error ("UNMOUNT_FAILED", hwndDlg);
+		if (result == ERR_FILES_OPEN && !DeviceChangeBroadcastDisabled)
+		{
+			// Undo SHCNE_DRIVEREMOVED and start delivery without waiting for completion.
+			wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
+			SHChangeNotify (SHCNE_DRIVEADD, SHCNF_PATH | SHCNF_FLUSHNOWAIT, root, NULL);
+		}
 
 		return FALSE;
 	}
 
 	BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, nDosDriveNo, 0);
 
-	/* GH #337, GH #1426: When running in silent/CLI mode, the process may
-	   exit immediately after unmount. BroadcastDeviceChange sends
-	   SHChangeNotify asynchronously, so Explorer may not process the drive
-	   removal before the process exits, leaving a ghost drive letter.
-	   Re-send the notification with SHCNF_FLUSH to force synchronous
-	   processing by Explorer before we return. */
-	if (Silent)
+	/* GH #337, GH #1426: ghost drive letters were reported after dismounts
+	   requested on the command line; their cause hasn't been established.
+	   When Silent or FlushDriveRemovalNotifications is set, the notification
+	   is sent again with SHCNF_FLUSH. According to the documentation,
+	   SHChangeNotify then returns only once it has been delivered, which
+	   doesn't mean that Explorer has finished updating its display. */
+	if ((Silent || FlushDriveRemovalNotifications) && !DeviceChangeBroadcastDisabled)
 	{
 		wchar_t root[] = { (wchar_t) (nDosDriveNo + L'A'), L':', L'\\', 0 };
 		SHChangeNotify (SHCNE_DRIVEREMOVED, SHCNF_PATH | SHCNF_FLUSH, root, NULL);
@@ -11160,15 +11205,15 @@ BOOL ConfigWriteBegin ()
 	if (ConfigBuffer == NULL)
 		ConfigBuffer = LoadFile (GetConfigPath (TC_APPD_FILENAME_CONFIGURATION), &size);
 
-	ConfigFileHandle = _wfopen (GetConfigPath (TC_APPD_FILENAME_CONFIGURATION), L"w,ccs=UTF-8");
+	ConfigFileHandle = _wfopen (GetConfigPath (TC_APPD_FILENAME_CONFIGURATION), L"wb");
 	if (ConfigFileHandle == NULL)
 	{
 		free (ConfigBuffer);
 		ConfigBuffer = NULL;
 		return FALSE;
 	}
-	XmlWriteHeader (ConfigFileHandle);
-	fputws (L"\n\t<configuration>", ConfigFileHandle);
+	XmlWriteHeaderUtf8 (ConfigFileHandle);
+	fputs ("\r\n\t<configuration>", ConfigFileHandle);
 
 	return TRUE;
 }
@@ -11187,12 +11232,14 @@ BOOL ConfigWriteEnd (HWND hwnd)
 		XmlGetAttributeText (xml, "key", key, sizeof (key));
 		XmlGetNodeText (xml, value, sizeof (value));
 
-		fwprintf (ConfigFileHandle, L"\n\t\t<config key=\"%hs\">%hs</config>", key, value);
+		fprintf (ConfigFileHandle, "\r\n\t\t<config key=\"%s\">", key);
+		XmlWriteEscapedText (ConfigFileHandle, value);
+		fputs ("</config>", ConfigFileHandle);
 		xml++;
 	}
 
-	fputws (L"\n\t</configuration>", ConfigFileHandle);
-	XmlWriteFooter (ConfigFileHandle);
+	fputs ("\r\n\t</configuration>", ConfigFileHandle);
+	XmlWriteFooterUtf8 (ConfigFileHandle);
 
 	TCFlushFile (ConfigFileHandle);
 
@@ -11226,9 +11273,9 @@ BOOL ConfigWriteString (char *configKey, char *configValue)
 			c[1] = '!';
 	}
 
-	return 0 != fwprintf (
-		ConfigFileHandle, L"\n\t\t<config key=\"%hs\">%hs</config>",
-		configKey, configValue);
+	return fprintf (ConfigFileHandle, "\r\n\t\t<config key=\"%s\">", configKey) > 0
+		&& XmlWriteEscapedText (ConfigFileHandle, configValue) != EOF
+		&& fputs ("</config>", ConfigFileHandle) != EOF;
 }
 
 BOOL ConfigWriteStringW (char *configKey, wchar_t *configValue)
@@ -11245,9 +11292,9 @@ BOOL ConfigWriteStringW (char *configKey, wchar_t *configValue)
 			c[1] = '!';
 	}
 
-	return 0 != fwprintf (
-		ConfigFileHandle, L"\n\t\t<config key=\"%hs\">%ls</config>",
-		configKey, configValue);
+	return fprintf (ConfigFileHandle, "\r\n\t\t<config key=\"%s\">", configKey) > 0
+		&& XmlWriteEscapedTextUtf8 (ConfigFileHandle, configValue) != EOF
+		&& fputs ("</config>", ConfigFileHandle) != EOF;
 }
 
 BOOL ConfigWriteInt (char *configKey, int configValue)
@@ -11418,11 +11465,10 @@ BOOL LoadDefaultKeyFilesParam (void)
 		kf = (KeyFile *) malloc (sizeof (KeyFile));
 		if (kf)
 		{
-			char fileName [MAX_PATH + 1];
-			if (XmlGetNodeText (xml, fileName, sizeof (fileName)) != NULL)
+			char fileName [ARRAYSIZE (kf->FileName) * 3];
+			if (XmlGetNodeText (xml, fileName, sizeof (fileName)) != NULL
+				&& MultiByteToWideChar (CP_UTF8, 0, fileName, -1, kf->FileName, ARRAYSIZE (kf->FileName)) != 0)
 			{
-				std::wstring wszFileName = Utf8StringToWide(fileName);
-				StringCbCopyW (kf->FileName, sizeof (kf->FileName), wszFileName.c_str ());
 				defaultKeyFilesParam.FirstKeyFile = KeyFileAdd (defaultKeyFilesParam.FirstKeyFile, kf);
 			}
 			else
@@ -12865,6 +12911,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 		}
 
 	case WM_DESTROY:
+		keyfiles.clear();
 		DetachProtectionFromCurrentThread();
 		break;
 
@@ -12913,34 +12960,36 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 			case IDC_IMPORT_KEYFILE:
 				{
-					wchar_t keyfilePath[TC_MAX_PATH];
-
-					if (BrowseFiles (hwndDlg, "SELECT_KEYFILE", keyfilePath, bHistory, FALSE))
+					try
 					{
-						DWORD keyfileSize;
-						uint8 *keyfileData = (uint8 *) LoadFile (keyfilePath, &keyfileSize);
-						if (!keyfileData)
+						wchar_t keyfilePath[TC_MAX_PATH];
+
+						if (BrowseFiles (hwndDlg, "SELECT_KEYFILE", keyfilePath, bHistory, FALSE))
 						{
-							handleWin32Error (hwndDlg, SRC_POS);
-							return 1;
-						}
-
-						if (keyfileSize != 0)
-						{
-							NewSecurityTokenKeyfileDlgProcParams newParams;
-							newParams.Name = WideToUtf8String (keyfilePath);
-
-							size_t lastBackSlash = newParams.Name.find_last_of ('\\');
-							if (lastBackSlash != string::npos)
-								newParams.Name = newParams.Name.substr (lastBackSlash + 1);
-
-							if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_NEW_TOKEN_KEYFILE), hwndDlg, (DLGPROC) NewSecurityTokenKeyfileDlgProc, (LPARAM) &newParams) == IDOK)
+							DWORD keyfileSize;
+							uint8 *keyfileData = (uint8 *) LoadFile (keyfilePath, &keyfileSize);
+							if (!keyfileData)
 							{
-								vector <uint8> keyfileDataVector (keyfileSize);
-								memcpy (&keyfileDataVector.front(), keyfileData, keyfileSize);
+								handleWin32Error (hwndDlg, SRC_POS);
+								return 1;
+							}
+							finally_do_arg2 (uint8 *, keyfileData, DWORD, keyfileSize, { burn (finally_arg, finally_arg2); TCfree (finally_arg); });
 
-								try
+							if (keyfileSize != 0)
+							{
+								NewSecurityTokenKeyfileDlgProcParams newParams;
+								newParams.Name = WideToUtf8String (keyfilePath);
+
+								size_t lastBackSlash = newParams.Name.find_last_of ('\\');
+								if (lastBackSlash != string::npos)
+									newParams.Name = newParams.Name.substr (lastBackSlash + 1);
+
+								if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_NEW_TOKEN_KEYFILE), hwndDlg, (DLGPROC) NewSecurityTokenKeyfileDlgProc, (LPARAM) &newParams) == IDOK)
 								{
+									vector <uint8> keyfileDataVector (keyfileSize);
+									finally_do_arg (vector <uint8> *, &keyfileDataVector, { if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); });
+									memcpy (&keyfileDataVector.front(), keyfileData, keyfileSize);
+
 									WaitCursor();
 									finally_do ({ NormalCursor(); });
 
@@ -12949,22 +12998,21 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 									keyfiles = Token::GetAvailableKeyfiles(EMVSupportEnabled? true : false);
 									SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
 								}
-								catch (Exception &e)
-								{
-									e.Show (hwndDlg);
-								}
-
-								burn (&keyfileDataVector.front(), keyfileSize);
+							}
+							else
+							{
+								SetLastError (ERROR_HANDLE_EOF);
+								handleWin32Error (hwndDlg, SRC_POS);
 							}
 						}
-						else
-						{
-							SetLastError (ERROR_HANDLE_EOF);
-							handleWin32Error (hwndDlg, SRC_POS);
-						}
-
-						burn (keyfileData, keyfileSize);
-						TCfree (keyfileData);
+					}
+					catch (Exception &e)
+					{
+						e.Show (hwndDlg);
+					}
+					catch (const std::bad_alloc&)
+					{
+						Error ("OUTOFMEMORY", hwndDlg);
 					}
 
 					return 1;
@@ -12986,6 +13034,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 								finally_do ({ NormalCursor(); });
 
 								vector <uint8> keyfileData;
+								finally_do_arg (vector <uint8> *, &keyfileData, { if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); });
 
 								keyfile->GetKeyfileData (keyfileData);
 
@@ -12995,8 +13044,6 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 									handleWin32Error (hwndDlg, SRC_POS);
 									return 1;
 								}
-
-								finally_do_arg (vector <uint8> *, &keyfileData, { burn (&finally_arg->front(), finally_arg->size()); });
 
 								if (!SaveBufferToFile ((char *) &keyfileData.front(), keyfilePath, (DWORD) keyfileData.size(), FALSE, FALSE))
 									throw SystemException (SRC_POS);
@@ -14586,6 +14633,8 @@ typedef struct
 	INT_PTR retValue;
 	BOOL bDlgDisplayed; // set to TRUE if the dialog was displayed on secure desktop
 	BOOL bEnableIMEInSecureDesktop;
+	BOOL bUseOwnerPos; // set to TRUE if ownerPos is valid: the dialog then gets a hidden owner there
+	POINT ownerPos;
 } SecureDesktopThreadParam;
 
 typedef struct
@@ -14654,6 +14703,8 @@ static unsigned int __stdcall SecureDesktopThread( LPVOID lpThreadParameter )
 	BOOL bNewDesktopSet = FALSE;
 	HDESK hSecureDesk;
 	DWORD desktopAccess = DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_READOBJECTS | DESKTOP_SWITCHDESKTOP | DESKTOP_WRITEOBJECTS;
+	const wchar_t *ownerClassName = L"VeraCryptSecureDesktopOwner";
+	HWND hOwner = NULL;
 
 	hSecureDesk = CreateDesktop (pParam->szDesktopName, NULL, NULL, 0, desktopAccess, NULL);
 	if (!hSecureDesk)
@@ -14707,8 +14758,33 @@ static unsigned int __stdcall SecureDesktopThread( LPVOID lpThreadParameter )
 			hMonitoringThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopMonitoringThread, (LPVOID) &monitorParam, 0, &monitoringThreadID);
 		}
 
+		// the parent window stays on the original desktop and can't own the dialog,
+		// so the dialog gets a hidden owner on the monitor of the parent window:
+		// the DS_CENTER dialog is then centered on that monitor instead of the primary one
+		if (pParam->bUseOwnerPos)
+		{
+			WNDCLASSEXW winClass;
+
+			memset (&winClass, 0, sizeof (winClass));
+			winClass.cbSize = sizeof (winClass);
+			winClass.lpfnWndProc = DefWindowProcW;
+			winClass.hInstance = hInst;
+			winClass.lpszClassName = ownerClassName;
+			RegisterClassExW (&winClass);
+
+			hOwner = CreateWindowExW (WS_EX_TOOLWINDOW, ownerClassName, L"VeraCrypt Secure Desktop Owner", WS_POPUP,
+				pParam->ownerPos.x, pParam->ownerPos.y, 1, 1, NULL, NULL, hInst, NULL);
+		}
+
 		pParam->retValue = DialogBoxParamW (pParam->hInstance, pParam->lpTemplateName, 
-							NULL, pParam->lpDialogFunc, pParam->dwInitParam);
+							hOwner, pParam->lpDialogFunc, pParam->dwInitParam);
+
+		if (pParam->bUseOwnerPos)
+		{
+			if (hOwner)
+				DestroyWindow (hOwner);
+			UnregisterClassW (ownerClassName, hInst);
+		}
 
 		if (hMonitoringThread)
 		{
@@ -14840,6 +14916,10 @@ INT_PTR SecureDesktopDialogBoxParam(
 			param.retValue = 0;
 			param.bDlgDisplayed = FALSE;
 			param.bEnableIMEInSecureDesktop = bEffectiveEnableIMEInSecureDesktop;
+			// remember where the parent window is, so that the dialog appears on the same monitor
+			param.ownerPos.x = 0;
+			param.ownerPos.y = 0;
+			param.bUseOwnerPos = GetWindowMonitorWorkAreaCenter (hWndParent, &param.ownerPos);
 
 			// use _beginthreadex instead of CreateThread because lpDialogFunc may be using the C runtime library
 			HANDLE hThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);
@@ -14905,12 +14985,31 @@ void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, B
 	HKEY hkey;
 	BOOL bInstallPathDetermined = FALSE;
 	wchar_t path[MAX_PATH+20];
-	ITEMIDLIST *itemList;
+	ITEMIDLIST *itemList = NULL;
+	if (pbInstallPathDetermined) *pbInstallPathDetermined = FALSE;
+	if (!szInstallPath || !cchSize) return;
 
 	memset (szInstallPath, 0, cchSize * sizeof (wchar_t));
 
+	// Both installers record this in the driver's service key. SYSTEM has a
+	// shared registry view, so the native service and 32-bit COM agree, including
+	// MSI installations whose EXE uninstall entry has been removed.
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", 0, KEY_QUERY_VALUE, &hkey) == ERROR_SUCCESS)
+	{
+		DWORD size = sizeof (path), type = 0;
+		if (RegQueryValueEx (hkey, L"InstallationPath", NULL, &type, (LPBYTE) path, &size) == ERROR_SUCCESS
+			&& type == REG_SZ && size >= 4 * sizeof (wchar_t) && size <= sizeof (path) && size % sizeof (wchar_t) == 0
+			&& path[size / sizeof (wchar_t) - 1] == 0 && wcslen (path) == size / sizeof (wchar_t) - 1
+			&& path[1] == L':' && path[2] == L'\\' && wcslen (path) + 2 <= cchSize)
+		{
+			StringCchCopyW (szInstallPath, cchSize, path);
+			bInstallPathDetermined = TRUE;
+		}
+		RegCloseKey (hkey);
+	}
+
 	// Determine if VeraCrypt is already installed and try to determine its "Program Files" location
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ | KEY_WOW64_32KEY, &hkey) == ERROR_SUCCESS)
+	if (!bInstallPathDetermined && RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ | KEY_WOW64_32KEY, &hkey) == ERROR_SUCCESS)
 	{
 		/* Default 'UninstallString' registry strings written by VeraCrypt:
 		------------------------------------------------------------------------------------
@@ -14918,23 +15017,20 @@ void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, B
 		*/
 
 		wchar_t rv[MAX_PATH*4];
-		DWORD size = sizeof (rv);
-		if (RegQueryValueEx (hkey, L"UninstallString", 0, 0, (LPBYTE) &rv, &size) == ERROR_SUCCESS && wcsrchr (rv, L'/'))
+		DWORD size = sizeof (rv), type = 0;
+		if (RegQueryValueEx (hkey, L"UninstallString", 0, &type, (LPBYTE) &rv, &size) == ERROR_SUCCESS
+			&& type == REG_SZ && size >= 2 * sizeof (wchar_t) && size <= sizeof (rv) && size % sizeof (wchar_t) == 0
+			&& rv[size / sizeof (wchar_t) - 1] == 0 && wcslen (rv) == size / sizeof (wchar_t) - 1 && rv[0] == L'"')
 		{
-			size_t len = 0;
-
-			// Cut and paste the location (path) where VeraCrypt is installed to InstallationPath
-			if (rv[0] == L'"')
+			const wchar_t *end = wcschr (rv + 1, L'"');
+			if (end && wcsstr (end + 1, L"/u"))
 			{
-				len = wcsrchr (rv, L'/') - rv - 2;
-				StringCchCopyNW (szInstallPath, cchSize, rv + 1, len);
-				szInstallPath [len] = 0;
-				bInstallPathDetermined = TRUE;
-
-				if (szInstallPath [wcslen (szInstallPath) - 1] != L'\\')
+				wstring executable (rv + 1, end - rv - 1);
+				size_t slash = executable.find_last_of (L'\\');
+				if (slash != wstring::npos && slash >= 2 && slash + 2 <= cchSize && executable[1] == L':' && executable[2] == L'\\')
 				{
-					len = wcsrchr (szInstallPath, L'\\') - szInstallPath;
-					szInstallPath [len] = 0;
+					StringCchCopyNW (szInstallPath, cchSize, executable.c_str (), slash + 1);
+					bInstallPathDetermined = TRUE;
 				}
 			}
 
@@ -14947,8 +15043,10 @@ void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, B
 		/* VeraCrypt is not installed or it wasn't possible to determine where it is installed. */
 
 		// Default "Program Files" path.
-		SHGetSpecialFolderLocation (hwndDlg, CSIDL_PROGRAM_FILES, &itemList);
-		SHGetPathFromIDList (itemList, path);
+		if (FAILED (SHGetSpecialFolderLocation (hwndDlg, CSIDL_PROGRAM_FILES, &itemList))) return;
+		BOOL found = SHGetPathFromIDList (itemList, path);
+		CoTaskMemFree (itemList);
+		if (!found) return;
 
 		// Use a unified default installation path (registry redirection of %ProgramFiles% does not work if the installation path is user-selectable)
 		wstring s = path;
@@ -14961,13 +15059,13 @@ void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, B
 		}
 
 		StringCbCatW (path, sizeof(path), L"\\VeraCrypt\\");
-		StringCbCopyW (szInstallPath, cchSize, path);
+		StringCchCopyW (szInstallPath, cchSize, path);
 	}
 
 	// Make sure the path ends with a backslash
-	if (szInstallPath [wcslen (szInstallPath) - 1] != L'\\')
+	if (szInstallPath[0] && szInstallPath [wcslen (szInstallPath) - 1] != L'\\')
 	{
-		StringCbCatW (szInstallPath, cchSize, L"\\");
+		StringCchCatW (szInstallPath, cchSize, L"\\");
 	}
 
 	if (pbInstallPathDetermined)

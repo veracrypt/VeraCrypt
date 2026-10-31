@@ -18,6 +18,7 @@
 #include "Volume/EncryptionThreadPool.h"
 #include "Core/Unix/CoreService.h"
 #include "Core/Unix/UnixUser.h"
+#include "Crypto/cpu.h"
 #include "Main/Application.h"
 #include "Main/Main.h"
 #include "Main/UserInterface.h"
@@ -30,8 +31,23 @@ using namespace VeraCrypt;
 
 int main (int argc, char **argv)
 {
+#ifdef TC_LINUX
+	// The requester helper must never initialize a core service or handle secrets.
+	if (argc > 1 && strcmp (argv[1], TC_REQUESTER_HELPER_CMDLINE_OPTION) == 0)
+		return argc == 3 ? File::RunRequesterHelperService (argv[2]) : 1;
+#endif
+
 	try
 	{
+		// Detect CPU features before starting services or encryption threads.
+		// Forked services inherit the flags, and elevated services skip UI initialization.
+#ifdef CRYPTOPP_CPUID_AVAILABLE
+		DetectX86Features ();
+#endif
+#if CRYPTOPP_BOOL_ARMV8
+		DetectArmFeatures();
+#endif
+
 		// Make sure all required commands can be executed via default search path
 		string sysPathStr = "/usr/sbin:/sbin:/usr/bin:/bin";
 

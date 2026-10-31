@@ -24,6 +24,9 @@ namespace VeraCrypt
 		CoreLinux ();
 		virtual ~CoreLinux ();
 
+		virtual void CheckFilesystem (shared_ptr <VolumeInfo> mountedVolume, bool repair = false) const;
+		virtual shared_ptr <VolumeInfo> DismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool ignoreOpenFiles = false, bool syncVolumeInfo = false);
+		virtual shared_ptr <VolumeInfo> EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume);
 		virtual HostDeviceList GetHostDevices (bool pathListOnly = false) const;
 
 	protected:
@@ -32,13 +35,14 @@ namespace VeraCrypt
 		virtual void DismountNativeVolume (shared_ptr <VolumeInfo> mountedVolume) const;
 		virtual void DismountNativeVolumeDeferred (shared_ptr <VolumeInfo> mountedVolume) const;
 		virtual MountedFilesystemList GetMountedFilesystems (const DevicePath &devicePath = DevicePath(), const DirectoryPath &mountPoint = DirectoryPath()) const;
-		virtual bool IsLoopDeviceAttached (const DevicePath &devicePath) const;
 		virtual void MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions, bool internalMountOnly = false) const;
 		virtual void MountVolumeNative (shared_ptr <Volume> volume, MountOptions &options, const DirectoryPath &auxMountPoint) const;
+		virtual void UpdateMountedVolumeInfo (shared_ptr <VolumeInfo> mountedVolume) const;
 
 	private:
 		void DismountNativeVolumeInternal (shared_ptr <VolumeInfo> mountedVolume, bool deferred) const;
-		bool IsDeviceMapperDevicePresent (const string &deviceMapperName) const;
+		DevicePath GetOwnedVirtualDevice (const VolumeInfo &volume) const;
+		shared_ptr <VolumeInfo> ResolveMountedVolume (shared_ptr <VolumeInfo> mountedVolume) const;
 
 		CoreLinux (const CoreLinux &);
 		CoreLinux &operator= (const CoreLinux &);

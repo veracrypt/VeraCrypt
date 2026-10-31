@@ -576,6 +576,67 @@ namespace VeraCrypt
 	}
 
 
+	/* Longest label, in UTF-16 units, that the Organize Favorite Volumes dialog keeps */
+	static const size_t MaxFavoriteLabelLength = 1023;
+
+
+	/* Escape text for a double quoted XML attribute without a fixed buffer. */
+	static wstring QuoteXmlText (const wstring &text)
+	{
+		wstring quoted;
+
+		for (wchar_t c : text)
+		{
+			switch (c)
+			{
+			case L'&':	quoted += L"&amp;";	break;
+			case L'<':	quoted += L"&lt;";	break;
+			case L'>':	quoted += L"&gt;";	break;
+			case L'"':	quoted += L"&quot;";	break;
+			default:	quoted += c;		break;
+			}
+		}
+
+		return quoted;
+	}
+
+
+	/* Decode the escapes written by QuoteXmlText in a marked label. */
+	static void UnquoteXmlText (char *text)
+	{
+		char *in = text;
+		char *out = text;
+
+		while (*in)
+		{
+			if (strncmp (in, "&lt;", 4) == 0)
+			{
+				*out++ = '<';
+				in += 4;
+			}
+			else if (strncmp (in, "&gt;", 4) == 0)
+			{
+				*out++ = '>';
+				in += 4;
+			}
+			else if (strncmp (in, "&amp;", 5) == 0)
+			{
+				*out++ = '&';
+				in += 5;
+			}
+			else if (strncmp (in, "&quot;", 6) == 0)
+			{
+				*out++ = '"';
+				in += 6;
+			}
+			else
+				*out++ = *in++;
+		}
+
+		*out = 0;
+	}
+
+
 	void LoadFavoriteVolumes (vector <FavoriteVolume> &favorites, bool systemFavorites, bool noUacElevation)
 	{
 		bool bVolumeIdInUse = false;
@@ -607,20 +668,33 @@ namespace VeraCrypt
 			DeleteFile (GetConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES));
 
 		char *xml = favoritesXml;
-		char mountPoint[MAX_PATH], volume[MAX_PATH];
+		char mountPoint[MAX_PATH], volume[MAX_PATH * 3];
 
 		if (xml == NULL)
 			return;
 
 		while (xml = XmlFindElement (xml, "volume"))
 		{
+			char *tagEnd = XmlFindTagEnd (xml);
+			if (!tagEnd)
+			{
+				xml++;
+				continue;
+			}
+
 			FavoriteVolume favorite;
 
 			XmlGetAttributeText (xml, "mountpoint", mountPoint, sizeof (mountPoint));
 			favorite.MountPoint = Utf8StringToWide (mountPoint);
 
-			XmlGetNodeText (xml, volume, sizeof (volume));
-			favorite.Path = Utf8StringToWide (volume);
+			wchar_t volumePath[MAX_PATH];
+			if (XmlGetNodeText (xml, volume, sizeof (volume)) == NULL
+				|| MultiByteToWideChar (CP_UTF8, 0, volume, -1, volumePath, ARRAYSIZE (volumePath)) == 0)
+			{
+				xml = tagEnd;
+				continue;
+			}
+			favorite.Path = volumePath;
 
 			char label[1024];
 
@@ -634,8 +708,31 @@ namespace VeraCrypt
 				}
 			}
 
-			XmlGetAttributeText (xml, "label", label, sizeof (label));
-			favorite.Label = Utf8StringToWide (label);
+			/* The label is read into a buffer as long as the start tag that holds it. Earlier
+			   versions wrote labels as is, so only a label marked with labelEscaped is decoded.
+			   A favorite whose label is longer than the dialog keeps is skipped: escaped, each
+			   UTF-16 unit of an accepted label takes at most 6 bytes ("&quot;"), so a longer one
+			   is rejected before Utf8StringToWide, whose buffer it could exceed. */
+			vector <char> labelText ((size_t) (tagEnd - xml) + 1);
+			char labelEscaped[2];
+
+			XmlGetAttributeText (xml, "label", &labelText[0], (int) labelText.size());
+			if (strlen (&labelText[0]) > MaxFavoriteLabelLength * 6)
+			{
+				xml = tagEnd;
+				continue;
+			}
+
+			XmlGetAttributeText (xml, "labelEscaped", labelEscaped, sizeof (labelEscaped));
+			if (labelEscaped[0] == '1')
+				UnquoteXmlText (&labelText[0]);
+
+			favorite.Label = Utf8StringToWide (&labelText[0]);
+			if (favorite.Label.size() > MaxFavoriteLabelLength)
+			{
+				xml = tagEnd;
+				continue;
+			}
 
 			XmlGetAttributeText (xml, "pim", label, sizeof (label));
 			if (strlen(label) == 0)
@@ -720,7 +817,8 @@ namespace VeraCrypt
 				bVolumeIdInUse = true;
 
 			favorites.push_back (favorite);
-			xml++;
+			// Old labels may contain '<volume '. Resume after the complete start tag.
+			xml = tagEnd;
 		}
 
 		if (!systemFavorites)
@@ -792,15 +890,17 @@ namespace VeraCrypt
 		int cnt = 0;
 		bool bVolumeIdInUse = false;
 
-		f = _wfopen (GetConfigPath (systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES), L"w,ccs=UTF-8");
+		f = _wfopen (GetConfigPath (systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES), L"wb");
 		if (f == NULL)
 		{
 			handleWin32Error (MainDlg, SRC_POS);
 			return false;
 		}
 
-		XmlWriteHeader (f);
-		fputws (L"\n\t<favorites>", f);
+		finally_do_arg (FILE*&, f, { if (finally_arg) fclose (finally_arg); });
+
+		XmlWriteHeaderUtf8 (f);
+		fputs ("\r\n\t<favorites>", f);
 
 		for (const FavoriteVolume& favorite: favorites)
 		{
@@ -811,13 +911,10 @@ namespace VeraCrypt
 
 			XmlQuoteTextW (!favorite.VolumePathId.empty() ? favorite.VolumePathId.c_str() : favorite.Path.c_str(), tq, ARRAYSIZE (tq));
 
-			wstring s = L"\n\t\t<volume mountpoint=\"" + favorite.MountPoint + L"\"";
+			wstring s = L"\r\n\t\t<volume mountpoint=\"" + favorite.MountPoint + L"\"";
 
 			if (!IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)))
 				s += L" ID=\"" + ArrayToHexWideString (favorite.VolumeID, sizeof (favorite.VolumeID)) + L"\"";
-
-			if (!favorite.Label.empty())
-				s += L" label=\"" + favorite.Label + L"\"";
 
 			if (favorite.Pim >= 0)
 				s += L" pim=\"" + IntToWideString(favorite.Pim) + L"\"";
@@ -856,14 +953,32 @@ namespace VeraCrypt
 					bVolumeIdInUse = true;
 			}
 
+			if (!favorite.Label.empty())
+			{
+				/* A '<' or '>' in the label would end the element when the file is read, so the
+				   label is escaped like the path. Earlier versions wrote labels as is, so a label
+				   that escaping changes is marked with labelEscaped, for LoadFavoriteVolumes to
+				   decode it. Other labels are written as before. Keep the label last so that
+				   older readers don't mistake text inside it for another attribute. */
+				wstring quotedLabel = QuoteXmlText (favorite.Label);
+
+				if (quotedLabel != favorite.Label)
+					s += L" labelEscaped=\"1\"";
+
+				s += L" label=\"" + quotedLabel + L"\"";
+			}
+
 			s += L">" + wstring (tq) + L"</volume>";
 
-			fwprintf (f, L"%ws", s.c_str());
+			// The CRT UTF-8 stream can split a surrogate pair while converting its
+			// internal buffers. Convert the complete record before writing bytes.
+			string utf8 = WideToUtf8String (s);
+			fwrite (utf8.data(), 1, utf8.size(), f);
 			cnt++;
 		}
 
-		fputws (L"\n\t</favorites>", f);
-		XmlWriteFooter (f);
+		fputs ("\r\n\t</favorites>", f);
+		XmlWriteFooterUtf8 (f);
 
 		if (!systemFavorites)
 		{
@@ -873,13 +988,12 @@ namespace VeraCrypt
 				NeedPeriodicDeviceListUpdate = FALSE;
 		}
 
+		fflush (f);
 		if (!CheckFileStreamWriteErrors (hwndDlg, f, systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES))
-		{
-			fclose (f);
 			return false;
-		}
 
 		fclose (f);
+		f = NULL;
 
 		BootEncryption bootEnc (MainDlg);
 
@@ -1050,7 +1164,7 @@ namespace VeraCrypt
 
 	static void SetFavoriteVolume (HWND hwndDlg, FavoriteVolume &favorite, bool systemFavoritesMode)
 	{
-		wchar_t label[1024];
+		wchar_t label[MaxFavoriteLabelLength + 1];
 		if (GetDlgItemTextW (hwndDlg, IDC_FAVORITE_LABEL, label, ARRAYSIZE (label)) != 0)
 		{
 			favorite.Label = label;

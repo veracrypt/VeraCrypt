@@ -172,6 +172,17 @@ namespace VeraCrypt
 		shared_ptr <MountOptions> DeserializedOptions;
 	};
 
+#ifdef TC_LINUX
+	// A distinct request opts into the extended response. Old services reject it
+	// during deserialization, before mounting; legacy requests keep their old reply.
+	struct MountVolumeRequestV2 : MountVolumeRequest
+	{
+		MountVolumeRequestV2 () { }
+		MountVolumeRequestV2 (MountOptions *options) : MountVolumeRequest (options) { }
+		static Serializable *GetNewSerializable () { return new MountVolumeRequestV2(); }
+	};
+#endif
+
 
 	struct SetFileOwnerRequest : CoreServiceRequest
 	{

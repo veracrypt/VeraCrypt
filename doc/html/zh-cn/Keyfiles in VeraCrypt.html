@@ -102,7 +102,13 @@ VeraCrypt的Windows和Linux版本可以直接将从符合EMV标准、支持Visa�
 根据EMV标准所基于的ISO/IEC 7816标准，与EMV智能卡的通信是通过称为APDU的结构化命令完成的，这些命令允许从智能卡中提取数据。这些数据采用由ASN.1标准定义的BER - TLV格式进行编码，因此在拼接成密钥文件之前需要进行解析。访问和检索卡片中的数据不需要PIN码。为了适应市场上各种智能卡读卡器，使用了符合Microsoft个人计算机/智能卡通信标准的库。使用了Winscard库。该库在Windows系统的System32目录中是原生可用的，因此在该操作系统上无需安装。然而，在Linux系统上必须安装libpcsclite1软件包。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-由于卡片是只读的，因此无法导入或删除数据。但是，用作密钥文件的数据可以导出到本地的任何二进制文件中。在挂载或创建卷的整个加密过程中，证书和CPLC数据仅存储在用户计算机的RAM中。一旦过程完成，这些RAM内存区域将被严格擦除。
+由于卡片是只读的，因此无法导入或删除数据。但是，用作密钥文件的数据可以导出到本地的任何二进制文件中。VeraCrypt会将证书和CPLC数据缓存在内存中，在卡片连接仍然有效时重复使用。这样就不必在每次使用密钥文件时重置并重新读取卡片。VeraCrypt会在使用后擦除用于拼接和处理密钥文件的临时缓冲区，包括操作因错误而结束的情况。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+缓存的EMV密钥文件数据和卡片标识信息可能会保留在内存中，直到令牌会话关闭或VeraCrypt正常退出。要清除此缓存，请选择<em>工具 &gt; 关闭所有安全口令牌会话</em>，或启用挂载后自动关闭令牌会话的选项。密码缓存是独立的功能：启用后，处理过的密钥文件内容可能会保留在密码缓存中，从而允许在不重新读取卡片的情况下挂载卷。使用<em>擦除缓存</em>可清除此密码缓存，也可以禁用密码缓存以避免保留这些内容。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+程序突然终止可能会导致清理无法完成。这些措施不能保证RAM中不含敏感数据，也不能保证其他副本（例如分页文件中的副本）已被擦除。仍需遵循的预防措施请参阅<a href="Unencrypted%20Data%20in%20RAM.html">RAM中的未加密数据</a>。
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 需要注意的是，此功能是可选的，默认情况下处于禁用状态。可以在<em style="text-align:left">安全令牌首选项</em>参数中，通过勾选提供的复选框来启用该功能。

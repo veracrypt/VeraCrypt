@@ -271,6 +271,8 @@ VeraCrypt 卷</a> 与操作系统无关。但是，需要确保操作系统安�
 欲了解更多信息，请参阅<a href="System%20Favorite%20Volumes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
 “系统收藏卷”</a>章节。</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：系统收藏卷在Windows早期启动和存储初始化阶段尚不可用。因此，Windows管理的启动依赖文件（例如自动附加的VHD/VHDX文件、Dev Drive的后端VHDX文件及原生启动VHD/VHDX文件）不能存储在系统收藏卷上。对于启动或早期启动阶段不需要的VHD/VHDX文件，可使用延迟执行/失败重试的任务，或依赖<em>VeraCryptSystemFavorites</em>的服务，在系统收藏卷挂载后再附加它们。此方法不适用于原生启动VHD/VHDX文件，以及Windows必须在服务运行之前访问的任何其他文件。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <br style="text-align:left">
 <strong style="text-align:left">每次登录 Windows 时，能否自动挂载某个卷？</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
@@ -527,7 +529,7 @@ VeraCrypt 卷内的文件系统可能会像任何普通的未加密文件系统�
 <br style="text-align:left">
 同样，你可以重置 <a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">预启动认证</a> 密码 <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">.</a> 要创建主密钥数据的备份（该备份将存储在 <a href="VeraCrypt%20Rescue%20Disk.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt 救援盘</a> 上，并使用你的管理员密码进行加密），请选择 '<em style="text-align:left">系统</em>' > '<a href="VeraCrypt%20Rescue%20Disk.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none"><em style="text-align:left">创建救援盘</em></a>'。要设置用户 <a href="System%20Encryption.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">预启动认证</a> 密码，请选择 '<em style="text-align:left">系统</em>' > '<em style="text-align:left">更改密码</em>'。要恢复你的管理员密码，请启动 VeraCrypt 救援盘，选择 '<em style="text-align:left">修复选项</em>' > '<em style="text-align:left">恢复密钥数据</em>'，然后输入你的管理员密码。
 <br style="text-align:left">
-<span style="text-align:left; font-size:10px; line-height:12px">注意：无需将每个 <a href="VeraCrypt%20Rescue%20Disk.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt 救援盘</a> ISO 镜像刻录到 CD/DVD 上。你可以为所有工作站维护一个 ISO 镜像的中央存储库（而不是 CD/DVD 存储库）。有关更多信息，请参阅 <a href="Command%20Line%20Usage.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">命令行用法</a> 部分（选项 <em style="text-align:left">/noisocheck</em>）。</span></div>
+<span style="text-align:left; font-size:10px; line-height:12px">注意：无需将每个 <a href="VeraCrypt%20Rescue%20Disk.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt 救援盘</a> ISO 镜像刻录到 CD/DVD 上。你可以为所有工作站维护一个 ISO 镜像的中央存储库（而不是 CD/DVD 存储库）。有关更多信息，请参阅 <a href="Command%20Line%20Usage%20for%20Windows.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">命令行用法</a> 部分（选项 <em style="text-align:left">/noisocheck</em>）。</span></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <br style="text-align:left">
 <strong style="text-align:left">我们的商业公司可以免费使用 VeraCrypt 吗？</strong></div>

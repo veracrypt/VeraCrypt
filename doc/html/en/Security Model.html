@@ -92,6 +92,11 @@ Settings</em> &gt; &lsquo;<em>System Favorite Volumes</em>&rsquo; &gt; &lsquo;<e
 </li><li>Access the filesystem residing within a VeraCrypt volume mounted by another user on the system (however, file/folder/volume permissions can be set to prevent this).
 </li><li>Run and use the VeraCrypt application (including the VeraCrypt Volume Creation Wizard) provided that the file permissions allow it.
 </li></ul>
+<p id="sudo-and-doas"><strong>Administrator privileges on Linux, macOS and BSD:</strong> Granting a user permission to run VeraCrypt or its core service as root through <code>sudo</code> or <code>doas</code> must be treated as granting full root authority.
+This permission should only be given to users trusted with full administrative control.</p>
+<p>VeraCrypt does not provide a restricted mode that confines these users to mounting their own volumes. This also applies when the rule permits only the core service (<code>--core-service</code> or <code>--core-service-no-fork</code>) or requires the user's password.
+If an account must remain restricted, remove the corresponding grants.</p>
+<p>Other programs running under the same user account may be able to use an active elevated VeraCrypt service until VeraCrypt exits.</p>
 <p>VeraCrypt does not support the set-euid root mode of execution.<br>
 <br>
 Additional information and details regarding the security model are contained in the chapter

@@ -105,6 +105,8 @@ if [ "$brew" = true ]; then
     make
     if [ "$package" = true ]; then
         make package
+    else
+        make bundle
     fi
     exit 0
 fi
@@ -159,6 +161,9 @@ make WXSTATIC=FULL clean
 make WXSTATIC=FULL
 if [ "$package" = true ]; then
     make WXSTATIC=FULL package
+else
+    # Notarization consumes the app bundle, not the standalone executable.
+    make WXSTATIC=FULL bundle
 fi
 
 echo "VeraCrypt build completed successfully."

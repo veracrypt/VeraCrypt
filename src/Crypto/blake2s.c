@@ -28,6 +28,14 @@
 // load32 is always called in SSE case which implies little endian 
 #define load32(x)	*((uint32*) (x))
 
+/* Message words are little-endian: read them byte-wise on big-endian hosts and
+ * alignment-safe where unaligned access is not safe. */
+#if BYTE_ORDER == BIG_ENDIAN || !VC_UNALIGNED_ACCESS_OK
+#define BLAKE2S_LOAD32(p) VcLoadLE32(p)
+#else
+#define BLAKE2S_LOAD32(p) (*((uint32*) (p)))
+#endif
+
 const uint32 blake2s_IV[8] =
 {
   0x6A09E667UL, 0xBB67AE85UL, 0x3C6EF372UL, 0xA54FF53AUL,
@@ -70,6 +78,26 @@ void blake2s_init_param( blake2s_state *S, const blake2s_param *P )
 {
   size_t i;
   /*blake2s_init0( S ); */
+#if BYTE_ORDER == BIG_ENDIAN
+  /* IV XOR ParamBlock: the parameter block is defined as little-endian
+   * words, so build them from the (native) fields. */
+  uint32 w[8];
+
+  memset( S, 0, sizeof( blake2s_state ) );
+  w[0] = ( uint32 ) P->digest_length | ( ( uint32 ) P->key_length << 8 )
+    | ( ( uint32 ) P->fanout << 16 ) | ( ( uint32 ) P->depth << 24 );
+  w[1] = P->leaf_length;
+  w[2] = P->node_offset;
+  w[3] = ( uint32 ) P->xof_length | ( ( uint32 ) P->node_depth << 16 )
+    | ( ( uint32 ) P->inner_length << 24 );
+  w[4] = VcLoadLE32( P->salt );
+  w[5] = VcLoadLE32( P->salt + 4 );
+  w[6] = VcLoadLE32( P->personal );
+  w[7] = VcLoadLE32( P->personal + 4 );
+
+  for( i = 0; i < 8; ++i )
+    S->h[i] = blake2s_IV[i] ^ w[i];
+#else
   const uint8 * v = ( const uint8 * )( blake2s_IV );
   const uint8 * p = ( const uint8 * )( P );
   uint8 * h = ( uint8 * )( S->h );
@@ -77,6 +105,7 @@ void blake2s_init_param( blake2s_state *S, const blake2s_param *P )
   memset( S, 0, sizeof( blake2s_state ) );
 
   for( i = 0; i < BLAKE2S_OUTBYTES; ++i ) h[i] = v[i] ^ p[i];
+#endif
 
   S->outlen = P->digest_length;
 }
@@ -126,7 +155,7 @@ static void blake2s_compress_std( blake2s_state *S, const uint8 in[BLAKE2S_BLOCK
   size_t i;
 
   for( i = 0; i < 16; ++i ) {
-	m[i] = *((uint32*) (in + i * sizeof( m[i] )));
+	m[i] = BLAKE2S_LOAD32( in + i * sizeof( m[i] ) );
   }
 
   for( i = 0; i < 8; ++i ) {
@@ -245,7 +274,7 @@ int blake2s_final( blake2s_state *S, unsigned char *out )
 
   for( i = 0; i < 8; ++i ) /* Output full hash to temp buffer */
   {
-#if BYTE_ORDER == LITTLE_ENDIAN
+#if BYTE_ORDER == LITTLE_ENDIAN && VC_UNALIGNED_ACCESS_OK
 	*((uint32*) out) = S->h[i];
 #else
 	uint32 w = S->h[i] ;

@@ -31,10 +31,13 @@ namespace VeraCrypt
 	protected:
 		virtual DevicePath MountAuxVolumeImage (const DirectoryPath &auxMountPoint, const MountOptions &options) const;
 		virtual void UpdateMountedVolumeInfo (shared_ptr <VolumeInfo> mountedVolume) const;
+		virtual void UpdateMountedVolumesInfo (VolumeInfoList &volumes) const;
 
 	private:
 		CoreMacOSX (const CoreMacOSX &);
 		CoreMacOSX &operator= (const CoreMacOSX &);
+		void UpdateMountedVolumeInfo (shared_ptr <VolumeInfo> volume, const string &inventory) const;
+		shared_ptr <VolumeInfo> ValidateMountedVolume (shared_ptr <VolumeInfo> volume) const;
 	};
 }
 

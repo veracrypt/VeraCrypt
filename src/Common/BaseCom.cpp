@@ -352,13 +352,20 @@ DWORD BaseCom::BackupEfiSystemLoader ()
 		BootEncryption bootEnc (NULL);
 		bootEnc.BackupSystemLoader ();
 	}
-	catch (SystemException &)
+	catch (SystemException &e)
 	{
-		return GetLastError();
+		return e.ErrorCode;
 	}
 	catch (UserAbort&)
 	{
 		return ERROR_CANCELLED;
+	}
+	catch (ErrorException &e)
+	{
+		if (e.ErrLangId && strcmp (e.ErrLangId, "TC_BOOT_LOADER_ALREADY_INSTALLED") == 0)
+			return TC_ERROR_BOOT_LOADER_ALREADY_INSTALLED;
+		e.Show (NULL);
+		return ERROR_EXCEPTION_IN_SERVICE;
 	}
 	catch (Exception &e)
 	{
@@ -525,9 +532,9 @@ DWORD BaseCom::UpdateSetupConfigFile (BOOL bForInstall)
 		BootEncryption bootEnc (NULL);
 		bootEnc.UpdateSetupConfigFile (bForInstall? true : false);
 	}
-	catch (SystemException &)
+	catch (SystemException &e)
 	{
-		return GetLastError();
+		return e.ErrorCode;
 	}
 	catch (Exception &e)
 	{

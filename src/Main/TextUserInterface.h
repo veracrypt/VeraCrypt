@@ -82,6 +82,9 @@ namespace VeraCrypt
 		unique_ptr <wxTextInputStream> TextInputStream;
 
 	private:
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+		shared_ptr <VolumeInfo> MountVolumeAndHandleProtectionError (MountOptions &options, bool &retryWithCachedPasswords) const;
+#endif
 		TextUserInterface (const TextUserInterface &);
 		TextUserInterface &operator= (const TextUserInterface &);
 	};

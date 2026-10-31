@@ -243,6 +243,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 	if (firstKeyFile == NULL) return TRUE;
 
 	VirtualLock (keyPool, sizeof (keyPool));
+	finally_do_arg (unsigned __int8 *, keyPool, { burn (finally_arg, KEYFILE_POOL_SIZE); });
 	memset (keyPool, 0, sizeof (keyPool));
 
 	for (kf = firstKeyFile; kf != NULL; kf = kf->Next)
@@ -254,6 +255,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 			{
 				// Apply security token keyfile
 				vector <uint8> keyfileData;
+				finally_do_arg (vector <uint8> *, &keyfileData, { if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); });
 				TokenKeyfilePath secPath (kf->FileName);
 				Token::getTokenKeyfile (secPath)->GetKeyfileData (keyfileData);
 
@@ -286,12 +288,12 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 						break;
 				}
 
-				burn (&keyfileData.front(), keyfileData.size());
 				continue;
 			}
 		}
 		catch (Exception &e)
 		{
+			burn (keyPool, sizeof (keyPool));
 			e.Show (NULL);
 			return FALSE;
 		}
@@ -399,8 +401,6 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 
 	if (password->Length < keyPoolSize)
         password->Length = keyPoolSize;
-
-	burn (keyPool, sizeof (keyPool));
 
 	return status;
 }

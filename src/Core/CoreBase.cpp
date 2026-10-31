@@ -140,6 +140,21 @@ namespace VeraCrypt
 #endif
 	}
 
+	// FAT boot sector fields are not necessarily aligned (some start at odd offsets), so they must not be accessed through integer pointers
+	static uint16 GetLittleEndian16 (const uint8 *src)
+	{
+		uint16 value;
+		memcpy (&value, src, sizeof (value));
+		return Endian::Little (value);
+	}
+
+	static uint32 GetLittleEndian32 (const uint8 *src)
+	{
+		uint32 value;
+		memcpy (&value, src, sizeof (value));
+		return Endian::Little (value);
+	}
+
 	uint64 CoreBase::GetMaxHiddenVolumeSize (shared_ptr <Volume> outerVolume) const
 	{
 		uint32 sectorSize = outerVolume->GetSectorSize();
@@ -160,21 +175,21 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 
 		uint32 clusterSize = bootSector[13] * sectorSize;
-		uint32 reservedSectorCount = Endian::Little (*(uint16 *) (bootSector + 14));
+		uint32 reservedSectorCount = GetLittleEndian16 (bootSector + 14);
 		uint32 fatCount = bootSector[16];
 
 		uint64 fatSectorCount;
 		if (fatType == 32)
-			fatSectorCount = Endian::Little (*(uint32 *) (bootSector + 36));
+			fatSectorCount = GetLittleEndian32 (bootSector + 36);
 		else
-			fatSectorCount = Endian::Little (*(uint16 *) (bootSector + 22));
+			fatSectorCount = GetLittleEndian16 (bootSector + 22);
 		uint64 fatSize = fatSectorCount * sectorSize;
 
 		uint64 fatStartOffset = reservedSectorCount * sectorSize;
 		uint64 dataAreaOffset = reservedSectorCount * sectorSize + fatSize * fatCount;
 
 		if (fatType < 32)
-			dataAreaOffset += Endian::Little (*(uint16 *) (bootSector + 17)) * 32;
+			dataAreaOffset += GetLittleEndian16 (bootSector + 17) * 32;
 
 		SecureBuffer sector (sectorSize);
 
@@ -218,21 +233,22 @@ namespace VeraCrypt
 
 	shared_ptr <VolumeInfo> CoreBase::GetMountedVolume (const VolumePath &volumePath) const
 	{
-		VolumeInfoList volumes = GetMountedVolumes (volumePath);
-		if (volumes.empty())
-			return shared_ptr <VolumeInfo> ();
-		else
-			return volumes.front();
+		VolumeDiscoveryResult result = GetMountedVolumesWithStatus (volumePath);
+		if (!result.Volumes.empty()) return result.Volumes.front();
+		if (!result.IsComplete()) throw VolumeDiscoveryFailed (SRC_POS, wstring (result.UnresolvedMounts.front()));
+		return shared_ptr <VolumeInfo> ();
 	}
 
 	shared_ptr <VolumeInfo> CoreBase::GetMountedVolume (VolumeSlotNumber slot) const
 	{
-		foreach (shared_ptr <VolumeInfo> volume, GetMountedVolumes())
+		VolumeDiscoveryResult result = GetMountedVolumesWithStatus();
+		foreach (shared_ptr <VolumeInfo> volume, result.Volumes)
 		{
 			if (volume->SlotNumber == slot)
 				return volume;
 		}
 
+		if (!result.IsComplete()) throw VolumeDiscoveryFailed (SRC_POS, wstring (result.UnresolvedMounts.front()));
 		return shared_ptr <VolumeInfo> ();
 	}
 

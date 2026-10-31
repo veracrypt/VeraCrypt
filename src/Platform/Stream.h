@@ -27,9 +27,12 @@ namespace VeraCrypt
 		virtual void Write (const ConstBufferPtr &data) = 0;
 
 	protected:
-		Stream () { };
+		Stream () : SerializationDepth (0) { }
 
 	private:
+		friend class SerializationScope;
+		unsigned int SerializationDepth;
+
 		Stream (const Stream &);
 		Stream &operator= (const Stream &);
 	};

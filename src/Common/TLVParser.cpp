@@ -46,7 +46,7 @@ namespace VeraCrypt
 	}
 
 	/* Parsing one TLV node */
-	shared_ptr<TLVNode> TLVParser::TLV_Parse_One(uint8* buf, size_t size)
+	shared_ptr<TLVNode> TLVParser::TLV_Parse_One(const uint8* buf, size_t size)
 	{
 		size_t index = 0;
 		size_t i = 0;
@@ -205,7 +205,7 @@ namespace VeraCrypt
 	}
 
 	/* Parsing TLV from a buffer and constructing TLV structure */
-	shared_ptr<TLVNode> TLVParser::TLV_Parse(uint8* buf, size_t size)
+	shared_ptr<TLVNode> TLVParser::TLV_Parse(const uint8* buf, size_t size)
 	{
 		shared_ptr<TLVNode> node = TLV_Parse_One(buf, size);
 		TLV_Parse_Sub(node);

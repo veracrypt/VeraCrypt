@@ -43,7 +43,6 @@ PREINSTALLED_PACKAGES = {
     "opkg",
 }
 DEFAULT_RUNTIME_PACKAGES = [
-    "bash",
     # OpenWrt emits the FUSE3 library IPK with its ABI suffix; it still
     # Provides: libfuse3.
     "libfuse3-3",
@@ -702,7 +701,9 @@ def run_guest_tests(args, console, http_port, packages):
         timeout=120,
     )
 
-    console.run(package_download_command(packages, http_port), timeout=900)
+    # Keep the installer's set -e local so later failures report their status.
+    console.run(f"(\n{package_download_command(packages, http_port)}\n)", timeout=900)
+    console.run("! command -v bash", timeout=60)
 
     version_output = console.run("veracrypt --text --version", timeout=120)
     if "VeraCrypt " not in version_output:
@@ -715,6 +716,9 @@ def run_guest_tests(args, console, http_port, packages):
     if not args.skip_container:
         quoted_container_size = sh_quote(args.container_size)
         quoted_password = sh_quote(args.password)
+        quoted_helper_options = sh_quote(
+            f"password={args.password},pim=0,keyfiles=,protect-hidden=no,fs=none"
+        )
         console.run("dd if=/dev/urandom of=/tmp/vc-random.bin bs=1M count=1", timeout=120)
         console.run(
             "veracrypt --text --create /tmp/openwrt-test.hc "
@@ -726,16 +730,18 @@ def run_guest_tests(args, console, http_port, packages):
             timeout=360,
         )
         console.run("mkdir -p /mnt/veracrypt-test", timeout=60)
-        console.run(
+        for mount_command in (
             "veracrypt --text --mount /tmp/openwrt-test.hc /mnt/veracrypt-test "
             f"--password={quoted_password} "
             "--pim=0 --keyfiles='' --protect-hidden=no --filesystem=none --non-interactive",
-            timeout=240,
-        )
-        list_output = console.run("veracrypt --text --list", timeout=120)
-        if "/dev/mapper/veracrypt" not in list_output:
-            raise TestError("container did not appear in veracrypt --list output")
-        console.run("veracrypt --text --unmount /tmp/openwrt-test.hc", timeout=180)
+            "/sbin/mount.veracrypt /tmp/openwrt-test.hc /mnt/veracrypt-test "
+            f"-o {quoted_helper_options}",
+        ):
+            console.run(mount_command, timeout=240)
+            list_output = console.run("veracrypt --text --list", timeout=120)
+            if "/dev/mapper/veracrypt" not in list_output:
+                raise TestError("container did not appear in veracrypt --list output")
+            console.run("veracrypt --text --unmount /tmp/openwrt-test.hc", timeout=180)
 
 
 def parse_args():
@@ -787,6 +793,8 @@ def parse_args():
 
 def main():
     args = parse_args()
+    if not args.skip_container and "," in args.password:
+        raise TestError("--password cannot contain commas: mount.veracrypt uses comma-separated options")
     args.ipk = args.ipk.resolve()
     if not args.ipk.exists():
         raise TestError(f"Package does not exist: {args.ipk}")

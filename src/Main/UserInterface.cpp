@@ -14,11 +14,13 @@
 #ifdef TC_LINUX
 #include <algorithm>
 #endif
+#include <climits>
+#include <langinfo.h>
 #include <set>
 #include <typeinfo>
 #include <wx/apptrait.h>
 #include <wx/cmdline.h>
-#include "Crypto/cpu.h"
+#include "Core/CoreTest.h"
 #include "Platform/PlatformTest.h"
 #include "Common/PCSCException.h"
 #ifdef TC_UNIX
@@ -184,6 +186,26 @@ namespace VeraCrypt
 		DismountVolumes (volumes, ignoreOpenFiles, interactive);
 	}
 
+	// Unconfirmed service exits are reported together, followed by any other
+	// failure of the same operation, so that none of them can hide another.
+	static void ThrowUnconfirmedCleanups (const list <DismountServiceCleanupFailed> &failures, const wstring &otherFailure)
+	{
+		wstring details;
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 6
+		// GCC did not support range-based for loops until version 4.6.
+		for (list <DismountServiceCleanupFailed>::const_iterator failure = failures.begin(); failure != failures.end(); ++failure)
+			details += (details.empty() ? L"" : L"\n\n") + failure->GetSubject();
+#else
+		for (const DismountServiceCleanupFailed &failure : failures)
+			details += (details.empty() ? L"" : L"\n\n") + failure.GetSubject();
+#endif
+
+		if (!otherFailure.empty())
+			details += L"\n\n" + otherFailure;
+
+		throw DismountServiceCleanupFailed (failures.front().what(), details);
+	}
+
 	void UserInterface::DismountVolumes (VolumeInfoList volumes, bool ignoreOpenFiles, bool interactive, bool emergencyCleanupRequested) const
 	{
 #ifndef TC_LINUX
@@ -197,6 +219,9 @@ namespace VeraCrypt
 		bool twoPassMode = volumes.size() > 1;
 		bool volumesInUse = false;
 		bool firstPass = true;
+		// Such volumes have already left discovery. Report every one of them, even
+		// when another volume fails or a forced-unmount prompt is declined.
+		list <DismountServiceCleanupFailed> unconfirmedCleanups;
 
 #ifdef TC_WINDOWS
 		if (Preferences.CloseExplorerWindowsOnDismount)
@@ -205,60 +230,51 @@ namespace VeraCrypt
 				CloseExplorerWindows (volume);
 		}
 #endif
-		while (!volumes.empty())
+		try
 		{
-			VolumeInfoList volumesLeft;
-			foreach (shared_ptr <VolumeInfo> volume, volumes)
+			while (!volumes.empty())
 			{
-				bool emergencyCleanupPerformed = false;
-				try
+				VolumeInfoList volumesLeft;
+				foreach (shared_ptr <VolumeInfo> volume, volumes)
 				{
-					BusyScope busy (this);
-					volume = Core->DismountVolume (volume, ignoreOpenFiles);
-				}
-				catch (MountedVolumeInUse&)
-				{
-					if (!firstPass)
-						throw;
-
-					if (twoPassMode || !interactive)
+					bool emergencyCleanupPerformed = false;
+					try
 					{
-						volumesInUse = true;
-						volumesLeft.push_back (volume);
-						continue;
+						BusyScope busy (this);
+						volume = DismountVolumeThread (volume, ignoreOpenFiles, interactive);
 					}
-					else
+					catch (MountedVolumeInUse&)
 					{
-						if (AskYesNo (StringFormatter (LangString["UNMOUNT_LOCK_FAILED"], wstring (volume->Path)), true, true))
+						if (!firstPass || (!interactive && !twoPassMode))
+							throw;
+
+						if (twoPassMode || !interactive)
 						{
-							BusyScope busy (this);
-							volume = Core->DismountVolume (volume, true);
+							volumesInUse = true;
+							volumesLeft.push_back (volume);
+							continue;
 						}
 						else
-							throw UserAbort (SRC_POS);
-					}
-				}
-#ifdef TC_LINUX
-				catch (FilesystemDismountFailed&)
-				{
-					if (twoPassMode && firstPass)
-					{
-						volumesLeft.push_back (volume);
-						continue;
-					}
-
-					if (emergencyCleanupRequested)
-					{
 						{
-							BusyScope busy (this);
-							volume = Core->EmergencyDismountVolume (volume);
+							if (AskYesNo (LangString["UNMOUNT_LOCK_FAILED"], true, true))
+							{
+								BusyScope busy (this);
+								volume = DismountVolumeThread (volume, true);
+							}
+							else
+								throw UserAbort (SRC_POS);
 						}
-						emergencyCleanupPerformed = true;
-						ShowWarning (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNTED"], wstring (volume->Path)));
 					}
-					else if (interactive)
+#ifdef TC_LINUX
+					catch (FilesystemDismountFailed &e)
 					{
-						if (AskYesNo (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNT_WARNING"], wstring (volume->Path)), false, true))
+						if (twoPassMode && firstPass)
+						{
+							volumesLeft.push_back (volume);
+							continue;
+						}
+
+						if (emergencyCleanupRequested)
 						{
 							{
 								BusyScope busy (this);
@@ -267,55 +283,93 @@ namespace VeraCrypt
 							emergencyCleanupPerformed = true;
 							ShowWarning (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNTED"], wstring (volume->Path)));
 						}
+						else if (interactive)
+						{
+							// Show the cause of the failure with the warning
+							wxString warning = StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNT_WARNING"], wstring (volume->Path));
+							if (AskYesNo (ExceptionToMessage (e) + L"\n\n" + warning, false, true))
+							{
+								{
+									BusyScope busy (this);
+									volume = Core->EmergencyDismountVolume (volume);
+								}
+								emergencyCleanupPerformed = true;
+								ShowWarning (StringFormatter (LangString["LINUX_EMERGENCY_UNMOUNTED"], wstring (volume->Path)));
+							}
+							else
+								throw UserAbort (SRC_POS);
+						}
+						else
+							throw;
+					}
+#endif
+					catch (DismountServiceCleanupFailed &e)
+					{
+						// The auxiliary mount is gone, so another attempt cannot reach the service.
+						unconfirmedCleanups.push_back (e);
+						continue;
+					}
+					catch (...)
+					{
+						if (twoPassMode && firstPass)
+						{
+							volumesLeft.push_back (volume);
+							continue;
+						}
+						else
+							throw;
+					}
+
+					if (volume->HiddenVolumeProtectionTriggered)
+						ShowWarning (StringFormatter (LangString["DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"], wstring (volume->Path)));
+
+					if (Preferences.Verbose)
+					{
+						if (!emergencyCleanupPerformed)
+						{
+							if (!message.IsEmpty())
+								message += L'\n';
+							message += StringFormatter (LangString["LINUX_VOL_UNMOUNTED"], wstring (volume->Path));
+						}
+					}
+				}
+
+				if (twoPassMode && firstPass)
+				{
+					volumes = volumesLeft;
+
+					if (volumesInUse && interactive)
+					{
+						if (AskYesNo (LangString["UNMOUNTALL_LOCK_FAILED"], true, true))
+							ignoreOpenFiles = true;
 						else
 							throw UserAbort (SRC_POS);
 					}
-					else
-						throw;
 				}
-#endif
-				catch (...)
-				{
-					if (twoPassMode && firstPass)
-						volumesLeft.push_back (volume);
-					else
-						throw;
-				}
+				else
+					break;
 
-				if (volume->HiddenVolumeProtectionTriggered)
-					ShowWarning (StringFormatter (LangString["DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"], wstring (volume->Path)));
-
-				if (Preferences.Verbose)
-				{
-					if (!emergencyCleanupPerformed)
-					{
-						if (!message.IsEmpty())
-							message += L'\n';
-						message += StringFormatter (LangString["LINUX_VOL_UNMOUNTED"], wstring (volume->Path));
-					}
-				}
+				firstPass = false;
 			}
 
-			if (twoPassMode && firstPass)
-			{
-				volumes = volumesLeft;
+			if (Preferences.Verbose && !message.IsEmpty())
+				ShowInfo (message);
+		}
+		catch (...)
+		{
+			if (unconfirmedCleanups.empty())
+				throw;
 
-				if (volumesInUse && interactive)
-				{
-					if (AskYesNo (LangString["UNMOUNTALL_LOCK_FAILED"], true, true))
-						ignoreOpenFiles = true;
-					else
-						throw UserAbort (SRC_POS);
-				}
-			}
-			else
-				break;
-
-			firstPass = false;
+			wxString otherFailure;
+			try { throw; }
+			catch (UserAbort &) { }
+			catch (exception &e) { otherFailure = ExceptionToMessage (e); }
+			catch (...) { otherFailure = ExceptionToMessage (UnknownException (SRC_POS)); }
+			ThrowUnconfirmedCleanups (unconfirmedCleanups, otherFailure.ToStdWstring());
 		}
 
-		if (Preferences.Verbose && !message.IsEmpty())
-			ShowInfo (message);
+		if (!unconfirmedCleanups.empty())
+			ThrowUnconfirmedCleanups (unconfirmedCleanups, wstring());
 	}
 
 	void UserInterface::DisplayVolumeProperties (const VolumeInfoList &volumes) const
@@ -547,6 +601,7 @@ namespace VeraCrypt
 #define EX2MSG(exception, message) do { if (ex == typeid (exception)) return (message); } while (false)
 		EX2MSG (DriveLetterUnavailable,				LangString["DRIVE_LETTER_UNAVAILABLE"]);
 		EX2MSG (DeviceSectorSizeMismatch,			LangString["LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH"]);
+		EX2MSG (ElevationBlocked,					LangString["LINUX_ELEVATION_BLOCKED"]);
 		EX2MSG (EncryptedSystemRequired,			LangString["LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED"]);
 		EX2MSG (ExternalException,					LangString["EXCEPTION_OCCURRED"]);
 		EX2MSG (InsufficientData, 					LangString["LINUX_EX2MSG_INSUFFICIENTDATA"]);
@@ -560,6 +615,13 @@ namespace VeraCrypt
 		EX2MSG (MissingVolumeData,					LangString["LINUX_EX2MSG_MISSINGVOLUMEDATA"]);
 		EX2MSG (MountPointRequired,					LangString["LINUX_EX2MSG_MOUNTPOINTREQUIRED"]);
 		EX2MSG (MountPointUnavailable,				LangString["LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE"]);
+		EX2MSG (MountServiceIncompatible,			LangString["MOUNT_SERVICE_INCOMPATIBLE"]);
+		EX2MSG (MountServiceCleanupFailed,			LangString["MOUNT_SERVICE_CLEANUP_FAILED"]);
+		EX2MSG (DismountServiceCleanupFailed, LangString["DISMOUNT_SERVICE_CLEANUP_FAILED"]);
+		EX2MSG (MountServiceUnavailable, LangString["MOUNT_SERVICE_UNAVAILABLE"]);
+		EX2MSG (VolumeDiscoveryFailed, LangString["VOLUME_DISCOVERY_FAILED"]);
+		EX2MSG (MountedVolumeInUse, LangString["VOLUME_IN_USE"]);
+		EX2MSG (TimeOut, LangString["OPERATION_TIMED_OUT"]);
 		EX2MSG (NoDriveLetterAvailable,				LangString["NO_FREE_DRIVES"]);
 		EX2MSG (PasswordEmpty,						LangString["LINUX_EX2MSG_PASSWORDEMPTY"]);
 		EX2MSG (PasswordIncorrect,					LangString["PASSWORD_WRONG"]);
@@ -568,7 +630,7 @@ namespace VeraCrypt
 		EX2MSG (PasswordOrMountOptionsIncorrect,	LangString["PASSWORD_OR_KEYFILE_OR_MODE_WRONG"] + LangString["LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT"]);
 		EX2MSG (PasswordTooLong,					StringFormatter (LangString["LINUX_EX2MSG_PASSWORDTOOLONG"], (int) VolumePassword::MaxSize));
 		EX2MSG (PasswordUTF8TooLong,				StringFormatter (LangString["PASSWORD_UTF8_TOO_LONG"], (int) VolumePassword::MaxSize));
-		EX2MSG (PasswordLegacyUTF8TooLong,			StringFormatter (LangString["LEGACY_PASSWORD_UTF8_TOO_LONG"], (int) VolumePassword::MaxLegacySize));
+		EX2MSG (PasswordLegacyUTF8TooLong,			LangString["LEGACY_PASSWORD_UTF8_TOO_LONG"]);
 		EX2MSG (PasswordUTF8Invalid,				LangString["PASSWORD_UTF8_INVALID"]);
 		EX2MSG (PartitionDeviceRequired,			LangString["LINUX_EX2MSG_PARTITIONDEVICEREQUIRED"]);
 		EX2MSG (ProtectionPasswordIncorrect,		LangString["LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT"]);
@@ -624,12 +686,6 @@ namespace VeraCrypt
 		SetAppName (Application::GetName());
 		SetClassName (Application::GetName());
 
-#ifdef CRYPTOPP_CPUID_AVAILABLE
-		DetectX86Features ();
-#endif
-#if CRYPTOPP_BOOL_ARMV8
-		DetectArmFeatures();
-#endif
 		LangString.Init();
 		Core->Init();
 
@@ -807,7 +863,7 @@ namespace VeraCrypt
 		}
 
 		if (!newMountedVolumes.empty() && GetPreferences().CloseSecurityTokenSessionsAfterMount)
-			SecurityToken::CloseAllSessions();
+			Token::CloseAllSessions();
 
 		return newMountedVolumes;
 	}
@@ -847,13 +903,20 @@ namespace VeraCrypt
 					newMountedVolumes.push_back (Core->MountVolume (favoriteOptions));
 					mountPerformed = true;
 				}
-				catch (PasswordException&)
+				catch (PasswordException &e)
 				{
 					CloseSecurityTokenSessionsAfterMountScope closeTokenSessionsScope (Preferences.CloseSecurityTokenSessionsAfterMount);
 
-					// The initial silent mount attempt has already consulted cached passwords.
-					// Avoid repeating the same failed cache sweep before prompting the user.
-					shared_ptr <VolumeInfo> volume = MountVolume (favoriteOptions, false);
+					// A protection failure accepted the outer credentials. Preserve that
+					// state for UI recovery; otherwise skip the failed cache sweep.
+					bool protectionError = dynamic_cast <ProtectionPasswordIncorrect *> (&e)
+						|| dynamic_cast <ProtectionPasswordKeyfilesIncorrect *> (&e);
+					// Do not add default outer keyfiles to credentials already accepted.
+					if (protectionError && !favoriteOptions.Keyfiles)
+						favoriteOptions.Keyfiles = make_shared <KeyfileList>();
+					shared_ptr <VolumeInfo> volume = protectionError
+						? MountVolumeWithProtectionRecovery (favoriteOptions, e)
+						: MountVolume (favoriteOptions, false);
 
 					if (!volume)
 						break;
@@ -871,12 +934,18 @@ namespace VeraCrypt
 				}
 			}
 			
-			if (mountPerformed && newMountedVolumes.back()->MasterKeyVulnerable)
-				ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
+			if (mountPerformed)
+			{
+				if (newMountedVolumes.back()->MasterKeyVulnerable)
+					ShowWarning ("ERR_XTS_MASTERKEY_VULNERABLE");
+
+				if (newMountedVolumes.back()->Protection == VolumeProtection::HiddenVolumeReadOnly)
+					ShowInfo ("HIDVOL_PROT_WARN_AFTER_MOUNT");
+			}
 		}
 
 		if (!newMountedVolumes.empty() && GetPreferences().CloseSecurityTokenSessionsAfterMount)
-			SecurityToken::CloseAllSessions();
+			Token::CloseAllSessions();
 
 		return newMountedVolumes;
 	}
@@ -919,11 +988,11 @@ namespace VeraCrypt
 		if (VolumeHasUnrecommendedExtension (*options.Path))
 			ShowWarning ("EXE_FILE_EXTENSION_MOUNT_WARNING");
 
-		if (options.Protection == VolumeProtection::HiddenVolumeReadOnly)
+		if (volume->Protection == VolumeProtection::HiddenVolumeReadOnly)
 			ShowInfo ("HIDVOL_PROT_WARN_AFTER_MOUNT");
 
 		if (GetPreferences().CloseSecurityTokenSessionsAfterMount)
-			SecurityToken::CloseAllSessions();
+			Token::CloseAllSessions();
 
 		return volume;
 	}
@@ -953,6 +1022,12 @@ namespace VeraCrypt
 	void UserInterface::OnVolumeMounted (EventArgs &args)
 	{
 		shared_ptr <VolumeInfo> mountedVolume = (dynamic_cast <VolumeEventArgs &> (args)).mVolume;
+
+#ifdef TC_LINUX
+		// Shown for every mount, including those made to create a volume.
+		if (mountedVolume->RequesterBacked)
+			ShowWarning (StringFormatter (LangString["LINUX_REQUESTER_BACKED_VOLUME"], wstring (mountedVolume->Path)));
+#endif
 
 		if (Preferences.OpenExplorerWindowAfterMount && !mountedVolume->MountPoint.IsEmpty())
 			OpenExplorerWindow (mountedVolume->MountPoint);
@@ -1124,6 +1199,31 @@ const FileManager fileManagers[] = {
 #endif
 	}
 
+	// Decodes all of the bytes in the character set of LC_CTYPE. Fails on an
+	// invalid or incomplete character. NUL bytes are kept, as before. The
+	// result never needs more characters than there are bytes, so reserving
+	// that up front means it is never reallocated (leaving copies behind).
+	static bool DecodeStandardInputPassword (const uint8 *bytes, size_t length, wstring &password)
+	{
+		mbstate_t state;
+		Memory::Zero (&state, sizeof (state));
+		password.clear();
+		password.reserve (length);
+
+		for (size_t i = 0; i < length; )
+		{
+			wchar_t wc;
+			size_t n = mbrtowc (&wc, reinterpret_cast <const char *> (bytes) + i, length - i, &state);
+			if (n == (size_t) -1 || n == (size_t) -2)
+				return false;
+			if (n == 0)
+				n = 1;
+			password.push_back (wc);
+			i += n;
+		}
+		return true;
+	}
+
 	bool UserInterface::ProcessCommandLine ()
 	{
 		CommandLineInterface &cmdLine = *CmdLine;
@@ -1133,8 +1233,66 @@ const FileManager fileManagers[] = {
 
 		if (Preferences.UseStandardInput)
 		{
+			bool commandUsesPassword = false;
+			switch (cmdLine.ArgCommand)
+			{
+			case CommandId::AutoMountDevices:
+			case CommandId::AutoMountFavorites:
+			case CommandId::AutoMountDevicesFavorites:
+			case CommandId::MountVolume:
+			case CommandId::CreateVolume:
+			case CommandId::ChangePassword:
+				commandUsesPassword = true;
+				break;
+			default:
+				break;
+			}
+
+			// The password is the first line of standard input (a final line
+			// feed is optional). It is read as bytes into a fixed, wiped buffer
+			// and decoded as a whole in the character set of LC_CTYPE. Decoding
+			// while reading (wcin) silently stopped at an invalid or incomplete
+			// character. Only the first line is read.
+			SecureBuffer pwdBytes (VolumePassword::MaxSize * MB_LEN_MAX);
+			size_t pwdLength = 0;
+			bool pwdTooLong = false;
+			int c;
+
+			while ((c = getc (stdin)) != EOF && c != '\n')
+			{
+				if (pwdLength < pwdBytes.Size())
+					pwdBytes.Ptr()[pwdLength++] = (uint8) c;
+				else
+				{
+					// The writer may never close the pipe or send a line feed.
+					if (commandUsesPassword)
+						throw_err (L"The password from standard input is too long");
+					pwdTooLong = true;
+				}
+			}
+
+			bool pwdRead = !ferror (stdin) && (c == '\n' || pwdLength > 0);
+
 			wstring pwdInput;
-			getline(wcin, pwdInput);
+			finally_do_arg (wstring *, &pwdInput, { StringConverter::Erase (*finally_arg); });
+			bool pwdDecoded = pwdRead && !pwdTooLong
+				&& DecodeStandardInputPassword (pwdBytes.Ptr(), pwdLength, pwdInput);
+
+			if (commandUsesPassword)
+			{
+				// A failed read must not become a shorter or empty password
+				// (keyfiles may open the volume with one).
+				if (!pwdRead)
+					throw_err (L"Cannot read the password from standard input");
+				if (!pwdDecoded)
+					throw_err (StringFormatter (L"The password from standard input is not valid in the character encoding of the current locale ({0})", wstring (StringConverter::ToWide (nl_langinfo (CODESET)))));
+			}
+
+			if (!pwdDecoded)
+			{
+				StringConverter::Erase (pwdInput);
+				pwdInput.clear();
+			}
 
 			size_t maxUtf8Len = cmdLine.ArgUseLegacyPassword? VolumePassword::MaxLegacySize : VolumePassword::MaxSize;
 			cmdLine.ArgPassword = ToUTF8Password ( pwdInput.c_str (), pwdInput.size (), maxUtf8Len);
@@ -1290,6 +1448,7 @@ const FileManager fileManagers[] = {
 				, cmdLine.ArgEmergencyUnmount
 #endif
 				);
+			if (!cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			return true;
 
 		case CommandId::DisplayVersion:
@@ -1297,7 +1456,9 @@ const FileManager fileManagers[] = {
 			return true;
 
 		case CommandId::DisplayVolumeProperties:
+			if (cmdLine.ArgVolumes.empty() && !cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			DisplayVolumeProperties (cmdLine.ArgVolumes);
+			if (!cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			return true;
 
 		case CommandId::Help:
@@ -1459,6 +1620,8 @@ const FileManager fileManagers[] = {
 					" Filesystem mount options. The OPTIONS argument is passed to mount(8)\n"
 					" command with option -o when a filesystem on a VeraCrypt volume is mounted.\n"
 					" This option is not available on some platforms.\n"
+					" Use --mount-options=ro for device read-only protection; filesystem-only\n"
+					" ro can still allow journal recovery writes.\n"
 					"\n"
 					"--hash=HASH\n"
 					" Use specified header key derivation algorithm when creating a new volume\n"
@@ -1496,6 +1659,7 @@ const FileManager fileManagers[] = {
 					"   detected and no filesystem type was supplied.\n"
 #endif
 					" See also option --fs-options.\n"
+					" A filesystem requiring journal recovery writes may refuse a read-only mount.\n"
 					"\n"
 					"--new-keyfiles=KEYFILE1[,KEYFILE2,KEYFILE3,...]\n"
 					" Add specified keyfiles to a volume. This option can only be used with command\n"
@@ -1660,10 +1824,12 @@ const FileManager fileManagers[] = {
             return true;
 
 		case CommandId::ListVolumes:
+			if (cmdLine.ArgVolumes.empty() && !cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			if (Preferences.Verbose)
 				DisplayVolumeProperties (cmdLine.ArgVolumes);
 			else
 				ListMountedVolumes (cmdLine.ArgVolumes);
+			if (!cmdLine.ArgUnresolvedMounts.empty()) throw VolumeDiscoveryFailed (SRC_POS, wstring (cmdLine.ArgUnresolvedMounts.front()));
 			return true;
 
 		case CommandId::RestoreHeaders:
@@ -1760,6 +1926,7 @@ const FileManager fileManagers[] = {
 		if (!PlatformTest::TestAll())
 			throw TestFailed (SRC_POS);
 
+		CoreTest::TestAll();
 		EncryptionTest::TestAll();
 
 		// StringFormatter
@@ -1872,12 +2039,13 @@ const FileManager fileManagers[] = {
 
 	void UserInterface::ThrowException (Exception* ex)
 	{
-		VC_CONVERT_EXCEPTION (PasswordIncorrect);
+		// Handle PasswordIncorrect subclasses before the base class to avoid slicing.
 		VC_CONVERT_EXCEPTION (PasswordKeyfilesIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordOrKeyboardLayoutIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordOrMountOptionsIncorrect);
 		VC_CONVERT_EXCEPTION (ProtectionPasswordIncorrect);
 		VC_CONVERT_EXCEPTION (ProtectionPasswordKeyfilesIncorrect);
+		VC_CONVERT_EXCEPTION (PasswordIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordEmpty);
 		VC_CONVERT_EXCEPTION (PasswordTooLong);
 		VC_CONVERT_EXCEPTION (PasswordUTF8TooLong);
@@ -1896,16 +2064,22 @@ const FileManager fileManagers[] = {
 		VC_CONVERT_EXCEPTION (LoopDeviceSetupFailed);
 		VC_CONVERT_EXCEPTION (MountPointRequired);
 		VC_CONVERT_EXCEPTION (MountPointUnavailable);
+		VC_CONVERT_EXCEPTION (MountServiceIncompatible);
+		VC_CONVERT_EXCEPTION (MountServiceCleanupFailed);
+		VC_CONVERT_EXCEPTION (DismountServiceCleanupFailed);
+		VC_CONVERT_EXCEPTION (MountServiceUnavailable);
+		VC_CONVERT_EXCEPTION (VolumeDiscoveryFailed);
 		VC_CONVERT_EXCEPTION (NoDriveLetterAvailable);
 		VC_CONVERT_EXCEPTION (TemporaryDirectoryFailure);
 		VC_CONVERT_EXCEPTION (UnsupportedSectorSizeHiddenVolumeProtection);
 		VC_CONVERT_EXCEPTION (UnsupportedSectorSizeNoKernelCrypto);
 		VC_CONVERT_EXCEPTION (VolumeAlreadyMounted);
 		VC_CONVERT_EXCEPTION (VolumeSlotUnavailable);
-		VC_CONVERT_EXCEPTION (UserInterfaceException);
+		// Handle UserInterfaceException subclasses before the base class to avoid slicing.
 		VC_CONVERT_EXCEPTION (MissingArgument);
 		VC_CONVERT_EXCEPTION (NoItemSelected);
 		VC_CONVERT_EXCEPTION (StringFormatterException);
+		VC_CONVERT_EXCEPTION (UserInterfaceException);
 		VC_CONVERT_EXCEPTION (FilesystemDismountFailed);
 		VC_CONVERT_EXCEPTION (ExecutedProcessFailed);
 		VC_CONVERT_EXCEPTION (AlreadyInitialized);

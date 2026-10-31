@@ -151,12 +151,14 @@ static VC_INLINE void do_encrypt(const unsigned char* in, size_t len, unsigned c
     size_t i = 0, pos = *posPtr;
     if (pos)
     {
-        while (pos < len && pos < 64)
+        while (i < len && pos < 64)
         {
             out[i] = in[i] ^ ((unsigned char*)block)[pos++];
             ++i;
         }
         len -= i;
+        if (pos == 64)
+            pos = 0;
     }
     if (len)
         pos = 0;

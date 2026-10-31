@@ -75,6 +75,11 @@ namespace VeraCrypt
 		make_shared_auto (File, file);
 
 		File::FileOpenFlags flags = (preserveTimestamps ? File::PreserveTimestamps : File::FlagsNone);
+#ifdef TC_LINUX
+		// An elevated process may be denied access to a volume file that the
+		// requesting user can open, e.g. on a GVfs share.
+		flags = static_cast <File::FileOpenFlags> (flags | File::AllowRequesterAccess);
+#endif
 
 		try
 		{

@@ -22,6 +22,14 @@
 #include "Whirlpool.h"
 #include "cpu.h"
 #include "misc.h"
+#include "Endian.h"
+
+/* PBKDF2 block numbers are big-endian: swap only on little-endian hosts. */
+#if BYTE_ORDER == BIG_ENDIAN
+#define PKCS5_BE32(x) (x)
+#else
+#define PKCS5_BE32(x) (bswap_32(x))
+#endif
 #else
 #pragma optimize ("t", on)
 #include <string.h>
@@ -35,6 +43,15 @@
 #endif
 #include "Pkcs5.h"
 #include "Crypto.h"
+
+/* Driver calls can select a software initializer without changing global dispatch. */
+#if defined(DEVICE_DRIVER) && !defined(_M_ARM64)
+#define SHA256_HMAC_BEGIN sha256Begin
+#define SHA512_HMAC_BEGIN sha512Begin
+#else
+#define SHA256_HMAC_BEGIN sha256_begin
+#define SHA512_HMAC_BEGIN sha512_begin
+#endif
 
 #if !defined(TC_WINDOWS_BOOT) || defined(TC_WINDOWS_BOOT_SHA2)
 
@@ -88,10 +105,15 @@ void hmac_sha256
 	int b;
 	unsigned char key[SHA256_DIGESTSIZE];
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
+	void (*sha256Begin)(sha256_ctx*) = sha256_begin;
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
+	{
 		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+		if (!NT_SUCCESS(saveStatus))
+			sha256Begin = sha256_begin_software;
+	}
 #endif
     /* If the key is longer than the hash algorithm block size,
 	   let key = sha256(key), as per HMAC specifications. */
@@ -99,7 +121,7 @@ void hmac_sha256
 	{
 		sha256_ctx tctx;
 
-		sha256_begin (&tctx);
+		SHA256_HMAC_BEGIN (&tctx);
 		sha256_hash (k, lk, &tctx);
 		sha256_end (key, &tctx);
 
@@ -112,7 +134,7 @@ void hmac_sha256
 	/**** Precompute HMAC Inner Digest ****/
 
 	ctx = &(hmac.inner_digest_ctx);
-	sha256_begin (ctx);
+	SHA256_HMAC_BEGIN (ctx);
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < lk; ++b)
@@ -124,7 +146,7 @@ void hmac_sha256
 	/**** Precompute HMAC Outer Digest ****/
 
 	ctx = &(hmac.outer_digest_ctx);
-	sha256_begin (ctx);
+	SHA256_HMAC_BEGIN (ctx);
 
 	for (b = 0; b < lk; ++b)
 		buf[b] = (unsigned char) (k[b] ^ 0x5C);
@@ -180,7 +202,7 @@ static void derive_u_sha256 (const unsigned char *salt, int salt_len, uint32 ite
 	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (unsigned char) b;
 #else
-    b = bswap_32 (b);
+    b = PKCS5_BE32 (b);
     memcpy (&k[salt_len], &b, 4);
 #endif	
 
@@ -218,10 +240,15 @@ void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned ch
 #ifndef TC_WINDOWS_BOOT
 	unsigned char key[SHA256_DIGESTSIZE];
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
+	void (*sha256Begin)(sha256_ctx*) = sha256_begin;
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
+	{
 		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+		if (!NT_SUCCESS(saveStatus))
+			sha256Begin = sha256_begin_software;
+	}
 #endif
     /* If the password is longer than the hash algorithm block size,
 	   let pwd = sha256(pwd), as per HMAC specifications. */
@@ -229,7 +256,7 @@ void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned ch
 	{
 		sha256_ctx tctx;
 
-		sha256_begin (&tctx);
+		SHA256_HMAC_BEGIN (&tctx);
 		sha256_hash (pwd, pwd_len, &tctx);
 		sha256_end (key, &tctx);
 
@@ -254,7 +281,7 @@ void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned ch
 	/**** Precompute HMAC Inner Digest ****/
 
 	ctx = &(hmac.inner_digest_ctx);
-	sha256_begin (ctx);
+	SHA256_HMAC_BEGIN (ctx);
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < pwd_len; ++b)
@@ -266,7 +293,7 @@ void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned ch
 	/**** Precompute HMAC Outer Digest ****/
 
 	ctx = &(hmac.outer_digest_ctx);
-	sha256_begin (ctx);
+	SHA256_HMAC_BEGIN (ctx);
 
 	for (b = 0; b < pwd_len; ++b)
 		buf[b] = (unsigned char) (pwd[b] ^ 0x5C);
@@ -367,10 +394,15 @@ void hmac_sha512
 	int b;
 	unsigned char key[SHA512_DIGESTSIZE];
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
+	void (*sha512Begin)(sha512_ctx*) = sha512_begin;
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
+	{
 		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+		if (!NT_SUCCESS(saveStatus))
+			sha512Begin = sha512_begin_software;
+	}
 #endif
 
     /* If the key is longer than the hash algorithm block size,
@@ -379,7 +411,7 @@ void hmac_sha512
 	{
 		sha512_ctx tctx;
 
-		sha512_begin (&tctx);
+		SHA512_HMAC_BEGIN (&tctx);
 		sha512_hash (k, lk, &tctx);
 		sha512_end (key, &tctx);
 
@@ -392,7 +424,7 @@ void hmac_sha512
 	/**** Precompute HMAC Inner Digest ****/
 
 	ctx = &(hmac.inner_digest_ctx);
-	sha512_begin (ctx);
+	SHA512_HMAC_BEGIN (ctx);
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < lk; ++b)
@@ -404,7 +436,7 @@ void hmac_sha512
 	/**** Precompute HMAC Outer Digest ****/
 
 	ctx = &(hmac.outer_digest_ctx);
-	sha512_begin (ctx);
+	SHA512_HMAC_BEGIN (ctx);
 
 	for (b = 0; b < lk; ++b)
 		buf[b] = (unsigned char) (k[b] ^ 0x5C);
@@ -433,7 +465,7 @@ static void derive_u_sha512 (const unsigned char *salt, int salt_len, uint32 ite
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
 	/* big-endian block number */
-    b = bswap_32 (b);
+    b = PKCS5_BE32 (b);
 	memcpy (&k[salt_len], &b, 4);
 
 	hmac_sha512_internal (k, salt_len + 4, hmac);
@@ -462,10 +494,15 @@ void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned ch
 	int b, l, r;
 	unsigned char key[SHA512_DIGESTSIZE];
 #if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
+	void (*sha512Begin)(sha512_ctx*) = sha512_begin;
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	XSTATE_SAVE SaveState;
 	if (IsCpuIntel() && HasSAVX())
+	{
 		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+		if (!NT_SUCCESS(saveStatus))
+			sha512Begin = sha512_begin_software;
+	}
 #endif
 
     /* If the password is longer than the hash algorithm block size,
@@ -474,7 +511,7 @@ void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned ch
 	{
 		sha512_ctx tctx;
 
-		sha512_begin (&tctx);
+		SHA512_HMAC_BEGIN (&tctx);
 		sha512_hash (pwd, pwd_len, &tctx);
 		sha512_end (key, &tctx);
 
@@ -498,7 +535,7 @@ void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned ch
 	/**** Precompute HMAC Inner Digest ****/
 
 	ctx = &(hmac.inner_digest_ctx);
-	sha512_begin (ctx);
+	SHA512_HMAC_BEGIN (ctx);
 
 	/* Pad the key for inner digest */
 	for (b = 0; b < pwd_len; ++b)
@@ -510,7 +547,7 @@ void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned ch
 	/**** Precompute HMAC Outer Digest ****/
 
 	ctx = &(hmac.outer_digest_ctx);
-	sha512_begin (ctx);
+	SHA512_HMAC_BEGIN (ctx);
 
 	for (b = 0; b < pwd_len; ++b)
 		buf[b] = (unsigned char) (pwd[b] ^ 0x5C);
@@ -681,7 +718,7 @@ static void derive_u_blake2s (const unsigned char *salt, int salt_len, uint32 it
 	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (unsigned char) b;
 #else
-    b = bswap_32 (b);
+    b = PKCS5_BE32 (b);
     memcpy (&k[salt_len], &b, 4);
 #endif	
 
@@ -911,7 +948,7 @@ static void derive_u_whirlpool (const unsigned char *salt, int salt_len, uint32 
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
 	/* big-endian block number */
-    b = bswap_32 (b);
+    b = PKCS5_BE32 (b);
 	memcpy (&k[salt_len], &b, 4);
 
 	hmac_whirlpool_internal (k, salt_len + 4, hmac);
@@ -1114,7 +1151,7 @@ static void derive_u_streebog (const unsigned char *salt, int salt_len, uint32 i
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
 	/* big-endian block number */
-    b = bswap_32 (b);
+    b = PKCS5_BE32 (b);
 	memcpy (&k[salt_len], &b, 4);
 
 	hmac_streebog_internal (k, salt_len + 4, hmac);
@@ -1323,7 +1360,15 @@ int derive_key_argon2(const unsigned char *pwd, int pwd_len, const unsigned char
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	XSTATE_SAVE SaveState;
 	if (HasSAVX2())
+	{
 		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+		if (!NT_SUCCESS(saveStatus))
+		{
+			result = (saveStatus == STATUS_INSUFFICIENT_RESOURCES)
+				? ARGON2_MEMORY_ALLOCATION_ERROR : ARGON2_INCORRECT_PARAMETER;
+			goto err;
+		}
+	}
 #endif
 	result = argon2id_hash_raw(
 		iterations, // number of iterations
@@ -1334,6 +1379,9 @@ int derive_key_argon2(const unsigned char *pwd, int pwd_len, const unsigned char
 		dk, dklen,// derived key and its length
 		pAbortKeyDerivation 
 	);
+#if defined (DEVICE_DRIVER) && !defined(_M_ARM64)
+err:
+#endif
 	if (0 != result)
 	{
 		// If the Argon2 derivation fails, ensure unchecked legacy callers cannot use stale data.

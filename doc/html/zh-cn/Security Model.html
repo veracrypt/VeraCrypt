@@ -81,6 +81,9 @@
 </li><li>访问系统上由其他用户挂载的VeraCrypt卷内的文件系统（但是，可以设置文件/文件夹/卷权限来防止这种情况）。
 </li><li>运行和使用VeraCrypt应用程序（包括VeraCrypt卷创建向导），前提是文件权限允许。
 </li></ul>
+<p id="sudo-and-doas"><strong>Linux、macOS和BSD上的管理员权限：</strong>允许用户通过<code>sudo</code>或<code>doas</code>以root用户身份运行VeraCrypt或其核心服务，必须视为授予该用户完整的root权限。此权限只应授予您信任并愿意赋予完整管理权限的用户。</p>
+<p>VeraCrypt不提供仅允许这些用户挂载自己的卷的受限模式。即使规则只允许运行核心服务（<code>--core-service</code>或<code>--core-service-no-fork</code>），或要求输入用户自己的密码，也不能实现这种限制。如果某个账户必须保持受限状态，应撤销相应的授权。</p>
+<p>同一用户账户下运行的其他程序可能也能使用已获得管理员权限的VeraCrypt服务，直到VeraCrypt退出。</p>
 <p>VeraCrypt不支持设置euid为root的执行模式。<br>
 <br>
 有关安全模型的更多信息和详细内容包含在<a href="Security%20Requirements%20and%20Precautions.html"><em>安全要求和预防措施</em></a>章节中。</p>

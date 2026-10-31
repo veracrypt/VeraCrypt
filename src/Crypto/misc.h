@@ -101,15 +101,85 @@ extern "C" {
 #define bswap_64 OSSwapInt64
 #else
 #if CRYPTOPP_FAST_ROTATE(32)
-#define bswap_32(x)	(rotr32((x), 8U) & 0xff00ff00) | (rotl32((x), 8U) & 0x00ff00ff)
+#define bswap_32(x)	((rotr32((x), 8U) & 0xff00ff00) | (rotl32((x), 8U) & 0x00ff00ff))
 #else
 #define CRYPTOPP_BYTESWAP_AVAILABLE
 #define bswap_32(x)	(rotl32((((x) & 0xFF00FF00) >> 8) | (((x) & 0x00FF00FF) << 8), 16U))
-#define bswap_64(x)	rotl64(((((((x & LL(0xFF00FF00FF00FF00)) >> 8) | ((x & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0xFFFF0000FFFF0000)) >> 16) | (((((x & LL(0xFF00FF00FF00FF00)) >> 8) | ((x & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0x0000FFFF0000FFFF)) << 16)), 32U)
+#define bswap_64(x)	rotl64((((((((x) & LL(0xFF00FF00FF00FF00)) >> 8) | (((x) & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0xFFFF0000FFFF0000)) >> 16) | ((((((x) & LL(0xFF00FF00FF00FF00)) >> 8) | (((x) & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0x0000FFFF0000FFFF)) << 16)), 32U)
 #endif
 #ifndef TC_NO_COMPILER_INT64
-#define bswap_64(x)	rotl64(((((((x & LL(0xFF00FF00FF00FF00)) >> 8) | ((x & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0xFFFF0000FFFF0000)) >> 16) | (((((x & LL(0xFF00FF00FF00FF00)) >> 8) | ((x & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0x0000FFFF0000FFFF)) << 16)), 32U)
+#define bswap_64(x)	rotl64((((((((x) & LL(0xFF00FF00FF00FF00)) >> 8) | (((x) & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0xFFFF0000FFFF0000)) >> 16) | ((((((x) & LL(0xFF00FF00FF00FF00)) >> 8) | (((x) & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0x0000FFFF0000FFFF)) << 16)), 32U)
 #endif
+#endif
+
+/* Alignment-safe loads and stores of little- and big-endian words in byte
+ * buffers (used by the big-endian code paths and where unaligned access is
+ * not safe). On little-endian GCC/Clang targets, memcpy compiles to the
+ * fastest access the target allows. */
+#if defined(__GNUC__) && defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+#	define VC_LE_ACCESS_MEMCPY
+#endif
+
+VC_INLINE uint32 VcLoadLE32 (const void *ptr)
+{
+#ifdef VC_LE_ACCESS_MEMCPY
+	uint32 value;
+	__builtin_memcpy (&value, ptr, sizeof (value));
+	return value;
+#else
+	const uint8 *p = (const uint8 *) ptr;
+	return (uint32) p[0] | ((uint32) p[1] << 8) | ((uint32) p[2] << 16) | ((uint32) p[3] << 24);
+#endif
+}
+
+VC_INLINE uint32 VcLoadBE32 (const void *ptr)
+{
+	const uint8 *p = (const uint8 *) ptr;
+	return ((uint32) p[0] << 24) | ((uint32) p[1] << 16) | ((uint32) p[2] << 8) | (uint32) p[3];
+}
+
+VC_INLINE void VcStoreLE32 (void *ptr, uint32 value)
+{
+#ifdef VC_LE_ACCESS_MEMCPY
+	__builtin_memcpy (ptr, &value, sizeof (value));
+#else
+	uint8 *p = (uint8 *) ptr;
+	p[0] = (uint8) value;
+	p[1] = (uint8) (value >> 8);
+	p[2] = (uint8) (value >> 16);
+	p[3] = (uint8) (value >> 24);
+#endif
+}
+
+#ifndef TC_NO_COMPILER_INT64
+VC_INLINE uint64 VcLoadLE64 (const void *ptr)
+{
+#ifdef VC_LE_ACCESS_MEMCPY
+	uint64 value;
+	__builtin_memcpy (&value, ptr, sizeof (value));
+	return value;
+#else
+	const uint8 *p = (const uint8 *) ptr;
+	return (uint64) VcLoadLE32 (p) | ((uint64) VcLoadLE32 (p + 4) << 32);
+#endif
+}
+
+VC_INLINE uint64 VcLoadBE64 (const void *ptr)
+{
+	const uint8 *p = (const uint8 *) ptr;
+	return ((uint64) VcLoadBE32 (p) << 32) | (uint64) VcLoadBE32 (p + 4);
+}
+
+VC_INLINE void VcStoreLE64 (void *ptr, uint64 value)
+{
+#ifdef VC_LE_ACCESS_MEMCPY
+	__builtin_memcpy (ptr, &value, sizeof (value));
+#else
+	uint8 *p = (uint8 *) ptr;
+	VcStoreLE32 (p, (uint32) value);
+	VcStoreLE32 (p + 4, (uint32) (value >> 32));
+#endif
+}
 #endif
 
 VC_INLINE uint32 ByteReverseWord32 (uint32 value)

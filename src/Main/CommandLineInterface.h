@@ -86,6 +86,7 @@ namespace VeraCrypt
 		uint64 ArgSize;
 		shared_ptr <VolumePath> ArgVolumePath;
 		VolumeInfoList ArgVolumes;
+		list <DirectoryPath> ArgUnresolvedMounts;
 		VolumeType::Enum ArgVolumeType;
         shared_ptr<SecureBuffer> ArgTokenPin;
         bool ArgAllowScreencapture;
@@ -103,7 +104,7 @@ namespace VeraCrypt
 	protected:
 		void CheckCommandSingle () const;
 		shared_ptr <KeyfileList> ToKeyfileList (const wxString &arg) const;
-		VolumeInfoList GetMountedVolumes (const wxString &filter) const;
+		VolumeInfoList GetMountedVolumes (const wxString &filter);
 
 	private:
 		CommandLineInterface (const CommandLineInterface &);

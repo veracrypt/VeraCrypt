@@ -96,13 +96,13 @@ static int argon2_selftest_ctx (void)
 
    /* Test execution for Argon2d, Argon2i, Argon2id */
 
-   if (argon2_ctx (&context, Argon2_d) == ARGON2_OK &&
+   if (argon2_ctx (&context, Argon2_d) != ARGON2_OK ||
        memcmp (hash, ref0d, 32) != 0) err++;
 
-   if (argon2_ctx (&context, Argon2_i) == ARGON2_OK &&
+   if (argon2_ctx (&context, Argon2_i) != ARGON2_OK ||
        memcmp (hash, ref0i, 32) != 0) err++;
 
-   if (argon2_ctx (&context, Argon2_id) == ARGON2_OK &&
+   if (argon2_ctx (&context, Argon2_id) != ARGON2_OK ||
        memcmp (hash, ref0id, 32) != 0) err++;
 
    return err;

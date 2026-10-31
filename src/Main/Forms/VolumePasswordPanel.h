@@ -37,6 +37,7 @@ namespace VeraCrypt
 		void SetFocusToPimCheckBox () { PimCheckBox->SetFocus(); }
 		void SetFocusToPimTextCtrl () { VolumePimTextCtrl->SetSelection (-1, -1); VolumePimTextCtrl->SetFocus(); }
 		void ResetVolumePimToDefault ();
+		void SetPasswordVisible (bool visible);
 		void SetVolumePim (int pim);
 		bool PasswordsMatch () const;
 		void EnableUsePim (bool pimOnlyDisplay = false);
@@ -54,7 +55,7 @@ namespace VeraCrypt
 		void OnAddKeyfileDirMenuItemSelected (wxCommandEvent& event);
 		void OnAddKeyfilesMenuItemSelected (wxCommandEvent& event);
 		void OnAddSecurityTokenSignatureMenuItemSelected (wxCommandEvent& event);
-		void OnDisplayPasswordCheckBoxClick (wxCommandEvent& event);
+		void OnDisplayPasswordCheckBoxClick (wxCommandEvent& event) { SetPasswordVisible (event.IsChecked()); }
 		void OnKeyfilesButtonClick (wxCommandEvent& event);
 		void OnKeyfilesButtonRightClick (wxMouseEvent& event);
 		void OnKeyfilesButtonRightDown (wxMouseEvent& event);
