@@ -19,6 +19,7 @@
 #include <dbt.h>
 #include <Setupapi.h>
 #include <aclapi.h>
+#include <sddl.h>
 #include <Netlistmgr.h>
 #include <fcntl.h>
 #include <io.h>
@@ -3703,6 +3704,141 @@ void RemoveNonSysInPlaceEncNotifications (void)
 }
 
 
+struct SetupNotificationState
+{
+	DWORD Version;
+	GUID Generation;
+	DWORD Mask;
+};
+static_assert (sizeof (SetupNotificationState) == 24, "Setup notification layout");
+
+static bool ReadSetupNotificationState (SetupNotificationState &state)
+{
+	HKEY key;
+	if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, VC_SETUP_NOTIFICATIONS_KEY, 0,
+		KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key) != ERROR_SUCCESS)
+		return false;
+	DWORD size = sizeof (state);
+	DWORD error = RegGetValueW (key, NULL, L"State", RRF_RT_REG_BINARY, NULL, &state, &size);
+	RegCloseKey (key);
+	const GUID empty = {};
+	return error == ERROR_SUCCESS && size == sizeof (state) && state.Version == 1
+		&& memcmp (&state.Generation, &empty, sizeof (empty)) != 0 && !(state.Mask & ~VC_SETUP_NOTIFY_ALL);
+}
+
+DWORD ReadSetupNotificationMask (void)
+{
+	SetupNotificationState state = {};
+	return ReadSetupNotificationState (state) ? state.Mask : 0;
+}
+
+DWORD SaveSetupNotifications (DWORD mask)
+{
+	if (mask & ~VC_SETUP_NOTIFY_ALL)
+		return ERROR_INVALID_PARAMETER;
+	if (!mask)
+	{
+		// Clear an earlier attempt without creating state on unaffected machines.
+		HKEY key;
+		DWORD error = RegOpenKeyExW (HKEY_LOCAL_MACHINE, VC_SETUP_NOTIFICATIONS_KEY, 0,
+			KEY_SET_VALUE | KEY_WOW64_64KEY, &key);
+		if (error == ERROR_SUCCESS)
+		{
+			error = RegDeleteValueW (key, L"State");
+			RegCloseKey (key);
+		}
+		return error == ERROR_FILE_NOT_FOUND || error == ERROR_PATH_NOT_FOUND ? ERROR_SUCCESS : error;
+	}
+	SetupNotificationState state = {};
+	state.Version = 1;
+	state.Mask = mask;
+	HRESULT hr = CoCreateGuid (&state.Generation);
+	if (FAILED (hr))
+		return (DWORD) hr;
+
+	// Explicitly deny unelevated writers, including on an existing key. Users
+	// can read notices, but acknowledgements never modify machine-wide state.
+	PSECURITY_DESCRIPTOR descriptor = NULL;
+	if (!ConvertStringSecurityDescriptorToSecurityDescriptorW (
+		L"D:P(A;;KA;;;SY)(A;;KA;;;BA)(A;;KR;;;BU)", SDDL_REVISION_1, &descriptor, NULL))
+		return GetLastError ();
+	SECURITY_ATTRIBUTES attributes = { sizeof (attributes), descriptor, FALSE };
+	HKEY key;
+	DWORD error = RegCreateKeyExW (HKEY_LOCAL_MACHINE, VC_SETUP_NOTIFICATIONS_KEY, 0, NULL,
+		REG_OPTION_NON_VOLATILE, KEY_SET_VALUE | WRITE_DAC | KEY_WOW64_64KEY, &attributes, &key, NULL);
+	if (error == ERROR_SUCCESS)
+	{
+		error = RegSetKeySecurity (key, DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION, descriptor);
+		if (error == ERROR_SUCCESS)
+			error = RegSetValueExW (key, L"State", 0, REG_BINARY, (const BYTE *) &state, sizeof (state));
+		RegCloseKey (key);
+	}
+	LocalFree (descriptor);
+	return error;
+}
+
+const char *GetSetupNotificationMessage (DWORD flag)
+{
+	switch (flag)
+	{
+	case VC_SETUP_NOTIFY_BOOT_UNCONFIRMED: return "SYSENC_BOOT_LOADER_UPDATE_UNCONFIRMED";
+	case VC_SETUP_NOTIFY_BOOT_POLICY: return "SYSENC_BOOT_LOADER_POLICY_REFUSED";
+	case VC_SETUP_NOTIFY_BOOT_RESTART: return "SYSENC_BOOT_LOADER_UPDATE_RESTART";
+	case VC_SETUP_NOTIFY_ASSESSMENT: return "SYSENC_EFI_ASSESSMENT_UNAVAILABLE";
+	case VC_SETUP_NOTIFY_VERACRYPT: return "SYSENC_EFI_LOADER_NOT_TRUSTED_BY_SECUREBOOT";
+	case VC_SETUP_NOTIFY_WINDOWS: return "SYSENC_EFI_WINDOWS_LOADER_NOT_TRUSTED_BY_SECUREBOOT";
+	case VC_SETUP_NOTIFY_WINDOWS_MIGRATION: return "SYSENC_EFI_WINDOWS_LOADER_PCA2011_MIGRATION_NEEDED";
+	case VC_SETUP_NOTIFY_BACKUP: return "SYS_LOADER_BACKUP_MIGRATION_FAILED";
+	case VC_SETUP_NOTIFY_CONFIG_UPDATE: return "SYSENC_SETUP_CONFIG_UPDATE_FAILED";
+	case VC_SETUP_NOTIFY_CONFIG_REMOVE: return "SYSENC_SETUP_CONFIG_REMOVE_FAILED";
+	case VC_SETUP_NOTIFY_SERVICE: return "SYSENC_SERVICE_REPAIR_REQUIRED";
+	default: return NULL;
+	}
+}
+
+void ShowSetupNotifications (HWND hwndDlg)
+{
+	static bool inProgress = false;
+	if (Silent || inProgress)
+		return;
+	// Warning() pumps messages. Nested display must neither duplicate notices
+	// nor acknowledge a generation whose outer display has not finished.
+	struct DisplayGuard
+	{
+		bool &InProgress;
+		DisplayGuard (bool &value) : InProgress (value) { InProgress = true; }
+		~DisplayGuard () { InProgress = false; }
+	} guard (inProgress);
+	SetupNotificationState state = {};
+	if (!ReadSetupNotificationState (state) || !state.Mask)
+		return;
+
+	GUID acknowledged = {};
+	HKEY key;
+	if (RegOpenKeyExW (HKEY_CURRENT_USER, L"Software\\VeraCrypt", 0, KEY_QUERY_VALUE, &key) == ERROR_SUCCESS)
+	{
+		DWORD size = sizeof (acknowledged);
+		DWORD error = RegGetValueW (key, NULL, L"SetupNotificationAcknowledged", RRF_RT_REG_BINARY, NULL, &acknowledged, &size);
+		RegCloseKey (key);
+		if (error == ERROR_SUCCESS && size == sizeof (acknowledged)
+			&& memcmp (&acknowledged, &state.Generation, sizeof (acknowledged)) == 0)
+			return;
+	}
+	for (DWORD flag = 1; flag <= VC_SETUP_NOTIFY_ALL; flag <<= 1)
+	{
+		const char *message = GetSetupNotificationMessage (flag);
+		if ((state.Mask & flag) && message && Warning ((char *) message, hwndDlg) != IDOK)
+			return; // A failed or suppressed display must not acknowledge the notice.
+	}
+	if (RegCreateKeyExW (HKEY_CURRENT_USER, L"Software\\VeraCrypt", 0, NULL,
+		REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, NULL, &key, NULL) == ERROR_SUCCESS)
+	{
+		RegSetValueExW (key, L"SetupNotificationAcknowledged", 0, REG_BINARY,
+			(const BYTE *) &state.Generation, sizeof (state.Generation));
+		RegCloseKey (key);
+	}
+}
+
 void SavePostInstallTasksSettings (int command)
 {
 	FILE *f = NULL;
@@ -3752,10 +3888,10 @@ void SavePostInstallTasksSettings (int command)
 
 static BOOL ReadEfiBootLoaderDiagnosticsDword (const wchar_t *valueName, DWORD *value)
 {
-	return ReadLocalMachineRegistryDword (
+	return ReadLocalMachineRegistryDwordEx (
 		(wchar_t *) VC_EFI_BOOT_LOADER_DIAGNOSTICS_REGISTRY_KEY,
 		(wchar_t *) valueName,
-		value);
+		value, KEY_WOW64_64KEY);
 }
 
 
@@ -14503,23 +14639,21 @@ BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable)
 BOOL IsPrivilegeEnabled (LPTSTR szPrivilegeName)
 {
 	HANDLE hToken;
-	TOKEN_PRIVILEGES tkp;
+	PRIVILEGE_SET privileges = {0};
 	BOOL bRet = FALSE;
 	DWORD dwLastError = 0;
 
 	if (OpenProcessToken(GetCurrentProcess(),
-		TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY,
+		TOKEN_QUERY,
 		&hToken))
 	{
 		if (LookupPrivilegeValue(NULL, szPrivilegeName,
-				&tkp.Privileges[0].Luid))
+				&privileges.Privilege[0].Luid))
 		{
-			DWORD dwSize = sizeof (tkp);
-			if (GetTokenInformation (hToken, TokenPrivileges, &tkp, dwSize, &dwSize))
-			{
-				bRet = (tkp.Privileges[0].Attributes & SE_PRIVILEGE_ENABLED) != 0;
-			}
-			else
+			privileges.PrivilegeCount = 1;
+			privileges.Control = PRIVILEGE_SET_ALL_NECESSARY;
+			privileges.Privilege[0].Attributes = SE_PRIVILEGE_ENABLED;
+			if (!PrivilegeCheck (hToken, &privileges, &bRet))
 				dwLastError = GetLastError ();
 		}
 		else

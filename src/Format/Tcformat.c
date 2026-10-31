@@ -10156,6 +10156,9 @@ static void AfterSysEncProgressWMInitTasks (HWND hwndDlg)
 // For example, any tasks that may invoke the UAC prompt (otherwise the UAC dialog box would not be on top).
 static void AfterWMInitTasks (HWND hwndDlg)
 {
+	// Surface installer recovery guidance before any direct decryption action.
+	ShowSetupNotifications (hwndDlg);
+
 	// Note that if bDirectSysEncModeCommand is not SYSENC_COMMAND_NONE, we already have the mutex.
 
 	// SYSENC_COMMAND_DECRYPT has the highest priority because it also performs uninstallation (restores the

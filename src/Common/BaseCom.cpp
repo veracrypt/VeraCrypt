@@ -308,7 +308,10 @@ DWORD BaseCom::SetDriverServiceStartType (DWORD startType)
 
 DWORD BaseCom::WriteLocalMachineRegistryDwordValue (BSTR keyPath, BSTR valueName, DWORD value)
 {
-	if (!::WriteLocalMachineRegistryDword (keyPath, valueName, value))
+	// The x86 COM server and native service share EFI diagnostics. Other keys
+	// retain their existing registry view and COM interface semantics.
+	REGSAM view = keyPath && _wcsicmp (keyPath, VC_EFI_BOOT_LOADER_DIAGNOSTICS_REGISTRY_KEY) == 0 ? KEY_WOW64_64KEY : 0;
+	if (!::WriteLocalMachineRegistryDwordEx (keyPath, valueName, value, view))
 		return GetLastError();
 
 	return ERROR_SUCCESS;

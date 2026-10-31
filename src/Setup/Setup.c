@@ -1453,6 +1453,9 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 
 	RegDeleteKeyExW (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", KEY_WOW64_32KEY, 0);
 	RegDeleteKeyExW (HKEY_CURRENT_USER, L"Software\\VeraCrypt", KEY_WOW64_32KEY, 0);
+	BootEncryption::ClearEfiBootLoaderDiagnosticsRegistry ();
+	RegDeleteKeyExW (HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt\\Diagnostics", KEY_WOW64_64KEY, 0);
+	// Also remove diagnostics written to the redirected view by older installers.
 	DeleteRegistryKey (HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt\\Diagnostics\\EfiBootLoader");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt\\Diagnostics");
 
@@ -1819,16 +1822,14 @@ BOOL UpgradeBootLoader (HWND hwndDlg)
 				EfiBootChainTrustStatus trustStatus;
 				if (bootEnc.GetEfiBootChainTrustStatus (trustStatus))
 				{
-					if (!trustStatus.StatusKnown)
-						Warning ("SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA", hwndDlg);
-					else if (!trustStatus.VeraCryptLoaderFilesValid || !trustStatus.VeraCryptLoaderKnownCaAllowed)
+					DWORD warnings = GetEfiBootChainWarningMask (trustStatus);
+					if (warnings & VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE)
+						Warning ("SYSENC_EFI_ASSESSMENT_UNAVAILABLE", hwndDlg);
+					if (warnings & VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER)
 						Warning ("SYSENC_EFI_LOADER_NOT_TRUSTED_BY_SECUREBOOT", hwndDlg);
-					if (trustStatus.StatusKnown && (!trustStatus.WindowsLoaderInspectionSucceeded
-						|| !trustStatus.WindowsLoaderPresent
-						|| !trustStatus.WindowsLoaderSignerKnown
-						|| !trustStatus.WindowsLoaderKnownCaAllowed))
+					if (warnings & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER)
 						Warning ("SYSENC_EFI_WINDOWS_LOADER_NOT_TRUSTED_BY_SECUREBOOT", hwndDlg);
-					else if (trustStatus.StatusKnown && trustStatus.WindowsLoaderMigrationRecommended)
+					else if (warnings & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION)
 						Warning ("SYSENC_EFI_WINDOWS_LOADER_PCA2011_MIGRATION_NEEDED", hwndDlg);
 				}
 			}

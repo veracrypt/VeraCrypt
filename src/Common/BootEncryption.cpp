@@ -1422,8 +1422,23 @@ namespace VeraCrypt
 			{
 				CallDriver (TC_IOCTL_GET_DRIVE_PARTITION_INFO, &diskPartInfo, sizeof (diskPartInfo), &diskPartInfo, sizeof (diskPartInfo));
 			}
+			catch (SystemException &e)
+			{
+				// An absent partition is expected during enumeration. A broken
+				// driver connection must not become "Windows partition not found".
+				if (e.ErrorCode == ERROR_INVALID_HANDLE)
+					throw;
+				continue;
+			}
+			catch (UserAbort &)
+			{
+				// Do not turn a cancelled elevation into repeated prompts.
+				throw;
+			}
 			catch (...)
 			{
+				// Preserve enumeration of the remaining partitions when a query
+				// is unsupported (including the SETUP elevator stub).
 				continue;
 			}
 
@@ -1648,6 +1663,12 @@ namespace VeraCrypt
 	{
 		if (DriveConfigValid)
 			return DriveConfig;
+
+		if (hDriver == INVALID_HANDLE_VALUE)
+		{
+			SetLastError (ERROR_INVALID_HANDLE);
+			throw SystemException (SRC_POS);
+		}
 
 		SystemDriveConfiguration config;
 
@@ -2767,19 +2788,19 @@ namespace VeraCrypt
 	static bool ReadRecordedEfiBootLoaderResourceSet (DWORD& resourceSet)
 	{
 		resourceSet = 0;
-		return ReadLocalMachineRegistryDword (
+		return ReadLocalMachineRegistryDwordEx (
 			(wchar_t *) EfiBootLoaderDiagnosticsRegistryKey,
 			(wchar_t *) VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME,
-			&resourceSet) && resourceSet != 0;
+			&resourceSet, KEY_WOW64_64KEY) && resourceSet != 0;
 	}
 
 	static DWORD ReadEfiBootLoaderRescueDiskPromptId ()
 	{
 		DWORD promptId = 0;
-		ReadLocalMachineRegistryDword (
+		ReadLocalMachineRegistryDwordEx (
 			(wchar_t *) EfiBootLoaderDiagnosticsRegistryKey,
 			(wchar_t *) VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME,
-			&promptId);
+			&promptId, KEY_WOW64_64KEY);
 		return promptId;
 	}
 
@@ -2798,7 +2819,7 @@ namespace VeraCrypt
 			return false;
 		}
 #endif
-		return WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) valueName, value) ? true : false;
+		return WriteLocalMachineRegistryDwordEx (EfiBootLoaderDiagnosticsRegistryKey, valueName, value, KEY_WOW64_64KEY) ? true : false;
 	}
 
 	static void MarkEfiBootLoaderRescueDiskRecreationNeeded (const EfiBootLoaderImages& images)
@@ -2826,10 +2847,17 @@ namespace VeraCrypt
 		SetLastError (previousLastError);
 	}
 
-	static void ClearEfiBootLoaderDiagnosticsRegistry ()
+	void BootEncryption::ClearEfiBootLoaderDiagnosticsRegistry ()
 	{
 		DWORD previousLastError = GetLastError ();
-		::DeleteRegistryKey (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey);
+		HKEY key;
+		if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, 0,
+			KEY_READ | KEY_WRITE | DELETE | KEY_WOW64_64KEY, &key) == ERROR_SUCCESS)
+		{
+			RegDeleteTreeW (key, NULL);
+			RegCloseKey (key);
+			RegDeleteKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, KEY_WOW64_64KEY, 0);
+		}
 		SetLastError (previousLastError);
 	}
 
@@ -2845,16 +2873,16 @@ namespace VeraCrypt
 		StringCchPrintfW (selectionTimeUtc, ARRAYSIZE (selectionTimeUtc), L"%04u-%02u-%02uT%02u:%02u:%02uZ",
 			systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour, systemTime.wMinute, systemTime.wSecond);
 
-		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME, resourceSet);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME, resourceSet);
 		if (!resourceSet)
 		{
-			WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, 0);
-			WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, 0);
+			WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, 0);
+			WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, 0);
 		}
-		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderFirmwareDbLastError", firmwareDbError);
-		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderFirmwareDbxLastError", firmwareDbxError);
-		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionReason", selectionReason, FALSE);
-		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionTimeUtc", selectionTimeUtc, FALSE);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderFirmwareDbLastError", firmwareDbError);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderFirmwareDbxLastError", firmwareDbxError);
+		WriteLocalMachineRegistryStringEx (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionReason", selectionReason, FALSE, KEY_WOW64_64KEY);
+		WriteLocalMachineRegistryStringEx (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionTimeUtc", selectionTimeUtc, FALSE, KEY_WOW64_64KEY);
 		SetLastError (previousLastError);
 	}
 
@@ -4518,8 +4546,8 @@ namespace VeraCrypt
 		}
 
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"WindowsLoaderRefreshSigner", preferredSigner);
-		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"WindowsLoaderRefreshSource",
-			(wchar_t *) preferredCandidatePath.c_str (), FALSE);
+		WriteLocalMachineRegistryStringEx (EfiBootLoaderDiagnosticsRegistryKey, L"WindowsLoaderRefreshSource",
+			preferredCandidatePath.c_str (), FALSE, KEY_WOW64_64KEY);
 		return true;
 	}
 
@@ -6936,13 +6964,68 @@ namespace VeraCrypt
 		*pMicrosoft2023UefiCAsSupported = GetPreferredEfiBootLoaderResourceSet ().ResourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2023;
 	}
 
+	static bool IsValidBootLoaderUpdateResult (const BootLoaderUpdateResult& result)
+	{
+		const GUID emptyId = {};
+		return result.Version == VC_BOOT_LOADER_UPDATE_RESULT_VERSION
+			&& ((result.Disposition == VC_BOOT_LOADER_UPDATE_COMPLETED && result.UpdateError == ERROR_SUCCESS)
+				|| (result.Disposition == VC_BOOT_LOADER_UPDATE_SKIPPED_HIDDEN_OS && result.UpdateError == ERROR_SUCCESS
+					&& !result.WarningMask && !result.AssessmentError && !result.ResourceSet)
+				|| (result.Disposition == VC_BOOT_LOADER_UPDATE_FAILED && result.UpdateError != ERROR_SUCCESS))
+			&& memcmp (&result.RequestId, &emptyId, sizeof (emptyId)) != 0
+			&& !(result.WarningMask & ~(VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER
+				| VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER | VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION
+				| VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE))
+			&& (result.ResourceSet == 0 || result.ResourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2011
+				|| result.ResourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2023);
+	}
+
+	DWORD BootEncryption::WriteBootLoaderUpdateResult (const BootLoaderUpdateResult& result)
+	{
+		if (!IsValidBootLoaderUpdateResult (result))
+			return ERROR_INVALID_DATA;
+		HKEY key;
+		DWORD error = RegCreateKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey,
+			0, NULL, REG_OPTION_NON_VOLATILE, KEY_SET_VALUE | KEY_WOW64_64KEY, NULL, &key, NULL);
+		if (error != ERROR_SUCCESS)
+			return error;
+		error = RegSetValueExW (key, L"SystemFavoritesUpdateResult", 0, REG_BINARY,
+			reinterpret_cast<const BYTE *> (&result), sizeof (result));
+		RegCloseKey (key);
+		return error;
+	}
+
+	DWORD BootEncryption::ReadBootLoaderUpdateResult (const GUID& requestId, BootLoaderUpdateResult& result)
+	{
+		memset (&result, 0, sizeof (result));
+		HKEY key;
+		DWORD error = RegOpenKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey,
+			0, KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key);
+		if (error != ERROR_SUCCESS)
+			return error;
+		BootLoaderUpdateResult recorded = {};
+		DWORD size = sizeof (recorded);
+		error = RegGetValueW (key, NULL, L"SystemFavoritesUpdateResult", RRF_RT_REG_BINARY,
+			NULL, &recorded, &size);
+		RegCloseKey (key);
+		if (error != ERROR_SUCCESS)
+			return error;
+		if (size != sizeof (recorded) || !IsValidBootLoaderUpdateResult (recorded))
+			return ERROR_INVALID_DATA;
+		if (memcmp (&requestId, &recorded.RequestId, sizeof (requestId)) != 0)
+			return ERROR_NOT_FOUND;
+		result = recorded;
+		return ERROR_SUCCESS;
+	}
+
 	static void RecordEfiBootChainTrustStatusDiagnostics (
-		const EfiBootChainTrustStatus& status,
+		EfiBootChainTrustStatus& status,
 		DWORD chainError = ERROR_SUCCESS,
 		DWORD firmwareDbError = ERROR_SUCCESS,
 		DWORD firmwareDbxError = ERROR_SUCCESS)
 	{
 		DWORD previousLastError = GetLastError ();
+		status.LastError = chainError;
 		WCHAR checkTimeUtc[32] = {0};
 		SYSTEMTIME systemTime;
 		GetSystemTime (&systemTime);
@@ -6954,6 +7037,8 @@ namespace VeraCrypt
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderFirmwareDbLastError", firmwareDbError);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderFirmwareDbxLastError", firmwareDbxError);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"SecureBootEnabled", status.SecureBootEnabled ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"SecureBootUnavailable", status.SecureBootUnavailable ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"SecureBootDisabledWithNoDb", status.SecureBootDisabledWithNoDb ? 1 : 0);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"FirmwareDbxPresent", status.FirmwareDbxPresent ? 1 : 0);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"VeraCryptLoaderFilesValid", status.VeraCryptLoaderFilesValid ? 1 : 0);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"VeraCryptLoaderKnownCaAllowed", status.VeraCryptLoaderKnownCaAllowed ? 1 : 0);
@@ -6966,12 +7051,101 @@ namespace VeraCrypt
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"WindowsLoaderMigrationRecommended", status.WindowsLoaderMigrationRecommended ? 1 : 0);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderInstalledResourceSet", status.InstalledResourceSet);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderRecordedResourceSet", status.RecordedResourceSet);
-		RegDeleteKeyValueW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, L"VeraCryptLoaderTrusted");
-		RegDeleteKeyValueW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, L"VeraCryptLoaderRevoked");
-		RegDeleteKeyValueW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, L"WindowsLoaderTrusted");
-		RegDeleteKeyValueW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, L"WindowsLoaderRevoked");
-		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootChainCheckTimeUtc", checkTimeUtc, FALSE);
+		HKEY key;
+		if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, 0, KEY_SET_VALUE | KEY_WOW64_64KEY, &key) == ERROR_SUCCESS)
+		{
+			RegDeleteValueW (key, L"VeraCryptLoaderTrusted");
+			RegDeleteValueW (key, L"VeraCryptLoaderRevoked");
+			RegDeleteValueW (key, L"WindowsLoaderTrusted");
+			RegDeleteValueW (key, L"WindowsLoaderRevoked");
+			RegCloseKey (key);
+		}
+		WriteLocalMachineRegistryStringEx (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootChainCheckTimeUtc", checkTimeUtc, FALSE, KEY_WOW64_64KEY);
 		SetLastError (previousLastError);
+	}
+
+	static bool ReadEfiBootChainPolicy (EfiBootChainTrustStatus& status,
+		FirmwareDbMicrosoftUefiCaSupport& support, FirmwareDbMicrosoftUefiCaSupport& forbiddenSupport)
+	{
+		bool bSecureBootEnabled = false;
+		if (!TryFirmwareSecureBootEnabled (bSecureBootEnabled))
+		{
+			DWORD dwError = GetLastError ();
+			if (!IsFirmwareDbUnavailableError (dwError))
+			{
+				RecordEfiBootChainTrustStatusDiagnostics (status, dwError);
+				return false;
+			}
+			status.SecureBootUnavailable = true;
+		}
+		status.SecureBootEnabled = bSecureBootEnabled;
+
+		// Known-CA policy facts are asserted only from fully parsed db and dbx
+		// variables. This does not model the other UEFI revocation forms (image
+		// hashes, certificate TBS hashes, and security-version revocations).
+		if (!TryFirmwareDbGetMicrosoftUefiCaSupport (support))
+		{
+			DWORD dwError = GetLastError ();
+			if ((status.SecureBootUnavailable && IsFirmwareDbUnavailableError (dwError))
+				|| (!bSecureBootEnabled && dwError == ERROR_ENVVAR_NOT_FOUND))
+			{
+				// Absence is expected without Secure Boot support or with cleared keys.
+				// Keep CA-allowed fields false and inspect the installed boot files below.
+				status.SecureBootDisabledWithNoDb = !status.SecureBootUnavailable;
+				memset (&support, 0, sizeof (support));
+			}
+			else
+			{
+				RecordEfiBootChainTrustStatusDiagnostics (status, dwError, dwError);
+				return false;
+			}
+		}
+		if (support.DbMalformed)
+		{
+			DWORD dwError = support.ParseError ? support.ParseError : ERROR_INVALID_DATA;
+			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, dwError);
+			return false;
+		}
+
+		bool bFirmwareDbxPresent = false;
+		if (!TryFirmwareDbxGetMicrosoftUefiCaSupport (forbiddenSupport, &bFirmwareDbxPresent))
+		{
+			DWORD dwError = GetLastError ();
+			if (!status.SecureBootUnavailable || !IsFirmwareDbUnavailableError (dwError))
+			{
+				RecordEfiBootChainTrustStatusDiagnostics (status, dwError, ERROR_SUCCESS, dwError);
+				return false;
+			}
+			memset (&forbiddenSupport, 0, sizeof (forbiddenSupport));
+			bFirmwareDbxPresent = false;
+		}
+		if (forbiddenSupport.DbMalformed)
+		{
+			DWORD dwError = forbiddenSupport.ParseError ? forbiddenSupport.ParseError : ERROR_INVALID_DATA;
+			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, ERROR_SUCCESS, dwError);
+			return false;
+		}
+		status.FirmwareDbxPresent = bFirmwareDbxPresent;
+
+		return true;
+	}
+
+	DWORD GetEfiBootChainWarningMask (const EfiBootChainTrustStatus& status)
+	{
+		if (!status.StatusKnown)
+			return VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE;
+
+		// An unavailable policy must not imply CA trust or suppress file checks.
+		bool noPolicy = status.SecureBootUnavailable || status.SecureBootDisabledWithNoDb;
+		DWORD warnings = 0;
+		if (!status.VeraCryptLoaderFilesValid || (!noPolicy && !status.VeraCryptLoaderKnownCaAllowed))
+			warnings |= VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER;
+		if (!status.WindowsLoaderInspectionSucceeded || !status.WindowsLoaderPresent
+			|| !status.WindowsLoaderSignerKnown || (!noPolicy && !status.WindowsLoaderKnownCaAllowed))
+			warnings |= VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER;
+		else if (status.WindowsLoaderMigrationRecommended)
+			warnings |= VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION;
+		return warnings;
 	}
 
 	bool BootEncryption::GetEfiBootChainTrustStatus (EfiBootChainTrustStatus& status)
@@ -6982,47 +7156,9 @@ namespace VeraCrypt
 		if (!config.SystemPartition.IsGPT || !IsAdmin())
 			return false;
 
-		bool bSecureBootEnabled = false;
-		if (!TryFirmwareSecureBootEnabled (bSecureBootEnabled))
-		{
-			DWORD dwError = GetLastError ();
-			RecordEfiBootChainTrustStatusDiagnostics (status, dwError);
+		FirmwareDbMicrosoftUefiCaSupport support, forbiddenSupport;
+		if (!ReadEfiBootChainPolicy (status, support, forbiddenSupport))
 			return true;
-		}
-		status.SecureBootEnabled = bSecureBootEnabled;
-
-		// Known-CA policy facts are asserted only from fully parsed db and dbx
-		// variables. This does not model the other UEFI revocation forms (image
-		// hashes, certificate TBS hashes, and security-version revocations).
-		FirmwareDbMicrosoftUefiCaSupport support;
-		if (!TryFirmwareDbGetMicrosoftUefiCaSupport (support))
-		{
-			DWORD dwError = GetLastError ();
-			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, dwError);
-			return true;
-		}
-		if (support.DbMalformed)
-		{
-			DWORD dwError = support.ParseError ? support.ParseError : ERROR_INVALID_DATA;
-			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, dwError);
-			return true;
-		}
-
-		FirmwareDbMicrosoftUefiCaSupport forbiddenSupport;
-		bool bFirmwareDbxPresent = false;
-		if (!TryFirmwareDbxGetMicrosoftUefiCaSupport (forbiddenSupport, &bFirmwareDbxPresent))
-		{
-			DWORD dwError = GetLastError ();
-			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, ERROR_SUCCESS, dwError);
-			return true;
-		}
-		if (forbiddenSupport.DbMalformed)
-		{
-			DWORD dwError = forbiddenSupport.ParseError ? forbiddenSupport.ParseError : ERROR_INVALID_DATA;
-			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, ERROR_SUCCESS, dwError);
-			return true;
-		}
-		status.FirmwareDbxPresent = bFirmwareDbxPresent;
 
 		DWORD recordedResourceSet = 0;
 		if (ReadRecordedEfiBootLoaderResourceSet (recordedResourceSet))
