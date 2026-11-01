@@ -37,7 +37,7 @@ Requirements for Building VeraCrypt for Windows:
 ------------------------------------------------
 
 A detailed guide on how to build VeraCrypt on Windows can be found in 
-the file doc/html/CompilingGuidelineWin.html in the repository. It is also available online at:
+the file doc/html/en/CompilingGuidelineWin.html in the repository. It is also available online at:
 https://veracrypt.jp/en/CompilingGuidelineWin.html
 or on the mirror:
 https://veracrypt.io/en/CompilingGuidelineWin.html
@@ -92,7 +92,7 @@ II. Linux and Mac OS X
 ======================
 
 A detailed guide on how to build VeraCrypt on Linux can be found in 
-the file doc/html/CompilingGuidelineLinux.html in the repository. It is also available online at:
+the file doc/html/en/CompilingGuidelineLinux.html in the repository. It is also available online at:
 https://veracrypt.jp/en/CompilingGuidelineLinux.html
 or on the mirror:
 https://veracrypt.io/en/CompilingGuidelineLinux.html
@@ -138,6 +138,17 @@ Instructions for Building VeraCrypt for Linux and Mac OS X:
 4) If successful, the VeraCrypt executable should be located in the directory
    'Main'.
 
+Reproducible build note: when SOURCE_DATE_EPOCH is not set, a build from a
+git checkout uses the HEAD commit timestamp, while a build from a release
+tarball uses the release date in src/Common/Tcdefs.h at 00:00 UTC. To
+reproduce official release artifacts from a git checkout, set
+SOURCE_DATE_EPOCH explicitly or build from the release tarball. Vendored
+VeraCrypt sources tracked in another git checkout are treated the same way and
+use that checkout's HEAD timestamp.
+
+Both the generated .deb and .rpm packages are reproducible, including with
+older RPM versions that lack the SOURCE_DATE_EPOCH/_buildhost build macros.
+
 By default, a universal executable supporting both graphical and text user
 interface (through the switch --text) is built.
 On Linux, a console-only executable, which requires no GUI library, can be
@@ -147,6 +158,69 @@ built using the 'NOGUI' parameter:
     $ make NOGUI=1 WXSTATIC=1
 
 On MacOSX, building a console-only executable is not supported.
+
+Arch Linux package build:
+-------------------------
+
+Arch Linux users can build and install a package from the current checkout with
+makepkg:
+
+    $ cd src/Build/Packaging/arch
+    $ makepkg -si
+
+RPM packages with AppIndicator support:
+---------------------------------------
+
+AppIndicator support is disabled by default. Pass INDICATOR to
+src/Build/build_cmake_rpm.sh or src/Build/build_cmake_opensuse.sh to enable
+Ayatana AppIndicator support in the GUI package:
+
+    ./src/Build/build_cmake_rpm.sh INDICATOR
+    # To also use FUSE3:
+    ./src/Build/build_cmake_rpm.sh INDICATOR FUSE3
+
+Both scripts accept the same options and build GUI and console packages with
+static wxWidgets libraries. They expect the wxWidgets 3.2.5 sources in a
+directory named wxWidgets-3.2.5 next to the VeraCrypt checkout or in /tmp,
+along with the usual build dependencies, CMake and rpmbuild.
+
+The build selects GTK3 when pkg-config finds gtk+-3.0, and GTK2 otherwise.
+Install the GTK development files and the corresponding Ayatana development
+package:
+
+Fedora / CentOS / RHEL and compatible distributions:
+    GTK3: libayatana-appindicator-gtk3-devel
+    GTK2 (where available): libayatana-appindicator-gtk2-devel
+
+openSUSE:
+    GTK3: libayatana-appindicator3-devel
+    GTK2 (where available): libayatana-appindicator-devel
+
+The Ayatana package must provide ayatana-appindicator3-0.1 for GTK3 or
+ayatana-appindicator-0.1 for GTK2 through pkg-config.
+
+The scripts reuse an existing wxBuildGui without checking its GTK version.
+Rebuild wxWidgets if the selected GTK version has changed.
+
+For distribution-provided Ayatana packages, the minimum releases are Fedora
+38, Enterprise Linux 9 (with EPEL) and openSUSE Leap 15.0; openSUSE Tumbleweed
+also provides them. Install the GTK3 development packages if your distribution
+does not provide GTK2. See:
+Fedora/EPEL packages:
+https://packages.fedoraproject.org/pkgs/libayatana-appindicator/
+openSUSE package:
+https://build.opensuse.org/package/show/openSUSE:Factory/libayatana-appindicator
+
+With INDICATOR, the scripts check for these development files using
+pkg-config and stop before building if they are missing. Builds without
+INDICATOR do not require Ayatana.
+
+With AppIndicator enabled, the GUI RPM requires
+libayatana-appindicator-gtk3 (or libayatana-appindicator-gtk2) on Fedora,
+CentOS, RHEL and compatible distributions, and libayatana-appindicator3-1
+(or libayatana-appindicator1) on openSUSE. Console packages do not require it.
+When packaging a GUI built with make INDICATOR=1 through CMake directly, pass
+-DVC_WITH_INDICATOR=TRUE to record the matching RPM dependency.
 
 Mac OS X specifics:
 -------------------
