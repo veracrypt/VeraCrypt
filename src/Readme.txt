@@ -168,6 +168,25 @@ makepkg:
     $ cd src/Build/Packaging/arch
     $ makepkg -si
 
+AppIndicator support is disabled by default. To enable it, set INDICATOR=1
+in the environment when running makepkg:
+
+    $ INDICATOR=1 makepkg -si
+
+This adds libayatana-appindicator to the package dependencies and passes
+INDICATOR=1 to the VeraCrypt build. Leave the variable unset or set it to 0
+to disable support. If a package has already been built, add -f to rebuild it.
+The Ayatana package provides both the development files and the runtime library:
+https://archlinux.org/packages/extra/x86_64/libayatana-appindicator/
+
+For release builds, follow the instructions in src/Build/Packaging/arch/README.md
+to generate PKGBUILD.release and set its source checksum, then run:
+
+    $ INDICATOR=1 makepkg -p PKGBUILD.release -si
+
+Use the same INDICATOR setting when generating .SRCINFO so that the
+dependency metadata matches the package.
+
 RPM packages with AppIndicator support:
 ---------------------------------------
 

@@ -17,6 +17,19 @@ depends=(
   wxwidgets-common
   wxwidgets-gtk3
 )
+# Enable with INDICATOR=1 makepkg -p PKGBUILD.release -si.
+_indicator_make_flags=()
+case "${INDICATOR:-0}" in
+  0) ;;
+  1)
+    depends+=(libayatana-appindicator)
+    _indicator_make_flags=(INDICATOR=1)
+    ;;
+  *)
+    printf 'INDICATOR must be 0 or 1\n' >&2
+    return 1
+    ;;
+esac
 optdepends=(
   'pcsclite: EMV and smart card keyfile support'
   'sudo: mounting encrypted volumes as nonroot users'
@@ -54,13 +67,24 @@ prepare() {
 
 build() {
   cd "${srcdir}/src"
+  # Rebuild objects when switching the AppIndicator setting.
   make PKG_CONFIG_PATH=/usr/lib/pkgconfig \
     WX_CONFIG=/usr/bin/wx-config \
     TC_EXTRA_LFLAGS="${LDFLAGS}" \
     TC_EXTRA_CXXFLAGS="${CXXFLAGS} ${CPPFLAGS}" \
     TC_EXTRA_CFLAGS="${CFLAGS} ${CPPFLAGS}" \
     NOTEST=1 \
-    NOSTRIP=1
+    "${_indicator_make_flags[@]}" \
+    clean
+
+  make PKG_CONFIG_PATH=/usr/lib/pkgconfig \
+    WX_CONFIG=/usr/bin/wx-config \
+    TC_EXTRA_LFLAGS="${LDFLAGS}" \
+    TC_EXTRA_CXXFLAGS="${CXXFLAGS} ${CPPFLAGS}" \
+    TC_EXTRA_CFLAGS="${CFLAGS} ${CPPFLAGS}" \
+    NOTEST=1 \
+    NOSTRIP=1 \
+    "${_indicator_make_flags[@]}"
 }
 
 check() {
@@ -76,6 +100,7 @@ package() {
     INSTALL_MOUNT_HELPER_DIR=bin \
     INSTALL_LICENSE_DIR="share/licenses/${pkgname}" \
     NOSTRIP=1 \
+    "${_indicator_make_flags[@]}" \
     install
 }
 
