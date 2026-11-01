@@ -496,6 +496,21 @@ DWORD BaseCom::GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSuppor
 	return ERROR_SUCCESS;
 }
 
+DWORD BaseCom::GetFirmwareWindowsUefiCa2023Support (BOOL *present)
+{
+	if (!present)
+		return ERROR_INVALID_PARAMETER;
+	*present = FALSE;
+	if (!IsAdmin ())
+		return ERROR_ACCESS_DENIED;
+	try
+	{
+		return VeraCrypt::GetFirmwareWindowsUefiCa2023Support (present);
+	}
+	catch (SystemException &e) { return e.ErrorCode ? e.ErrorCode : ERROR_GEN_FAILURE; }
+	catch (...) { return ERROR_GEN_FAILURE; }
+}
+
 DWORD BaseCom::WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg)
 {
 	if (!customUserMessage)

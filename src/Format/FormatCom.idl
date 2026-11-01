@@ -16,7 +16,7 @@ import "..\Common\Password.h";
 [
 	uuid(56327DDA-F1A7-4e13-B128-520D129BDEF6),
 	helpstring("VeraCrypt Format UAC Support Library"),
-	version(2.11)	// Update ComSetup.cpp when changing version number
+	version(2.12)	// Update ComSetup.cpp when changing version number
 ]
 library TrueCryptFormatCom
 {
@@ -55,11 +55,23 @@ library TrueCryptFormatCom
 	};
 
 	[
+		uuid(86DF18EF-52CA-45C8-8D1B-C00D92BE9380),
+		object,
+		oleautomation,
+		helpstring("VeraCrypt Format UAC Firmware Policy Interface")
+	]
+	interface ITrueCryptFormatCom2 : ITrueCryptFormatCom
+	{
+		DWORD GetFirmwareWindowsUefiCa2023Support ([out] BOOL *present);
+	};
+
+	[
 		uuid(A96D3797-9F31-49f4-A0CE-9657392CF789),
 		helpstring("VeraCrypt Format UAC Support Coclass")
 	]
 	coclass TrueCryptFormatCom
 	{
 		[default] interface ITrueCryptFormatCom;
+		interface ITrueCryptFormatCom2;
 	}
 }

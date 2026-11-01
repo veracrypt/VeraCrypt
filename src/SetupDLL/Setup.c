@@ -753,11 +753,28 @@ static void ReportBootLoaderUpdateResult_Dll (MSIHANDLE hInstaller, DWORD error,
 	{
 		notifications |= VC_SETUP_NOTIFY_WINDOWS_MIGRATION;
 		MSILog (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYSENC_EFI_WINDOWS_LOADER_PCA2011_MIGRATION_NEEDED"));
+		MSILog (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYSENC_EFI_WINDOWS_LOADER_MIGRATION_GUIDANCE"));
 	}
 	if (result.WarningMask & (VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER | VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER))
 		MSILogAndShowMessage (hInstaller, MSI_WARNING_LEVEL, GetString ("MSI_SYSENC_EFI_COMPATIBILITY_WARNING"), false);
 	else if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION)
 		MSILogAndShowMessage (hInstaller, MSI_WARNING_LEVEL, GetString ("MSI_SYSENC_EFI_WINDOWS_MIGRATION_WARNING"), false);
+}
+
+static DWORD RefreshCarriedSetupNotifications_Dll (const GUID &generation, DWORD carriedMask, DWORD notifications)
+{
+	if (carriedMask)
+	{
+		GUID currentGeneration = {};
+		DWORD currentMask = ReadSetupNotifications (&currentGeneration);
+		const GUID empty = {};
+		// Only a successful read of the original generation can retire carried
+		// warnings. Preserve freshly recomputed failures and unreadable state.
+		if (memcmp (&generation, &empty, sizeof (empty)) != 0
+			&& memcmp (&generation, &currentGeneration, sizeof (generation)) == 0)
+			notifications &= ~(carriedMask & ~currentMask);
+	}
+	return notifications;
 }
 
 /* **************************************************************************** */
@@ -2646,7 +2663,9 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 	DWORD bootLoaderResultError = ERROR_NOT_READY;
 	bool bootLoaderResultRead = false;
 	DWORD bootLoaderServiceError = ERROR_SUCCESS;
-	DWORD setupNotifications = ReadSetupNotificationMask ();
+	GUID setupNotificationGeneration = {};
+	DWORD setupNotifications = ReadSetupNotifications (&setupNotificationGeneration);
+	DWORD carriedSetupNotifications = setupNotifications & (VC_SETUP_NOTIFY_CONFIG_UPDATE | VC_SETUP_NOTIFY_CONFIG_REMOVE);
 	bool saveSetupNotifications = false;
 	HWND			hwndDlg			= NULL;
 	std::wstring    szValueBuf		= L"";
@@ -3109,6 +3128,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 		// Windows feature update support. A failure is reported but does not fail
 		// the installation: the system favorites service retries when it starts.
 		setupNotifications &= ~(VC_SETUP_NOTIFY_CONFIG_UPDATE | VC_SETUP_NOTIFY_CONFIG_REMOVE);
+		carriedSetupNotifications = 0;
 		try { BootEncryption::UpdateSetupConfigFile (SystemEncryptionUpdate != FALSE); }
 		catch (Exception &e)
 		{
@@ -3282,6 +3302,7 @@ end:
 		if (SystemEncryptionUpdate)
 			ReportBootLoaderUpdateResult_Dll (hInstaller, bootLoaderResultError, bootLoaderResult,
 				bootLoaderResultRead, bootLoaderServiceError, setupNotifications);
+		setupNotifications = RefreshCarriedSetupNotifications_Dll (setupNotificationGeneration, carriedSetupNotifications, setupNotifications);
 		DWORD error = SaveSetupNotifications (setupNotifications);
 		if (error != ERROR_SUCCESS)
 		{

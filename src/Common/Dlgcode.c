@@ -3712,24 +3712,53 @@ struct SetupNotificationState
 };
 static_assert (sizeof (SetupNotificationState) == 24, "Setup notification layout");
 
+// Both records use the same fixed layout, but have separate writers. The
+// service must never rewrite State, even after an installer changes generation.
+static DWORD ReadSetupNotificationRecord (HKEY key, const wchar_t *name, DWORD allowedMask, SetupNotificationState &state)
+{
+	DWORD size = sizeof (state);
+	DWORD error = RegGetValueW (key, NULL, name, RRF_RT_REG_BINARY, NULL, &state, &size);
+	if (error != ERROR_SUCCESS)
+		return error;
+	const GUID empty = {};
+	return size == sizeof (state) && state.Version == 1
+		&& memcmp (&state.Generation, &empty, sizeof (empty)) != 0 && !(state.Mask & ~allowedMask)
+		? ERROR_SUCCESS : ERROR_INVALID_DATA;
+}
+
 static bool ReadSetupNotificationState (SetupNotificationState &state)
 {
 	HKEY key;
 	if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, VC_SETUP_NOTIFICATIONS_KEY, 0,
 		KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key) != ERROR_SUCCESS)
 		return false;
-	DWORD size = sizeof (state);
-	DWORD error = RegGetValueW (key, NULL, L"State", RRF_RT_REG_BINARY, NULL, &state, &size);
+	DWORD error = ReadSetupNotificationRecord (key, L"State", VC_SETUP_NOTIFY_ALL, state);
+	if (error == ERROR_SUCCESS)
+	{
+		SetupNotificationState resolved = {};
+		if (ReadSetupNotificationRecord (key, L"Resolved", VC_SETUP_NOTIFY_RECOVERABLE_MASK, resolved) == ERROR_SUCCESS
+			&& memcmp (&state.Generation, &resolved.Generation, sizeof (state.Generation)) == 0)
+			state.Mask &= ~resolved.Mask;
+	}
 	RegCloseKey (key);
-	const GUID empty = {};
-	return error == ERROR_SUCCESS && size == sizeof (state) && state.Version == 1
-		&& memcmp (&state.Generation, &empty, sizeof (empty)) != 0 && !(state.Mask & ~VC_SETUP_NOTIFY_ALL);
+	return error == ERROR_SUCCESS;
+}
+
+DWORD ReadSetupNotifications (GUID *generation)
+{
+	SetupNotificationState state = {};
+	if (generation)
+		memset (generation, 0, sizeof (*generation));
+	if (!ReadSetupNotificationState (state))
+		return 0;
+	if (generation)
+		*generation = state.Generation;
+	return state.Mask;
 }
 
 DWORD ReadSetupNotificationMask (void)
 {
-	SetupNotificationState state = {};
-	return ReadSetupNotificationState (state) ? state.Mask : 0;
+	return ReadSetupNotifications (NULL);
 }
 
 DWORD SaveSetupNotifications (DWORD mask)
@@ -3752,6 +3781,7 @@ DWORD SaveSetupNotifications (DWORD mask)
 	SetupNotificationState state = {};
 	state.Version = 1;
 	state.Mask = mask;
+	// A fresh generation makes any earlier Resolved record inapplicable.
 	HRESULT hr = CoCreateGuid (&state.Generation);
 	if (FAILED (hr))
 		return (DWORD) hr;
@@ -3777,6 +3807,65 @@ DWORD SaveSetupNotifications (DWORD mask)
 	return error;
 }
 
+DWORD ClearSetupNotifications (const GUID *generation, DWORD mask, DWORD *newlyResolvedMask)
+{
+	if (newlyResolvedMask)
+		*newlyResolvedMask = 0;
+	const GUID empty = {};
+	if (!generation || memcmp (generation, &empty, sizeof (empty)) == 0 || (mask & ~VC_SETUP_NOTIFY_RECOVERABLE_MASK))
+		return ERROR_INVALID_PARAMETER;
+	if (!mask)
+		return ERROR_SUCCESS;
+	// Combine checks within this process without a named object another user
+	// can occupy. The service and VeraCrypt.exe /PostOOBE can lose a resolution
+	// bit in a cross-process race; that only retains an extra warning until a
+	// later retry. Neither can overwrite installer State.
+	static SRWLOCK resolutionLock = SRWLOCK_INIT;
+	AcquireSRWLockExclusive (&resolutionLock);
+	struct ResolutionLockGuard
+	{
+		SRWLOCK *Lock;
+		~ResolutionLockGuard () { ReleaseSRWLockExclusive (Lock); }
+	} guard = { &resolutionLock };
+	HKEY key;
+	DWORD error = RegOpenKeyExW (HKEY_LOCAL_MACHINE, VC_SETUP_NOTIFICATIONS_KEY, 0,
+		KEY_QUERY_VALUE | KEY_SET_VALUE | KEY_WOW64_64KEY, &key);
+	if (error == ERROR_SUCCESS)
+	{
+		SetupNotificationState state = {};
+		error = ReadSetupNotificationRecord (key, L"State", VC_SETUP_NOTIFY_ALL, state);
+		if (error == ERROR_SUCCESS && memcmp (&state.Generation, generation, sizeof (*generation)) == 0
+			&& (state.Mask & mask))
+		{
+			SetupNotificationState resolved = {};
+			DWORD resolvedError = ReadSetupNotificationRecord (key, L"Resolved", VC_SETUP_NOTIFY_RECOVERABLE_MASK, resolved);
+			if (resolvedError == ERROR_SUCCESS || resolvedError == ERROR_FILE_NOT_FOUND
+				|| resolvedError == ERROR_INVALID_DATA || resolvedError == ERROR_MORE_DATA || resolvedError == ERROR_UNSUPPORTED_TYPE)
+			{
+				// Missing or malformed resolution data cannot suppress a notice.
+				if (resolvedError != ERROR_SUCCESS || memcmp (&state.Generation, &resolved.Generation, sizeof (state.Generation)) != 0)
+				{
+					resolved = state;
+					resolved.Mask = 0;
+				}
+				DWORD resolvedMask = mask & state.Mask;
+				DWORD newlyResolved = resolvedMask & ~resolved.Mask;
+				if (newlyResolved)
+				{
+					resolved.Mask |= resolvedMask;
+					error = RegSetValueExW (key, L"Resolved", 0, REG_BINARY, (const BYTE *) &resolved, sizeof (resolved));
+					if (error == ERROR_SUCCESS && newlyResolvedMask)
+						*newlyResolvedMask = newlyResolved;
+				}
+			}
+			else
+				error = resolvedError;
+		}
+		RegCloseKey (key);
+	}
+	return error == ERROR_FILE_NOT_FOUND || error == ERROR_PATH_NOT_FOUND ? ERROR_SUCCESS : error;
+}
+
 const char *GetSetupNotificationMessage (DWORD flag)
 {
 	switch (flag)
@@ -3794,6 +3883,16 @@ const char *GetSetupNotificationMessage (DWORD flag)
 	case VC_SETUP_NOTIFY_SERVICE: return "SYSENC_SERVICE_REPAIR_REQUIRED";
 	default: return NULL;
 	}
+}
+
+int WarnWindowsLoaderMigration (HWND hwndDlg)
+{
+	// Retain the translated migration instructions and append the newer backup
+	// caveat separately so that untranslated additions do not replace them.
+	wstring message = GetString ("SYSENC_EFI_WINDOWS_LOADER_PCA2011_MIGRATION_NEEDED");
+	message += L"\n\n";
+	message += GetString ("SYSENC_EFI_WINDOWS_LOADER_MIGRATION_GUIDANCE");
+	return WarningDirect (message.c_str (), hwndDlg);
 }
 
 void ShowSetupNotifications (HWND hwndDlg)
@@ -3826,9 +3925,21 @@ void ShowSetupNotifications (HWND hwndDlg)
 	}
 	for (DWORD flag = 1; flag <= VC_SETUP_NOTIFY_ALL; flag <<= 1)
 	{
+		if (!(state.Mask & flag))
+			continue;
+		// Recovery may finish while the user reads an earlier notice. Recheck
+		// between dialogs, without locking around a modal message box.
+		SetupNotificationState current = {};
+		if (!ReadSetupNotificationState (current) || memcmp (&current.Generation, &state.Generation, sizeof (state.Generation)) != 0)
+			return;
 		const char *message = GetSetupNotificationMessage (flag);
-		if ((state.Mask & flag) && message && Warning ((char *) message, hwndDlg) != IDOK)
-			return; // A failed or suppressed display must not acknowledge the notice.
+		if ((state.Mask & current.Mask & flag) && message)
+		{
+			int result = flag == VC_SETUP_NOTIFY_WINDOWS_MIGRATION
+				? WarnWindowsLoaderMigration (hwndDlg) : Warning ((char *) message, hwndDlg);
+			if (result != IDOK)
+				return; // A failed or suppressed display must not acknowledge the notice.
+		}
 	}
 	if (RegCreateKeyExW (HKEY_CURRENT_USER, L"Software\\VeraCrypt", 0, NULL,
 		REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, NULL, &key, NULL) == ERROR_SUCCESS)

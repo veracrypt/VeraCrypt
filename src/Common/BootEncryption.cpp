@@ -684,6 +684,24 @@ namespace VeraCrypt
 			}
 		}
 
+		static void GetFirmwareWindowsUefiCa2023Support (BOOL *present)
+		{
+			Elevate ();
+			// A separate interface lets an older elevated process fail the query
+			// safely, without changing the existing COM interface's vtable.
+#ifdef TCMOUNT
+			CComQIPtr<ITrueCryptMainCom2> firmware (ElevatedComInstance);
+#else
+			CComQIPtr<ITrueCryptFormatCom2> firmware (ElevatedComInstance);
+#endif
+			DWORD result = firmware ? firmware->GetFirmwareWindowsUefiCa2023Support (present) : ERROR_NOT_SUPPORTED;
+			if (result != ERROR_SUCCESS)
+			{
+				SetLastError (result);
+				throw SystemException (SRC_POS);
+			}
+		}
+
 		static void WriteEfiBootSectorUserConfig (uint8 userConfig, const string &customUserMessage, int pim, int hashAlg)
 		{
 			Elevate();
@@ -810,6 +828,7 @@ namespace VeraCrypt
 		static void UpdateSetupConfigFile (bool bForInstall) { throw ParameterIncorrect (SRC_POS); }
 		static void GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded) { throw ParameterIncorrect (SRC_POS); }
 		static void GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported) { throw ParameterIncorrect (SRC_POS); }
+		static void GetFirmwareWindowsUefiCa2023Support (BOOL *present) { throw ParameterIncorrect (SRC_POS); }
 		static void RegisterSystemFavoritesService(BOOL registerService) { throw ParameterIncorrect(SRC_POS); }
 		static BOOL IsPagingFileActive(BOOL checkNonWindowsPartitionsOnly) { throw ParameterIncorrect(SRC_POS); }
 		static void WriteLocalMachineRegistryDwordValue(wchar_t* keyPath, wchar_t* valueName, DWORD value) { throw ParameterIncorrect(SRC_POS); }
@@ -3308,6 +3327,22 @@ namespace VeraCrypt
 		return (dwError == ERROR_ENVVAR_NOT_FOUND) || (dwError == ERROR_INVALID_FUNCTION);
 	}
 
+	DWORD GetFirmwareWindowsUefiCa2023Support (BOOL *present)
+	{
+		if (!present)
+			return ERROR_INVALID_PARAMETER;
+		*present = FALSE;
+		FirmwareDbMicrosoftUefiCaSupport db = {};
+		bool dbRead = TryFirmwareDbGetMicrosoftUefiCaSupport (db);
+		DWORD error = dbRead ? ERROR_SUCCESS : GetLastError ();
+		if (db.DbMalformed)
+			return db.ParseError ? db.ParseError : ERROR_INVALID_DATA;
+		if (!dbRead)
+			return IsFirmwareDbUnavailableError (error) ? ERROR_SUCCESS : (error ? error : ERROR_GEN_FAILURE);
+		*present = db.ContainsWindowsUefiCa2023 ? TRUE : FALSE;
+		return ERROR_SUCCESS;
+	}
+
 	static bool TryFirmwareSecureBootEnabled (bool& bSecureBootEnabled, DWORD* pLastError = NULL)
 	{
 		std::vector<uint8> secureBoot;
@@ -5502,6 +5537,33 @@ namespace VeraCrypt
 	}
 
 #ifndef SETUP
+	static const char *GetRescueDiskBootManagerWarning (const std::vector<uint8> &backup)
+	{
+		BOOL windowsCa2023 = FALSE;
+		DWORD error = GetFirmwareWindowsUefiCa2023Support (&windowsCa2023);
+		if (error != ERROR_SUCCESS && !IsAdmin () && IsUacSupported ())
+		{
+			// Rescue creation already uses this UAC helper to select its EFI
+			// resources. Query the Windows CA separately: VeraCrypt's 2023 CA
+			// pair does not establish that the Windows CA is present.
+			try
+			{
+				Elevator::GetFirmwareWindowsUefiCa2023Support (&windowsCa2023);
+				error = ERROR_SUCCESS;
+			}
+			catch (Exception &) { }
+		}
+		if (error != ERROR_SUCCESS)
+			return "RESCUE_DISK_EFI_BOOT_MANAGER_CHECK_FAILED";
+		if (!windowsCa2023)
+			return NULL;
+
+		DWORD signer = VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN;
+		if (!GetEmbeddedPeSignerFamily (backup, signer) || signer == VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN)
+			return "RESCUE_DISK_EFI_BOOT_MANAGER_CHECK_FAILED";
+		return signer == VC_EFI_WINDOWS_LOADER_SIGNER_PCA_2011 ? "RESCUE_DISK_EFI_BOOT_MANAGER_PCA2011" : NULL;
+	}
+
 	void BootEncryption::CreateRescueIsoImage (bool initialSetup, const wstring &isoImagePath)
 	{
 		BootEncryptionStatus encStatus = GetStatus();
@@ -5585,6 +5647,11 @@ namespace VeraCrypt
 			try
 			{
 				ReadSystemLoaderBackup (fileBuf);
+				// Check the same trusted bytes that are embedded, independently of
+				// setup-notice resolution or acknowledgement. Creating fresh media
+				// does not refresh the original Windows boot-manager backup.
+				if (const char *warning = GetRescueDiskBootManagerWarning (fileBuf))
+					Warning ((char *) warning, ParentWindow);
 				bLoadAdded = ZipAdd (z, "EFI/Boot/original_bootx64.vc_backup", &fileBuf[0], (DWORD) fileBuf.size ());
 			}
 			catch (Exception &e)

@@ -1830,7 +1830,7 @@ BOOL UpgradeBootLoader (HWND hwndDlg)
 					if (warnings & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER)
 						Warning ("SYSENC_EFI_WINDOWS_LOADER_NOT_TRUSTED_BY_SECUREBOOT", hwndDlg);
 					else if (warnings & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION)
-						Warning ("SYSENC_EFI_WINDOWS_LOADER_PCA2011_MIGRATION_NEEDED", hwndDlg);
+						WarnWindowsLoaderMigration (hwndDlg);
 				}
 			}
 			catch (...) { }

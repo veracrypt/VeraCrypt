@@ -94,8 +94,8 @@ enum
 #define VC_EFI_WINDOWS_LOADER_SIGNER_CA_2023			2023
 #define VC_ERROR_EFI_UNSUPPORTED_SECURE_BOOT_DB				((DWORD) 0xE0000201)
 
-// Fixed message IDs only: the SYSTEM installer publishes machine-wide notices,
-// and each GUI user acknowledges the generation independently.
+// Fixed message IDs only: the installer publishes State, and the service writes
+// generation-matched Resolved bits. GUI users acknowledge independently.
 #define VC_SETUP_NOTIFY_BOOT_UNCONFIRMED 0x001
 #define VC_SETUP_NOTIFY_BOOT_POLICY 0x002
 #define VC_SETUP_NOTIFY_BOOT_RESTART 0x004
@@ -109,6 +109,7 @@ enum
 #define VC_SETUP_NOTIFY_SERVICE 0x400
 #define VC_SETUP_NOTIFY_ALL 0x7ff
 #define VC_SETUP_NOTIFY_BOOT_MASK 0x47f
+#define VC_SETUP_NOTIFY_RECOVERABLE_MASK (VC_SETUP_NOTIFY_WINDOWS_MIGRATION | VC_SETUP_NOTIFY_CONFIG_UPDATE | VC_SETUP_NOTIFY_CONFIG_REMOVE)
 #define VC_SETUP_NOTIFICATIONS_KEY VC_EFI_BOOT_LOADER_DIAGNOSTICS_REGISTRY_KEY L"\\SetupNotifications"
 
 #define VC_FILENAME_RENAMED_SUFFIX				L"_old"
@@ -399,8 +400,11 @@ void RemoveNonSysInPlaceEncNotifications (void);
 void SavePostInstallTasksSettings (int command);
 void DoPostInstallTasks (HWND hwndDlg);
 DWORD ReadSetupNotificationMask (void);
+DWORD ReadSetupNotifications (GUID *generation);
 DWORD SaveSetupNotifications (DWORD mask);
+DWORD ClearSetupNotifications (const GUID *generation, DWORD mask, DWORD *newlyResolvedMask);
 const char *GetSetupNotificationMessage (DWORD flag);
+int WarnWindowsLoaderMigration (HWND hwndDlg);
 void ShowSetupNotifications (HWND hwndDlg);
 void InitOSVersionInfo ();
 void InitApp ( HINSTANCE hInstance, wchar_t *lpszCommandLine );

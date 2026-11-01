@@ -267,6 +267,7 @@ namespace VeraCrypt
 		VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE = 0x08
 	};
 	DWORD GetEfiBootChainWarningMask (const EfiBootChainTrustStatus& status);
+	DWORD GetFirmwareWindowsUefiCa2023Support (BOOL *present);
 
 	// One atomic registry value shared by the x86 MSI and native service. Only
 	// an explicitly requested startup update publishes a result. A fresh GUID

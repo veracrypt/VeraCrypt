@@ -11127,12 +11127,42 @@ static BOOL GetSystemFavoritesServiceBootLoaderUpdateOptions (uint32 serviceFlag
 
 static DWORD SystemFavoritesServiceLastEfiBootChainWarningMask = MAXDWORD;
 
+static void SystemFavoritesServiceClearSetupNotifications (const GUID &generation, DWORD mask)
+{
+	DWORD newlyResolved = 0;
+	DWORD error = ClearSetupNotifications (&generation, mask, &newlyResolved);
+	if (error != ERROR_SUCCESS)
+	{
+		wchar_t message[160];
+		StringCchPrintfW (message, ARRAYSIZE (message), L"Could not clear resolved setup notifications (mask 0x%.8X): error 0x%.8X.", mask, error);
+		SystemFavoritesServiceLogWarning (message);
+	}
+	else if (newlyResolved)
+	{
+		wchar_t generationText[40];
+		StringFromGUID2 (generation, generationText, ARRAYSIZE (generationText));
+		wchar_t message[192];
+		StringCchPrintfW (message, ARRAYSIZE (message), L"Setup recovery notifications resolved for generation %s (mask 0x%.8X).", generationText, newlyResolved);
+		SystemFavoritesServiceLogInfo (message);
+	}
+}
+
 static void SystemFavoritesServiceUpdateSetupConfigFile ()
 {
+	GUID generation = {};
+	DWORD notifications = ReadSetupNotifications (&generation);
 	try
 	{
 		BootEncryption bootEnc (NULL);
-		BootEncryption::UpdateSetupConfigFile (bootEnc.GetDriverServiceStartType () == SERVICE_BOOT_START);
+		bool forInstall = bootEnc.GetDriverServiceStartType () == SERVICE_BOOT_START;
+		BootEncryption::UpdateSetupConfigFile (forInstall);
+		// Successful encryption support supersedes an earlier cleanup failure
+		// from an unencrypted installation: these registrations are needed now.
+		DWORD resolved = VC_SETUP_NOTIFY_CONFIG_REMOVE;
+		if (forInstall)
+			resolved |= VC_SETUP_NOTIFY_CONFIG_UPDATE;
+		if (notifications & resolved)
+			SystemFavoritesServiceClearSetupNotifications (generation, resolved);
 	}
 	catch (Exception &e) { SystemFavoritesServiceLogBootLoaderUpdateError (L"Windows feature update configuration", e); }
 	// This also runs from the stop and preshutdown handlers. Never end the service.
@@ -11142,6 +11172,8 @@ static void SystemFavoritesServiceUpdateSetupConfigFile ()
 static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce, const GUID *requestId = NULL)
 {
 	SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing called");
+	GUID notificationGeneration = {};
+	DWORD notifications = ReadSetupNotifications (&notificationGeneration);
 	BootLoaderUpdateResult result = {};
 	result.Version = VC_BOOT_LOADER_UPDATE_RESULT_VERSION;
 	result.Disposition = VC_BOOT_LOADER_UPDATE_FAILED;
@@ -11176,6 +11208,16 @@ static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce, const GUI
 						result.WarningMask = GetEfiBootChainWarningMask (trustStatus);
 						if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE)
 							result.AssessmentError = trustStatus.LastError ? trustStatus.LastError : ERROR_GEN_FAILURE;
+						// A removed CA or an unreadable/missing loader can also make
+						// the recommendation disappear. Require the actual 2023 loader.
+						// This covers the active handoff only, not the original-loader
+						// backups used by decryption or rescue media, or all revocations.
+						if ((notifications & VC_SETUP_NOTIFY_WINDOWS_MIGRATION) && trustStatus.StatusKnown
+							&& trustStatus.WindowsLoaderSigner == VC_EFI_WINDOWS_LOADER_SIGNER_CA_2023
+							&& !trustStatus.WindowsLoaderKnownCaRevoked
+							&& !(result.WarningMask & (VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE
+								| VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER | VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION)))
+							SystemFavoritesServiceClearSetupNotifications (notificationGeneration, VC_SETUP_NOTIFY_WINDOWS_MIGRATION);
 					}
 				}
 				catch (SystemException &e)
@@ -11244,7 +11286,7 @@ static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce, const GUI
 		if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER)
 			SystemFavoritesServiceLogWarning (L"Secure Boot compatibility check: the Windows boot manager used by VeraCrypt (bootmgfw_ms.vc) is missing or unreadable, its embedded signer is unrecognized, or its known signing CA is not allowed by db or is listed by dbx. The handoff to Windows may fail when Secure Boot is enabled.");
 		else if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION)
-			SystemFavoritesServiceLogWarning (L"Secure Boot transition check: bootmgfw_ms.vc is still signed by Microsoft Windows Production PCA 2011 although firmware db already contains Windows UEFI CA 2023. Complete the Windows 2023 boot manager update before applying the PCA 2011 dbx revocation.");
+			SystemFavoritesServiceLogWarning (L"Secure Boot transition check: bootmgfw_ms.vc is still signed by Microsoft Windows Production PCA 2011 although firmware db already contains Windows UEFI CA 2023. Complete the Windows 2023 boot manager update before applying the PCA 2011 dbx revocation. This check covers the active Windows boot manager only. Decryption fallback and rescue-disk backups require separate verification; recreating rescue media can reuse an older stored loader.");
 		SystemFavoritesServiceLastEfiBootChainWarningMask = result.WarningMask;
 	}
 	SystemFavoritesServiceUpdateSetupConfigFile ();
