@@ -144,7 +144,8 @@
 
 <p>
     Starting from version 1.24, VeraCrypt has integrated a mechanism that detects the insertion of new devices into the system when System Encryption is active. If a new device is inserted, master keys are immediately purged from memory, resulting in a Windows BSOD. This protects against attacks using specialized devices to extract memory from running systems. However, for maximum efficiency, this feature should be paired with RAM encryption.<br>
-	To enable this feature, navigate to the menu System -> Settings and check the <b>"Clear encryption keys from memory if a new device is inserted"</b> option.
+	To enable this feature, navigate to the menu System -> Settings and check the <b>"Clear encryption keys from memory if a new device is inserted"</b> option.<br>
+	When enabling it, you can also choose to prevent the option from being disabled until Windows restarts (if the option is already enabled, uncheck it and check it again to be offered this choice). VeraCrypt then keeps clearing the keys when a new device is inserted, even if the registry value of the option is changed, and its system service cannot be stopped until Windows restarts. This does not protect against someone with administrator privileges, who can for example terminate the VeraCrypt system service.
 </p>
 
 <h3>Technical Limitations with Hibernation and Fast Startup</h3>
