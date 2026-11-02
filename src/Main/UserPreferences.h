@@ -36,6 +36,7 @@ namespace VeraCrypt
 			DisableScreenProtection (false),
 			DismountOnInactivity (false),
 			DismountOnLogOff (true),
+			DismountOnNewDevice (false),
 			DismountOnPowerSaving (false),
 			DismountOnScreenSaver (false),
 			DisplayMessageAfterHotkeyDismount (false),
@@ -80,6 +81,7 @@ namespace VeraCrypt
 		bool DisableScreenProtection;
 		bool DismountOnInactivity;
 		bool DismountOnLogOff;
+		bool DismountOnNewDevice;
 		bool DismountOnPowerSaving;
 		bool DismountOnScreenSaver;
 		bool DisplayMessageAfterHotkeyDismount;

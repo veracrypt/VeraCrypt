@@ -41,7 +41,7 @@ namespace VeraCrypt
 		virtual void DismountFilesystem (const DirectoryPath &mountPoint, bool force) const = 0;
 		virtual shared_ptr <VolumeInfo> DismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool ignoreOpenFiles = false, bool syncVolumeInfo = false) = 0;
 #if defined(TC_LINUX)
-		virtual shared_ptr <VolumeInfo> EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume) { throw NotApplicable (SRC_POS); }
+		virtual shared_ptr <VolumeInfo> EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool destroyKeys = false) { throw NotApplicable (SRC_POS); }
 #endif
 		virtual bool FilesystemSupportsLargeFiles (const FilePath &filePath) const = 0;
 		virtual DirectoryPath GetDeviceMountPoint (const DevicePath &devicePath) const = 0;

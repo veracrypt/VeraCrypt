@@ -26,11 +26,13 @@ namespace VeraCrypt
 
 		virtual void CheckFilesystem (shared_ptr <VolumeInfo> mountedVolume, bool repair = false) const;
 		virtual shared_ptr <VolumeInfo> DismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool ignoreOpenFiles = false, bool syncVolumeInfo = false);
-		virtual shared_ptr <VolumeInfo> EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume);
+		virtual shared_ptr <VolumeInfo> EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool destroyKeys = false);
 		virtual HostDeviceList GetHostDevices (bool pathListOnly = false) const;
 
 	protected:
 		virtual DevicePath AttachFileToLoopDevice (const FilePath &filePath, bool readOnly) const;
+		virtual void AbortVolumeService (shared_ptr <VolumeInfo> mountedVolume) const;
+		virtual void DestroyVolumeKeys (shared_ptr <VolumeInfo> mountedVolume) const;
 		virtual void DetachLoopDevice (const DevicePath &devicePath) const;
 		virtual void DismountNativeVolume (shared_ptr <VolumeInfo> mountedVolume) const;
 		virtual void DismountNativeVolumeDeferred (shared_ptr <VolumeInfo> mountedVolume) const;

@@ -1274,7 +1274,7 @@ namespace VeraCrypt
 					if (emergencyDismountRequest)
 					{
 						DismountVolumeResponse response;
-						response.DismountedVolumeInfo = Core->EmergencyDismountVolume (emergencyDismountRequest->MountedVolumeInfo);
+						response.DismountedVolumeInfo = Core->EmergencyDismountVolume (emergencyDismountRequest->MountedVolumeInfo, emergencyDismountRequest->DestroyKeys);
 						response.Serialize (outputStream);
 						continue;
 					}
@@ -1405,9 +1405,9 @@ namespace VeraCrypt
 	}
 
 #ifdef TC_LINUX
-	shared_ptr <VolumeInfo> CoreService::RequestEmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume)
+	shared_ptr <VolumeInfo> CoreService::RequestEmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool destroyKeys)
 	{
-		EmergencyDismountVolumeRequest request (mountedVolume);
+		EmergencyDismountVolumeRequest request (mountedVolume, destroyKeys);
 		return SendRequest <DismountVolumeResponse> (request)->DismountedVolumeInfo;
 	}
 #endif
