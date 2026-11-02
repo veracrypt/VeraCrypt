@@ -136,6 +136,7 @@ BOOL CacheBootPassword = FALSE;
 BOOL CacheBootPim = FALSE;
 BOOL NonAdminSystemFavoritesAccessDisabled = FALSE;
 BOOL BlockSystemTrimCommand = FALSE;
+static BOOL ClearKeysOnNewDeviceInsertionLocked = FALSE; // set once, cleared only by a restart
 BOOL AllowWindowsDefrag = FALSE;
 BOOL EraseKeysOnShutdown = TRUE; // by default, we erase encryption keys on system shutdown
 static size_t EncryptionThreadPoolFreeCpuCountLimit = 0;
@@ -3146,6 +3147,27 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		}
 		break;
 
+	case VC_IOCTL_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION:
+		if (UserCanAccessDriveDevice())
+		{
+			ClearKeysOnNewDeviceInsertionLocked = TRUE;
+			Irp->IoStatus.Status = STATUS_SUCCESS;
+		}
+		else
+			Irp->IoStatus.Status = STATUS_ACCESS_DENIED;
+
+		Irp->IoStatus.Information = 0;
+		break;
+
+	case VC_IOCTL_IS_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION_LOCKED:
+		if (ValidateIOBufferSize (Irp, sizeof (int), ValidateOutput))
+		{
+			*(int *) Irp->AssociatedIrp.SystemBuffer = ClearKeysOnNewDeviceInsertionLocked ? 1 : 0;
+			Irp->IoStatus.Information = sizeof (int);
+			Irp->IoStatus.Status = STATUS_SUCCESS;
+		}
+		break;
+
 	case VC_IOCTL_ENCRYPTION_QUEUE_PARAMS:
 		if (ValidateIOBufferSize (Irp, sizeof (EncryptionQueueParameters), ValidateOutput))
 		{
@@ -3581,6 +3603,8 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 		TC_CASE_RET_NAME (VC_IOCTL_EMERGENCY_CLEAR_ALL_KEYS);
 		TC_CASE_RET_NAME (VC_IOCTL_IS_RAM_ENCRYPTION_ENABLED);
 		TC_CASE_RET_NAME (VC_IOCTL_ENCRYPTION_QUEUE_PARAMS);
+		TC_CASE_RET_NAME (VC_IOCTL_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION);
+		TC_CASE_RET_NAME (VC_IOCTL_IS_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION_LOCKED);
 
 		TC_CASE_RET_NAME (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS);
 
@@ -4963,10 +4987,10 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 				if (flags & VC_DRIVER_CONFIG_BLOCK_SYS_TRIM)
 					BlockSystemTrimCommand = TRUE;
 
-				/* clear VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION if it is set */
-				if (flags & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)
+				/* clear VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION and its lock request if they are set */
+				if (flags & (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION | VC_DRIVER_CONFIG_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION))
 				{
-					flags ^= VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION;
+					flags &= ~(VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION | VC_DRIVER_CONFIG_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION);
 					WriteRegistryConfigFlags (flags);
 				}
 

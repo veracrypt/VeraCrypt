@@ -16735,10 +16735,15 @@ bool OneOfKBsInstalled (const wchar_t* szKBs[], int count)
 DWORD SendServiceNotification (DWORD dwNotificationCmd)
 {
 	DWORD dwRet = ERROR_INVALID_PARAMETER;
+	DWORD dwServiceControlCode = 0;
 	// We only support clearing keys on new device insertion
 	if (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION == dwNotificationCmd)
+		dwServiceControlCode = VC_SERVICE_CONTROL_BUILD_DEVICE_LIST;
+	else if (VC_SERVICE_CONTROL_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION == dwNotificationCmd)
+		dwServiceControlCode = VC_SERVICE_CONTROL_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION;
+
+	if (dwServiceControlCode)
 	{
-		DWORD dwServiceControlCode = VC_SERVICE_CONTROL_BUILD_DEVICE_LIST;
 		// send this control code to VeraCrypt SystemFavorites service
 		SC_HANDLE hSCManager = OpenSCManager (NULL, NULL, SC_MANAGER_CONNECT);
 		if (hSCManager != NULL)
@@ -16762,6 +16767,17 @@ DWORD SendServiceNotification (DWORD dwNotificationCmd)
 	}
 
 	return dwRet;
+}
+
+BOOL IsClearKeysOnNewDeviceInsertionLocked ()
+{
+	int locked = 0;
+	DWORD dwResult;
+
+	if (!DeviceIoControl (hDriver, VC_IOCTL_IS_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION_LOCKED, NULL, 0, &locked, sizeof (locked), &dwResult, NULL))
+		return FALSE;
+
+	return locked ? TRUE : FALSE;
 }
 
 DWORD FastResizeFile (const wchar_t* filePath, __int64 fileSize)

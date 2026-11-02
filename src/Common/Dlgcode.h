@@ -116,6 +116,9 @@ enum
 
 /* customer service control code to build device list */
 #define VC_SERVICE_CONTROL_BUILD_DEVICE_LIST 128
+/* customer service control code to apply VC_DRIVER_CONFIG_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION. Every local user can send
+   custom controls to the service: the action is authorized by the flag, which only an administrator can set */
+#define VC_SERVICE_CONTROL_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION 129
 
 #ifndef USER_DEFAULT_SCREEN_DPI
 #define USER_DEFAULT_SCREEN_DPI 96
@@ -645,6 +648,7 @@ void SafeOpenURL (LPCWSTR szUrl);
 BitLockerEncryptionStatus GetBitLockerEncryptionStatus(WCHAR driveLetter);
 BOOL IsTestSigningModeEnabled ();
 DWORD SendServiceNotification (DWORD dwNotificationCmd);
+BOOL IsClearKeysOnNewDeviceInsertionLocked ();
 DWORD FastResizeFile (const wchar_t* filePath, __int64 fileSize);
 #if !defined(SETUP) && !defined(VCSDK_DLL)
 void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed);
