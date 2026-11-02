@@ -1835,6 +1835,9 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	DismountOnPowerSavingCheckBox = new wxCheckBox( sbSizer13->GetStaticBox(), wxID_ANY, _("LINUX_ENTERING_POVERSAWING"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer13->Add( DismountOnPowerSavingCheckBox, 0, wxALL, 5 );
 
+	DismountOnNewDeviceCheckBox = new wxCheckBox( sbSizer13->GetStaticBox(), wxID_ANY, _("LINUX_UNMOUNT_NEW_DEVICE"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer13->Add( DismountOnNewDeviceCheckBox, 0, wxALL, 5 );
+
 
 	AutoDismountSizer->Add( sbSizer13, 0, wxEXPAND|wxALL, 5 );
 
@@ -2349,6 +2352,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	PreferencesNotebook->Connect( wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxNotebookEventHandler( PreferencesDialogBase::OnPageChanged ), NULL, this );
 	DismountOnScreenSaverCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnDismountOnScreenSaverCheckBoxClick ), NULL, this );
 	DismountOnPowerSavingCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnDismountOnPowerSavingCheckBoxClick ), NULL, this );
+	DismountOnNewDeviceCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnDismountOnNewDeviceCheckBoxClick ), NULL, this );
 	ForceAutoDismountCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnForceAutoDismountCheckBoxClick ), NULL, this );
 	PreserveTimestampsCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnPreserveTimestampsCheckBoxClick ), NULL, this );
 	BackgroundTaskEnabledCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnBackgroundTaskEnabledCheckBoxClick ), NULL, this );
@@ -2370,6 +2374,7 @@ PreferencesDialogBase::~PreferencesDialogBase()
 	PreferencesNotebook->Disconnect( wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxNotebookEventHandler( PreferencesDialogBase::OnPageChanged ), NULL, this );
 	DismountOnScreenSaverCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnDismountOnScreenSaverCheckBoxClick ), NULL, this );
 	DismountOnPowerSavingCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnDismountOnPowerSavingCheckBoxClick ), NULL, this );
+	DismountOnNewDeviceCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnDismountOnNewDeviceCheckBoxClick ), NULL, this );
 	ForceAutoDismountCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnForceAutoDismountCheckBoxClick ), NULL, this );
 	PreserveTimestampsCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnPreserveTimestampsCheckBoxClick ), NULL, this );
 	BackgroundTaskEnabledCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnBackgroundTaskEnabledCheckBoxClick ), NULL, this );

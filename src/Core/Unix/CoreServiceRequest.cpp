@@ -132,6 +132,9 @@ namespace VeraCrypt
 	void EmergencyDismountVolumeRequest::DeserializeData (shared_ptr <Stream> stream)
 	{
 		CoreServiceRequest::DeserializeData (stream);
+		Serializer sr (stream);
+		sr.Deserialize ("DestroyKeys", DestroyKeys);
+		sr.Deserialize ("DestroyKeysOnly", DestroyKeysOnly);
 		MountedVolumeInfo = Serializable::DeserializeNew <VolumeInfo> (stream);
 	}
 
@@ -143,6 +146,9 @@ namespace VeraCrypt
 	void EmergencyDismountVolumeRequest::SerializeData (shared_ptr <Stream> stream) const
 	{
 		CoreServiceRequest::SerializeData (stream);
+		Serializer sr (stream);
+		sr.Serialize ("DestroyKeys", DestroyKeys);
+		sr.Serialize ("DestroyKeysOnly", DestroyKeysOnly);
 		MountedVolumeInfo->Serialize (stream);
 	}
 #endif

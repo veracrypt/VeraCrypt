@@ -26,6 +26,7 @@ OBJS += Resources.o
 ifndef TC_NO_GUI
 OBJS += FatalErrorHandler.o
 OBJS += GraphicUserInterface.o
+OBJS += NewDeviceMonitor.o
 ifeq "$(PLATFORM)" "MacOSX"
 OBJS += MacOSXSecureTextFieldHotkeys.o
 OBJS += MacOSXWindowTitle.o

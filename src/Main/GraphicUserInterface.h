@@ -18,6 +18,7 @@
 #include "Main.h"
 #include "UserInterface.h"
 #include "Forms/WaitDialog.h"
+#include "NewDeviceMonitor.h"
 #ifdef TC_MACOSX
 #include <wx/weakref.h>
 #endif
@@ -65,6 +66,7 @@ namespace VeraCrypt
 		virtual void InitSecurityTokenLibrary () const;
 		virtual void InsertToListCtrl (wxListCtrl *listCtrl, long itemIndex, const vector <wstring> &itemFields, int imageIndex = -1, void *itemDataPtr = nullptr) const;
 		virtual bool IsInBackgroundMode () const { return BackgroundMode; }
+		bool IsDismountOnNewDeviceLocked () const { return DismountOnNewDeviceLocked; }
 		virtual bool IsTheOnlyTopLevelWindow (const wxWindow *window) const;
         virtual void ListTokenKeyfiles () const;
         virtual void ListSecurityTokenKeyfiles () const;
@@ -73,6 +75,8 @@ namespace VeraCrypt
 		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options, bool tryCachedPasswords = true) const;
 		virtual void MoveListCtrlItem (wxListCtrl *listCtrl, long itemIndex, long newItemIndex) const;
 		virtual void OnAutoDismountAllEvent ();
+		// Keeps unmounting all volumes when a new device is connected, and VeraCrypt running, until it is terminated
+		void LockDismountOnNewDevice () { DismountOnNewDeviceLocked = true; }
 		virtual bool OnInit ();
 		virtual void OnLogOff ();
 		virtual void OpenDocument (wxWindow *parent, const wxFileName &document);
@@ -99,6 +103,11 @@ namespace VeraCrypt
 		virtual bool UpdateListCtrlItem (wxListCtrl *listCtrl, long itemIndex, const vector <wstring> &itemFields) const;
 		virtual void UserEnrichRandomPool (wxWindow *parent, shared_ptr <Hash> hash = shared_ptr <Hash>()) const;
 		virtual void Yield () const;
+		bool IsNewDeviceMonitorRunning () const { return mNewDeviceMonitor.IsRunning(); }
+		void OnNewDeviceConnected (const wstring &device);
+		void ProcessPendingNewDevice ();
+		void StopNewDeviceMonitor () { mNewDeviceMonitor.Stop(); }
+		void UpdateNewDeviceMonitor ();
 		virtual shared_ptr <VolumeInfo> MountVolumeThread (MountOptions &options) const;
 #ifdef TC_MACOSX
 		virtual shared_ptr <VolumeInfo> DismountVolumeThread (shared_ptr <VolumeInfo> volume, bool ignoreOpenFiles, bool interactive = true) const;
@@ -135,6 +144,7 @@ namespace VeraCrypt
 #ifdef wxHAS_POWER_EVENTS
 		virtual void OnPowerSuspending (wxPowerEvent& event);
 #endif
+		static void OnNewDeviceDetected (const wstring &device);
 		static void OnSignal (int signal);
 		virtual void OnVolumesAutoDismounted ();
 #ifdef TC_MACOSX
@@ -146,6 +156,8 @@ namespace VeraCrypt
 
 		wxFrame *ActiveFrame;
 		bool BackgroundMode;
+		bool DismountOnNewDeviceLocked;
+		bool HandlingNewDevice;
 #ifdef TC_WINDOWS
 		unique_ptr <wxDDEServer> DDEServer;
 #endif
@@ -157,6 +169,8 @@ namespace VeraCrypt
 		unique_ptr <wxSingleInstanceChecker> SingleInstanceChecker;
 
 		mutable WaitDialog* mWaitDialog;
+		NewDeviceMonitor mNewDeviceMonitor;
+		wstring mPendingNewDevice;
 #ifdef TC_MACOSX
 		mutable list <wxString> mUnconfirmedCleanupWarnings;
 		mutable bool mShowingCleanupWarning;
