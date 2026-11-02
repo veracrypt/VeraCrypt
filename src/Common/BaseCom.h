@@ -120,6 +120,7 @@ public:
 	static DWORD UpdateSetupConfigFile (BOOL bForInstall);
 	static DWORD GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
 	static DWORD GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported);
+	static DWORD GetFirmwareWindowsUefiCa2023Support (BOOL *present);
 	static DWORD NotifyService (DWORD dwNotifyCode);
 	static DWORD FastFileResize (BSTR filePath, __int64 fileSize);
 
