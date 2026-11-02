@@ -34,7 +34,7 @@
 <div class="wikidoc">
 <h1>Release Notes</h1>
 
-<p><strong style="text-align:left">1.26.31</strong> (October 29<sup>th</sup>, 2026):</p>
+<p><strong style="text-align:left">1.26.31</strong> (November 2<sup>nd</sup>, 2026):</p>
 <ul>
 <li><strong>All OSes:</strong>
 	<ul>
@@ -44,7 +44,9 @@
 <li><strong>Windows:</strong>
 	<ul>
 	<li>Fix upgrades from VeraCrypt 1.26.30 that could fail while replacing the system service executable. Wait for the service process to exit, retry locked files and defer replacement until Windows restarts when necessary.</li>
+	<li>Fix MSI upgrades on systems with an encrypted system drive, including migration of original bootloader backups, bootloader updates and Secure Boot compatibility checks.</li>
 	<li>Report Windows feature-update configuration, recovery-backup migration and system-service update failures as warnings identifying the affected file or registry value, allowing installation, uninstallation and system-encryption operations to finish. Retry feature-update configuration when the system service starts.</li>
+	<li>Warn when a new Rescue Disk would reuse a Windows Boot Manager backup signed by Microsoft Windows Production PCA 2011 during migration to Windows UEFI CA 2023. Recreating the Rescue Disk does not update this stored backup.</li>
 	<li>Improve protection and cleanup of the legacy system encryption support directory under ProgramData, including read-only files and redirected paths. Preserve recovery backups and retain old driver files until Windows Setup registration changes are verified.</li>
 	<li>Avoid repeated warnings caused by unrelated incompatible language packs. When no compatible pack is available for the selected language, display a single warning and fall back to English while preserving the language preference.</li>
 	</ul>
@@ -57,11 +59,17 @@
 	<li>Document that permission to run VeraCrypt or its core service as root through <code>sudo</code> or <code>doas</code> grants full root authority. See the <a href="Security%20Model.html#sudo-and-doas">security model</a>.</li>
 	<li>Fix mount-point validation for directories that do not yet exist, including paths containing <code>..</code> or symbolic links (GH #1973). Reported by <a href="https://github.com/aorakko" target="_blank">aorakko</a>.</li>
 	<li>Restore compatibility with GCC 4.4 for Unix GUI and console builds.</li>
+	<li>Improve password dialog titles for long volume paths, preserving the volume file name where possible and adapting to window resizing.</li>
 	</ul>
 </li>
 <li><strong>Linux and BSD:</strong>
 	<ul>
 	<li>Only default mount-point names, consisting of the configured prefix followed by a slot number from 1 to 64, receive automatic directory creation, ownership changes and removal. Custom mount points such as <code>/media/veracrypt-backup</code> or <code>/media/veracrypt1/photos</code> must already exist with suitable permissions; sharing the default prefix no longer makes them automatically managed.</li>
+	</ul>
+</li>
+<li><strong>Linux:</strong>
+	<ul>
+	<li>Add optional Ayatana AppIndicator support to RPM and Arch Linux package builds for system tray integration, including on KDE Wayland (GH #1339).</li>
 	</ul>
 </li>
 </ul>
