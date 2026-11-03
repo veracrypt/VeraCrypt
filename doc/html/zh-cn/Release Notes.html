@@ -34,7 +34,7 @@
 <div class="wikidoc">
 <h1>发行说明</h1>
 
-<p><strong style="text-align:left">1.26.31</strong> (2026年10月29日):</p>
+<p><strong style="text-align:left">1.26.31</strong> (2026年11月2日):</p>
 <ul>
 <li><strong>所有操作系统:</strong>
 	<ul>
@@ -44,7 +44,9 @@
 <li><strong>Windows:</strong>
 	<ul>
 	<li>修复从 VeraCrypt 1.26.30 升级时因替换系统服务可执行文件而失败的问题。现在会等待服务进程退出，并重新尝试替换被占用的文件；必要时会在 Windows 重新启动时完成替换。</li>
+	<li>修复使用 MSI 安装程序升级已加密系统时的问题，包括原始引导加载程序备份迁移、引导加载程序更新和 Secure Boot 兼容性检查。</li>
 	<li>改进 Windows 功能更新支持配置、恢复备份迁移和系统服务更新失败时的处理。现在会发出警告并指明相关文件或注册表值，使安装、卸载和系统加密操作能够完成。系统服务启动时会重新尝试配置 Windows 功能更新支持。</li>
+	<li>创建救援盘时，如果在迁移到 Windows UEFI CA 2023 的过程中仍会使用由 Microsoft Windows Production PCA 2011 签名的已存储 Windows 启动管理器备份，则发出警告。重新创建救援盘不会更新该备份。</li>
 	<li>改进对 ProgramData 中旧版系统加密支持目录的保护和清理，包括只读文件和重定向路径。保留恢复备份，并在确认 Windows 功能更新注册项的更改成功后才删除旧驱动程序文件。</li>
 	<li>避免因与所选语言无关的不兼容语言包而反复显示警告。如果所选语言没有可用的兼容语言包，则仅显示一次警告并回退到英语，同时保留原有的语言设置。</li>
 	</ul>
@@ -57,11 +59,17 @@
 	<li>在文档中明确说明，允许通过 <code>sudo</code> 或 <code>doas</code> 以 root 用户身份运行 VeraCrypt 或其核心服务，即意味着授予完整的 root 权限。请参阅<a href="Security%20Model.html#sudo-and-doas">安全模型</a>。</li>
 	<li>修复对尚不存在的目录进行挂载点验证的问题，包括含有 <code>..</code> 或符号链接的路径（GH #1973）。由 <a href="https://github.com/aorakko" target="_blank">aorakko</a> 报告。</li>
 	<li>修复使用 GCC 4.4 构建 Unix 图形用户界面版本和控制台版本时的兼容性问题。</li>
+	<li>改进卷路径较长时的密码对话框标题，尽可能保留卷文件名，并随窗口大小变化调整标题。</li>
 	</ul>
 </li>
 <li><strong>Linux 和 BSD:</strong>
 	<ul>
 	<li>仅对采用默认名称的挂载点自动创建目录、更改所有权和删除目录；默认名称由配置的前缀及 1 至 64 的槽位号组成。<code>/media/veracrypt-backup</code> 或 <code>/media/veracrypt1/photos</code> 等自定义挂载点必须已存在且具有适当权限；仅使用与默认名称相同的前缀，不再意味着目录会被自动管理。</li>
+	</ul>
+</li>
+<li><strong>Linux:</strong>
+	<ul>
+	<li>为 RPM 和 Arch Linux 软件包构建添加可选的 Ayatana AppIndicator 支持，以改善系统托盘集成，包括 KDE Wayland 环境（GH #1339）。</li>
 	</ul>
 </li>
 </ul>

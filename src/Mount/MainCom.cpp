@@ -26,7 +26,7 @@ using namespace VeraCrypt;
 
 static volatile LONG ObjectCount = 0;
 
-class TrueCryptMainCom : public ITrueCryptMainCom
+class TrueCryptMainCom : public ITrueCryptMainCom2
 {
 
 public:
@@ -59,7 +59,7 @@ public:
 
 	virtual HRESULT STDMETHODCALLTYPE QueryInterface (REFIID riid, void **ppvObject)
 	{
-		if (riid == IID_IUnknown || riid == IID_ITrueCryptMainCom)
+		if (riid == IID_IUnknown || riid == IID_ITrueCryptMainCom || riid == IID_ITrueCryptMainCom2)
 			*ppvObject = this;
 		else
 		{
@@ -196,6 +196,11 @@ public:
 	virtual DWORD STDMETHODCALLTYPE GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported)
 	{
 		return BaseCom::GetEfiBootLoaderSigningSupport (pMicrosoft2023UefiCAsSupported);
+	}
+
+	virtual DWORD STDMETHODCALLTYPE GetFirmwareWindowsUefiCa2023Support (BOOL *present)
+	{
+		return BaseCom::GetFirmwareWindowsUefiCa2023Support (present);
 	}
 
 	virtual DWORD STDMETHODCALLTYPE WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg)

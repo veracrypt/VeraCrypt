@@ -16,7 +16,7 @@ import "..\Common\Password.h";
 [
 	uuid(9ACF6176-5FC4-4690-A025-B3306A50EB6A),
 	helpstring("VeraCrypt Main UAC Support Library"),
-	version(2.14)	// Update ComSetup.cpp when changing version number
+	version(2.15)	// Update ComSetup.cpp when changing version number
 ]
 library TrueCryptMainCom
 {
@@ -59,11 +59,23 @@ library TrueCryptMainCom
 	};
 
 	[
+		uuid(A0CE3840-6C9F-4521-97B3-6BCC4652ABA6),
+		object,
+		oleautomation,
+		helpstring("VeraCrypt Main UAC Firmware Policy Interface")
+	]
+	interface ITrueCryptMainCom2 : ITrueCryptMainCom
+	{
+		DWORD GetFirmwareWindowsUefiCa2023Support ([out] BOOL *present);
+	};
+
+	[
 		uuid(FE8B3B95-C80C-41f7-830F-FBA271C26F7E),
 		helpstring("VeraCrypt Main UAC Support Coclass")
 	]
 	coclass TrueCryptMainCom
 	{
 		[default] interface ITrueCryptMainCom;
+		interface ITrueCryptMainCom2;
 	}
 }

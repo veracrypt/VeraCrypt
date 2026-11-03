@@ -94,6 +94,24 @@ enum
 #define VC_EFI_WINDOWS_LOADER_SIGNER_CA_2023			2023
 #define VC_ERROR_EFI_UNSUPPORTED_SECURE_BOOT_DB				((DWORD) 0xE0000201)
 
+// Fixed message IDs only: the installer publishes State, and the service writes
+// generation-matched Resolved bits. GUI users acknowledge independently.
+#define VC_SETUP_NOTIFY_BOOT_UNCONFIRMED 0x001
+#define VC_SETUP_NOTIFY_BOOT_POLICY 0x002
+#define VC_SETUP_NOTIFY_BOOT_RESTART 0x004
+#define VC_SETUP_NOTIFY_ASSESSMENT 0x008
+#define VC_SETUP_NOTIFY_VERACRYPT 0x010
+#define VC_SETUP_NOTIFY_WINDOWS 0x020
+#define VC_SETUP_NOTIFY_WINDOWS_MIGRATION 0x040
+#define VC_SETUP_NOTIFY_BACKUP 0x080
+#define VC_SETUP_NOTIFY_CONFIG_UPDATE 0x100
+#define VC_SETUP_NOTIFY_CONFIG_REMOVE 0x200
+#define VC_SETUP_NOTIFY_SERVICE 0x400
+#define VC_SETUP_NOTIFY_ALL 0x7ff
+#define VC_SETUP_NOTIFY_BOOT_MASK 0x47f
+#define VC_SETUP_NOTIFY_RECOVERABLE_MASK (VC_SETUP_NOTIFY_WINDOWS_MIGRATION | VC_SETUP_NOTIFY_CONFIG_UPDATE | VC_SETUP_NOTIFY_CONFIG_REMOVE)
+#define VC_SETUP_NOTIFICATIONS_KEY VC_EFI_BOOT_LOADER_DIAGNOSTICS_REGISTRY_KEY L"\\SetupNotifications"
+
 #define VC_FILENAME_RENAMED_SUFFIX				L"_old"
 
 /* customer service control code to build device list */
@@ -214,6 +232,7 @@ enum tc_app_msg_ids
 	TC_APPMSG_MOUNT_SHOW_WINDOW =					WM_APP + 202,
 	TC_APPMSG_PREBOOT_PASSWORD_MODE =				WM_APP + 203,
 	VC_APPMSG_CREATE_RESCUE_DISK =					WM_APP + 204,
+	VC_APPMSG_SHOW_SETUP_NOTIFICATIONS =				WM_APP + 205,
 	// Format
 	TC_APPMSG_VOL_TRANSFORM_THREAD_ENDED =			WM_APP + 301,
 	TC_APPMSG_FORMAT_FINISHED =						WM_APP + 302,
@@ -380,6 +399,13 @@ int LoadNonSysInPlaceEncSettings (WipeAlgorithmId *wipeAlgorithm);
 void RemoveNonSysInPlaceEncNotifications (void);
 void SavePostInstallTasksSettings (int command);
 void DoPostInstallTasks (HWND hwndDlg);
+DWORD ReadSetupNotificationMask (void);
+DWORD ReadSetupNotifications (GUID *generation);
+DWORD SaveSetupNotifications (DWORD mask);
+DWORD ClearSetupNotifications (const GUID *generation, DWORD mask, DWORD *newlyResolvedMask);
+const char *GetSetupNotificationMessage (DWORD flag);
+int WarnWindowsLoaderMigration (HWND hwndDlg);
+void ShowSetupNotifications (HWND hwndDlg);
 void InitOSVersionInfo ();
 void InitApp ( HINSTANCE hInstance, wchar_t *lpszCommandLine );
 void InitHelpFileName (void);

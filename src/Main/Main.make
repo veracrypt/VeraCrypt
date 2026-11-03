@@ -28,6 +28,7 @@ OBJS += FatalErrorHandler.o
 OBJS += GraphicUserInterface.o
 ifeq "$(PLATFORM)" "MacOSX"
 OBJS += MacOSXSecureTextFieldHotkeys.o
+OBJS += MacOSXWindowTitle.o
 endif
 OBJS += VolumeHistory.o
 OBJS += Forms/AboutDialog.o

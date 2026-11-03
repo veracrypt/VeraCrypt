@@ -66,6 +66,10 @@ if [ -n "$WITHFUSE3" ] && [ "$WITHFUSE3" != "0" ]; then
     build_with_fuse3=1
 fi
 
+# AppIndicator support is opt-in and applies only to the GUI package.
+INDICATOR_MAKE_FLAG=""
+INDICATOR_CMAKE_FLAG="-DVC_WITH_INDICATOR=FALSE"
+
 while [ $# -gt 0 ]; do
     case "$1" in
         FUSE3|WITHFUSE3|--with-fuse3)
@@ -73,6 +77,10 @@ while [ $# -gt 0 ]; do
             ;;
         FUSE2|WITHFUSE2|--with-fuse2)
             build_with_fuse3=0
+            ;;
+        INDICATOR)
+            INDICATOR_MAKE_FLAG="INDICATOR=1"
+            INDICATOR_CMAKE_FLAG="-DVC_WITH_INDICATOR=TRUE"
             ;;
         *)
             echo "Unknown option: $1" >&2
@@ -92,6 +100,19 @@ else
     echo "Building VeraCrypt packages against FUSE2"
 fi
 
+if [ -n "$INDICATOR_MAKE_FLAG" ]; then
+    # Match the GTK selection in src/Makefile and fail before building wxWidgets.
+    indicator_module="ayatana-appindicator-0.1"
+    if "${PKG_CONFIG:-pkg-config}" --exists gtk+-3.0; then
+        indicator_module="ayatana-appindicator3-0.1"
+    fi
+    if ! "${PKG_CONFIG:-pkg-config}" --exists "$indicator_module"; then
+        echo "Error: INDICATOR requires the Ayatana AppIndicator development package providing $indicator_module" >&2
+        exit 1
+    fi
+    echo "Enabling Ayatana AppIndicator support for the GUI ($indicator_module)"
+fi
+
 echo "Building GUI version of VeraCrypt for RPM using wxWidgets static libraries"
 
 # This will be the temporary wxWidgets directory
@@ -109,9 +130,9 @@ else
 fi
 
 rm -rf "$PARENTDIR/VeraCrypt_Setup/GUI"
-make WXSTATIC=1 $FUSE3_MAKE_FLAG clean 				|| exit 1
-make WXSTATIC=1 $FUSE3_MAKE_FLAG 					|| exit 1
-make WXSTATIC=1 $FUSE3_MAKE_FLAG install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
+make WXSTATIC=1 $INDICATOR_MAKE_FLAG $FUSE3_MAKE_FLAG clean 				|| exit 1
+make WXSTATIC=1 $INDICATOR_MAKE_FLAG $FUSE3_MAKE_FLAG 					|| exit 1
+make WXSTATIC=1 $INDICATOR_MAKE_FLAG $FUSE3_MAKE_FLAG install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
 
 echo "Building console version of VeraCrypt for RPM using wxWidgets static libraries"
 
@@ -181,7 +202,7 @@ run_cpack() {
 }
 
 # wxWidgets was built using native GTK version
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE -DSOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH $FUSE3_CMAKE_FLAG || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE -DSOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH $FUSE3_CMAKE_FLAG $INDICATOR_CMAKE_FLAG || exit 1
 run_cpack --config $PARENTDIR/VeraCrypt_Packaging/GUI/CPackConfig.cmake || exit 1
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE -DSOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH $FUSE3_CMAKE_FLAG || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE -DSOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH $FUSE3_CMAKE_FLAG -DVC_WITH_INDICATOR=FALSE || exit 1
 run_cpack --config $PARENTDIR/VeraCrypt_Packaging/Console/CPackConfig.cmake || exit 1
