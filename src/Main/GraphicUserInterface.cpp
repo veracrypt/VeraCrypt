@@ -167,6 +167,8 @@ namespace VeraCrypt
 	GraphicUserInterface::GraphicUserInterface () :
 		ActiveFrame (nullptr),
 		BackgroundMode (false),
+		DismountOnNewDeviceLocked (false),
+		HandlingNewDevice (false),
 		mMainFrame (nullptr),
 		mWaitDialog (nullptr)
 #ifdef TC_MACOSX
@@ -1496,6 +1498,101 @@ namespace VeraCrypt
 		}
 	}
 #endif
+
+	void GraphicUserInterface::UpdateNewDeviceMonitor ()
+	{
+		if (!NewDeviceMonitor::IsSupported() || (!DismountOnNewDeviceLocked && !GetPreferences().DismountOnNewDevice))
+		{
+			mNewDeviceMonitor.Stop();
+			mPendingNewDevice.clear();
+			return;
+		}
+
+		if (mNewDeviceMonitor.IsRunning())
+			return;
+
+		try
+		{
+			mNewDeviceMonitor.Start ([](const wstring &device) { if (Gui) Gui->OnNewDeviceConnected (device); });
+		}
+		catch (exception &e)
+		{
+			ShowError (e);
+		}
+	}
+
+	void GraphicUserInterface::ProcessPendingNewDevice ()
+	{
+		if (!mPendingNewDevice.empty() && !GetWaitDialog())
+		{
+			wstring device = mPendingNewDevice;
+			mPendingNewDevice.clear();
+			OnNewDeviceConnected (device);
+		}
+	}
+
+	// Called on the main thread by the device monitor
+	void GraphicUserInterface::OnNewDeviceConnected (const wstring &device)
+	{
+		if (!DismountOnNewDeviceLocked && !GetPreferences().DismountOnNewDevice)
+			return;
+
+		// Another core operation must not start from the nested event loop of a wait dialog, nor while the volumes are
+		// being unmounted (for example, while the administrator password is requested): the main frame's timer
+		// processes the device afterwards
+		if (GetWaitDialog() || HandlingNewDevice)
+		{
+			mPendingNewDevice = device;
+			return;
+		}
+
+		HandlingNewDevice = true;
+		finally_do_arg (bool *, &HandlingNewDevice, { *finally_arg = false; });
+
+		SystemLog::WriteError (string ("New device connected: ") + StringConverter::ToSingle (device) + ": unmounting all volumes");
+
+		VolumeInfoList volumes;
+		bool failed = false;
+		try
+		{
+			volumes = Core->GetMountedVolumes();
+		}
+		catch (exception &e)
+		{
+			SystemLog::WriteException (e);
+			failed = true;
+		}
+
+		// A volume mounted inside another one first. Open files do not keep a volume mounted: their unsaved data is lost.
+		volumes.sort (VolumeInfo::FirstVolumeMountedAfterSecond);
+		foreach (shared_ptr <VolumeInfo> volume, volumes)
+		{
+			try
+			{
+#ifdef TC_LINUX
+				// A forced unmount would leave the keys in memory until the files open on the volume are closed
+				Core->EmergencyDismountVolume (volume, true);
+#else
+				Core->DismountVolume (volume, true);
+#endif
+			}
+			catch (exception &e)
+			{
+				SystemLog::WriteException (e);
+				failed = true;
+			}
+		}
+
+		Core->WipePasswordCache();
+
+		// A monitor that stopped after a failure reported it as a new device: start it again
+		UpdateNewDeviceMonitor();
+
+		if (failed)
+			ShowErrorTopMost (StringFormatter (LangString["LINUX_NEW_DEVICE_UNMOUNT_FAILED"], device));
+		else if (!volumes.empty())
+			ShowWarningTopMost (StringFormatter (LangString["LINUX_NEW_DEVICE_UNMOUNTED"], device));
+	}
 
 	void GraphicUserInterface::OnSignal (int signal)
 	{

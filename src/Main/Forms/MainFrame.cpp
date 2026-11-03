@@ -153,6 +153,9 @@ namespace VeraCrypt
 		InitMessageFilter();
 		InitWindowPrivacy();
 
+		// The preferences are loaded before their update event is connected
+		Gui->UpdateNewDeviceMonitor();
+
 		if (!GetPreferences().SecurityTokenModule.IsEmpty() && !SecurityToken::IsInitialized())
 		{
 			try
@@ -256,6 +259,16 @@ namespace VeraCrypt
 	bool MainFrame::CanExit () const
 	{
 		return Gui->IsTheOnlyTopLevelWindow (this);
+	}
+
+	// While unmounting all volumes when a new device is connected is locked, only the end of the session closes VeraCrypt
+	bool MainFrame::CanExitWhenLocked () const
+	{
+		if (!Gui->IsDismountOnNewDeviceLocked())
+			return true;
+
+		Gui->ShowWarning (LangString["LINUX_UNMOUNT_NEW_DEVICE_LOCKED"]);
+		return false;
 	}
 
 	void MainFrame::ChangePassword (ChangePasswordDialog::Mode::Enum mode)
@@ -694,7 +707,7 @@ namespace VeraCrypt
 			void OnExitMenuItemSelected (wxCommandEvent& event)
 			{
 				Busy = true;
-				if (Core->GetMountedVolumes().empty() || Gui->AskYesNo (LangString ["CONFIRM_EXIT"], false, true))
+				if (Frame->CanExitWhenLocked() && (Core->GetMountedVolumes().empty() || Gui->AskYesNo (LangString ["CONFIRM_EXIT"], false, true)))
 					Frame->Close (true);
 				Busy = false;
 			}
@@ -951,6 +964,8 @@ namespace VeraCrypt
 		}
 		else
 		{
+			if (event.CanVeto() && !CanExitWhenLocked())
+				return;
 #ifdef __WXGTK__
 			Show();
 #endif
@@ -1394,11 +1409,13 @@ namespace VeraCrypt
 		NoHistoryCheckBox->SetValue (!prefs.SaveHistory);
 
 		ShowTaskBarIcon (prefs.BackgroundTaskEnabled);
-		if (Gui->IsInBackgroundMode() && !prefs.BackgroundTaskEnabled)
+		if (Gui->IsInBackgroundMode() && !prefs.BackgroundTaskEnabled && !Gui->IsDismountOnNewDeviceLocked())
 			Close (true);
 
 		InitWindowPrivacy();
 		SavePreferences();
+
+		Gui->UpdateNewDeviceMonitor();
 	}
 
 	void MainFrame::OnRestoreVolumeHeaderMenuItemSelected (wxCommandEvent& event)
@@ -1467,6 +1484,13 @@ namespace VeraCrypt
 
 	void MainFrame::OnTimer ()
 	{
+		// First, and not prevented by a failure below
+		try
+		{
+			Gui->ProcessPendingNewDevice();
+		}
+		catch (exception &e) { SystemLog::WriteException (e); }
+
 		try
 		{
 			UpdateVolumeList();
@@ -1555,7 +1579,8 @@ namespace VeraCrypt
 				}
 			}
 
-			if (Gui->IsInBackgroundMode())
+			// While unmounting all volumes when a new device is connected is locked, VeraCrypt keeps running
+			if (Gui->IsInBackgroundMode() && !Gui->IsDismountOnNewDeviceLocked())
 			{
 				if (!GetPreferences().BackgroundTaskEnabled)
 				{
@@ -1712,7 +1737,7 @@ namespace VeraCrypt
 	}
 	static void IndicatorOnExitMenuItemSelected (GtkWidget *widget, MainFrame *self) {
 		self->SetBusy(true);
-		if (Core->GetMountedVolumes().empty() || Gui->AskYesNo (LangString ["CONFIRM_EXIT"], false, true))
+		if (self->CanExitWhenLocked() && (Core->GetMountedVolumes().empty() || Gui->AskYesNo (LangString ["CONFIRM_EXIT"], false, true)))
 			self->Close (true);
 		self->SetBusy(false);
 	}

@@ -32,6 +32,7 @@ namespace VeraCrypt
 		void OnBackgroundTaskEnabledCheckBoxClick (wxCommandEvent& event);
 		void OnCancelButtonClick (wxCommandEvent& event) { EndModal (wxID_CANCEL); }
 		void OnClose (wxCloseEvent& event);
+		void OnDismountOnNewDeviceCheckBoxClick (wxCommandEvent& event);
 		void OnDismountOnPowerSavingCheckBoxClick (wxCommandEvent& event);
 		void OnDismountOnScreenSaverCheckBoxClick (wxCommandEvent& event);
 		void OnForceAutoDismountCheckBoxClick (wxCommandEvent& event);
@@ -62,6 +63,7 @@ namespace VeraCrypt
 		wxCheckBox *DisableScreenProtectionCheckBox;
 #endif
 		int LastVirtualKeyPressed;
+		bool LockDismountOnNewDevice;
 		unique_ptr <wxTimer> mTimer;
 		UserPreferences Preferences;
 		bool RestoreValidatorBell;

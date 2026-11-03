@@ -50,6 +50,9 @@ namespace VeraCrypt
 		MainFrame (wxWindow* parent);
 		virtual ~MainFrame ();
 
+		// Shows why VeraCrypt cannot be closed while it is locked running
+		bool CanExitWhenLocked () const;
+
 		void OnDeviceChange (const DirectoryPath &mountPoint = DirectoryPath());
 #ifdef TC_UNIX
 		static FilePath GetShowRequestFifoPath () { return Application::GetConfigFilePath (L".show-request-queue", true); }
@@ -108,7 +111,7 @@ namespace VeraCrypt
 		void MountAllDevices ();
 		void MountVolume ();
 		void OnAboutMenuItemSelected (wxCommandEvent& event);
-		void OnQuit(wxCommandEvent& event) { Close(true); }
+		void OnQuit(wxCommandEvent& event) { if (CanExitWhenLocked()) Close(true); }
 		void OnActivate (wxActivateEvent& event);
 		void OnAddAllMountedToFavoritesMenuItemSelected (wxCommandEvent& event);
 		void OnAddToFavoritesMenuItemSelected (wxCommandEvent& event);

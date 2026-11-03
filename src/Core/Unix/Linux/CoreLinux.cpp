@@ -10,11 +10,13 @@
  code distribution packages.
 */
 
+#include <ctype.h>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <fstream>
 #include <iomanip>
+#include <sstream>
 #include <mntent.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -511,12 +513,9 @@ namespace VeraCrypt
 			return fd;
 		}
 
-		void RemoveDeviceMapperDevice (const VolumeInfo &volume, const string &name, bool includeLegacy, bool deferred)
+		// Arguments selecting a device-mapper device of the volume for dmsetup
+		list <string> GetDeviceMapperDeviceArgs (const VolumeInfo &volume, const string &name, const DeviceMapperDevice &device)
 		{
-			DeviceMapperDevice device;
-			if (GetDeviceMapperOwnership (volume, name, includeLegacy, device) != DeviceOwnership::Owned)
-				return;
-
 			list <string> deviceArgs;
 			if (device.Legacy)
 			{
@@ -527,6 +526,108 @@ namespace VeraCrypt
 				deviceArgs.push_back ("-u");
 				deviceArgs.push_back (GetDeviceMapperUuid (volume.SerialInstanceNumber, name));
 			}
+			return deviceArgs;
+		}
+
+		// Names of the device-mapper devices of a volume mounted with kernel cryptography (none otherwise): the top
+		// device first, then the volume's cascade layers <name>_0 ... <name>_<n-2>, any of which a partial dismount
+		// may have removed. A device without a UUID named after a layer that the volume does not have, as left by a
+		// failed cascade mount of an earlier version, cannot be verified and must not fail the dismount.
+		list <string> GetDeviceMapperNames (const VolumeInfo &volume)
+		{
+			list <string> names;
+			const string virtualDevice = volume.VirtualDevice;
+			const string mapperDirectory = "/dev/mapper/";
+
+			if (virtualDevice.find (mapperDirectory + "veracrypt") != 0)
+				return names;
+
+			const string name = virtualDevice.substr (mapperDirectory.size());
+			names.push_back (name);
+
+			size_t cipherCount = 0;
+			size_t maxCipherCount = 1;
+			foreach (shared_ptr <EncryptionAlgorithm> ea, EncryptionAlgorithm::GetAvailableAlgorithms())
+			{
+				if (ea->GetName() == volume.EncryptionAlgorithmName)
+					cipherCount = ea->GetCiphers().size();
+
+				if (ea->GetCiphers().size() > maxCipherCount)
+					maxCipherCount = ea->GetCiphers().size();
+			}
+
+			// An unknown algorithm leaves all possible layers to check
+			if (cipherCount == 0)
+				cipherCount = maxCipherCount;
+
+			for (size_t i = 0; i + 1 < cipherCount; i++)
+				names.push_back (name + "_" + StringConverter::ToSingle ((uint32) i));
+
+			return names;
+		}
+
+		// Device number of the FUSE filesystem mounted at the mount point, read from the mount table, as a request
+		// to the filesystem itself could block. Returns false if no FUSE filesystem is mounted there.
+		bool GetFuseConnectionNumber (const string &mountPoint, unsigned int &connection)
+		{
+			ifstream mountInfo ("/proc/self/mountinfo");
+			string line;
+			bool found = false;
+
+			while (getline (mountInfo, line))
+			{
+				// <id> <parent> <major>:<minor> <root> <mount point> <options> [<optional fields>] - <type> ...
+				istringstream fields (line);
+				string id, parent, deviceNumber, root, path, field;
+				if (!(fields >> id >> parent >> deviceNumber >> root >> path))
+					continue;
+
+				string type;
+				while (fields >> field)
+				{
+					if (field == "-")
+					{
+						fields >> type;
+						break;
+					}
+				}
+
+				// Octal escapes of the mount point (for example \040 for a space)
+				string unescaped;
+				for (size_t i = 0; i < path.size(); i++)
+				{
+					if (path[i] == '\\' && i + 3 < path.size()
+						&& isdigit ((unsigned char) path[i + 1]) && isdigit ((unsigned char) path[i + 2]) && isdigit ((unsigned char) path[i + 3]))
+					{
+						unescaped += (char) (((path[i + 1] - '0') << 6) | ((path[i + 2] - '0') << 3) | (path[i + 3] - '0'));
+						i += 3;
+					}
+					else
+						unescaped += path[i];
+				}
+
+				unsigned int major, minor;
+				if (unescaped != mountPoint || (type != "fuse" && type.find ("fuse.") != 0)
+					|| sscanf (deviceNumber.c_str(), "%u:%u", &major, &minor) != 2 || major != 0)
+				{
+					continue;
+				}
+
+				// The last mount at the mount point is the visible one
+				connection = minor;
+				found = true;
+			}
+
+			return found;
+		}
+
+		void RemoveDeviceMapperDevice (const VolumeInfo &volume, const string &name, bool includeLegacy, bool deferred)
+		{
+			DeviceMapperDevice device;
+			if (GetDeviceMapperOwnership (volume, name, includeLegacy, device) != DeviceOwnership::Owned)
+				return;
+
+			list <string> deviceArgs = GetDeviceMapperDeviceArgs (volume, name, device);
 
 			list <string> removeArgs;
 			removeArgs.push_back ("remove");
@@ -708,9 +809,94 @@ namespace VeraCrypt
 		return CoreUnix::DismountVolume (ResolveMountedVolume (mountedVolume), ignoreOpenFiles, syncVolumeInfo);
 	}
 
-	shared_ptr <VolumeInfo> CoreLinux::EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume)
+	shared_ptr <VolumeInfo> CoreLinux::EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool destroyKeys)
 	{
-		return CoreUnix::EmergencyDismountVolume (ResolveMountedVolume (mountedVolume));
+		return CoreUnix::EmergencyDismountVolume (ResolveMountedVolume (mountedVolume), destroyKeys);
+	}
+
+	// Frees the keys of a volume held by the kernel now, even if it is in use: its open files then fail with I/O errors
+	void CoreLinux::DestroyVolumeKeys (shared_ptr <VolumeInfo> mountedVolume) const
+	{
+		const VolumeInfo &volume = *mountedVolume;
+		unique_ptr <Exception> firstException;
+
+		// Replacing the table of a device-mapper device with an error target frees its key in the kernel at once
+		foreach (const string &name, GetDeviceMapperNames (volume))
+		{
+			DeviceMapperDevice device;
+			if (GetDeviceMapperOwnership (volume, name, true, device) != DeviceOwnership::Owned)
+				continue;
+
+			// Unlike remove, wipe_table selects the device only by name. Its UUID was just verified, and only
+			// an administrator can rename it.
+			list <string> args;
+			args.push_back ("wipe_table");
+			args.push_back (device.Name);
+
+			try
+			{
+				Process::Execute ("dmsetup", args);
+			}
+			catch (Exception &e)
+			{
+				if (!firstException.get())
+					firstException.reset (e.CloneNew());
+			}
+		}
+
+		if (firstException.get())
+			firstException->Throw();
+	}
+
+	// The FUSE service holds the keys of a volume too. Called once the volume's loop and device-mapper devices
+	// are released, as their release needs the service.
+	void CoreLinux::AbortVolumeService (shared_ptr <VolumeInfo> mountedVolume) const
+	{
+		const VolumeInfo &volume = *mountedVolume;
+
+		// The FUSE service holds the keys too. Aborting its connection ends its loop: it closes the volume, which
+		// erases the keys, and exits. Without kernel cryptography, it is the only holder of the keys.
+		if (volume.AuxMountPoint.IsEmpty())
+			return;
+
+		unsigned int connection;
+		if (!GetFuseConnectionNumber (volume.AuxMountPoint, connection))
+		{
+			// The service would keep the keys while the volume is in use
+			if (!GetMountedFilesystems (DevicePath(), volume.AuxMountPoint).empty())
+				throw ParameterIncorrect (SRC_POS);
+			return;
+		}
+
+		const string connectionsPath = "/sys/fs/fuse/connections";
+		const string abortPath = connectionsPath + "/" + StringConverter::ToSingle ((uint32) connection) + "/abort";
+		int fd = open (abortPath.c_str(), O_WRONLY | O_CLOEXEC);
+		if (fd == -1 && errno == ENOENT)
+		{
+			// The FUSE control filesystem is mounted there by systemd, not by every system
+			list <string> args;
+			args.push_back ("-t");
+			args.push_back ("fusectl");
+			args.push_back ("fusectl");
+			args.push_back (connectionsPath);
+			try
+			{
+				Process::Execute ("mount", args);
+			}
+			catch (...) { }
+
+			fd = open (abortPath.c_str(), O_WRONLY | O_CLOEXEC);
+		}
+		bool aborted = fd != -1 && write (fd, "1", 1) == 1;
+		int error = errno;
+		if (fd != -1)
+			close (fd);
+
+		if (!aborted)
+		{
+			errno = error;
+			throw SystemException (SRC_POS, abortPath);
+		}
 	}
 
 	void CoreLinux::DismountNativeVolume (shared_ptr <VolumeInfo> mountedVolume) const
@@ -734,36 +920,9 @@ namespace VeraCrypt
 			return;
 		}
 
-		const string virtualDevice = volume.VirtualDevice;
-		const string mapperDirectory = "/dev/mapper/";
-
-		if (virtualDevice.find (mapperDirectory + "veracrypt") != 0)
+		list <string> names = GetDeviceMapperNames (volume);
+		if (names.empty())
 			throw NotApplicable (SRC_POS);
-
-		// Top device first, then the volume's cascade layers <name>_0 ... <name>_<n-2>, any of which a partial dismount
-		// may have removed. A device without a UUID named after a layer that the volume does not have, as left by a
-		// failed cascade mount of an earlier version, cannot be verified and must not fail the dismount.
-		const string name = virtualDevice.substr (mapperDirectory.size());
-		list <string> names;
-		names.push_back (name);
-
-		size_t cipherCount = 0;
-		size_t maxCipherCount = 1;
-		foreach (shared_ptr <EncryptionAlgorithm> ea, EncryptionAlgorithm::GetAvailableAlgorithms())
-		{
-			if (ea->GetName() == volume.EncryptionAlgorithmName)
-				cipherCount = ea->GetCiphers().size();
-
-			if (ea->GetCiphers().size() > maxCipherCount)
-				maxCipherCount = ea->GetCiphers().size();
-		}
-
-		// An unknown algorithm leaves all possible layers to check
-		if (cipherCount == 0)
-			cipherCount = maxCipherCount;
-
-		for (size_t i = 0; i + 1 < cipherCount; i++)
-			names.push_back (name + "_" + StringConverter::ToSingle ((uint32) i));
 
 		// Device-hosted volumes have no loop device. Earlier versions recorded the host device instead.
 		const bool fileHosted = !volume.LoopDevice.IsEmpty() && wstring (volume.LoopDevice) != wstring (volume.Path);

@@ -56,9 +56,9 @@ namespace VeraCrypt
 		}
 
 #ifdef TC_LINUX
-		virtual shared_ptr <VolumeInfo> EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume)
+		virtual shared_ptr <VolumeInfo> EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool destroyKeys = false)
 		{
-			shared_ptr <VolumeInfo> dismountedVolumeInfo = CoreService::RequestEmergencyDismountVolume (mountedVolume);
+			shared_ptr <VolumeInfo> dismountedVolumeInfo = CoreService::RequestEmergencyDismountVolume (mountedVolume, destroyKeys);
 
 			VolumeEventArgs eventArgs (dismountedVolumeInfo);
 			T::VolumeDismountedEvent.Raise (eventArgs);
