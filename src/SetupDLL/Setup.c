@@ -2924,6 +2924,8 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 						bootLoaderServiceError = GetLastError () ? GetLastError () : ERROR_GEN_FAILURE;
 						MSILog (hInstaller, MSI_WARNING_LEVEL, L"VC_CustomAction_PostInstall: failed to stop %s. Error 0x%.8X", TC_SYSTEM_FAVORITES_SERVICE_NAME, bootLoaderServiceError);
 						bRestartRequired = TRUE; // The previous executable runs until then
+						// and must not reinstall its own, older boot loader
+						SendServiceNotification (VC_SERVICE_CONTROL_SUPERSEDED);
 					}
 					DWORD copyError = SetupService::UpdateExecutable (szTmp, servicePath);
 					bootLoaderResultError = copyError;

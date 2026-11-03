@@ -993,7 +993,11 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 #endif
 								// The executable of a service that cannot be stopped is replaced when Windows restarts.
 								if (!StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL))
+								{
 									bRestartRequired = TRUE; // The previous executable runs until then
+									// and must not reinstall its own, older boot loader
+									SendServiceNotification (VC_SERVICE_CONTROL_SUPERSEDED);
+								}
 								DWORD copyError = SetupService::UpdateExecutable (szTmp, servicePath);
 								if (copyError == ERROR_SUCCESS)
 								{

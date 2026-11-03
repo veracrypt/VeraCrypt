@@ -116,6 +116,10 @@ enum
 
 /* customer service control code to build device list */
 #define VC_SERVICE_CONTROL_BUILD_DEVICE_LIST 128
+/* customer service control code to keep clearing keys on new device insertion enabled until Windows restarts */
+#define VC_SERVICE_CONTROL_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION 129
+/* customer service control code sent by Setup when the service could not be stopped: its executable is replaced when Windows restarts */
+#define VC_SERVICE_CONTROL_SUPERSEDED 130
 
 #ifndef USER_DEFAULT_SCREEN_DPI
 #define USER_DEFAULT_SCREEN_DPI 96
@@ -645,6 +649,7 @@ void SafeOpenURL (LPCWSTR szUrl);
 BitLockerEncryptionStatus GetBitLockerEncryptionStatus(WCHAR driveLetter);
 BOOL IsTestSigningModeEnabled ();
 DWORD SendServiceNotification (DWORD dwNotificationCmd);
+BOOL IsClearKeysOnNewDeviceInsertionLocked ();
 DWORD FastResizeFile (const wchar_t* filePath, __int64 fileSize);
 #if !defined(SETUP) && !defined(VCSDK_DLL)
 void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed);

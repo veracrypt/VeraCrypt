@@ -130,6 +130,12 @@
 
 #define TC_IOCTL_ABORT_MOUNT_VOLUME						TC_IOCTL (44)
 
+// Keeps "clear encryption keys from memory if a new device is inserted" enabled until Windows restarts (cannot be undone)
+#define VC_IOCTL_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION		TC_IOCTL (45)
+
+// OUT - int (non-zero if VC_IOCTL_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION was used since Windows started)
+#define VC_IOCTL_IS_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION_LOCKED	TC_IOCTL (46)
+
 // Undocumented IOCTL sent by Windows 10 when handling EFS data on volumes
 #define IOCTL_UNKNOWN_WINDOWS10_EFS_ACCESS				0x455610D8
 
