@@ -2668,6 +2668,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 	DWORD carriedSetupNotifications = setupNotifications & (VC_SETUP_NOTIFY_CONFIG_UPDATE | VC_SETUP_NOTIFY_CONFIG_REMOVE);
 	bool saveSetupNotifications = false;
 	bool rescueDiskNotice = false;
+	bool releaseNotesNotice = false;
 	HWND			hwndDlg			= NULL;
 	std::wstring    szValueBuf		= L"";
 	DWORD           cchValueBuf		= 0;
@@ -3200,9 +3201,9 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 				if (bUpgrade)
 				{
-					SavePostInstallTasksSettings (TC_POST_INSTALL_CFG_RELEASE_NOTES);
 					// A post-install task would go to the profile of this SYSTEM action, where
-					// no user's GUI looks, so the reminder goes in the machine-wide notices.
+					// no user's GUI looks, so these go in the machine-wide notices.
+					releaseNotesNotice = true;
 					rescueDiskNotice = bUpdateRescueDisk != FALSE;
 				}
 				else if (bPossiblyFirstTimeInstall)
@@ -3308,12 +3309,18 @@ end:
 			setupNotifications |= VC_SETUP_NOTIFY_RESCUE_DISK;
 			MSILog (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString (GetSetupNotificationMessage (VC_SETUP_NOTIFY_RESCUE_DISK)));
 		}
+		// Each installation decides this again, so that an earlier prompt cannot return
+		if (releaseNotesNotice)
+			setupNotifications |= VC_SETUP_NOTIFY_RELEASE_NOTES;
+		else
+			setupNotifications &= ~VC_SETUP_NOTIFY_RELEASE_NOTES;
 		setupNotifications = RefreshCarriedSetupNotifications_Dll (setupNotificationGeneration, carriedSetupNotifications, setupNotifications);
 		DWORD error = SaveSetupNotifications (setupNotifications);
 		if (error != ERROR_SUCCESS)
 		{
 			MSILog (hInstaller, MSI_WARNING_LEVEL, L"Could not save recovery notifications for the GUI: error 0x%.8X", error);
-			if (setupNotifications)
+			// The release notes question is not recovery guidance
+			if (setupNotifications & ~VC_SETUP_NOTIFY_RELEASE_NOTES)
 				MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("MSI_SETUP_NOTIFICATIONS_FAILED"));
 		}
 	}
