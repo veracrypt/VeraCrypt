@@ -234,6 +234,14 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 	if (pim < 0)
 		pim = 0;
 
+	// A cached password can carry a PIM valid for an ordinary volume. A boot
+	// KDF only accepts the 16-bit range written to the boot sector.
+	if (bBoot && pim > MAX_BOOT_PIM_VALUE)
+	{
+		TCfree (keyInfoBuffer);
+		return ERR_PASSWORD_WRONG;
+	}
+
 	if (retHeaderCryptoInfo != NULL)
 	{
 		cryptoInfo = retHeaderCryptoInfo;
