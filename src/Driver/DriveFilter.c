@@ -71,6 +71,11 @@ static uint8 *BootPwdCache = NULL;
 #define DCS_BOOT_LOADER_MIN_VERSION 0x0118
 #define BOOT_LOADER_MAX_VERSION 0x01ff
 
+// From this version a DcsInt boot extension that cannot be used fails the boot
+// arguments. Fixed, unlike VERSION_NUM: a loader must not become "older", and
+// regain the fallback to the header and GPT on disk, when a later driver comes.
+#define DCS_STRICT_HANDOFF_MIN_VERSION 0x0126
+
 static uint64 BootLoaderArgsPtr;
 static BOOL BootDriveSignatureValid = FALSE;
 
@@ -372,6 +377,12 @@ BootSecRegionValidate (void)
 			lenB = (list->DE[j].Type == DE_Sectors) ? list->DE[j].Sectors.Length : list->DE[j].Length;
 			if (DcsRangesOverlap (offA, lenA, offB, lenB))
 				goto reject;
+			// Mount takes the header from the start of the zone and the I/O queue
+			// serves reads from these records, so two records for one disk sector
+			// would give them different views of it. Same rule as DeListValidate().
+			if (list->DE[i].Type == DE_Sectors && list->DE[j].Type == DE_Sectors
+				&& DcsRangesOverlap (list->DE[i].Sectors.Start, list->DE[i].Sectors.Length, list->DE[j].Sectors.Start, list->DE[j].Sectors.Length))
+				goto reject;
 		}
 	}
 
@@ -556,11 +567,11 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 				continue;
 			}
 
-			// This release's DcsInt writes one layout, and a later one is usable only
-			// if it still does. Anything else is a failed boot argument: using the
-			// rest would drop the list and fall back to the header and GPT on disk.
-			// An older loader keeps the previous behavior.
-			strictEfiLayout = bIsEfi && bootArguments->BootLoaderVersion >= VERSION_NUM;
+			// DcsInt writes one layout, and a later one is usable only if it still
+			// does. Anything else is a failed boot argument: using the rest would drop
+			// the list and fall back to the header and GPT on disk. A loader older than
+			// DCS_STRICT_HANDOFF_MIN_VERSION keeps the previous behavior.
+			strictEfiLayout = bIsEfi && bootArguments->BootLoaderVersion >= DCS_STRICT_HANDOFF_MIN_VERSION;
 			if (strictEfiLayout)
 			{
 				PHYSICAL_ADDRESS layoutAddress;
