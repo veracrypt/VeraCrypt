@@ -124,10 +124,19 @@ static void TestWait (HANDLE event) { (void) event; Require (FALSE, "wait withou
 #include "kdf_item.inc"
 #include "header_cleanup.inc"
 
+static void RequireReleased (void)
+{
+    int i;
+    for (i = 0; i < AllocationCount; ++i) Require (!Allocations[i].Open, "allocation leaked");
+    for (i = 0; i < LockCount; ++i) Require (!Locks[i].Locked, "locked range leaked");
+    for (i = 0; i < EventCount; ++i) Require (!Events[i], "event leaked");
+    ++Checks;
+}
+
 static int Run (int failure, BOOL borrowed, BOOL missingOutput, int prf, size_t threads, BOOL headerError)
 {
     PCRYPTO_INFO result = NULL;
-    int status, i;
+    int status;
     AllocationCount = LockCount = EventCount = Attempts = 0;
     FailAt = failure;
     PoolThreads = threads;
@@ -139,11 +148,24 @@ static int Run (int failure, BOOL borrowed, BOOL missingOutput, int prf, size_t 
     else Require (status == (headerError ? ERR_PASSWORD_WRONG : ERR_SUCCESS), "header status changed");
     if (status != ERR_SUCCESS) Require (result == NULL, "failed header retained owned crypto context");
     if (result) TestCryptoClose (result);
-    for (i = 0; i < AllocationCount; ++i) Require (!Allocations[i].Open, "allocation leaked");
-    for (i = 0; i < LockCount; ++i) Require (!Locks[i].Locked, "locked range leaked");
-    for (i = 0; i < EventCount; ++i) Require (!Events[i], "event leaked");
-    ++Checks;
+    RequireReleased ();
     return Attempts;
+}
+
+/* A cached password can carry a PIM valid for an ordinary volume. A boot header
+   read refuses it, and must release what an accepted PIM would have released. */
+static void RunPim (BOOL boot, int pim, int expected)
+{
+    PCRYPTO_INFO result = NULL;
+    int status;
+    AllocationCount = LockCount = EventCount = Attempts = FailAt = 0;
+    PoolThreads = 2;
+    TestHeaderError = FALSE;
+    status = ReadVolumeHeaderWithAbort (boot, NULL, NULL, 0, pim, &result, NULL, NULL, NULL);
+    Require (status == expected, "PIM limit returned the wrong status");
+    if (status != ERR_SUCCESS) Require (result == NULL, "refused PIM returned a crypto context");
+    if (result) TestCryptoClose (result);
+    RequireReleased ();
 }
 
 int main (void)
@@ -160,6 +182,9 @@ int main (void)
                     Run (failure, borrowed, borrowed, prf, threads, error);
             }
     Run (0, FALSE, TRUE, 0, 2, FALSE);
+    RunPim (TRUE, MAX_BOOT_PIM_VALUE, ERR_SUCCESS);
+    RunPim (TRUE, MAX_BOOT_PIM_VALUE + 1, ERR_PASSWORD_WRONG);
+    RunPim (FALSE, MAX_BOOT_PIM_VALUE + 1, ERR_SUCCESS);
     printf ("PASS: %d header setup/cleanup scenarios, including every allocation/event failure and borrowed contexts\n", Checks);
     return 0;
 }
