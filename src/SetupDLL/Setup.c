@@ -2667,6 +2667,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 	DWORD setupNotifications = ReadSetupNotifications (&setupNotificationGeneration);
 	DWORD carriedSetupNotifications = setupNotifications & (VC_SETUP_NOTIFY_CONFIG_UPDATE | VC_SETUP_NOTIFY_CONFIG_REMOVE);
 	bool saveSetupNotifications = false;
+	bool rescueDiskNotice = false;
 	HWND			hwndDlg			= NULL;
 	std::wstring    szValueBuf		= L"";
 	DWORD           cchValueBuf		= 0;
@@ -3200,10 +3201,9 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 				if (bUpgrade)
 				{
 					SavePostInstallTasksSettings (TC_POST_INSTALL_CFG_RELEASE_NOTES);
-					if (bUpdateRescueDisk)
-					{
-						SavePostInstallTasksSettings (TC_POST_INSTALL_CFG_RESCUE_DISK);
-					}
+					// A post-install task would go to the profile of this SYSTEM action, where
+					// no user's GUI looks, so the reminder goes in the machine-wide notices.
+					rescueDiskNotice = bUpdateRescueDisk != FALSE;
 				}
 				else if (bPossiblyFirstTimeInstall)
 				{
@@ -3302,6 +3302,12 @@ end:
 		if (SystemEncryptionUpdate)
 			ReportBootLoaderUpdateResult_Dll (hInstaller, bootLoaderResultError, bootLoaderResult,
 				bootLoaderResultRead, bootLoaderServiceError, setupNotifications);
+		// After the report, which recomputes the boot notices
+		if (rescueDiskNotice)
+		{
+			setupNotifications |= VC_SETUP_NOTIFY_RESCUE_DISK;
+			MSILog (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString (GetSetupNotificationMessage (VC_SETUP_NOTIFY_RESCUE_DISK)));
+		}
 		setupNotifications = RefreshCarriedSetupNotifications_Dll (setupNotificationGeneration, carriedSetupNotifications, setupNotifications);
 		DWORD error = SaveSetupNotifications (setupNotifications);
 		if (error != ERROR_SUCCESS)
