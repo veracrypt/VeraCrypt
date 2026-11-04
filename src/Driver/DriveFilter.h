@@ -51,6 +51,15 @@ typedef struct _DriveFilterExtension
 
 extern BOOL BootArgsValid;
 extern BootArguments BootArgs;
+extern uint8 *BootSecRegionData;
+extern uint32 BootSecRegionSize;
+
+// TRUE only after the copied handoff passed list, sector and password-cache checks.
+BOOL BootSecRegionHandoffValid (void);
+// Validated sector object inside the handoff, or NULL. Length is the byte length.
+uint8 *BootSecRegionSector (uint32 index, uint64 *diskOffset, uint32 *length);
+// Validated password cache, or NULL. The caller burns it after copying.
+DCS_DEP_PWD_CACHE *BootSecRegionPasswordCache (void);
 extern PKTHREAD EncryptionSetupThread;
 extern PKTHREAD DecoySystemWipeThread;
 

@@ -324,39 +324,26 @@ UpdateBuffer(
 	uint64       intersectStart;
 	uint32       intersectLength;
 	uint32       i;
-	DCS_DISK_ENTRY_LIST *DeList = NULL;
 	BOOL         updated = FALSE;
 
-	if (secRegion == NULL)
+	if (secRegion == NULL || !BootSecRegionHandoffValid ())
 		return FALSE;
 
-	// Check if secRegion is large enough to hold the DCS_DISK_ENTRY_LIST structure 
-	// starting at offset 512
-	if (secRegionSize < (512 + sizeof(DCS_DISK_ENTRY_LIST)))
-		return FALSE;
-
-	DeList = (DCS_DISK_ENTRY_LIST*)(secRegion + 512);
-
-	// Ensure Count doesn't exceed the fixed array size
-	if (DeList->Count > 15)
-		return FALSE;
-
-	for (i = 0; i < DeList->Count; ++i) {
-		if (DeList->DE[i].Type == DE_Sectors) {
-			uint64 sectorStart = DeList->DE[i].Sectors.Start;
-			uint64 sectorLength = DeList->DE[i].Sectors.Length;
-			uint64 sectorOffset = DeList->DE[i].Sectors.Offset;
-
-			// Check that sectorOffset and sectorLength are valid within secRegion (guard against overflow)
-			ULONGLONG regionBoundEnd; // sectorOffset + sectorLength
-			if (sectorOffset > (uint64)secRegionSize ||
-				sectorLength == 0 ||
-				FAILED(ULongLongAdd(sectorOffset, sectorLength, &regionBoundEnd)) ||
-				regionBoundEnd > (ULONGLONG)secRegionSize)
-			{
-				// Invalid entry - skip
+	// The handoff was validated once when it was copied. Use those sector
+	// records instead of trusting the list in the buffer again.
+	UNREFERENCED_PARAMETER (secRegion);
+	UNREFERENCED_PARAMETER (secRegionSize);
+	for (i = 0; i < 15; ++i) {
+		uint64 sectorStart;
+		uint32 sectorLength32;
+		uint64 sectorLength;
+		uint8 *sectorData = BootSecRegionSector (i, &sectorStart, &sectorLength32);
+		if (sectorData == NULL)
+			continue;
+		{
+			sectorLength = sectorLength32;
+			if (sectorLength == 0)
 				continue;
-			}
 
 			// Safely compute inclusive end = start + length - 1
 			ULONGLONG secEnd, tmp;
@@ -372,7 +359,7 @@ UpdateBuffer(
 
 			if (intersectLength != 0) {
 				uint64 bufferPos = intersectStart - bufferDiskOffset;
-				uint64 regionPos = sectorOffset + (intersectStart - sectorStart);
+				uint64 sectorPos = intersectStart - sectorStart;
 
 				// Check buffer boundaries using safe add
 				ULONGLONG bufEndCheck;
@@ -380,17 +367,17 @@ UpdateBuffer(
 					bufEndCheck > (ULONGLONG)bufferLength)
 					continue; // Intersection out of buffer range
 
-				// Check secRegion boundaries using safe add
-				ULONGLONG regEndCheck;
-				if (FAILED(ULongLongAdd(regionPos, (ULONGLONG)intersectLength, &regEndCheck)) ||
-					regEndCheck > (ULONGLONG)secRegionSize)
-					continue; // Intersection out of secRegion range
+				// Check the validated sector record using safe add
+				ULONGLONG sectorEndCheck;
+				if (FAILED(ULongLongAdd(sectorPos, (ULONGLONG)intersectLength, &sectorEndCheck)) ||
+					sectorEndCheck > sectorLength)
+					continue;
 
 				updated = TRUE;
 				if (doUpdate && buffer != NULL) {
 					memcpy(
 						buffer + bufferPos,
-						secRegion + regionPos,
+						sectorData + sectorPos,
 						intersectLength
 					);
 				}

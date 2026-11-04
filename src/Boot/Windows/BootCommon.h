@@ -80,6 +80,16 @@ typedef struct
 
 #if defined(_MSC_VER) && !defined(TC_WINDOWS_BOOT)
 
+#if !defined(_UEFI) && !defined(SIGNATURE_64)
+// EDK2 defines this for DCS. The Windows driver checks the same records and
+// needs the same little-endian packing of eight ASCII characters.
+#define SIGNATURE_64(A, B, C, D, E, F, G, H) \
+	(  (unsigned __int64) (unsigned char) (A)        | ((unsigned __int64) (unsigned char) (B) << 8)  \
+	 | ((unsigned __int64) (unsigned char) (C) << 16) | ((unsigned __int64) (unsigned char) (D) << 24) \
+	 | ((unsigned __int64) (unsigned char) (E) << 32) | ((unsigned __int64) (unsigned char) (F) << 40) \
+	 | ((unsigned __int64) (unsigned char) (G) << 48) | ((unsigned __int64) (unsigned char) (H) << 56))
+#endif
+
 #define DCS_DISK_ENTRY_LIST_HEADER_SIGN      SIGNATURE_64 ('D','C','S','D','E','L','S','T')
 
 #ifndef CSTATIC_ASSERT
