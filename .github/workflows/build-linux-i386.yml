@@ -1,0 +1,134 @@
+name: Build and test Linux i386
+
+# Builds the console version for 32-bit x86 in i386 containers, with glibc
+# (Debian) and with musl (Alpine), and runs the algorithm self-tests and the
+# other Linux tests, as an unprivileged user and, for those that mount
+# volumes, as root. The release build is a PIE: code that needs text
+# relocations (DT_TEXTREL) still runs with glibc but crashes at startup with
+# musl, so the binary is also checked for them.
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - 'src/Build/Include/Makefile.inc'
+      - 'src/Common/*.h'
+      - 'src/Common/*.cpp'
+      - 'src/Common/*.c'
+      - 'src/Core/**'
+      - 'src/Crypto/**'
+      - 'src/Driver/Fuse/**'
+      - 'src/Main/**'
+      - 'src/Platform/**'
+      - 'src/Volume/**'
+      - 'src/Makefile'
+      - 'Tests/test.*.hc'
+      - 'Tests/test_backup_header_retry.py'
+      - 'Tests/test_byte_order_interop.py'
+      - 'Tests/test_linux_*.py'
+      - 'Tests/linux_user_fuse_fixture.c'
+      - 'Tests/test_volume_read.py'
+      - 'Tests/volume_read_test.cpp'
+      - '.github/workflows/build-linux-i386.yml'
+  pull_request:
+    branches: [ "master" ]
+    paths:
+      - 'src/Build/Include/Makefile.inc'
+      - 'src/Common/*.h'
+      - 'src/Common/*.cpp'
+      - 'src/Common/*.c'
+      - 'src/Core/**'
+      - 'src/Crypto/**'
+      - 'src/Driver/Fuse/**'
+      - 'src/Main/**'
+      - 'src/Platform/**'
+      - 'src/Volume/**'
+      - 'src/Makefile'
+      - 'Tests/test.*.hc'
+      - 'Tests/test_backup_header_retry.py'
+      - 'Tests/test_byte_order_interop.py'
+      - 'Tests/test_linux_*.py'
+      - 'Tests/linux_user_fuse_fixture.c'
+      - 'Tests/test_volume_read.py'
+      - 'Tests/volume_read_test.cpp'
+      - '.github/workflows/build-linux-i386.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  WXWIDGETS_VERSION: 3.2.5
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - libc: glibc
+            image: debian:trixie
+          - libc: musl
+            image: alpine:3.22
+    name: i386-${{ matrix.libc }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download and extract wxWidgets
+      run: |
+        wget -q https://github.com/wxWidgets/wxWidgets/releases/download/v${{ env.WXWIDGETS_VERSION }}/wxWidgets-${{ env.WXWIDGETS_VERSION }}.tar.bz2 -O /tmp/wxWidgets.tar.bz2
+        mkdir -p /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}
+        tar -xjf /tmp/wxWidgets.tar.bz2 -C /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }} --strip-components=1
+
+    # linux32: the image is i386, but uname -m (used by src/Makefile and by
+    # wxWidgets' configure) reports the kernel's x86_64 without it.
+    # --privileged: the root tests use loop, device-mapper and FUSE devices.
+    - name: Build and test in an i386 container
+      run: |
+        docker run --rm -i --privileged --platform linux/386 \
+          -v "$PWD:/src" -v /tmp/wxWidgets-${{ env.WXWIDGETS_VERSION }}:/wx:ro \
+          -e LIBC=${{ matrix.libc }} ${{ matrix.image }} linux32 sh -eu -s <<'EOF'
+        if [ "$LIBC" = musl ]; then
+          apk add -q g++ make pkgconf yasm linux-headers fuse3-dev pcsc-lite-dev python3 binutils \
+            util-linux e2fsprogs device-mapper fuse3
+          adduser -D tester
+        else
+          apt-get update -qq
+          apt-get install -y -qq g++ make pkg-config yasm libfuse3-dev libpcsclite-dev python3 binutils \
+            util-linux e2fsprogs dmsetup fuse3 > /dev/null
+          useradd -m tester
+        fi
+        cp -r /wx /tmp/wx
+        cd /src/src
+        set -- NOGUI=1 WITHFUSE3=1 WXSTATIC=1 NOTEST=1 WX_ROOT=/tmp/wx WX_BUILD_DIR=/tmp/wxBuildConsole
+        make "$@" wxbuild
+        make "$@" -j"$(nproc)"
+        if readelf -d Main/veracrypt | grep -q TEXTREL; then
+          echo "Main/veracrypt needs text relocations:"
+          readelf -d Main/veracrypt | grep TEXTREL
+          exit 1
+        fi
+        cd /src
+        chmod -R a+rX /src
+        su tester -c 'set -e
+          export LANG=C LC_ALL=C XDG_CONFIG_HOME=$(mktemp -d)
+          src/Main/veracrypt --text --test
+          python3 Tests/test_volume_read.py --build-dir src --require-thread-pool
+          python3 Tests/test_byte_order_interop.py --binary-a src/Main/veracrypt
+          python3 Tests/test_backup_header_retry.py --build-dir src
+          python3 Tests/test_linux_privilege_helpers.py --veracrypt src/Main/veracrypt'
+        # There is no udev in the container: libdevmapper creates the device nodes.
+        export LANG=C LC_ALL=C DM_DISABLE_UDEV=1
+        python3 Tests/test_linux_fuse_fsync.py --binary src/Main/veracrypt
+        python3 Tests/test_linux_loop_identity.py --binary src/Main/veracrypt
+        python3 Tests/test_linux_requester_access.py --binary src/Main/veracrypt --user tester
+        python3 Tests/test_linux_requester_helper.py --build-dir src --user tester
+        EOF
