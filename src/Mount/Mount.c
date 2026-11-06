@@ -3669,7 +3669,7 @@ static void FitPasswordDlgCredentialsNote (HWND hwndDlg)
 
 static void UpdatePasswordDlgPasswordLabel (HWND hwndDlg)
 {
-	BOOL hiddenVolumeProtection = !PasswordDialogDisableMountOptions && mountOptions.ProtectHiddenVolume;
+	BOOL hiddenVolumeProtection = !PasswordDialogDisableMountOptions && !mountOptions.ReadOnly && mountOptions.ProtectHiddenVolume;
 	HWND credentialsNote = GetDlgItem (hwndDlg, HIDVOL_PROT_OUTER_CREDENTIALS_NOTE);
 	BOOL credentialsNoteVisible = (GetWindowLongPtr (credentialsNote, GWL_STYLE) & WS_VISIBLE) != 0;
 
