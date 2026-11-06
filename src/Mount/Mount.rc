@@ -228,6 +228,7 @@ BEGIN
     RTEXT           "Password:",IDT_PASSWORD,0,10,65,13
     RTEXT           "KDF:",IDT_KDF,0,27,65,11
     RTEXT           "Volume PIM:",IDT_PIM,0,46,65,8,NOT WS_VISIBLE
+    LTEXT           "OUTER volume (this dialog): password, PIM, KDF, and keyfile(s).\nHIDDEN volume (Mount Options): password, PIM, KDF, and keyfile(s).",HIDVOL_PROT_OUTER_CREDENTIALS_NOTE,7,103,316,18,NOT WS_VISIBLE
 END
 
 IDD_TRAVELER_DLG DIALOGEX 0, 0, 300, 299

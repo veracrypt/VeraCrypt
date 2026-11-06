@@ -6006,11 +6006,11 @@ BOOL BrowseDirectories(HWND hwndDlg, char *lpszDlgTitle, wchar_t *dirName, const
 	return bOK;
 }
 
-std::wstring GetWrongPasswordErrorMessage (HWND hwndDlg)
+static std::wstring GetWrongPasswordErrorMessageEx (HWND hwndDlg, BOOL hiddenVolumeProtection)
 {
 	WCHAR szTmp[8192];
 
-	StringCbPrintfW (szTmp, sizeof(szTmp), GetString (KeyFilesEnable ? "PASSWORD_OR_KEYFILE_WRONG" : "PASSWORD_WRONG"));
+	StringCbCopyW (szTmp, sizeof(szTmp), GetString (hiddenVolumeProtection ? "HIDVOL_PROT_PASSWORD_OR_KEYFILE_WRONG" : (KeyFilesEnable ? "PASSWORD_OR_KEYFILE_WRONG" : "PASSWORD_WRONG")));
 	if (CheckCapsLock (hwndDlg, TRUE))
 		StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
 
@@ -6021,6 +6021,12 @@ std::wstring GetWrongPasswordErrorMessage (HWND hwndDlg)
 	if (TCBootLoaderOnInactiveSysEncDrive (szDevicePath))
 	{
 		StringCbPrintfW (szTmp, sizeof(szTmp), GetString (KeyFilesEnable ? "PASSWORD_OR_KEYFILE_OR_MODE_WRONG" : "PASSWORD_OR_MODE_WRONG"));
+
+		if (hiddenVolumeProtection)
+		{
+			StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+			StringCbCatW (szTmp, sizeof(szTmp), GetString ("HIDVOL_PROT_PASSWORD_OR_KEYFILE_WRONG"));
+		}
 
 		if (CheckCapsLock (hwndDlg, TRUE))
 			StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
@@ -6040,6 +6046,11 @@ std::wstring GetWrongPasswordErrorMessage (HWND hwndDlg)
 #endif
 
 	return msg;
+}
+
+std::wstring GetWrongPasswordErrorMessage (HWND hwndDlg)
+{
+	return GetWrongPasswordErrorMessageEx (hwndDlg, FALSE);
 }
 
 
@@ -9868,24 +9879,33 @@ retry:
 					goto retry;
 				}
 
-				if (bDevice && mount.bProtectHiddenVolume)
+				if (mount.bProtectHiddenVolume)
 				{
-					int diskNo;
+					BOOL passwordErrorMessageShown = FALSE;
 
-					if (swscanf (volumePath, L"\\Device\\Harddisk%d\\Partition", &diskNo) == 1)
+					if (bDevice)
 					{
-						OPEN_TEST_STRUCT openTestStruct;
-						memset (&openTestStruct, 0, sizeof (openTestStruct));
+						int diskNo;
 
-						openTestStruct.bDetectTCBootLoader = TRUE;
-						StringCchPrintfW ((wchar_t *) openTestStruct.wszFileName, array_capacity (openTestStruct.wszFileName), L"\\Device\\Harddisk%d\\Partition0", diskNo);
+						if (swscanf (volumePath, L"\\Device\\Harddisk%d\\Partition", &diskNo) == 1)
+						{
+							OPEN_TEST_STRUCT openTestStruct;
+							memset (&openTestStruct, 0, sizeof (openTestStruct));
 
-						DWORD cbBytesReturned;
-						if (DeviceIoControl (hDriver, TC_IOCTL_OPEN_TEST, &openTestStruct, sizeof (OPEN_TEST_STRUCT), &openTestStruct, sizeof (OPEN_TEST_STRUCT), &cbBytesReturned, NULL) && openTestStruct.TCBootLoaderDetected)
-							WarningDirect ((GetWrongPasswordErrorMessage (hwndDlg) + L"\n\n" + GetString ("HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT")).c_str(), hwndDlg);
-						else
-							handleError (hwndDlg, mount.nReturnCode, SRC_POS);
+							openTestStruct.bDetectTCBootLoader = TRUE;
+							StringCchPrintfW ((wchar_t *) openTestStruct.wszFileName, array_capacity (openTestStruct.wszFileName), L"\\Device\\Harddisk%d\\Partition0", diskNo);
+
+							DWORD cbBytesReturned;
+							if (DeviceIoControl (hDriver, TC_IOCTL_OPEN_TEST, &openTestStruct, sizeof (OPEN_TEST_STRUCT), &openTestStruct, sizeof (OPEN_TEST_STRUCT), &cbBytesReturned, NULL) && openTestStruct.TCBootLoaderDetected)
+							{
+								WarningDirect ((GetWrongPasswordErrorMessageEx (hwndDlg, TRUE) + L"\n\n" + GetString ("HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT")).c_str(), hwndDlg);
+								passwordErrorMessageShown = TRUE;
+							}
+						}
 					}
+
+					if (!passwordErrorMessageShown)
+						WarningDirect (AppendSrcPos (GetWrongPasswordErrorMessageEx (hwndDlg, TRUE).c_str(), SRC_POS).c_str(), hwndDlg);
 				}
 				else
 					handleError (hwndDlg, mount.nReturnCode, SRC_POS);
