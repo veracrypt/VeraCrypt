@@ -520,6 +520,9 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 	uint8 *mappedCryptoInfo = NULL;
 	uint16 bootLoaderArgsIndex;
 	BOOL strictEfiLayout = FALSE;
+	// The record is read from the mapping once. Every check and the copy kept in
+	// BootArgs use these bytes, whatever writes that physical memory meanwhile.
+	BootArguments bootArgsCopy;
 	uint64* BootArgsRegionsPtr = bIsEfi? BootArgsRegionsEFI : BootArgsRegionsDefault;
 	size_t BootArgsRegionsCount = bIsEfi? sizeof(BootArgsRegionsEFI)/ sizeof(BootArgsRegionsEFI[0]) : sizeof(BootArgsRegionsDefault)/ sizeof(BootArgsRegionsDefault[0]);
 
@@ -538,10 +541,11 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 
 		if (TC_IS_BOOT_ARGUMENTS_SIGNATURE (mappedBootArgs))
 		{
-			BootArguments *bootArguments = (BootArguments *) mappedBootArgs;
+			BootArguments *bootArguments = &bootArgsCopy;
 			Dump ("BootArguments found at 0x%x\n", bootArgsAddr.LowPart);
 
 			DumpMem (mappedBootArgs, sizeof (BootArguments));
+			RtlCopyMemory (&bootArgsCopy, mappedBootArgs, sizeof (bootArgsCopy));
 
 			// Every VeraCrypt boot loader, BIOS or DCS, writes this CRC. Check it
 			// before any field is used. A bad CRC from this release is fatal as
@@ -551,6 +555,7 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 				BOOL currentVersion = (bootArguments->BootLoaderVersion == VERSION_NUM);
 				Dump ("BootArguments CRC incorrect\n");
 				burn (mappedBootArgs, sizeof (BootArguments));
+				burn (&bootArgsCopy, sizeof (bootArgsCopy));
 				MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
 				mappedBootArgs = NULL;
 				if (currentVersion)
@@ -562,6 +567,7 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 			{
 				Dump ("BootLoaderVersion %x not supported\n", (int) bootArguments->BootLoaderVersion);
 				burn (mappedBootArgs, sizeof (BootArguments));
+				burn (&bootArgsCopy, sizeof (bootArgsCopy));
 				MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
 				mappedBootArgs = NULL;
 				continue;
@@ -579,6 +585,7 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 				{
 					Dump ("CryptoInfo offset %x length %d rejected\n", (int) bootArguments->CryptoInfoOffset, (int) bootArguments->CryptoInfoLength);
 					burn (mappedBootArgs, sizeof (BootArguments));
+					burn (&bootArgsCopy, sizeof (bootArgsCopy));
 					MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
 					return STATUS_INVALID_PARAMETER;
 				}
@@ -593,7 +600,8 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 
 				BootArgs = *bootArguments;
 				BootArgsValid = TRUE;
-				burn (bootArguments, sizeof (*bootArguments));
+				burn (mappedBootArgs, sizeof (BootArguments));
+				burn (&bootArgsCopy, sizeof (bootArgsCopy));
 
 				BootDriveSignatureValid = TRUE;
 
@@ -642,20 +650,23 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 						if (bIsEfi && BootArgs.CryptoInfoLength >= DCS_BOOT_CRYPTO_INFO_LENGTH) {
 							uint32   crc;
 							PHYSICAL_ADDRESS SecRegionAddress;
-							SECREGION_BOOT_PARAMS* SecRegionParams = (SECREGION_BOOT_PARAMS*) (mappedCryptoInfo + DCS_SECREGION_PARAMS_OFFSET);
+							SECREGION_BOOT_PARAMS SecRegionParams;
 							uint8 *secRegionData = NULL;
 
-							SecRegionAddress.QuadPart = SecRegionParams->Ptr;
-							Dump ("SecRegion memory 0x%x %d\n", SecRegionAddress.LowPart, SecRegionParams->Size);
+							// Read the parameters once: the CRC and range checks must cover the
+							// pointer and size that are mapped, copied and burned.
+							RtlCopyMemory (&SecRegionParams, mappedCryptoInfo + DCS_SECREGION_PARAMS_OFFSET, sizeof (SecRegionParams));
+							SecRegionAddress.QuadPart = SecRegionParams.Ptr;
+							Dump ("SecRegion memory 0x%x %d\n", SecRegionAddress.LowPart, SecRegionParams.Size);
 							// Check the CRC and the range before the map. A corrupted pointer
 							// or size must not become a mapping, a copy or a burn.
-							crc = GetCrc32((uint8*)SecRegionParams, 12);
-							if (crc != SecRegionParams->Crc) {
+							crc = GetCrc32((uint8*)&SecRegionParams, 12);
+							if (crc != SecRegionParams.Crc) {
 								extensionFailed = TRUE;
 							}
-							else if (SecRegionParams->Ptr != 0) {
-								if (BootSecRegionRangeValid (BootLoaderArgsPtr, SecRegionParams->Ptr, SecRegionParams->Size)) {
-									uint32 secRegionSize = SecRegionParams->Size;
+							else if (SecRegionParams.Ptr != 0) {
+								if (BootSecRegionRangeValid (BootLoaderArgsPtr, SecRegionParams.Ptr, SecRegionParams.Size)) {
+									uint32 secRegionSize = SecRegionParams.Size;
 									Dump ("SecRegion crc ok\n");
 									secRegionData = MmMapIoSpace (SecRegionAddress, secRegionSize, MmCached);
 									if(secRegionData) {
@@ -698,6 +709,7 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 			{
 				Dump ("BootArguments contains a password larger than maximum limit\n");
 				burn (mappedBootArgs, sizeof (BootArguments));
+				burn (&bootArgsCopy, sizeof (bootArgsCopy));
 				MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
 				mappedBootArgs = NULL;
 				TC_BUG_CHECK (STATUS_FAIL_CHECK);
@@ -1365,7 +1377,9 @@ static void CheckDeviceTypeAndMount (DriveFilterExtension *filterExtension)
 			if (!NT_SUCCESS (status))
 				TC_BUG_CHECK (status);
 
-			if (!BootDriveFound)
+			// LoadBootArguments() accepted only a legacy length. Check it again
+			// where the copy is made.
+			if (!BootDriveFound && BootArgs.BootPassword.Length <= MAX_LEGACY_PASSWORD)
 			{
 				Password bootPass = {0};
 				bootPass.Length = BootArgs.BootPassword.Length;
