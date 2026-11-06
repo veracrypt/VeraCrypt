@@ -380,7 +380,7 @@ static void InvalidateVolumeKeys (EXTENSION *Extension)
 {
 	Dump ("Invalidating volume encryption keys\n");
 	
-	Extension->Queue.ThreadBlockReadWrite = TRUE;
+	EncryptedIoQueueBlockDirectReadCrypto (&Extension->Queue);
 
 	crypto_eraseKeys ((PCRYPTO_INFO) Extension->Queue.CryptoInfo);
 	crypto_eraseKeys ((PCRYPTO_INFO) Extension->cryptoInfo);
