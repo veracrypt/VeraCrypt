@@ -6020,13 +6020,16 @@ static std::wstring GetWrongPasswordErrorMessageEx (HWND hwndDlg, BOOL hiddenVol
 
 	if (TCBootLoaderOnInactiveSysEncDrive (szDevicePath))
 	{
-		if (!hiddenVolumeProtection)
-		{
-			StringCbPrintfW (szTmp, sizeof(szTmp), GetString (KeyFilesEnable ? "PASSWORD_OR_KEYFILE_OR_MODE_WRONG" : "PASSWORD_OR_MODE_WRONG"));
+		StringCbPrintfW (szTmp, sizeof(szTmp), GetString (KeyFilesEnable ? "PASSWORD_OR_KEYFILE_OR_MODE_WRONG" : "PASSWORD_OR_MODE_WRONG"));
 
-			if (CheckCapsLock (hwndDlg, TRUE))
-				StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
+		if (hiddenVolumeProtection)
+		{
+			StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+			StringCbCatW (szTmp, sizeof(szTmp), GetString ("HIDVOL_PROT_PASSWORD_OR_KEYFILE_WRONG"));
 		}
+
+		if (CheckCapsLock (hwndDlg, TRUE))
+			StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
 
 		StringCbCatW (szTmp, sizeof(szTmp), GetString ("SYSENC_MOUNT_WITHOUT_PBA_NOTE"));
 	}
