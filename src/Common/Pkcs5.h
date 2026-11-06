@@ -28,11 +28,19 @@ void derive_key_blake2s (const unsigned char *pwd, int pwd_len, const unsigned c
 
 /* output written to d which must be at lease 32 bytes long */
 void hmac_sha256 (unsigned char *k, int lk, unsigned char *d, int ld);
+#ifdef WOLFCRYPT_BACKEND
+int derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation);
+#else
 void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation);
+#endif
 
 /* output written to d which must be at lease 64 bytes long */
 void hmac_sha512 (unsigned char *k, int lk, unsigned char *d, int ld);
+#ifdef WOLFCRYPT_BACKEND
+int derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation);
+#else
 void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation);
+#endif
 
 /* output written to d which must be at lease 64 bytes long */
 void hmac_whirlpool (unsigned char *k, int lk, unsigned char *d, int ld);

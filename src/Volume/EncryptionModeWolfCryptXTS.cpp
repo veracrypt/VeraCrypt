@@ -28,7 +28,7 @@ namespace VeraCrypt
 
 	void EncryptionModeWolfCryptXTS::EncryptBufferXTS (Cipher &cipher, const Cipher &secondaryCipher, uint8 *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
-                cipher.EncryptBlockXTS(buffer, length, startDataUnitNo);
+		cipher.EncryptBlockXTS (buffer, length, startDataUnitNo + SectorOffset);
 	}
 
 	void EncryptionModeWolfCryptXTS::EncryptSectorsCurrentThread (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
@@ -72,7 +72,7 @@ namespace VeraCrypt
 
 	void EncryptionModeWolfCryptXTS::DecryptBufferXTS (Cipher &cipher, const Cipher &secondaryCipher, uint8 *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
-                cipher.DecryptBlockXTS(buffer, length, startDataUnitNo);
+		cipher.DecryptBlockXTS (buffer, length, startDataUnitNo + SectorOffset);
         }
 
 	void EncryptionModeWolfCryptXTS::DecryptSectorsCurrentThread (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
@@ -110,7 +110,8 @@ namespace VeraCrypt
 		size_t keyOffset = 0;
 		foreach_ref (Cipher &cipher, SecondaryCiphers)
 		{
-                        cipher.SetKeyXTS (SecondaryKey.GetRange (keyOffset, cipher.GetKeySize()));
+			// These are standalone secondary ciphers; they have no primary XTS key.
+			cipher.SetKey (SecondaryKey.GetRange (keyOffset, cipher.GetKeySize()));
                         keyOffset += cipher.GetKeySize();
 		}
 
