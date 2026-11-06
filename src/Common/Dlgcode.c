@@ -6010,7 +6010,7 @@ static std::wstring GetWrongPasswordErrorMessageEx (HWND hwndDlg, BOOL hiddenVol
 {
 	WCHAR szTmp[8192];
 
-	StringCbPrintfW (szTmp, sizeof(szTmp), GetString (hiddenVolumeProtection ? "HIDVOL_PROT_PASSWORD_OR_KEYFILE_WRONG" : (KeyFilesEnable ? "PASSWORD_OR_KEYFILE_WRONG" : "PASSWORD_WRONG")));
+	StringCbCopyW (szTmp, sizeof(szTmp), GetString (hiddenVolumeProtection ? "HIDVOL_PROT_PASSWORD_OR_KEYFILE_WRONG" : (KeyFilesEnable ? "PASSWORD_OR_KEYFILE_WRONG" : "PASSWORD_WRONG")));
 	if (CheckCapsLock (hwndDlg, TRUE))
 		StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
 

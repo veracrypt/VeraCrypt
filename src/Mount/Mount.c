@@ -6751,7 +6751,7 @@ static BOOL MountAllDevicesThreadCode (HWND hwndDlg, MountAllDevicesThreadParam*
 			{
 				WCHAR szTmp[4096];
 
-				StringCbPrintfW (szTmp, sizeof(szTmp),
+				StringCbCopyW (szTmp, sizeof(szTmp),
 					GetString (mountOptions.ProtectHiddenVolume ? "HIDVOL_PROT_PASSWORD_OR_KEYFILE_WRONG" : (KeyFilesEnable || FirstCmdKeyFile ? "PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT" : "PASSWORD_WRONG_AUTOMOUNT")));
 				if (CheckCapsLock (hwndDlg, TRUE))
 					StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
