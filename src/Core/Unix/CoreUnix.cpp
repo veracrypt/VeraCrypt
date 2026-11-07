@@ -1350,7 +1350,7 @@ namespace VeraCrypt
 		try
 		{
 			struct stat volumeInfo;
-			volumeFile.GetStat (volumeInfo);
+			core.GetVolumeIdentity (volumeFile, volumeInfo);
 			return LockVolumeIdentity (core, volumeInfo);
 		}
 		catch (VolumeAlreadyMounted&)
@@ -1428,7 +1428,7 @@ namespace VeraCrypt
 		// keeps the volume open after it has left the mount table, until the
 		// last file on the volume is closed. Mounting the volume again meanwhile
 		// would let two services write to it. The lock identifies the file that
-		// was opened, whatever path leads to it.
+		// was opened, whatever path or loop device leads to it.
 		int volumeLock = LockVolumeForMount (*this, *volume->GetFile(), volume->GetProtectionType() != VolumeProtection::ReadOnly);
 		finally_do_arg (int, volumeLock, { if (finally_arg != -1) close (finally_arg); });
 #endif

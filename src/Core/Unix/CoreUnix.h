@@ -44,6 +44,8 @@ namespace VeraCrypt
 		virtual bool IsDevicePresent (const DevicePath &device) const { throw NotApplicable (SRC_POS); }
 		virtual bool IsInPortableMode () const { return false; }
 		virtual bool IsMountPointAvailable (const DirectoryPath &mountPoint) const;
+		// What the opened volume exposes, which is what the locks and checks of a mount apply to
+		virtual void GetVolumeIdentity (const File &volumeFile, struct stat &identity) const { volumeFile.GetStat (identity); }
 		virtual bool IsVolumeUsedByKernelDevice (const struct stat &volumeStat) const { return false; }
 		// Directory of the locks that reserve volumes and slots while mounted
 		virtual string GetMountLockDirectory () const { return "/var/run/veracrypt"; }
