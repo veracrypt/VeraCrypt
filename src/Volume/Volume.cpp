@@ -400,7 +400,10 @@ namespace VeraCrypt
 		if (Protection == VolumeProtection::HiddenVolumeReadOnly)
 			CheckProtectedRange (hostOffset, length);
 
-		SecureBuffer encBuf (buffer.Size());
+		// Encrypted in place right after the copy. A SecureBuffer would lock the
+		// pages of every write in memory, which slows down writes considerably.
+		Buffer encBuf (buffer.Size());
+		finally_do_arg (Buffer *, &encBuf, { finally_arg->Erase(); });
 		encBuf.CopyFrom (buffer);
 
 		EA->EncryptSectors (encBuf, hostOffset / SectorSize, length / SectorSize, SectorSize);
