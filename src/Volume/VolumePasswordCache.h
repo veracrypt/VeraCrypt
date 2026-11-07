@@ -22,7 +22,7 @@ namespace VeraCrypt
 	struct CachedPassword
 	{
 		shared_ptr <VolumePassword> Password;
-		shared_ptr <Pkcs5Kdf> Kdf; // KDF that opened a volume with the password; null if unknown
+		Pkcs5KdfList Kdfs; // KDFs that opened a volume with the password, last used first; null if unknown
 	};
 
 	typedef list <CachedPassword> CachedPasswordList;
@@ -30,6 +30,7 @@ namespace VeraCrypt
 	class VolumePasswordCache
 	{
 	public:
+		static void AddKdf (const VolumePassword &password, shared_ptr <Pkcs5Kdf> kdf);
 		static CachedPasswordList GetPasswords ();
 		static bool IsEmpty () { return CachedPasswords.empty(); }
 		static void Store (const VolumePassword &newPassword, shared_ptr <Pkcs5Kdf> kdf);
@@ -37,6 +38,8 @@ namespace VeraCrypt
 		static const size_t Capacity = 4;
 
 	protected:
+		static void AddKdf (CachedPassword &cached, shared_ptr <Pkcs5Kdf> kdf);
+
 		static CachedPasswordList CachedPasswords;
 
 	private:

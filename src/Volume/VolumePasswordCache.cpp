@@ -14,6 +14,34 @@
 
 namespace VeraCrypt
 {
+	void VolumePasswordCache::AddKdf (const VolumePassword &password, shared_ptr <Pkcs5Kdf> kdf)
+	{
+		for (CachedPasswordList::iterator iter = CachedPasswords.begin(); iter != CachedPasswords.end(); ++iter)
+		{
+			if (*iter->Password == password)
+			{
+				AddKdf (*iter, kdf);
+				break;
+			}
+		}
+	}
+
+	void VolumePasswordCache::AddKdf (CachedPassword &cached, shared_ptr <Pkcs5Kdf> kdf)
+	{
+		const wstring name = kdf ? kdf->GetName() : wstring();
+
+		for (Pkcs5KdfList::iterator iter = cached.Kdfs.begin(); iter != cached.Kdfs.end(); ++iter)
+		{
+			if ((*iter ? (*iter)->GetName() : wstring()) == name)
+			{
+				cached.Kdfs.erase (iter);
+				break;
+			}
+		}
+
+		cached.Kdfs.push_front (kdf);
+	}
+
 	CachedPasswordList VolumePasswordCache::GetPasswords ()
 	{
 		CachedPasswordList passwords;
@@ -22,7 +50,7 @@ namespace VeraCrypt
 		{
 			CachedPassword copy;
 			copy.Password = make_shared <VolumePassword> (VolumePassword (*cached.Password));
-			copy.Kdf = cached.Kdf;
+			copy.Kdfs = cached.Kdfs;
 			passwords.push_back (copy);
 		}
 
@@ -31,20 +59,20 @@ namespace VeraCrypt
 
 	void VolumePasswordCache::Store (const VolumePassword &newPassword, shared_ptr <Pkcs5Kdf> kdf)
 	{
-		// A password used with several KDFs gets an entry for each of them
+		CachedPassword cached;
+		cached.Password = make_shared <VolumePassword> (VolumePassword (newPassword));
+
 		for (CachedPasswordList::iterator iter = CachedPasswords.begin(); iter != CachedPasswords.end(); ++iter)
 		{
-			if (*iter->Password == newPassword
-				&& (iter->Kdf ? iter->Kdf->GetName() : wstring()) == (kdf ? kdf->GetName() : wstring()))
+			if (*iter->Password == newPassword)
 			{
+				cached.Kdfs = iter->Kdfs;
 				CachedPasswords.erase (iter);
 				break;
 			}
 		}
 
-		CachedPassword cached;
-		cached.Password = make_shared <VolumePassword> (VolumePassword (newPassword));
-		cached.Kdf = kdf;
+		AddKdf (cached, kdf);
 		CachedPasswords.push_front (cached);
 
 		if (CachedPasswords.size() > Capacity)
