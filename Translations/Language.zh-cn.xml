@@ -207,7 +207,7 @@
     <entry lang="zh-cn" key="IDM_BENCHMARK">基准测试...</entry>
     <entry lang="zh-cn" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">设置首密钥衍生算法...</entry>
     <entry lang="zh-cn" key="IDM_CHANGE_PASSWORD">修改加密卷密码...</entry>
-    <entry lang="zh-cn" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">设置首密钥离散算法...</entry>
+    <entry lang="zh-cn" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">设置首密钥衍生算法...</entry>
     <entry lang="zh-cn" key="IDM_CHANGE_SYS_PASSWORD">修改密码...</entry>
     <entry lang="zh-cn" key="IDM_CLEAR_HISTORY">清除加密卷历史记录</entry>
     <entry lang="zh-cn" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">关闭所有安全口令牌会话</entry>
@@ -1738,7 +1738,7 @@
     <entry lang="zh-cn" key="MSI_ERR_NONSYS_INPLACE_ENC_INCOMPLETE">分区加密或解密未完成。请先完成该操作再继续。在 VeraCrypt 中，选择“加密卷”&gt;“继续被中断的过程”。</entry>
     <entry lang="zh-cn" key="MSI_ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG">无法通过这种方式更改隐藏系统加密卷的头信息。请启动隐形操作系统，然后使用“系统”&gt;“修改密码”或“系统”&gt;“设置首密钥衍生算法”。</entry>
     <entry lang="zh-cn" key="MSI_SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">此操作要求系统驱动器完全解密。在继续之前，请在 VeraCrypt 中选择“系统”&gt;“永久解密系统分区/驱动器”。</entry>
-    <entry lang="zh-cn" key="SYSENC_EFI_WINDOWS_LOADER_MIGRATION_GUIDANCE">当前活动的 Windows 启动管理器。在撤销之前，还请验证解密回退和应急备份是否兼容。创建新的 VeraCrypt 应急盘可能会复用较早存储的启动管理器备份；仅创建该盘并不能证明该备份与撤销操作兼容。</entry>
+    <entry lang="zh-cn" key="SYSENC_EFI_WINDOWS_LOADER_MIGRATION_GUIDANCE">此检查仅涵盖当前活动的 Windows 启动管理器。在撤销之前，还请验证解密回退和应急备份是否兼容。创建新的 VeraCrypt 应急盘可能会复用较早存储的启动管理器备份；仅创建该盘并不能证明该备份与撤销操作兼容。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_BOOT_MANAGER_PCA2011">此应急盘中包含的 Windows 启动管理器备份由 Microsoft Windows Production PCA 2011 签名。您的固件已包含 Windows UEFI CA 2023。\n\n在 PCA 2011 撤销（AvailableUpdates 位 0x80，包括组合值 0x280）之后，恢复此备份可能导致 Windows 在启用安全启动时无法启动。创建新的应急盘会复用此已存储的备份；它不会更新其签名。\n\n在应用撤销之前，请准备兼容的、更新后的 Windows 恢复介质，并验证解密回退。请勿依赖此应急盘恢复兼容的 Windows 启动管理器。它对于其他 VeraCrypt 恢复任务仍然有用。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_BOOT_MANAGER_CHECK_FAILED">VeraCrypt 无法根据固件安全启动策略检查此应急盘中的 Windows 启动管理器备份。\n\n创建或验证此盘并不能证明其存储的 Windows 启动管理器与 PCA 2011 撤销（AvailableUpdates 位 0x80，包括组合值 0x280）兼容。在应用撤销之前，请验证您的恢复备份，并准备兼容的、更新后的 Windows 恢复介质。</entry>
   </localization>
