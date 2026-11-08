@@ -42,6 +42,9 @@ extern "C" int IsAesHwCpuSupported ()
 namespace VeraCrypt
 {
 	Cipher::Cipher () : Initialized (false)
+#ifdef WOLFCRYPT_BACKEND
+		, XtsInitialized (false)
+#endif
 	{
 	}
 
@@ -111,6 +114,9 @@ namespace VeraCrypt
 		if (!Initialized)
 			ScheduledKey.Allocate (GetScheduledKeySize ());
 
+#ifdef WOLFCRYPT_BACKEND
+		XtsInitialized = false;
+#endif
 		SetCipherKey (key);
 		Key.CopyFrom (key);
 		Initialized = true;
@@ -123,16 +129,17 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 
 		if (!Initialized)
-			ScheduledKey.Allocate (GetScheduledKeySize ());
+			throw NotInitialized (SRC_POS);
 
+		XtsInitialized = false;
 		SetCipherKeyXTS (key);
-		Key.CopyFrom (key);
-		Initialized = true;
+		// Key remains K1 for consumers such as dm-crypt; key here is K2.
+		XtsInitialized = true;
 	}
 
          void Cipher::EncryptBlockXTS (uint8 *data, uint64 length, uint64 startDataUnitNo) const
 	{
-		if (!Initialized)
+		if (!Initialized || !XtsInitialized)
 			throw NotInitialized (SRC_POS);
 
 		EncryptXTS (data, length, startDataUnitNo);
@@ -140,7 +147,7 @@ namespace VeraCrypt
 
         void Cipher::DecryptBlockXTS (uint8 *data, uint64 length, uint64 startDataUnitNo) const
 	{
-		if (!Initialized)
+		if (!Initialized || !XtsInitialized)
 			throw NotInitialized (SRC_POS);
 
 		DecryptXTS (data, length, startDataUnitNo);
@@ -221,12 +228,14 @@ namespace VeraCrypt
     #ifdef WOLFCRYPT_BACKEND
         void CipherAES::EncryptXTS (uint8 *data, uint64 length, uint64 startDataUnitNo) const
 	{
-	    xts_encrypt (data, data, length, startDataUnitNo, (aes_encrypt_ctx *) ScheduledKey.Ptr());
+		if (xts_encrypt (data, data, length, startDataUnitNo, (aes_encrypt_ctx *) ScheduledKey.Ptr()) != EXIT_SUCCESS)
+			throw ExternalException (SRC_POS, L"wolfCrypt AES-XTS encryption failed");
 	}
 
         void CipherAES::DecryptXTS (uint8 *data, uint64 length, uint64 startDataUnitNo) const
 	{
-	    xts_decrypt (data, data, length, startDataUnitNo, (aes_decrypt_ctx *) (ScheduledKey.Ptr() + sizeof (aes_encrypt_ctx)));
+		if (xts_decrypt (data, data, length, startDataUnitNo, (aes_decrypt_ctx *) (ScheduledKey.Ptr() + sizeof (aes_encrypt_ctx))) != EXIT_SUCCESS)
+			throw ExternalException (SRC_POS, L"wolfCrypt AES-XTS decryption failed");
 	}
 
         void CipherAES::SetCipherKeyXTS (const uint8 *key)

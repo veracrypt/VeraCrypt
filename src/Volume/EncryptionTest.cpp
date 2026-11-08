@@ -18,6 +18,8 @@
 #include "EncryptionModeXTS.h"
 #ifdef WOLFCRYPT_BACKEND
 #include "EncryptionModeWolfCryptXTS.h"
+#include "Common/Pkcs5.h"
+#include <wolfssl/wolfcrypt/pwdbased.h>
 #endif
 #include "EncryptionTest.h"
 #include "Pkcs5Kdf.h"
@@ -561,6 +563,45 @@ namespace VeraCrypt
 
 			if (memcmp (XtsTestVectors[i].ciphertext, p, sizeof (p)) != 0)
 				throw TestFailed (SRC_POS);
+
+#ifdef WOLFCRYPT_BACKEND
+			// Kernel key export must retain K1 after installing K2.
+			const SecureBuffer &exportedKey = aes.GetCiphers().front()->GetKey();
+			if (exportedKey.Size() != sizeof (XtsTestVectors[i].key1)
+				|| memcmp (exportedKey.Ptr(), XtsTestVectors[i].key1, exportedKey.Size()) != 0)
+				throw TestFailed (SRC_POS);
+
+			// Check the offset against known ciphertext, not just a round trip.
+			if (dataUnitNo > 0)
+			{
+				xts->SetSectorOffset (1);
+				memcpy (p, XtsTestVectors[i].plaintext, sizeof (p));
+				aes.EncryptSectors (p, dataUnitNo - 1, 1, ENCRYPTION_DATA_UNIT_SIZE);
+				if (memcmp (p, XtsTestVectors[i].ciphertext, sizeof (p)) != 0)
+					throw TestFailed (SRC_POS);
+				aes.DecryptSectors (p, dataUnitNo - 1, 1, ENCRYPTION_DATA_UNIT_SIZE);
+				if (memcmp (p, XtsTestVectors[i].plaintext, sizeof (p)) != 0)
+					throw TestFailed (SRC_POS);
+				xts->SetSectorOffset (0);
+			}
+
+			// A primary-key update must invalidate the copied XTS context.
+			uint8 changedKey[sizeof (XtsTestVectors[i].key1)];
+			memcpy (changedKey, XtsTestVectors[i].key1, sizeof (changedKey));
+			changedKey[0] ^= 1;
+			aes.SetKey (ConstBufferPtr (changedKey, sizeof (changedKey)));
+			try
+			{
+				aes.EncryptSectors (p, dataUnitNo, 1, ENCRYPTION_DATA_UNIT_SIZE);
+				throw TestFailed (SRC_POS);
+			}
+			catch (NotInitialized&) { }
+			aes.SetKeyXTS (ConstBufferPtr (XtsTestVectors[i].key2, sizeof (XtsTestVectors[i].key2)));
+			memcpy (p, XtsTestVectors[i].plaintext, sizeof (p));
+			aes.EncryptSectors (p, dataUnitNo, 1, ENCRYPTION_DATA_UNIT_SIZE);
+			if (memcmp (p, XtsTestVectors[i].ciphertext, sizeof (p)) == 0)
+				throw TestFailed (SRC_POS);
+#endif
 		}
 	}
 
@@ -1478,17 +1519,69 @@ namespace VeraCrypt
 		}
 	#endif
          #else
-               Pkcs5HmacSha256 pkcs5HmacSha256;
+		// AES-XTS needs 64 bytes: cover both SHA-256 PBKDF2 output blocks.
+		derivedKey.Allocate (64);
+		static const uint8 expectedSha256[64] =
+		{
+			0xf2, 0xa0, 0x4f, 0xb2, 0xd3, 0xe9, 0xa5, 0xd8, 0x51, 0x0b, 0x5c, 0x06,
+			0xdf, 0x70, 0x8e, 0x24, 0xe9, 0xc7, 0xd9, 0x15, 0x3d, 0x22, 0xcd, 0xde,
+			0xb8, 0xa6, 0xdb, 0xfd, 0x71, 0x85, 0xc6, 0x99, 0x32, 0xc0, 0xee, 0x37,
+			0x27, 0xf7, 0x24, 0xcf, 0xea, 0xa6, 0xac, 0x73, 0xa1, 0x4c, 0x4e, 0x52,
+			0x9b, 0x94, 0xf3, 0x54, 0x06, 0xfc, 0x04, 0x65, 0xa1, 0x0a, 0x24, 0xfe,
+			0xf0, 0x98, 0x1d, 0xa6
+		};
+		static const uint8 expectedSha512[64] =
+		{
+			0x13, 0x64, 0xae, 0xf8, 0x0d, 0xf5, 0x57, 0x6c, 0x30, 0xd5, 0x71, 0x4c,
+			0xa7, 0x75, 0x3f, 0xfd, 0x00, 0xe5, 0x25, 0x8b, 0x39, 0xc7, 0x44, 0x7f,
+			0xce, 0x23, 0x3d, 0x08, 0x75, 0xe0, 0x2f, 0x48, 0xd6, 0x30, 0xd7, 0x00,
+			0xb6, 0x24, 0xdb, 0xe0, 0x5a, 0xd7, 0x47, 0xef, 0x52, 0xca, 0xa6, 0x34,
+			0x83, 0x47, 0xe5, 0xcb, 0xe9, 0x87, 0xf1, 0x20, 0x59, 0x6a, 0xe6, 0xa9,
+			0xcf, 0x51, 0x78, 0xc6
+		};
+		Pkcs5HmacSha256 pkcs5HmacSha256;
 		if (pkcs5HmacSha256.DeriveKey (derivedKey, password, salt, 5) != 0)
 			throw TestFailed (SRC_POS);
-		if (memcmp (derivedKey.Ptr(), "\x64\xf3\xa5\xa3", 4) != 0)
+		if (memcmp (derivedKey.Ptr(), expectedSha256, sizeof (expectedSha256)) != 0)
 			throw TestFailed (SRC_POS);
 
-		Pkcs5HmacSha512 pkcs5HmacSha512;	
+		Pkcs5HmacSha512 pkcs5HmacSha512;
 		if (pkcs5HmacSha512.DeriveKey (derivedKey, password, salt, 5) != 0)
 			throw TestFailed (SRC_POS);
-		if (memcmp (derivedKey.Ptr(), "\x55\xa1\x76\xbb", 4) != 0)
+		if (memcmp (derivedKey.Ptr(), expectedSha512, sizeof (expectedSha512)) != 0)
 			throw TestFailed (SRC_POS);
+
+		if (wc_PBKDF_max_iterations_get() < pkcs5HmacSha512.GetIterationCount (MAX_PIM_VALUE))
+			throw TestFailed (SRC_POS);
+
+		// Cancellation must propagate through every SHA KDF, including boot SHA-256.
+		Pkcs5KdfList kdfs = Pkcs5Kdf::GetAvailableAlgorithms();
+		kdfs.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha256_Boot));
+		long volatile abortKeyDerivation = 1;
+		foreach (shared_ptr <Pkcs5Kdf> kdf, kdfs)
+		{
+			memset (derivedKey.Ptr(), 0xa5, derivedKey.Size());
+			if (kdf->DeriveKey (derivedKey, password, salt, 5, &abortKeyDerivation) != ERR_USER_ABORT)
+				throw TestFailed (SRC_POS);
+			for (size_t n = 0; n < derivedKey.Size(); ++n)
+				if (derivedKey[n] != 0)
+					throw TestFailed (SRC_POS);
+		}
+
+		// Invalid salt lengths exercise a provider error without changing its
+		// process-wide iteration policy while other operations may be running.
+		for (int hashIndex = 0; hashIndex < 2; ++hashIndex)
+		{
+			memset (derivedKey.Ptr(), 0xa5, derivedKey.Size());
+			int result = hashIndex
+				? derive_key_sha512 (password.DataPtr(), (int) password.Size(), salt.Get(), -1, 5, derivedKey.Ptr(), (int) derivedKey.Size(), NULL)
+				: derive_key_sha256 (password.DataPtr(), (int) password.Size(), salt.Get(), -1, 5, derivedKey.Ptr(), (int) derivedKey.Size(), NULL);
+			if (result == 0)
+				throw TestFailed (SRC_POS);
+			for (size_t n = 0; n < derivedKey.Size(); ++n)
+				if (derivedKey[n] != 0)
+					throw TestFailed (SRC_POS);
+		}
         #endif	
         }
 }

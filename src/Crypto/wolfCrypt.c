@@ -4,7 +4,9 @@
 #include "Sha2.h"
 #include "../Common/Crypto.h"
 #include "../Common/Pkcs5.h"
+#include <limits.h>
 #include <wolfssl/wolfcrypt/pwdbased.h>
+#include <wolfssl/wolfcrypt/error-crypt.h>
 
 
 AES_RETURN aes_init()
@@ -163,7 +165,13 @@ AES_RETURN xts_decrypt_key256(const unsigned char *key, aes_decrypt_ctx cx[1])
 
 AES_RETURN xts_encrypt(const unsigned char *in, unsigned char *out, word64 length, word64 sector, const aes_encrypt_ctx cx[1])
 {
-    int ret = wc_AesXtsEncryptConsecutiveSectors(&cx->wc_enc_xts, out, in, length, sector, ENCRYPTION_DATA_UNIT_SIZE);
+    int ret;
+
+    /* The provider length is word32; never silently truncate a request. */
+    if (length > (word32) -1)
+        return EXIT_FAILURE;
+
+    ret = wc_AesXtsEncryptConsecutiveSectors(&cx->wc_enc_xts, out, in, (word32) length, sector, ENCRYPTION_DATA_UNIT_SIZE);
 
 #if defined( AES_ERR_CHK )
     return ret ? EXIT_FAILURE : EXIT_SUCCESS;
@@ -175,7 +183,12 @@ AES_RETURN xts_encrypt(const unsigned char *in, unsigned char *out, word64 lengt
 
 AES_RETURN xts_decrypt(const unsigned char *in, unsigned char *out, word64 length, word64 sector, const aes_decrypt_ctx cx[1])
 {
-    int ret = wc_AesXtsDecryptConsecutiveSectors(&cx->wc_dec_xts, out, in, length, sector, ENCRYPTION_DATA_UNIT_SIZE);
+    int ret;
+
+    if (length > (word32) -1)
+        return EXIT_FAILURE;
+
+    ret = wc_AesXtsDecryptConsecutiveSectors(&cx->wc_dec_xts, out, in, (word32) length, sector, ENCRYPTION_DATA_UNIT_SIZE);
 
 #if defined( AES_ERR_CHK )
     return ret ? EXIT_FAILURE : EXIT_SUCCESS;
@@ -233,28 +246,34 @@ void sha512(unsigned char * result, const unsigned char* source, uint_64t source
     wc_Sha512Free(&sha512);
 }
 
-void derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen
-#ifndef TC_WINDOWS_BOOT
-    , long volatile *pAbortKeyDerivation
-#endif
-)
+static int derive_key_wolfcrypt (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation, int hashType)
 {
-#ifndef TC_WINDOWS_BOOT
-    (void) pAbortKeyDerivation;
-#endif
-    if (wc_PBKDF2 ((byte*) dk, (const byte*) pwd, pwd_len, (const byte*) salt, salt_len, (int) iterations, dklen, WC_SHA512) != 0)
+    int ret;
+
+    if (pAbortKeyDerivation && *pAbortKeyDerivation)
+        ret = ERR_USER_ABORT;
+    else if (iterations > INT_MAX)
+        ret = BAD_FUNC_ARG;
+    else
+        ret = wc_PBKDF2 ((byte*) dk, (const byte*) pwd, pwd_len, (const byte*) salt, salt_len, (int) iterations, dklen, hashType);
+
+    /* wolfCrypt cannot interrupt a running PBKDF2 call. Discard its result
+     * if cancellation was requested while it was running. */
+    if (ret == 0 && pAbortKeyDerivation && *pAbortKeyDerivation)
+        ret = ERR_USER_ABORT;
+
+    if (ret != 0 && dk != NULL && dklen > 0)
         burn (dk, dklen);
+
+    return ret;
 }
 
-void derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen
-#ifndef TC_WINDOWS_BOOT
-    , long volatile *pAbortKeyDerivation
-#endif
-)
+int derive_key_sha512 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation)
 {
-#ifndef TC_WINDOWS_BOOT
-    (void) pAbortKeyDerivation;
-#endif
-    if (wc_PBKDF2 ((byte*) dk, (const byte*) pwd, pwd_len, (const byte*) salt, salt_len, (int) iterations, dklen, WC_SHA256) != 0)
-        burn (dk, dklen);
+    return derive_key_wolfcrypt (pwd, pwd_len, salt, salt_len, iterations, dk, dklen, pAbortKeyDerivation, WC_SHA512);
+}
+
+int derive_key_sha256 (const unsigned char *pwd, int pwd_len, const unsigned char *salt, int salt_len, uint32 iterations, unsigned char *dk, int dklen, long volatile *pAbortKeyDerivation)
+{
+    return derive_key_wolfcrypt (pwd, pwd_len, salt, salt_len, iterations, dk, dklen, pAbortKeyDerivation, WC_SHA256);
 }

@@ -14,6 +14,11 @@
 #include "Platform/StringConverter.h"
 #include "Pkcs5Kdf.h"
 #include "VolumePassword.h"
+#ifdef WOLFCRYPT_BACKEND
+#include <limits.h>
+#include <wolfssl/options.h>
+#include <wolfssl/wolfcrypt/pwdbased.h>
+#endif
 #if !defined (WOLFCRYPT_BACKEND) && !defined (VC_DCS_DISABLE_ARGON2)
 #include "argon2.h"
 #endif
@@ -22,6 +27,14 @@ namespace VeraCrypt
 {
 	Pkcs5Kdf::Pkcs5Kdf ()
 	{
+#ifdef WOLFCRYPT_BACKEND
+		// Initialize once, before any KDF instance can derive a key. The local
+		// static synchronizes concurrent constructors; the provider setter does not.
+		// VeraCrypt's supported PIM range fits in a positive int iteration count.
+		static const int previousLimit = wc_PBKDF_max_iterations_set (INT_MAX);
+		if (previousLimit < 0)
+			throw ExternalException (SRC_POS, L"Cannot initialize wolfCrypt PBKDF2 iteration limit");
+#endif
 	}
 
 	Pkcs5Kdf::~Pkcs5Kdf ()
@@ -131,8 +144,12 @@ namespace VeraCrypt
 	int Pkcs5HmacSha256_Boot::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
 	{
 		ValidateParameters (key, password, salt, iterationCount);
+#ifdef WOLFCRYPT_BACKEND
+		return derive_key_sha256 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
+#else
 		derive_key_sha256 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
 		return 0;
+#endif
 	}
 
 	int Pkcs5HmacSha256::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
@@ -143,8 +160,12 @@ namespace VeraCrypt
 	int Pkcs5HmacSha256::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
 	{
 		ValidateParameters (key, password, salt, iterationCount);
+#ifdef WOLFCRYPT_BACKEND
+		return derive_key_sha256 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
+#else
 		derive_key_sha256 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
 		return 0;
+#endif
 	}
 
 	int Pkcs5HmacSha512::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
@@ -155,8 +176,12 @@ namespace VeraCrypt
 	int Pkcs5HmacSha512::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
 	{
 		ValidateParameters (key, password, salt, iterationCount);
+#ifdef WOLFCRYPT_BACKEND
+		return derive_key_sha512 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
+#else
 		derive_key_sha512 (password.DataPtr(), (int) password.Size(), salt.Get(), (int) salt.Size(), iterationCount, key.Get(), (int) key.Size(), pAbortKeyDerivation);
 		return 0;
+#endif
 	}
 
     #ifndef WOLFCRYPT_BACKEND
