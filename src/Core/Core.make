@@ -15,6 +15,7 @@ OBJS += CoreBase.o
 OBJS += CoreException.o
 OBJS += CoreTest.o
 OBJS += FatFormatter.o
+OBJS += FavoritePasswordCache.o
 OBJS += HostDevice.o
 OBJS += MountOptions.o
 OBJS += RandomNumberGenerator.o

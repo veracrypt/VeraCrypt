@@ -41,7 +41,8 @@ namespace VeraCrypt
 			SharedAccessAllowed (false),
 			SlotNumber (0),
 			UseBackupHeaders (false),
-			EMVSupportEnabled (false)
+			EMVSupportEnabled (false),
+			UseFavoritePasswordCache (false)
 		{
 		}
 
@@ -79,6 +80,7 @@ namespace VeraCrypt
 		VolumeSlotNumber SlotNumber;
 		bool UseBackupHeaders;
 		bool EMVSupportEnabled;
+		bool UseFavoritePasswordCache; // Used by the application only; not serialized
 
 	protected:
 		void CopyFrom (const MountOptions &other);

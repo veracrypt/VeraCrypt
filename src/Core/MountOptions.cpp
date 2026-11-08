@@ -56,6 +56,7 @@ namespace VeraCrypt
 		TC_CLONE (SlotNumber);
 		TC_CLONE (UseBackupHeaders);
 		TC_CLONE (EMVSupportEnabled);
+		TC_CLONE (UseFavoritePasswordCache);
 	}
 
 	void MountOptions::DeserializeData (shared_ptr <Stream> stream)
