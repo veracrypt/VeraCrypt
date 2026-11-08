@@ -28,6 +28,7 @@ namespace VeraCrypt
 			BackgroundTaskMenuMountItemsEnabled (true),
 			BackgroundTaskMenuOpenItemsEnabled (true),
 			BeepAfterHotkeyMountDismount (false),
+			CachePasswordDuringMultipleMount (false),
 			CloseBackgroundTaskOnNoVolumes (true),
 			CloseExplorerWindowsOnDismount (true),
 			CloseSecurityTokenSessionsAfterMount (false),
@@ -72,6 +73,7 @@ namespace VeraCrypt
 		bool BackgroundTaskMenuMountItemsEnabled;
 		bool BackgroundTaskMenuOpenItemsEnabled;
 		bool BeepAfterHotkeyMountDismount;
+		bool CachePasswordDuringMultipleMount;
 		bool CloseBackgroundTaskOnNoVolumes;
 		bool CloseExplorerWindowsOnDismount;
 		bool CloseSecurityTokenSessionsAfterMount;

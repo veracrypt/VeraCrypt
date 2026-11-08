@@ -22,6 +22,7 @@ namespace VeraCrypt
 #define TC_CLONE_SHARED(TYPE,NAME) NAME = other.NAME ? make_shared <TYPE> (*other.NAME) : shared_ptr <TYPE> ()
 
 		TC_CLONE (CachePassword);
+		TC_CLONE (FavoritePasswords);
 		TC_CLONE (FilesystemOptions);
 		TC_CLONE (FilesystemType);
 #ifdef TC_LINUX
@@ -60,6 +61,7 @@ namespace VeraCrypt
 
 	void MountOptions::DeserializeData (shared_ptr <Stream> stream)
 	{
+		FavoritePasswords.reset();
 		Serializer sr (stream);
 		wstring nameValue;
 

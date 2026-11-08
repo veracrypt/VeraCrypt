@@ -738,6 +738,8 @@ namespace VeraCrypt
 	{
 		UserPreferences prefs;
 		prefs.Load();
+		if (CmdLine->ArgCacheFavorites)
+			prefs.CachePasswordDuringMultipleMount = true;
 		Gui->SetPreferences (prefs);
 		NoHistoryCheckBox->SetValue (!prefs.SaveHistory);
 	}

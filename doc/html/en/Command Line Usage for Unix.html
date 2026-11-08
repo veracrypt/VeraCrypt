@@ -153,6 +153,10 @@
 <td>Start the VeraCrypt background task.</td>
 </tr>
 <tr>
+<td><em>--cache-favorites</em></td>
+<td>Temporarily reuse credentials supplied during a <code>--auto-mount=favorites</code> operation. Up to four combinations are retained with their successful KDFs and PIMs, then erased when the operation ends. This option is disabled by default and is independent of ordinary password caching. If temporary credentials fail, the ordinary cache is tried with the favorite's original parameters. Failed attempts can delay the next password prompt, especially with Argon2 and a high PIM. This option does not enable hidden volume protection. To use the saved preference instead of this switch, specify <code>--load-preferences</code>; plain <code>--auto-mount=favorites</code> does not load it. See <a href="Program%20Menu.html">Program Menu</a> for details.</td>
+</tr>
+<tr>
 <td><em>--display-password</em></td>
 <td>Display password characters while typing.</td>
 </tr>

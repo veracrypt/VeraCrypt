@@ -91,7 +91,10 @@ namespace VeraCrypt
 		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options)
 		{
 			shared_ptr <VolumeInfo> mountedVolume;
-			const bool useCachedPasswords = !VolumePasswordCache::IsEmpty()
+			FavoritePasswordCache::Snapshot favoritePasswords;
+			if (options.FavoritePasswords)
+				favoritePasswords = options.FavoritePasswords->GetSnapshot();
+			const bool useCachedPasswords = (!favoritePasswords.Entries.empty() || !VolumePasswordCache::IsEmpty())
 				&& (!options.Password || options.Password->IsEmpty())
 				&& (!options.Keyfiles || options.Keyfiles->empty());
 			MountOptions newOptions = options;
@@ -118,27 +121,74 @@ namespace VeraCrypt
 					finally_do_arg (MountOptions*, &options, { if (finally_arg->Password) finally_arg->Password.reset(); });
 
 					PasswordIncorrect passwordException;
-					foreach (shared_ptr <VolumePassword> password, VolumePasswordCache::GetPasswords())
+					list <FavoritePasswordCache::Entry> attempted;
+					foreach (shared_ptr <FavoritePasswordCache::Entry> credential, favoritePasswords.Entries)
 					{
+						if (!options.FavoritePasswords->IsCurrent (favoritePasswords.Generation))
+							break;
+						// A remembered PIM is tried only with its successful KDF,
+						// never with autodetection or a different selected KDF.
+						if (credential->SystemEncryption != options.PartitionInSystemEncryptionScope
+							|| (options.Kdf && options.Kdf->GetName() != credential->Kdf->GetName()))
+							continue;
+
+						newOptions.Pim = options.Pim < 0 ? credential->Pim : options.Pim;
+						newOptions.Kdf = credential->Kdf;
+						FavoritePasswordCache::Entry attempt (credential->Password, newOptions.Pim, newOptions.Kdf, options.PartitionInSystemEncryptionScope);
+						bool duplicate = false;
+						foreach (const FavoritePasswordCache::Entry &previous, attempted)
+							if (attempt.Matches (previous)) duplicate = true;
+						if (duplicate)
+							continue;
+						attempted.push_back (attempt);
+
 						try
 						{
-							newOptions.Password = password;
+							newOptions.Password = make_shared <VolumePassword> (credential->Password);
 							mountedVolume = CoreService::RequestMountVolume (newOptions);
 							break;
 						}
-						catch (ProtectionPasswordIncorrect&)
+						catch (ProtectionPasswordIncorrect&) { throw; }
+						catch (ProtectionPasswordKeyfilesIncorrect&) { throw; }
+						catch (PasswordIncorrect &e) { passwordException = e; }
+						catch (PasswordOrKeyboardLayoutIncorrect&) { }
+						catch (PasswordOrMountOptionsIncorrect&) { }
+					}
+
+					if (!mountedVolume)
+					{
+						// Ordinary cache attempts keep the original mount parameters
+						// and exception handling, including when temporary reuse is off.
+						newOptions.Pim = options.Pim;
+						newOptions.Kdf = options.Kdf;
+						foreach (shared_ptr <VolumePassword> password, VolumePasswordCache::GetPasswords())
 						{
-							// The outer password was accepted; another cached password cannot
-							// correct the hidden-volume protection credentials.
-							throw;
-						}
-						catch (ProtectionPasswordKeyfilesIncorrect&)
-						{
-							throw;
-						}
-						catch (PasswordIncorrect &e)
-						{
-							passwordException = e;
+							bool duplicate = false;
+							FavoritePasswordCache::Entry attempt (*password, options.Pim, options.Kdf, options.PartitionInSystemEncryptionScope);
+							foreach (const FavoritePasswordCache::Entry &previous, attempted)
+								if (attempt.Matches (previous)) duplicate = true;
+							if (duplicate)
+								continue;
+							try
+							{
+								newOptions.Password = password;
+								mountedVolume = CoreService::RequestMountVolume (newOptions);
+								break;
+							}
+							catch (ProtectionPasswordIncorrect&)
+							{
+								// The outer password was accepted; another cached password cannot
+								// correct the hidden-volume protection credentials.
+								throw;
+							}
+							catch (ProtectionPasswordKeyfilesIncorrect&)
+							{
+								throw;
+							}
+							catch (PasswordIncorrect &e)
+							{
+								passwordException = e;
+							}
 						}
 					}
 
@@ -173,6 +223,17 @@ namespace VeraCrypt
 				VolumePasswordCache::Store (*newOptions.Password);
 			}
 
+			// Only explicitly supplied credentials are learned; cache hits don't
+			// acquire a PIM/KDF association or change the temporary cache order.
+			if (options.FavoritePasswords && !useCachedPasswords && newOptions.Password && !newOptions.Password->IsEmpty())
+			{
+				shared_ptr <Pkcs5Kdf> kdf;
+				try { kdf = Pkcs5Kdf::GetAlgorithm (mountedVolume->Pkcs5PrfName); }
+				catch (ParameterIncorrect&) { }
+				options.FavoritePasswords->Store (*newOptions.Password, mountedVolume->Pim, kdf,
+					options.PartitionInSystemEncryptionScope, favoritePasswords.Generation);
+			}
+
 			VolumeEventArgs eventArgs (mountedVolume);
 			T::VolumeMountedEvent.Raise (eventArgs);
 
@@ -192,6 +253,7 @@ namespace VeraCrypt
 		virtual void WipePasswordCache () const
 		{
 			VolumePasswordCache::Clear();
+			FavoritePasswordCache::ClearAll();
 		}
 	};
 }

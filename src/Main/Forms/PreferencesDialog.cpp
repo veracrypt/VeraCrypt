@@ -111,6 +111,11 @@ namespace VeraCrypt
 
 		// Mount options
 		CachePasswordsCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.CachePassword));
+		wxCheckBox *favoriteCacheCheckBox = new wxCheckBox (CachePasswordsCheckBox->GetParent(), wxID_ANY,
+			LangString["LINUX_PREF_CACHE_FAVORITE_CREDENTIALS"]);
+		favoriteCacheCheckBox->SetToolTip (LangString["LINUX_FAVORITE_CREDENTIAL_CACHE_HELP"]);
+		favoriteCacheCheckBox->SetValidator (wxGenericValidator (&Preferences.CachePasswordDuringMultipleMount));
+		CachePasswordsCheckBox->GetContainingSizer()->Insert (3, favoriteCacheCheckBox, 0, wxALL, 5);
 		MountReadOnlyCheckBox->SetValue (Preferences.DefaultMountOptions.Protection == VolumeProtection::ReadOnly);
 		MountRemovableCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.Removable));
 

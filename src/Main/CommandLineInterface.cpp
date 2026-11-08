@@ -44,6 +44,7 @@ namespace VeraCrypt
 
 	CommandLineInterface::CommandLineInterface (int argc, wchar_t** argv, UserInterfaceType::Enum interfaceType) :
 		ArgCommand (CommandId::None),
+		ArgCacheFavorites (false),
 #ifdef TC_LINUX
 		ArgEmergencyUnmount (false),
 #endif
@@ -73,6 +74,7 @@ namespace VeraCrypt
 		parser.AddOption (L"",  L"auto-mount",			_("Auto mount device-hosted/favorite volumes"));
 		parser.AddSwitch (L"",  L"backup-headers",		_("Backup volume headers"));
 		parser.AddSwitch (L"",  L"background-task",		_("Start Background Task"));
+		parser.AddSwitch (L"",  L"cache-favorites",		_("Reuse passwords and PIMs during this favorites operation"));
 #ifdef TC_WINDOWS
 		parser.AddSwitch (L"",  L"cache",				_("Cache passwords and keyfiles"));
 #endif
@@ -321,6 +323,9 @@ namespace VeraCrypt
 		// Options
 		if (parser.Found (L"background-task"))
 			StartBackgroundTask = true;
+		ArgCacheFavorites = parser.Found (L"cache-favorites");
+		if (ArgCacheFavorites)
+			Preferences.CachePasswordDuringMultipleMount = true;
 
 #ifdef TC_WINDOWS
 		if (parser.Found (L"cache"))

@@ -18,6 +18,7 @@
 #include "Volume/Volume.h"
 #include "Volume/VolumeSlot.h"
 #include "Volume/VolumePassword.h"
+#include "FavoritePasswordCache.h"
 
 namespace VeraCrypt
 {
@@ -50,9 +51,16 @@ namespace VeraCrypt
 
 		MountOptions &operator= (const MountOptions &other) { CopyFrom (other); return *this; }
 
+		bool HasCachedPasswords (bool ordinaryCacheAvailable) const
+		{
+			return ordinaryCacheAvailable || (FavoritePasswords && !FavoritePasswords->IsEmpty());
+		}
+
 		TC_SERIALIZABLE (MountOptions);
 
 		bool CachePassword;
+		// Shared only within the requesting application; not part of the IPC format.
+		shared_ptr <FavoritePasswordCache> FavoritePasswords;
 		wstring FilesystemOptions;
 		wstring FilesystemType;
 #ifdef TC_LINUX

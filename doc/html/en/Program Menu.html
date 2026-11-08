@@ -172,7 +172,7 @@ Disable this option if you experience stability issues (like volume access issue
  any password or PIM values to a disk (however, see the chapter <a href="Security%20Requirements%20and%20Precautions.html">
 <em>Security Requirements and Precautions</em></a>). Password caching can be enabled/disabled in the Preferences (<em>Settings</em> -&gt;
 <em>Preferences</em>) and in the password prompt window. If the system partition/drive is encrypted, caching of the pre-boot authentication password can be enabled or disabled in the system encryption settings (<em>Settings</em> &gt; &lsquo;<em>System Encryption</em>&rsquo;).</p>
-<h4>Temporary Cache password during &quot;Mount Favorite Volumes&quot; operations</h4>
+<h4>Temporary Cache password during &quot;Mount Favorite Volumes&quot; operations (Windows)</h4>
 <p>When this option is unchecked (this is the default), VeraCrypt will display the password prompt window for every favorite volume during the execution of the &quot;Mount Favorite Volumes&quot; operation and each password is erased once the volume is mounted (unless
  password caching is enabled).<br>
 <br>
@@ -181,6 +181,14 @@ If this option is checked and if there are two or more favorite volumes, then du
 <p>This option is useful when favorite volumes share the same password since the password prompt window will only be displayed once for the first favorite and VeraCrypt will automatically mount all subsequent favorites.</p>
 <p>Please note that since we can't assume that all favorites use the same PRF (hash) nor the same TrueCrypt mode, VeraCrypt uses Autodetection for the PRF of subsequent favorite volumes and it tries both TrueCryptMode values (false, true) which means that the
  total mounting time will be slower compared to the individual mounting of each volume with the manual selection of the correct PRF and the correct TrueCryptMode.</p>
+<h4>Reuse passwords and PIMs while mounting favorites (Linux and macOS)</h4>
+<p>This option is disabled by default. Enable it under Settings &gt; Preferences &gt; Mount Options to reuse credentials during a single Mount Favorite Volumes operation. It is useful when favorites share a password and a custom PIM. Enabling the ordinary password cache alone does not enable PIM reuse.</p>
+<p>After a successful mount with credentials you supplied, VeraCrypt temporarily remembers the effective password, including any processed keyfiles, together with its PIM and the KDF that opened the volume. Up to four credential combinations are retained. Passwords accepted from either cache are not learned again. Later favorites can use the remembered combinations without another password prompt.</p>
+<p>Explicit mount parameters take precedence over remembered values. A remembered PIM is tried only with the KDF that accepted it. If the temporary credentials do not open a favorite, VeraCrypt tries the ordinary password cache with that favorite's original parameters before asking for credentials. It never uses a remembered PIM for KDF autodetection.</p>
+<p>Each failed remembered combination adds a key derivation before the next password prompt. This can cause a noticeable delay, especially with Argon2 and a high PIM, and an Argon2 attempt can use up to 1 GiB of memory.</p>
+<p>Each favorite keeps its other mount settings. This option does not enable hidden volume protection or select a hidden volume. A matching outer password can mount the outer volume without asking for the hidden password. Configure hidden volume protection explicitly when needed.</p>
+<p>The temporary credentials are erased when the operation finishes or is canceled. Wipe Cache also clears them. This option works independently of the ordinary password cache: passwords remain available after the operation only if ordinary password caching is also enabled. PIMs remembered by this option are not retained for later operations or saved in the favorite configuration.</p>
+<p>The command line switch <code>--cache-favorites</code> also enables this option. In a graphical session the Preferences checkbox reflects the setting and can be used to turn it off. For command line mounts, use <code>veracrypt --text --cache-favorites --auto-mount=favorites</code>, or load a saved preference with <code>veracrypt --text --load-preferences --auto-mount=favorites</code>. A plain <code>--auto-mount=favorites</code> command does not load the saved preference.</p>
 <h4>Open Explorer window for successfully mounted volume</h4>
 <p>If this option is checked, then after a VeraCrypt volume has been successfully mounted, an Explorer window showing the root directory of the volume (e.g., T:\) will be automatically opened.</p>
 <h4>Use a different taskbar icon when there are mounted volumes</h4>

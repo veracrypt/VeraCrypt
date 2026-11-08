@@ -1507,7 +1507,7 @@ namespace VeraCrypt
 		// to reuse the cache while correcting hidden-volume credentials.
 		retryWithCachedPasswords = (!options.Password || options.Password->IsEmpty())
 			&& (!options.Keyfiles || options.Keyfiles->empty())
-			&& !Core->IsPasswordCacheEmpty();
+			&& options.HasCachedPasswords (!Core->IsPasswordCacheEmpty());
 
 		try
 		{
@@ -1587,7 +1587,7 @@ namespace VeraCrypt
 			// to reuse the cache while correcting hidden-volume credentials.
 			retryWithCachedPasswords = (!options.Password || options.Password->IsEmpty())
 				&& (!options.Keyfiles || options.Keyfiles->empty())
-				&& !Core->IsPasswordCacheEmpty();
+				&& options.HasCachedPasswords (!Core->IsPasswordCacheEmpty());
 
 			try
 			{
@@ -1614,7 +1614,7 @@ namespace VeraCrypt
 		if (tryCachedPasswords
 			&& (!options.Password || options.Password->IsEmpty())
 			&& (!options.Keyfiles || options.Keyfiles->empty())
-			&& !Core->IsPasswordCacheEmpty())
+			&& options.HasCachedPasswords (!Core->IsPasswordCacheEmpty()))
 		{
 			// Cached password
 			try

@@ -1033,7 +1033,7 @@ namespace VeraCrypt
 			if (!protectionError && tryCachedPasswords
 				&& (!options.Password || options.Password->IsEmpty())
 				&& (!options.Keyfiles || options.Keyfiles->empty())
-				&& !Core->IsPasswordCacheEmpty())
+				&& options.HasCachedPasswords (!Core->IsPasswordCacheEmpty()))
 			{
 				// Cached password
 				try
