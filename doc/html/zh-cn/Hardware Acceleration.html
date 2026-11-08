@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt执行的数据加密是实时（即插即用）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Hardware%20Acceleration.html">硬件加速</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>硬件加速</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+一些处理器（CPU）支持硬件加速的 <a href="AES.html" style="text-align:left; color:#0080c0; text-decoration:none">
+高级加密标准（AES）</a> 加密*，其速度通常比同一处理器上的纯软件实现的加密速度快4 - 8倍。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+默认情况下，VeraCrypt会在具备支持英特尔高级加密标准新指令集（AES-NI）的处理器的计算机上使用硬件加速的AES。具体而言，VeraCrypt使用执行所谓AES轮（即AES算法的主要部分）的AES-NI指令**。VeraCrypt不使用任何执行密钥生成的AES-NI指令。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：默认情况下，当加密的Windows系统启动或从休眠状态恢复时（前提是处理器支持英特尔AES-NI指令），VeraCrypt也会使用硬件加速的AES。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+要了解VeraCrypt是否可以在您的计算机上使用硬件加速的AES，请选择 <em style="text-align:left">设置</em> > <em style="text-align:left">性能/驱动程序配置</em>，并查看标记为 '<em style="text-align:left">此计算机的处理器（CPU）支持AES硬件加速</em>' 的字段。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+要了解您想购买的处理器是否支持VeraCrypt用于硬件加速AES的英特尔AES-NI指令（也称为“AES新指令”），请查看处理器的文档或联系供应商/制造商。或者，点击 <a href="http://ark.intel.com/search/advanced/?AESTech=true" style="text-align:left; color:#0080c0; text-decoration:none">
+此处</a> 查看支持AES-NI指令的英特尔处理器的官方列表。但是，请注意，英特尔网站列出的一些支持AES-NI的英特尔处理器，实际上仅在进行处理器配置更新后才支持AES-NI指令（例如，i7 - 2630/2635QM、i7 - 2670/2675QM、i5 - 2430/2435M、i5 - 2410/2415M）。在这种情况下，您应该联系主板/计算机制造商获取包含处理器最新处理器配置更新的BIOS更新。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果您想禁用AES的硬件加速（例如，因为您希望VeraCrypt仅使用完全开源的AES实现），可以通过选择 <em style="text-align:left">设置</em> > <em style="text-align:left">性能和驱动程序选项</em>，并禁用选项 '<em style="text-align:left">使用处理器的AES指令加速AES加密/解密</em>' 来实现。请注意，更改此设置后，需要重启操作系统以确保所有VeraCrypt组件在内部执行所请求的模式更改。另外，当您创建VeraCrypt救援磁盘时，此选项的状态会写入救援磁盘，并在您从该磁盘启动时使用（影响预启动和初始启动阶段）。要创建新的VeraCrypt救援磁盘，请选择 <em style="text-align:left">系统</em> > <em style="text-align:left">创建救援磁盘</em>。
+</div>
+<p>&nbsp;</p>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* 在本章中，“加密”一词也指解密。</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">** 这些指令是 <em style="text-align:left">AESENC</em>、<em style="text-align:left">AESENCLAST</em>、<em style="text-align:left">AESDEC</em> 和 <em style="text-align:left">AESDECLAST</em>，它们执行以下AES变换：<em style="text-align:left">行移位（ShiftRows）</em>、<em style="text-align:left">字节替换（SubBytes）</em>、<em style="text-align:left">列混合（MixColumns）</em>、<em style="text-align:left">逆行移位（InvShiftRows）</em>、<em style="text-align:left">逆字节替换（InvSubBytes）</em>、<em style="text-align:left">逆列混合（InvMixColumns）</em> 和 <em style="text-align:left">轮密钥加（AddRoundKey）</em>（有关这些变换的更多详细信息，请参阅 [3]）</span><span style="text-align:left; font-size:10px; line-height:12px">.</span></p>
+</div><div class="ClearBoth"></div></body></html>

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -52,6 +52,9 @@ namespace VeraCrypt
 		StringFormatter (const wxString &format, StringFormatterArg arg0 = StringFormatterArg(), StringFormatterArg arg1 = StringFormatterArg(), StringFormatterArg arg2 = StringFormatterArg(), StringFormatterArg arg3 = StringFormatterArg(), StringFormatterArg arg4 = StringFormatterArg(), StringFormatterArg arg5 = StringFormatterArg(), StringFormatterArg arg6 = StringFormatterArg(), StringFormatterArg arg7 = StringFormatterArg(), StringFormatterArg arg8 = StringFormatterArg(), StringFormatterArg arg9 = StringFormatterArg());
 		virtual ~StringFormatter ();
 
+#if (__cplusplus >= 201103L)
+		explicit 
+#endif
 		operator wstring () const { return wstring (FormattedString); }
 		operator wxString () const { return FormattedString; }
 		operator StringFormatterArg () const { return FormattedString; }

@@ -9,7 +9,7 @@
  or Copyright (c) 2012-2013 Josef Schneider <josef@netpage.dk>
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -37,6 +37,7 @@
 #include "InitDataArea.h"
 #include "ExpandVolume.h"
 #include "Resource.h"
+#include <strsafe.h>
 
 #ifndef SRC_POS
 #define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
@@ -104,7 +105,7 @@ int MountVolTemp (HWND hwndDlg, wchar_t *volumePath, int *driveNo, Password *pas
 	mountOptions.PartitionInInactiveSysEncScope = FALSE;
 	mountOptions.UseBackupHeader = FALSE;
 
-	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5, pim, FALSE, FALSE, FALSE, TRUE, &mountOptions, FALSE, FALSE) < 1)
+	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5, pim, FALSE, FALSE, TRUE, &mountOptions, FALSE, FALSE) < 1)
 	{
 		*driveNo = -3;
 		return ERR_VOL_MOUNT_FAILED;
@@ -389,7 +390,7 @@ int ExtendFileSystem (HWND hwndDlg , wchar_t *lpszVolume, Password *pVolumePassw
 
 	// mount and resize file system
 
-	DebugAddProgressDlgStatus (hwndDlg, L"Mounting volume ...\r\n");
+	DebugAddProgressDlgStatus (hwndDlg, GetString("EXPANDER_MOUNTING_VOLUME"));
 
 	nStatus=MountVolTemp(hwndDlg, lpszVolume, &driveNo, pVolumePassword, VolumePkcs5, VolumePim);
 	if (nStatus!=ERR_SUCCESS)
@@ -441,7 +442,13 @@ int ExtendFileSystem (HWND hwndDlg , wchar_t *lpszVolume, Password *pVolumePassw
 		goto error;
 	}
 
-	DebugAddProgressDlgStatus (hwndDlg, L"Extending file system ...\r\n");
+	if ((BytesPerSector == 0) || (BytesPerSector > (DWORD)INT_MAX))
+	{
+		nStatus = ERR_SECTOR_SIZE_INCOMPATIBLE;
+		goto error;
+	}
+
+	DebugAddProgressDlgStatus (hwndDlg, GetString("EXPANDER_EXTENDING_FILESYSTEM"));
 
 	// extend volume
 	nStatus = FsctlExtendVolume(szVolumeGUID, newDataAreaSize/BytesPerSector );
@@ -452,7 +459,7 @@ error:
 
 	if (driveNo>=0)
 	{
-		DebugAddProgressDlgStatus (hwndDlg, L"Unmounting volume ...\r\n");
+		DebugAddProgressDlgStatus (hwndDlg, GetString("EXPANDER_UNMOUNTING_VOLUME"));
 		UnmountVolume (hwndDlg, driveNo, TRUE);
 	}
 
@@ -492,7 +499,7 @@ error:
 	Remarks: a lot of code is from TrueCrypt 'Common\Password.c' :: ChangePwd()
 
 */
-static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePassword, int VolumePkcs5, int VolumePim, uint64 newHostSize, BOOL initFreeSpace)
+static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePassword, int VolumePkcs5, int VolumePim, uint64 newHostSize, BOOL initFreeSpace, BOOL bQuickExpand)
 {
 	int nDosLinkCreated = 1, nStatus = ERR_OS_ERROR;
 	wchar_t szDiskFile[TC_MAX_PATH], szCFDevice[TC_MAX_PATH];
@@ -501,6 +508,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	PCRYPTO_INFO cryptoInfo = NULL, ci = NULL;
 	void *dev = INVALID_HANDLE_VALUE;
 	DWORD dwError;
+	DWORD bytesRead;
 	BOOL bDevice;
 	uint64 hostSize=0, newDataAreaSize, currentVolSize;
 	DWORD HostSectorSize;
@@ -510,8 +518,11 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	BOOL bTimeStampValid = FALSE;
 	LARGE_INTEGER headerOffset;
 	BOOL backupHeader;
-	byte *wipeBuffer = NULL;
+	uint8 *wipeBuffer = NULL;
 	uint32 workChunkSize = TC_VOLUME_HEADER_GROUP_SIZE;
+	CRYPTO_INFO tmpCI;
+	PCRYPTO_INFO cryptoInfoBackup = NULL;
+	BOOL bIsRamEncryptionEnabled = IsRamEncryptionEnabled();
 
 	if (pVolumePassword->Length == 0) return -1;
 
@@ -521,7 +532,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 
 	if (bDevice == FALSE)
 	{
-		wcscpy (szCFDevice, szDiskFile);
+		StringCchCopyW (szCFDevice, ARRAYSIZE(szCFDevice), szDiskFile);
 	}
 	else
 	{
@@ -535,6 +546,27 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 
 	if (dev == INVALID_HANDLE_VALUE)
 		goto error;
+	else if (!bDevice && bPreserveTimestamp)
+	{
+		// ensure that Last Access and Last Time timestamps are not modified
+		// in order to preserve plausible deniability of hidden volumes (last password change time is stored in the volume header).
+		ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
+		ftLastAccessTime.dwLowDateTime = 0xFFFFFFFF;
+
+		SetFileTime (dev, NULL, &ftLastAccessTime, NULL);
+
+		/* Remember the container modification/creation date and time, (used to reset file date and time of
+		file-hosted volumes after password change (or attempt to), in order to preserve plausible deniability
+		of hidden volumes (last password change time is stored in the volume header). */
+
+		if (GetFileTime ((HANDLE) dev, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime) == 0)
+		{
+			bTimeStampValid = FALSE;
+			MessageBoxW (hwndDlg, GetString ("GETFILETIME_FAILED_PW"), lpszTitle, MB_OK | MB_ICONEXCLAMATION);
+		}
+		else
+			bTimeStampValid = TRUE;
+	}
 
 	if (bDevice)
 	{
@@ -559,18 +591,44 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			}
 			else
 			{
-				DISK_GEOMETRY driveInfo;
+				BYTE dgBuffer[256];
 
-				bResult = DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0,
-					&driveInfo, sizeof (driveInfo), &dwResult, NULL);
+				bResult = DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0,
+					dgBuffer, sizeof (dgBuffer), &dwResult, NULL);
 
 				if (!bResult)
-					goto error;
+				{
+					DISK_GEOMETRY geo;
+					if (DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, (LPVOID) &geo, sizeof (geo), &dwResult, NULL))
+					{
+						hostSize = geo.Cylinders.QuadPart * geo.SectorsPerTrack * geo.TracksPerCylinder * geo.BytesPerSector;
+						HostSectorSize = geo.BytesPerSector;
 
-				hostSize = driveInfo.Cylinders.QuadPart * driveInfo.BytesPerSector *
-					driveInfo.SectorsPerTrack * driveInfo.TracksPerCylinder;
+						if (CurrentOSMajor >= 6)
+						{
+							STORAGE_READ_CAPACITY storage = {0};
 
-				HostSectorSize = driveInfo.BytesPerSector;
+							storage.Version = sizeof (STORAGE_READ_CAPACITY);
+							storage.Size = sizeof (STORAGE_READ_CAPACITY);
+							if (DeviceIoControl (dev, IOCTL_STORAGE_READ_CAPACITY, NULL, 0, (LPVOID) &storage, sizeof (storage), &dwResult, NULL)
+								&& (dwResult >= sizeof (storage))
+								&& (storage.Size == sizeof (STORAGE_READ_CAPACITY))
+								)
+							{
+								hostSize = storage.DiskLength.QuadPart;
+							}
+						}
+					}
+					else
+					{
+						goto error;
+					}
+				}
+				else
+				{
+					hostSize = ((PDISK_GEOMETRY_EX) dgBuffer)->DiskSize.QuadPart;
+					HostSectorSize = ((PDISK_GEOMETRY_EX) dgBuffer)->Geometry.BytesPerSector;
+				}
 			}
 
 			if (hostSize == 0)
@@ -602,20 +660,6 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 		goto error;
 	}
 
-	if (!bDevice && bPreserveTimestamp)
-	{
-		/* Remember the container modification/creation date and time, (used to reset file date and time of
-		file-hosted volumes after password change (or attempt to), in order to preserve plausible deniability
-		of hidden volumes (last password change time is stored in the volume header). */
-
-		if (GetFileTime ((HANDLE) dev, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime) == 0)
-		{
-			bTimeStampValid = FALSE;
-			MessageBoxW (hwndDlg, GetString ("GETFILETIME_FAILED_PW"), lpszTitle, MB_OK | MB_ICONEXCLAMATION);
-		}
-		else
-			bTimeStampValid = TRUE;
-	}
 
 	// Seek the volume header
 	headerOffset.QuadPart = TC_VOLUME_HEADER_OFFSET;
@@ -627,8 +671,13 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	}
 
 	/* Read in volume header */
-	nStatus = _lread ((HFILE) dev, buffer, sizeof (buffer));
-	if (nStatus != sizeof (buffer))
+	if (!ReadEffectiveVolumeHeader (bDevice, dev, buffer, &bytesRead))
+	{
+		nStatus = ERR_OS_ERROR;
+		goto error;
+	}
+
+	if (bytesRead != sizeof (buffer))
 	{
 		// Windows may report EOF when reading sectors from the last cluster of a device formatted as NTFS
 		memset (buffer, 0, sizeof (buffer));
@@ -636,14 +685,25 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 
 	/* Try to decrypt the header */
 
-	nStatus = ReadVolumeHeader (FALSE, buffer, pVolumePassword, VolumePkcs5, VolumePim, FALSE, &cryptoInfo, NULL);
+	nStatus = ReadVolumeHeader (FALSE, buffer, pVolumePassword, VolumePkcs5, VolumePim, &cryptoInfo, NULL);
 	if (nStatus == ERR_CIPHER_INIT_WEAK_KEY)
 		nStatus = 0;	// We can ignore this error here
+
+	// if the volume master key is vulnerable, print a warning to inform the user
+	if ((nStatus == 0) && cryptoInfo->bVulnerableMasterKey)
+	{
+		DebugAddProgressDlgStatus(hwndDlg, GetString ("ERR_XTS_MASTERKEY_VULNERABLE_SHORT"));
+	}
 
 	if (nStatus != 0)
 	{
 		cryptoInfo = NULL;
 		goto error;
+	}
+
+	if (bIsRamEncryptionEnabled)
+	{
+		VcProtectKeys (cryptoInfo, VcGetEncryptionID (cryptoInfo));
 	}
 
 	if (cryptoInfo->HeaderFlags & TC_HEADER_FLAG_ENCRYPTED_SYSTEM)
@@ -717,13 +777,37 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 
 		liNewSize.QuadPart=(LONGLONG)newHostSize;
 
-		// Preallocate the file
-		if (!SetFilePointerEx (dev, liNewSize, NULL, FILE_BEGIN)
-			|| !SetEndOfFile (dev)
-			|| SetFilePointer (dev, 0, NULL, FILE_BEGIN) != 0)
+		if (hostSize != newHostSize)
 		{
-			nStatus = ERR_OS_ERROR;
-			goto error;
+			// Preallocate the file
+			if (!SetFilePointerEx (dev, liNewSize, NULL, FILE_BEGIN)
+				|| !SetEndOfFile (dev))
+			{
+				nStatus = ERR_OS_ERROR;
+				goto error;
+			}
+
+			if (bQuickExpand)
+			{
+				if (!SetFileValidData (dev, liNewSize.QuadPart))
+				{
+					DebugAddProgressDlgStatus(hwndDlg, L"Warning: Failed to perform Quick Expand. Continuing with standard expanding...\r\n");
+				}
+			}
+
+			if (SetFilePointer (dev, 0, NULL, FILE_BEGIN) != 0)
+			{
+				nStatus = ERR_OS_ERROR;
+				goto error;
+			}
+		}
+		else
+		{
+			if (SetFilePointer (dev, 0, NULL, FILE_BEGIN) != 0)
+			{
+				nStatus = ERR_OS_ERROR;
+				goto error;
+			}
 		}
 	}
 
@@ -742,7 +826,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			goto error;
 		}
 
-		DebugAddProgressDlgStatus(hwndDlg, L"Writing random data to new space ...\r\n");
+		DebugAddProgressDlgStatus(hwndDlg, GetString ("EXPANDER_WRITING_RANDOM_DATA"));
 
 		SetFormatSectorSize(HostSectorSize);
 		nStatus = FormatNoFs (hwndDlg, startSector, num_sectors, dev, cryptoInfo, FALSE);
@@ -783,9 +867,18 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	while ( !cryptoInfo->LegacyVolume )
 	{
 		if (backupHeader)
-			DebugAddProgressDlgStatus(hwndDlg, L"Writing re-encrypted backup header ...\r\n");
+			DebugAddProgressDlgStatus(hwndDlg, GetString("EXPANDER_WRITING_ENCRYPTED_BACKUP"));
 		else
-			DebugAddProgressDlgStatus(hwndDlg, L"Writing re-encrypted primary header ...\r\n");
+			DebugAddProgressDlgStatus(hwndDlg, GetString("EXPANDER_WRITING_ENCRYPTED_PRIMARY"));
+
+		if (bIsRamEncryptionEnabled)
+		{
+			VirtualLock (&tmpCI, sizeof (CRYPTO_INFO));
+			memcpy (&tmpCI, cryptoInfo, sizeof (CRYPTO_INFO));
+			VcUnprotectKeys (&tmpCI, VcGetEncryptionID (cryptoInfo));
+			cryptoInfoBackup = cryptoInfo;
+			cryptoInfo = &tmpCI;
+		}
 
 		// Prepare new volume header
 		nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
@@ -805,6 +898,13 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			cryptoInfo->HeaderFlags,
 			cryptoInfo->SectorSize,
 			FALSE ); // use slow poll
+
+		if (bIsRamEncryptionEnabled)
+		{
+			cryptoInfo = cryptoInfoBackup;
+			burn (&tmpCI, sizeof (CRYPTO_INFO));
+			VirtualUnlock (&tmpCI, sizeof (CRYPTO_INFO));
+		}
 
 		if (ci != NULL)
 			crypto_close (ci);
@@ -837,7 +937,22 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			PCRYPTO_INFO dummyInfo = NULL;
 			LARGE_INTEGER hiddenOffset;
 
+			if (bIsRamEncryptionEnabled)
+			{
+				VirtualLock (&tmpCI, sizeof (CRYPTO_INFO));
+				memcpy (&tmpCI, cryptoInfo, sizeof (CRYPTO_INFO));
+				VcUnprotectKeys (&tmpCI, VcGetEncryptionID (cryptoInfo));
+				cryptoInfoBackup = cryptoInfo;
+				cryptoInfo = &tmpCI;
+			}
+
 			nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, newDataAreaSize, !backupHeader, backupHeader);
+			if (bIsRamEncryptionEnabled)
+			{
+				cryptoInfo = cryptoInfoBackup;
+				burn (&tmpCI, sizeof (CRYPTO_INFO));
+				VirtualUnlock (&tmpCI, sizeof (CRYPTO_INFO));
+			}
 			if (nStatus != ERR_SUCCESS)
 				goto error;
 
@@ -902,9 +1017,9 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	/* wipe old backup header */
 	if ( !cryptoInfo->LegacyVolume )
 	{
-		byte wipeRandChars [TC_WIPE_RAND_CHAR_COUNT];
-		byte wipeRandCharsUpdate [TC_WIPE_RAND_CHAR_COUNT];
-		byte wipePass;
+		uint8 wipeRandChars [TC_WIPE_RAND_CHAR_COUNT];
+		uint8 wipeRandCharsUpdate [TC_WIPE_RAND_CHAR_COUNT];
+		uint8 wipePass;
 		UINT64_STRUCT unitNo;
 		LARGE_INTEGER offset;
 		WipeAlgorithmId wipeAlgorithm = TC_WIPE_35_GUTMANN;
@@ -917,9 +1032,9 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			goto error;
 		}
 
-		DebugAddProgressDlgStatus(hwndDlg, L"Wiping old backup header ...\r\n");
+		DebugAddProgressDlgStatus(hwndDlg, GetString("EXPANDER_WIPING_OLD_HEADER"));
 
-		wipeBuffer = (byte *) TCalloc (workChunkSize);
+		wipeBuffer = (uint8 *) TCalloc (workChunkSize);
 		if (!wipeBuffer)
 		{
 			nStatus = ERR_OUTOFMEMORY;
@@ -1015,9 +1130,10 @@ void __cdecl volTransformThreadFunction (void *pExpandDlgParam)
 	int nStatus;
 	EXPAND_VOL_THREAD_PARAMS *pParam=(EXPAND_VOL_THREAD_PARAMS *)pExpandDlgParam;
 	HWND hwndDlg = (HWND) pParam->hwndDlg;
+	AttachProtectionToCurrentThread(NULL);
 
 	nStatus = ExpandVolume (hwndDlg, (wchar_t*)pParam->szVolumeName, pParam->pVolumePassword,
-		pParam->VolumePkcs5, pParam->VolumePim, pParam->newSize, pParam->bInitFreeSpace );
+		pParam->VolumePkcs5, pParam->VolumePim, pParam->newSize, pParam->bInitFreeSpace, pParam->bQuickExpand );
 
 	if (nStatus!=ERR_SUCCESS && nStatus!=ERR_USER_ABORT)
 			handleError (hwndDlg, nStatus, SRC_POS);
@@ -1025,6 +1141,8 @@ void __cdecl volTransformThreadFunction (void *pExpandDlgParam)
 	bVolTransformThreadCancel = FALSE;
 
 	PostMessage (hwndDlg, TC_APPMSG_VOL_TRANSFORM_THREAD_ENDED, 0, nStatus);
+
+	DetachProtectionFromCurrentThread();
 
 	_endthread ();
 }

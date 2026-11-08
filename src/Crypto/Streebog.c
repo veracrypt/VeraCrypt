@@ -8,6 +8,14 @@
 
 #include "Streebog.h"
 #include "cpu.h"
+#include "Common/Endian.h"
+
+/* The big-endian code paths below come from the original implementation. */
+#if BYTE_ORDER == BIG_ENDIAN
+#include "misc.h"
+#define __GOST3411_BIG_ENDIAN__
+#define BSWAP64(x) bswap_64(x)
+#endif
 
 #if defined (_MSC_VER) && (_MSC_VER < 1600)
 #error "Streebog SSE code requires at least Visual C++ 2010 when building on Windows"
@@ -24,8 +32,8 @@ STREEBOG_ALIGN(16) static const unsigned long long buffer0[8] = { 0x0ULL, 0x0ULL
 STREEBOG_ALIGN(16) static const unsigned long long buffer512[8] = {0x0000000000000200ULL,
     0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL };
 #else
-STREEBOG_ALIGN(16) static const unsigned long long buffer512[8] = {{ 0x0002000000000000ULL,
-    0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL }};
+STREEBOG_ALIGN(16) static const unsigned long long buffer512[8] = { 0x0002000000000000ULL,
+    0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL, 0x0ULL };
 #endif
 
 #ifndef __GOST3411_BIG_ENDIAN__
@@ -276,103 +284,6 @@ STREEBOG_ALIGN(16) static const unsigned long long C[12][8] = {
 };
 #endif
 
-#ifndef __GOST3411_BIG_ENDIAN__
-static const unsigned long long A[64] = { 
-    0x8e20faa72ba0b470ULL, 0x47107ddd9b505a38ULL, 0xad08b0e0c3282d1cULL,
-    0xd8045870ef14980eULL, 0x6c022c38f90a4c07ULL, 0x3601161cf205268dULL,
-    0x1b8e0b0e798c13c8ULL, 0x83478b07b2468764ULL, 0xa011d380818e8f40ULL,
-    0x5086e740ce47c920ULL, 0x2843fd2067adea10ULL, 0x14aff010bdd87508ULL,
-    0x0ad97808d06cb404ULL, 0x05e23c0468365a02ULL, 0x8c711e02341b2d01ULL,
-    0x46b60f011a83988eULL, 0x90dab52a387ae76fULL, 0x486dd4151c3dfdb9ULL,
-    0x24b86a840e90f0d2ULL, 0x125c354207487869ULL, 0x092e94218d243cbaULL,
-    0x8a174a9ec8121e5dULL, 0x4585254f64090fa0ULL, 0xaccc9ca9328a8950ULL,
-    0x9d4df05d5f661451ULL, 0xc0a878a0a1330aa6ULL, 0x60543c50de970553ULL,
-    0x302a1e286fc58ca7ULL, 0x18150f14b9ec46ddULL, 0x0c84890ad27623e0ULL,
-    0x0642ca05693b9f70ULL, 0x0321658cba93c138ULL, 0x86275df09ce8aaa8ULL,
-    0x439da0784e745554ULL, 0xafc0503c273aa42aULL, 0xd960281e9d1d5215ULL,
-    0xe230140fc0802984ULL, 0x71180a8960409a42ULL, 0xb60c05ca30204d21ULL,
-    0x5b068c651810a89eULL, 0x456c34887a3805b9ULL, 0xac361a443d1c8cd2ULL,
-    0x561b0d22900e4669ULL, 0x2b838811480723baULL, 0x9bcf4486248d9f5dULL,
-    0xc3e9224312c8c1a0ULL, 0xeffa11af0964ee50ULL, 0xf97d86d98a327728ULL,
-    0xe4fa2054a80b329cULL, 0x727d102a548b194eULL, 0x39b008152acb8227ULL,
-    0x9258048415eb419dULL, 0x492c024284fbaec0ULL, 0xaa16012142f35760ULL,
-    0x550b8e9e21f7a530ULL, 0xa48b474f9ef5dc18ULL, 0x70a6a56e2440598eULL,
-    0x3853dc371220a247ULL, 0x1ca76e95091051adULL, 0x0edd37c48a08a6d8ULL,
-    0x07e095624504536cULL, 0x8d70c431ac02a736ULL, 0xc83862965601dd1bULL,
-    0x641c314b2b8ee083ULL
-};
-#else
-static const unsigned long long A[64] = { 
-    0x70b4a02ba7fa208eULL, 0x385a509bdd7d1047ULL, 0x1c2d28c3e0b008adULL,
-    0x0e9814ef705804d8ULL, 0x074c0af9382c026cULL, 0x8d2605f21c160136ULL,
-    0xc8138c790e0b8e1bULL, 0x648746b2078b4783ULL, 0x408f8e8180d311a0ULL,
-    0x20c947ce40e78650ULL, 0x10eaad6720fd4328ULL, 0x0875d8bd10f0af14ULL,
-    0x04b46cd00878d90aULL, 0x025a3668043ce205ULL, 0x012d1b34021e718cULL,
-    0x8e98831a010fb646ULL, 0x6fe77a382ab5da90ULL, 0xb9fd3d1c15d46d48ULL,
-    0xd2f0900e846ab824ULL, 0x6978480742355c12ULL, 0xba3c248d21942e09ULL,
-    0x5d1e12c89e4a178aULL, 0xa00f09644f258545ULL, 0x50898a32a99cccacULL,
-    0x5114665f5df04d9dULL, 0xa60a33a1a078a8c0ULL, 0x530597de503c5460ULL,
-    0xa78cc56f281e2a30ULL, 0xdd46ecb9140f1518ULL, 0xe02376d20a89840cULL,
-    0x709f3b6905ca4206ULL, 0x38c193ba8c652103ULL, 0xa8aae89cf05d2786ULL,
-    0x5455744e78a09d43ULL, 0x2aa43a273c50c0afULL, 0x15521d9d1e2860d9ULL,
-    0x842980c00f1430e2ULL, 0x429a4060890a1871ULL, 0x214d2030ca050cb6ULL,
-    0x9ea81018658c065bULL, 0xb905387a88346c45ULL, 0xd28c1c3d441a36acULL,
-    0x69460e90220d1b56ULL, 0xba2307481188832bULL, 0x5d9f8d248644cf9bULL,
-    0xa0c1c8124322e9c3ULL, 0x50ee6409af11faefULL, 0x2877328ad9867df9ULL,
-    0x9c320ba85420fae4ULL, 0x4e198b542a107d72ULL, 0x2782cb2a1508b039ULL,
-    0x9d41eb1584045892ULL, 0xc0aefb8442022c49ULL, 0x6057f342210116aaULL,
-    0x30a5f7219e8e0b55ULL, 0x18dcf59e4f478ba4ULL, 0x8e5940246ea5a670ULL,
-    0x47a2201237dc5338ULL, 0xad511009956ea71cULL, 0xd8a6088ac437dd0eULL,
-    0x6c5304456295e007ULL, 0x36a702ac31c4708dULL, 0x1bdd0156966238c8ULL,
-    0x83e08e2b4b311c64ULL
-};
-#endif
-
-static const unsigned char Tau[64] = {
-    0,   8,  16,  24,  32,  40,  48,  56, 
-    1,   9,  17,  25,  33,  41,  49,  57, 
-    2,  10,  18,  26,  34,  42,  50,  58, 
-    3,  11,  19,  27,  35,  43,  51,  59, 
-    4,  12,  20,  28,  36,  44,  52,  60, 
-    5,  13,  21,  29,  37,  45,  53,  61, 
-    6,  14,  22,  30,  38,  46,  54,  62, 
-    7,  15,  23,  31,  39,  47,  55,  63
-};
-
-static const unsigned char Pi[256] = {
-    252, 238, 221,  17, 207, 110,  49,  22, 
-    251, 196, 250, 218,  35, 197,   4,  77, 
-    233, 119, 240, 219, 147,  46, 153, 186, 
-     23,  54, 241, 187,  20, 205,  95, 193, 
-    249,  24, 101,  90, 226,  92, 239,  33, 
-    129,  28,  60,  66, 139,   1, 142,  79, 
-      5, 132,   2, 174, 227, 106, 143, 160, 
-      6,  11, 237, 152, 127, 212, 211,  31, 
-    235,  52,  44,  81, 234, 200,  72, 171, 
-    242,  42, 104, 162, 253,  58, 206, 204, 
-    181, 112,  14,  86,   8,  12, 118,  18, 
-    191, 114,  19,  71, 156, 183,  93, 135, 
-     21, 161, 150,  41,  16, 123, 154, 199, 
-    243, 145, 120, 111, 157, 158, 178, 177, 
-     50, 117,  25,  61, 255,  53, 138, 126, 
-    109,  84, 198, 128, 195, 189,  13,  87, 
-    223, 245,  36, 169,  62, 168,  67, 201, 
-    215, 121, 214, 246, 124,  34, 185,   3, 
-    224,  15, 236, 222, 122, 148, 176, 188, 
-    220, 232,  40,  80,  78,  51,  10,  74, 
-    167, 151,  96, 115,  30,   0,  98,  68, 
-     26, 184,  56, 130, 100, 159,  38,  65, 
-    173,  69,  70, 146,  39,  94,  85,  47, 
-    140, 163, 165, 125, 105, 213, 149,  59, 
-      7,  88, 179,  64, 134, 172,  29, 247, 
-     48,  55, 107, 228, 136, 217, 231, 137, 
-    225,  27, 131,  73,  76,  63, 248, 254, 
-    141,  83, 170, 144, 202, 216, 133,  97, 
-     32, 113, 103, 164,  45,  43,   9,  91, 
-    203, 155,  37, 208, 190, 229, 108,  82, 
-     89, 166, 116, 210, 230, 244, 180, 192, 
-    209, 102, 175, 194,  57,  75,  99, 182
-}; 
 #endif // CONSTS
 
 #if 1
@@ -1845,36 +1756,56 @@ add512(const unsigned long long *x, const unsigned long long *y, unsigned long l
 {
 #ifndef __GOST3411_BIG_ENDIAN__
     unsigned int CF, OF;
+    unsigned long long tmp;
     unsigned int i;
 
     CF = 0;
     for (i = 0; i < 8; i++)
     {
-        r[i] = x[i] + y[i];
-        if ( (r[i] < y[i]) || 
-             (r[i] < x[i]) )
+        /* Detecting integer overflow condition for three numbers
+         * in a portable way is tricky a little. */
+
+        /* Step 1: numbers cause overflow */
+        tmp = x[i] + y[i];
+
+        /* Compare with any of two summands, no need to check both */
+        if (tmp < x[i])
             OF = 1;
         else
             OF = 0;
 
-        r[i] += CF;
+        /* Step 2: carry bit causes overflow */
+        tmp += CF;
+
+		/* 
+		 * We don't include the carry bit overflow since it can break
+		 * mounting for some containers eventhough the probability of
+		 * such case is very low
+		 */
+		/*
+        if (CF > 0 && tmp == 0)
+            OF = 1;
+		*/
         CF = OF;
-    }
+
+        r[i] = tmp;
+	}
 #else
-    const unsigned char *xp, *yp;
-    unsigned char *rp;
-    unsigned int i;
-    int buf;
+    /* Same limb-wise arithmetic as the little-endian path above (including
+     * its dropped carry, which existing volumes depend on), applied to the
+     * byte-swapped 64-bit limbs. */
+    unsigned int CF = 0, OF, i;
+    unsigned long long a, b, tmp;
 
-    xp = (const unsigned char *) x;
-    yp = (const unsigned char *) y;
-    rp = (unsigned char *) r;
-
-    buf = 0;
-    for (i = 0; i < 64; i++)
+    for (i = 0; i < 8; i++)
     {
-        buf = xp[i] + yp[i] + (buf >> 8);
-        rp[i] = (unsigned char) buf & 0xFF;
+        a = BSWAP64(x[i]);
+        b = BSWAP64(y[i]);
+        tmp = a + b;
+        OF = tmp < a;
+        tmp += CF;
+        CF = OF;
+        r[i] = BSWAP64(tmp);
     }
 #endif
 }
@@ -1890,11 +1821,10 @@ add512(const unsigned long long *x, const unsigned long long *y, unsigned long l
     z[7] = x[7] ^ y[7]; \
 }
 
-#ifndef __GOST3411_BIG_ENDIAN__
 #define __XLPS_FOR for (_i = 0; _i <= 7; _i++)
+#ifndef __GOST3411_BIG_ENDIAN__
 #define _datai _i
 #else
-#define __XLPS_FOR for (_i = 7; _i >= 0; _i--)
 #define _datai 7 - _i
 #endif
 
@@ -1914,14 +1844,22 @@ add512(const unsigned long long *x, const unsigned long long *y, unsigned long l
     \
     __XLPS_FOR \
     {\
-        data[_datai]  = Ax[0][(r0 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[1][(r1 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[2][(r2 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[3][(r3 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[4][(r4 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[5][(r5 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[6][(r6 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[7][(r7 >> (_i << 3)) & 0xFF]; \
+        data[_datai]  = Ax[0][r0 & 0xFF]; \
+        data[_datai] ^= Ax[1][r1 & 0xFF]; \
+        data[_datai] ^= Ax[2][r2 & 0xFF]; \
+        data[_datai] ^= Ax[3][r3 & 0xFF]; \
+        data[_datai] ^= Ax[4][r4 & 0xFF]; \
+        data[_datai] ^= Ax[5][r5 & 0xFF]; \
+        data[_datai] ^= Ax[6][r6 & 0xFF]; \
+        data[_datai] ^= Ax[7][r7 & 0xFF]; \
+        r0 >>= 8; \
+        r1 >>= 8; \
+        r2 >>= 8; \
+        r3 >>= 8; \
+        r4 >>= 8; \
+        r5 >>= 8; \
+        r6 >>= 8; \
+        r7 >>= 8; \
     }\
 }
 
@@ -1976,10 +1914,10 @@ VC_INLINE __m128i _mm_set_epi64x_a(uint64 i0, uint64 i1) {
 
 #define LOAD(P, xmm0, xmm1, xmm2, xmm3) { \
     const __m128i *__m128p = (const __m128i *) &P[0]; \
-    xmm0 = _mm_load_si128(&__m128p[0]); \
-    xmm1 = _mm_load_si128(&__m128p[1]); \
-    xmm2 = _mm_load_si128(&__m128p[2]); \
-    xmm3 = _mm_load_si128(&__m128p[3]); \
+    xmm0 = _mm_loadu_si128(&__m128p[0]); \
+    xmm1 = _mm_loadu_si128(&__m128p[1]); \
+    xmm2 = _mm_loadu_si128(&__m128p[2]); \
+    xmm3 = _mm_loadu_si128(&__m128p[3]); \
 }
 
 #define UNLOAD(P, xmm0, xmm1, xmm2, xmm3) { \
@@ -1999,10 +1937,10 @@ VC_INLINE __m128i _mm_set_epi64x_a(uint64 i0, uint64 i1) {
 
 #define X128M(P, xmm0, xmm1, xmm2, xmm3) { \
     const __m128i *__m128p = (const __m128i *) &P[0]; \
-    xmm0 = _mm_xor_si128(xmm0, _mm_load_si128(&__m128p[0])); \
-    xmm1 = _mm_xor_si128(xmm1, _mm_load_si128(&__m128p[1])); \
-    xmm2 = _mm_xor_si128(xmm2, _mm_load_si128(&__m128p[2])); \
-    xmm3 = _mm_xor_si128(xmm3, _mm_load_si128(&__m128p[3])); \
+    xmm0 = _mm_xor_si128(xmm0, _mm_loadu_si128(&__m128p[0])); \
+    xmm1 = _mm_xor_si128(xmm1, _mm_loadu_si128(&__m128p[1])); \
+    xmm2 = _mm_xor_si128(xmm2, _mm_loadu_si128(&__m128p[2])); \
+    xmm3 = _mm_xor_si128(xmm3, _mm_loadu_si128(&__m128p[3])); \
 }
 
 #define _mm_xor_64(mm0, mm1) _mm_xor_si64(mm0, _mm_cvtsi64_m64(mm1))
@@ -2044,31 +1982,6 @@ VC_INLINE __m128i _mm_set_epi64x_a(uint64 i0, uint64 i1) {
     mm1 = _mm_xor_64(mm1, Ax[7][HI(ax)]); \
     \
     xmm4 = _mm_set_epi64(mm1, mm0); \
-}
-
-#define __EXTRACT64(row, xmm0, xmm1, xmm2, xmm3, xmm4) { \
-    __m128i tmm4; \
-    register unsigned long long r0, r1; \
-    r0  = Ax[0][_mm_extract_epi8(xmm0, row + 0)]; \
-    r0 ^= Ax[1][_mm_extract_epi8(xmm0, row + 8)]; \
-    r0 ^= Ax[2][_mm_extract_epi8(xmm1, row + 0)]; \
-    r0 ^= Ax[3][_mm_extract_epi8(xmm1, row + 8)]; \
-    r0 ^= Ax[4][_mm_extract_epi8(xmm2, row + 0)]; \
-    r0 ^= Ax[5][_mm_extract_epi8(xmm2, row + 8)]; \
-    r0 ^= Ax[6][_mm_extract_epi8(xmm3, row + 0)]; \
-    r0 ^= Ax[7][_mm_extract_epi8(xmm3, row + 8)]; \
-    \
-    r1  = Ax[0][_mm_extract_epi8(xmm0, row + 1)]; \
-    r1 ^= Ax[1][_mm_extract_epi8(xmm0, row + 9)]; \
-    r1 ^= Ax[2][_mm_extract_epi8(xmm1, row + 1)]; \
-    r1 ^= Ax[3][_mm_extract_epi8(xmm1, row + 9)]; \
-    r1 ^= Ax[4][_mm_extract_epi8(xmm2, row + 1)]; \
-    r1 ^= Ax[5][_mm_extract_epi8(xmm2, row + 9)]; \
-    r1 ^= Ax[6][_mm_extract_epi8(xmm3, row + 1)]; \
-    r1 ^= Ax[7][_mm_extract_epi8(xmm3, row + 9)]; \
-    xmm4 = _mm_cvtsi64_si128((long long) r0); \
-    tmm4 = _mm_cvtsi64_si128((long long) r1); \
-    xmm4 = _mm_unpacklo_epi64(xmm4, tmm4); \
 }
 
 #define EXTRACT64(row, xmm0, xmm1, xmm2, xmm3, xmm4) { \
@@ -2349,11 +2262,14 @@ stage3(STREEBOG_CTX *CTX)
     memcpy((CTX->hash), (CTX->h), 8 * sizeof(unsigned long long));
 }
 
-void STREEBOG_add(STREEBOG_CTX *CTX, const byte *data, size_t len)
+void STREEBOG_add(STREEBOG_CTX *CTX, const uint8 *data, size_t len)
 {
     size_t chunksize;
 
-    while (len > 63 && CTX->bufsize == 0)
+    /* stage2() reads the block as 64-bit words: where unaligned access is not
+     * safe, unaligned input is copied to the buffer first */
+    while (len > 63 && CTX->bufsize == 0
+        && (VC_UNALIGNED_ACCESS_OK || ((size_t) data % sizeof (unsigned long long)) == 0))
     {
         stage2(CTX, data);
 
@@ -2382,7 +2298,7 @@ void STREEBOG_add(STREEBOG_CTX *CTX, const byte *data, size_t len)
     }
 }
 
-void STREEBOG_finalize(STREEBOG_CTX *CTX, byte *digest)
+void STREEBOG_finalize(STREEBOG_CTX *CTX, uint8 *digest)
 {
 	stage3(CTX);
 

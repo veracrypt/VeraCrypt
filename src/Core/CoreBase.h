@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -33,13 +33,16 @@ namespace VeraCrypt
 	public:
 		virtual ~CoreBase ();
 
-		virtual void ChangePassword (shared_ptr <Volume> openVolume, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf = shared_ptr <Pkcs5Kdf> (), int wipeCount = PRAND_HEADER_WIPE_PASSES) const;
-		virtual void ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf = shared_ptr <Pkcs5Kdf> (), int wipeCount = PRAND_HEADER_WIPE_PASSES) const;
+		virtual void ChangePassword (shared_ptr <Volume> openVolume, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, bool emvSupportEnabled, shared_ptr <Pkcs5Kdf> newPkcs5Kdf = shared_ptr <Pkcs5Kdf> (), int wipeCount = PRAND_HEADER_WIPE_PASSES) const;
+		virtual shared_ptr <Volume> ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, bool emvSupportEnabled, shared_ptr <Pkcs5Kdf> newPkcs5Kdf = shared_ptr <Pkcs5Kdf> (), int wipeCount = PRAND_HEADER_WIPE_PASSES) const;
 		virtual void CheckFilesystem (shared_ptr <VolumeInfo> mountedVolume, bool repair = false) const = 0;
 		virtual void CoalesceSlotNumberAndMountPoint (MountOptions &options) const;
 		virtual void CreateKeyfile (const FilePath &keyfilePath) const;
 		virtual void DismountFilesystem (const DirectoryPath &mountPoint, bool force) const = 0;
 		virtual shared_ptr <VolumeInfo> DismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool ignoreOpenFiles = false, bool syncVolumeInfo = false) = 0;
+#if defined(TC_LINUX)
+		virtual shared_ptr <VolumeInfo> EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume) { throw NotApplicable (SRC_POS); }
+#endif
 		virtual bool FilesystemSupportsLargeFiles (const FilePath &filePath) const = 0;
 		virtual DirectoryPath GetDeviceMountPoint (const DevicePath &devicePath) const = 0;
 		virtual uint32 GetDeviceSectorSize (const DevicePath &devicePath) const = 0;
@@ -55,6 +58,12 @@ namespace VeraCrypt
 		virtual shared_ptr <VolumeInfo> GetMountedVolume (const VolumePath &volumePath) const;
 		virtual shared_ptr <VolumeInfo> GetMountedVolume (VolumeSlotNumber slot) const;
 		virtual VolumeInfoList GetMountedVolumes (const VolumePath &volumePath = VolumePath()) const = 0;
+		virtual VolumeDiscoveryResult GetMountedVolumesWithStatus (const VolumePath &volumePath = VolumePath()) const
+		{
+			VolumeDiscoveryResult result;
+			result.Volumes = GetMountedVolumes (volumePath);
+			return result;
+		}
 		virtual bool HasAdminPrivileges () const = 0;
 		virtual void Init () { }
 		virtual bool IsDeviceChangeInProgress () const { return DeviceChangeInProgress; }
@@ -69,14 +78,26 @@ namespace VeraCrypt
 		virtual bool IsVolumeMounted (const VolumePath &volumePath) const;
 		virtual VolumeSlotNumber MountPointToSlotNumber (const DirectoryPath &mountPoint) const = 0;
 		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options) = 0;
-		virtual shared_ptr <Volume> OpenVolume (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr<Pkcs5Kdf> Kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection = VolumeProtection::None, shared_ptr <VolumePassword> protectionPassword = shared_ptr <VolumePassword> (), int protectionPim = 0, shared_ptr<Pkcs5Kdf> protectionKdf = shared_ptr<Pkcs5Kdf> (), shared_ptr <KeyfileList> protectionKeyfiles = shared_ptr <KeyfileList> (), bool sharedAccessAllowed = false, VolumeType::Enum volumeType = VolumeType::Unknown, bool useBackupHeaders = false, bool partitionInSystemEncryptionScope = false) const;
+		virtual shared_ptr <Volume> OpenVolume (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr<Pkcs5Kdf> Kdf, shared_ptr <KeyfileList> keyfiles, bool emvSupportEnabled, VolumeProtection::Enum protection = VolumeProtection::None, shared_ptr <VolumePassword> protectionPassword = shared_ptr <VolumePassword> (), int protectionPim = 0, shared_ptr<Pkcs5Kdf> protectionKdf = shared_ptr<Pkcs5Kdf> (), shared_ptr <KeyfileList> protectionKeyfiles = shared_ptr <KeyfileList> (), bool sharedAccessAllowed = false, VolumeType::Enum volumeType = VolumeType::Unknown, bool useBackupHeaders = false, bool partitionInSystemEncryptionScope = false) const;
 		virtual void RandomizeEncryptionAlgorithmKey (shared_ptr <EncryptionAlgorithm> encryptionAlgorithm) const;
-		virtual void ReEncryptVolumeHeaderWithNewSalt (const BufferPtr &newHeaderBuffer, shared_ptr <VolumeHeader> header, shared_ptr <VolumePassword> password, int pim, shared_ptr <KeyfileList> keyfiles) const;
+		virtual void ReEncryptVolumeHeaderWithNewSalt (const BufferPtr &newHeaderBuffer, shared_ptr <VolumeHeader> header, shared_ptr <VolumePassword> password, int pim, shared_ptr <KeyfileList> keyfiles, bool emvSupportEnabled) const;
 		virtual void SetAdminPasswordCallback (shared_ptr <GetStringFunctor> functor) { }
 		virtual void SetApplicationExecutablePath (const FilePath &path) { ApplicationExecutablePath = path; }
 		virtual void SetFileOwner (const FilesystemPath &path, const UserId &owner) const = 0;
 		virtual DirectoryPath SlotNumberToMountPoint (VolumeSlotNumber slotNumber) const = 0;
 		virtual void WipePasswordCache () const = 0;
+		virtual void ForceUseDummySudoPassword (bool useDummySudoPassword) { UseDummySudoPassword = useDummySudoPassword;}
+		virtual bool GetUseDummySudoPassword () const { return UseDummySudoPassword;}
+
+#if defined(TC_UNIX)
+		virtual bool IsProtectedSystemDirectory (const DirectoryPath &directory) const = 0;
+		virtual bool IsDirectoryOnUserPath(const DirectoryPath &directory) const = 0;
+		virtual void SetAllowInsecureMount (bool allowInsecureMount) { AllowInsecureMount = allowInsecureMount; }
+		virtual bool GetAllowInsecureMount () const { return AllowInsecureMount; }
+#endif
+
+		virtual void SetUserEnvPATH (const string &path) { UserEnvPATH = path; }
+		virtual string GetUserEnvPATH () const { return UserEnvPATH; }
 
 		Event VolumeDismountedEvent;
 		Event VolumeMountedEvent;
@@ -87,6 +108,12 @@ namespace VeraCrypt
 
 		bool DeviceChangeInProgress;
 		FilePath ApplicationExecutablePath;
+		string UserEnvPATH;
+		bool UseDummySudoPassword;
+
+#if defined(TC_UNIX)
+		bool AllowInsecureMount;
+#endif
 
 	private:
 		CoreBase (const CoreBase &);

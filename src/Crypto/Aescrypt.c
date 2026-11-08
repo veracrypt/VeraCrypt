@@ -94,7 +94,7 @@ extern "C"
 #define fwd_lrnd(y,x,k,c)   (s(y,c) = (k)[c] ^ no_table(x,t_use(s,box),fwd_var,rf1,c))
 #endif
 
-AES_RETURN aes_encrypt(const unsigned char *in, unsigned char *out, const aes_encrypt_ctx cx[1])
+AES_RETURN VC_CDECL aes_encrypt(const unsigned char *in, unsigned char *out, const aes_encrypt_ctx cx[1])
 {   uint_32t         locals(b0, b1);
     const uint_32t   *kp;
 #if defined( dec_fmvars )
@@ -231,7 +231,7 @@ AES_RETURN aes_encrypt(const unsigned char *in, unsigned char *out, const aes_en
 #define rnd_key(n)  (kp - n * N_COLS)
 #endif
 
-AES_RETURN aes_decrypt(const unsigned char *in, unsigned char *out, const aes_decrypt_ctx cx[1])
+AES_RETURN VC_CDECL aes_decrypt(const unsigned char *in, unsigned char *out, const aes_decrypt_ctx cx[1])
 {   uint_32t        locals(b0, b1);
 #if defined( dec_imvars )
     dec_imvars; /* declare variables for inv_mcol() if needed */

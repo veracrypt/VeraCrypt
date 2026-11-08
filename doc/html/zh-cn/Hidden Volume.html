@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt进行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Plausible%20Deniability.html">似是而非的否认</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Hidden%20Volume.html">隐藏卷</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>隐藏卷</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可能会出现有人迫使您透露加密卷密码的情况。在很多情况下，您无法拒绝透露密码（例如，受到勒索）。使用所谓的隐藏卷可以解决此类情况，而无需透露您的卷密码。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<img src="Beginner's Tutorial_Image_024.gif" alt="在标准VeraCrypt卷中创建隐藏卷前后的布局。" width="606" height="412">
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">在标准VeraCrypt卷中创建隐藏卷前后的布局。</em>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+其原理是在另一个VeraCrypt卷（卷上的空闲空间内）中创建一个VeraCrypt卷。即使外部卷已挂载，也应该无法证明其中是否存在隐藏卷*，因为在创建任何VeraCrypt卷时，其空闲空间始终会用随机数据填充**，并且（未挂载的）隐藏卷的任何部分都无法与随机数据区分开来。请注意，VeraCrypt不会以任何方式修改外部卷内的文件系统（有关空闲空间等信息）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+隐藏卷的密码必须与外部卷的密码有很大不同。在（在其中创建隐藏卷之前），您应该将一些看起来敏感但实际上并不想隐藏的文件复制到外部卷。这些文件将留给任何迫使您交出密码的人。您只需透露外部卷的密码，而不是隐藏卷的密码。真正敏感的文件将存储在隐藏卷上。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+隐藏卷的挂载方式与标准VeraCrypt卷相同：点击<em style="text-align:left">选择文件</em>或<em style="text-align:left">选择设备</em>以选择外部/宿主卷（重要提示：确保该卷<em style="text-align:left">未</em>挂载）。然后点击<em style="text-align:left">挂载</em>，并输入隐藏卷的密码。挂载的是隐藏卷还是外部卷取决于输入的密码（即，当您输入外部卷的密码时，将挂载外部卷；当您输入隐藏卷的密码时，将挂载隐藏卷）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt首先尝试使用输入的密码解密标准卷头。如果解密失败，它会将卷中可能存储隐藏卷头的区域（即字节65536 - 131071，当卷中没有隐藏卷时，该区域仅包含随机数据）加载到RAM中，并尝试使用输入的密码对其进行解密。请注意，隐藏卷头无法被识别，因为它们看起来完全由随机数据组成。如果头成功解密（有关VeraCrypt如何确定解密成功的信息，请参阅<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">加密方案</a>部分），则从解密后的头（仍存储在RAM中）中检索隐藏卷的大小信息，并挂载隐藏卷（其大小也决定了其偏移量）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+可以在任何类型的VeraCrypt卷中创建隐藏卷，即文件托管卷或分区/设备托管卷（需要管理员权限）。要创建隐藏的VeraCrypt卷，请在主程序窗口中点击<em style="text-align:left">创建卷</em>，然后选择<em style="text-align:left">创建隐藏的VeraCrypt卷</em>。向导将提供帮助和成功创建隐藏的VeraCrypt卷所需的所有信息。
+</div>
+<div id="hidden_volume_size_issue" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+在创建隐藏卷时，对于没有经验的用户来说，设置隐藏卷的大小可能非常困难，甚至不可能确保隐藏卷不会覆盖外部卷上的数据。因此，卷创建向导会在（在其中创建隐藏卷之前）自动扫描外部卷的簇位图，并确定隐藏卷的最大可能大小***。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果在创建隐藏卷时遇到任何问题，请参考<a href="Troubleshooting.html" style="text-align:left; color:#0080c0; text-decoration:none">故障排除</a>章节以获取可能的解决方案。
+<br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+请注意，还可以创建并启动驻留在隐藏卷中的操作系统（请参阅<a href="Plausible%20Deniability.html">似是而非的否认</a>章节中的<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏操作系统</a>部分）。
+</div>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* 前提是遵循了VeraCrypt卷创建向导中的所有说明，并且遵循了<a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏卷的安全要求和预防措施</a>子部分中列出的要求和预防措施。</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">** 前提是禁用了<em style="text-align:left">快速格式化</em>和<em style="text-align:left">动态</em>选项，并且卷不包含已在原地加密的文件系统（VeraCrypt不允许用户在这样的卷中创建隐藏卷）。有关用随机数据填充卷空闲空间的方法的信息，请参阅<a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none">技术细节</a>章节中的<a href="VeraCrypt%20Volume%20Format%20Specification.html" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt卷格式规范</a>部分。</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">*** 向导扫描簇位图以确定连续空闲空间区域的大小（如果有），该区域的末尾与外部卷的末尾对齐。该区域用于容纳隐藏卷，因此该区域的大小限制了隐藏卷的最大可能大小。在Linux和Mac OS X上，向导实际上并不扫描簇位图，而是驱动程序检测写入外部卷的任何数据，并按上述方式使用其位置。</span></p>
+<p>&nbsp;</p>
+<p><a href="Protection%20of%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></p>
+</div><div class="ClearBoth"></div></body></html>

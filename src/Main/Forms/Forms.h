@@ -1,18 +1,15 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun  5 2014)
+// C++ code generated with wxFormBuilder (version 3.10.1-0-g8feb16b3)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#ifndef __FORMS_H__
-#define __FORMS_H__
+#pragma once
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/intl.h>
-class WizardPage;
-
 #include "WizardPage.h"
 #include <wx/string.h>
 #include <wx/bitmap.h>
@@ -41,7 +38,11 @@ class WizardPage;
 #include <wx/choice.h>
 #include <wx/gauge.h>
 #include <wx/spinctrl.h>
+#include <wx/wrapsizer.h>
+#include <wx/listbox.h>
 #include <wx/notebook.h>
+
+#include "international.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -92,7 +93,7 @@ namespace VeraCrypt
 			wxButton* DismountAllButton;
 			wxButton* ExitButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnActivate( wxActivateEvent& event ) { event.Skip(); }
 			virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
 			virtual void OnCreateVolumeButtonClick( wxCommandEvent& event ) { event.Skip(); }
@@ -117,6 +118,7 @@ namespace VeraCrypt
 			virtual void OnManageSecurityTokenKeyfilesMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnCloseAllSecurityTokenSessionsMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnWipeCacheButtonClick( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnLanguageMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnHotkeysMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnDefaultKeyfilesMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnDefaultMountParametersMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
@@ -173,7 +175,7 @@ namespace VeraCrypt
 			wxButton* NextButton;
 			wxButton* CancelButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnActivate( wxActivateEvent& event ) { event.Skip(); }
 			virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
 			virtual void OnMouseMotion( wxMouseEvent& event ) { event.Skip(); }
@@ -209,13 +211,14 @@ namespace VeraCrypt
 			wxStaticLine* m_staticline4;
 			wxStaticLine* m_staticline5;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnWebsiteHyperlinkClick( wxHyperlinkEvent& event ) { event.Skip(); }
 
 
 		public:
 
 			AboutDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
 			~AboutDialogBase();
 
 	};
@@ -228,19 +231,26 @@ namespace VeraCrypt
 		private:
 
 		protected:
+			wxStaticText* m_staticText70;
+			wxChoice* BenchmarkChoice;
+			wxStaticText* m_bufferSizeLabel;
 			wxChoice* BufferSizeChoice;
+			wxStaticText* m_volumePimLabel;
+			wxTextCtrl* VolumePimText;
 			wxListCtrl* BenchmarkListCtrl;
 			wxBoxSizer* RightSizer;
 			wxButton* BenchmarkButton;
 			wxStaticText* BenchmarkNoteStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
+			virtual void OnBenchmarkChoiceSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnBenchmarkButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
-			BenchmarkDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("VeraCrypt - Encryption Algorithm Benchmark"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+			BenchmarkDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_BENCHMARK_DLG"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
 			~BenchmarkDialogBase();
 
 	};
@@ -260,13 +270,14 @@ namespace VeraCrypt
 			wxButton* OKButton;
 			wxButton* CancelButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
 			ChangePasswordDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
 			~ChangePasswordDialogBase();
 
 	};
@@ -280,19 +291,20 @@ namespace VeraCrypt
 
 		protected:
 			wxListCtrl* DeviceListCtrl;
-			wxStdDialogButtonSizer* StdButtons;
-			wxButton* StdButtonsOK;
-			wxButton* StdButtonsCancel;
+			wxButton* CancelButton;
+			wxButton* OKButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnListItemActivated( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemDeselected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemSelected( wxListEvent& event ) { event.Skip(); }
+			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
-			DeviceSelectionDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Select a Partition or Device"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+			DeviceSelectionDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_RAWDEVICES_DLG"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+
 			~DeviceSelectionDialogBase();
 
 	};
@@ -320,7 +332,7 @@ namespace VeraCrypt
 			wxButton* ResetButton;
 			wxButton* CloseButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnEncryptionAlgorithmSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnXtsModeCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnEncryptButtonClick( wxCommandEvent& event ) { event.Skip(); }
@@ -331,7 +343,8 @@ namespace VeraCrypt
 
 		public:
 
-			EncryptionTestDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("VeraCrypt - Test Vectors"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+			EncryptionTestDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_CIPHER_TEST_DLG"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
 			~EncryptionTestDialogBase();
 
 	};
@@ -352,7 +365,7 @@ namespace VeraCrypt
 			wxButton* OKButton;
 			wxButton* CancelButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnListItemDeselected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemSelected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnMoveUpButtonClick( wxCommandEvent& event ) { event.Skip(); }
@@ -364,7 +377,8 @@ namespace VeraCrypt
 
 		public:
 
-			FavoriteVolumesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Favorite Volumes"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+			FavoriteVolumesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_FAVORITE_VOLUMES"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
 			~FavoriteVolumesDialogBase();
 
 	};
@@ -387,14 +401,15 @@ namespace VeraCrypt
 			wxHyperlinkCtrl* KeyfilesHyperlink;
 			wxButton* CreateKeyfileButtton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnKeyfilesHyperlinkClick( wxHyperlinkEvent& event ) { event.Skip(); }
 			virtual void OnCreateKeyfileButttonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
-			KeyfilesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Select Keyfiles"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+			KeyfilesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("SELECT_TOKEN_KEYFILES"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
 			~KeyfilesDialogBase();
 
 	};
@@ -424,7 +439,7 @@ namespace VeraCrypt
 			wxPanel* m_panel19;
 			wxButton* GenerateButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnMouseMotion( wxMouseEvent& event ) { event.Skip(); }
 			virtual void OnHashSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnShowRandomPoolCheckBoxClicked( wxCommandEvent& event ) { event.Skip(); }
@@ -435,6 +450,7 @@ namespace VeraCrypt
 		public:
 
 			KeyfileGeneratorDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
 			~KeyfileGeneratorDialogBase();
 
 	};
@@ -451,7 +467,8 @@ namespace VeraCrypt
 
 		public:
 
-			LegalNoticesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("VeraCrypt - Legal Notices"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+			LegalNoticesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("LEGAL_NOTICES_DLG_TITLE"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
 			~LegalNoticesDialogBase();
 
 	};
@@ -473,6 +490,7 @@ namespace VeraCrypt
 			wxStaticBoxSizer* OptionsSizer;
 			wxCheckBox* ReadOnlyCheckBox;
 			wxCheckBox* RemovableCheckBox;
+			wxCheckBox* BackupHeaderCheckBox;
 			wxCheckBox* PartitionInSystemEncryptionScopeCheckBox;
 			wxStaticBoxSizer* ProtectionSizer;
 			wxCheckBox* ProtectionCheckBox;
@@ -489,7 +507,7 @@ namespace VeraCrypt
 			wxStaticText* FilesystemOptionsStaticText;
 			wxTextCtrl* FilesystemOptionsTextCtrl;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnInitDialog( wxInitDialogEvent& event ) { event.Skip(); }
 			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnOptionsButtonClick( wxCommandEvent& event ) { event.Skip(); }
@@ -502,7 +520,8 @@ namespace VeraCrypt
 
 		public:
 
-			MountOptionsDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Enter VeraCrypt Volume Password"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+			MountOptionsDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_PASSWORD_DLG"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+
 			~MountOptionsDialogBase();
 
 	};
@@ -517,17 +536,18 @@ namespace VeraCrypt
 		protected:
 			wxChoice* SecurityTokenChoice;
 			wxTextCtrl* KeyfileNameTextCtrl;
-			wxStdDialogButtonSizer* StdButtons;
-			wxButton* StdButtonsOK;
-			wxButton* StdButtonsCancel;
+			wxButton* CancelButton;
+			wxButton* OKButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnKeyfileNameChanged( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
-			NewSecurityTokenKeyfileDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("New Security Token Keyfile Properties"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+			NewSecurityTokenKeyfileDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_TOKEN_PREFERENCES"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+
 			~NewSecurityTokenKeyfileDialogBase();
 
 	};
@@ -540,6 +560,7 @@ namespace VeraCrypt
 		private:
 
 		protected:
+			wxBoxSizer* bSizer32;
 			wxNotebook* PreferencesNotebook;
 			wxPanel* SecurityPage;
 			wxStaticBoxSizer* AutoDismountSizer;
@@ -556,7 +577,6 @@ namespace VeraCrypt
 			wxCheckBox* MountReadOnlyCheckBox;
 			wxCheckBox* MountRemovableCheckBox;
 			wxCheckBox* CachePasswordsCheckBox;
-			wxCheckBox* TrueCryptModeCheckBox;
 			wxStaticText* Pkcs5PrfStaticText;
 			wxChoice* Pkcs5PrfChoice;
 			wxStaticBoxSizer* FilesystemSizer;
@@ -585,6 +605,7 @@ namespace VeraCrypt
 			wxTextCtrl* Pkcs11ModulePathTextCtrl;
 			wxButton* SelectPkcs11ModuleButton;
 			wxCheckBox* CloseSecurityTokenSessionsAfterMountCheckBox;
+			wxCheckBox* EMVSupportEnabledCheckBox;
 			wxListCtrl* HotkeyListCtrl;
 			wxTextCtrl* HotkeyTextCtrl;
 			wxButton* AssignHotkeyButton;
@@ -595,12 +616,17 @@ namespace VeraCrypt
 			wxButton* RemoveHotkeyButton;
 			wxCheckBox* BeepAfterHotkeyMountDismountCheckBox;
 			wxCheckBox* DisplayMessageAfterHotkeyDismountCheckBox;
-			wxStdDialogButtonSizer* StdButtons;
-			wxButton* StdButtonsOK;
-			wxButton* StdButtonsCancel;
+			wxStaticText* m_staticText73;
+			wxStaticText* m_staticText74;
+			wxStaticText* m_staticText72;
+			wxStaticText* m_staticText71;
+			wxButton* SysDefaultLangButton;
+			wxButton* OKButton;
+			wxButton* CancelButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
+			virtual void OnPageChanged( wxNotebookEvent& event ) { event.Skip(); }
 			virtual void OnDismountOnScreenSaverCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnDismountOnPowerSavingCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnForceAutoDismountCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
@@ -613,7 +639,7 @@ namespace VeraCrypt
 			virtual void OnHotkeyListItemSelected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnAssignHotkeyButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnRemoveHotkeyButtonClick( wxCommandEvent& event ) { event.Skip(); }
-			virtual void OnCancelButtonClick( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnSysDefaultLangButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
@@ -622,8 +648,11 @@ namespace VeraCrypt
 			wxPanel* DefaultKeyfilesPage;
 			wxPanel* SecurityTokensPage;
 			wxPanel* HotkeysPage;
+			wxPanel* LanguagesPage;
+			wxListBox* LanguageListBox;
 
-			PreferencesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+			PreferencesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_PREFERENCES_DLG"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+
 			~PreferencesDialogBase();
 
 	};
@@ -644,7 +673,7 @@ namespace VeraCrypt
 			wxStaticText* MouseStaticText;
 			wxButton* ContinueButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnMouseMotion( wxMouseEvent& event ) { event.Skip(); }
 			virtual void OnHashSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnShowRandomPoolCheckBoxClicked( wxCommandEvent& event ) { event.Skip(); }
@@ -652,7 +681,8 @@ namespace VeraCrypt
 
 		public:
 
-			RandomPoolEnrichmentDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("VeraCrypt - Random Pool Enrichment"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+			RandomPoolEnrichmentDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_RANDOM_POOL_ENRICHMENT"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
 			~RandomPoolEnrichmentDialogBase();
 
 	};
@@ -672,7 +702,7 @@ namespace VeraCrypt
 			wxButton* OKButton;
 			wxButton* CancelButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnListItemActivated( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemDeselected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemSelected( wxListEvent& event ) { event.Skip(); }
@@ -684,7 +714,8 @@ namespace VeraCrypt
 
 		public:
 
-			SecurityTokenKeyfilesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Security Token Keyfiles"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+			SecurityTokenKeyfilesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_KEYFILES"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+
 			~SecurityTokenKeyfilesDialogBase();
 
 	};
@@ -698,12 +729,16 @@ namespace VeraCrypt
 
 		protected:
 			wxListCtrl* PropertiesListCtrl;
-			wxStdDialogButtonSizer* StdButtons;
-			wxButton* StdButtonsOK;
+			wxButton* OKButton;
+
+			// Virtual event handlers, override them in your derived class
+			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
+
 
 		public:
 
-			VolumePropertiesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Volume Properties"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+			VolumePropertiesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_VOLUME_PROPERTIES"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+
 			~VolumePropertiesDialogBase();
 
 	};
@@ -724,7 +759,7 @@ namespace VeraCrypt
 			wxChoice* HashChoice;
 			wxHyperlinkCtrl* HashHyperlink;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnEncryptionAlgorithmSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnTestButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnEncryptionAlgorithmHyperlinkClick( wxHyperlinkEvent& event ) { event.Skip(); }
@@ -734,7 +769,8 @@ namespace VeraCrypt
 
 		public:
 
-			EncryptionOptionsWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			EncryptionOptionsWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~EncryptionOptionsWizardPageBase();
 
 	};
@@ -752,7 +788,8 @@ namespace VeraCrypt
 
 		public:
 
-			InfoWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			InfoWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~InfoWizardPageBase();
 
 	};
@@ -772,7 +809,7 @@ namespace VeraCrypt
 			wxButton* RemoveButton;
 			wxButton* RemoveAllButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnListItemDeselected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemSelected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListSizeChanged( wxSizeEvent& event ) { event.Skip(); }
@@ -785,7 +822,8 @@ namespace VeraCrypt
 
 		public:
 
-			KeyfilesPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			KeyfilesPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~KeyfilesPanelBase();
 
 	};
@@ -803,13 +841,14 @@ namespace VeraCrypt
 			wxButton* AbortButton;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnAbortButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
-			ProgressWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			ProgressWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~ProgressWizardPageBase();
 
 	};
@@ -826,14 +865,15 @@ namespace VeraCrypt
 			wxButton* BrowseButton;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnDirectoryTextChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnBrowseButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
-			SelectDirectoryWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			SelectDirectoryWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~SelectDirectoryWizardPageBase();
 
 	};
@@ -852,7 +892,8 @@ namespace VeraCrypt
 
 		public:
 
-			SingleChoiceWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			SingleChoiceWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~SingleChoiceWizardPageBase();
 
 	};
@@ -885,14 +926,15 @@ namespace VeraCrypt
 			wxStaticText* TimeLeftStaticText;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnDisplayKeysCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnAbortButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
-			VolumeCreationProgressWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			VolumeCreationProgressWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~VolumeCreationProgressWizardPageBase();
 
 	};
@@ -911,7 +953,7 @@ namespace VeraCrypt
 			wxCheckBox* NoHistoryCheckBox;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnVolumePathTextChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnSelectFileButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnSelectDeviceButtonClick( wxCommandEvent& event ) { event.Skip(); }
@@ -920,7 +962,8 @@ namespace VeraCrypt
 
 		public:
 
-			VolumeLocationWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			VolumeLocationWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~VolumeLocationWizardPageBase();
 
 	};
@@ -938,14 +981,15 @@ namespace VeraCrypt
 			wxCheckBox* QuickFormatCheckBox;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnFilesystemTypeSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnQuickFormatCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
-			VolumeFormatOptionsWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			VolumeFormatOptionsWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~VolumeFormatOptionsWizardPageBase();
 
 	};
@@ -974,12 +1018,11 @@ namespace VeraCrypt
 			wxBoxSizer* Pkcs5PrfSizer;
 			wxStaticText* Pkcs5PrfStaticText;
 			wxChoice* Pkcs5PrfChoice;
-			wxCheckBox* TrueCryptModeCheckBox;
 			wxStaticText* HeaderWipeCountText;
 			wxChoice* HeaderWipeCount;
 			wxBoxSizer* PasswordPlaceholderSizer;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnTextChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnPimChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnUsePimCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
@@ -988,12 +1031,12 @@ namespace VeraCrypt
 			virtual void OnKeyfilesButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnKeyfilesButtonRightDown( wxMouseEvent& event ) { event.Skip(); }
 			virtual void OnKeyfilesButtonRightClick( wxMouseEvent& event ) { event.Skip(); }
-			virtual void OnTrueCryptModeChecked( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
-			VolumePasswordPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			VolumePasswordPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~VolumePasswordPanelBase();
 
 	};
@@ -1011,7 +1054,8 @@ namespace VeraCrypt
 
 		public:
 
-			VolumePasswordWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			VolumePasswordWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~VolumePasswordWizardPageBase();
 
 	};
@@ -1032,14 +1076,15 @@ namespace VeraCrypt
 			wxCheckBox* DisplayPimCheckBox;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnPimChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnDisplayPimCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
-			VolumePimWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			VolumePimWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~VolumePimWizardPageBase();
 
 	};
@@ -1054,17 +1099,20 @@ namespace VeraCrypt
 		protected:
 			wxTextCtrl* VolumeSizeTextCtrl;
 			wxChoice* VolumeSizePrefixChoice;
+			wxCheckBox* UseAllFreeSpaceCheckBox;
 			wxStaticText* FreeSpaceStaticText;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnVolumeSizeTextChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnVolumeSizePrefixSelected( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnUseAllFreeSpaceCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
-			VolumeSizeWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL );
+			VolumeSizeWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
 			~VolumeSizeWizardPageBase();
 
 	};
@@ -1080,7 +1128,7 @@ namespace VeraCrypt
 			wxStaticText* WaitStaticText;
 			wxGauge* WaitProgessBar;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnWaitDialogClose( wxCloseEvent& event ) { event.Skip(); }
 			virtual void OnWaitDialogInit( wxInitDialogEvent& event ) { event.Skip(); }
 
@@ -1088,10 +1136,9 @@ namespace VeraCrypt
 		public:
 
 			WaitDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("VeraCrypt"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxCAPTION );
+
 			~WaitDialogBase();
 
 	};
 
 } // namespace VeraCrypt
-
-#endif //__FORMS_H__

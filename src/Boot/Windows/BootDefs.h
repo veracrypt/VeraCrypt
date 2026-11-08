@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -205,6 +205,7 @@ TC_HIDDEN_OS_CREATION_PHASE_WIPED = TC__HIDDEN_OS_CREATION_PHASE_WIPED
 0x100000, 0x200000, 0x300000, 0x400000, 0x500000, 0x600000, 0x700000, 0x800000, \
 0x900000, 0xA00000, 0xB00000, 0xC00000, 0xD00000, 0xE00000, 0xF00000, 0x1000000
 
-#define EFI_BOOTARGS_REGIONS EFI_BOOTARGS_REGIONS_LOW, EFI_BOOTARGS_REGIONS_HIGH
+#define EFI_BOOTARGS_REGIONS_DEFAULT EFI_BOOTARGS_REGIONS_LOW, EFI_BOOTARGS_REGIONS_HIGH
+#define EFI_BOOTARGS_REGIONS_EFI EFI_BOOTARGS_REGIONS_HIGH, EFI_BOOTARGS_REGIONS_LOW
 
 #endif // TC_HEADER_Boot_BootDefs

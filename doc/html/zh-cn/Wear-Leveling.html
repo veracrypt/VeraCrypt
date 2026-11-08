@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即插即用）、自动、透明的，只需极少的内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求和预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Wear-Leveling.html">损耗均衡</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>损耗均衡</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+一些存储设备（例如，某些固态硬盘，包括USB闪存驱动器）和一些文件系统采用所谓的损耗均衡机制来延长存储设备或介质的使用寿命。这些机制确保即使应用程序反复向同一逻辑扇区写入数据，数据也会均匀分布在介质上（逻辑扇区会被重新映射到不同的物理扇区）。因此，攻击者可能会获取单个扇区的多个“版本”。这可能会带来各种安全影响。例如，当您更改卷密码/密钥文件时，在正常情况下，卷头会被重新加密后的版本覆盖。然而，当卷位于采用损耗均衡机制的设备上时，VeraCrypt无法确保旧的卷头真的被覆盖。如果对手在设备上找到了原本要被覆盖的旧卷头，他可以使用旧的、已泄露的密码（和/或使用在卷头重新加密之前用于挂载卷的已泄露密钥文件）来挂载该卷。出于安全考虑，我们建议不要在采用损耗均衡机制的设备（或文件系统）上创建/存储<a href="VeraCrypt%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">VeraCrypt卷</a>（并且不要使用VeraCrypt对这类设备或文件系统的任何部分进行加密）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果您决定不遵循此建议，并打算在采用损耗均衡机制的驱动器上进行原地加密，请确保在完全加密该分区/驱动器之前，它不包含任何敏感数据（VeraCrypt无法可靠地对这类驱动器上的现有数据进行安全的原地加密；但是，在分区/驱动器完全加密后，保存到其中的任何新数据都将被可靠地实时加密）。这包括以下预防措施：在运行VeraCrypt设置预启动身份验证之前，禁用分页文件并重启操作系统（在系统分区/驱动器完全加密后，您可以启用<a href="Paging%20File.html" style="text-align:left; color:#0080c0; text-decoration:none">分页文件</a>）。在您启动VeraCrypt设置预启动身份验证到系统分区/驱动器完全加密期间，必须防止<a href="Hibernation%20File.html" style="text-align:left; color:#0080c0; text-decoration:none">休眠</a>。但是，请注意，即使您遵循这些步骤，也不能保证您能防止数据泄露，并且设备上的敏感数据将被安全加密。有关更多信息，请参阅<a href="Data%20Leaks.html" style="text-align:left; color:#0080c0; text-decoration:none">数据泄露</a>、<a href="Paging%20File.html" style="text-align:left; color:#0080c0; text-decoration:none">分页文件</a>、<a href="Hibernation%20File.html" style="text-align:left; color:#0080c0; text-decoration:none">休眠文件</a>和<a href="Memory%20Dump%20Files.html" style="text-align:left; color:#0080c0; text-decoration:none">内存转储文件</a>部分。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果您需要<a href="Plausible%20Deniability.html" style="text-align:left; color:#0080c0; text-decoration:none">似是而非的否认性</a>，则绝不能使用VeraCrypt对采用损耗均衡机制的设备（或文件系统）的任何部分进行加密（或在其上创建加密容器）。
+</div>
+<p>要确定设备是否采用了损耗均衡机制，请参考设备附带的文档或联系供应商/制造商。</p>
+</div><div class="ClearBoth"></div></body></html>

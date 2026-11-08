@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -16,15 +16,101 @@
 #include "EncryptionAlgorithm.h"
 #include "EncryptionMode.h"
 #include "EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "EncryptionModeWolfCryptXTS.h"
+#include "Common/Pkcs5.h"
+#include <wolfssl/wolfcrypt/pwdbased.h>
+#endif
 #include "EncryptionTest.h"
 #include "Pkcs5Kdf.h"
+#include "VolumeHeader.h"
 
 namespace VeraCrypt
 {
+#if !defined (WOLFCRYPT_BACKEND) && !defined (VC_DCS_DISABLE_ARGON2)
+	class FailingArgon2Kdf : public Pkcs5Kdf
+	{
+	public:
+		FailingArgon2Kdf () : Pkcs5Kdf() { }
+		virtual ~FailingArgon2Kdf () { }
+
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, int pim, const ConstBufferPtr &salt) const
+		{
+			(void) key;
+			(void) password;
+			(void) pim;
+			(void) salt;
+			return 1;
+		}
+
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const
+		{
+			(void) key;
+			(void) password;
+			(void) salt;
+			(void) iterationCount;
+			return 1;
+		}
+
+		virtual int DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, long volatile *pAbortKeyDerivation) const
+		{
+			(void) pAbortKeyDerivation;
+			return DeriveKey (key, password, salt, iterationCount);
+		}
+
+		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Blake2b); }
+		virtual int GetIterationCount (int pim) const { return 1; }
+		virtual wstring GetName () const { return L"Argon2"; }
+		virtual Pkcs5Kdf* Clone () const { return new FailingArgon2Kdf(); }
+		virtual bool IsArgon2 () const { return true; }
+
+	private:
+		FailingArgon2Kdf (const FailingArgon2Kdf &);
+		FailingArgon2Kdf &operator= (const FailingArgon2Kdf &);
+	};
+#endif
+
 	void EncryptionTest::TestAll ()
 	{
+		TestAlignment();
 		TestAll (false);
 		TestAll (true);
+	}
+
+	#define TC_ALIGNMENT_PROBE_SIZE 4
+
+	// The compiler may fold the address checks using the declared alignment.
+	void EncryptionTest::TestAlignment ()
+	{
+		// Check type alignment at compile time: static probes can be aligned even with an
+		// empty CRYPTOPP_ALIGN_DATA, for example in AddressSanitizer builds.
+		struct DerivedKeyAlignmentProbe
+		{
+			CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) uint8 buffer[TC_ALIGNMENT_PROBE_SIZE];
+		};
+
+		struct KeyInfoAlignmentProbe
+		{
+			CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) uint8 buffer[TC_ALIGNMENT_PROBE_SIZE];
+		};
+
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+		// GCC 4.4 supports static_assert, but requires __alignof__ instead of alignof.
+		static_assert (__alignof__ (DerivedKeyAlignmentProbe) >= TC_DERIVED_KEY_BUFFER_ALIGNMENT, "Insufficient derived key buffer alignment");
+		static_assert (__alignof__ (KeyInfoAlignmentProbe) >= TC_KEY_INFO_BUFFER_ALIGNMENT, "Insufficient key info buffer alignment");
+#else
+		static_assert (alignof (DerivedKeyAlignmentProbe) >= TC_DERIVED_KEY_BUFFER_ALIGNMENT, "Insufficient derived key buffer alignment");
+		static_assert (alignof (KeyInfoAlignmentProbe) >= TC_KEY_INFO_BUFFER_ALIGNMENT, "Insufficient key info buffer alignment");
+#endif
+
+		static CRYPTOPP_ALIGN_DATA(TC_DERIVED_KEY_BUFFER_ALIGNMENT) uint8 derivedKeyProbe[TC_ALIGNMENT_PROBE_SIZE];
+		static CRYPTOPP_ALIGN_DATA(TC_KEY_INFO_BUFFER_ALIGNMENT) uint8 keyInfoProbe[TC_ALIGNMENT_PROBE_SIZE];
+
+		if (!TC_IS_ALIGNED (derivedKeyProbe, TC_DERIVED_KEY_BUFFER_ALIGNMENT))
+			throw TestFailed (SRC_POS);
+
+		if (!TC_IS_ALIGNED (keyInfoProbe, TC_KEY_INFO_BUFFER_ALIGNMENT))
+			throw TestFailed (SRC_POS);
 	}
 
 	void EncryptionTest::TestAll (bool enableCpuEncryptionSupport)
@@ -43,9 +129,10 @@ namespace VeraCrypt
 
 	struct CipherTestVector
 	{
-		byte Key[32];
-		byte Plaintext[16];
-		byte Ciphertext[16];
+		uint8 Key[32];
+		size_t KeyLength;
+		uint8 Plaintext[16];
+		uint8 Ciphertext[16];
 	};
 
 	static const CipherTestVector AESTestVectors[] =
@@ -55,6 +142,7 @@ namespace VeraCrypt
 				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
 				0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f,
 			},
+			32,
 			{
 				0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff
 			},
@@ -64,6 +152,7 @@ namespace VeraCrypt
 		}
 	};
 
+    #ifndef WOLFCRYPT_BACKEND
 	static const CipherTestVector SerpentTestVectors[] =
 	{
 		{
@@ -71,6 +160,7 @@ namespace VeraCrypt
 				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
 				0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f
 			},
+			32,
 			{
 				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
 			},
@@ -87,6 +177,7 @@ namespace VeraCrypt
 				0xD4, 0x3B, 0xB7, 0x55, 0x6E, 0xA3, 0x2E, 0x46, 0xF2, 0xA2, 0x82, 0xB7, 0xD4, 0x5B, 0x4E, 0x0D,
 				0x57, 0xFF, 0x73, 0x9D, 0x4D, 0xC9, 0x2C, 0x1B, 0xD7, 0xFC, 0x01, 0x70, 0x0C, 0xC8, 0x21, 0x6F
 			},
+			32,
 			{
 				0x90, 0xAF, 0xE9, 0x1B, 0xB2, 0x88, 0x54, 0x4F, 0x2C, 0x32, 0xDC, 0x23, 0x9B, 0x26, 0x35, 0xE6
 			},
@@ -103,6 +194,7 @@ namespace VeraCrypt
 				0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 
 				0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,	0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF
 			},
+			32,
 			{
 				0x01, 0x23, 0x45, 0x67,	0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10
 			},
@@ -115,6 +207,7 @@ namespace VeraCrypt
 				0x2B, 0xD6, 0x45, 0x9F, 0x82, 0xC5, 0xB3, 0x00, 0x95, 0x2C, 0x49, 0x10, 0x48, 0x81, 0xFF, 0x48, 
 				0x2B, 0xD6, 0x45, 0x9F, 0x82, 0xC5, 0xB3, 0x00,	0x95, 0x2C, 0x49, 0x10, 0x48, 0x81, 0xFF, 0x48
 			},
+			32,
 			{
 				0xE6, 0x84, 0x42, 0x17,	0x16, 0xFC, 0x0B, 0x01, 0xAE, 0xB5, 0xC6, 0x76, 0x51, 0x20, 0xF9, 0x5F
 			},
@@ -124,12 +217,43 @@ namespace VeraCrypt
 		}
 	};
 
+	static const CipherTestVector KuznyechikTestVectors[] =
+	{
+		{
+			{
+				0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x00, 0x11, 0x22, 0x33,	0x44, 0x55, 0x66, 0x77, 
+				0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10,	0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF
+			},
+			32,
+			{
+				0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x00, 0xFF, 0xEE, 0xDD, 0xCC,	0xBB, 0xAA, 0x99, 0x88
+			},
+			{
+				0x7F, 0x67, 0x9D, 0x90, 0xBE, 0xBC, 0x24, 0x30, 0x5A, 0x46, 0x8D, 0x42, 0xB9, 0xD4, 0xED, 0xCD
+			}
+		},
+		{
+			{
+				0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x00, 0x11, 0x22, 0x33,	0x44, 0x55, 0x66, 0x77, 
+				0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10,	0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF
+			},
+			32,
+			{
+				0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xAA, 0xBB,	0xCC, 0xEE, 0xFF, 0x0A
+			},
+			{
+				0xB4, 0x29, 0x91, 0x2C, 0x6E, 0x00, 0x32, 0xF9,	0x28, 0x54, 0x52, 0xD7, 0x67, 0x18, 0xD0, 0x8B
+			}
+		}
+	};
+    #endif
+
 	static void TestCipher (Cipher &cipher, const CipherTestVector *testVector, size_t testVectorCount)
 	{
 		Buffer buffer (cipher.GetBlockSize());
 		for (size_t i = 0; i < testVectorCount; ++i)
 		{
-			cipher.SetKey (ConstBufferPtr (testVector[i].Key, sizeof (testVector[i].Key)));
+			cipher.SetKey (ConstBufferPtr (testVector[i].Key, testVector[i].KeyLength));
 			buffer.CopyFrom (ConstBufferPtr (testVector[i].Plaintext, sizeof (testVector[i].Plaintext)));
 			cipher.EncryptBlock (buffer);
 
@@ -146,7 +270,7 @@ namespace VeraCrypt
 			Buffer testData (1024);
 			for (size_t i = 0; i < testData.Size(); ++i)
 			{
-				testData[i] = (byte) i;
+				testData[i] = (uint8) i;
 			}
 
 			uint32 origCrc = Crc32::ProcessBuffer (testData);
@@ -162,6 +286,7 @@ namespace VeraCrypt
 			if (origCrc != Crc32::ProcessBuffer (testData))
 				throw TestFailed (SRC_POS);
 
+        #ifndef WOLFCRYPT_BACKEND
 			CipherSerpent serpent;
 			TestCipher (serpent, SerpentTestVectors, array_capacity (SerpentTestVectors));
 
@@ -170,6 +295,10 @@ namespace VeraCrypt
 			
 			CipherCamellia camellia;
 			TestCipher (camellia, CamelliaTestVectors, array_capacity (CamelliaTestVectors));
+			
+			CipherKuznyechik kuznyechik;
+			TestCipher (kuznyechik, KuznyechikTestVectors, array_capacity (KuznyechikTestVectors));
+        #endif
 	}
 
 	const EncryptionTest::XtsTestVector EncryptionTest::XtsTestVectors[] =
@@ -406,15 +535,23 @@ namespace VeraCrypt
 		for (i = 0; i < array_capacity (XtsTestVectors); i++)
 		{
 			AES aes;
-			shared_ptr <EncryptionMode> xts (new EncryptionModeXTS);
+                    #ifdef WOLFCRYPT_BACKEND
+                        shared_ptr <EncryptionMode> xts (new EncryptionModeWolfCryptXTS);
+                    #else
+                        shared_ptr <EncryptionMode> xts (new EncryptionModeXTS);
+                    #endif
 
-			aes.SetKey (ConstBufferPtr (XtsTestVectors[i].key1, sizeof (XtsTestVectors[i].key1)));
+                        aes.SetKey (ConstBufferPtr (XtsTestVectors[i].key1, sizeof (XtsTestVectors[i].key1)));
+                    #ifdef WOLFCRYPT_BACKEND
+                        aes.SetKeyXTS (ConstBufferPtr (XtsTestVectors[i].key2, sizeof (XtsTestVectors[i].key2)));
+                    #endif
 			xts->SetKey (ConstBufferPtr (XtsTestVectors[i].key2, sizeof (XtsTestVectors[i].key2)));
 			aes.SetMode (xts);
 
 			memcpy (p, XtsTestVectors[i].plaintext, sizeof (p));
 
-			dataUnitNo = Endian::Big (*((uint64 *) XtsTestVectors[i].dataUnitNo));
+			memcpy (&dataUnitNo, XtsTestVectors[i].dataUnitNo, sizeof (dataUnitNo));
+			dataUnitNo = Endian::Big (dataUnitNo);
 
 			aes.EncryptSectors (p, dataUnitNo, sizeof (p) / ENCRYPTION_DATA_UNIT_SIZE, ENCRYPTION_DATA_UNIT_SIZE);
 
@@ -426,6 +563,45 @@ namespace VeraCrypt
 
 			if (memcmp (XtsTestVectors[i].ciphertext, p, sizeof (p)) != 0)
 				throw TestFailed (SRC_POS);
+
+#ifdef WOLFCRYPT_BACKEND
+			// Kernel key export must retain K1 after installing K2.
+			const SecureBuffer &exportedKey = aes.GetCiphers().front()->GetKey();
+			if (exportedKey.Size() != sizeof (XtsTestVectors[i].key1)
+				|| memcmp (exportedKey.Ptr(), XtsTestVectors[i].key1, exportedKey.Size()) != 0)
+				throw TestFailed (SRC_POS);
+
+			// Check the offset against known ciphertext, not just a round trip.
+			if (dataUnitNo > 0)
+			{
+				xts->SetSectorOffset (1);
+				memcpy (p, XtsTestVectors[i].plaintext, sizeof (p));
+				aes.EncryptSectors (p, dataUnitNo - 1, 1, ENCRYPTION_DATA_UNIT_SIZE);
+				if (memcmp (p, XtsTestVectors[i].ciphertext, sizeof (p)) != 0)
+					throw TestFailed (SRC_POS);
+				aes.DecryptSectors (p, dataUnitNo - 1, 1, ENCRYPTION_DATA_UNIT_SIZE);
+				if (memcmp (p, XtsTestVectors[i].plaintext, sizeof (p)) != 0)
+					throw TestFailed (SRC_POS);
+				xts->SetSectorOffset (0);
+			}
+
+			// A primary-key update must invalidate the copied XTS context.
+			uint8 changedKey[sizeof (XtsTestVectors[i].key1)];
+			memcpy (changedKey, XtsTestVectors[i].key1, sizeof (changedKey));
+			changedKey[0] ^= 1;
+			aes.SetKey (ConstBufferPtr (changedKey, sizeof (changedKey)));
+			try
+			{
+				aes.EncryptSectors (p, dataUnitNo, 1, ENCRYPTION_DATA_UNIT_SIZE);
+				throw TestFailed (SRC_POS);
+			}
+			catch (NotInitialized&) { }
+			aes.SetKeyXTS (ConstBufferPtr (XtsTestVectors[i].key2, sizeof (XtsTestVectors[i].key2)));
+			memcpy (p, XtsTestVectors[i].plaintext, sizeof (p));
+			aes.EncryptSectors (p, dataUnitNo, 1, ENCRYPTION_DATA_UNIT_SIZE);
+			if (memcmp (p, XtsTestVectors[i].ciphertext, sizeof (p)) == 0)
+				throw TestFailed (SRC_POS);
+#endif
 		}
 	}
 
@@ -440,7 +616,7 @@ namespace VeraCrypt
 		int testCase = 0;
 		int nTestsPerformed = 0;
 
-		static const byte testKey[] =
+		static const uint8 testKey[] =
 		{
 			0x27, 0x18, 0x28, 0x18, 0x28, 0x45, 0x90, 0x45, 0x23, 0x53, 0x60, 0x28, 0x74, 0x71, 0x35, 0x26, 0x62, 0x49, 0x77, 0x57, 0x24, 0x70, 0x93, 0x69, 0x99, 0x59, 0x57, 0x49, 0x66, 0x96, 0x76, 0x27,
 			0x31, 0x41, 0x59, 0x26, 0x53, 0x58, 0x97, 0x93, 0x23, 0x84, 0x62, 0x64, 0x33, 0x83, 0x27, 0x95, 0x02, 0x88, 0x41, 0x97, 0x16, 0x93, 0x99, 0x37, 0x51, 0x05, 0x82, 0x09, 0x74, 0x94, 0x45, 0x92,
@@ -463,7 +639,11 @@ namespace VeraCrypt
 			// Test all EAs that support this mode of operation
 			foreach_ref (EncryptionAlgorithm &ea, EncryptionAlgorithm::GetAvailableAlgorithms())
 			{
-				shared_ptr <EncryptionMode> mode (new EncryptionModeXTS);
+                            #ifdef WOLFCRYPT_BACKEND
+                                shared_ptr <EncryptionMode> mode (new EncryptionModeWolfCryptXTS);
+                            #else
+                                shared_ptr <EncryptionMode> mode (new EncryptionModeXTS);
+                            #endif
 
 				if (!ea.IsModeSupported (mode))
 					continue;
@@ -472,13 +652,17 @@ namespace VeraCrypt
 
 				Buffer modeKey (ea.GetKeySize());
 				for (size_t mi = 0; mi < modeKey.Size(); mi++)
-					modeKey[mi] = (byte) mi;
-				modeKey.CopyFrom (ConstBufferPtr (XtsTestVectors[array_capacity (XtsTestVectors)-1].key2, sizeof (XtsTestVectors[array_capacity (XtsTestVectors)-1].key2)));
+					modeKey[mi] = (uint8) mi;
+				size_t copySize = VC_MIN(modeKey.Size(), sizeof (XtsTestVectors[array_capacity (XtsTestVectors)-1].key2));
+				modeKey.CopyFrom (ConstBufferPtr (XtsTestVectors[array_capacity (XtsTestVectors)-1].key2, copySize));
 
 				mode->SetKey (modeKey);
 				ea.SetMode (mode);
+                            #ifdef WOLFCRYPT_BACKEND
+				ea.SetKeyXTS (modeKey);
+                            #endif
 
-				// Each data unit will contain the same plaintext
+                                // Each data unit will contain the same plaintext
 				for (i = 0; i < nbrUnits; i++)
 				{
 					memcpy ((unsigned char *) buf + i * ENCRYPTION_DATA_UNIT_SIZE,
@@ -525,6 +709,7 @@ namespace VeraCrypt
 						break;
 					}
 				}
+                        #ifndef WOLFCRYPT_BACKEND
 				else if (typeid (ea) == typeid (Serpent))
 				{
 					switch (testCase)
@@ -598,6 +783,32 @@ namespace VeraCrypt
 						break;
 					case 3:
 						if (crc != 0xb838d2c1)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
+				else if (typeid (ea) == typeid (Kuznyechik))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0x6b86e72e)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0xa4f8637d)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0xfd83e76d)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0xb24fc47b)
 							throw TestFailed (SRC_POS);
 						nTestsPerformed++;
 						break;
@@ -733,7 +944,137 @@ namespace VeraCrypt
 						break;
 					}
 				}
-
+				else if (typeid (ea) == typeid (CamelliaKuznyechik))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0x4ea34e89)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0xb3ad8559)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0xde361313)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0x519d2bf9)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
+				else if (typeid (ea) == typeid (KuznyechikTwofish))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0x748f8631)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0x8a4b0888)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0xe0310188)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0xfc2b6b45)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
+				else if (typeid (ea) == typeid (CamelliaSerpent))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0x10569a42)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0x4de95152)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0xe17b5fe7)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0xdbf993fa)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
+				else if (typeid (ea) == typeid (KuznyechikAES))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0xc479f95d)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0x58eaf88d)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0xbe300cc2)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0x9b681c2e)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
+				else if (typeid (ea) == typeid (KuznyechikSerpentCamellia))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0x9d8ac7ee)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0x5d7d347f)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0x884b62ee)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0x5c6c3997)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
+                        #endif
 				if (crc == 0x9f5edd58)
 					throw TestFailed (SRC_POS);
 
@@ -754,7 +1095,11 @@ namespace VeraCrypt
 		// Test all EAs that support this mode of operation
 		foreach_ref (EncryptionAlgorithm &ea, EncryptionAlgorithm::GetAvailableAlgorithms())
 		{
+                    #ifdef WOLFCRYPT_BACKEND
+			shared_ptr <EncryptionMode> mode (new EncryptionModeWolfCryptXTS);
+                    #else
 			shared_ptr <EncryptionMode> mode (new EncryptionModeXTS);
+                    #endif
 
 			if (!ea.IsModeSupported (mode))
 				continue;
@@ -763,11 +1108,15 @@ namespace VeraCrypt
 
 			Buffer modeKey (ea.GetKeySize());
 			for (size_t mi = 0; mi < modeKey.Size(); mi++)
-				modeKey[mi] = (byte) mi;
-			modeKey.CopyFrom (ConstBufferPtr (XtsTestVectors[array_capacity (XtsTestVectors)-1].key2, sizeof (XtsTestVectors[array_capacity (XtsTestVectors)-1].key2)));
+				modeKey[mi] = (uint8) mi;
+			size_t copySize = VC_MIN(modeKey.Size(), sizeof (XtsTestVectors[array_capacity (XtsTestVectors)-1].key2));
+			modeKey.CopyFrom (ConstBufferPtr (XtsTestVectors[array_capacity (XtsTestVectors)-1].key2, copySize));
 
 			mode->SetKey (modeKey);
 			ea.SetMode (mode);
+                    #ifdef WOLFCRYPT_BACKEND
+                        ea.SetKeyXTS (modeKey);
+                    #endif
 
 			// Each data unit will contain the same plaintext
 			for (i = 0; i < nbrUnits; i++)
@@ -787,6 +1136,7 @@ namespace VeraCrypt
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
+                #ifndef WOLFCRYPT_BACKEND
 			else if (typeid (ea) == typeid (Serpent))
 			{
 				if (crc != 0x3494d480)
@@ -802,6 +1152,12 @@ namespace VeraCrypt
 			else if (typeid (ea) == typeid (Camellia))
 			{
 				if (crc != 0x8176b223)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
+			else if (typeid (ea) == typeid (Kuznyechik))
+			{
+				if (crc != 0xd6d39cdb)
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
@@ -835,6 +1191,37 @@ namespace VeraCrypt
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
+			else if (typeid (ea) == typeid (CamelliaKuznyechik))
+			{
+				if (crc != 0xe69d680d)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
+			else if (typeid (ea) == typeid (KuznyechikTwofish))
+			{
+				if (crc != 0xe0aef0d1)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
+			else if (typeid (ea) == typeid (CamelliaSerpent))
+			{
+				if (crc != 0x58aad727)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
+			else if (typeid (ea) == typeid (KuznyechikAES))
+			{
+				if (crc != 0x4641234a)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
+			else if (typeid (ea) == typeid (KuznyechikSerpentCamellia))
+			{
+				if (crc != 0x755dad72)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
+                #endif
 
 			if (crc == 0x9f5edd58)
 				throw TestFailed (SRC_POS);
@@ -846,41 +1233,355 @@ namespace VeraCrypt
 
 			nTestsPerformed++;
 		}
-
-		if (nTestsPerformed != 100)
+            #ifndef WOLFCRYPT_BACKEND
+		if (nTestsPerformed != 150)
+            #else
+               if (nTestsPerformed != 10)
+            #endif
 			throw TestFailed (SRC_POS);
 	}
 
 	void EncryptionTest::TestPkcs5 ()
 	{
-		VolumePassword password ((byte*) "password", 8);
-		static const byte saltData[] = { 0x12, 0x34, 0x56, 0x78 };
+		VolumePassword password ((uint8*) "password", 8);
+		static const uint8 saltData[] = { 0x12, 0x34, 0x56, 0x78 };
 		ConstBufferPtr salt (saltData, sizeof (saltData));
 		Buffer derivedKey (4);
 
-		Pkcs5HmacRipemd160 pkcs5HmacRipemd160(false);
-		pkcs5HmacRipemd160.DeriveKey (derivedKey, password, salt, 5);
-		if (memcmp (derivedKey.Ptr(), "\x7a\x3d\x7c\x03", 4) != 0)
+         #ifndef WOLFCRYPT_BACKEND
+		Pkcs5HmacBlake2s pkcs5HmacBlake2s;
+		if (pkcs5HmacBlake2s.DeriveKey (derivedKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (derivedKey.Ptr(), "\x8d\x51\xfa\x31", 4) != 0)
 			throw TestFailed (SRC_POS);
 
-		Pkcs5HmacSha512 pkcs5HmacSha512(false);
-		pkcs5HmacSha512.DeriveKey (derivedKey, password, salt, 5);
+		Pkcs5HmacSha512 pkcs5HmacSha512;
+		if (pkcs5HmacSha512.DeriveKey (derivedKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
 		if (memcmp (derivedKey.Ptr(), "\x13\x64\xae\xf8", 4) != 0)
 			throw TestFailed (SRC_POS);
 
-		Pkcs5HmacWhirlpool pkcs5HmacWhirlpool(false);
-		pkcs5HmacWhirlpool.DeriveKey (derivedKey, password, salt, 5);
+		Pkcs5HmacWhirlpool pkcs5HmacWhirlpool;
+		if (pkcs5HmacWhirlpool.DeriveKey (derivedKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
 		if (memcmp (derivedKey.Ptr(), "\x50\x7c\x36\x6f", 4) != 0)
 			throw TestFailed (SRC_POS);
 
 		Pkcs5HmacSha256 pkcs5HmacSha256;
-		pkcs5HmacSha256.DeriveKey (derivedKey, password, salt, 5);
+		if (pkcs5HmacSha256.DeriveKey (derivedKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
 		if (memcmp (derivedKey.Ptr(), "\xf2\xa0\x4f\xb2", 4) != 0)
 			throw TestFailed (SRC_POS);
 		
 		Pkcs5HmacStreebog pkcs5HmacStreebog;
-		pkcs5HmacStreebog.DeriveKey (derivedKey, password, salt, 5);
+		if (pkcs5HmacStreebog.DeriveKey (derivedKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
 		if (memcmp (derivedKey.Ptr(), "\xd0\x53\xa2\x30", 4) != 0)
 			throw TestFailed (SRC_POS);
-	}
+
+		// Output longer than one hash block: PBKDF2 block counters 2 and up,
+		// and how the output blocks are joined (password "password", salt
+		// 0x12345678, 5 iterations, 192 bytes).
+		static const uint8 longKeyBlake2s[192] =
+		{
+			0x8d, 0x51, 0xfa, 0x31, 0x46, 0x25, 0x37, 0x67, 0xa3, 0x29, 0x6b, 0x3c,
+			0x6b, 0xc1, 0x5d, 0xb2, 0xee, 0xe1, 0x6c, 0x28, 0x00, 0x26, 0xea, 0x08,
+			0x65, 0x9c, 0x12, 0xf1, 0x07, 0xde, 0x0d, 0xb9, 0x9b, 0x4f, 0x39, 0xfa,
+			0xc6, 0x80, 0x26, 0xb1, 0x8f, 0x8e, 0x48, 0x89, 0x85, 0x2d, 0x24, 0x2d,
+			0xbd, 0x63, 0x72, 0x4a, 0x6c, 0xc6, 0x19, 0x7e, 0xc3, 0x1a, 0x5d, 0xf7,
+			0x61, 0xdc, 0x0d, 0xc8, 0x16, 0x3d, 0xd1, 0x1b, 0x02, 0x9b, 0x84, 0xd1,
+			0xc1, 0xee, 0x73, 0xf7, 0x1a, 0x36, 0x82, 0x50, 0xd0, 0xe7, 0x57, 0x16,
+			0x2b, 0x27, 0x00, 0x97, 0xee, 0x6e, 0xa1, 0x55, 0x44, 0x55, 0x19, 0x4f,
+			0x1f, 0xea, 0xe4, 0x48, 0x30, 0xfd, 0xaa, 0xa1, 0xe6, 0x9e, 0x1e, 0x3c,
+			0x5c, 0x43, 0x56, 0x10, 0x29, 0x4f, 0x72, 0x57, 0x3a, 0x14, 0x15, 0x77,
+			0xa6, 0x0a, 0x56, 0xd2, 0x7b, 0xfa, 0x86, 0x22, 0x20, 0x65, 0xd8, 0xc2,
+			0x64, 0x24, 0x68, 0x95, 0xc5, 0x52, 0x0d, 0x22, 0x33, 0x3c, 0xa6, 0x7c,
+			0x89, 0x17, 0xde, 0x0b, 0xc9, 0x62, 0xaf, 0x52, 0x2b, 0xda, 0x14, 0x24,
+			0xb0, 0x3d, 0xe1, 0x2b, 0xea, 0x23, 0x3c, 0xd8, 0xca, 0x8a, 0xe3, 0x7a,
+			0xa7, 0x6f, 0xdd, 0x4a, 0x2c, 0x31, 0x46, 0xa2, 0xeb, 0x3e, 0x2a, 0x07,
+			0xf2, 0x08, 0x21, 0x42, 0xb3, 0xde, 0x03, 0x53, 0x36, 0xb5, 0xff, 0x24
+		};
+		static const uint8 longKeySha512[192] =
+		{
+			0x13, 0x64, 0xae, 0xf8, 0x0d, 0xf5, 0x57, 0x6c, 0x30, 0xd5, 0x71, 0x4c,
+			0xa7, 0x75, 0x3f, 0xfd, 0x00, 0xe5, 0x25, 0x8b, 0x39, 0xc7, 0x44, 0x7f,
+			0xce, 0x23, 0x3d, 0x08, 0x75, 0xe0, 0x2f, 0x48, 0xd6, 0x30, 0xd7, 0x00,
+			0xb6, 0x24, 0xdb, 0xe0, 0x5a, 0xd7, 0x47, 0xef, 0x52, 0xca, 0xa6, 0x34,
+			0x83, 0x47, 0xe5, 0xcb, 0xe9, 0x87, 0xf1, 0x20, 0x59, 0x6a, 0xe6, 0xa9,
+			0xcf, 0x51, 0x78, 0xc6, 0xb6, 0x23, 0xa6, 0x74, 0x0d, 0xe8, 0x91, 0xbe,
+			0x1a, 0xd0, 0x28, 0xcc, 0xce, 0x16, 0x98, 0x9a, 0xbe, 0xfb, 0xdc, 0x78,
+			0xc9, 0xe1, 0x7d, 0x72, 0x67, 0xce, 0xe1, 0x61, 0x56, 0x5f, 0x96, 0x68,
+			0xe6, 0xe1, 0xdd, 0xf4, 0xbf, 0x1b, 0x80, 0xe0, 0x19, 0x1c, 0xf4, 0xc4,
+			0xd3, 0xdd, 0xd5, 0xd5, 0x57, 0x2d, 0x83, 0xc7, 0xa3, 0x37, 0x87, 0xf4,
+			0x4e, 0xe0, 0xf6, 0xd8, 0x6d, 0x65, 0xdc, 0xa0, 0x52, 0xa3, 0x13, 0xbe,
+			0x81, 0xfc, 0x30, 0xbe, 0x7d, 0x69, 0x58, 0x34, 0xb6, 0xdd, 0x41, 0xc6,
+			0x21, 0x50, 0xf5, 0x60, 0x44, 0xf9, 0x87, 0x69, 0xfd, 0x75, 0x75, 0xcb,
+			0x10, 0xe5, 0xe0, 0xfd, 0xf0, 0x7d, 0x3f, 0x79, 0xe2, 0xa0, 0x68, 0xb5,
+			0xbf, 0xd1, 0x76, 0x91, 0xc8, 0x68, 0x67, 0xd9, 0x01, 0x00, 0x4c, 0x1b,
+			0xfc, 0x1a, 0xd3, 0x39, 0x7b, 0x9d, 0x3d, 0x88, 0x71, 0xfc, 0x55, 0x1a
+		};
+		static const uint8 longKeyWhirlpool[192] =
+		{
+			0x50, 0x7c, 0x36, 0x6f, 0xee, 0x10, 0x2e, 0x9a, 0xe2, 0x8a, 0xd5, 0x82,
+			0x72, 0x7d, 0x27, 0x0f, 0xe8, 0x4d, 0x7f, 0x68, 0x7a, 0xcf, 0xb5, 0xe7,
+			0x43, 0x67, 0xaa, 0x98, 0x93, 0x52, 0x2b, 0x09, 0x6e, 0x42, 0xdf, 0x2c,
+			0x59, 0x4a, 0x91, 0x6d, 0x7e, 0x10, 0xae, 0xb2, 0x1a, 0x89, 0x8f, 0xb9,
+			0x8f, 0xe6, 0x31, 0xa9, 0xd8, 0x9f, 0x98, 0x26, 0xf4, 0xda, 0xcd, 0x7d,
+			0x65, 0x65, 0xde, 0x10, 0x95, 0x91, 0xb4, 0x84, 0x26, 0xae, 0x43, 0xa1,
+			0x00, 0x5b, 0x1e, 0xb8, 0x38, 0x97, 0xa4, 0x1e, 0x4b, 0xd2, 0x65, 0x64,
+			0xbc, 0xfa, 0x1f, 0x35, 0x85, 0xdb, 0x4f, 0x97, 0x65, 0x6f, 0xbd, 0x24,
+			0xd4, 0xe2, 0x28, 0x89, 0xec, 0xcf, 0x3a, 0xa4, 0x1b, 0x56, 0xe9, 0x61,
+			0xa3, 0x1f, 0x6f, 0xd6, 0xac, 0x9b, 0x92, 0xf4, 0xe6, 0xc2, 0x26, 0xbc,
+			0xd4, 0x99, 0x45, 0xf2, 0xcd, 0x46, 0xd0, 0x57, 0x44, 0xc7, 0x4b, 0x5d,
+			0xed, 0x17, 0x8e, 0x68, 0x0a, 0x6d, 0x5d, 0xbe, 0x72, 0xf4, 0x6d, 0xc6,
+			0x9e, 0x19, 0xcc, 0x09, 0xaa, 0x90, 0xb0, 0xcb, 0x40, 0xa3, 0x61, 0xd1,
+			0xe5, 0x1b, 0x90, 0xfb, 0x82, 0x5d, 0xec, 0xd6, 0xb9, 0x11, 0x9b, 0xe9,
+			0xa3, 0x70, 0xe5, 0x9a, 0x2e, 0x9c, 0x3a, 0x35, 0x25, 0xcd, 0x15, 0xe3,
+			0xfc, 0x1a, 0x00, 0x40, 0xa5, 0x71, 0x11, 0xfc, 0x82, 0x74, 0xe3, 0x90
+		};
+		static const uint8 longKeySha256[192] =
+		{
+			0xf2, 0xa0, 0x4f, 0xb2, 0xd3, 0xe9, 0xa5, 0xd8, 0x51, 0x0b, 0x5c, 0x06,
+			0xdf, 0x70, 0x8e, 0x24, 0xe9, 0xc7, 0xd9, 0x15, 0x3d, 0x22, 0xcd, 0xde,
+			0xb8, 0xa6, 0xdb, 0xfd, 0x71, 0x85, 0xc6, 0x99, 0x32, 0xc0, 0xee, 0x37,
+			0x27, 0xf7, 0x24, 0xcf, 0xea, 0xa6, 0xac, 0x73, 0xa1, 0x4c, 0x4e, 0x52,
+			0x9b, 0x94, 0xf3, 0x54, 0x06, 0xfc, 0x04, 0x65, 0xa1, 0x0a, 0x24, 0xfe,
+			0xf0, 0x98, 0x1d, 0xa6, 0x22, 0x28, 0xeb, 0x24, 0x55, 0x74, 0xce, 0x6a,
+			0x3a, 0x28, 0xe2, 0x04, 0x3a, 0x59, 0x13, 0xec, 0x3f, 0xf2, 0xdb, 0xcf,
+			0x58, 0xdd, 0x53, 0xd9, 0xf9, 0x17, 0xf6, 0xda, 0x74, 0x06, 0x3c, 0x0b,
+			0x66, 0xf5, 0x0f, 0xf5, 0x58, 0xa3, 0x27, 0x52, 0x8c, 0x5b, 0x07, 0x91,
+			0xd0, 0x81, 0xeb, 0xb6, 0xbc, 0x30, 0x69, 0x42, 0x71, 0xf2, 0xd7, 0x18,
+			0x42, 0xbe, 0xe8, 0x02, 0x93, 0x70, 0x66, 0xad, 0x35, 0x65, 0xbc, 0xf7,
+			0x96, 0x8e, 0x64, 0xf1, 0xc6, 0x92, 0xda, 0xe0, 0xdc, 0x1f, 0xb5, 0xf4,
+			0x15, 0xe8, 0xda, 0x2b, 0xb8, 0xd5, 0x96, 0x06, 0x50, 0x0e, 0xdb, 0xd7,
+			0xbf, 0x5d, 0x14, 0x7e, 0x16, 0x3c, 0xbd, 0x69, 0x29, 0x11, 0x45, 0x25,
+			0xaa, 0xc1, 0x7c, 0x6f, 0x0e, 0xcb, 0xe6, 0x86, 0x83, 0x77, 0xf0, 0xf4,
+			0x66, 0xbb, 0x34, 0x82, 0x3a, 0x84, 0x88, 0xde, 0xda, 0x8e, 0xce, 0x85
+		};
+		static const uint8 longKeyStreebog[192] =
+		{
+			0xd0, 0x53, 0xa2, 0x30, 0x6f, 0x45, 0x81, 0xeb, 0xbc, 0x06, 0x81, 0xc5,
+			0xe7, 0x53, 0xa8, 0x5d, 0xc7, 0xf1, 0x23, 0x33, 0x1e, 0xbe, 0x64, 0x2c,
+			0x3b, 0x0f, 0x26, 0xd7, 0x00, 0xe1, 0x95, 0xc9, 0x65, 0x26, 0xb1, 0x85,
+			0xbe, 0x1e, 0xe2, 0xf4, 0x9b, 0xfc, 0x6b, 0x14, 0x84, 0xda, 0x24, 0x61,
+			0xa0, 0x1b, 0x9e, 0x79, 0x5c, 0xee, 0x69, 0x6e, 0xf9, 0x25, 0xb1, 0x1d,
+			0xca, 0xa0, 0x31, 0xba, 0x02, 0x6f, 0x9e, 0x99, 0x0f, 0xdb, 0x25, 0x01,
+			0x5b, 0xf1, 0xc7, 0x10, 0x19, 0x53, 0x3b, 0x29, 0x3f, 0x18, 0x00, 0xd6,
+			0xfc, 0x85, 0x03, 0xdc, 0xf2, 0xe5, 0xe9, 0x5a, 0xb1, 0x1e, 0x61, 0xde,
+			0xa7, 0xc8, 0xd0, 0x4c, 0x72, 0xca, 0xfb, 0x01, 0x37, 0x13, 0x89, 0x3f,
+			0x90, 0x3c, 0x38, 0xe8, 0x4c, 0xfd, 0x72, 0x23, 0x61, 0x10, 0x81, 0x59,
+			0x0c, 0xcc, 0x97, 0xd6, 0x8a, 0x66, 0xbb, 0xc4, 0xd7, 0xbc, 0x76, 0xfc,
+			0xdc, 0xbf, 0x5c, 0xc4, 0x7c, 0xd1, 0x4f, 0xb5, 0xaa, 0x34, 0x32, 0x4c,
+			0x1a, 0x98, 0x68, 0x7c, 0x18, 0xf4, 0x0a, 0xc4, 0x03, 0x9e, 0x86, 0x9b,
+			0x87, 0x5e, 0x25, 0x1a, 0x38, 0x90, 0x49, 0x22, 0xdd, 0xfc, 0x83, 0x43,
+			0x9e, 0x83, 0xb5, 0xf9, 0x2c, 0x2d, 0x88, 0x1b, 0x53, 0xb2, 0x0a, 0x2a,
+			0xf7, 0x0b, 0x5b, 0xac, 0x6b, 0xc2, 0xa0, 0x53, 0x7f, 0x07, 0xa2, 0xea
+		};
+		Buffer longKey (192);
+		if (pkcs5HmacBlake2s.DeriveKey (longKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (longKey.Ptr(), longKeyBlake2s, sizeof (longKeyBlake2s)) != 0)
+			throw TestFailed (SRC_POS);
+		if (pkcs5HmacSha512.DeriveKey (longKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (longKey.Ptr(), longKeySha512, sizeof (longKeySha512)) != 0)
+			throw TestFailed (SRC_POS);
+		if (pkcs5HmacWhirlpool.DeriveKey (longKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (longKey.Ptr(), longKeyWhirlpool, sizeof (longKeyWhirlpool)) != 0)
+			throw TestFailed (SRC_POS);
+		if (pkcs5HmacSha256.DeriveKey (longKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (longKey.Ptr(), longKeySha256, sizeof (longKeySha256)) != 0)
+			throw TestFailed (SRC_POS);
+		if (pkcs5HmacStreebog.DeriveKey (longKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (longKey.Ptr(), longKeyStreebog, sizeof (longKeyStreebog)) != 0)
+			throw TestFailed (SRC_POS);
+
+		// Streebog: message blocks whose 512-bit sum hits the carry case of
+		// add512() must hash the same on every CPU. VeraCrypt's add512()
+		// drops this carry on purpose (existing volumes depend on it), so
+		// the expected digest is not the GOST R 34.11-2012 one (which would
+		// be c392d229...83639757).
+		{
+			// Read as 64-bit words by the portable Streebog code.
+			CRYPTOPP_ALIGN_DATA(8) uint8 message[128];
+			memset (message, 0, sizeof (message));
+			memset (message, 0xff, 16);
+			message[64] = 1;
+
+			Streebog streebog;
+			Buffer digest (streebog.GetDigestSize ());
+			streebog.ProcessData (ConstBufferPtr (message, sizeof (message)));
+			streebog.GetDigest (digest);
+			if (memcmp (digest.Ptr(), "\xf0\x7f\x6f\xae\x81\x90\xe4\x9d\x54\xe6\x98\x5a\x30\x44\xb3\x3d\xd8\xdb\x37\x08\x6b\x81\x83\x16\xcb\x19\xe2\x33\xf1\xa5\x81\x08"
+				"\xb1\x2e\x7f\x02\x74\x48\x32\x31\x1c\x09\x44\x68\x70\xb4\xbb\x45\x4b\xb5\x4f\xa3\x41\x39\x2a\xfd\xdd\x62\x25\x2b\xaf\x8a\x08\x09", 64) != 0)
+				throw TestFailed (SRC_POS);
+		}
+
+	#ifndef VC_DCS_DISABLE_ARGON2
+		Pkcs5Argon2 pkcs5Argon2;
+		static const uint8 argon2SaltData[] = { 's', 'o', 'm', 'e', 's', 'a', 'l', 't' };
+		static const uint8 argon2Pim1DerivedKey[] =
+		{
+			0x9e, 0x87, 0x89, 0xc8, 0xb4, 0x28, 0x34, 0x22,
+			0x0a, 0xfc, 0x00, 0x08, 0x5a, 0xc7, 0x3a, 0xcc,
+			0x30, 0x86, 0x51, 0x21, 0x69, 0x94, 0xab, 0xbf,
+			0xdd, 0xd6, 0x9b, 0x25, 0x92, 0x03, 0x2e, 0xfd
+		};
+		static const uint8 argon2Pim1HeaderKeyPrefix[] =
+		{
+			0x48, 0x8d, 0x71, 0xbd, 0x71, 0x6e, 0x68, 0x45,
+			0xaa, 0xe6, 0xe2, 0x29, 0x74, 0x18, 0x2c, 0x20,
+			0xe9, 0x42, 0x8d, 0x7b, 0x3d, 0x4b, 0xcf, 0x54,
+			0x04, 0x6c, 0x3e, 0xbe, 0x80, 0x33, 0x8f, 0x20
+		};
+		ConstBufferPtr argon2Salt (argon2SaltData, sizeof (argon2SaltData));
+		Buffer argon2DerivedKey (sizeof (argon2Pim1DerivedKey));
+		Buffer argon2HeaderKey (ARGON2_HEADER_KEYDATA_SIZE);
+
+		// PIM 1 maps to Argon2id t=3, m=64 MiB, p=1.
+		if (pkcs5Argon2.DeriveKey (argon2DerivedKey, password, 1, argon2Salt) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (argon2DerivedKey.Ptr(), argon2Pim1DerivedKey, sizeof (argon2Pim1DerivedKey)) != 0)
+			throw TestFailed (SRC_POS);
+		if (pkcs5Argon2.DeriveKey (argon2HeaderKey, password, 1, argon2Salt) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (argon2HeaderKey.Ptr(), argon2Pim1HeaderKeyPrefix, sizeof (argon2Pim1HeaderKeyPrefix)) != 0)
+			throw TestFailed (SRC_POS);
+
+		try
+		{
+			if (pkcs5Argon2.DeriveKey (derivedKey, password, salt, 5) != 0)
+				throw TestFailed (SRC_POS);
+			throw TestFailed (SRC_POS);
+		}
+		catch (ParameterIncorrect&)
+		{
+		}
+
+		shared_ptr <Pkcs5Kdf> sha512Kdf (new Pkcs5HmacSha512);
+		shared_ptr <Pkcs5Kdf> failingArgon2Kdf (new FailingArgon2Kdf);
+		shared_ptr <EncryptionAlgorithm> ea (new AES);
+		SecureBuffer headerBuffer (TC_VOLUME_HEADER_SIZE);
+		SecureBuffer dataKey (ea->GetKeySize() * 2);
+		SecureBuffer headerSalt (VolumeHeader::GetSaltSize());
+		SecureBuffer headerKey (VolumeHeader::GetLargestSerializedKeySize());
+
+		for (size_t i = 0; i < dataKey.Size(); ++i)
+			dataKey.Ptr()[i] = (uint8) (i + 1);
+
+		for (size_t i = 0; i < headerSalt.Size(); ++i)
+			headerSalt.Ptr()[i] = (uint8) (i + 2);
+
+		if (sha512Kdf->DeriveKey (headerKey, password, 1, headerSalt) != 0)
+			throw TestFailed (SRC_POS);
+
+		VolumeHeaderCreationOptions options;
+		options.DataKey = dataKey;
+		options.EA = ea;
+		options.Kdf = sha512Kdf;
+		options.HeaderKey = headerKey;
+		options.Salt = headerSalt;
+		options.SectorSize = TC_SECTOR_SIZE_FILE_HOSTED_VOLUME;
+		options.VolumeDataStart = TC_VOLUME_HEADER_GROUP_SIZE;
+		options.VolumeDataSize = TC_MIN_VOLUME_SIZE;
+		options.Type = VolumeType::Normal;
+
+		VolumeHeader header (TC_VOLUME_HEADER_SIZE);
+		header.Create (headerBuffer, options);
+
+		Pkcs5KdfList kdfs;
+		kdfs.push_back (failingArgon2Kdf);
+		kdfs.push_back (sha512Kdf);
+
+		EncryptionAlgorithmList encryptionAlgorithms;
+		encryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new AES));
+
+		EncryptionModeList encryptionModes;
+		encryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS));
+
+		VolumeHeader decryptedHeader (TC_VOLUME_HEADER_SIZE);
+		if (!decryptedHeader.Decrypt (headerBuffer, password, 1, shared_ptr <Pkcs5Kdf> (), kdfs, encryptionAlgorithms, encryptionModes)
+			|| decryptedHeader.GetPkcs5Kdf()->GetName() != sha512Kdf->GetName())
+		{
+			throw TestFailed (SRC_POS);
+		}
+
+		try
+		{
+			decryptedHeader.Decrypt (headerBuffer, password, 1, failingArgon2Kdf, kdfs, encryptionAlgorithms, encryptionModes);
+			throw TestFailed (SRC_POS);
+		}
+		catch (ExternalException&)
+		{
+		}
+	#endif
+         #else
+		// AES-XTS needs 64 bytes: cover both SHA-256 PBKDF2 output blocks.
+		derivedKey.Allocate (64);
+		static const uint8 expectedSha256[64] =
+		{
+			0xf2, 0xa0, 0x4f, 0xb2, 0xd3, 0xe9, 0xa5, 0xd8, 0x51, 0x0b, 0x5c, 0x06,
+			0xdf, 0x70, 0x8e, 0x24, 0xe9, 0xc7, 0xd9, 0x15, 0x3d, 0x22, 0xcd, 0xde,
+			0xb8, 0xa6, 0xdb, 0xfd, 0x71, 0x85, 0xc6, 0x99, 0x32, 0xc0, 0xee, 0x37,
+			0x27, 0xf7, 0x24, 0xcf, 0xea, 0xa6, 0xac, 0x73, 0xa1, 0x4c, 0x4e, 0x52,
+			0x9b, 0x94, 0xf3, 0x54, 0x06, 0xfc, 0x04, 0x65, 0xa1, 0x0a, 0x24, 0xfe,
+			0xf0, 0x98, 0x1d, 0xa6
+		};
+		static const uint8 expectedSha512[64] =
+		{
+			0x13, 0x64, 0xae, 0xf8, 0x0d, 0xf5, 0x57, 0x6c, 0x30, 0xd5, 0x71, 0x4c,
+			0xa7, 0x75, 0x3f, 0xfd, 0x00, 0xe5, 0x25, 0x8b, 0x39, 0xc7, 0x44, 0x7f,
+			0xce, 0x23, 0x3d, 0x08, 0x75, 0xe0, 0x2f, 0x48, 0xd6, 0x30, 0xd7, 0x00,
+			0xb6, 0x24, 0xdb, 0xe0, 0x5a, 0xd7, 0x47, 0xef, 0x52, 0xca, 0xa6, 0x34,
+			0x83, 0x47, 0xe5, 0xcb, 0xe9, 0x87, 0xf1, 0x20, 0x59, 0x6a, 0xe6, 0xa9,
+			0xcf, 0x51, 0x78, 0xc6
+		};
+		Pkcs5HmacSha256 pkcs5HmacSha256;
+		if (pkcs5HmacSha256.DeriveKey (derivedKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (derivedKey.Ptr(), expectedSha256, sizeof (expectedSha256)) != 0)
+			throw TestFailed (SRC_POS);
+
+		Pkcs5HmacSha512 pkcs5HmacSha512;
+		if (pkcs5HmacSha512.DeriveKey (derivedKey, password, salt, 5) != 0)
+			throw TestFailed (SRC_POS);
+		if (memcmp (derivedKey.Ptr(), expectedSha512, sizeof (expectedSha512)) != 0)
+			throw TestFailed (SRC_POS);
+
+		if (wc_PBKDF_max_iterations_get() < pkcs5HmacSha512.GetIterationCount (MAX_PIM_VALUE))
+			throw TestFailed (SRC_POS);
+
+		// Cancellation must propagate through every SHA KDF, including boot SHA-256.
+		Pkcs5KdfList kdfs = Pkcs5Kdf::GetAvailableAlgorithms();
+		kdfs.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha256_Boot));
+		long volatile abortKeyDerivation = 1;
+		foreach (shared_ptr <Pkcs5Kdf> kdf, kdfs)
+		{
+			memset (derivedKey.Ptr(), 0xa5, derivedKey.Size());
+			if (kdf->DeriveKey (derivedKey, password, salt, 5, &abortKeyDerivation) != ERR_USER_ABORT)
+				throw TestFailed (SRC_POS);
+			for (size_t n = 0; n < derivedKey.Size(); ++n)
+				if (derivedKey[n] != 0)
+					throw TestFailed (SRC_POS);
+		}
+
+		// Invalid salt lengths exercise a provider error without changing its
+		// process-wide iteration policy while other operations may be running.
+		for (int hashIndex = 0; hashIndex < 2; ++hashIndex)
+		{
+			memset (derivedKey.Ptr(), 0xa5, derivedKey.Size());
+			int result = hashIndex
+				? derive_key_sha512 (password.DataPtr(), (int) password.Size(), salt.Get(), -1, 5, derivedKey.Ptr(), (int) derivedKey.Size(), NULL)
+				: derive_key_sha256 (password.DataPtr(), (int) password.Size(), salt.Get(), -1, 5, derivedKey.Ptr(), (int) derivedKey.Size(), NULL);
+			if (result == 0)
+				throw TestFailed (SRC_POS);
+			for (size_t n = 0; n < derivedKey.Size(); ++n)
+				if (derivedKey[n] != 0)
+					throw TestFailed (SRC_POS);
+		}
+        #endif	
+        }
 }

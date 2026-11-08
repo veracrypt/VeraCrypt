@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者迫使你透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，只需要很少的内存，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求和预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Authenticity%20and%20Integrity.html">真实性和完整性</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>真实性和完整性</h1>
+<p>VeraCrypt使用加密技术来保护其加密数据的<em>机密性</em>。VeraCrypt既不保护也不验证其加密或解密数据的完整性和真实性。因此，如果你允许对手修改VeraCrypt加密的数据，他可以将数据的任意16字节块的值设置为随机值，或者设置为他过去能够获取的旧值。请注意，对手无法选择你在VeraCrypt解密修改后的块时将得到的值 —— 该值将是随机的 —— 除非攻击者恢复他过去能够获取的加密块的旧版本。你有责任验证VeraCrypt加密或解密的数据的完整性和真实性（例如，通过使用适当的第三方软件）。<br>
+<br>
+另请参阅：<a href="Physical%20Security.html">
+<em>物理安全</em></a>，<a href="Security%20Model.html">
+<em>安全模型</em></a></p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

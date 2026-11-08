@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -14,6 +14,7 @@
 #define TC_HEADER_Main_Forms_EncryptionOptionsWizardPage
 
 #include "Forms.h"
+#include "Volume/Pkcs5Kdf.h"
 
 namespace VeraCrypt
 {
@@ -22,12 +23,15 @@ namespace VeraCrypt
 	public:
 		EncryptionOptionsWizardPage (wxPanel* parent);
 
+#ifdef TC_MACOSX
+		~EncryptionOptionsWizardPage ();
+#endif
 		shared_ptr <EncryptionAlgorithm> GetEncryptionAlgorithm () const;
-		shared_ptr <Hash> GetHash () const;
+		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const;
 		bool IsValid () { return true; }
 		void SetPageText (const wxString &text) { }
 		void SetEncryptionAlgorithm (shared_ptr <EncryptionAlgorithm> algorithm);
-		void SetHash (shared_ptr <Hash> hash);
+		void SetPkcs5Kdf (shared_ptr <Pkcs5Kdf> kdf);
 
 	protected:
 		void OnBenchmarkButtonClick (wxCommandEvent& event);
@@ -37,8 +41,11 @@ namespace VeraCrypt
 		void OnHashHyperlinkClick (wxHyperlinkEvent& event);
 		void OnTestButtonClick (wxCommandEvent& event);
 
+#ifdef TC_MACOSX
+		void HandleOnSize( wxSizeEvent& event );
+#endif
 		EncryptionAlgorithmList EncryptionAlgorithms;
-		HashList Hashes;
+		Pkcs5KdfList Kdfs;
 	};
 }
 

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -20,6 +20,12 @@ namespace VeraCrypt
 {
 	struct CoreServiceResponse : public Serializable
 	{
+	};
+
+	struct ElevatedServiceStartedResponse : CoreServiceResponse
+	{
+		ElevatedServiceStartedResponse () { }
+		TC_SERIALIZABLE (ElevatedServiceStartedResponse);
 	};
 
 	struct CheckFilesystemResponse : CoreServiceResponse
@@ -69,6 +75,22 @@ namespace VeraCrypt
 		HostDeviceList HostDevices;
 	};
 
+#ifdef TC_MACOSX
+	struct ExecuteMacOSXAPFSFormatterResponse : CoreServiceResponse
+	{
+		ExecuteMacOSXAPFSFormatterResponse () { }
+		TC_SERIALIZABLE (ExecuteMacOSXAPFSFormatterResponse);
+	};
+#endif
+
+#ifdef TC_OPENBSD
+	struct ExecuteOpenBSDFFSFormatterResponse : CoreServiceResponse
+	{
+		ExecuteOpenBSDFFSFormatterResponse () { }
+		TC_SERIALIZABLE (ExecuteOpenBSDFFSFormatterResponse);
+	};
+#endif
+
 	struct MountVolumeResponse : CoreServiceResponse
 	{
 		MountVolumeResponse () { }
@@ -77,6 +99,15 @@ namespace VeraCrypt
 
 		shared_ptr <VolumeInfo> MountedVolumeInfo;
 	};
+
+#ifdef TC_LINUX
+	struct MountVolumeResponseV2 : MountVolumeResponse
+	{
+		MountVolumeResponseV2 () { }
+		MountVolumeResponseV2 (shared_ptr <VolumeInfo> volumeInfo) : MountVolumeResponse (volumeInfo) { }
+		TC_SERIALIZABLE (MountVolumeResponseV2);
+	};
+#endif
 
 	struct SetFileOwnerResponse : CoreServiceResponse
 	{

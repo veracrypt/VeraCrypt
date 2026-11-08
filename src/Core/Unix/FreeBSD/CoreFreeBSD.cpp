@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -46,7 +46,7 @@ namespace VeraCrypt
 		args.push_back ("-f");
 		args.push_back (filePath);
 
-		string dev = StringConverter::Trim (Process::Execute ("mdconfig", args));
+		string dev = StringConverter::Trim (Process::Execute ("/sbin/mdconfig", args));
 
 		if (dev.find ("/") == string::npos)
 			dev = string ("/dev/") + dev;
@@ -65,7 +65,7 @@ namespace VeraCrypt
 		{
 			try
 			{
-				Process::Execute ("mdconfig", args);
+				Process::Execute ("/sbin/mdconfig", args);
 				break;
 			}
 			catch (ExecutedProcessFailed&)
@@ -83,7 +83,7 @@ namespace VeraCrypt
 #ifdef TC_MACOSX
 		const string busType = "rdisk";
 #else
-		foreach (const string &busType, StringConverter::Split ("ad da"))
+		foreach (const string &busType, StringConverter::Split ("ad da vtbd"))
 #endif
 		{
 			for (int devNumber = 0; devNumber < 64; devNumber++)
@@ -153,7 +153,12 @@ namespace VeraCrypt
 	MountedFilesystemList CoreFreeBSD::GetMountedFilesystems (const DevicePath &devicePath, const DirectoryPath &mountPoint) const
 	{
 
+#ifdef TC_MACOSX
+		// A detached discovery worker can finish during static teardown.
+		static Mutex &mutex = *new Mutex;
+#else
 		static Mutex mutex;
+#endif
 		ScopeLock sl (mutex);
 
 		struct statfs *sysMountList;
@@ -175,6 +180,11 @@ namespace VeraCrypt
 				mf->MountPoint = DirectoryPath (sysMountList[i].f_mntonname);
 
 			mf->Type = sysMountList[i].f_fstypename;
+#ifdef TC_MACOSX
+			mf->Owner = sysMountList[i].f_owner;
+			mf->MountId[0] = sysMountList[i].f_fsid.val[0];
+			mf->MountId[1] = sysMountList[i].f_fsid.val[1];
+#endif
 
 			if ((devicePath.IsEmpty() || devicePath == mf->Device) && (mountPoint.IsEmpty() || mountPoint == mf->MountPoint))
 				mountedFilesystems.push_back (mf);
@@ -183,12 +193,55 @@ namespace VeraCrypt
 		return mountedFilesystems;
 	}
 
-	void CoreFreeBSD::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions) const
+	void CoreFreeBSD::MountFilesystem (const DevicePath &devicePath, const DirectoryPath &mountPoint, const string &filesystemType, bool readOnly, const string &systemMountOptions, bool internalMountOnly) const
 	{
+		(void) internalMountOnly;
+
+		std::string chosenFilesystem = "msdos";
+		std::string modifiedMountOptions = systemMountOptions;
+
+		if (filesystemType.empty() && modifiedMountOptions.find("mountprog") == string::npos) {
+			// No filesystem type specified through CLI, attempt to identify with blkid
+			// as mount is unable to probe filesystem type on BSD
+			// Make sure we don't override user defined mountprog
+			std::vector<char> buffer(128,0);
+			std::string cmd = "blkid -o value -s TYPE " + static_cast<std::string>(devicePath) + " 2>/dev/null";
+			std::string result;
+
+			FILE* pipe = popen(cmd.c_str(), "r");
+			if (pipe) {
+				while (!feof(pipe)) {
+					if (fgets(buffer.data(), 128, pipe) != nullptr)
+						result += buffer.data();
+				}
+				fflush(pipe);
+				pclose(pipe);
+				pipe = nullptr;
+			}
+
+			if (result.find("ext") == 0 || StringConverter::ToLower(filesystemType).find("ext") == 0) {
+				chosenFilesystem = "ext2fs";
+			}
+			else if (result.find("exfat") == 0 || StringConverter::ToLower(filesystemType) == "exfat") {
+				chosenFilesystem = "exfat";
+				modifiedMountOptions += string(!systemMountOptions.empty() ? "," : "")
+							+ "mountprog=/usr/local/sbin/mount.exfat";
+			}
+			else if (result.find("ntfs") == 0 || StringConverter::ToLower(filesystemType) == "ntfs") {
+				chosenFilesystem = "ntfs";
+				modifiedMountOptions += string(!systemMountOptions.empty() ? "," : "")
+							+ "mountprog=/usr/local/bin/ntfs-3g";
+			}
+			else if (!filesystemType.empty()) {
+				// Filesystem is specified but is none of the above, then supply as is
+				chosenFilesystem = filesystemType;
+			}
+		} else
+			chosenFilesystem = filesystemType;
+
 		try
 		{
-			// Try to mount FAT by default as mount is unable to probe filesystem type on BSD
-			CoreUnix::MountFilesystem (devicePath, mountPoint, filesystemType.empty() ? "msdos" : filesystemType, readOnly, systemMountOptions);
+			CoreUnix::MountFilesystem (devicePath, mountPoint, chosenFilesystem, readOnly, modifiedMountOptions);
 		}
 		catch (ExecutedProcessFailed&)
 		{
@@ -200,7 +253,7 @@ namespace VeraCrypt
 	}
 
 #ifdef TC_FREEBSD
-	auto_ptr <CoreBase> Core (new CoreServiceProxy <CoreFreeBSD>);
-	auto_ptr <CoreBase> CoreDirect (new CoreFreeBSD);
+	unique_ptr <CoreBase> Core (new CoreServiceProxy <CoreFreeBSD>);
+	unique_ptr <CoreBase> CoreDirect (new CoreFreeBSD);
 #endif
 }

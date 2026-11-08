@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认能力。与文件加密不同，VeraCrypt进行的数据加密是实时（即时）、自动、透明的，只需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Miscellaneous.html">杂项</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Removable%20Medium%20Volume.html">可移动介质卷</a>
+</p></div>
+
+<div class="wikidoc">
+<h2>作为可移动介质挂载的卷</h2>
+<p>本节适用于在启用以下任一选项（视适用情况而定）时挂载的VeraCrypt卷：</p>
+<ul>
+<li><em>设置</em> &gt; <em>首选项</em> &gt; <em>将卷作为可移动介质挂载</em>
+</li><li><em>挂载选项</em> &gt; <em>将卷作为可移动介质挂载</em> </li><li><em>收藏夹</em> &gt; <em>组织收藏卷</em> &gt; <em>将所选卷作为可移动介质挂载</em>
+</li><li><em>收藏夹</em> &gt; <em>组织系统收藏卷</em> &gt; <em>将所选卷作为可移动介质挂载</em>
+</li></ul>
+<p>作为可移动介质挂载的VeraCrypt卷具有以下优点和缺点：</p>
+<ul>
+<li>可防止Windows在VeraCrypt卷上自动创建“<em>Recycled</em>”和/或“<em>System Volume Information</em>”文件夹（在Windows中，这些文件夹由回收站和系统还原功能使用）。
+</li><li>可防止Windows 8及更高版本在事件日志中写入包含使用NTFS格式化的VeraCrypt卷设备名称（\\device\VeraCryptVolumeXX）的事件98。此事件日志“功能”是Windows 8作为新引入的NTFS健康检查的一部分引入的，<a href="https://blogs.msdn.microsoft.com/b8/2012/05/09/redesigning-chkdsk-and-the-new-ntfs-health-model/" target="_blank">
+此处有详细解释</a>。非常感谢Liran Elharar发现了这一点。 </li><li>Windows可能会使用通常用于可移动介质（例如USB闪存驱动器）的缓存方法和写入延迟。这可能会略微降低性能，但同时会增加无需强制卸载即可快速卸载卷的可能性。 </li><li>操作系统可能会尽量减少对该卷打开的句柄数量。因此，作为可移动介质挂载的卷可能比其他卷需要更少的强制卸载操作。
+</li><li>在Windows Vista及更早版本中，“<em>计算机</em>”（或“<em>我的电脑</em>”）列表不会显示作为可移动介质挂载的卷的可用空间量（请注意，这是Windows的限制，而非VeraCrypt的错误）。
+</li><li>在Windows Vista或更高版本的桌面版中，作为可移动介质挂载的卷的扇区可能可供所有用户访问（包括无管理员权限的用户；请参阅<a href="Multi-User%20Environment.html">
+<em>多用户环境</em></a>部分）。 </li></ul>
+</div><div class="ClearBoth"></div></body></html>

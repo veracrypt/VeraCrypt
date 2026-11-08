@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -16,6 +16,13 @@
 #include "Platform/Platform.h"
 #include "Volume/Volume.h"
 #include "RandomNumberGenerator.h"
+#if defined (TC_LINUX)
+#include "Platform/Unix/Process.h"
+#include <errno.h>
+#endif
+
+#define VC_MIN_LARGE_BTRFS_VOLUME_SIZE 114294784ULL
+#define VC_MIN_SMALL_BTRFS_VOLUME_SIZE 16777216ULL
 
 namespace VeraCrypt
 {
@@ -31,6 +38,7 @@ namespace VeraCrypt
 		shared_ptr <Pkcs5Kdf> VolumeHeaderKdf;
 		shared_ptr <EncryptionAlgorithm> EA;
 		bool Quick;
+		bool EMVSupportEnabled;
 
 		struct FilesystemType
 		{
@@ -44,8 +52,11 @@ namespace VeraCrypt
 				Ext2,
 				Ext3,
 				Ext4,
+				Btrfs,
 				MacOsExt,
-				UFS
+				APFS,
+				UFS,
+				FFS
 			};
 
 			static Enum GetPlatformNative ()
@@ -58,9 +69,74 @@ namespace VeraCrypt
 				return VolumeCreationOptions::FilesystemType::MacOsExt;
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
 				return VolumeCreationOptions::FilesystemType::UFS;
+#elif defined (TC_OPENBSD)
+				return VolumeCreationOptions::FilesystemType::FFS;
 #else
 				return VolumeCreationOptions::FilesystemType::FAT;
 #endif
+			}
+
+			static const char* GetFsFormatter (VolumeCreationOptions::FilesystemType::Enum fsType)
+			{
+				switch (fsType)
+				{
+	#if defined (TC_LINUX)
+				case VolumeCreationOptions::FilesystemType::Ext2:		return "mkfs.ext2";
+				case VolumeCreationOptions::FilesystemType::Ext3:		return "mkfs.ext3";
+				case VolumeCreationOptions::FilesystemType::Ext4:		return "mkfs.ext4";
+				case VolumeCreationOptions::FilesystemType::NTFS:		return "mkfs.ntfs";
+				case VolumeCreationOptions::FilesystemType::exFAT:		return "mkfs.exfat";
+				case VolumeCreationOptions::FilesystemType::Btrfs:		return "mkfs.btrfs";
+	#elif defined (TC_MACOSX)
+				case VolumeCreationOptions::FilesystemType::MacOsExt:	return "newfs_hfs";
+				case VolumeCreationOptions::FilesystemType::exFAT:		return "newfs_exfat";
+				case VolumeCreationOptions::FilesystemType::APFS:		return "newfs_apfs";
+	#elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
+				case VolumeCreationOptions::FilesystemType::UFS:		return "newfs" ;
+	#elif defined (TC_OPENBSD)
+				case VolumeCreationOptions::FilesystemType::FFS:		return "newfs" ;
+	#endif
+				default: return NULL;
+				}
+			}
+
+			static bool IsFsFormatterPresent (VolumeCreationOptions::FilesystemType::Enum fsType)
+			{
+				bool bRet = false;
+				const char* fsFormatter = GetFsFormatter (fsType);
+				if (fsFormatter)
+				{
+#if defined (TC_LINUX)
+					try
+					{
+						list <string> args;
+
+						args.push_back ("-V");
+						Process::Execute (fsFormatter, args);
+
+						bRet = true;
+					}
+					catch (ExecutedProcessFailed& epe)
+					{
+						// only permission error is accepted in case of failure of the command
+						if (epe.GetExitCode () == EPERM || epe.GetExitCode () == EACCES)
+							bRet = true;
+					}
+					catch (SystemException& se)
+					{
+						// if a permission error occured, then we consider that the command exists
+						if (se.GetErrorCode () == EPERM || se.GetErrorCode () == EACCES)
+							bRet = true;
+					}
+					catch (exception &e)
+					{
+					}
+#else
+					bRet = true;
+#endif
+				}
+
+				return bRet;
 			}
 		};
 
@@ -73,11 +149,26 @@ namespace VeraCrypt
 	{
 	public:
 
+		struct ProgressStage
+		{
+			enum Enum
+			{
+				NotStarted = 0,
+				WritingData,
+				WritingBackupHeader,
+				FlushingData,
+				Finished,
+				Aborted,
+				Error
+			};
+		};
+
 		struct ProgressInfo
 		{
 			bool CreationInProgress;
 			uint64 TotalSize;
 			uint64 SizeDone;
+			ProgressStage::Enum Stage;
 		};
 
 		struct KeyInfo
@@ -109,6 +200,7 @@ namespace VeraCrypt
 		shared_ptr <VolumeLayout> Layout;
 		shared_ptr <File> VolumeFile;
 		SharedVal <uint64> SizeDone;
+		SharedVal <int> Stage;
 		uint64 WriteOffset;
 		ProgressInfo mProgressInfo;
 

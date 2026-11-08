@@ -4,23 +4,69 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
 */
 
+#include "Crypto/cpu.h"
+#include "Crypto/misc.h"
 #include "EncryptionModeXTS.h"
 #include "Common/Crypto.h"
 
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+
+#define XorBlocks(result,ptr,len,start,end) \
+	while (len >= 2) \
+	{ \
+		__m128i xmm1 = _mm_loadu_si128((const __m128i*) ptr); \
+		__m128i xmm2 = _mm_loadu_si128((__m128i*)result); \
+		__m128i xmm3 = _mm_loadu_si128((const __m128i*) (ptr + 2)); \
+		__m128i xmm4 = _mm_loadu_si128((__m128i*)(result + 2)); \
+		\
+		_mm_storeu_si128((__m128i*)result, _mm_xor_si128(xmm1, xmm2)); \
+		_mm_storeu_si128((__m128i*)(result + 2), _mm_xor_si128(xmm3, xmm4)); \
+		ptr+= 4; \
+		result+= 4; \
+		len -= 2; \
+	} \
+	\
+	if (len) \
+	{ \
+		__m128i xmm1 = _mm_loadu_si128((const __m128i*)ptr); \
+		__m128i xmm2 = _mm_loadu_si128((__m128i*)result); \
+		\
+		_mm_storeu_si128((__m128i*)result, _mm_xor_si128(xmm1, xmm2)); \
+		ptr+= 2; \
+		result+= 2; \
+	} \
+	len = end - start;
+
+#endif
+
 namespace VeraCrypt
 {
-	void EncryptionModeXTS::Encrypt (byte *data, uint64 length) const
+#if !VC_UNALIGNED_ACCESS_OK
+	// The data buffer is supplied by the caller and need not be 64-bit aligned.
+	static inline void XorWhiteningValue (uint64 *&data, uint64 *&whiteningValue)
+	{
+		uint64 block[2];
+		memcpy (block, data, sizeof (block));
+		block[0] ^= whiteningValue[0];
+		block[1] ^= whiteningValue[1];
+		memcpy (data, block, sizeof (block));
+		data += 2;
+		whiteningValue += 2;
+	}
+#endif
+
+	void EncryptionModeXTS::Encrypt (uint8 *data, uint64 length) const
 	{
 		EncryptBuffer (data, length, 0);
 	}
 
-	void EncryptionModeXTS::EncryptBuffer (byte *data, uint64 length, uint64 startDataUnitNo) const
+	void EncryptionModeXTS::EncryptBuffer (uint8 *data, uint64 length, uint64 startDataUnitNo) const
 	{
 		if_debug (ValidateState());
 
@@ -35,19 +81,18 @@ namespace VeraCrypt
 		assert (iSecondaryCipher == SecondaryCiphers.end());
 	}
 
-	void EncryptionModeXTS::EncryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
+	void EncryptionModeXTS::EncryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, uint8 *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
-		byte finalCarry;
-		byte whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
-		byte whiteningValue [BYTES_PER_XTS_BLOCK];
-		byte byteBufUnitNo [BYTES_PER_XTS_BLOCK];
+                uint8 finalCarry;
+		CRYPTOPP_ALIGN_DATA(8) uint8 whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
+		CRYPTOPP_ALIGN_DATA(8) uint8 whiteningValue [BYTES_PER_XTS_BLOCK];
+		CRYPTOPP_ALIGN_DATA(8) uint8 byteBufUnitNo [BYTES_PER_XTS_BLOCK];
 		uint64 *whiteningValuesPtr64 = (uint64 *) whiteningValues;
 		uint64 *whiteningValuePtr64 = (uint64 *) whiteningValue;
 		uint64 *bufPtr = (uint64 *) buffer;
 		uint64 *dataUnitBufPtr;
-		unsigned int startBlock = startCipherBlockNo, endBlock, block;
-		uint64 *const finalInt64WhiteningValuesPtr = whiteningValuesPtr64 + sizeof (whiteningValues) / sizeof (*whiteningValuesPtr64) - 1;
-		uint64 blockCount, dataUnitNo;
+		unsigned int startBlock = startCipherBlockNo, endBlock, block, countBlock;
+		uint64 remainingBlocks, dataUnitNo;
 
 		startDataUnitNo += SectorOffset;
 
@@ -67,17 +112,18 @@ namespace VeraCrypt
 		if (length % BYTES_PER_XTS_BLOCK)
 			TC_THROW_FATAL_EXCEPTION;
 
-		blockCount = length / BYTES_PER_XTS_BLOCK;
+		remainingBlocks = length / BYTES_PER_XTS_BLOCK;
 
 		// Process all blocks in the buffer
-		while (blockCount > 0)
+		while (remainingBlocks > 0)
 		{
-			if (blockCount < BLOCKS_PER_XTS_DATA_UNIT)
-				endBlock = startBlock + (unsigned int) blockCount;
+			if (remainingBlocks < BLOCKS_PER_XTS_DATA_UNIT)
+				endBlock = startBlock + (unsigned int) remainingBlocks;
 			else
 				endBlock = BLOCKS_PER_XTS_DATA_UNIT;
+			countBlock = endBlock - startBlock;
 
-			whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
+			whiteningValuesPtr64 = (uint64 *) whiteningValues;
 			whiteningValuePtr64 = (uint64 *) whiteningValue;
 
 			// Encrypt the data unit number using the secondary key (in order to generate the first
@@ -87,13 +133,13 @@ namespace VeraCrypt
 			secondaryCipher.EncryptBlock (whiteningValue);
 
 			// Generate subsequent whitening values for blocks in this data unit. Note that all generated 128-bit
-			// whitening values are stored in memory as a sequence of 64-bit integers in reverse order.
+			// whitening values are stored in memory as a sequence of 64-bit integers.
 			for (block = 0; block < endBlock; block++)
 			{
 				if (block >= startBlock)
 				{
-					*whiteningValuesPtr64-- = *whiteningValuePtr64++;
-					*whiteningValuesPtr64-- = *whiteningValuePtr64;
+					*whiteningValuesPtr64++ = *whiteningValuePtr64++;
+					*whiteningValuesPtr64++ = *whiteningValuePtr64;
 				}
 				else
 					whiteningValuePtr64++;
@@ -136,31 +182,44 @@ namespace VeraCrypt
 			}
 
 			dataUnitBufPtr = bufPtr;
-			whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
+			whiteningValuesPtr64 = (uint64 *) whiteningValues;
 
 			// Encrypt all blocks in this data unit
-
-			for (block = startBlock; block < endBlock; block++)
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+			XorBlocks (bufPtr, whiteningValuesPtr64, countBlock, startBlock, endBlock);
+#else
+			for (block = 0; block < countBlock; block++)
 			{
 				// Pre-whitening
-				*bufPtr++ ^= *whiteningValuesPtr64--;
-				*bufPtr++ ^= *whiteningValuesPtr64--;
+#if VC_UNALIGNED_ACCESS_OK
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+#else
+				XorWhiteningValue (bufPtr, whiteningValuesPtr64);
+#endif
 			}
-
+#endif
 			// Actual encryption
-			cipher.EncryptBlocks ((byte *) dataUnitBufPtr, endBlock - startBlock);
+			cipher.EncryptBlocks ((uint8 *) dataUnitBufPtr, countBlock);
 
 			bufPtr = dataUnitBufPtr;
-			whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
+			whiteningValuesPtr64 = (uint64 *) whiteningValues;
 
-			for (block = startBlock; block < endBlock; block++)
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+			XorBlocks (bufPtr, whiteningValuesPtr64, countBlock, startBlock, endBlock);
+#else
+			for (block = 0; block < countBlock; block++)
 			{
 				// Post-whitening
-				*bufPtr++ ^= *whiteningValuesPtr64--;
-				*bufPtr++ ^= *whiteningValuesPtr64--;
+#if VC_UNALIGNED_ACCESS_OK
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+#else
+				XorWhiteningValue (bufPtr, whiteningValuesPtr64);
+#endif
 			}
-
-			blockCount -= endBlock - startBlock;
+#endif
+			remainingBlocks -= countBlock;
 			startBlock = 0;
 			dataUnitNo++;
 			*((uint64 *) byteBufUnitNo) = Endian::Little (dataUnitNo);
@@ -170,7 +229,7 @@ namespace VeraCrypt
 		FAST_ERASE64 (whiteningValues, sizeof (whiteningValues));
 	}
 
-	void EncryptionModeXTS::EncryptSectorsCurrentThread (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionModeXTS::EncryptSectorsCurrentThread (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
 		EncryptBuffer (data, sectorCount * sectorSize, sectorIndex * sectorSize / ENCRYPTION_DATA_UNIT_SIZE);
 	}
@@ -189,12 +248,12 @@ namespace VeraCrypt
 		return keySize;
 	}
 
-	void EncryptionModeXTS::Decrypt (byte *data, uint64 length) const
+	void EncryptionModeXTS::Decrypt (uint8 *data, uint64 length) const
 	{
 		DecryptBuffer (data, length, 0);
 	}
 
-	void EncryptionModeXTS::DecryptBuffer (byte *data, uint64 length, uint64 startDataUnitNo) const
+	void EncryptionModeXTS::DecryptBuffer (uint8 *data, uint64 length, uint64 startDataUnitNo) const
 	{
 		if_debug (ValidateState());
 
@@ -209,19 +268,18 @@ namespace VeraCrypt
 		assert (iSecondaryCipher == SecondaryCiphers.begin());
 	}
 
-	void EncryptionModeXTS::DecryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, byte *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
+	void EncryptionModeXTS::DecryptBufferXTS (const Cipher &cipher, const Cipher &secondaryCipher, uint8 *buffer, uint64 length, uint64 startDataUnitNo, unsigned int startCipherBlockNo) const
 	{
-		byte finalCarry;
-		byte whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
-		byte whiteningValue [BYTES_PER_XTS_BLOCK];
-		byte byteBufUnitNo [BYTES_PER_XTS_BLOCK];
+		uint8 finalCarry;
+		CRYPTOPP_ALIGN_DATA(8) uint8 whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
+		CRYPTOPP_ALIGN_DATA(8) uint8 whiteningValue [BYTES_PER_XTS_BLOCK];
+		CRYPTOPP_ALIGN_DATA(8) uint8 byteBufUnitNo [BYTES_PER_XTS_BLOCK];
 		uint64 *whiteningValuesPtr64 = (uint64 *) whiteningValues;
 		uint64 *whiteningValuePtr64 = (uint64 *) whiteningValue;
 		uint64 *bufPtr = (uint64 *) buffer;
 		uint64 *dataUnitBufPtr;
-		unsigned int startBlock = startCipherBlockNo, endBlock, block;
-		uint64 *const finalInt64WhiteningValuesPtr = whiteningValuesPtr64 + sizeof (whiteningValues) / sizeof (*whiteningValuesPtr64) - 1;
-		uint64 blockCount, dataUnitNo;
+		unsigned int startBlock = startCipherBlockNo, endBlock, block, countBlock;
+		uint64 remainingBlocks, dataUnitNo;
 
 		startDataUnitNo += SectorOffset;
 
@@ -234,17 +292,18 @@ namespace VeraCrypt
 		if (length % BYTES_PER_XTS_BLOCK)
 			TC_THROW_FATAL_EXCEPTION;
 
-		blockCount = length / BYTES_PER_XTS_BLOCK;
+		remainingBlocks = length / BYTES_PER_XTS_BLOCK;
 
 		// Process all blocks in the buffer
-		while (blockCount > 0)
+		while (remainingBlocks > 0)
 		{
-			if (blockCount < BLOCKS_PER_XTS_DATA_UNIT)
-				endBlock = startBlock + (unsigned int) blockCount;
+			if (remainingBlocks < BLOCKS_PER_XTS_DATA_UNIT)
+				endBlock = startBlock + (unsigned int) remainingBlocks;
 			else
 				endBlock = BLOCKS_PER_XTS_DATA_UNIT;
+			countBlock = endBlock - startBlock;
 
-			whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
+			whiteningValuesPtr64 = (uint64 *) whiteningValues;
 			whiteningValuePtr64 = (uint64 *) whiteningValue;
 
 			// Encrypt the data unit number using the secondary key (in order to generate the first
@@ -254,13 +313,13 @@ namespace VeraCrypt
 			secondaryCipher.EncryptBlock (whiteningValue);
 
 			// Generate subsequent whitening values for blocks in this data unit. Note that all generated 128-bit
-			// whitening values are stored in memory as a sequence of 64-bit integers in reverse order.
+			// whitening values are stored in memory as a sequence of 64-bit integers.
 			for (block = 0; block < endBlock; block++)
 			{
 				if (block >= startBlock)
 				{
-					*whiteningValuesPtr64-- = *whiteningValuePtr64++;
-					*whiteningValuesPtr64-- = *whiteningValuePtr64;
+					*whiteningValuesPtr64++ = *whiteningValuePtr64++;
+					*whiteningValuesPtr64++ = *whiteningValuePtr64;
 				}
 				else
 					whiteningValuePtr64++;
@@ -303,28 +362,40 @@ namespace VeraCrypt
 			}
 
 			dataUnitBufPtr = bufPtr;
-			whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
+			whiteningValuesPtr64 = (uint64 *) whiteningValues;
 
 			// Decrypt blocks in this data unit
-
-			for (block = startBlock; block < endBlock; block++)
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+			XorBlocks (bufPtr, whiteningValuesPtr64, countBlock, startBlock, endBlock);
+#else
+			for (block = 0; block < countBlock; block++)
 			{
-				*bufPtr++ ^= *whiteningValuesPtr64--;
-				*bufPtr++ ^= *whiteningValuesPtr64--;
+#if VC_UNALIGNED_ACCESS_OK
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+#else
+				XorWhiteningValue (bufPtr, whiteningValuesPtr64);
+#endif
 			}
-
-			cipher.DecryptBlocks ((byte *) dataUnitBufPtr, endBlock - startBlock);
+#endif
+			cipher.DecryptBlocks ((uint8 *) dataUnitBufPtr, countBlock);
 
 			bufPtr = dataUnitBufPtr;
-			whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
-
-			for (block = startBlock; block < endBlock; block++)
+			whiteningValuesPtr64 = (uint64 *) whiteningValues;
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+			XorBlocks (bufPtr, whiteningValuesPtr64, countBlock, startBlock, endBlock);
+#else
+			for (block = 0; block < countBlock; block++)
 			{
-				*bufPtr++ ^= *whiteningValuesPtr64--;
-				*bufPtr++ ^= *whiteningValuesPtr64--;
+#if VC_UNALIGNED_ACCESS_OK
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+				*bufPtr++ ^= *whiteningValuesPtr64++;
+#else
+				XorWhiteningValue (bufPtr, whiteningValuesPtr64);
+#endif
 			}
-
-			blockCount -= endBlock - startBlock;
+#endif
+			remainingBlocks -= countBlock;
 			startBlock = 0;
 			dataUnitNo++;
 
@@ -333,9 +404,9 @@ namespace VeraCrypt
 
 		FAST_ERASE64 (whiteningValue, sizeof (whiteningValue));
 		FAST_ERASE64 (whiteningValues, sizeof (whiteningValues));
-	}
+        }
 
-	void EncryptionModeXTS::DecryptSectorsCurrentThread (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionModeXTS::DecryptSectorsCurrentThread (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
 		DecryptBuffer (data, sectorCount * sectorSize, sectorIndex * sectorSize / ENCRYPTION_DATA_UNIT_SIZE);
 	}
@@ -370,7 +441,7 @@ namespace VeraCrypt
 		foreach_ref (Cipher &cipher, SecondaryCiphers)
 		{
 			cipher.SetKey (SecondaryKey.GetRange (keyOffset, cipher.GetKeySize()));
-			keyOffset += cipher.GetKeySize();
+                        keyOffset += cipher.GetKeySize();
 		}
 
 		KeySet = true;

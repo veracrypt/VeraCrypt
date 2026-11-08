@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，仅需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Encryption%20Algorithms.html">加密算法</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>加密算法</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+VeraCrypt卷可以使用以下算法进行加密：</div>
+<table style="border-collapse:separate; border-spacing:0px; width:608px; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; border-width:0px 0px 1px 1px; border-style:solid; border-color:#ffffff #ffffff #000000 #000000">
+<tbody style="text-align:left">
+<tr style="text-align:left">
+<th style="width:151px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:12px 0px; border-color:#000000 #000000 #000000 white">
+算法</th>
+<th style="width:225px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:12px 0px; border-color:#000000 #000000 #000000 white">
+设计者</th>
+<th style="width:94px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:12px 0px; border-color:#000000 #000000 #000000 white">
+密钥大小<br>
+（比特）</th>
+<th style="width:68px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:12px 0px; border-color:#000000 #000000 #000000 white">
+块大小（比特）</th>
+<th style="width:68px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:12px 0px; border-color:#000000 #000000 #000000 white">
+<a href="Modes%20of%20Operation.html" style="color:#0080c0; text-decoration:none">操作模式</a></th>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+<a href="AES.html" style="color:#0080c0; text-decoration:none">AES</a></td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+J. Daemen、V. Rijmen</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+256</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+128</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+<a href="Modes%20of%20Operation.html" style="color:#0080c0; text-decoration:none">XTS</a>
+</td></tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+<a href="Camellia.html">Camellia</a></td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+<p align="center" style="margin-left:0cm"><font face="Arial, serif"><font size="2" style="font-size:9pt">日本三菱电机和日本电报电话公司（NTT）</font></font></p>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+256</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+128</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+XTS</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+<p align="center" style="margin-left:0cm"><a href="Kuznyechik.html">Kuznyechik</a></p>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+<p align="center" style="margin-left:0cm"><font face="Arial, serif"><font size="2" style="font-size:9pt">俄罗斯联邦国家标准<br>
+GOST R 34.12-2015</font></font></p>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+256</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+&nbsp;128</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+&nbsp;XTS</td>
+</tr>
+<tr style="text-align:left">
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  <a href="Serpent.html" style="color:#0080c0; text-decoration:none">Serpent</a></td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  R. Anderson, E. Biham, L. Knudsen</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  256</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  128</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  XTS</td>
+  </tr>
+  <tr style="text-align:left">
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  <a href="Twofish.html" style="color:#0080c0; text-decoration:none">Twofish</a></td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  B. Schneier, J. Kelsey, D. Whiting,<br>
+  D. Wagner, C. Hall, N. Ferguson</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  256</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  128</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  XTS</td>
+  </tr>
+  <tr style="text-align:left">
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  <a href="Cascades.html" style="color:#0080c0; text-decoration:none">AES-Twofish</a></td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  &nbsp;</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  256; 256</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  128</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  XTS</td>
+  </tr>
+  <tr style="text-align:left">
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  <a href="Cascades.html" style="color:#0080c0; text-decoration:none">AES-Twofish-Serpent</a></td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  &nbsp;</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  256; 256; 256</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  128</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  XTS</td>
+  </tr>
+  <tr style="text-align:left">
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  <a href="Cascades.html" style="color:#0080c0; text-decoration:none">Camellia-Kuznyechik</a></td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  &nbsp;</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  256; 256</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  128</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  XTS</td>
+  </tr>
+  <tr style="text-align:left">
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  <a href="Cascades.html" style="color:#0080c0; text-decoration:none">Camellia-Serpent</a></td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  &nbsp;</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  256; 256</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  128</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  XTS</td>
+  </tr>
+  <tr style="text-align:left">
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  <a href="Cascades.html" style="color:#0080c0; text-decoration:none">Kuznyechik-AES</a></td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  &nbsp;</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  256; 256</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  128</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  XTS</td>
+  </tr>
+  <tr style="text-align:left">
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  <a href="Cascades.html" style="color:#0080c0; text-decoration:none">Kuznyechik-Serpent-Camellia</a></td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  &nbsp;</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  256; 256; 256</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  128</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  XTS</td>
+  </tr>
+  <tr style="text-align:left">
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  <a href="Cascades.html" style="color:#0080c0; text-decoration:none">Kuznyechik-Twofish</a></td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  &nbsp;</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  256; 256</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  128</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  XTS</td>
+  </tr>
+  <tr style="text-align:left">
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  <a href="Cascades.html" style="color:#0080c0; text-decoration:none">Serpent-AES</a></td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  &nbsp;</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  256; 256</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  128</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  XTS</td>
+  </tr>
+  <tr style="text-align:left">
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  <a href="Cascades.html" style="color:#0080c0; text-decoration:none">Serpent-Twofish-AES</a></td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  &nbsp;</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  256; 256; 256</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  128</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  XTS</td>
+  </tr>
+  <tr style="text-align:left">
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  <a href="Cascades.html" style="color:#0080c0; text-decoration:none">Twofish-Serpent</a></td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  &nbsp;</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  256; 256</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  128</td>
+  <td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+  XTS</td>
+  </tr>
+
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+有关 XTS 模式的信息，请参阅 “ <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none">
+操作模式</a>” 部分。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="AES.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></div>
+</div><div class="ClearBoth"></div></body></html>

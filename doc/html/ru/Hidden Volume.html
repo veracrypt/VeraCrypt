@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Plausible%20Deniability.html">Правдоподобное отрицание наличия шифрования</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Hidden%20Volume.html">Скрытый том</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Скрытый том</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Возможны ситуации, когда кто-то заставит вас сообщить пароль от зашифрованного тома. В ряде случаев вы просто
+не сможете отказаться это сделать (например, при вымогательстве). Благополучно выходить из таких ситуаций, не сообщая
+пароль от тома с вашими данными, позволяет так называемый скрытый том.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<img src="Beginner's Tutorial_Image_024.png" alt="Макет стандартного тома VeraCrypt до и после создания в нём скрытого тома." width="606" height="412"></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Схема обычного тома VeraCrypt до и после создания внутри него скрытого тома.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+Принцип такой: том VeraCrypt создается внутри другого тома VeraCrypt (в свободном месте тома). Даже если смонтирован
+внешний том, невозможно гарантированно утверждать, есть ли внутри него скрытый том или его нет*, так как
+свободное место в <em style="text-align:left">любом</em> томе VeraCrypt всегда заполняется случайными данными
+при его создании**, и никакую часть (несмонтированного) скрытого тома нельзя отличить от случайных данных.
+Обратите внимание, что VeraCrypt никак не модифицирует файловую систему (информацию о свободном месте и т. д.)
+внутри внешнего тома.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+Пароль для скрытого тома должен существенно отличаться от пароля для внешнего тома. Перед созданием скрытого
+тома следует скопировать во внешний том некоторое количество осмысленно выглядящих файлов, которые на самом деле
+вам скрывать НЕ требуется.
+Эти файлы нужны, чтобы ввести в заблуждение того, кто вынудит вас сообщить пароль. Вы сообщите только пароль
+от внешнего тома, но не от скрытого. Файлы, действительно представляющие для вас ценность, останутся в
+неприкосновенности в скрытом томе.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Скрытый том монтируется так же, как обычный том VeraCrypt: нажмите кнопку
+<em style="text-align:left">Выбрать файл</em> или <em style="text-align:left">Выбрать устройство</em>,
+выберите внешний (хост) том (важно: убедитесь, что этот том <em style="text-align:left">
+не</em> смонтирован). Затем нажмите кнопку <em style="text-align:left">Смонтировать</em> и введите пароль
+для скрытого тома. Какой том будет смонтирован – скрытый или внешний – определяется только введённым паролем
+(то есть если введён пароль для внешнего тома, то будет смонтирован внешний том, а если указать пароль для скрытого,
+то смонтируется скрытый том).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Используя введённый пароль, VeraCrypt сначала пытается расшифровать заголовок обычного тома. Если это не удаётся,
+выполняется загрузка области, где может находиться заголовок скрытого тома (то есть байты 65 536&ndash;131 071,
+содержащие исключительно случайные данные, если внутри тома нет скрытого тома), в ОЗУ и попытка расшифровать
+её с помощью указанного пароля. Обратите внимание, что заголовки скрытых томов нельзя идентифицировать,
+так как они выглядят как абсолютно случайные данные. Если заголовок успешно расшифрован (информацию о том, как
+VeraCrypt определяет, успешно ли он расшифрован, см. в разделе <a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Схема шифрования</a>), то из расшифрованного заголовка (который по-прежнему находится в ОЗУ) извлекаются
+сведения о размере скрытого тома и выполняется монтирование скрытого тома (по его размеру также определяется
+его смещение).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Скрытый том можно создавать внутри тома VeraCrypt любого типа, то есть внутри тома на основе файла или тома на
+основе устройства (для этого требуются права администратора). Чтобы создать скрытый том VeraCrypt, в главном окне
+программы нажмите кнопку <em style="text-align:left">Создать том</em> и выберите
+<em style="text-align:left">Создать скрытый том VeraCrypt</em>. В окне мастера будет вся информация, необходимая
+для успешного создания скрытого тома VeraCrypt.</div>
+<div id="hidden_volume_size_issue" style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+При создании скрытого тома для неопытного пользователя может быть весьма затруднительно или даже вообще невозможно
+установить размер скрытого тома так, чтобы тот не перекрывал данные во внешнем томе. Поэтому мастер создания
+томов автоматически сканирует карту кластеров внешнего тома (перед созданием внутри него скрытого тома) и определяет
+максимально возможный размер скрытого тома.***</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+В случае возникновения каких-либо проблем при создании скрытого тома, см. возможные решения в главе
+<a href="Troubleshooting.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Устранение затруднений</a>.<br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+Обратите внимание, что также можно создавать и загружать операционную систему, располагающуюся в скрытом томе
+(см. раздел
+<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Скрытая операционная система</a>, глава <a href="Plausible%20Deniability.html">
+Правдоподобное отрицание наличия шифрования</a>).</div>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* При условии, что были соблюдены все
+инструкции мастера создания томов VeraCrypt, а также требования и меры предосторожности, указанные в подразделе
+<a href="Security%20Requirements%20for%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Требования безопасности и меры предосторожности, касающиеся скрытых томов</a><em style="text-align:left">.</em></span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">** При условии, что отключены опции
+<em style="text-align:left">Быстрое форматирование</em> и <em style="text-align:left">Динамический</em>,
+а также что том не содержит файловую систему, которая была зашифрована на месте (VeraCrypt не позволяет пользователю
+создавать скрытый том внутри такого тома). Информацию о методе заполнения свободного пространства тома случайными
+данными см. в главе
+<a href="Technical%20Details.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Технические подробности</a>, раздел <a href="VeraCrypt%20Volume%20Format%20Specification.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Спецификация формата томов VeraCrypt</a><em style="text-align:left">.</em></span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">*** Мастер сканирует карту кластеров, чтобы
+определить размер непрерывной свободной области (если она есть), конец которого совпадает с концом внешнего тома.
+Эта область вмещает скрытый том, поэтому её размером ограничивается максимально возможный размер скрытого тома.
+В Linux и Mac OS X мастер фактически не сканирует карту кластеров, но драйвер обнаруживает любые данные, записанные
+на внешний том, и использует их местоположение, как описано ранее.</span></p>
+<p>&nbsp;</p>
+<p><a href="Protection%20of%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Следующий раздел &gt;&gt;</a></p>
+</div><div class="ClearBoth"></div></body></html>

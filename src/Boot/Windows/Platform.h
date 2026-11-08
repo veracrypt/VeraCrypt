@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -110,7 +110,9 @@ void CopyMemory (uint16 sourceSegment, uint16 sourceOffset, void *destination, u
 extern "C" void EraseMemory (void *memory, int size);
 uint32 GetLinearAddress (uint16 segment, uint16 offset);
 bool RegionsIntersect (const uint64 &start1, uint32 length1, const uint64 &start2, const uint64 &end2);
+#ifdef TC_BOOT_DEBUG_ENABLED
 bool TestInt64 ();
+#endif
 extern "C" void ThrowFatalException (int line);
 
 #endif // TC_HEADER_Boot_Platform

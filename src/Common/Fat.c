@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -24,6 +24,7 @@
 #include "Progress.h"
 #include "Random.h"
 #include "Volumes.h"
+#include "Dlgcode.h"
 
 void
 GetFatParams (fatparams * ft)
@@ -139,7 +140,7 @@ PutBoot (fatparams * ft, unsigned char *boot)
 	int cnt = 0;
 
 	boot[cnt++] = 0xeb;	/* boot jump */
-	boot[cnt++] = 0x3c;
+	boot[cnt++] = (ft->size_fat == 32)? 0x58: 0x3c;
 	boot[cnt++] = 0x90;
 	memcpy (boot + cnt, "MSDOS5.0", 8); /* system id */
 	cnt += 8;
@@ -255,15 +256,22 @@ static void PutFSInfo (unsigned char *sector, fatparams *ft)
 
 
 int
-FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat)
+FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INFO cryptoInfo, volatile void *volParamsArg)
 {
 	int write_buf_cnt = 0;
 	char sector[TC_MAX_VOLUME_SECTOR_SIZE], *write_buf;
 	unsigned __int64 nSecNo = startSector;
+	unsigned __int64 nSkipSectors = 128 * (unsigned __int64) BYTES_PER_MB / ft->sector_size;
+	unsigned __int64 num_sectors;
+	DWORD bytesWritten;
 	int x, n;
 	int retVal;
 	CRYPTOPP_ALIGN_DATA(16) char temporaryKey[MASTER_KEYDATA_SIZE];
 	HWND hwndDlg = (HWND) hwndDlgPtr;
+	volatile FORMAT_VOL_PARAMETERS* volParams = (volatile FORMAT_VOL_PARAMETERS*)volParamsArg;
+	BOOL quickFormat = volParams->quickFormat;
+	BOOL bDevice = volParams->bDevice;
+	BOOL hiddenVol = volParams->hiddenVol;
 
 	LARGE_INTEGER startOffset;
 	LARGE_INTEGER newOffset;
@@ -288,8 +296,8 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 		goto fail;
 
 	PutBoot (ft, (unsigned char *) sector);
-	if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
-		cryptoInfo) == FALSE)
+	if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
+		cryptoInfo, volParams) == FALSE)
 		goto fail;
 
 	/* fat32 boot area */
@@ -297,8 +305,8 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 	{
 		/* fsinfo */
 		PutFSInfo((unsigned char *) sector, ft);
-		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
-			cryptoInfo) == FALSE)
+		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
+			cryptoInfo, volParams) == FALSE)
 			goto fail;
 
 		/* reserved */
@@ -307,21 +315,21 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 			memset (sector, 0, ft->sector_size);
 			sector[508+3]=0xaa; /* TrailSig */
 			sector[508+2]=0x55;
-			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
-				cryptoInfo) == FALSE)
+			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
+				cryptoInfo, volParams) == FALSE)
 				goto fail;
 		}
 
 		/* bootsector backup */
 		memset (sector, 0, ft->sector_size);
 		PutBoot (ft, (unsigned char *) sector);
-		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
-				 cryptoInfo) == FALSE)
+		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
+				 cryptoInfo, volParams) == FALSE)
 			goto fail;
 
 		PutFSInfo((unsigned char *) sector, ft);
-		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
-			cryptoInfo) == FALSE)
+		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
+			cryptoInfo, volParams) == FALSE)
 			goto fail;
 	}
 
@@ -329,8 +337,8 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 	while (nSecNo - startSector < (unsigned int)ft->reserved)
 	{
 		memset (sector, 0, ft->sector_size);
-		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
-			cryptoInfo) == FALSE)
+		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
+			cryptoInfo, volParams) == FALSE)
 			goto fail;
 	}
 
@@ -373,8 +381,8 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 				}
 			}
 
-			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
-				    cryptoInfo) == FALSE)
+			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
+				    cryptoInfo, volParams) == FALSE)
 				goto fail;
 		}
 	}
@@ -384,8 +392,8 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 	for (x = 0; x < ft->size_root_dir / ft->sector_size; x++)
 	{
 		memset (sector, 0, ft->sector_size);
-		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
-				 cryptoInfo) == FALSE)
+		if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
+				 cryptoInfo, volParams) == FALSE)
 			goto fail;
 
 	}
@@ -394,6 +402,8 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 
 	if(!quickFormat)
 	{
+		CRYPTO_INFO tmpCI;
+
 		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
 			goto fail;
 
@@ -402,40 +412,148 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 		deniability of hidden volumes (and also reduces the amount of predictable plaintext
 		within the volume). */
 
+		VirtualLock (&tmpCI, sizeof (tmpCI));
+		memcpy (&tmpCI, cryptoInfo, sizeof (CRYPTO_INFO));
+		cryptoInfo = &tmpCI;
+
 		// Temporary master key
 		if (!RandgetBytes (hwndDlg, temporaryKey, EAGetKeySize (cryptoInfo->ea), FALSE))
+		{
+			burn (&tmpCI, sizeof (tmpCI));
+			VirtualUnlock (&tmpCI, sizeof (tmpCI));
 			goto fail;
+		}
 
 		// Temporary secondary key (XTS mode)
 		if (!RandgetBytes (hwndDlg, cryptoInfo->k2, sizeof cryptoInfo->k2, FALSE))
+		{
+			burn (&tmpCI, sizeof (tmpCI));
+			VirtualUnlock (&tmpCI, sizeof (tmpCI));
 			goto fail;
+		}
 
 		retVal = EAInit (cryptoInfo->ea, temporaryKey, cryptoInfo->ks);
 		if (retVal != ERR_SUCCESS)
 		{
+			TCfree (write_buf);
 			burn (temporaryKey, sizeof(temporaryKey));
+			burn (&tmpCI, sizeof (tmpCI));
+			VirtualUnlock (&tmpCI, sizeof (tmpCI));
 			return retVal;
 		}
-		if (!EAInitMode (cryptoInfo))
+		if (!EAInitMode (cryptoInfo, cryptoInfo->k2))
 		{
+			TCfree (write_buf);
 			burn (temporaryKey, sizeof(temporaryKey));
+			burn (&tmpCI, sizeof (tmpCI));
+			VirtualUnlock (&tmpCI, sizeof (tmpCI));
 			return ERR_MODE_INIT_FAILED;
 		}
+
+		if (IsRamEncryptionEnabled ())
+			VcProtectKeys (cryptoInfo, VcGetEncryptionID (cryptoInfo));
 
 		x = ft->num_sectors - ft->reserved - ft->size_root_dir / ft->sector_size - ft->fat_length * 2;
 		while (x--)
 		{
-			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
-				cryptoInfo) == FALSE)
+			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo, startSector,
+				cryptoInfo, volParams) == FALSE)
 				goto fail;
 		}
-		UpdateProgressBar (nSecNo * ft->sector_size);
+
+		if (volParams->progress_callback)
+		{
+			// Call the progress callback function if it is set
+			volParams->progress_callback ((nSecNo - startSector) * ft->sector_size, volParams->progress_callback_user_data);
+		}
+		else
+		{
+			UpdateProgressBar ((nSecNo - startSector) * ft->sector_size);
+		}
+
+		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
+		{
+			burn (&tmpCI, sizeof (tmpCI));
+			VirtualUnlock (&tmpCI, sizeof (tmpCI));
+			goto fail;
+		}
+
+		burn (&tmpCI, sizeof (tmpCI));
+		VirtualUnlock (&tmpCI, sizeof (tmpCI));
+	}
+	else if (!bDevice && !hiddenVol)
+	{
+		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
+			goto fail;
+
+		// Quick format of a non-hidden file container: write a zeroed sector every 128 MiB, leaving other sectors untouched
+		// This helps users visualize the progress of actual file creation while forcing Windows
+		// to allocate the disk space of each 128 MiB chunk immediately, otherwise, Windows 
+		// would delay the allocation until we write the backup header at the end of the volume which
+		// would make the user think that the format process has stalled after progress bar reaches 100%.
+		num_sectors = ft->num_sectors - ft->reserved - ft->size_root_dir / ft->sector_size - ft->fat_length * 2;
+		while (num_sectors >= nSkipSectors)
+		{
+			// seek to next sector to be written
+			nSecNo += (nSkipSectors - 1);
+			startOffset.QuadPart = nSecNo * ft->sector_size;
+			if (!MoveFilePointer ((HANDLE) dev, startOffset))
+			{
+				goto fail;
+			}
+			
+			// sector array has been zeroed above
+			if (!WriteFile ((HANDLE) dev, sector, ft->sector_size, &bytesWritten, NULL) 
+				|| bytesWritten != ft->sector_size)
+			{
+				goto fail;
+			}
+			
+			nSecNo++;
+			num_sectors -= nSkipSectors;
+
+			if (volParams->progress_callback)
+			{
+				// Call the progress callback function if it is set
+				if (!volParams->progress_callback ((nSecNo - startSector) * ft->sector_size, volParams->progress_callback_user_data))
+				{
+					goto fail;
+				}
+			}
+			else
+			{
+				if (UpdateProgressBar ((nSecNo - startSector)* ft->sector_size))
+					goto fail;
+		   }
+			
+		}
+		
+		nSecNo += num_sectors;
+		if (volParams->progress_callback)
+	 	{
+			// Call the progress callback function if it is set
+			volParams->progress_callback ((nSecNo - startSector) * ft->sector_size, volParams->progress_callback_user_data);
+		}
+		else
+		{
+			UpdateProgressBar ((nSecNo - startSector)* ft->sector_size);
+		}
 	}
 	else
-		UpdateProgressBar ((uint64) ft->num_sectors * ft->sector_size);
+	{
+		if (volParams->progress_callback)
+		{
+			// Call the progress callback function if it is set
+			volParams->progress_callback ((uint64) ft->num_sectors * ft->sector_size, volParams->progress_callback_user_data);
+		}
+		else
+		{
+			UpdateProgressBar ((uint64) ft->num_sectors * ft->sector_size);
+		}
 
-	if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
-		goto fail;
+		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
+			goto fail;
+	}
 
 	TCfree (write_buf);
 	burn (temporaryKey, sizeof(temporaryKey));

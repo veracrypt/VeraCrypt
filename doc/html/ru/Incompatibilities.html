@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Incompatibilities.html">Несовместимости</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Несовместимости</h1>
+<h2>
+Активация Adobe Photoshop&reg; и других продуктов с помощью FLEXnet Publisher&reg; / SafeCast</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Примечание: описанная ниже проблема вас <strong style="text-align:left">
+не</strong> касается, если используется алгоритм шифрования без каскадирования (то есть AES, Serpent или Twofish).*
+Эта проблема вас также <strong style="text-align:left">не</strong> касается, если вы не используете
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+шифрование системы</a> (предзагрузочную аутентификацию).</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+ПО активации Acresso FLEXnet Publisher, в прошлом – Macrovision SafeCast (применяемое для активации сторонних программ,
+например, Adobe Photoshop), записывает данные в первую дорожку диска. Если это происходит, когда системный раздел/диск
+зашифрован с помощью VeraCrypt, часть загрузчика VeraCrypt оказывается повреждённой, и загрузить Windows не удастся.
+В этом случае воспользуйтесь своим
+<a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none">
+диском восстановления VeraCrypt</a>, чтобы вновь получить доступ к системе. Сделать это можно двумя способами:</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если вы хотите, чтобы у стороннего ПО сохранилась активация, вам придётся
+<em style="text-align:left">каждый раз</em> загружать систему с помощью CD/DVD-диска восстановления VeraCrypt.
+Для этого просто вставьте свой Диск восстановления в CD/DVD-накопитель и введите пароль на появившемся
+экране диска.</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+Если вы не желаете каждый раз загружать систему с CD/DVD-диска восстановления VeraCrypt, то можете восстановить
+загрузчик VeraCrypt на системном диске. Чтобы это сделать, на экране Диска восстановления выберите
+<em style="text-align:left">Repair Options</em> &gt; <em style="text-align:left">
+Restore VeraCrypt Boot Loader</em>. Однако стороннее ПО будет при этом деактивировано.
+</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+О том, как пользоваться диском восстановления VeraCrypt, см. в главе <a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Диск восстановления VeraCrypt</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Возможное постоянное решение</strong>: расшифруйте системный раздел/диск,
+а затем зашифруйте снова, используя алгоритм без каскадирования (то есть AES, Serpent или Twofish).*</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Примите к сведению, что это не ошибка в VeraCrypt (данная проблема вызвана некорректным механизмом активации
+в стороннем ПО).</div>
+<h2>Outpost Firewall и Outpost Security Suite</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Если установлен пакет Outpost Firewall или Outpost Security Suite с включённой проактивной защитой,
+компьютер на 5-10 секунд полностью перестаёт отзываться при монтировании/демонтировании тома. Это вызвано
+конфликтом между опцией Outpost System Guard, защищающей объекты «Активный рабочий стол», и окном ожидания
+VeraCrypt, отображаемым во время операций монтирования/демонтирования.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Эту проблему можно обойти, отключив показ ожидания в настройках VeraCrypt. Для этого выберите
+<i>Настройки &gt; Параметры</i> и включите опцию <i>Не показывать окно ожидания во время операций</i>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. подробности здесь: <a href="https://sourceforge.net/p/veracrypt/tickets/100/">https://sourceforge.net/p/veracrypt/tickets/100/</a>
+</div>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* Причина в том, что загрузчик VeraCrypt
+меньше, чем тот, который используется для каскадов шифров, и поэтому на первой дорожке диска достаточно места
+для резервной копии загрузчика VeraCrypt. Следовательно, всякий раз, когда загрузчик VeraCrypt повреждается,
+вместо этого автоматически запускается его резервная копия.</span><br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+&nbsp;&nbsp;См. также: <a href="Issues%20and%20Limitations.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">
+Замеченные проблемы и ограничения</a>,&nbsp;&nbsp;<a href="Troubleshooting.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Устранение затруднений</a></p>
+</div><div class="ClearBoth"></div></body></html>

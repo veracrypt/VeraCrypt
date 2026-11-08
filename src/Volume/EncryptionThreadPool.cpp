@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -23,16 +23,124 @@
 #include "Platform/SystemLog.h"
 #include "Common/Crypto.h"
 #include "EncryptionThreadPool.h"
+#include "Pkcs5Kdf.h"
 
 namespace VeraCrypt
 {
-	void EncryptionThreadPool::DoWork (WorkType::Enum type, const EncryptionMode *encryptionMode, byte *data, uint64 startUnitNo, uint64 unitCount, size_t sectorSize)
+	// Called from a catch handler. Failure to copy/format an exception must not
+	// bypass completion or turn a failed operation into a successful one.
+	static bool CaptureWorkItemException (unique_ptr <Exception> &itemException)
+#if defined(__GNUC__) && !defined(__clang__) && (__GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 6))
+		throw () // GCC did not support noexcept until version 4.6.
+#else
+		noexcept
+#endif
+	{
+		try
+		{
+			try { throw; }
+			catch (Exception &e) { itemException.reset (e.CloneNew()); }
+			catch (exception &e) { itemException.reset (new ExternalException (SRC_POS, StringConverter::ToExceptionString (e))); }
+			catch (...) { itemException.reset (new UnknownException (SRC_POS)); }
+			return itemException.get() != nullptr;
+		}
+		catch (...) { return false; }
+	}
+
+	bool EncryptionThreadPool::AcquirePoolReference ()
+	{
+		uint32 references = PoolReferences.load();
+		while (!(references & PoolClosing))
+		{
+			if (PoolReferences.compare_exchange_weak (references, references + 1))
+				return true;
+		}
+		return false;
+	}
+
+	void EncryptionThreadPool::ReleasePoolReference ()
+	{
+		if (PoolReferences.fetch_sub (1) == PoolClosing + 1)
+			PoolDrainedEvent.Signal();
+	}
+
+	EncryptionThreadPool::KeyDerivationWorkItem::KeyDerivationWorkItem (shared_ptr <Pkcs5Kdf> kdf, size_t derivedKeySize)
+		: Completed (false), DerivedKey (derivedKeySize), ExceptionCaptureFailed (false), Kdf (kdf), Processed (false), Result (0)
+	{
+	}
+
+	EncryptionThreadPool::KeyDerivationWorkItem::~KeyDerivationWorkItem ()
+	{
+	}
+
+	void EncryptionThreadPool::BeginKeyDerivation (KeyDerivationWorkItem &keyDerivationWorkItem, const VolumePassword &password, int pim, const ConstBufferPtr &salt, SyncEvent &completionEvent, SyncEvent &noOutstandingWorkItemEvent, SharedVal <size_t> &outstandingWorkItemCount, long volatile *abortFlag)
+	{
+		PoolReference reference;
+		if (!reference.IsAcquired())
+		{
+			keyDerivationWorkItem.Completed.Set (false);
+			keyDerivationWorkItem.ItemException.reset();
+			keyDerivationWorkItem.ExceptionCaptureFailed = false;
+			keyDerivationWorkItem.Processed = false;
+			keyDerivationWorkItem.Result = abortFlag && *abortFlag ? ERR_USER_ABORT
+				: keyDerivationWorkItem.Kdf->DeriveKey (keyDerivationWorkItem.DerivedKey, password, pim, salt, abortFlag);
+			keyDerivationWorkItem.Completed.Set (true);
+			completionEvent.Signal();
+			// No worker was submitted, but the caller still waits on the drain event.
+			ScopeLock outstandingWorkItemLock (KeyDerivationCompletionMutex);
+			if (outstandingWorkItemCount.Get() == 0)
+				noOutstandingWorkItemEvent.Signal();
+			return;
+		}
+
+		ScopeLock lock (EnqueueMutex);
+
+		WorkItem *workItem = &WorkItemQueue[EnqueuePosition++];
+
+		if (EnqueuePosition >= QueueSize)
+			EnqueuePosition = 0;
+
+		while (workItem->State != WorkItem::State::Free)
+		{
+			WorkItemCompletedEvent.Wait();
+		}
+
+		keyDerivationWorkItem.Completed.Set (false);
+		keyDerivationWorkItem.ItemException.reset();
+		keyDerivationWorkItem.ExceptionCaptureFailed = false;
+		keyDerivationWorkItem.Processed = false;
+		keyDerivationWorkItem.Result = 0;
+
+		workItem->Type = WorkType::DeriveKey;
+		workItem->KeyDerivation.AbortFlag = abortFlag;
+		workItem->KeyDerivation.CompletionEvent = &completionEvent;
+		workItem->KeyDerivation.NoOutstandingWorkItemEvent = &noOutstandingWorkItemEvent;
+		workItem->KeyDerivation.OutstandingWorkItemCount = &outstandingWorkItemCount;
+		workItem->KeyDerivation.Password = &password;
+		workItem->KeyDerivation.Pim = pim;
+		workItem->KeyDerivation.Salt = salt.Get();
+		workItem->KeyDerivation.SaltSize = salt.Size();
+		workItem->KeyDerivation.WorkItem = &keyDerivationWorkItem;
+
+		{
+			ScopeLock outstandingWorkItemLock (KeyDerivationCompletionMutex);
+			if (outstandingWorkItemCount.Increment() == 1)
+				noOutstandingWorkItemEvent.Reset();
+		}
+
+		// The submitter and worker may finish in either order.
+		PoolReferences.fetch_add (1);
+		workItem->State.Set (WorkItem::State::Ready);
+		WorkItemReadyEvent.Signal();
+	}
+
+	void EncryptionThreadPool::DoWork (WorkType::Enum type, const EncryptionMode *encryptionMode, uint8 *data, uint64 startUnitNo, uint64 unitCount, size_t sectorSize)
 	{
 		size_t fragmentCount;
 		size_t unitsPerFragment;
 		size_t remainder;
 
-		byte *fragmentData;
+		uint8 *fragmentData;
 		uint64 fragmentStartUnitNo;
 
 		WorkItem *workItem;
@@ -41,7 +149,8 @@ namespace VeraCrypt
 		if (unitCount == 0)
 			return;
 
-		if (!ThreadPoolRunning || unitCount == 1)
+		PoolReference reference (unitCount > 1);
+		if (!reference.IsAcquired())
 		{
 			switch (type)
 			{
@@ -90,6 +199,7 @@ namespace VeraCrypt
 
 			firstFragmentWorkItem->OutstandingFragmentCount.Set (fragmentCount);
 			firstFragmentWorkItem->ItemException.reset();
+			firstFragmentWorkItem->ExceptionCaptureFailed = false;
 
 			while (fragmentCount-- > 0)
 			{
@@ -125,15 +235,18 @@ namespace VeraCrypt
 
 		firstFragmentWorkItem->ItemCompletedEvent.Wait();
 
-		auto_ptr <Exception> itemException;
+		unique_ptr <Exception> itemException;
 		if (firstFragmentWorkItem->ItemException.get())
-			itemException = firstFragmentWorkItem->ItemException;
+			itemException = move_ptr(firstFragmentWorkItem->ItemException);
+		bool exceptionCaptureFailed = firstFragmentWorkItem->ExceptionCaptureFailed.load();
 
 		firstFragmentWorkItem->State.Set (WorkItem::State::Free);
 		WorkItemCompletedEvent.Signal();
 
 		if (itemException.get())
 			itemException->Throw();
+		if (exceptionCaptureFailed)
+			throw UnknownException (SRC_POS);
 	}
 
 	void EncryptionThreadPool::Start ()
@@ -177,6 +290,9 @@ namespace VeraCrypt
 			cpuCount = MaxThreadCount;
 
 		StopPending = false;
+		PoolDrainedEvent.Reset();
+		WorkItemReadyEvent.Reset();
+		WorkItemCompletedEvent.Reset();
 		DequeuePosition = 0;
 		EnqueuePosition = 0;
 
@@ -198,21 +314,32 @@ namespace VeraCrypt
 				};
 
 				make_shared_auto (Thread, thread);
-				thread->Start (new ThreadFunctor ());
+				unique_ptr <Functor> functor (new ThreadFunctor ());
+				// Allocate the list entry before starting a thread that cleanup must join.
 				RunningThreads.push_back (thread);
+				try
+				{
+					thread->Start (functor.get());
+					functor.release();
+				}
+				catch (...)
+				{
+					RunningThreads.pop_back();
+					throw;
+				}
 			}
 		}
 		catch (...)
 		{
 			try
 			{
-				ThreadPoolRunning = true;
-				Stop();
+				StopWorkers();
 			} catch (...) { }
 
 			throw;
 		}
 
+		PoolReferences.store (0);
 		ThreadPoolRunning = true;
 	}
 
@@ -221,6 +348,14 @@ namespace VeraCrypt
 		if (!ThreadPoolRunning)
 			return;
 
+		ThreadPoolRunning = false;
+		if (PoolReferences.fetch_or (PoolClosing) != 0)
+			PoolDrainedEvent.Wait();
+		StopWorkers();
+	}
+
+	void EncryptionThreadPool::StopWorkers ()
+	{
 		StopPending = true;
 		WorkItemReadyEvent.Signal();
 
@@ -228,6 +363,7 @@ namespace VeraCrypt
 		{
 			thread.Join();
 		}
+		RunningThreads.clear();
 
 		ThreadCount = 0;
 		ThreadPoolRunning = false;
@@ -254,11 +390,10 @@ namespace VeraCrypt
 						WorkItemReadyEvent.Wait();
 					}
 
+					if (StopPending)
+						break;
 					workItem->State.Set (WorkItem::State::Busy);
 				}
-
-				if (StopPending)
-					break;
 
 				try
 				{
@@ -272,31 +407,65 @@ namespace VeraCrypt
 						workItem->Encryption.Mode->EncryptSectorsCurrentThread (workItem->Encryption.Data, workItem->Encryption.StartUnitNo, workItem->Encryption.UnitCount, workItem->Encryption.SectorSize);
 						break;
 
+					case WorkType::DeriveKey:
+						{
+							KeyDerivationWorkItem *keyDerivationWorkItem = workItem->KeyDerivation.WorkItem;
+							if (workItem->KeyDerivation.AbortFlag && *workItem->KeyDerivation.AbortFlag)
+								keyDerivationWorkItem->Result = ERR_USER_ABORT;
+							else
+								keyDerivationWorkItem->Result = keyDerivationWorkItem->Kdf->DeriveKey (keyDerivationWorkItem->DerivedKey, *workItem->KeyDerivation.Password, workItem->KeyDerivation.Pim, ConstBufferPtr (workItem->KeyDerivation.Salt, workItem->KeyDerivation.SaltSize), workItem->KeyDerivation.AbortFlag);
+						}
+						break;
+
 					default:
 						throw ParameterIncorrect (SRC_POS);
 					}
 				}
-				catch (Exception &e)
-				{
-					workItem->FirstFragment->ItemException.reset (e.CloneNew());
-				}
-				catch (exception &e)
-				{
-					workItem->FirstFragment->ItemException.reset (new ExternalException (SRC_POS, StringConverter::ToExceptionString (e)));
-				}
 				catch (...)
 				{
-					workItem->FirstFragment->ItemException.reset (new UnknownException (SRC_POS));
+					if (workItem->Type == WorkType::DeriveKey)
+					{
+						KeyDerivationWorkItem &item = *workItem->KeyDerivation.WorkItem;
+						item.ExceptionCaptureFailed = !CaptureWorkItemException (item.ItemException);
+					}
+					else
+					{
+						WorkItem &firstFragment = *workItem->FirstFragment;
+						try
+						{
+							ScopeLock exceptionLock (FragmentExceptionMutex);
+							if (!firstFragment.ItemException.get() && !firstFragment.ExceptionCaptureFailed)
+								firstFragment.ExceptionCaptureFailed = !CaptureWorkItemException (firstFragment.ItemException);
+						}
+						catch (...) { firstFragment.ExceptionCaptureFailed = true; }
+					}
 				}
 
-				if (workItem != workItem->FirstFragment)
+				if (workItem->Type == WorkType::DeriveKey)
+				{
+					workItem->KeyDerivation.WorkItem->Completed.Set (true);
+					workItem->KeyDerivation.CompletionEvent->Signal();
+					{
+						ScopeLock outstandingWorkItemLock (KeyDerivationCompletionMutex);
+						if (workItem->KeyDerivation.OutstandingWorkItemCount->Decrement() == 0)
+							workItem->KeyDerivation.NoOutstandingWorkItemEvent->Signal();
+					}
+					workItem->State.Set (WorkItem::State::Free);
+					WorkItemCompletedEvent.Signal();
+					ReleasePoolReference();
+					continue;
+				}
+
+				// Keep the parent reference before releasing this queue slot.
+				WorkItem *firstFragment = workItem->FirstFragment;
+				if (workItem != firstFragment)
 				{
 					workItem->State.Set (WorkItem::State::Free);
 					WorkItemCompletedEvent.Signal();
 				}
 
-				if (workItem->FirstFragment->OutstandingFragmentCount.Decrement() == 0)
-					workItem->FirstFragment->ItemCompletedEvent.Signal();
+				if (firstFragment->OutstandingFragmentCount.Decrement() == 0)
+					firstFragment->ItemCompletedEvent.Signal();
 			}
 		}
 		catch (exception &e)
@@ -309,8 +478,10 @@ namespace VeraCrypt
 		}
 	}
 
-	volatile bool EncryptionThreadPool::ThreadPoolRunning = false;
-	volatile bool EncryptionThreadPool::StopPending = false;
+	std::atomic <bool> EncryptionThreadPool::ThreadPoolRunning (false);
+	std::atomic <bool> EncryptionThreadPool::StopPending (false);
+	std::atomic <uint32> EncryptionThreadPool::PoolReferences (PoolClosing);
+	SyncEvent EncryptionThreadPool::PoolDrainedEvent;
 
 	size_t EncryptionThreadPool::ThreadCount;
 
@@ -321,6 +492,8 @@ namespace VeraCrypt
 
 	Mutex EncryptionThreadPool::EnqueueMutex;
 	Mutex EncryptionThreadPool::DequeueMutex;
+	Mutex EncryptionThreadPool::FragmentExceptionMutex;
+	Mutex EncryptionThreadPool::KeyDerivationCompletionMutex;
 
 	SyncEvent EncryptionThreadPool::WorkItemReadyEvent;
 	SyncEvent EncryptionThreadPool::WorkItemCompletedEvent;

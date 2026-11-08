@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -24,12 +24,14 @@ namespace VeraCrypt
 	Volume::Volume ()
 		: HiddenVolumeProtectionTriggered (false),
 		SystemEncryption (false),
+		VolumeDataOffset (0),
 		VolumeDataSize (0),
+		EncryptedDataSize (0),
 		TopWriteOffset (0),
 		TotalDataRead (0),
 		TotalDataWritten (0),
-		TrueCryptMode (false),
-		Pim (0)
+		Pim (0),
+		EncryptionNotCompleted (false)
 	{
 	}
 
@@ -68,11 +70,16 @@ namespace VeraCrypt
 		return EA->GetMode();
 	}
 
-	void Volume::Open (const VolumePath &volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, int protectionPim, shared_ptr <Pkcs5Kdf> protectionKdf, shared_ptr <KeyfileList> protectionKeyfiles, bool sharedAccessAllowed, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope)
+	void Volume::Open (const VolumePath &volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, bool emvSupportEnabled, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, int protectionPim, shared_ptr <Pkcs5Kdf> protectionKdf, shared_ptr <KeyfileList> protectionKeyfiles, bool sharedAccessAllowed, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope)
 	{
 		make_shared_auto (File, file);
 
 		File::FileOpenFlags flags = (preserveTimestamps ? File::PreserveTimestamps : File::FlagsNone);
+#ifdef TC_LINUX
+		// An elevated process may be denied access to a volume file that the
+		// requesting user can open, e.g. on a GVfs share.
+		flags = static_cast <File::FileOpenFlags> (flags | File::AllowRequesterAccess);
+#endif
 
 		try
 		{
@@ -99,17 +106,13 @@ namespace VeraCrypt
 				throw;
 		}
 
-		return Open (file, password, pim, kdf, truecryptMode, keyfiles, protection, protectionPassword, protectionPim, protectionKdf,protectionKeyfiles, volumeType, useBackupHeaders, partitionInSystemEncryptionScope);
+		return Open (file, password, pim, kdf, keyfiles, emvSupportEnabled, protection, protectionPassword, protectionPim, protectionKdf,protectionKeyfiles, volumeType, useBackupHeaders, partitionInSystemEncryptionScope);
 	}
 
-	void Volume::Open (shared_ptr <File> volumeFile, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, int protectionPim, shared_ptr <Pkcs5Kdf> protectionKdf,shared_ptr <KeyfileList> protectionKeyfiles, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope)
+	void Volume::Open (shared_ptr <File> volumeFile, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, bool emvSupportEnabled, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, int protectionPim, shared_ptr <Pkcs5Kdf> protectionKdf,shared_ptr <KeyfileList> protectionKeyfiles, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope)
 	{
 		if (!volumeFile)
 			throw ParameterIncorrect (SRC_POS);
-
-		// TrueCrypt doesn't support SHA-256
-		if (kdf && truecryptMode && (kdf->GetName() == L"HMAC-SHA-256"))
-			throw UnsupportedAlgoInTrueCryptMode (SRC_POS);
 
 		Protection = protection;
 		VolumeFile = volumeFile;
@@ -118,7 +121,7 @@ namespace VeraCrypt
 		try
 		{
 			VolumeHostSize = VolumeFile->Length();
-			shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (keyfiles, password);
+			shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (keyfiles, password, emvSupportEnabled);
 
 			bool skipLayoutV1Normal = false;
 
@@ -187,11 +190,11 @@ namespace VeraCrypt
 
 				shared_ptr <VolumeHeader> header = layout->GetHeader();
 
-				if (header->Decrypt (headerBuffer, *passwordKey, pim, kdf, truecryptMode, layout->GetSupportedKeyDerivationFunctions(truecryptMode), layoutEncryptionAlgorithms, layoutEncryptionModes))
+				if (header->Decrypt (headerBuffer, *passwordKey, pim, kdf, layout->GetSupportedKeyDerivationFunctions(), layoutEncryptionAlgorithms, layoutEncryptionModes))
 				{
 					// Header decrypted
 
-					if (!truecryptMode && typeid (*layout) == typeid (VolumeLayoutV2Normal) && header->GetRequiredMinProgramVersion() < 0x10b)
+					if (typeid (*layout) == typeid (VolumeLayoutV2Normal) && header->GetRequiredMinProgramVersion() < 0x10b)
 					{
 						// VolumeLayoutV1Normal has been opened as VolumeLayoutV2Normal
 						layout.reset (new VolumeLayoutV1Normal);
@@ -199,13 +202,13 @@ namespace VeraCrypt
 						layout->SetHeader (header);
 					}
 
-					TrueCryptMode = truecryptMode;
 					Pim = pim;
 					Type = layout->GetType();
 					SectorSize = header->GetSectorSize();
 
 					VolumeDataOffset = layout->GetDataOffset (VolumeHostSize);
 					VolumeDataSize = layout->GetDataSize (VolumeHostSize);
+					EncryptedDataSize = header->GetEncryptedAreaLength();
 
 					Header = header;
 					Layout = layout;
@@ -215,13 +218,19 @@ namespace VeraCrypt
 					if (layout->HasDriveHeader())
 					{
 						if (header->GetEncryptedAreaLength() != header->GetVolumeDataSize())
-							throw VolumeEncryptionNotCompleted (SRC_POS);
+						{
+							EncryptionNotCompleted = true;
+							// we avoid writing data to the partition since it is only partially encrypted
+							Protection = VolumeProtection::ReadOnly;
+						}
 
 						uint64 partitionStartOffset = VolumeFile->GetPartitionDeviceStartOffset();
 
 						if (partitionStartOffset < header->GetEncryptedAreaStart()
 							|| partitionStartOffset >= header->GetEncryptedAreaStart() + header->GetEncryptedAreaLength())
 							throw PasswordIncorrect (SRC_POS);
+
+						EncryptedDataSize -= partitionStartOffset - header->GetEncryptedAreaStart();
 
 						mode.SetSectorOffset (partitionStartOffset / ENCRYPTION_DATA_UNIT_SIZE);
 					}
@@ -238,7 +247,8 @@ namespace VeraCrypt
 								Volume protectedVolume;
 
 								protectedVolume.Open (VolumeFile,
-									protectionPassword, protectionPim, protectionKdf, truecryptMode, protectionKeyfiles,
+									protectionPassword, protectionPim, protectionKdf, protectionKeyfiles,
+									emvSupportEnabled,
 									VolumeProtection::ReadOnly,
 									shared_ptr <VolumePassword> (), 0, shared_ptr <Pkcs5Kdf> (),shared_ptr <KeyfileList> (),
 									VolumeType::Hidden,
@@ -276,8 +286,8 @@ namespace VeraCrypt
 					Buffer mbr (VolumeFile->GetDeviceSectorSize());
 					driveDevice.ReadAt (mbr, 0);
 
-					// Search for the string "VeraCrypt" or "TrueCrypt"
-					const char* bootSignature = truecryptMode? "TrueCrypt" : TC_APP_NAME;
+					// Search for the string "VeraCrypt"
+					const char* bootSignature = TC_APP_NAME;
 					size_t nameLen = strlen (bootSignature);
 					for (size_t i = 0; i < mbr.Size() - nameLen; ++i)
 					{
@@ -306,6 +316,7 @@ namespace VeraCrypt
 
 		uint64 length = buffer.Size();
 		uint64 hostOffset = VolumeDataOffset + byteOffset;
+		size_t bufferOffset = 0;
 
 		if (length % SectorSize != 0 || byteOffset % SectorSize != 0)
 			throw ParameterIncorrect (SRC_POS);
@@ -313,7 +324,30 @@ namespace VeraCrypt
 		if (VolumeFile->ReadAt (buffer, hostOffset) != length)
 			throw MissingVolumeData (SRC_POS);
 
-		EA->DecryptSectors (buffer, hostOffset / SectorSize, length / SectorSize, SectorSize);
+		// first sector can be unencrypted in some cases (e.g. windows repair)
+		// detect this case by looking for NTFS header
+		if (SystemEncryption && (hostOffset == 0) && ((BE64 (*(uint64 *) buffer.Get ())) == 0xEB52904E54465320ULL))
+		{
+			bufferOffset = (size_t) SectorSize;
+			hostOffset += SectorSize;
+			length -= SectorSize;
+		}
+
+		if (length)
+		{
+			if (EncryptionNotCompleted)
+			{
+				// if encryption is not complete, we decrypt only the encrypted sectors
+				if (hostOffset < EncryptedDataSize)
+				{
+					uint64 encryptedLength = VC_MIN (length, (EncryptedDataSize - hostOffset));
+
+					EA->DecryptSectors (buffer.GetRange (bufferOffset, encryptedLength), hostOffset / SectorSize, encryptedLength / SectorSize, SectorSize);			
+				}
+			}
+			else
+				EA->DecryptSectors (buffer.GetRange (bufferOffset, length), hostOffset / SectorSize, length / SectorSize, SectorSize);
+		}
 
 		TotalDataRead += length;
 	}

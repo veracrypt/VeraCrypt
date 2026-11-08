@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 #include "..\\common\\resource.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -38,11 +38,12 @@ BEGIN
     CONTROL         "&GB",IDC_GB,"Button",BS_AUTORADIOBUTTON,248,105,38,10
     CONTROL         "&TB",IDC_TB,"Button",BS_AUTORADIOBUTTON,288,105,38,10
     CONTROL         "Fill new space with random data",IDC_INIT_NEWSPACE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,127,118,10
-    DEFPUSHBUTTON   "Continue",IDOK,15,238,84,18
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,120,276,10
+    CONTROL         "Quick Expand",IDC_QUICKEXPAND,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_DISABLED | WS_TABSTOP,30,132,276,10
+    DEFPUSHBUTTON   "Continue",IDC_CONTINUE,15,238,84,18
     PUSHBUTTON      "Cancel",IDCANCEL,277,238,84,18
     LTEXT           "Help Text",IDC_BOX_HELP,15,165,346,58,0,WS_EX_CLIENTEDGE
-    GROUPBOX        "Enter new volume size",IDC_STATIC,15,83,346,63
+    GROUPBOX        "Enter new volume size",IDT_NEW_SIZE_BOX_TITLE,15,83,346,63
     RTEXT           "Current size: ",IDT_CURRENT_SIZE,27,42,46,8
     CONTROL         "",IDC_EXPAND_VOLUME_OLDSIZE,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,80,42,275,8,WS_EX_TRANSPARENT
     RTEXT           "New size: ",IDT_NEW_SIZE,28,54,45,8
@@ -72,7 +73,7 @@ BEGIN
     GROUPBOX        "",IDC_STATIC,282,238,88,24
     GROUPBOX        "",IDC_STATIC,6,238,88,24
     GROUPBOX        "",IDC_STATIC,1,147,373,123,BS_CENTER
-    LTEXT           "1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button",IDC_STATIC,15,156,293,21
+    LTEXT           "1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button",IDC_STEPSEXPAND,15,156,293,21
     LTEXT           "Static",IDC_INFOEXPAND,8,6,361,134,SS_NOPREFIX | SS_SUNKEN,WS_EX_STATICEDGE
 END
 
@@ -83,7 +84,6 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_PASSWORD,69,8,166,14,ES_PASSWORD | ES_AUTOHSCROLL
     COMBOBOX        IDC_PKCS5_PRF_ID,69,26,86,90,CBS_DROPDOWNLIST | WS_TABSTOP
-    CONTROL         "TrueCrypt Mode",IDC_TRUECRYPT_MODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,28,76,10
     EDITTEXT        IDC_PIM,69,43,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
     CONTROL         "Use P&IM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,49,97,10
     CONTROL         "Cache passwords and keyfil&es in memory",IDC_CACHE,
@@ -95,9 +95,9 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,243,8,64,14
     PUSHBUTTON      "Cancel",IDCANCEL,243,25,64,14
     RTEXT           "Password:",IDT_PASSWORD,0,10,65,13
-    RTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,0,27,65,13
+    RTEXT           "KDF:",IDT_KDF,0,27,65,13
     RTEXT           "Volume PIM:",IDT_PIM,0,46,65,13,NOT WS_VISIBLE
-    LTEXT           "(Empty or 0 for default iterations)",IDC_PIM_HELP,115,46,189,8,NOT WS_VISIBLE
+    LTEXT           "(Empty or 0 for defaults)",IDC_PIM_HELP,115,46,189,8,NOT WS_VISIBLE
 END
 
 IDD_EXPAND_PROGRESS_DLG DIALOGEX 0, 0, 376, 283
@@ -120,14 +120,14 @@ BEGIN
     RTEXT           "Volume: ",IDT_VOL_NAME,31,16,42,8
     GROUPBOX        "",IDC_STATIC,15,7,346,72
     CONTROL         "",IDC_EXPAND_VOLUME_NAME,"Static",SS_SIMPLE | WS_GROUP,80,16,275,8,WS_EX_TRANSPARENT
-    DEFPUSHBUTTON   "Continue",IDOK,15,247,84,18
+    DEFPUSHBUTTON   "Continue",IDC_CONTINUE,15,247,84,18
     PUSHBUTTON      "Cancel",IDCANCEL,277,247,84,18
     EDITTEXT        IDC_BOX_STATUS,15,176,346,66,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | ES_WANTRETURN | WS_VSCROLL
     CONTROL         "",IDC_EXPAND_VOLUME_INITSPACE,"Static",SS_SIMPLE | WS_GROUP,80,64,275,8,WS_EX_TRANSPARENT
     RTEXT           "Fill new space: ",IDT_INIT_SPACE,20,64,53,8
     RTEXT           "File system: ",IDT_FILE_SYS,31,28,42,8
     CONTROL         "",IDC_EXPAND_FILE_SYSTEM,"Static",SS_SIMPLE | WS_GROUP,80,28,275,8,WS_EX_TRANSPARENT
-    RTEXT           "Random Pool: ",IDT_RANDOM_POOL2,20,144,53,8
+    RTEXT           "Random Pool: ",IDT_RANDOM_POOL,20,144,53,8
     CONTROL         "",IDC_RANDOM_BYTES,"Static",SS_SIMPLE | WS_GROUP,80,144,149,8,WS_EX_TRANSPARENT
     CONTROL         "Display pool content",IDC_DISPLAY_POOL_CONTENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,236,142,125,12
     GROUPBOX        "Randomness Collected From Mouse Movements",IDT_ENTROPY_BAR,20,156,214,18
@@ -141,7 +141,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_SIZE_DIALOG, DIALOG
     BEGIN
@@ -192,8 +192,8 @@ IDR_MOUNT_RSRC_HEADER   HEADER                  "resource.h"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,19,2,0
- PRODUCTVERSION 1,19,2,0
+ FILEVERSION 1,26,31,0
+ PRODUCTVERSION 1,26,31,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -208,13 +208,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "IDRIX"
+            VALUE "CompanyName", "AM Crypto"
             VALUE "FileDescription", "VeraCrypt Expander"
-            VALUE "FileVersion", "1.19-BETA2"
+            VALUE "FileVersion", "1.26.31"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCryptExpander.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.19-BETA2"
+            VALUE "ProductVersion", "1.26.31"
         END
     END
     BLOCK "VarFileInfo"
@@ -264,7 +264,7 @@ IDB_LOGO_288DPI         BITMAP                  "Logo_288dpi.bmp"
 // Menu
 //
 
-IDR_MENU MENUEX 
+IDR_MENU MENUEX
 BEGIN
     MENUITEM "About",                       IDM_ABOUT,MFT_STRING,MFS_ENABLED
     MENUITEM "Homepage",                    IDM_HOMEPAGE,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
@@ -276,7 +276,7 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_UACSTRING           "VeraCrypt Expander"
 END

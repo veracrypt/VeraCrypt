@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -12,7 +12,8 @@
 
 #include "Hash.h"
 
-#include "Crypto/Rmd160.h"
+#include "Crypto/Argon2/src/blake2/blake2b.h"
+#include "Crypto/blake2s.h"
 #include "Crypto/Sha2.h"
 #include "Crypto/Whirlpool.h"
 #include "Crypto/Streebog.h"
@@ -24,11 +25,13 @@ namespace VeraCrypt
 		HashList l;
 
 		l.push_back (shared_ptr <Hash> (new Sha512 ()));
-		l.push_back (shared_ptr <Hash> (new Whirlpool ()));
 		l.push_back (shared_ptr <Hash> (new Sha256 ()));
+        #ifndef WOLFCRYPT_BACKEND
+		l.push_back (shared_ptr <Hash> (new Blake2s ()));
+		l.push_back (shared_ptr <Hash> (new Whirlpool ()));
 		l.push_back (shared_ptr <Hash> (new Streebog ()));
-		l.push_back (shared_ptr <Hash> (new Ripemd160 ()));
-
+		l.push_back (shared_ptr <Hash> (new Blake2b ()));
+        #endif
 		return l;
 	}
 
@@ -40,39 +43,64 @@ namespace VeraCrypt
 
 	void Hash::ValidateDigestParameters (const BufferPtr &buffer) const
 	{
-		if (buffer.Size() != GetDigestSize ())
+		if (buffer.Size() < GetDigestSize ())
 			throw ParameterIncorrect (SRC_POS);
 	}
 
-	// RIPEMD-160
-	Ripemd160::Ripemd160 ()
+    #ifndef WOLFCRYPT_BACKEND
+	// BLAKE2s
+	Blake2s::Blake2s ()
 	{
-		Deprecated = true; // Mark RIPEMD-160 as deprecated like on Windows.
-		Context.Allocate (sizeof (RMD160_CTX));
+		Context.Allocate (sizeof (blake2s_state), 32);
 		Init();
 	}
 
-	void Ripemd160::GetDigest (const BufferPtr &buffer)
+	void Blake2s::GetDigest (const BufferPtr &buffer)
 	{
 		if_debug (ValidateDigestParameters (buffer));
-		RMD160Final (buffer, (RMD160_CTX *) Context.Ptr());
+		blake2s_final ((blake2s_state *) Context.Ptr(), buffer);
 	}
 
-	void Ripemd160::Init ()
+	void Blake2s::Init ()
 	{
-		RMD160Init ((RMD160_CTX *) Context.Ptr());
+		blake2s_init ((blake2s_state *) Context.Ptr());
 	}
 
-	void Ripemd160::ProcessData (const ConstBufferPtr &data)
+	void Blake2s::ProcessData (const ConstBufferPtr &data)
 	{
 		if_debug (ValidateDataParameters (data));
-		RMD160Update ((RMD160_CTX *) Context.Ptr(), data.Get(), (int) data.Size());
+		blake2s_update ((blake2s_state *) Context.Ptr(), data.Get(), data.Size());
 	}
+
+	// BLAKE2b
+	Blake2b::Blake2b ()
+	{
+		Context.Allocate (sizeof (blake2b_state), 32);
+		Init();
+	}
+
+	void Blake2b::GetDigest (const BufferPtr &buffer)
+	{
+		if_debug (ValidateDigestParameters (buffer));
+		blake2b_final ((blake2b_state *) Context.Ptr(), buffer, BLAKE2B_OUTBYTES);
+	}
+
+	void Blake2b::Init ()
+	{
+		blake2b_init ((blake2b_state *) Context.Ptr(), BLAKE2B_OUTBYTES);
+	}
+
+	void Blake2b::ProcessData (const ConstBufferPtr &data)
+	{
+		if_debug (ValidateDataParameters (data));
+		blake2b_update ((blake2b_state *) Context.Ptr(), data.Get(), data.Size());
+	}
+    #endif
 
 	// SHA-256
 	Sha256::Sha256 ()
 	{
-		Context.Allocate (sizeof (sha256_ctx));
+		Context.Allocate (sizeof (sha256_ctx), 32);
 		Init();
 	}
 
@@ -96,7 +124,7 @@ namespace VeraCrypt
 	// SHA-512
 	Sha512::Sha512 ()
 	{
-		Context.Allocate (sizeof (sha512_ctx));
+		Context.Allocate (sizeof (sha512_ctx), 32);
 		Init();
 	}
 
@@ -117,10 +145,11 @@ namespace VeraCrypt
 		sha512_hash (data.Get(), (int) data.Size(), (sha512_ctx *) Context.Ptr());
 	}
 
+    #ifndef WOLFCRYPT_BACKEND
 	// Whirlpool
 	Whirlpool::Whirlpool ()
 	{
-		Context.Allocate (sizeof (WHIRLPOOL_CTX));
+		Context.Allocate (sizeof (WHIRLPOOL_CTX), 32);
 		Init();
 	}
 
@@ -144,7 +173,7 @@ namespace VeraCrypt
 	// Streebog
 	Streebog::Streebog ()
 	{
-		Context.Allocate (sizeof (STREEBOG_CTX));
+		Context.Allocate (sizeof (STREEBOG_CTX), 32);
 		Init();
 	}
 
@@ -164,4 +193,5 @@ namespace VeraCrypt
 		if_debug (ValidateDataParameters (data));
 		STREEBOG_add ((STREEBOG_CTX *) Context.Ptr(), data.Get(), (int) data.Size());
 	}
+    #endif
 }

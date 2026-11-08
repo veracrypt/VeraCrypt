@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。如果攻击者迫使您透露密码，VeraCrypt提供似是而非的否认能力。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，只需要很少的内存，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">技术细节</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Modes%20of%20Operation.html">操作模式</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>操作模式</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+VeraCrypt用于加密分区、驱动器和虚拟卷的操作模式是XTS。
+<br style="text-align:left">
+<br style="text-align:left">
+XTS模式实际上是XEX模式 <a href="http://www.cs.ucdavis.edu/%7Erogaway/papers/offsets.pdf">
+[12]</a>，它由Phillip Rogaway在2003年设计，有一个小的修改（XEX模式将单个密钥用于两个不同的目的，而XTS模式使用两个独立的密钥）。<br style="text-align:left">
+<br style="text-align:left">
+2010年，XTS模式被美国国家标准与技术研究院（NIST）批准用于保护存储设备上数据的机密性 [24]。2007年，它也被电气和电子工程师协会（IEEE）批准用于面向块的存储设备上数据的加密保护（IEEE 1619）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+&nbsp;</div>
+<h2 style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">XTS模式的描述</strong>:</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">C<sub style="text-align:left; font-size:85%">i</sub></em> =
+<em style="text-align:left">E</em><sub style="text-align:left; font-size:85%"><em style="text-align:left">K</em>1</sub>(<em style="text-align:left">P<sub style="text-align:left; font-size:85%">i</sub></em> ^ (<em style="text-align:left">E</em><sub style="text-align:left; font-size:85%"><em style="text-align:left">K</em>2</sub>(<em style="text-align:left">n</em>)
+<img src="gf2_mul.gif" alt="" width="10" height="10">
+<em style="text-align:left">a<sup style="text-align:left; font-size:85%">i</sup></em>)) ^ (<em style="text-align:left">E</em><sub style="text-align:left; font-size:85%"><em style="text-align:left">K</em>2</sub>(<em style="text-align:left">n</em>)
+<img src="gf2_mul.gif" alt="" width="10" height="10"><em style="text-align:left"> a<sup style="text-align:left; font-size:85%">i</sup></em>)</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+其中：</div>
+<table style="border-collapse:separate; border-spacing:0px; width:608px; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; border:0px outset #999">
+<tbody style="text-align:left">
+<tr style="text-align:left">
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+&nbsp;<sup style="text-align:left; font-size:85%">&nbsp;<img src="gf2_mul.gif" alt="" width="10" height="10"></sup></td>
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+表示在二进制域GF(2)上，两个多项式模 <em style="text-align:left">
+x</em><sup style="text-align:left; font-size:85%">128</sup>+<em style="text-align:left">x</em><sup style="text-align:left; font-size:85%">7</sup>+<em style="text-align:left">x</em><sup style="text-align:left; font-size:85%">2</sup>+<em style="text-align:left">x</em>+1 的乘法</td>
+</tr>
+<tr style="text-align:left">
+<td style="width:30px; vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+<em style="text-align:left">K</em>1</td>
+<td style="width:578px; vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+是加密密钥（对于每个支持的密码算法，如AES、Serpent和Twofish，均为256位）</td>
+</tr>
+<tr style="text-align:left">
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+<em style="text-align:left">K</em>2</td>
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+是辅助密钥（对于每个支持的密码算法，如AES、Serpent和Twofish，均为256位）</td>
+</tr>
+<tr style="text-align:left">
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+<em style="text-align:left">i</em></td>
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+是数据单元内的密码块索引； 对于数据单元内的第一个密码块，
+<em style="text-align:left">i</em> = 0</td>
+</tr>
+<tr style="text-align:left">
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+<em style="text-align:left">n</em></td>
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+是在 <em style="text-align:left">K</em>1 范围内的数据单元索引； 对于第一个数据单元，
+<em style="text-align:left">n</em> = 0</td>
+</tr>
+<tr style="text-align:left">
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+<em style="text-align:left">a</em></td>
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+是伽罗瓦域 (2<sup style="text-align:left; font-size:85%">128</sup>) 中对应于多项式
+<em style="text-align:left">x</em>（即2）的一个本原元</td>
+</tr>
+<tr style="text-align:left">
+<td colspan="2" style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">注意：其余符号的定义见
+<a href="Notation.html" style="text-align:left; color:#0080c0; text-decoration:none">
+符号说明</a> 部分。 </span></td>
+</tr>
+</tbody>
+</table>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+每个数据单元的大小始终为512字节（与扇区大小无关）。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+有关XTS模式的更多信息，请参阅例如 <a href="http://www.cs.ucdavis.edu/%7Erogaway/papers/offsets.pdf" style="text-align:left; color:#0080c0; text-decoration:none">
+[12]</a> 和 <a href="http://csrc.nist.gov/publications/nistpubs/800-38E/nist-sp-800-38E.pdf" style="text-align:left; color:#0080c0; text-decoration:none">
+[24]</a>。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></div>
+</div><div class="ClearBoth"></div></body></html>

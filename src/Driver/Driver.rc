@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -27,8 +27,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,19,2,0
- PRODUCTVERSION 1,19,2,0
+ FILEVERSION 1,26,31,0
+ PRODUCTVERSION 1,26,31,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -43,13 +43,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "IDRIX"
+            VALUE "CompanyName", "AM Crypto"
             VALUE "FileDescription", "VeraCrypt Driver"
-            VALUE "FileVersion", "1.19-BETA2"
+            VALUE "FileVersion", "1.26.31"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "veracrypt.sys"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.19-BETA2"
+            VALUE "ProductVersion", "1.26.31"
         END
     END
     BLOCK "VarFileInfo"
@@ -72,7 +72,7 @@ END
 
 2 TEXTINCLUDE
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 

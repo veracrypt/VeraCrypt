@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -49,8 +49,6 @@ typedef struct _DriveFilterExtension
 
 } DriveFilterExtension;
 
-#define TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER 0x5645524142455854
-
 extern BOOL BootArgsValid;
 extern BootArguments BootArgs;
 extern PKTHREAD EncryptionSetupThread;
@@ -59,27 +57,27 @@ extern PKTHREAD DecoySystemWipeThread;
 NTSTATUS AbortBootEncryptionSetup ();
 NTSTATUS DriveFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo);
 NTSTATUS DriveFilterDispatchIrp (PDEVICE_OBJECT DeviceObject, PIRP Irp);
-void GetBootDriveVolumeProperties (PIRP irp, PIO_STACK_LOCATION irpSp);
-void GetBootEncryptionAlgorithmName (PIRP irp, PIO_STACK_LOCATION irpSp);
-void GetBootEncryptionStatus (PIRP irp, PIO_STACK_LOCATION irpSp);
-void GetBootLoaderVersion (PIRP irp, PIO_STACK_LOCATION irpSp);
-void GetBootLoaderFingerprint (PIRP irp, PIO_STACK_LOCATION irpSp);
+void GetBootDriveVolumeProperties (PIRP irp);
+void GetBootEncryptionAlgorithmName (PIRP irp);
+void GetBootEncryptionStatus (PIRP irp);
+void GetBootLoaderVersion (PIRP irp);
+void GetBootLoaderFingerprint (PIRP irp);
 NTSTATUS GetSetupResult ();
 DriveFilterExtension *GetBootDriveFilterExtension ();
 CRYPTO_INFO *GetSystemDriveCryptoInfo ();
 BOOL IsBootDriveMounted ();
 BOOL IsBootEncryptionSetupInProgress ();
 BOOL IsHiddenSystemRunning ();
-NTSTATUS LoadBootArguments ();
+NTSTATUS LoadBootArguments (BOOL bIsEfi);
 static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension);
 NTSTATUS StartBootEncryptionSetup (PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION irpSp);
-void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp);
+void EmergencyClearAllKeys (PIRP irp);
+void ReopenBootVolumeHeader (PIRP irp);
 NTSTATUS StartDecoySystemWipe (PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION irpSp);
-void StartLegacyHibernationDriverFilter ();
 NTSTATUS AbortDecoySystemWipe ();
 BOOL IsDecoySystemWipeInProgress();
 NTSTATUS GetDecoySystemWipeResult();
-void GetDecoySystemWipeStatus (PIRP irp, PIO_STACK_LOCATION irpSp);
+void GetDecoySystemWipeStatus (PIRP irp);
 uint64 GetBootDriveLength ();
 NTSTATUS WriteBootDriveSector (PIRP irp, PIO_STACK_LOCATION irpSp);
 

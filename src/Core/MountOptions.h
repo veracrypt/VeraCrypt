@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -26,6 +26,9 @@ namespace VeraCrypt
 		MountOptions ()
 			:
 			CachePassword (false),
+#ifdef TC_LINUX
+			MountNtfsWithKernelDriver (false),
+#endif
 			NoFilesystem (false),
 			NoHardwareCrypto (false),
 			NoKernelCrypto (false),
@@ -38,7 +41,7 @@ namespace VeraCrypt
 			SharedAccessAllowed (false),
 			SlotNumber (0),
 			UseBackupHeaders (false),
-			TrueCryptMode (false)
+			EMVSupportEnabled (false)
 		{
 		}
 
@@ -52,6 +55,9 @@ namespace VeraCrypt
 		bool CachePassword;
 		wstring FilesystemOptions;
 		wstring FilesystemType;
+#ifdef TC_LINUX
+		bool MountNtfsWithKernelDriver;
+#endif
 		shared_ptr <KeyfileList> Keyfiles;
 		shared_ptr <DirectoryPath> MountPoint;
 		bool NoFilesystem;
@@ -72,7 +78,7 @@ namespace VeraCrypt
 		bool SharedAccessAllowed;
 		VolumeSlotNumber SlotNumber;
 		bool UseBackupHeaders;
-		bool TrueCryptMode;
+		bool EMVSupportEnabled;
 
 	protected:
 		void CopyFrom (const MountOptions &other);

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -36,7 +36,7 @@ typedef enum
 #define TC_WIPE_RAND_CHAR_COUNT 3
 
 int GetWipePassCount (WipeAlgorithmId algorithm);
-BOOL WipeBuffer (WipeAlgorithmId algorithm, byte randChars[TC_WIPE_RAND_CHAR_COUNT], int pass, byte *buffer, size_t size);
+BOOL WipeBuffer (WipeAlgorithmId algorithm, uint8 randChars[TC_WIPE_RAND_CHAR_COUNT], int pass, uint8 *buffer, size_t size);
 
 #ifdef __cplusplus
 }

@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -65,40 +65,42 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,248,190,50,14
 END
 
-IDD_MOUNT_OPTIONS DIALOGEX 0, 0, 277, 231
+IDD_MOUNT_OPTIONS DIALOGEX 0, 0, 310, 244
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Mount Options"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Mount volume as read-&only",IDC_MOUNT_READONLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,11,194,10
+    CONTROL         "Mount volume as read-&only",IDC_MOUNT_READONLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,11,231,10
     CONTROL         "Mount volume as removable &medium",IDC_MOUNT_REMOVABLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,25,195,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,25,231,10
     CONTROL         "Use backup header embedded in &volume if available",IDC_USE_EMBEDDED_HEADER_BAK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,39,257,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,39,295,11
     CONTROL         "Mount partition &using system encryption without pre-boot authentication",IDC_MOUNT_SYSENC_PART_WITHOUT_PBA,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,53,259,11
-    EDITTEXT        IDC_VOLUME_LABEL,112,67,150,14,ES_AUTOHSCROLL
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,53,295,11
+    EDITTEXT        IDC_VOLUME_LABEL,134,82,167,14,ES_AUTOHSCROLL
     CONTROL         "&Protect hidden volume against damage caused by writing to outer volume",IDC_PROTECT_HIDDEN_VOL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,97,252,10
-    EDITTEXT        IDC_PASSWORD_PROT_HIDVOL,112,115,151,14,ES_PASSWORD | ES_AUTOHSCROLL
-    COMBOBOX        IDC_PKCS5_PRF_ID,112,136,91,90,CBS_DROPDOWNLIST | WS_TABSTOP
-    EDITTEXT        IDC_PIM,112,156,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
-    CONTROL         "Use P&IM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,161,97,10
-    LTEXT           "(Empty or 0 for default iterations)",IDC_PIM_HELP,158,159,112,8,NOT WS_VISIBLE
-    CONTROL         "&Display password",IDC_SHOW_PASSWORD_MO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,174,90,10
-    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE_HIDVOL_PROT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,187,90,10
-    PUSHBUTTON      "&Keyfiles...",IDC_KEYFILES_HIDVOL_PROT,204,183,60,14
-    DEFPUSHBUTTON   "OK",IDOK,211,7,60,14
-    PUSHBUTTON      "Cancel",IDCANCEL,211,24,60,14
-    LTEXT           "What is hidden volume protection?",IDC_LINK_HIDVOL_PROTECTION_INFO,16,202,247,10,SS_NOTIFY
-    RTEXT           "P&assword to hidden volume:\n(if empty, cache is used)",IDT_HIDDEN_PROT_PASSWD,15,114,91,17,0,WS_EX_RIGHT
-    GROUPBOX        "Hidden Volume Protection",IDT_HIDDEN_VOL_PROTECTION,6,83,265,136
-    RTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,15,137,91,17
-    RTEXT           "Volume PIM:",IDT_PIM,15,159,91,17,NOT WS_VISIBLE
-    LTEXT           "Volume Label in Windows:",IDT_VOLUME_LABEL,12,70,95,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,115,283,10
+    EDITTEXT        IDC_PASSWORD_PROT_HIDVOL,134,133,167,14,ES_PASSWORD | ES_AUTOHSCROLL
+    COMBOBOX        IDC_PKCS5_PRF_ID,134,154,91,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    EDITTEXT        IDC_PIM,134,174,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
+    CONTROL         "Use P&IM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,179,97,10
+    LTEXT           "(Empty or 0 for defaults)",IDC_PIM_HELP,181,177,121,8,NOT WS_VISIBLE
+    CONTROL         "&Display password",IDC_SHOW_PASSWORD_MO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,192,90,10
+    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE_HIDVOL_PROT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,205,90,10
+    PUSHBUTTON      "&Keyfiles...",IDC_KEYFILES_HIDVOL_PROT,239,201,60,14
+    DEFPUSHBUTTON   "OK",IDOK,246,7,60,14
+    PUSHBUTTON      "Cancel",IDCANCEL,246,24,60,14
+    LTEXT           "What is hidden volume protection?",IDC_LINK_HIDVOL_PROTECTION_INFO,16,220,279,10,SS_NOTIFY
+    RTEXT           "P&assword to hidden volume:\n(if empty, cache is used)",IDT_HIDDEN_PROT_PASSWD,15,132,115,17,0,WS_EX_RIGHT
+    GROUPBOX        "Hidden Volume Protection",IDT_HIDDEN_VOL_PROTECTION,6,101,299,136
+    RTEXT           "KDF:",IDT_KDF,15,155,115,17
+    RTEXT           "Volume PIM:",IDT_PIM,15,177,115,17,NOT WS_VISIBLE
+    LTEXT           "Volume Label in Windows:",IDT_VOLUME_LABEL,12,85,115,8
+    CONTROL         "Only create virtual device without mounting on selected drive letter",IDC_DISABLE_MOUNT_MANAGER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,67,297,10
 END
 
-IDD_KEYFILES DIALOGEX 0, 0, 363, 251
+IDD_KEYFILES DIALOGEX 0, 0, 363, 264
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Keyfiles"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -109,17 +111,18 @@ BEGIN
     PUSHBUTTON      "Add &Token Files...",IDC_TOKEN_FILES_ADD,151,132,65,14
     PUSHBUTTON      "&Remove",IDC_KEYREMOVE,227,132,61,14
     PUSHBUTTON      "Remove &All",IDC_KEYREMOVEALL,299,132,61,14
-    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,232,105,11
-    PUSHBUTTON      "&Generate Random Keyfile...",IDC_GENERATE_KEYFILE,237,230,123,14
+    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,244,100,11
+    PUSHBUTTON      "&Generate Random Keyfile...",IDC_GENERATE_KEYFILE,237,243,123,14
     DEFPUSHBUTTON   "OK",IDOK,290,8,70,14
     PUSHBUTTON      "Cancel",IDCANCEL,290,25,70,14
     LTEXT           "",IDT_KEYFILES_NOTE,10,161,346,41,0,WS_EX_TRANSPARENT
     LTEXT           "WARNING: If you lose a keyfile or if any bit of its first 1024 kilobytes changes, it will be impossible to mount volumes that use the keyfile!",IDT_KEYFILE_WARNING,290,44,69,85,0,WS_EX_TRANSPARENT
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,154,361,1,WS_EX_STATICEDGE
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,209,361,1,WS_EX_STATICEDGE
-    LTEXT           "More information on keyfiles",IDC_LINK_KEYFILES_INFO,119,233,113,10,SS_NOTIFY
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,224,361,1,WS_EX_STATICEDGE
+    LTEXT           "More information on keyfiles",IDC_LINK_KEYFILES_INFO,111,245,124,10,SS_NOTIFY
     CONTROL         "Try first to mount with an empty password",IDC_KEYFILES_TRY_EMPTY_PASSWORD,
-                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,7,217,310,10
+                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,7,229,310,10
+    RTEXT           "Important information on using third-party file extensions",IDC_LINK_KEYFILES_EXTENSIONS_WARNING,161,210,195,8,SS_NOTIFY
 END
 
 IDD_LANGUAGE DIALOGEX 0, 0, 209, 183
@@ -138,7 +141,7 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,158,208,1,WS_EX_STATICEDGE
 END
 
-IDD_BENCHMARK_DLG DIALOGEX 0, 0, 330, 247
+IDD_BENCHMARK_DLG DIALOGEX 0, 0, 420, 247
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Algorithms Benchmark"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -146,20 +149,22 @@ BEGIN
     COMBOBOX        IDC_BENCHMARK_LIST,55,11,87,53,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     COMBOBOX        IDC_BENCHMARK_BUFFER_SIZE,209,11,87,129,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_PIM,209,11,42,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
-    CONTROL         "Pre-Boot",IDC_BENCHMARK_PREBOOT,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,258,14,71,10
+    CONTROL         "Pre-Boot",IDC_BENCHMARK_PREBOOT,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,258,14,155,10
     COMBOBOX        IDC_BENCHMARK_SORT_METHOD,55,40,139,74,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "Benchmark",IDC_PERFORM_BENCHMARK,265,60,58,14
-    PUSHBUTTON      "Close",IDCLOSE,265,79,58,14
+    DEFPUSHBUTTON   "Benchmark",IDC_PERFORM_BENCHMARK,355,60,58,14
+    PUSHBUTTON      "Close",IDCLOSE,355,79,58,14
     CONTROL         "",IDC_RESULTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,60,249,160
+    LTEXT           "KDF:",IDT_KDF,265,107,148,9,NOT WS_VISIBLE
+    CONTROL         "",IDC_BENCHMARK_KDF_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | NOT WS_VISIBLE | WS_TABSTOP,265,119,148,101
     LTEXT           "Hardware-accelerated AES:",IDC_HW_AES_LABEL_LINK,148,233,108,9,SS_NOTIFY,WS_EX_RIGHT
     CONTROL         "",IDC_HW_AES,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,262,232,57,11,WS_EX_STATICEDGE
     LTEXT           "Parallelization:",IDC_PARALLELIZATION_LABEL_LINK,4,233,67,9,SS_NOTIFY,WS_EX_RIGHT
     CONTROL         "",IDC_PARALLELIZATION,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,77,232,57,11,WS_EX_STATICEDGE
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,32,328,1,WS_EX_STATICEDGE
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,32,418,1,WS_EX_STATICEDGE
     LTEXT           "Buffer Size:",IDT_BUFFER_SIZE,154,14,53,8,0,WS_EX_RIGHT
     LTEXT           "Sort Method:",IDT_SORT_METHOD,0,42,53,8,0,WS_EX_RIGHT
-    LTEXT           "Speed is affected by CPU load and storage device characteristics.\n\nThese tests take place in RAM.",IDT_BOX_BENCHMARK_INFO,266,107,57,100
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,228,328,1,WS_EX_STATICEDGE
+    LTEXT           "Speed is affected by CPU load and storage device characteristics.\n\nThese tests take place in RAM.",IDT_BOX_BENCHMARK_INFO,266,107,148,100
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,228,418,1,WS_EX_STATICEDGE
     LTEXT           "Benchmark: ",IDT_BENCHMARK,0,14,53,8,0,WS_EX_RIGHT
     RTEXT           "Volume PIM:",IDT_PIM,154,14,53,8,NOT WS_VISIBLE
 END
@@ -209,7 +214,7 @@ BEGIN
     CONTROL         "",IDC_INFO_BOX_TEXT,"RichEdit20W",ES_MULTILINE | ES_READONLY | ES_NUMBER | WS_BORDER | WS_VSCROLL | WS_TABSTOP,5,6,361,188
 END
 
-IDD_KEYFILE_GENERATOR DIALOGEX 0, 0, 357, 362
+IDD_KEYFILE_GENERATOR DIALOGEX 0, 0, 357, 385
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Keyfile Generator"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -219,20 +224,22 @@ BEGIN
     CONTROL         "Display pool content",IDC_DISPLAY_POOL_CONTENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,51,141,10
     EDITTEXT        IDC_NUMBER_KEYFILES,124,278,51,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     EDITTEXT        IDC_KEYFILES_SIZE,124,298,51,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    COMBOBOX        IDC_KEYFILES_SIZE_UNIT,182,299,41,137,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Random size ( 64 <-> 1048576 )",IDC_KEYFILES_RANDOM_SIZE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,181,300,174,10
-    EDITTEXT        IDC_KEYFILES_BASE_NAME,124,318,141,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Generate and Save Keyfile...",IDC_GENERATE_AND_SAVE_KEYFILE,124,336,141,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,124,317,174,10
+    EDITTEXT        IDC_KEYFILES_BASE_NAME,124,331,141,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Generate and Save Keyfile...",IDC_GENERATE_AND_SAVE_KEYFILE,124,349,141,14
     LTEXT           "IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the keyfile.",IDT_KEYFILE_GENERATOR_NOTE,11,5,271,33
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,40,356,1,WS_EX_STATICEDGE
     RTEXT           "Mixing PRF:",IDT_PRF,7,51,85,10,SS_CENTERIMAGE
     GROUPBOX        "Current Pool Content",IDT_POOL_CONTENTS,6,70,344,170
     CTEXT           "",IDC_POOL_CONTENTS,16,83,323,148,0,WS_EX_TRANSPARENT
     RTEXT           "Number of keyfiles:",IDT_NUMBER_KEYFILES,9,281,110,8
-    RTEXT           "Keyfiles base name:",IDT_KEYFILES_BASE_NAME,9,321,110,8
-    RTEXT           "Keyfiles size (in Bytes):",IDT_KEYFILES_SIZE,9,300,110,8
+    RTEXT           "Keyfiles base name:",IDT_KEYFILES_BASE_NAME,9,334,110,8
+    RTEXT           "Keyfiles size:",IDT_KEYFILES_SIZE,9,300,110,8
     CONTROL         "",IDC_ENTROPY_BAR,"msctls_progress32",PBS_SMOOTH | WS_BORDER,18,255,321,12
     GROUPBOX        "Randomness Collected From Mouse Movements",IDT_ENTROPY_BAR,6,244,344,29
+    RTEXT           "Important information on using third-party file extensions",IDC_LINK_KEYFILES_EXTENSIONS_WARNING,7,370,346,8,SS_NOTIFY
 END
 
 IDD_MULTI_CHOICE_DLG DIALOGEX 0, 0, 167, 322
@@ -291,12 +298,12 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTI
 CAPTION "New Security Token Keyfile Properties"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
+    COMBOBOX        IDC_SELECTED_TOKEN,77,13,140,43,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_TOKEN_KEYFILE_NAME,77,32,140,13,ES_AUTOHSCROLL
     DEFPUSHBUTTON   "OK",IDOK,128,61,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,183,61,50,14
-    COMBOBOX        IDC_SELECTED_TOKEN,77,13,140,43,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Security token:",IDT_SECURITY_TOKEN,11,15,62,8,0,WS_EX_RIGHT
     LTEXT           "Keyfile name:",IDT_TOKEN_KEYFILE_NAME,12,34,61,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_TOKEN_KEYFILE_NAME,77,32,140,13,ES_AUTOHSCROLL
     GROUPBOX        "",IDC_STATIC,5,2,228,51
 END
 
@@ -323,7 +330,7 @@ EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW
 CAPTION "VeraCrypt"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Please wait. This process may take a long time...",IDT_STATIC_MODELESS_WAIT_DLG_INFO,9,8,274,9
+    LTEXT           "Please wait. This process may take a long time...",IDT_STATIC_MODELESS_WAIT_DLG_INFO,9,8,274,27
 END
 
 IDD_STATIC_MODAL_WAIT_DLG DIALOGEX 0, 0, 292, 74
@@ -331,8 +338,18 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | 
 CAPTION "VeraCrypt"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CTEXT           "Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.",IDT_STATIC_MODAL_WAIT_DLG_INFO,9,11,274,33
-    CONTROL         "",IDC_WAIT_PROGRESS_BAR,"msctls_progress32",WS_BORDER,7,49,278,14
+    CTEXT           "Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.",IDT_STATIC_MODAL_WAIT_DLG_INFO,9,7,274,30
+    CONTROL         "",IDC_WAIT_PROGRESS_BAR,"msctls_progress32",WS_BORDER,7,41,278,12
+    PUSHBUTTON      "Cancel",IDCANCEL,121,56,50,14
+END
+
+IDD_TEXT_EDIT_DLG DIALOGEX 0, 0, 372, 220
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "OK",IDOK,244,201,58,14
+    CONTROL         "",IDC_INFO_BOX_TEXT,"RichEdit20W",ES_MULTILINE | ES_WANTRETURN | ES_NUMBER | WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP,5,6,361,188
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,308,201,58,14
 END
 
 
@@ -364,8 +381,9 @@ BEGIN
     IDD_MOUNT_OPTIONS, DIALOG
     BEGIN
         LEFTMARGIN, 7
+        RIGHTMARGIN, 309
         TOPMARGIN, 7
-        BOTTOMMARGIN, 225
+        BOTTOMMARGIN, 238
     END
 
     IDD_KEYFILES, DIALOG
@@ -373,7 +391,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 345
         TOPMARGIN, 7
-        BOTTOMMARGIN, 244
+        BOTTOMMARGIN, 257
     END
 
     IDD_LANGUAGE, DIALOG
@@ -387,7 +405,7 @@ BEGIN
     IDD_BENCHMARK_DLG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 323
+        RIGHTMARGIN, 413
         TOPMARGIN, 7
         BOTTOMMARGIN, 240
     END
@@ -412,7 +430,7 @@ BEGIN
     BEGIN
         LEFTMARGIN, 7
         TOPMARGIN, 7
-        BOTTOMMARGIN, 358
+        BOTTOMMARGIN, 381
     END
 
     IDD_MULTI_CHOICE_DLG, DIALOG
@@ -478,6 +496,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 67
     END
+
+    IDD_TEXT_EDIT_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 365
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 213
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -486,6 +512,7 @@ END
 //
 // BIN
 //
+#ifndef ARM64
 
 IDR_BOOT_SECTOR         BIN                     "..\\Boot\\Windows\\Release\\BootSector.bin"
 IDR_BOOT_SECTOR_AES     BIN                     "..\\Boot\\Windows\\Release_AES\\BootSector.bin"
@@ -532,13 +559,22 @@ IDR_RESCUE_LOADER_AES_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_AE
 IDR_RESCUE_LOADER_SERPENT_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Serpent_SHA2\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_TWOFISH_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Twofish_SHA2\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_CAMELLIA_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Camellia_SHA2\\BootLoader.com.gz"
-IDR_EFI_DCSBOOT         BIN                     "..\\Boot\\EFI\\DcsBoot.efi"
-IDR_EFI_DCSINT          BIN                     "..\\Boot\\EFI\\DcsInt.efi"
-IDR_EFI_DCSCFG          BIN                     "..\\Boot\\EFI\\DcsCfg.efi"
-IDR_EFI_LEGACYSPEAKER   BIN                     "..\\Boot\\EFI\\LegacySpeaker.efi"
+IDR_EFI_DCSBOOT_2011    BIN                     "..\\Boot\\EFI\\2011UEFICA\\DcsBoot.efi"
+IDR_EFI_DCSINT_2011     BIN                     "..\\Boot\\EFI\\2011UEFICA\\DcsInt.efi"
+IDR_EFI_DCSCFG_2011     BIN                     "..\\Boot\\EFI\\2011UEFICA\\DcsCfg.efi"
+IDR_EFI_LEGACYSPEAKER_2011 BIN                  "..\\Boot\\EFI\\2011UEFICA\\LegacySpeaker.efi"
+#ifdef VC_EFI_CUSTOM_MODE
 IDR_EFI_DCSBML         BIN                     "..\\Boot\\EFI\\DcsBml.efi"
-IDR_EFI_DCSRE          BIN                     "..\\Boot\\EFI\\DcsRe.efi"
-
+#endif
+IDR_EFI_DCSRE_2011      BIN                     "..\\Boot\\EFI\\2011UEFICA\\DcsRe.efi"
+IDR_EFI_DCSINFO_2011    BIN                     "..\\Boot\\EFI\\2011UEFICA\\DcsInfo.efi"
+IDR_EFI_DCSBOOT_2023    BIN                     "..\\Boot\\EFI\\2023UEFICA\\DcsBoot.efi"
+IDR_EFI_DCSINT_2023     BIN                     "..\\Boot\\EFI\\2023UEFICA\\DcsInt.efi"
+IDR_EFI_DCSCFG_2023     BIN                     "..\\Boot\\EFI\\2023UEFICA\\DcsCfg.efi"
+IDR_EFI_LEGACYSPEAKER_2023 BIN                  "..\\Boot\\EFI\\2023UEFICA\\LegacySpeaker.efi"
+IDR_EFI_DCSRE_2023      BIN                     "..\\Boot\\EFI\\2023UEFICA\\DcsRe.efi"
+IDR_EFI_DCSINFO_2023    BIN                     "..\\Boot\\EFI\\2023UEFICA\\DcsInfo.efi"
+#endif
 /////////////////////////////////////////////////////////////////////////////
 //
 // XML

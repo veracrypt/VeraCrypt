@@ -1,0 +1,17 @@
+#!/bin/sh
+# Get the directory where AppRun is located
+APPDIR=$(dirname "$(readlink -f "$0")")
+
+# Prefer libraries bundled inside the AppImage. This lets the official
+# AppImage carry the FUSE userspace library required by its VeraCrypt binary
+# on systems where that library is not installed by default.
+if [ -d "${APPDIR}/usr/lib" ]; then
+    if [ -n "${LD_LIBRARY_PATH:-}" ]; then
+        export LD_LIBRARY_PATH="${APPDIR}/usr/lib:${LD_LIBRARY_PATH}"
+    else
+        export LD_LIBRARY_PATH="${APPDIR}/usr/lib"
+    fi
+fi
+
+# Execute the main VeraCrypt application
+exec "${APPDIR}/usr/bin/veracrypt" "$@"

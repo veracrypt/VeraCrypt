@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Parallelization.html">并行处理</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>并行处理</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+当您的计算机配备多核处理器（或多个处理器）时，VeraCrypt会并行使用所有核心（或处理器）进行加密和解密操作。例如，当VeraCrypt需要解密一大块数据时，它首先会将该数据块分割成若干较小的片段。片段的数量与核心（或处理器）的数量相等。然后，所有片段会并行进行解密（片段1由线程1解密，片段2由线程2解密，依此类推）。加密操作也采用相同的方法。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+因此，如果您的计算机配备例如四核处理器，那么加密和解密速度将比配备同等规格单核处理器的计算机快四倍（同样，配备双核处理器的计算机速度将快两倍，依此类推）。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+加密/解密速度的提升与核心和/或处理器的数量成正比。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：支持超线程技术的处理器会为每个物理核心提供多个逻辑核心（或为每个物理处理器提供多个逻辑处理器）。当计算机固件（如BIOS）设置中启用了超线程功能时，VeraCrypt会为每个逻辑核心/处理器创建一个线程。例如，在一个每个物理核心提供两个逻辑核心的六核处理器上，VeraCrypt会使用12个线程。
+</div>
+<p><br style="text-align:left">
+当您的计算机配备多核处理器/CPU（或多个处理器/CPU）时，<a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none">
+头部密钥推导</a> 也会进行并行处理。因此，在多核处理器（或多处理器计算机）上挂载卷的速度比在配备同等规格单核处理器（或单处理器计算机）上快几倍。
+</p>
+</div><div class="ClearBoth"></div></body></html>

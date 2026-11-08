@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫你透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，只需要很少的内存，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Normal%20Unmount%20vs%20Force%20Unmount.html">正常卸载与强制卸载的对比</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>正常卸载与强制卸载的对比</h1>
+<p>了解“正常卸载”和“强制卸载”操作之间的区别非常重要，因为这可能会对用户数据产生影响。</p>
+
+<h2>正常卸载过程</h2>
+
+<p>在正常卸载过程中，VeraCrypt会执行以下步骤：</p>
+
+<ol>
+    <li>请求Windows操作系统锁定该卷，禁止进一步的I/O操作。</li>
+    <li>请求Windows从系统中正常弹出该卷。此步骤类似于用户通过系统托盘手动弹出设备。</li>
+    <li>指示Windows挂载管理器卸载该卷。</li>
+    <li>删除驱动器号与该卷的虚拟设备之间的链接。</li>
+    <li>删除该卷的虚拟设备，包括从RAM中清除加密密钥。</li>
+</ol>
+
+<p>在这个流程中，如果该卷上有打开的文件，步骤1和2可能会失败。值得注意的是，即使所有访问该卷上文件的用户应用程序都已关闭，在I/O缓存完全刷新之前，Windows可能仍然会保持文件处于打开状态。</p>
+
+<h2>强制卸载过程</h2>
+
+<p>强制卸载过程与正常卸载过程有所不同，但大体相似。它基本上遵循相同的步骤，但会忽略步骤1和2中可能出现的任何失败情况，并继续执行其余的操作。然而，如果用户打开了文件或者卷的I/O缓存尚未刷新，这可能会导致潜在的数据丢失。这种情况类似于在Windows仍显示USB设备正在使用时强行将其从计算机中拔出。</p>
+
+<p>如果所有使用已挂载卷上文件的应用程序都已成功关闭，并且I/O缓存已完全刷新，那么执行“强制卸载”时既不会导致数据丢失，也不会导致数据/文件系统损坏。与正常卸载一样，“强制卸载”成功完成后，加密密钥会从RAM中清除。</p>
+
+<h2>如何触发强制卸载</h2>
+
+<p>在VeraCrypt中，有三种方法可以触发强制卸载：</p>
+
+<ol>
+    <li>如果正常卸载尝试失败，会弹出一个窗口，通过该窗口触发。</li>
+    <li>通过“首选项”，在“自动卸载”部分选中“强制自动卸载”选项。</li>
+    <li>使用命令行，在 /u 或 /unmount 开关后面加上 /force 或 /f 开关。</li>
+</ol>
+
+<p>为了避免意外的数据丢失或损坏，在卸载VeraCrypt卷时，请始终采取适当的预防措施，包括：</p>
+<ol>
+    <li>在开始卸载之前，确保该卷上的所有文件都已关闭。</li>
+    <li>在关闭所有文件后，等待一段时间，以确保Windows已完全刷新I/O缓存。</li>
+    <li>请注意，某些防病毒软件在扫描后可能会保持对卷上文件句柄的打开状态，从而阻碍正常卸载的成功执行。如果遇到此问题，您可以考虑将VeraCrypt卷从防病毒扫描中排除。或者，咨询您的防病毒软件提供商，了解他们的产品如何与VeraCrypt卷进行交互，以及如何确保它不会保留打开的文件句柄。</li>
+</ol>
+
+
+</div><div class="ClearBoth"></div></body></html>

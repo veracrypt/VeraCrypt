@@ -59,20 +59,27 @@
 #define IDR_RESCUE_LOADER_AES_SHA2      555
 #define IDR_RESCUE_LOADER_SERPENT_SHA2  556
 #define IDR_RESCUE_LOADER_TWOFISH_SHA2  557
-#define IDR_BOOT_SECTOR_CAMELLIA         558
-#define IDR_BOOT_LOADER_CAMELLIA         559
-#define IDR_RESCUE_BOOT_SECTOR_CAMELLIA  560
-#define IDR_RESCUE_LOADER_CAMELLIA       561
-#define IDR_BOOT_SECTOR_CAMELLIA_SHA2    562
-#define IDR_BOOT_LOADER_CAMELLIA_SHA2    563
+#define IDR_BOOT_SECTOR_CAMELLIA        558
+#define IDR_BOOT_LOADER_CAMELLIA        559
+#define IDR_RESCUE_BOOT_SECTOR_CAMELLIA 560
+#define IDR_RESCUE_LOADER_CAMELLIA      561
+#define IDR_BOOT_SECTOR_CAMELLIA_SHA2   562
+#define IDR_BOOT_LOADER_CAMELLIA_SHA2   563
 #define IDR_RESCUE_BOOT_SECTOR_CAMELLIA_SHA2 564
-#define IDR_RESCUE_LOADER_CAMELLIA_SHA2  565
-#define IDR_EFI_DCSBOOT                 566
-#define IDR_EFI_DCSINT                  567
-#define IDR_EFI_DCSCFG                  568
-#define IDR_EFI_LEGACYSPEAKER           569
-#define IDR_EFI_DCSBML           		570
-#define IDR_EFI_DCSRE           		571
+#define IDR_RESCUE_LOADER_CAMELLIA_SHA2 565
+#define IDR_EFI_DCSBOOT_2011            566
+#define IDR_EFI_DCSINT_2011             567
+#define IDR_EFI_DCSCFG_2011             568
+#define IDR_EFI_LEGACYSPEAKER_2011      569
+#define IDR_EFI_DCSBML                  570
+#define IDR_EFI_DCSRE_2011              571
+#define IDR_EFI_DCSINFO_2011            578
+#define IDR_EFI_DCSBOOT_2023            579
+#define IDR_EFI_DCSINT_2023             580
+#define IDR_EFI_DCSCFG_2023             581
+#define IDR_EFI_LEGACYSPEAKER_2023      582
+#define IDR_EFI_DCSRE_2023              583
+#define IDR_EFI_DCSINFO_2023            584
 #define IDC_HW_AES_LABEL_LINK           5000
 #define IDC_HW_AES                      5001
 #define IDC_PARALLELIZATION_LABEL_LINK  5002
@@ -201,7 +208,7 @@
 #define IDT_STATIC_MODAL_WAIT_DLG_INFO  5125
 #define IDC_WAIT_PROGRESS_BAR           5126
 #define IDC_PKCS5_PRF_ID                5127
-#define IDT_PKCS5_PRF                   5128
+#define IDT_KDF                   5128
 #define IDT_PIM                         5129
 #define IDC_PIM                         5130
 #define IDC_PIM_HELP                    5131
@@ -214,15 +221,22 @@
 #define IDT_BENCHMARK                   5138
 #define IDC_BENCHMARK_LIST              5139
 #define IDC_BENCHMARK_PREBOOT           5140
+#define IDD_TEXT_EDIT_DLG               5141
+#define IDC_DISABLE_MOUNT_MANAGER       5142
+#define IDC_KEYFILES_SIZE_UNIT          5143
+#define IDC_LINK_KEYFILES_EXTENSIONS_WARNING 5144
+#define IDC_DISABLE_MEMORY_PROTECTION   5145
+#define IDC_DISABLE_MEMORY_PROTECTION_HELP   5146
+#define IDC_BENCHMARK_KDF_LIST          5147
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        572
+#define _APS_NEXT_RESOURCE_VALUE        585
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         5141
+#define _APS_NEXT_CONTROL_VALUE         5148
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

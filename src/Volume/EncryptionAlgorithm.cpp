@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -12,6 +12,9 @@
 
 #include "EncryptionAlgorithm.h"
 #include "EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "EncryptionModeWolfCryptXTS.h"
+#endif
 
 namespace VeraCrypt
 {
@@ -23,7 +26,7 @@ namespace VeraCrypt
 	{
 	}
 
-	void EncryptionAlgorithm::Decrypt (byte *data, uint64 length) const
+	void EncryptionAlgorithm::Decrypt (uint8 *data, uint64 length) const
 	{
 		if_debug (ValidateState ());
 		Mode->Decrypt (data, length);
@@ -34,13 +37,13 @@ namespace VeraCrypt
 		Decrypt (data, data.Size());
 	}
 
-	void EncryptionAlgorithm::DecryptSectors (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionAlgorithm::DecryptSectors (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
 		if_debug (ValidateState());
 		Mode->DecryptSectors (data, sectorIndex, sectorCount, sectorSize);
 	}
 
-	void EncryptionAlgorithm::Encrypt (byte *data, uint64 length) const
+	void EncryptionAlgorithm::Encrypt (uint8 *data, uint64 length) const
 	{
 		if_debug (ValidateState());
 		Mode->Encrypt (data, length);
@@ -51,7 +54,7 @@ namespace VeraCrypt
 		Encrypt (data, data.Size());
 	}
 
-	void EncryptionAlgorithm::EncryptSectors (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
+	void EncryptionAlgorithm::EncryptSectors (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const
 	{
 		if_debug (ValidateState ());
 		Mode->EncryptSectors (data, sectorIndex, sectorCount, sectorSize);
@@ -62,17 +65,22 @@ namespace VeraCrypt
 		EncryptionAlgorithmList l;
 
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AES ()));
+        #ifndef WOLFCRYPT_BACKEND
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Serpent ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Twofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Camellia ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new GOST89 ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Kuznyechik ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofishSerpent ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaKuznyechik ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaSerpent ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikAES ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikSerpentCamellia ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikTwofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
-
+        #endif
 		return l;
 	}
 
@@ -211,7 +219,25 @@ namespace VeraCrypt
 		}
 	}
 
-	void EncryptionAlgorithm::ValidateState () const
+    #ifdef WOLFCRYPT_BACKEND
+        void EncryptionAlgorithm::SetKeyXTS (const ConstBufferPtr &key)
+	{
+		if (Ciphers.size() < 1)
+			throw NotInitialized (SRC_POS);
+
+		if (GetKeySize() != key.Size())
+			throw ParameterIncorrect (SRC_POS);
+
+		size_t keyOffset = 0;
+		foreach_ref (Cipher &c, Ciphers)
+		{
+			c.SetKeyXTS (key.GetRange (keyOffset, c.GetKeySize()));
+			keyOffset += c.GetKeySize();
+		}
+	}
+    #endif
+
+        void EncryptionAlgorithm::ValidateState () const
 	{
 		if (Ciphers.size() < 1 || Mode.get() == nullptr)
 			throw NotInitialized (SRC_POS);
@@ -222,9 +248,14 @@ namespace VeraCrypt
 	{
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherAES()));
 
+            #ifdef WOLFCRYPT_BACKEND
+                SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeWolfCryptXTS ()));
+            #else
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-	}
+            #endif
+        }
 
+#ifndef WOLFCRYPT_BACKEND
 	// AES-Twofish
 	AESTwofish::AESTwofish ()
 	{
@@ -296,15 +327,6 @@ namespace VeraCrypt
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}
 
-	
-	// GOST89
-	GOST89::GOST89 ()
-	{
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherGost89()));
-
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-	}
-
 	// Kuznyechik
 	Kuznyechik::Kuznyechik ()
 	{
@@ -312,4 +334,52 @@ namespace VeraCrypt
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}
+	
+	// Kuznyechik-Twofish
+	KuznyechikTwofish::KuznyechikTwofish ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Kuznyechik-AES
+	KuznyechikAES::KuznyechikAES ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherAES ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Kuznyechik-Serpent-Camellia
+	KuznyechikSerpentCamellia::KuznyechikSerpentCamellia ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherCamellia ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Camellia-Kuznyechik
+	CamelliaKuznyechik::CamelliaKuznyechik ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherCamellia ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Camellia-Serpent
+	CamelliaSerpent::CamelliaSerpent ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherCamellia ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+
+#endif
 }

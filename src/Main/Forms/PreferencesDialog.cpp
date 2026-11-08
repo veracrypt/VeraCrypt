@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -14,16 +14,64 @@
 #include <wx/dynlib.h>
 #ifdef TC_WINDOWS
 #include <wx/msw/registry.h>
+#else
+#include <wx/dir.h>
+#include <wx/arrstr.h>
 #endif
 #include "Common/SecurityToken.h"
 #include "Main/Main.h"
 #include "Main/Application.h"
 #include "Main/GraphicUserInterface.h"
+#ifdef TC_LINUX
+#include "Platform/Unix/Process.h"
+#endif
 #include "Volume/Cipher.h"
 #include "PreferencesDialog.h"
 
 namespace VeraCrypt
 {
+#ifdef TC_LINUX
+	class KernelNtfsHelpIconWindow : public wxWindow
+	{
+	public:
+		KernelNtfsHelpIconWindow (wxWindow *parent)
+			: wxWindow (parent, wxID_ANY, wxDefaultPosition, wxSize (16, 16))
+		{
+			SetMinSize (wxSize (16, 16));
+			Bind (wxEVT_PAINT, &KernelNtfsHelpIconWindow::OnPaint, this);
+		}
+
+	protected:
+		void OnPaint (wxPaintEvent&)
+		{
+			wxPaintDC dc (this);
+			wxSize size = GetClientSize();
+			wxColour backgroundColor = GetBackgroundColour();
+			wxColour color = GetForegroundColour();
+			int diameter = (size.GetWidth() < size.GetHeight() ? size.GetWidth() : size.GetHeight()) - 1;
+			int x = (size.GetWidth() - diameter) / 2;
+			int y = (size.GetHeight() - diameter) / 2;
+			wxCoord textWidth, textHeight;
+
+			if (GetParent())
+				backgroundColor = GetParent()->GetBackgroundColour();
+			if (!backgroundColor.IsOk())
+				backgroundColor = wxSystemSettings::GetColour (wxSYS_COLOUR_WINDOW);
+			if (!color.IsOk())
+				color = wxSystemSettings::GetColour (wxSYS_COLOUR_WINDOWTEXT);
+
+			dc.SetBackground (wxBrush (backgroundColor));
+			dc.Clear();
+			dc.SetPen (wxPen (color, 1));
+			dc.SetBrush (*wxTRANSPARENT_BRUSH);
+			dc.SetTextForeground (color);
+			dc.DrawEllipse (x, y, diameter, diameter);
+			dc.GetTextExtent (L"?", &textWidth, &textHeight);
+			dc.DrawText (L"?", (size.GetWidth() - textWidth) / 2, (size.GetHeight() - textHeight) / 2 - 1);
+		}
+	};
+#endif
+
 	PreferencesDialog::PreferencesDialog (wxWindow* parent)
 		: PreferencesDialogBase (parent),
 		LastVirtualKeyPressed (0),
@@ -46,19 +94,46 @@ namespace VeraCrypt
 		TC_CHECK_BOX_VALIDATOR (WipeCacheOnAutoDismount);
 		TC_CHECK_BOX_VALIDATOR (WipeCacheOnClose);
 
+#ifdef TC_MACOSX
+		wxStaticBoxSizer *screenProtectionSizer = new wxStaticBoxSizer (new wxStaticBox (SecurityPage, wxID_ANY, LangString["IDT_SECURITY_OPTIONS"]), wxVERTICAL);
+		DisableScreenProtectionCheckBox = new wxCheckBox (screenProtectionSizer->GetStaticBox(), wxID_ANY, LangString["IDC_DISABLE_SCREEN_PROTECTION"]);
+		DisableScreenProtectionCheckBox->SetToolTip (LangString["DISABLE_SCREEN_PROTECTION_WARNING"]);
+		screenProtectionSizer->Add (DisableScreenProtectionCheckBox, 0, wxALL, 5);
+		SecurityPage->GetSizer()->Add (screenProtectionSizer, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
+		TC_CHECK_BOX_VALIDATOR (DisableScreenProtection);
+		DisableScreenProtectionCheckBox->Bind (wxEVT_CHECKBOX,
+			[] (wxCommandEvent& event)
+			{
+				if (event.IsChecked())
+					Gui->ShowWarning ("DISABLE_SCREEN_PROTECTION_WARNING");
+			});
+#endif
+
 		// Mount options
 		CachePasswordsCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.CachePassword));
 		MountReadOnlyCheckBox->SetValue (Preferences.DefaultMountOptions.Protection == VolumeProtection::ReadOnly);
 		MountRemovableCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.Removable));
 
 		FilesystemOptionsTextCtrl->SetValue (Preferences.DefaultMountOptions.FilesystemOptions);
+#ifdef TC_LINUX
+		wxBoxSizer *kernelNtfsPreferenceSizer = new wxBoxSizer (wxHORIZONTAL);
+		MountNtfsWithKernelDriverCheckBox = new wxCheckBox (FilesystemSizer->GetStaticBox(), wxID_ANY, LangString["LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER"]);
+		MountNtfsWithKernelDriverCheckBox->SetToolTip (LangString["LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP"]);
+		kernelNtfsPreferenceSizer->Add (MountNtfsWithKernelDriverCheckBox, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
 
-		TrueCryptModeCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.TrueCryptMode));
+		wxWindow *kernelNtfsHelpIcon = new KernelNtfsHelpIconWindow (FilesystemSizer->GetStaticBox());
+		kernelNtfsHelpIcon->SetToolTip (LangString["LINUX_PREF_MOUNT_NTFS_WITH_KERNEL_DRIVER_HELP"]);
+		kernelNtfsPreferenceSizer->Add (kernelNtfsHelpIcon, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, 10);
+
+		FilesystemSizer->Add (kernelNtfsPreferenceSizer, 0, wxALL, 5);
+
+		MountNtfsWithKernelDriverCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.MountNtfsWithKernelDriver));
+#endif
 
 		int index, prfInitialIndex = 0;
 		Pkcs5PrfChoice->Append (LangString["AUTODETECTION"]);
 
-		foreach_ref (const Pkcs5Kdf &kdf, Pkcs5Kdf::GetAvailableAlgorithms(false))
+		foreach_ref (const Pkcs5Kdf &kdf, Pkcs5Kdf::GetAvailableAlgorithms())
 		{
 			index = Pkcs5PrfChoice->Append (kdf.GetName());
 			if (Preferences.DefaultMountOptions.Kdf
@@ -69,6 +144,96 @@ namespace VeraCrypt
 			}
 		}
 		Pkcs5PrfChoice->Select (prfInitialIndex);
+
+		// Language for non-Windows
+#ifndef TC_WINDOWS
+#if defined (TC_MACOSX)
+		wxDir languagesFolder(StringConverter::ToSingle (Application::GetExecutableDirectory()) + "/../Resources/languages/");
+#else
+		wxString languagesFolderPath("/usr/share/veracrypt/languages/");
+#ifdef TC_LINUX
+		if (Process::IsRunningUnderAppImage (StringConverter::ToSingle (wstring (Application::GetExecutablePath()))))
+		{
+			const char* appDirEnv = getenv ("APPDIR");
+			if (appDirEnv)
+				languagesFolderPath = wxString::FromUTF8 (appDirEnv) + "/usr/share/veracrypt/languages/";
+		}
+#endif
+		wxDir languagesFolder(languagesFolderPath);
+#endif
+		wxArrayString langArray;
+		LanguageListBox->Append("System default");
+		LanguageListBox->Append("English");
+
+		langEntries = {
+				{"system", L"System default"},
+				{"ar", L"العربية"},
+				{"be", L"Беларуская"},
+				{"bg", L"Български"},
+				{"ca", L"Català"},
+				{"co", L"Corsu"},
+				{"cs", L"Čeština"},
+				{"da", L"Dansk"},
+				{"de", L"Deutsch"},
+				{"el", L"Ελληνικά"},
+				{"en", L"English"},
+				{"es", L"Español"},
+				{"et", L"Eesti"},
+				{"eu", L"Euskara"},
+				{"fa", L"فارسي"},
+				{"fi", L"Suomi"},
+				{"fr", L"Français"},
+				{"he", L"עברית"},
+				{"hu", L"Magyar"},
+				{"id", L"Bahasa Indonesia"},
+				{"it", L"Italiano"},
+				{"ja", L"日本語"},
+				{"ka", L"ქართული"},
+				{"ko", L"한국어"},
+				{"lv", L"Latviešu"},
+				{"nb", L"Norsk Bokmål"},
+				{"nl", L"Nederlands"},
+				{"nn", L"Norsk Nynorsk"},
+				{"pl", L"Polski"},
+				{"ro", L"Română"},
+				{"ru", L"Русский"},
+				{"pt-br", L"Português-Brasil"},
+				{"sk", L"Slovenčina"},
+				{"sl", L"Slovenščina"},
+				{"sv", L"Svenska"},
+				{"th", L"ภาษาไทย"},
+				{"tr", L"Türkçe"},
+				{"uk", L"Українська"},
+				{"uz", L"Ўзбекча"},
+				{"vi", L"Tiếng Việt"},
+				{"zh-cn", L"简体中文"},
+				{"zh-hk", L"繁體中文(香港)"},
+				{"zh-tw", L"繁體中文"}
+		};
+
+		if (wxDir::Exists(languagesFolder.GetName())) {
+			size_t langCount;
+			langCount = wxDir::GetAllFiles(languagesFolder.GetName(), &langArray, "*.xml", wxDIR_FILES);
+			for (size_t i = 0; i < langCount; ++i) {
+				wxFileName filename(langArray[i]);
+
+				// Get the name part of the file (without extension)
+				wxString basename = filename.GetName();
+
+				// Check if the basename matches the pattern "Language.langId"
+				if (basename.StartsWith("Language.")) {
+					wxString langId = basename.AfterFirst('.');
+
+					// Verify if the language ID exists in langEntries map
+					wxString langNative = langEntries[langId];
+					if (!langNative.empty()) {
+						LanguageListBox->Append(langNative);
+					}
+				}
+			}
+		}
+#endif
+
 
 		// Keyfiles
 		TC_CHECK_BOX_VALIDATOR (UseKeyfiles);
@@ -87,7 +252,7 @@ namespace VeraCrypt
 		// Encryption
 		AesHwCpuSupportedStaticText->SetLabel (
 #ifdef TC_AES_HW_CPU
-			(is_aes_hw_cpu_supported() ? LangString["UISTR_YES"] : LangString["UISTR_NO"]));
+			(HasAESNI() ? LangString["UISTR_YES"] : LangString["UISTR_NO"]));
 #else
 			LangString["NOT_APPLICABLE_OR_NOT_AVAILABLE"]);
 #endif
@@ -96,6 +261,7 @@ namespace VeraCrypt
 		// Security tokens
 		Pkcs11ModulePathTextCtrl->SetValue (wstring (Preferences.SecurityTokenModule));
 		TC_CHECK_BOX_VALIDATOR (CloseSecurityTokenSessionsAfterMount);
+		TC_CHECK_BOX_VALIDATOR (EMVSupportEnabled);
 
 		// System integration
 		TC_CHECK_BOX_VALIDATOR (StartOnLogon);
@@ -135,8 +301,8 @@ namespace VeraCrypt
 
 #ifdef TC_MACOSX
 		DismountOnScreenSaverCheckBox->Show (false);
-		DismountOnLogOffCheckBox->SetLabel (_("VeraCrypt quits"));
-		OpenExplorerWindowAfterMountCheckBox->SetLabel (_("Open Finder window for successfully mounted volume"));
+		DismountOnLogOffCheckBox->SetLabel (LangString["LINUX_VC_QUITS"]);
+		OpenExplorerWindowAfterMountCheckBox->SetLabel (LangString["LINUX_OPEN_FINDER"]);
 
 		MountRemovableCheckBox->Show (false);
 		FilesystemSizer->Show (false);
@@ -200,7 +366,7 @@ namespace VeraCrypt
 		Fit();
 		Center();
 
-		StdButtonsOK->SetDefault();
+		OKButton->SetDefault();
 
 #ifdef TC_WINDOWS
 		// Hotkey timer
@@ -236,6 +402,15 @@ namespace VeraCrypt
 		{
 			if (PreferencesNotebook->GetPage (pageIndex) == page)
 				PreferencesNotebook->ChangeSelection (pageIndex);
+		}
+	}
+
+	void PreferencesDialog::OnSysDefaultLangButtonClick (wxCommandEvent& event)
+	{
+		// SetStringSelection()'s Assert currently broken in sorted ListBoxes on macOS, workaround:
+		int itemIndex = LanguageListBox->FindString("System default", true);
+		if (itemIndex != wxNOT_FOUND) {
+			LanguageListBox->SetSelection(itemIndex);
 		}
 	}
 
@@ -302,20 +477,20 @@ namespace VeraCrypt
 			if (Gui->AskYesNo (LangString["CONFIRM_SETTING_DEGRADES_PERFORMANCE"], true, true))
 			{
 #ifdef TC_LINUX
-				Gui->ShowWarning (_("Please note that this setting takes effect only if use of the kernel cryptographic services is disabled."));
+				Gui->ShowWarning (LangString["LINUX_DISABLE_KERNEL_ONLY_SETTING"]);
 #endif
 			}
 			else
 				NoHardwareCryptoCheckBox->SetValue (false);
 		}
 
-		Gui->ShowWarning (_("Please note that any currently mounted volumes need to be remounted before they can use this setting."));
+		Gui->ShowWarning (LangString["LINUX_REMOUNT_BECAUSEOF_SETTING"]);
 	}
 
 	void PreferencesDialog::OnNoKernelCryptoCheckBoxClick (wxCommandEvent& event)
 	{
 		if (event.IsChecked())
-			NoKernelCryptoCheckBox->SetValue (Gui->AskYesNo (_("Disabling the use of kernel cryptographic services can degrade performance.\n\nAre you sure?"), false, true));
+			NoKernelCryptoCheckBox->SetValue (Gui->AskYesNo (LangString["LINUX_DISABLE_KERNEL_CRYPT_CONFIRM"], false, true));
 	}
 
 	void PreferencesDialog::OnClose (wxCloseEvent& event)
@@ -329,19 +504,19 @@ namespace VeraCrypt
 	void PreferencesDialog::OnDismountOnPowerSavingCheckBoxClick (wxCommandEvent& event)
 	{
 		if (event.IsChecked() && !ForceAutoDismountCheckBox->IsChecked())
-			Gui->ShowWarning ("WARN_PREF_AUTO_DISMOUNT");
+			Gui->ShowWarning ("WARN_PREF_AUTO_UNMOUNT");
 	}
 
 	void PreferencesDialog::OnDismountOnScreenSaverCheckBoxClick (wxCommandEvent& event)
 	{
 		if (event.IsChecked() && !ForceAutoDismountCheckBox->IsChecked())
-			Gui->ShowWarning ("WARN_PREF_AUTO_DISMOUNT");
+			Gui->ShowWarning ("WARN_PREF_AUTO_UNMOUNT");
 	}
 
 	void PreferencesDialog::OnForceAutoDismountCheckBoxClick (wxCommandEvent& event)
 	{
 		if (!event.IsChecked())
-			ForceAutoDismountCheckBox->SetValue (!Gui->AskYesNo (LangString["CONFIRM_NO_FORCED_AUTODISMOUNT"], false, true));
+			ForceAutoDismountCheckBox->SetValue (!Gui->AskYesNo (LangString["CONFIRM_NO_FORCED_AUTOUNMOUNT"], false, true));
 	}
 
 	void PreferencesDialog::OnHotkeyListItemDeselected (wxListEvent& event)
@@ -354,6 +529,13 @@ namespace VeraCrypt
 		UpdateHotkeyButtons();
 		HotkeyTextCtrl->ChangeValue (LangString ["PRESS_A_KEY_TO_ASSIGN"]);
 		AssignHotkeyButton->Enable (false);
+	}
+
+	// Fixes an issue where going through PreferencesNotebook tabs would unintentionally select the first entry
+	// in the LanguageListBox and thus cause a language change on OKButton press.
+	void PreferencesDialog::OnPageChanged(wxBookCtrlEvent &event)
+	{
+		LanguageListBox->DeselectAll();
 	}
 
 	void PreferencesDialog::OnOKButtonClick (wxCommandEvent& event)
@@ -369,11 +551,10 @@ namespace VeraCrypt
 		{
 			try
 			{
-				selectedKdf = Pkcs5Kdf::GetAlgorithm (wstring (Pkcs5PrfChoice->GetStringSelection ()), TrueCryptModeCheckBox->IsChecked ());
+				selectedKdf = Pkcs5Kdf::GetAlgorithm (wstring (Pkcs5PrfChoice->GetStringSelection ()));
 			}
 			catch (ParameterIncorrect&)
 			{
-				Gui->ShowWarning ("ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE");
 				return;
 			}
 		}
@@ -389,6 +570,19 @@ namespace VeraCrypt
 
 		bool securityTokenModuleChanged = (Preferences.SecurityTokenModule != wstring (Pkcs11ModulePathTextCtrl->GetValue()));
 		Preferences.SecurityTokenModule = wstring (Pkcs11ModulePathTextCtrl->GetValue());
+
+		if (LanguageListBox->GetSelection() != wxNOT_FOUND) {
+			wxString langToFind = LanguageListBox->GetString(LanguageListBox->GetSelection());
+			for (map<wxString, std::wstring>::const_iterator each = langEntries.begin(); each != langEntries.end(); ++each) {
+				if (each->second == langToFind) {
+					Preferences.Language = each->first;
+#ifdef DEBUG
+					cout << "Lang set to: " << each->first << endl;
+#endif
+				}
+			}
+			Gui->ShowInfo (LangString["LINUX_RESTART_FOR_LANGUAGE_CHANGE"]);
+		}
 
 		Gui->SetPreferences (Preferences);
 
@@ -424,7 +618,7 @@ namespace VeraCrypt
 	{
 #ifdef TC_LINUX
 		if (!event.IsChecked())
-			Gui->ShowInfo (_("Please note that disabling this option may have no effect on volumes mounted using kernel cryptographic services."));
+			Gui->ShowInfo (LangString["LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT"]);
 #endif
 	}
 

@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Hardware%20Acceleration.html">Аппаратное ускорение</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Аппаратное ускорение</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Некоторые процессоры (ЦП) поддерживают аппаратное ускорение шифрования* <a href="AES.html" style="text-align:left; color:#0080c0; text-decoration:none">
+AES</a>, которое в этом случае выполняется, как правило, в 4-8 раз быстрее, чем чисто программное
+шифрование при использовании тех же процессоров.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+По умолчанию VeraCrypt использует аппаратное ускорение AES на компьютерах, оснащённых процессорами,
+поддерживающими инструкции Intel AES-NI. В частности, VeraCrypt использует инструкции AES-NI** при выполнении
+так называемых AES-раундов (то есть основных частей алгоритма AES).
+Для генерирования ключей никакие инструкции AES-NI в VeraCrypt не применяются.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Примечание: по умолчанию VeraCrypt использует аппаратное ускорение AES также при загрузке зашифрованной
+системы Windows и при её выходе из состояния гибернации (при условии, что процессор поддерживает инструкции
+Intel AES-NI).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Чтобы выяснить, способен ли VeraCrypt использовать аппаратное ускорение AES в вашем компьютере, выберите
+<em style="text-align:left">Настройки</em> &gt; <em style="text-align:left">Производительность и драйвер</em> и
+посмотрите, что написано в поле <em style="text-align:left">Процессор в этом ПК поддерживает аппаратное
+ускорение AES-операций</em>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Если вы собираетесь приобрести процессор, то узнать, поддерживает ли он инструкции Intel AES-NI (также именуемые
+&quot;AES New Instructions&quot; – &quot;Новые инструкции AES&quot;), которые VeraCrypt применяет для
+аппаратного ускорения AES-операций, можно в документации на процессор или у поставщика/производителя.
+Кроме того, официальный список процессоров Intel, поддерживающих инструкции AES-NI, доступен
+<a href="http://ark.intel.com/search/advanced/?AESTech=true" style="text-align:left; color:#0080c0; text-decoration:none">
+здесь</a>. Примите, однако, к сведению, что некоторые процессоры Intel, присутствующие в списке совместимых
+с AES-NI на сайте Intel, в действительности поддерживают инструкции AES-NI только с обновлением конфигурации
+процессора (например, i7-2630/2635QM, i7-2670/2675QM, i5-2430/2435M, i5-2410/2415M). В этом случае необходимо
+связаться с поставщиком системной платы/компьютера и обновить системную BIOS, чтобы она включала новейшее
+обновление конфигурации процессора.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Если нужно отключить аппаратное ускорение AES (например, чтобы использовать только реализацию AES с полностью
+открытым исходным кодом), выберите <em style="text-align:left">Настройки</em> &gt;
+<em style="text-align:left">Производительность и драйвер</em> и отключите опцию
+<em style="text-align:left">Ускорять (де)шифрование AES с помощью AES-инструкций процессора</em>.
+Обратите внимание, что при изменении состояния этой опции нужно перезагрузить операционную систему, чтобы
+изменение режима подействовало на все компоненты VeraCrypt. Также учтите, что когда вы создаёте диск
+восстановления VeraCrypt (Rescue Disk), состояние этой опции записывается в Диск восстановления и используется
+при каждой загрузке с него (влияя на фазы перед загрузкой и начальной загрузки). Чтобы создать новый диск
+восстановления VeraCrypt, выберите
+<em style="text-align:left">Система</em> &gt; <em style="text-align:left">Создать Диск восстановления</em>.</div>
+<p>&nbsp;</p>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* В этой главе термин "шифрование" также означает и дешифрование.</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">** Эти инструкции включают
+<em style="text-align:left">AESENC</em>, <em style="text-align:left">AESENCLAST</em>,
+<em style="text-align:left">AESDEC</em>, and <em style="text-align:left">AESDECLAST</em>, и они выполняют следующие преобразования AES:
+<em style="text-align:left">ShiftRows</em>, <em style="text-align:left">SubBytes</em>,
+<em style="text-align:left">MixColumns</em>, <em style="text-align:left">InvShiftRows</em>,
+<em style="text-align:left">InvSubBytes</em>, <em style="text-align:left">InvMixColumns</em> и
+<em style="text-align:left">AddRoundKey</em> (подробности об этих преобразованиях см. в [3])</span><span style="text-align:left; font-size:10px; line-height:12px">.</span></p>
+</div><div class="ClearBoth"></div></body></html>

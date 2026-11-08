@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -14,7 +14,12 @@
 #include "Tcdefs.h"
 #include "Crc.h"
 #include "Random.h"
+#include "Dlgcode.h"
+#include "Crypto\cpu.h"
+#include "Crypto\jitterentropy.h"
+#include "Crypto\rdrand.h"
 #include <Strsafe.h>
+#include <bcrypt.h>
 
 static unsigned __int8 buffer[RNG_POOL_SIZE];
 static unsigned char *pRandPool = NULL;
@@ -38,11 +43,7 @@ static HANDLE PeriodicFastPollThreadHandle = NULL;
 /* Macro to add four bytes to the pool */
 #define RandaddInt32(x) RandAddInt((unsigned __int32)x);
 
-#ifdef _WIN64
 #define RandaddIntPtr(x) RandAddInt64((unsigned __int64)x);
-#else
-#define RandaddIntPtr(x) RandAddInt((unsigned __int32)x);
-#endif
 
 void RandAddInt (unsigned __int32 x)
 {
@@ -85,20 +86,29 @@ BOOL volatile bThreadTerminate = FALSE;	/* This variable is shared among thread'
 HANDLE hNetAPI32 = NULL;
 
 // CryptoAPI
-BOOL CryptoAPIAvailable = FALSE;
 DWORD CryptoAPILastError = ERROR_SUCCESS;
-HCRYPTPROV hCryptProv;
 
+typedef DWORD (WINAPI *RtlNtStatusToDosError_t)(NTSTATUS);
+RtlNtStatusToDosError_t pRtlNtStatusToDosError = NULL;
 
 /* Init the random number generator, setup the hooks, and start the thread */
-int Randinit ()
+int RandinitWithCheck ( int* pAlreadyInitialized)
 {
+	BOOL bIgnoreHookError = FALSE;
 	DWORD dwLastError = ERROR_SUCCESS;
+	HMODULE ntdll;
 	if (GetMaxPkcs5OutSize() > RNG_POOL_SIZE)
 		TC_THROW_FATAL_EXCEPTION;
 
 	if(bRandDidInit)
+	{
+		if (pAlreadyInitialized)
+			*pAlreadyInitialized = 1;
 		return 0;
+	}
+
+	if (pAlreadyInitialized)
+		*pAlreadyInitialized = 0;
 
 	InitializeCriticalSection (&critRandProt);
 
@@ -119,24 +129,29 @@ int Randinit ()
 		VirtualLock (pRandPool, RANDOMPOOL_ALLOCSIZE);
 	}
 
+#ifndef VCSDK_DLL
+	bIgnoreHookError = IsThreadInSecureDesktop(GetCurrentThreadId());
+#else
+	bIgnoreHookError = TRUE;
+#endif
 	hKeyboard = SetWindowsHookEx (WH_KEYBOARD, (HOOKPROC)&KeyboardProc, NULL, GetCurrentThreadId ());
-	if (hKeyboard == 0) handleWin32Error (0, SRC_POS);
+	if (hKeyboard == 0 && !bIgnoreHookError) handleWin32Error (0, SRC_POS);
 
 	hMouse = SetWindowsHookEx (WH_MOUSE, (HOOKPROC)&MouseProc, NULL, GetCurrentThreadId ());
-	if (hMouse == 0)
+	if (hMouse == 0 && !bIgnoreHookError)
 	{
 		handleWin32Error (0, SRC_POS);
 		goto error;
 	}
 
-	if (!CryptAcquireContext (&hCryptProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
-	{
-		CryptoAPIAvailable = FALSE;
-		CryptoAPILastError = GetLastError ();
+	ntdll = GetModuleHandleW(L"ntdll.dll");
+	if (!ntdll) {
+		// If ntdll.dll is not found, return a fallback error code
+		CryptoAPILastError = ERROR_MOD_NOT_FOUND;
 		goto error;
 	}
 	else
-		CryptoAPIAvailable = TRUE;
+		pRtlNtStatusToDosError = (RtlNtStatusToDosError_t)GetProcAddress(ntdll, "RtlNtStatusToDosError");
 
 	if (!(PeriodicFastPollThreadHandle = (HANDLE) _beginthreadex (NULL, 0, PeriodicFastPollThreadProc, NULL, 0, NULL)))
 		goto error;
@@ -148,6 +163,11 @@ error:
 	RandStop (TRUE);
 	SetLastError (dwLastError);
 	return 1;
+}
+
+int Randinit ()
+{
+	return RandinitWithCheck (NULL);
 }
 
 /* Close everything down, including the thread which is closed down by
@@ -180,12 +200,6 @@ void RandStop (BOOL freePool)
 		hNetAPI32 = NULL;
 	}
 
-	if (CryptoAPIAvailable)
-	{
-		CryptReleaseContext (hCryptProv, 0);
-		CryptoAPIAvailable = FALSE;
-		CryptoAPILastError = ERROR_SUCCESS;
-	}
 
 	hMouse = NULL;
 	hKeyboard = NULL;
@@ -243,19 +257,18 @@ BOOL Randmix ()
 	if (bRandmixEnabled)
 	{
 		unsigned char hashOutputBuffer [MAX_DIGESTSIZE];
+        #ifndef WOLFCRYPT_BACKEND		
 		WHIRLPOOL_CTX	wctx;
-		RMD160_CTX		rctx;
+		blake2s_state   bctx;
+		blake2b_state   b2ctx;
+		STREEBOG_CTX	stctx;
+        #endif
 		sha512_ctx		sctx;
 		sha256_ctx		s256ctx;
-		STREEBOG_CTX	stctx;
 		int poolIndex, digestIndex, digestSize;
 
 		switch (HashFunction)
 		{
-		case RIPEMD160:
-			digestSize = RIPEMD160_DIGESTSIZE;
-			break;
-
 		case SHA512:
 			digestSize = SHA512_DIGESTSIZE;
 			break;
@@ -264,6 +277,15 @@ BOOL Randmix ()
 			digestSize = SHA256_DIGESTSIZE;
 			break;
 
+        #ifndef WOLFCRYPT_BACKEND
+			case BLAKE2S:
+				digestSize = BLAKE2S_DIGESTSIZE;
+				break;
+
+			case ARGON2:
+				digestSize = BLAKE2B_DIGESTSIZE;
+				break;
+	
 		case WHIRLPOOL:
 			digestSize = WHIRLPOOL_DIGESTSIZE;
 			break;
@@ -271,7 +293,7 @@ BOOL Randmix ()
 		case STREEBOG:
 			digestSize = STREEBOG_DIGESTSIZE;
 			break;
-
+        #endif
 		default:
 			TC_THROW_FATAL_EXCEPTION;
 		}
@@ -284,12 +306,6 @@ BOOL Randmix ()
 			/* Compute the message digest of the entire pool using the selected hash function. */
 			switch (HashFunction)
 			{
-			case RIPEMD160:
-				RMD160Init(&rctx);
-				RMD160Update(&rctx, pRandPool, RNG_POOL_SIZE);
-				RMD160Final(hashOutputBuffer, &rctx);
-				break;
-
 			case SHA512:
 				sha512_begin (&sctx);
 				sha512_hash (pRandPool, RNG_POOL_SIZE, &sctx);
@@ -300,6 +316,13 @@ BOOL Randmix ()
 				sha256_begin (&s256ctx);
 				sha256_hash (pRandPool, RNG_POOL_SIZE, &s256ctx);
 				sha256_end (hashOutputBuffer, &s256ctx);
+				break;
+
+#ifndef WOLFCRYPT_BACKEND
+			case BLAKE2S:
+				blake2s_init(&bctx);
+				blake2s_update(&bctx, pRandPool, RNG_POOL_SIZE);
+				blake2s_final(&bctx, hashOutputBuffer);
 				break;
 
 			case WHIRLPOOL:
@@ -314,6 +337,13 @@ BOOL Randmix ()
 				STREEBOG_finalize (&stctx, hashOutputBuffer);
 				break;
 
+			case ARGON2:
+				// For Argon2, we use the underlying Blake2b hash function
+				blake2b_init(&b2ctx, BLAKE2B_OUTBYTES);
+				blake2b_update(&b2ctx, pRandPool, RNG_POOL_SIZE);
+				blake2b_final(&b2ctx, hashOutputBuffer, BLAKE2B_OUTBYTES);
+				break;
+#endif
 			default:
 				// Unknown/wrong ID
 				TC_THROW_FATAL_EXCEPTION;
@@ -330,10 +360,6 @@ BOOL Randmix ()
 		burn (hashOutputBuffer, MAX_DIGESTSIZE);
 		switch (HashFunction)
 		{
-		case RIPEMD160:
-			burn (&rctx, sizeof(rctx));
-			break;
-
 		case SHA512:
 			burn (&sctx, sizeof(sctx));
 			break;
@@ -342,6 +368,15 @@ BOOL Randmix ()
 			burn (&s256ctx, sizeof(s256ctx));
 			break;
 
+        #ifndef WOLFCRYPT_BACKEND
+			case BLAKE2S:
+				burn (&bctx, sizeof(bctx));
+				break;
+
+			case ARGON2:
+				burn (&b2ctx, sizeof(b2ctx));
+				break;
+
 		case WHIRLPOOL:
 			burn (&wctx, sizeof(wctx));
 			break;
@@ -349,7 +384,7 @@ BOOL Randmix ()
 		case STREEBOG:
 			burn (&stctx, sizeof(sctx));
 			break;
-
+        #endif
 		default:
 			// Unknown/wrong ID
 			TC_THROW_FATAL_EXCEPTION;
@@ -651,6 +686,7 @@ BOOL SlowPoll (void)
 	DWORD dwSize, status;
 	LPWSTR lpszLanW, lpszLanS;
 	int nDrive;
+	NTSTATUS bStatus = 0;
 
 	/* Find out whether this is an NT server or workstation if necessary */
 	if (isWorkstation == -1)
@@ -759,24 +795,47 @@ BOOL SlowPoll (void)
 		CloseHandle (hDevice);
 	}
 
-	// CryptoAPI: We always have a valid CryptoAPI context when we arrive here but
-	//            we keep the check for clarity purpose
-	if ( !CryptoAPIAvailable )
-		return FALSE;
-	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer))
+
+	bStatus = BCryptGenRandom(NULL, buffer, sizeof(buffer), BCRYPT_USE_SYSTEM_PREFERRED_RNG);
+	if (NT_SUCCESS(bStatus))
 	{
 		RandaddBuf (buffer, sizeof (buffer));
-
-		burn(buffer, sizeof (buffer));
-		Randmix();
-		return TRUE;
 	}
 	else
 	{
-		/* return error in case CryptGenRandom fails */
-		CryptoAPILastError = GetLastError ();
+		/* return error in case BCryptGenRandom fails */
+		CryptoAPILastError = pRtlNtStatusToDosError (bStatus);
 		return FALSE;
 	}
+
+	/* use JitterEntropy library to get good quality random bytes based on CPU timing jitter */
+	if (0 == jent_entropy_init ())
+	{
+		struct rand_data *ec = jent_entropy_collector_alloc (1, 0);
+		if (ec)
+		{
+			ssize_t rndLen = jent_read_entropy (ec, (char*) buffer, sizeof (buffer));
+			if (rndLen > 0)
+				RandaddBuf (buffer, (int) rndLen);
+			jent_entropy_collector_free (ec);
+		}
+	}
+
+#ifndef _M_ARM64
+	// use RDSEED or RDRAND from CPU as source of entropy if present
+	if (	IsCpuRngEnabled() && 
+		(	(HasRDSEED() && RDSEED_getBytes (buffer, sizeof (buffer)))
+		||	(HasRDRAND() && RDRAND_getBytes (buffer, sizeof (buffer)))
+		))
+	{
+		RandaddBuf (buffer, sizeof (buffer));
+	}
+#endif
+
+	burn(buffer, sizeof (buffer));
+	Randmix();
+
+	return TRUE;
 }
 
 
@@ -788,9 +847,10 @@ BOOL FastPoll (void)
 	FILETIME creationTime, exitTime, kernelTime, userTime;
 	SIZE_T minimumWorkingSetSize, maximumWorkingSetSize;
 	LARGE_INTEGER performanceCount;
-	MEMORYSTATUS memoryStatus;
+	MEMORYSTATUSEX memoryStatus;
 	HANDLE handle;
 	POINT point;
+	NTSTATUS bStatus = 0;
 
 	/* Get various basic pieces of system information */
 	RandaddIntPtr (GetActiveWindow ());	/* Handle of active window */
@@ -829,9 +889,9 @@ BOOL FastPoll (void)
 	/* Get percent of memory in use, bytes of physical memory, bytes of
 	   free physical memory, bytes in paging file, free bytes in paging
 	   file, user bytes of address space, and free user bytes */
-	memoryStatus.dwLength = sizeof (MEMORYSTATUS);
-	GlobalMemoryStatus (&memoryStatus);
-	RandaddBuf ((unsigned char *) &memoryStatus, sizeof (MEMORYSTATUS));
+	memoryStatus.dwLength = sizeof (MEMORYSTATUSEX);
+	GlobalMemoryStatusEx (&memoryStatus);
+	RandaddBuf ((unsigned char *) &memoryStatus, sizeof (MEMORYSTATUSEX));
 
 	/* Get thread and process creation time, exit time, time in kernel
 	   mode, and time in user mode in 100ns intervals */
@@ -881,21 +941,31 @@ BOOL FastPoll (void)
 		RandaddBuf ((unsigned char *) &dwTicks, sizeof (dwTicks));
 	}
 
-	// CryptoAPI: We always have a valid CryptoAPI context when we arrive here but
-	//            we keep the check for clarity purpose
-	if ( !CryptoAPIAvailable )
-		return FALSE;
-	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer))
+
+	bStatus = BCryptGenRandom(NULL, buffer, sizeof(buffer), BCRYPT_USE_SYSTEM_PREFERRED_RNG);
+	if (NT_SUCCESS(bStatus))
 	{
 		RandaddBuf (buffer, sizeof (buffer));
-		burn (buffer, sizeof(buffer));
 	}
 	else
 	{
-		/* return error in case CryptGenRandom fails */
-		CryptoAPILastError = GetLastError ();
+		/* return error in case BCryptGenRandom fails */
+		CryptoAPILastError = pRtlNtStatusToDosError (bStatus);
 		return FALSE;
 	}
+
+#ifndef _M_ARM64
+	// use RDSEED or RDRAND from CPU as source of entropy if enabled
+	if (	IsCpuRngEnabled() && 
+		(	(HasRDSEED() && RDSEED_getBytes (buffer, sizeof (buffer)))
+		||	(HasRDRAND() && RDRAND_getBytes (buffer, sizeof (buffer)))
+		))
+	{
+		RandaddBuf (buffer, sizeof (buffer));
+	}
+#endif
+
+	burn (buffer, sizeof(buffer));
 
 	/* Apply the pool mixing function */
 	Randmix();
@@ -910,4 +980,3 @@ BOOL FastPoll (void)
 
 	return TRUE;
 }
-

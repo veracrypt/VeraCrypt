@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -44,6 +44,7 @@ static DWORD LanguageResourceSize = 0;
 static char *HeaderResource[2] = {NULL, NULL};
 static DWORD HeaderResourceSize[2] = {0, 0};
 static char ActiveLangPackVersion[6] = {0};
+static int LanguageResourceId = 0;
 
 static char *MapFirstLanguageFile ()
 {
@@ -58,6 +59,8 @@ static char *MapFirstLanguageFile ()
 		free (LanguageFileBuffer);
 		LanguageFileBuffer = NULL;
 	}
+
+	LanguageResourceId = 0;
 
 	if (LanguageResource == NULL)
 	{
@@ -80,14 +83,40 @@ static char *MapFirstLanguageFile ()
 	return LanguageFileBuffer;
 }
 
+static int IsValidLanguageFileName(const wchar_t* filename) {
+    size_t len = wcslen(filename);
+    
+    // Check the base format and length directly
+    if (_wcsnicmp(filename, L"Language.", 9) != 0 || (len != 15 && len != 18))
+        return 0; // Does not start with "Language." or has incorrect length
 
-static char *MapNextLanguageFile ()
+    // Check for the ".xml" suffix
+    if (_wcsicmp(filename + len - 4, L".xml") != 0)
+        return 0; // Does not end with ".xml"
+
+    // Detailed checks based on the specific length
+    if (len == 15) {
+        // Format should be Language.xx.xml
+        if (iswalpha(filename[9]) && iswalpha(filename[10]))
+            return 1; // Valid format for short code
+    } else if (len == 18) {
+        // Format should be Language.xx-yy.xml
+        if (iswalpha(filename[9]) && iswalpha(filename[10]) && filename[11] == L'-' &&
+            iswalpha(filename[12]) && iswalpha(filename[13]))
+            return 1; // Valid format for long code
+    }
+
+    return 0; // If none of the conditions are met, the filename is invalid
+}
+
+static char *MapNextLanguageFile (int resourceid)
 {
 	wchar_t f[TC_MAX_PATH*2], *t;
 	WIN32_FIND_DATAW find;
 	HANDLE file;
 	DWORD read;
 	BOOL bStatus;
+	BOOL validFileFound = FALSE;
 
 	/* free memory here to avoid leaks */
 	if (LanguageFileBuffer != NULL)
@@ -96,76 +125,120 @@ static char *MapNextLanguageFile ()
 		LanguageFileBuffer = NULL;
 	}
 
-	if (LanguageFileFindHandle == INVALID_HANDLE_VALUE)
+	if (resourceid == 0)
 	{
-		GetModuleFileNameW (NULL, f, sizeof (f) / sizeof (f[0]));
+		if (LanguageFileFindHandle == INVALID_HANDLE_VALUE)
+		{
+			GetModuleFileNameW (NULL, f, sizeof (f) / sizeof (f[0]));
+			t = wcsrchr (f, L'\\');
+			if (t == NULL) return NULL;
+
+			*t = 0;
+			StringCbCatW (f, sizeof(f), L"\\Languages\\Language*.xml");
+
+			LanguageFileFindHandle = FindFirstFileW (f, &find);
+		}
+		else if (!FindNextFileW (LanguageFileFindHandle, &find))
+		{
+			FindClose (LanguageFileFindHandle);
+			LanguageFileFindHandle = INVALID_HANDLE_VALUE;
+			return NULL;
+		}
+
+		if (LanguageFileFindHandle == INVALID_HANDLE_VALUE) return NULL;
+		if (find.nFileSizeHigh != 0) return NULL;
+
+        // Validate the file name format
+        while (!validFileFound)
+        {
+            if (!IsValidLanguageFileName(find.cFileName))
+            {
+                if (!FindNextFileW(LanguageFileFindHandle, &find))
+                {
+                    FindClose(LanguageFileFindHandle);
+                    LanguageFileFindHandle = INVALID_HANDLE_VALUE;
+                    return NULL;
+                }
+            }
+            else
+            {
+                validFileFound = TRUE;
+            }
+        }
+
+		LanguageFileBuffer = malloc(find.nFileSizeLow + 1);
+		if (LanguageFileBuffer == NULL) return NULL;
+
+		GetModuleFileNameW (NULL, f, sizeof (f) / sizeof(f[0]));
 		t = wcsrchr (f, L'\\');
-		if (t == NULL) return NULL;
+		if (t == NULL)
+		{
+			free(LanguageFileBuffer);
+			LanguageFileBuffer = NULL;
+			return NULL;
+		}
 
-		*t = 0;
-		StringCbCatW (f, sizeof(f), L"\\Language*.xml");
+		t[1] = 0;
+		StringCbCatW (f, sizeof(f), L"Languages\\");
+		StringCbCatW (f, sizeof(f),find.cFileName);
 
-		LanguageFileFindHandle = FindFirstFileW (f, &find);
+		file = CreateFileW (f, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
+		if (file == INVALID_HANDLE_VALUE)
+		{
+			free(LanguageFileBuffer);
+			LanguageFileBuffer = NULL;
+			return NULL;
+		}
+
+		bStatus = ReadFile (file, LanguageFileBuffer, find.nFileSizeLow, &read, NULL);
+		CloseHandle (file);
+		if (!bStatus || (read != find.nFileSizeLow))
+		{
+			free(LanguageFileBuffer);
+			LanguageFileBuffer = NULL;
+			return NULL;
+		}
+
+		LanguageFileBuffer [find.nFileSizeLow] = 0; // we have allocated (find.nFileSizeLow + 1) bytes
 	}
-	else if (!FindNextFileW (LanguageFileFindHandle, &find))
+	else if (LanguageResourceId != resourceid)
 	{
-		FindClose (LanguageFileFindHandle);
-		LanguageFileFindHandle = INVALID_HANDLE_VALUE;
-		return NULL;
+		DWORD size;
+
+		LanguageResourceId = resourceid;
+
+		LanguageResource = MapResource (L"Languages", LanguageResourceId, &size);
+		if (LanguageResource)
+			LanguageResourceSize = size;
+
+		if (LanguageResource)
+		{
+			LanguageFileBuffer = malloc(LanguageResourceSize + 1);
+			if (LanguageFileBuffer)
+			{
+				memcpy (LanguageFileBuffer, LanguageResource, LanguageResourceSize);
+				LanguageFileBuffer[LanguageResourceSize] = 0;
+			}
+		}
 	}
-
-	if (LanguageFileFindHandle == INVALID_HANDLE_VALUE) return NULL;
-	if (find.nFileSizeHigh != 0) return NULL;
-
-	LanguageFileBuffer = malloc(find.nFileSizeLow + 1);
-	if (LanguageFileBuffer == NULL) return NULL;
-
-	GetModuleFileNameW (NULL, f, sizeof (f) / sizeof(f[0]));
-	t = wcsrchr (f, L'\\');
-	if (t == NULL)
-	{
-		free(LanguageFileBuffer);
-		LanguageFileBuffer = NULL;
-		return NULL;
-	}
-
-	t[1] = 0;
-	StringCbCatW (f, sizeof(f),find.cFileName);
-
-	file = CreateFileW (f, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
-	if (file == INVALID_HANDLE_VALUE)
-	{
-		free(LanguageFileBuffer);
-		LanguageFileBuffer = NULL;
-		return NULL;
-	}
-
-	bStatus = ReadFile (file, LanguageFileBuffer, find.nFileSizeLow, &read, NULL);
-	CloseHandle (file);
-	if (!bStatus || (read != find.nFileSizeLow))
-	{
-		free(LanguageFileBuffer);
-		LanguageFileBuffer = NULL;
-		return NULL;
-	}
-
-	LanguageFileBuffer [find.nFileSizeLow] = 0; // we have allocated (find.nFileSizeLow + 1) bytes
 
 	return LanguageFileBuffer;
 }
 
 
-BOOL LoadLanguageFile ()
+static BOOL LoadLanguageData (int resourceid, BOOL bForceSetPreferredLanguage, BOOL bForceSilent)
 {
 	DWORD size;
 	BYTE *res;
 	char *xml, *header, *headerPtr;
 	char langId[6] = "en", attr[32768], key[128];
 	BOOL defaultLangParsed = FALSE, langFound = FALSE;
+	BOOL incompatibleLangFound = FALSE;
+	char requiredVersion[128], incompatibleVersion[128] = {0};
 	WCHAR wattr[32768];
 	int i, intKey, len;
 
-	char *xmlElements[] = {"control", "string", 0};
+	char *xmlElements[] = {"entry", 0};
 
 #ifdef TCMOUNT
 	int headers[] = { IDR_COMMON_RSRC_HEADER, IDR_MOUNT_RSRC_HEADER, 0 };
@@ -179,32 +252,27 @@ BOOL LoadLanguageFile ()
 	int headers[] = { IDR_COMMON_RSRC_HEADER, IDR_SETUP_RSRC_HEADER, 0 };
 #endif
 
+#ifdef VCSDK_DLL
+	int headers[] = { 0 };
+#endif
+
 	LocalizationActive = FALSE;
 	ActiveLangPackVersion[0] = 0;
 	ClearDictionaryPool ();
+	LanguageResource = NULL;
 
-	if (PreferredLangId[0] != 0)
+	if ((resourceid == 0) && (PreferredLangId[0] != 0))
 		StringCbCopyA (langId, sizeof(langId), PreferredLangId);
 
 	// Parse all available language files until preferred language is found
-	for (res = MapFirstLanguageFile (); res != NULL; res = MapNextLanguageFile ())
+	for (res = MapFirstLanguageFile (); res != NULL; res = MapNextLanguageFile (resourceid))
 	{
 		xml = (char *) res;
 		xml = XmlFindElement (xml, "localization");
 		if (!xml)
 			continue;
 
-		// Required TrueCrypt version
-		XmlGetAttributeText (xml, "prog-version", attr, sizeof (attr));
-
-		// Check version of external language file
-		if (defaultLangParsed && strcmp (attr, VERSION_STRING) && strcmp (attr, "DEBUG"))
-		{
-			wchar_t m[2048];
-			StringCbPrintfW (m, sizeof(m), L"The installed language pack is incompatible with this version of VeraCrypt (the language pack is for VeraCrypt %hs). A newer version may be available at www.idrix.fr.\n\nTo prevent this message from being displayed, do any of the following:\n\n- Select 'Settings' > 'Language'; then select 'English' and click 'OK'.\n\n- Remove or replace the language pack with a compatible version (the language pack may reside e.g. in 'C:\\Program Files\\VeraCrypt' or '%%LOCALAPPDATA%%\\VirtualStore\\Program Files\\VeraCrypt', etc.)", attr);
-			MessageBoxW (NULL, m, L"VeraCrypt", MB_ICONERROR);
-			continue;
-		}
+		XmlGetAttributeText (xml, "prog-version", requiredVersion, sizeof (requiredVersion));
 
 		// Search language id in language file
 		if (defaultLangParsed)
@@ -212,8 +280,18 @@ BOOL LoadLanguageFile ()
 			while (xml = XmlFindElement (xml, "language"))
 			{
 				XmlGetAttributeText (xml, "langid", attr, sizeof (attr));
-				if (strcmp (attr, langId) == 0)
+				if (resourceid != 0 || strcmp (attr, langId) == 0)
 				{
+					// Unrelated old translations must not produce a dialog. Keep
+					// looking in case another file contains a compatible copy.
+					if (strcmp (requiredVersion, VERSION_STRING) && strcmp (requiredVersion, "DEBUG"))
+					{
+						incompatibleLangFound = TRUE;
+						StringCbCopyA (incompatibleVersion, sizeof (incompatibleVersion), requiredVersion);
+						break;
+					}
+					if (resourceid != 0)
+						StringCbCopyA (langId, sizeof (langId), attr);
 					XmlGetAttributeText (xml++, "version", ActiveLangPackVersion, sizeof (ActiveLangPackVersion));
 					langFound = TRUE;
 					break;
@@ -259,7 +337,7 @@ BOOL LoadLanguageFile ()
 			xml = (char *) res;
 			while (xml = XmlFindElement (xml, xmlElements[i]))
 			{
-				void *key;
+				void *pkey;
 				void *text;
 
 				XmlGetAttributeText (xml, "lang", attr, sizeof (attr));
@@ -268,8 +346,8 @@ BOOL LoadLanguageFile ()
 				{
 					if (XmlGetAttributeText (xml, "key", attr, sizeof (attr)))
 					{
-						key = AddPoolData (attr, strlen (attr) + 1);
-						if (key == NULL) return FALSE;
+						pkey = AddPoolData (attr, strlen (attr) + 1);
+						if (pkey == NULL) return FALSE;
 
 						XmlGetNodeText (xml, attr, sizeof (attr));
 
@@ -287,7 +365,8 @@ BOOL LoadLanguageFile ()
 									case 't': *out++ = '\t'; break;
 									case 'n': *out++ = 13; *out++ = 10; break;
 									default:
-										MessageBoxA (0, key, "VeraCrypt: Unknown '\\' escape sequence in string", MB_ICONERROR);
+										if (!bForceSilent)
+											MessageBoxA (0, pkey, "VeraCrypt: Unknown '\\' escape sequence in string", MB_ICONERROR);
 										return FALSE;
 									}
 								}
@@ -301,7 +380,8 @@ BOOL LoadLanguageFile ()
 						len = MultiByteToWideChar (CP_UTF8, 0, attr, -1, wattr, sizeof (wattr) / sizeof(wattr[0]));
 						if (len == 0)
 						{
-							MessageBoxA (0, key, "VeraCrypt: Error while decoding UTF-8 string", MB_ICONERROR);
+							if (!bForceSilent)
+								MessageBoxA (0, pkey, "VeraCrypt: Error while decoding UTF-8 string", MB_ICONERROR);
 							return FALSE;
 						}
 
@@ -309,7 +389,7 @@ BOOL LoadLanguageFile ()
 						text = AddPoolData ((void *) wattr, len * 2);
 						if (text == NULL) return FALSE;
 
-						AddDictionaryEntry ((char *) key, 0, text);
+						AddDictionaryEntry ((char *)pkey, 0, text);
 					}
 				}
 
@@ -323,13 +403,23 @@ BOOL LoadLanguageFile ()
 		if (!defaultLangParsed)
 		{
 			defaultLangParsed = TRUE;
-			if (langId[0] == 0 || strcmp (langId, "en") == 0)
+			if ((resourceid == 0) && (langId[0] == 0 || strcmp (langId, "en") == 0))
 				break;
 		}
 	}
 
 	LocalizationActive = langFound && strcmp (langId, "en") != 0;
 	LocalizationSerialNo++;
+	if (!langFound && incompatibleLangFound && !bForceSilent)
+	{
+		wchar_t message[2048];
+		StringCbPrintfW (message, sizeof (message), L"The selected language pack is for VeraCrypt %hs and is incompatible with VeraCrypt %hs. VeraCrypt will use English.\n\nInstall a compatible language pack in the Languages folder next to VeraCrypt.exe, or select English in Settings > Language.\n\nIf this followed a failed upgrade, run the new VeraCrypt installer again to complete the installation.",
+			incompatibleVersion[0] ? incompatibleVersion : "(unknown version)", VERSION_STRING);
+		MessageBoxW (NULL, message, L"VeraCrypt", MB_ICONWARNING);
+	}
+
+	if (bForceSetPreferredLanguage)
+		StringCbCopyA (PreferredLangId, sizeof (PreferredLangId), langId);
 
 	// Create control ID dictionary
 
@@ -382,6 +472,15 @@ BOOL LoadLanguageFile ()
 	return TRUE;
 }
 
+BOOL LoadLanguageFile ()
+{
+	return LoadLanguageData (0, FALSE, FALSE);
+}
+
+BOOL LoadLanguageFromResource (int resourceid, BOOL bSetPreferredLanguage, BOOL bForceSilent)
+{
+	return LoadLanguageData (resourceid, bSetPreferredLanguage, bForceSilent);
+}
 
 // lParam = 1: auto mode
 BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -403,7 +502,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			LocalizeDialog (hwndDlg, "IDD_LANGUAGE");
 			ToHyperlink (hwndDlg, IDC_GET_LANG_PACKS);
 
-			for (xml = MapFirstLanguageFile (); xml != NULL; xml = MapNextLanguageFile ())
+			for (xml = MapFirstLanguageFile (); xml != NULL; xml = MapNextLanguageFile (0))
 			{
 				while (xml = XmlFindElement (xml, "language"))
 				{
@@ -488,6 +587,10 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			return 1;
 		}
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
+
 	case WM_COMMAND:
 
 		if (lw == IDOK || hw == LBN_DBLCLK)
@@ -539,7 +642,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			else
 				tmpstr[0] = 0;
 
-			Applink ("localizations", TRUE, tmpstr);
+			Applink ("localizations");
 
 			return 1;
 		}
@@ -558,7 +661,8 @@ char *GetPreferredLangId ()
 
 void SetPreferredLangId (char *langId)
 {
-	StringCbCopyA (PreferredLangId, sizeof(PreferredLangId), langId);
+	if (strlen(langId) < sizeof(PreferredLangId))
+		StringCbCopyA (PreferredLangId, sizeof(PreferredLangId), langId);
 }
 
 

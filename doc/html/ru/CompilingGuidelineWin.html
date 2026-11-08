@@ -1,0 +1,583 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+<style>
+.textbox {
+  vertical-align: top;
+  height: auto !important;
+  font-family: Helvetica,sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+  background-color: white;
+  width: auto;
+  border-radius: 10px;
+}
+
+.texttohide {
+  font-family: Helvetica,sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+
+</style>
+
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">Технические подробности</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelines.html">Сборка VeraCrypt из исходного кода</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelineWin.html">Руководство по сборке в Windows</a>
+</p></div>
+
+<div class="wikidoc">
+В этом руководстве описано, как настроить систему Windows для компилирования VeraCrypt и как cкомпилировать программу.<br>
+Здесь как пример приведена процедура для Windows 10/11, процедуры для других версий Windows аналогичны.
+</div>
+
+<div class="wikidoc">
+Для компиляции текущих двоичных файлов VeraCrypt для Windows и драйверов необходимы следующие компоненты; необязательные альтернативы или инструменты, нужные только для выпуска, отмечены отдельно:
+
+<ol>
+	<li>Microsoft Visual Studio 2022 или Build Tools for Visual Studio 2022 как альтернатива для командной строки</li>
+	<li>Набор инструментов MSVC v143 C++ с компонентами x86/x64 и ARM64</li>
+	<li>Windows 10/11 SDK (10.0.19041.0 или новее), включая signtool.exe для скриптов подписи. Если SDK и WDK устанавливаются отдельно, используйте совпадающие номера сборок.</li>
+	<li>Windows Driver Kit для Windows 10/11 с расширением Visual Studio 2022</li>
+	<li>NASM</li>
+	<li>YASM</li>
+	<li>WiX Toolset v3.x (требуется для MSI-пакетов)</li>
+	<li>Инструменты устаревшего загрузчика BIOS (необязательно; требуются только при пересборке проекта Boot): Microsoft Visual C++ 1.52, gzip, UPX и dd.exe</li>
+	
+</ol>
+
+</div>
+
+<div class="wikidoc">
+Ниже приведены шаги процедуры. Нажав на любую ссылку, вы сразу перейдёте к соответствующему шагу:
+<ul>
+<li><strong><a href="#InstallationOfNASM">Установка NASM</a></strong></li>
+<li><strong><a href="#InstallationOfYASM">Установка YASM</a></strong></li>
+<li><strong><a href="#InstallationOfLegacyBootTools">Установка инструментов устаревшего загрузчика BIOS (необязательно)</a></strong></li>
+<li><strong><a href="#InstallationOfWix3">Установка WiX Toolset v3.x</a></strong></li>
+<li><strong><a href="#InstallationOfVS2022">Установка Microsoft Visual Studio 2022</a></strong></li>
+<li><strong><a href="#InstallationOfWDK10">Установка Windows Driver Kit</a></strong></li>
+<li><strong><a href="#InstallationOfVisualBuildTools">Установка Build Tools for Visual Studio 2022</a></strong></li>
+<li><strong><a href="#DownloadVeraCrypt">Загрузка исходных файлов VeraCrypt</a></strong></li>
+<li><strong><a href="#CompileWin32X64">Компиляция x64-, ARM64- и драйверных сборок VeraCrypt</a></strong></li>
+<li><strong><a href="#BuildVeraCryptExecutables">Сборка исполняемых файлов VeraCrypt</a></strong></li>
+<li><strong><a href="#ImportCertificates">Импорт сертификатов</a></strong></li>
+<li><strong><a href="#KnownIssues">Известные проблемы</a></strong></li>
+</ul>
+</div>
+
+<div class="wikidoc">
+ <div class="textbox" id="InstallationOfNASM">
+  <a href="#InstallationOfNASM">Установка NASM</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Загрузите установщик актуальной версии NASM (например, "nasm-2.16.03-installer-x64.exe") отсюда: <br>
+				<a href="https://www.nasm.us/pub/nasm/releasebuilds/" target="_blank">https://www.nasm.us/pub/nasm/releasebuilds/</a> <br>
+                Подходят актуальные версии NASM; для проверенных в этом руководстве сборок приложений Windows использовался NASM 2.16.03.
+			</li>
+			<li>
+				Запустите файл от имени администратора.
+			</li>
+			<li>
+				Установите NASM с настройками по умолчанию.
+			</li>
+			<li>
+				Добавьте путь к папке NASM в системную переменную PATH. Это сделает команду доступной отовсюду при вызове из командной строки. <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Откройте Проводник.
+					</li>
+					<li>
+						В левой панели щёлкните правой кнопкой мыши по "Этот компьютер" и выберите "Свойства". <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						В правой части окна щёлкните по "Дополнительные параметры системы". <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Нажмите кнопку "Переменные среды". <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						В поле "Системные переменные" выберите переменную "Path" и нажмите кнопку "Изменить...". <br>
+						<img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+					</li>
+					<li>
+						Нажмите кнопку "Создать" и добавьте папку, в которую установлен NASM, например: <br>
+						<p style="font-family: 'Courier New', monospace;">C:\Program Files\NASM</p>
+						(32-битный установщик NASM использует "C:\Program Files (x86)\nasm")
+					</li>
+					<li>
+						Закройте окна, нажимая кнопки OK.
+					</li>
+				</ol>
+			</li>
+			<li>
+                Чтобы проверить установку, откройте новую командную строку и выполните: <br>
+                <p style="font-family: 'Courier New', monospace;">where.exe nasm<br>nasm -v</p>
+                Первая команда выводит исполняемые файлы NASM, найденные в Path; вторая показывает версию, которая будет использована. Убедитесь, что команды указывают на нужную установку.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfYASM">
+  <a href="#InstallationOfYASM">Установка YASM</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Создайте следующую папку: <br>
+				C:\Program Files\YASM
+			</li>
+			<li>
+				Загрузите "yasm-1.3.0-win64.exe" из раздела Assets официальной страницы релиза: <br>
+				<a href="https://github.com/yasm/yasm/releases/tag/v1.3.0" target="_blank">https://github.com/yasm/yasm/releases/tag/v1.3.0</a>
+			</li>
+			<li>
+				Переименуйте файл в "yasm.exe" и скопируйте его в папку "C:\Program Files\YASM".
+			</li>
+			<li>
+				Добавьте путь к папке YASM в переменную PATH. Это сделает команду доступной отовсюду при вызове из командной строки. <br>
+				<ol style="list-style-type: upper-roman;">
+					<li>
+						Откройте Проводник.
+					</li>
+					<li>
+						В левой панели щёлкните правой кнопкой мыши по "Этот компьютер" и выберите "Свойства". <br>
+						<img src="CompilingGuidelineWin/SelectThisPC.jpg" width="40%">
+					</li>
+					<li>
+						В правой части окна щёлкните по "Дополнительные параметры системы". <br>
+						<img src="CompilingGuidelineWin/SelectAdvancedSystemSettings.jpg" width="50%">
+					</li>
+					<li>
+						Нажмите кнопку "Переменные среды". <br>
+						<img src="CompilingGuidelineWin/SelectEnvironmentVariables.jpg" width="17%">
+					</li>
+					<li>
+						В поле "Системные переменные" выберите переменную "Path" и нажмите кнопку "Изменить...". <br>
+						<img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
+					</li>
+					<li>
+						Нажмите кнопку "Создать" и добавьте следующее значение: <br>
+						<p style="font-family: 'Courier New', monospace;">C:\Program Files\YASM</p>
+					</li>
+
+					<li>
+						Закройте окна, нажимая кнопки OK.
+					</li>
+				</ol>
+			</li>
+			<li>
+                Чтобы проверить установку, откройте новую командную строку и выполните: <br>
+                <p style="font-family: 'Courier New', monospace;">where.exe yasm<br>yasm --version</p>
+                Первая команда выводит исполняемые файлы YASM, найденные в Path; вторая должна сообщить версию YASM 1.3.0. Убедитесь, что команды указывают на нужную установку.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfLegacyBootTools">
+  <a href="#InstallationOfLegacyBootTools">Установка инструментов устаревшего загрузчика BIOS (необязательно)</a>
+  <div class="texttohide">
+    <p>
+		Эти инструменты не требуются для компиляции стандартных двоичных файлов приложения VeraCrypt или драйвера Windows с помощью Visual Studio 2022 и текущего WDK. Устанавливайте их только если нужно пересобрать устаревший загрузчик BIOS в "src\Boot\Windows" или собрать конфигурации решения, включающие проект Boot, например "ReleaseCustomEFI".
+		<ol>
+			<li>
+				Установите Microsoft Visual C++ 1.52. Он доступен по платной подписке Microsoft MSDN. Если у вас нет подписки, образ ISO также доступен в интернет-архиве: <br>
+				<a href="https://archive.org/details/ms-vc152" target="_blank">https://archive.org/details/ms-vc152</a>
+			</li>
+			<li>
+				Создайте папку "C:\MSVC15". Смонтируйте файл ISO и скопируйте содержимое папки "MSVC" в "C:\MSVC15".
+			</li>
+			<li>
+				Создайте системную переменную "MSVC16_ROOT" со значением "C:\MSVC15".
+			</li>
+			<li>
+				Установите gzip и добавьте папку с "gzip.exe" в переменную Path.
+			</li>
+			<li>
+				Установите UPX и добавьте папку с "upx.exe" в переменную Path.
+			</li>
+			<li>
+				Установите Windows-порт dd и добавьте папку с "dd.exe" в переменную Path.
+			</li>
+			<li>
+				Откройте новую командную строку и убедитесь, что находятся следующие команды: <br>
+				<p style="font-family: 'Courier New', monospace;">nasm<br>gzip<br>upx<br>dd --help</p>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfWix3">
+  <a href="#InstallationOfWix3">Установка WiX Toolset v3.x</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Загрузите WiX Toolset v3.x отсюда: <br>
+				<a href="https://github.com/wixtoolset/wix3/releases" target="_blank">https://github.com/wixtoolset/wix3/releases</a>
+			</li>
+			<li>
+				Запустите загруженный файл от имени администратора и установите WiX с настройками по умолчанию.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfVS2022">
+  <a href="#InstallationOfVS2022">Установка Microsoft Visual Studio 2022</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Загрузите Visual Studio 2022 отсюда: <br>
+				<a href="https://visualstudio.microsoft.com/vs/" target="_blank">https://visualstudio.microsoft.com/vs/</a>
+			</li>
+			<li>
+				Запустите загруженный установщик от имени администратора.
+			</li>
+			<li>
+				Выберите рабочую нагрузку "Desktop development with C++".
+			</li>
+			<li>
+				Выберите следующие отдельные компоненты:
+				<ol style="list-style-type: upper-roman;">
+					<li>MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)</li>
+					<li>MSVC v143 - VS 2022 C++ x64/x86 Spectre-mitigated libs (Latest)</li>
+					<li>MSVC v143 - VS 2022 C++ ARM64 build tools (Latest)</li>
+					<li>MSVC v143 - VS 2022 C++ ARM64 Spectre-mitigated libs (Latest)</li>
+					<li>C++ ATL for latest v143 build tools (x86 & x64)</li>
+					<li>C++ ATL for latest v143 build tools (ARM64)</li>
+					<li>C++ ATL for latest v143 build tools with Spectre Mitigations (x86 & x64)</li>
+					<li>C++ ATL for latest v143 build tools with Spectre Mitigations (ARM64)</li>
+					<li>Windows 10/11 SDK (10.0.19041.0 или новее)</li>
+				</ol>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfWDK10">
+  <a href="#InstallationOfWDK10">Установка Windows Driver Kit</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Загрузите Windows Driver Kit (WDK), совместимый с Visual Studio 2022, отсюда: <br>
+				<a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk" target="_blank">https://learn.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk</a>
+			</li>
+			<li>
+				Запустите загруженный файл от имени администратора и установите WDK с настройками по умолчанию.
+			</li>
+			<li>
+				Если Windows SDK и WDK устанавливаются отдельно, убедитесь, что их номера сборок совпадают.
+			</li>
+			<li>
+				Убедитесь, что установлено расширение WDK для Visual Studio. Если установщик WDK спрашивает, нужно ли установить расширение Windows Driver Kit Visual Studio, выберите эту опцию перед закрытием диалогового окна. В текущих установщиках Visual Studio 2022 его также можно установить через Individual Components, выбрав "Windows Driver Kit".
+			</li>
+			<li>
+				Если автоматически запустится отдельный установщик VSIX, он определит Visual Studio 2022 как возможную цель для расширения. Выберите её и продолжите установку.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfVisualBuildTools">
+  <a href="#InstallationOfVisualBuildTools">Установка Build Tools for Visual Studio 2022</a>
+  <div class="texttohide">
+    <p>
+		Если вы установили Visual Studio 2022 с перечисленными выше компонентами, этот шаг можно пропустить. Устанавливайте Build Tools только если нужна среда сборки из командной строки без полного IDE Visual Studio.
+		<ol>
+			<li>
+				Загрузите Build Tools for Visual Studio 2022 отсюда: <br>
+				<a href="https://visualstudio.microsoft.com/downloads/" target="_blank">https://visualstudio.microsoft.com/downloads/</a>
+			</li>
+			<li>
+				Запустите загруженный установщик от имени администратора и выберите рабочую нагрузку "C++ build tools".
+			</li>
+			<li>
+				Выберите следующие отдельные компоненты:
+				<ol style="list-style-type: upper-roman;">
+					<li>MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)</li>
+					<li>MSVC v143 - VS 2022 C++ x64/x86 Spectre-mitigated libs (Latest)</li>
+					<li>MSVC v143 - VS 2022 C++ ARM64 build tools (Latest)</li>
+					<li>MSVC v143 - VS 2022 C++ ARM64 Spectre-mitigated libs (Latest)</li>
+					<li>C++ ATL for latest v143 build tools (x86 & x64)</li>
+					<li>C++ ATL for latest v143 build tools (ARM64)</li>
+					<li>C++ ATL for latest v143 build tools with Spectre Mitigations (x86 & x64)</li>
+					<li>C++ ATL for latest v143 build tools with Spectre Mitigations (ARM64)</li>
+					<li>Windows 10/11 SDK (10.0.19041.0 или новее)</li>
+				</ol>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="DownloadVeraCrypt">
+  <a href="#DownloadVeraCrypt">Загрузка исходных файлов VeraCrypt</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Посетите репозитарий VeraCrypt на Github: <br>
+				<a href="https://github.com/veracrypt/VeraCrypt" target="_blank">https://github.com/veracrypt/VeraCrypt</a>
+			</li>
+			<li>
+				Нажмите зелёную кнопку с надписью "Code" и скачайте код. <br>
+				Загрузить репозиторий можно в виде zip-архива, но вы, возможно, предпочтёте использовать протокол git для отслеживания изменений.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="CompileWin32X64">
+  <a href="#CompileWin32X64">Компиляция x64-, ARM64- и драйверных сборок VeraCrypt</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Откройте файл "src/VeraCrypt.sln" в Visual Studio <b>2022</b>.
+			</li>
+			<li>
+				Выберите "Release|x64" как активную конфигурацию.
+			</li>
+			<li>
+				Нажмите "Build -> Build Solution".
+			</li>
+			<li>
+				Процесс компиляции должен завершиться с предупреждениями, но без ошибок. Некоторые проекты следует пропустить.
+			</li>
+			<li>
+				Выберите "Release|ARM64" как активную конфигурацию.
+			</li>
+			<li>
+				Нажмите "Build -> Build Solution".
+			</li>
+			<li>
+				Процесс компиляции должен завершиться с предупреждениями, но без ошибок. Некоторые проекты следует пропустить.
+			</li>
+			<li>
+				Выберите "Release|Win32" как активную конфигурацию и соберите решение, чтобы скомпилировать проекты Setup, Portable, COMReg и SetupDLL, используемые скриптами упаковки релиза. Стандартные сборки решения "Release|x64" и "Release|ARM64" пропускают эти Win32-проекты, поэтому при подготовке пакетов релиза необходима эта дополнительная сборка.
+			</li>
+			<li>
+				Чтобы собрать драйверы VeraCrypt, выберите проект "Driver" и соберите его для "Release|x64" и "Release|ARM64".
+			</li>
+			<li>
+				Собирайте "ReleaseCustomEFI|x64" или "ReleaseCustomEFI|ARM64" только если нужны конфигурации выпуска с пользовательским EFI/загрузчиком. Эти конфигурации включают проект Boot и требуют необязательные инструменты устаревшего загрузчика BIOS, перечисленные выше. Они также собирают проекты Setup, Portable, COMReg и SetupDLL в конфигурациях Win32.
+			</li>
+			<li>
+				Если вы используете Build Tools for Visual Studio 2022 вместо IDE Visual Studio, откройте "Developer Command Prompt for VS 2022" или "Developer PowerShell for VS 2022", перейдите в корневой каталог исходного кода VeraCrypt и выполните эквивалентные команды MSBuild (для компиляции права администратора не требуются):
+				<br>
+				<code>
+					msbuild src\VeraCrypt.sln /m /p:Configuration=Release /p:Platform=x64 <br>
+					msbuild src\VeraCrypt.sln /m /p:Configuration=Release /p:Platform=ARM64 <br>
+					msbuild src\VeraCrypt.sln /m /p:Configuration=Release /p:Platform=Win32 <br>
+					msbuild src\Driver\Driver.vcxproj /m /p:Configuration=Release /p:Platform=x64 <br>
+					msbuild src\Driver\Driver.vcxproj /m /p:Configuration=Release /p:Platform=ARM64
+				</code>
+				<br>
+				Для сборки необязательных конфигураций выпуска с пользовательским EFI/загрузчиком также выполните:
+				<br>
+				<code>
+					msbuild src\VeraCrypt.sln /m /p:Configuration=ReleaseCustomEFI /p:Platform=x64 <br>
+					msbuild src\VeraCrypt.sln /m /p:Configuration=ReleaseCustomEFI /p:Platform=ARM64
+				</code>
+			</li>
+			<li>
+				Если сборка выполнялась из IDE, закройте Visual Studio 2022 после завершения процесса компиляции.
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="BuildVeraCryptExecutables">
+  <a href="#BuildVeraCryptExecutables">Сборка исполняемых файлов VeraCrypt</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Откройте командную строку разработчика Visual Studio 2022 от имени администратора для описанной ниже процедуры подписи и упаковки. Убедитесь, что средства подписи Windows SDK, включая "signtool.exe", доступны через Path.
+			</li>
+			<li>
+				Перейдите в папку "src/Signing/".
+			</li>
+			<li>
+				Запустите скрипт "sign_test.bat".
+			</li>
+			<li>
+				Сгенерированные исполняемые файлы будут в папке "src/Release/Setup Files".
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="ImportCertificates">
+  <a href="#ImportCertificates">Импорт сертификатов</a>
+  <div class="texttohide">
+    <p> С помощью скрипта sign_test.bat вы только что подписали исполняемые файлы VeraCrypt. Это необходимо, поскольку Windows принимает только те драйверы, которым доверяет подписанный центр сертификации. <br>
+	Поскольку вы использовали не официальный сертификат подписи VeraCrypt для подписи своего кода, а общедоступную версию для разработки, вы должны импортировать и, следовательно, доверять используемым сертификатам.
+		<ol>
+			<li>
+				Откройте папку "src/Signing".
+			</li>
+			<li>
+				Импортируйте следующие сертификаты в хранилище сертификатов локального компьютера, дважды щёлкнув по ним:
+				<ul>
+					<li>GlobalSign_R3Cross.cer</li>
+					<li>GlobalSign_SHA256_EV_CodeSigning_CA.cer</li>
+					<li>TestCertificate/idrix_codeSign.pfx</li>
+					<li>TestCertificate/idrix_Sha256CodeSign.pfx</li>
+					<li>TestCertificate/idrix_SHA256TestRootCA.crt</li>
+					<li>TestCertificate/idrix_TestRootCA.crt</li>
+				</ul>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="KnownIssues">
+  <a href="#KnownIssues">Известные проблемы</a>
+  <div class="texttohide">
+    <p>
+		<ul>
+<li>
+<b>Распространённые ошибки сборки и их причины</b> <br>
+Отсутствие компонентов сборки может вызывать следующие ошибки. Проверьте соответствующие пункты в приведённых выше списках компонентов:
+<ul>
+<li><p style="font-family: 'Courier New', monospace;">error MSB8040: Spectre-mitigated libraries are required for this project</p>
+В Visual Studio Installer на вкладке "Individual components" установите библиотеки MSVC v143 с защитой от Spectre, соответствующие версии набора инструментов и каждой целевой архитектуре (x64/x86 или ARM64), а также соответствующие компоненты ATL "with Spectre Mitigations".</li>
+<li><p style="font-family: 'Courier New', monospace;">error C1083: Cannot open include file: 'atlbase.h' (or 'atlcomcli.h')</p>
+Компоненты ATL не установлены. В Visual Studio Installer на вкладке "Individual components" установите "C++ ATL for latest v143 build tools" (и вариант с защитой от Spectre) для каждой архитектуры, под которую выполняется сборка.</li>
+<li><p style="font-family: 'Courier New', monospace;">error MSB8066: Custom build for 'Aes_hw_cpu.asm;...' exited with code 9009</p>
+Ассемблеры не найдены: "nasm.exe" и "yasm.exe" должны быть доступны через Path (код завершения 9009 означает "команда не найдена"). Командная строка или экземпляр Visual Studio, открытые до изменения переменной Path, не видят нового значения — откройте их заново и повторите сборку.</li>
+</ul>
+</li>
+
+			<li>
+				<b>Этот дистрибутив повреждён.</b> <br>
+				<img src="CompilingGuidelineWin/DistributionPackageDamaged.jpg" width="20%"> <br>
+				В Windows 10 или более новой версии возможно появление указанного выше сообщения об ошибке. Чтобы этого избежать, необходимо сделать следующее: <br>
+				<ul>
+					<li>Перепроверьте установку корневого сертификата, выдавшего сертификат подписи тестового кода, в хранилище доверенных корневых центров сертификации локальной машины ("Local Machine Trusted Root Certification Authorities").</li>
+					<li>Вычислите отпечаток SHA512 сертификата подписи тестового кода и соответствующим образом обновите массив gpbSha512CodeSignCertFingerprint в файле "src/Common/Dlgcode.c".</li>
+				</ul>
+				См. подробности тут: <a href="https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/#db12" target="_blank">https://sourceforge.net/p/veracrypt/discussion/technical/thread/83d5a2d6e8/#db12</a>.<br>
+				<br>
+				Другой подход – отключить проверку подписи в коде VeraCrypt. Это следует делать только в целях тестирования, но не для нормального использования:
+				<ol>
+					<li>
+						Откройте файл "src/Common/Dlgcode.c".
+					</li>
+					<li>
+						Найдите функцию "VerifyModuleSignature".
+					</li>
+					<li>
+						Замените следующие строки: <br>
+						Найти:<br>
+						<p style="font-family: 'Courier New', monospace;">
+						if (!IsOSAtLeast (WIN_10)) <br>
+						return TRUE;
+						</p> <br>
+						Заменить на:<br>
+						<p style="font-family: 'Courier New', monospace;">
+						return TRUE;
+						</p>
+					</li>
+					<li>
+						Снова скомпилируйте код VeraCrypt.
+					</li>
+				</ol>
+			</li>
+			<li>
+				<b>Ошибка сертификата.</b> <br>
+				<img src="CompilingGuidelineWin/CertVerifyFails.jpg" width="20%"> <br>
+				Windows проверяет подпись каждого устанавливаемого драйвера.<br>
+				Из соображений безопасности Windows позволяет загружать только драйверы, подписанные Microsoft.<br>
+				Поэтому при использовании пользовательской сборки:<br>
+				<ul>
+					<li>Если вы не изменяли исходный код драйвера VeraCrypt, то можете использовать подписанные Microsoft драйверы, включённые в исходный код VeraCrypt (в "src\Release\Setup Files").</li>
+					<li>Если вы внесли изменения, то <strong>нужно будет загрузить Windows в "тестовом режиме" ("Test Mode")</strong>. Этот режим позволяет Windows загружать драйверы, не подписанные Microsoft. Однако даже в "тестовом режиме" существуют определённые требования к подписям, и сбои всё равно могут возникать по описанным ниже причинам.</li>
+				</ul>
+				Возможные причины сбоя установки в "тестовом режиме" ("Test Mode"):
+				<ol>
+					<li>
+						<b>Используемый для подписи сертификат не является доверенным для Windows.</b><br>
+						Чтобы проверить, относится ли это к вам, проверьте свойства исполняемого файла:
+						<ol>
+							<li>
+								Щёлкните правой кнопкой мыши по исполняемому файлу VeraCrypt Setup: "src/Release/Setup Files/VeraCrypt Setup 1.XX.exe".
+							</li>
+							<li>
+								Выберите <em>Свойства</em>.
+							</li>
+							<li>	
+								Сверху выберите вкладку "Цифровые подписи". Здесь вы увидите две подписи.
+							</li>
+								Проверьте обе, дважды щёлкая по ним. Если в заголовке написано "Подпись сертификата не может быть проверена", то соответствующий сертификат подписи не был правильно импортирован.<br>
+								Нажмите кнопку "Просмотр сертификата", а затем "Установить сертификат...", чтобы импортировать сертификат в хранилище сертификатов. <br>
+								<img src="CompilingGuidelineWin/CertificateCannotBeVerified.jpg" width="40%"> <br>
+							<li>
+						</ol>
+					</li>
+					<li>
+						<b>Драйвер был изменён после подписания.</b> <br>
+						В этом случае воспользуйтесь скриптом "src/Signing/sign_test.bat", чтобы снова подписать ваш код тестовыми сертификатами.
+					</li>
+				</ol>
+			</li>
+		</ul>
+	</p>
+  </div>
+ </div>
+ 
+</div>
+</body></html>

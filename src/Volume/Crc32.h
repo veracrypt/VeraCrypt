@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -26,14 +26,14 @@ namespace VeraCrypt
 
 		uint32 Get () const { return CrcValue ^ 0xffffFFFF; }
 
-		uint32 Process (byte data)
+		uint32 Process (uint8 data)
 		{
-			return CrcValue = crc_32_tab[(byte) (CrcValue ^ data)] ^ (CrcValue >> 8);
+			return CrcValue = crc_32_tab[(uint8) (CrcValue ^ data)] ^ (CrcValue >> 8);
 		}
 
 		static uint32 ProcessBuffer (const ConstBufferPtr &buffer)
 		{
-			return ::GetCrc32 (const_cast<byte *> (buffer.Get()), static_cast<int> (buffer.Size()));
+			return ::GetCrc32 (const_cast<uint8 *> (buffer.Get()), static_cast<int> (buffer.Size()));
 		}
 
 	protected:

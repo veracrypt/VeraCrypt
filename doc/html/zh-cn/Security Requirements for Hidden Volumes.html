@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供合理否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，只需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Plausible%20Deniability.html">合理否认性</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Hidden%20Volume.html">隐藏卷</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20for%20Hidden%20Volumes.html">隐藏卷的安全要求</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>与隐藏卷相关的安全要求和预防措施</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果您使用 <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt 隐藏卷</a>，则必须遵循本节列出的安全要求和预防措施。免责声明：本节不保证包含可能对 VeraCrypt 保护隐藏 VeraCrypt 卷中存储的数据的能力以及提供合理否认性的能力产生不利影响或限制的 <em style="text-align:left">所有</em> 安全问题和攻击列表。</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果对手在不同时间点多次访问（未挂载的）VeraCrypt 卷，他可能能够确定该卷中哪些扇区正在发生变化。如果您更改 <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏卷</a> 的内容（例如，创建/复制新文件到隐藏卷，或修改/删除/重命名/移动隐藏卷上存储的文件等），隐藏卷区域中扇区（密文）的内容将会改变。在获得外部卷的密码后，对手可能会要求解释这些扇区为何发生变化。如果您无法提供合理的解释，可能会表明外部卷中存在隐藏卷。<br style="text-align:left">
+<br style="text-align:left">
+请注意，类似上述描述的问题也可能在以下情况下出现：<br style="text-align:left">
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+存储文件型 VeraCrypt 容器的文件系统已进行碎片整理，并且 VeraCrypt 容器（或其片段）的副本仍保留在宿主卷的空闲空间中（在已碎片整理的文件系统中）。为防止这种情况发生，请执行以下操作之一：
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+使用分区/设备型 VeraCrypt 卷代替文件型。 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在碎片整理后，安全擦除宿主卷（在已碎片整理的文件系统中）的空闲空间。在 Windows 系统上，可以使用 Microsoft
+<a href="https://technet.microsoft.com/en-us/sysinternals/bb897443.aspx">免费实用工具SDelete</a>。在Linux系统中，可以使用GNU coreutils软件包中的<em>shred</em>实用工具来达到此目的。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+不要对存储VeraCrypt卷的文件系统进行碎片整理。</li></ul>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+文件托管的VeraCrypt容器存储在日志文件系统（如NTFS）中。VeraCrypt容器的副本（或其片段）可能会保留在主机卷上。为防止这种情况发生，请采取以下操作之一：
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+使用分区/设备托管的VeraCrypt卷，而不是文件托管的。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+将容器存储在非日志文件系统（例如，FAT32）中。</li></ul>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+VeraCrypt卷位于使用损耗均衡机制的设备/文件系统（例如，闪存SSD或USB闪存驱动器）上。VeraCrypt卷的副本（或片段）可能会保留在设备上。因此，请勿将隐藏卷存储在此类设备/文件系统上。
+有关损耗均衡的更多信息，请参阅<a href="Wear-Leveling.html" style="text-align:left; color:#0080c0; text-decoration:none">
+损耗均衡</a>章节，该章节位于<a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none">
+安全要求和预防措施</a>部分。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+VeraCrypt卷位于保存数据的设备/文件系统上（或位于由保存数据的系统/设备控制或监控的设备/文件系统上）（例如，计时器或计数器的值），这些数据可用于确定一个块的写入时间早于另一个块，和/或确定一个块被写入/读取的次数。因此，请勿将隐藏卷存储在此类设备/文件系统上。要了解设备/系统是否保存此类数据，请参阅设备/系统附带的文档或联系供应商/制造商。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+VeraCrypt卷位于容易损耗的设备上（可以确定一个块的写入/读取次数比另一个块多）。因此，请勿将隐藏卷存储在此类设备/文件系统上。要了解设备是否容易出现此类损耗，请参阅设备附带的文档或联系供应商/制造商。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+您通过克隆隐藏卷的主机卷来备份隐藏卷的内容，或者通过克隆其主机卷来创建新的隐藏卷。因此，您绝对不能这样做。请遵循<a href="How%20to%20Back%20Up%20Securely.html" style="text-align:left; color:#0080c0; text-decoration:none">
+如何安全备份</a>章节和<a href="Volume%20Clones.html" style="text-align:left; color:#0080c0; text-decoration:none">
+卷克隆</a>部分中的说明。</li></ul>
+</li></ul>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在加密打算创建隐藏卷的分区/设备时，请确保禁用<em style="text-align:left">快速格式化</em>。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在Windows系统中，确保您没有删除打算创建隐藏卷的卷内的任何文件（簇位图扫描器无法检测到已删除的文件）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+在Linux或Mac OS X系统中，如果您打算在文件托管的VeraCrypt卷内创建隐藏卷，请确保该卷不是稀疏文件托管的（Windows版本的VeraCrypt会验证这一点，并禁止在稀疏文件内创建隐藏卷）。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+当隐藏卷挂载时，操作系统和第三方应用程序可能会将有关隐藏卷中存储的数据的未加密信息（例如，最近访问文件的文件名和位置、文件索引工具创建的数据库等）、未加密形式的数据本身（临时文件等）、有关隐藏卷中文件系统的未加密信息（例如，可用于识别文件系统并确定它是否是外部卷中的文件系统）、隐藏卷的密码/密钥或其他类型的敏感数据写入非隐藏卷（通常是未加密的系统卷）。因此，必须遵循以下安全要求和预防措施：
+<br style="text-align:left">
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Windows</em>：创建一个隐藏操作系统（有关如何操作的信息，请参阅<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏操作系统</a>部分），并仅在隐藏操作系统运行时挂载隐藏卷。
+<span style="text-align:left; font-size:10px; line-height:12px">注意：当隐藏操作系统运行时，VeraCrypt会确保所有本地未加密文件系统和非隐藏VeraCrypt卷为只读（即无法向此类文件系统或VeraCrypt卷写入文件）。<a href="#hidden_os_exception">*</a> 允许将数据写入<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏VeraCrypt卷</a>内的文件系统。</span> 或者，如果无法使用隐藏操作系统，请使用“实时CD” Windows PE系统（完全存储在CD/DVD上并从其启动），该系统可确保写入系统卷的任何数据都写入RAM磁盘。
+仅在运行此类“实时CD”系统时挂载隐藏卷（如果无法使用隐藏操作系统）。此外，在这样的“实时CD”会话期间，只有隐藏VeraCrypt卷中的文件系统可以以读写模式挂载（外部或未加密的卷/文件系统必须以只读模式挂载，或者根本不挂载/不可访问）；否则，您必须确保应用程序和操作系统在“实时CD”会话期间不会将任何敏感数据（见上文）写入非隐藏卷/文件系统。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Linux</em>：下载或创建您的操作系统的“实时CD”版本（即完全存储在CD/DVD上并从其启动的“实时” Linux系统），该系统可确保写入系统卷的任何数据都写入RAM磁盘。
+仅在运行此类“实时CD”系统时挂载隐藏卷。在会话期间，只有隐藏VeraCrypt卷中的文件系统可以以读写模式挂载（外部或未加密的卷/文件系统必须以只读模式挂载，或者根本不挂载/不可访问）。如果您无法满足此要求，并且无法确保应用程序和操作系统不会将任何敏感数据（见上文）写入非隐藏卷/文件系统，则不得在Linux系统下挂载或创建隐藏VeraCrypt卷。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Mac OS X</em>：如果您无法确保应用程序和操作系统不会将任何敏感数据（见上文）写入非隐藏卷/文件系统，则不得在Mac OS X系统下挂载或创建隐藏VeraCrypt卷。</li></ul>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+当外部卷以启用<a href="Protection%20of%20Hidden%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none">
+隐藏卷保护</a>的方式挂载时（请参阅<a href="Protection%20of%20Hidden%20Volumes.html">
+隐藏卷防损坏保护</a>部分），您必须遵循与隐藏卷挂载时相同的安全要求和预防措施（见上文）。原因是操作系统可能会将隐藏卷的密码/密钥泄露到非隐藏或未加密的卷中。</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果您使用 <strong style="text-align:left">隐藏卷内的操作系统</strong>（请参阅 <a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏操作系统</a> 部分），那么，除上述内容外，您还必须遵循以下安全要求和预防措施：
+<br style="text-align:left">
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+您应该像使用计算机一样频繁地使用诱饵操作系统。理想情况下，您应该将其用于所有不涉及敏感数据的活动。否则，隐藏操作系统的合理否认性可能会受到不利影响（如果您向对手透露了诱饵操作系统的密码，他可能会发现该系统使用频率不高，这可能表明您的计算机上存在隐藏操作系统）。请注意，您可以随时将数据保存到诱饵系统分区，而不会有损坏隐藏卷的风险（因为诱饵系统 <em style="text-align:left">未</em> 安装在外层卷中）。 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果操作系统需要激活，则必须在克隆之前激活（克隆是创建隐藏操作系统过程的一部分 —— 请参阅 <a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">隐藏操作系统</a> 部分），并且隐藏操作系统（即克隆体）绝不能重新激活。原因是隐藏操作系统是通过将系统分区的内容复制到隐藏卷来创建的（因此，如果操作系统未激活，隐藏操作系统也不会激活）。如果您激活或重新激活了隐藏操作系统，激活的日期和时间（以及其他数据）可能会记录在 Microsoft 服务器上（以及隐藏操作系统上），但不会记录在 <a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">诱饵操作系统</a> 上。因此，如果对手可以访问服务器上存储的数据或拦截您向服务器发出的请求（并且如果您向他透露了诱饵操作系统的密码），他可能会发现诱饵操作系统在不同的时间被激活（或重新激活），这可能表明您的计算机上存在隐藏操作系统。<br style="text-align:left">
+<br style="text-align:left">
+出于类似的原因，任何需要激活的软件都必须在开始创建隐藏操作系统之前安装并激活。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+当您需要关闭隐藏系统并启动诱饵系统时，<em style="text-align:left">不要</em> 重启计算机。相反，关闭或休眠计算机，然后在打开计算机并启动诱饵系统之前，至少让其断电几分钟（时间越长越好）。这是为了清除可能包含敏感数据的内存。有关更多信息，请参阅 <a href="Unencrypted%20Data%20in%20RAM.html" style="text-align:left; color:#0080c0; text-decoration:none">RAM 中的未加密数据</a> 部分，该部分位于 <a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none">安全要求和预防措施</a> 章节中。 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+计算机仅在诱饵操作系统运行时才可连接到网络（包括互联网）。当隐藏操作系统运行时，计算机不应连接到任何网络，包括互联网（最可靠的方法之一是，如果有网络电缆，拔掉它）。请注意，如果从远程服务器下载或上传数据，连接的日期和时间以及其他数据通常会记录在服务器上。各种数据也会记录在操作系统上（例如，Windows 自动更新数据、应用程序日志、错误日志等）。因此，如果对手可以访问服务器上存储的数据或拦截您向服务器发出的请求（并且如果您向他透露了诱饵操作系统的密码），他可能会发现连接不是从诱饵操作系统内发起的，这可能表明您的计算机上存在隐藏操作系统。
+<br style="text-align:left">
+<br style="text-align:left">
+还要注意，如果隐藏操作系统下有任何通过网络共享的文件系统（无论该文件系统是远程的还是本地的），您也会遇到类似的问题。因此，当隐藏操作系统运行时，绝不能有通过网络共享的文件系统（任何方向）。 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+任何可能被对手检测到的操作（或任何修改已挂载隐藏卷之外任何数据的操作）必须仅在诱饵操作系统运行时执行（除非您有合理的替代解释，例如使用“Live-CD”系统执行此类操作）。例如，“<em style="text-align:left">自动调整夏令时</em>”选项只能在诱饵系统上启用。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果 BIOS、EFI 或任何其他组件记录关机事件或任何其他可能表明使用了隐藏卷/系统的事件（例如，通过将此类事件与 Windows 事件日志中的事件进行比较），您必须要么禁用此类记录，要么确保每次会话后安全擦除日志（或以其他适当的方式避免此类问题）。
+</li></ul>
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+此外，您还必须遵循以下章节中列出的安全要求和预防措施：</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<a href="Security%20Requirements%20and%20Precautions.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">安全要求和预防措施</a>
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left"><a href="How%20to%20Back%20Up%20Securely.html" style="text-align:left; color:#0080c0; text-decoration:none">如何安全备份</a></strong>
+</li></ul>
+<p><a href="VeraCrypt%20Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></p>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p id="hidden_os_exception"><span style="text-align:left; font-size:10px; line-height:12px">* 这不适用于 CD/DVD 类介质以及自定义、不常见或非标准设备/介质上的文件系统。</span></p>
+</div><div class="ClearBoth"></div></body></html>

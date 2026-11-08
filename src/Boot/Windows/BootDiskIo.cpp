@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -19,7 +19,7 @@
 #include "BootStrings.h"
 
 
-byte SectorBuffer[TC_LB_SIZE];
+uint8 SectorBuffer[TC_LB_SIZE];
 
 #ifdef TC_BOOT_DEBUG_ENABLED
 static bool SectorBufferInUse = false;
@@ -41,9 +41,9 @@ void ReleaseSectorBuffer ()
 #endif
 
 
-bool IsLbaSupported (byte drive)
+bool IsLbaSupported (uint8 drive)
 {
-	static byte CachedDrive = TC_INVALID_BIOS_DRIVE;
+	static uint8 CachedDrive = TC_INVALID_BIOS_DRIVE;
 	static bool CachedStatus;
 	uint16 result = 0;
 
@@ -68,7 +68,7 @@ ret:
 }
 
 
-void PrintDiskError (BiosResult error, bool write, byte drive, const uint64 *sector, const ChsAddress *chs)
+void PrintDiskError (BiosResult error, bool write, uint8 drive, const uint64 *sector, const ChsAddress *chs)
 {
 	PrintEndl();
 	Print (write ? "Write" : "Read"); Print (" error:");
@@ -105,21 +105,21 @@ void Print (const ChsAddress &chs)
 
 void PrintSectorCountInMB (const uint64 &sectorCount)
 {
-	Print (sectorCount >> (TC_LB_SIZE_BIT_SHIFT_DIVISOR + 2)); Print (" MB ");
+	Print (sectorCount >> (TC_LB_SIZE_BIT_SHIFT_DIVISOR + 2)); Print (" MiB ");
 }
 
 
-BiosResult ReadWriteSectors (bool write, uint16 bufferSegment, uint16 bufferOffset, byte drive, const ChsAddress &chs, byte sectorCount, bool silent)
+BiosResult ReadWriteSectors (bool write, uint16 bufferSegment, uint16 bufferOffset, uint8 drive, const ChsAddress &chs, uint8 sectorCount, bool silent)
 {
 	CheckStack();
 
-	byte cylinderLow = (byte) chs.Cylinder;
-	byte sector = chs.Sector;
-	sector |= byte (chs.Cylinder >> 2) & 0xc0;
-	byte function = write ? 0x03 : 0x02;
+	uint8 cylinderLow = (uint8) chs.Cylinder;
+	uint8 sector = chs.Sector;
+	sector |= uint8 (chs.Cylinder >> 2) & 0xc0;
+	uint8 function = write ? 0x03 : 0x02;
 
 	BiosResult result;
-	byte tryCount = TC_MAX_BIOS_DISK_IO_RETRIES;
+	uint8 tryCount = TC_MAX_BIOS_DISK_IO_RETRIES;
 
 	do
 	{
@@ -157,28 +157,30 @@ BiosResult ReadWriteSectors (bool write, uint16 bufferSegment, uint16 bufferOffs
 	return result;
 }
 
+#ifdef TC_WINDOWS_BOOT_RESCUE_DISK_MODE
 
-BiosResult ReadWriteSectors (bool write, byte *buffer, byte drive, const ChsAddress &chs, byte sectorCount, bool silent)
+BiosResult ReadWriteSectors (bool write, uint8 *buffer, uint8 drive, const ChsAddress &chs, uint8 sectorCount, bool silent)
 {
 	uint16 codeSeg;
 	__asm mov codeSeg, cs
 	return ReadWriteSectors (write, codeSeg, (uint16) buffer, drive, chs, sectorCount, silent);
 }
 
-
-BiosResult ReadSectors (byte *buffer, byte drive, const ChsAddress &chs, byte sectorCount, bool silent)
+BiosResult ReadSectors (uint8 *buffer, uint8 drive, const ChsAddress &chs, uint8 sectorCount, bool silent)
 {
 	return ReadWriteSectors (false, buffer, drive, chs, sectorCount, silent);
 }
 
-
-BiosResult WriteSectors (byte *buffer, byte drive, const ChsAddress &chs, byte sectorCount, bool silent)
+#if 0
+BiosResult WriteSectors (uint8 *buffer, uint8 drive, const ChsAddress &chs, uint8 sectorCount, bool silent)
 {
 	return ReadWriteSectors (true, buffer, drive, chs, sectorCount, silent);
 }
+#endif
 
+#endif
 
-static BiosResult ReadWriteSectors (bool write, BiosLbaPacket &dapPacket, byte drive, const uint64 &sector, uint16 sectorCount, bool silent)
+static BiosResult ReadWriteSectors (bool write, BiosLbaPacket &dapPacket, uint8 drive, const uint64 &sector, uint16 sectorCount, bool silent)
 {
 	CheckStack();
 
@@ -200,10 +202,10 @@ static BiosResult ReadWriteSectors (bool write, BiosLbaPacket &dapPacket, byte d
 	dapPacket.SectorCount = sectorCount;
 	dapPacket.Sector = sector;
 
-	byte function = write ? 0x43 : 0x42;
+	uint8 function = write ? 0x43 : 0x42;
 
 	BiosResult result;
-	byte tryCount = TC_MAX_BIOS_DISK_IO_RETRIES;
+	uint8 tryCount = TC_MAX_BIOS_DISK_IO_RETRIES;
 
 	do
 	{
@@ -235,7 +237,7 @@ static BiosResult ReadWriteSectors (bool write, BiosLbaPacket &dapPacket, byte d
 }
 
 
-static BiosResult ReadWriteSectors (bool write, byte *buffer, byte drive, const uint64 &sector, uint16 sectorCount, bool silent)
+BiosResult ReadWriteSectors (bool write, uint8 *buffer, uint8 drive, const uint64 &sector, uint16 sectorCount, bool silent)
 {
 	BiosLbaPacket dapPacket;
 	dapPacket.Buffer = (uint32) buffer;
@@ -243,20 +245,20 @@ static BiosResult ReadWriteSectors (bool write, byte *buffer, byte drive, const 
 }
 
 
-BiosResult ReadWriteSectors (bool write, uint16 bufferSegment, uint16 bufferOffset, byte drive, const uint64 &sector, uint16 sectorCount, bool silent)
+BiosResult ReadWriteSectors (bool write, uint16 bufferSegment, uint16 bufferOffset, uint8 drive, const uint64 &sector, uint16 sectorCount, bool silent)
 {
 	BiosLbaPacket dapPacket;
 	dapPacket.Buffer = ((uint32) bufferSegment << 16) | bufferOffset;
 	return ReadWriteSectors (write, dapPacket, drive, sector, sectorCount, silent);
 }
 
-BiosResult ReadSectors (uint16 bufferSegment, uint16 bufferOffset, byte drive, const uint64 &sector, uint16 sectorCount, bool silent)
+BiosResult ReadSectors (uint16 bufferSegment, uint16 bufferOffset, uint8 drive, const uint64 &sector, uint16 sectorCount, bool silent)
 {
 	return ReadWriteSectors (false, bufferSegment, bufferOffset, drive, sector, sectorCount, silent);
 }
 
 
-BiosResult ReadSectors (byte *buffer, byte drive, const uint64 &sector, uint16 sectorCount, bool silent)
+BiosResult ReadSectors (uint8 *buffer, uint8 drive, const uint64 &sector, uint16 sectorCount, bool silent)
 {
 	BiosResult result;
 	uint16 codeSeg;
@@ -272,17 +274,17 @@ BiosResult ReadSectors (byte *buffer, byte drive, const uint64 &sector, uint16 s
 }
 
 
-BiosResult WriteSectors (byte *buffer, byte drive, const uint64 &sector, uint16 sectorCount, bool silent)
+BiosResult WriteSectors (uint8 *buffer, uint8 drive, const uint64 &sector, uint16 sectorCount, bool silent)
 {
 	return ReadWriteSectors (true, buffer, drive, sector, sectorCount, silent);
 }
 
 
-BiosResult GetDriveGeometry (byte drive, DriveGeometry &geometry, bool silent)
+BiosResult GetDriveGeometry (uint8 drive, DriveGeometry &geometry, bool silent)
 {
 	CheckStack();
 
-	byte maxCylinderLow, maxHead, maxSector;
+	uint8 maxCylinderLow, maxHead, maxSector;
 	BiosResult result;
 	__asm
 	{
@@ -327,9 +329,9 @@ void ChsToLba (const DriveGeometry &geometry, const ChsAddress &chs, uint64 &lba
 
 void LbaToChs (const DriveGeometry &geometry, const uint64 &lba, ChsAddress &chs)
 {
-	chs.Sector = (byte) ((lba.LowPart % geometry.Sectors) + 1);
+	chs.Sector = (uint8) ((lba.LowPart % geometry.Sectors) + 1);
 	uint32 ch = lba.LowPart / geometry.Sectors;
-	chs.Head = (byte) (ch % geometry.Heads);
+	chs.Head = (uint8) (ch % geometry.Heads);
 	chs.Cylinder = (uint16) (ch / geometry.Heads);
 }
 
@@ -347,7 +349,7 @@ void PartitionEntryMBRToPartition (const PartitionEntryMBR &partEntry, Partition
 }
 
 
-BiosResult ReadWriteMBR (bool write, byte drive, bool silent)
+BiosResult ReadWriteMBR (bool write, uint8 drive, bool silent)
 {
 	uint64 mbrSector;
 	mbrSector.HighPart = 0;
@@ -360,7 +362,7 @@ BiosResult ReadWriteMBR (bool write, byte drive, bool silent)
 }
 
 
-BiosResult GetDrivePartitions (byte drive, Partition *partitionArray, size_t partitionArrayCapacity, size_t &partitionCount, bool activeOnly, Partition *findPartitionFollowingThis, bool silent)
+BiosResult GetDrivePartitions (uint8 drive, Partition *partitionArray, size_t partitionArrayCapacity, size_t &partitionCount, bool activeOnly, Partition *findPartitionFollowingThis, bool silent)
 {
 	Partition *followingPartition;
 	Partition tmpPartition;
@@ -417,7 +419,7 @@ BiosResult GetDrivePartitions (byte drive, Partition *partitionArray, size_t par
 					MBR *extMbr = (MBR *) SectorBuffer;
 
 					while (partitionArrayPos < partitionArrayCapacity &&
-						(result = ReadSectors ((byte *) extMbr, drive, extStartLBA, 1, silent)) == BiosResultSuccess
+						(result = ReadSectors ((uint8 *) extMbr, drive, extStartLBA, 1, silent)) == BiosResultSuccess
 						&& extMbr->Signature == 0xaa55)
 					{
 						if (extMbr->Partitions[0].SectorCountLBA > 0)
@@ -476,7 +478,7 @@ BiosResult GetDrivePartitions (byte drive, Partition *partitionArray, size_t par
 }
 
 
-bool GetActivePartition (byte drive)
+bool GetActivePartition (uint8 drive)
 {
 	size_t partCount;
 

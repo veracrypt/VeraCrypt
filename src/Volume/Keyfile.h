@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -29,7 +29,7 @@ namespace VeraCrypt
 		virtual ~Keyfile () { };
 
 		operator FilesystemPath () const { return Path; }
-		static shared_ptr <VolumePassword> ApplyListToPassword (shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> password);
+		static shared_ptr <VolumePassword> ApplyListToPassword (shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> password, bool emvSupportEnabled = false);
 		static shared_ptr <KeyfileList> DeserializeList (shared_ptr <Stream> stream, const string &name);
 		static void SerializeList (shared_ptr <Stream> stream, const string &name, shared_ptr <KeyfileList> keyfiles);
 		static bool WasHiddenFilePresentInKeyfilePath() { bool r = HiddenFileWasPresentInKeyfilePath; HiddenFileWasPresentInKeyfilePath = false; return r; }
@@ -38,7 +38,7 @@ namespace VeraCrypt
 		static const size_t MaxProcessedLength = 1024 * 1024;
 
 	protected:
-		void Apply (const BufferPtr &pool) const;
+		void Apply (const BufferPtr &pool, bool emvSupportEnabled) const;
 
 		static bool HiddenFileWasPresentInKeyfilePath;
 

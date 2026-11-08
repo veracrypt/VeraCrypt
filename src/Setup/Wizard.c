@@ -6,13 +6,14 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
 
 #include "Tcdefs.h"
 #include <Shlobj.h>
+#include <Richedit.h>
 #include <io.h>
 #include <stdio.h>
 #include <time.h>
@@ -23,6 +24,7 @@
 #include "Common/Resource.h"
 #include "Resource.h"
 #include "Setup.h"
+#include "Registry.h"
 #include <tchar.h>
 #include <Strsafe.h>
 
@@ -31,9 +33,11 @@ using namespace std;
 enum wizard_pages
 {
 	INTRO_PAGE,
+#ifndef PORTABLE
 	WIZARD_MODE_PAGE,
 	INSTALL_OPTIONS_PAGE,
 	INSTALL_PROGRESS_PAGE,
+#endif
 	EXTRACTION_OPTIONS_PAGE,
 	EXTRACTION_PROGRESS_PAGE,
 	DONATIONS_PAGE
@@ -41,8 +45,8 @@ enum wizard_pages
 
 HWND hCurPage = NULL;		/* Handle to current wizard page */
 int nCurPageNo = -1;		/* The current wizard page */
-wchar_t WizardDestInstallPath [TC_MAX_PATH];
-wchar_t WizardDestExtractPath [TC_MAX_PATH];
+wchar_t WizardDestInstallPath [TC_MAX_PATH] = { 0 };
+wchar_t WizardDestExtractPath [TC_MAX_PATH] = { 0 };
 wchar_t SelfFile [TC_MAX_PATH];
 
 HBITMAP hbmWizardBitmapRescaled = NULL;
@@ -56,6 +60,9 @@ BOOL bStartExtraction = FALSE;
 BOOL bInProgress = FALSE;
 BOOL bPromptTutorial = FALSE;
 BOOL bPromptReleaseNotes = FALSE;
+BOOL bPromptFastStartup = FALSE;
+
+extern BOOL bUserSetLanguage;
 
 int nPbar = 0;			/* Control ID of progress bar */
 
@@ -125,6 +132,7 @@ void LoadPage (HWND hwndDlg, int nPageNo)
 					 (DLGPROC) PageDialogProc);
 		break;
 
+#ifndef PORTABLE
 	case WIZARD_MODE_PAGE:
 		hCurPage = CreateDialogW (hInst, MAKEINTRESOURCEW (IDD_WIZARD_MODE_PAGE_DLG), hwndDlg,
 					 (DLGPROC) PageDialogProc);
@@ -139,6 +147,7 @@ void LoadPage (HWND hwndDlg, int nPageNo)
 		hCurPage = CreateDialogW (hInst, MAKEINTRESOURCEW (IDD_PROGRESS_PAGE_DLG), hwndDlg,
 					 (DLGPROC) PageDialogProc);
 		break;
+#endif
 
 	case EXTRACTION_OPTIONS_PAGE:
 		hCurPage = CreateDialogW (hInst, MAKEINTRESOURCEW (IDD_EXTRACTION_OPTIONS_PAGE_DLG), hwndDlg,
@@ -180,14 +189,10 @@ static int GetDonVal (int minVal, int maxVal)
 
 	if (!prngInitialized)
 	{
-		if (!CryptAcquireContext (&hCryptProv, NULL, NULL, PROV_RSA_FULL, 0)
-			&& !CryptAcquireContext (&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_NEWKEYSET))
+		if (!CryptAcquireContext (&hCryptProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
 			OsPrngAvailable = FALSE;
 		else
 			OsPrngAvailable = TRUE;
-
-		srand ((unsigned int) time (NULL));
-		rand(); // Generate and discard the inital value, as it always appears to be somewhat non-random.
 
 		prngInitialized = TRUE;
 	}
@@ -197,7 +202,7 @@ static int GetDonVal (int minVal, int maxVal)
 		return  ((int) ((double) *((uint16 *) buffer) / (0xFFFF+1) * (maxVal + 1 - minVal)) + minVal);
 	}
 	else
-		return  ((int) ((double) rand() / (RAND_MAX+1) * (maxVal + 1 - minVal)) + minVal);
+		return maxVal;
 }
 
 
@@ -207,6 +212,8 @@ static int GetDonVal (int minVal, int maxVal)
 BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static char PageDebugId[128];
+	static HWND hDisableMemProtectionTooltipWnd = NULL;
+	static HWND hDisableScreenProtectionTooltipWnd = NULL;
 	WORD lw = LOWORD (wParam);
 	WORD hw = HIWORD (wParam);
 
@@ -226,10 +233,24 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				char *licenseText = NULL;
 
+#ifdef PORTABLE
+				bExtractOnly = TRUE;
+#endif
+
+				// increase size limit of rich edit control
+				SendMessage (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_EXLIMITTEXT, 0, -1);
+				// Left margin for license text
+				SendMessage (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_SETMARGINS, (WPARAM) EC_LEFTMARGIN, (LPARAM) CompensateXDPI (4));
+
 				licenseText = GetLegalNotices ();
 				if (licenseText != NULL)
 				{
-					SetWindowTextA (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), licenseText);
+					SETTEXTEX TextInfo = {0};
+
+					TextInfo.flags = ST_SELECTION;
+					TextInfo.codepage = CP_ACP;
+
+					SendMessage(GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_SETTEXTEX, (WPARAM)&TextInfo, (LPARAM)licenseText);
 					free (licenseText);
 				}
 				else
@@ -262,12 +283,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), bLicenseAccepted);
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), FALSE);
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDHELP), bLicenseAccepted);
-
-				// Left margin for license text
-				SendMessage (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_SETMARGINS, (WPARAM) EC_LEFTMARGIN, (LPARAM) CompensateXDPI (4));
 			}
 			return 1;
 
+#ifndef PORTABLE
 		case WIZARD_MODE_PAGE:
 			{
 				LONG driverVersion;
@@ -306,6 +325,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
 			}
 			return 1;
+#endif
 
 		case EXTRACTION_OPTIONS_PAGE:
 
@@ -378,6 +398,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			return 1;
 
+#ifndef PORTABLE
 		case INSTALL_OPTIONS_PAGE:
 			{
 				LONG driverVersion;
@@ -420,9 +441,21 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					EnableWindow (GetDlgItem (hwndDlg, IDC_SYSTEM_RESTORE), FALSE);
 				}
 
+				hDisableMemProtectionTooltipWnd = CreateToolTip (IDC_DISABLE_MEMORY_PROTECTION, hwndDlg, "DISABLE_MEMORY_PROTECTION_WARNING");
+				// make IDC_DISABLE_MEMORY_PROTECTION control fit the text so that the tooltip is shown only when mouse is over the text
+				AccommodateCheckBoxTextWidth(hwndDlg, IDC_DISABLE_MEMORY_PROTECTION);
+				// make the help button adjacent to the checkbox
+				MakeControlsContiguous(hwndDlg, IDC_DISABLE_MEMORY_PROTECTION, IDC_DISABLE_MEMORY_PROTECTION_HELP);
+
+				hDisableScreenProtectionTooltipWnd = CreateToolTip (IDC_DISABLE_SCREEN_PROTECTION, hwndDlg, "DISABLE_SCREEN_PROTECTION_WARNING");
+				// make the help button adjacent to the checkbox
+				AccommodateCheckBoxTextWidth(hwndDlg, IDC_DISABLE_SCREEN_PROTECTION);
+
 				SetCheckBox (hwndDlg, IDC_ALL_USERS, bForAllUsers);
 				SetCheckBox (hwndDlg, IDC_FILE_TYPE, bRegisterFileExt);
 				SetCheckBox (hwndDlg, IDC_PROG_GROUP, bAddToStartMenu);
+				SetCheckBox (hwndDlg, IDC_DISABLE_MEMORY_PROTECTION, bDisableMemoryProtection);
+				SetCheckBox (hwndDlg, IDC_DISABLE_SCREEN_PROTECTION, bDisableScreenProtection);
 				SetCheckBox (hwndDlg, IDC_DESKTOP_ICON, bDesktopIcon);
 
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString (bUpgrade ? "UPGRADE" : "INSTALL"));
@@ -481,6 +514,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			return 1;
+#endif
 
 		case DONATIONS_PAGE:
 
@@ -596,7 +630,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), IsButtonChecked (GetDlgItem (hwndDlg, IDC_AGREE)));
 			return 1;
 		}
-
+#ifndef PORTABLE
 		if (lw == IDC_WIZARD_MODE_EXTRACT_ONLY && nCurPageNo == WIZARD_MODE_PAGE)
 		{
 			bExtractOnly = TRUE;
@@ -608,25 +642,25 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			bExtractOnly = FALSE;
 			return 1;
 		}
-
+#endif
 		if ( nCurPageNo == EXTRACTION_OPTIONS_PAGE && hw == EN_CHANGE )
 		{
 			EnableWindow (GetDlgItem (MainDlg, IDC_NEXT), (GetWindowTextLength (GetDlgItem (hCurPage, IDC_DESTINATION)) > 1));
 			return 1;
 		}
-
+#ifndef PORTABLE
 		if ( nCurPageNo == INSTALL_OPTIONS_PAGE && hw == EN_CHANGE )
 		{
 			EnableWindow (GetDlgItem (MainDlg, IDC_NEXT), (GetWindowTextLength (GetDlgItem (hCurPage, IDC_DESTINATION)) > 1));
 			return 1;
 		}
-
+#endif
 		if ( nCurPageNo == EXTRACTION_OPTIONS_PAGE )
 		{
 			switch (lw)
 			{
 			case IDC_BROWSE:
-				if (BrowseDirectories (hwndDlg, "SELECT_DEST_DIR", WizardDestExtractPath))
+				if (BrowseDirectories (hwndDlg, "SELECT_DEST_DIR", WizardDestExtractPath, WizardDestExtractPath))
 				{
 					if (WizardDestExtractPath [wcslen(WizardDestExtractPath)-1] != L'\\')
 					{
@@ -641,13 +675,13 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 			}
 		}
-
+#ifndef PORTABLE
 		if ( nCurPageNo == INSTALL_OPTIONS_PAGE )
 		{
 			switch (lw)
 			{
 			case IDC_BROWSE:
-				if (BrowseDirectories (hwndDlg, "SELECT_DEST_DIR", WizardDestInstallPath))
+				if (BrowseDirectories (hwndDlg, "SELECT_DEST_DIR", WizardDestInstallPath, WizardDestInstallPath))
 				{
 					if (WizardDestInstallPath [wcslen(WizardDestInstallPath)-1] != L'\\')
 					{
@@ -665,6 +699,26 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				bForAllUsers = IsButtonChecked (GetDlgItem (hCurPage, IDC_ALL_USERS));
 				return 1;
 
+			case IDC_DISABLE_MEMORY_PROTECTION:
+				bDisableMemoryProtection = IsButtonChecked (GetDlgItem (hCurPage, IDC_DISABLE_MEMORY_PROTECTION));
+				if (bDisableMemoryProtection)
+				{
+					Warning ("DISABLE_MEMORY_PROTECTION_WARNING", hwndDlg);
+				}
+				return 1;
+
+			case IDC_DISABLE_MEMORY_PROTECTION_HELP:
+				Applink("memoryprotection");
+				return 1;
+
+			case IDC_DISABLE_SCREEN_PROTECTION:
+				bDisableScreenProtection = IsButtonChecked (GetDlgItem (hCurPage, IDC_DISABLE_SCREEN_PROTECTION));
+				if (bDisableScreenProtection)
+				{
+					Warning ("DISABLE_SCREEN_PROTECTION_WARNING", hwndDlg);
+				}
+				return 1;
+
 			case IDC_FILE_TYPE:
 				bRegisterFileExt = IsButtonChecked (GetDlgItem (hCurPage, IDC_FILE_TYPE));
 				return 1;
@@ -679,18 +733,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			}
 		}
-
+#endif
 		if (nCurPageNo == DONATIONS_PAGE)
 		{
 			switch (lw)
 			{
 			case IDC_DONATE:
 				{
-					char tmpstr [200];
-
-					StringCbPrintfA (tmpstr, sizeof(tmpstr), "&ref=%d", DonColorSchemeId);
-
-					Applink ("donate", FALSE, tmpstr);
+					Applink ("donate");
 				}
 				return 1;
 			}
@@ -743,6 +793,22 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			ReleaseDC (hCurPage, hdc);
 		}
 		return 0;
+
+	case WM_DESTROY:
+	
+		if (hDisableMemProtectionTooltipWnd != NULL)
+		{
+			DestroyWindow (hDisableMemProtectionTooltipWnd);
+			hDisableMemProtectionTooltipWnd = NULL;
+		}
+
+		if (hDisableScreenProtectionTooltipWnd != NULL)
+		{
+			DestroyWindow (hDisableScreenProtectionTooltipWnd);
+			hDisableScreenProtectionTooltipWnd = NULL;
+		}
+
+		break;
 
 	}
 
@@ -829,10 +895,17 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			nPbar = IDC_PROGRESS_BAR;
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_BOX_TITLE), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
-
-			SetWindowText (hwndDlg, L"VeraCrypt Setup " _T(VERSION_STRING));
+#ifndef PORTABLE
+			SetWindowText (hwndDlg, L"VeraCrypt Setup " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
+#else
+			SetWindowText (hwndDlg, L"VeraCrypt Portable " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
+#endif
 
 			DonColorSchemeId = GetDonVal (2, 9);
+
+			// get the initial value of bDisableMemoryProtection and bDisableScreenProtection by reading the registry
+			bDisableMemoryProtection = bOriginalDisableMemoryProtection = ReadMemoryProtectionConfig()? FALSE : TRUE;
+			bDisableScreenProtection = bOriginalDisableScreenProtection = ReadScreenProtectionConfig()? FALSE : TRUE;
 
 			if (bDevm)
 			{
@@ -843,7 +916,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				bDesktopIcon = TRUE;
 				bLicenseAccepted = TRUE;
 				bStartInstall = TRUE;
+#ifdef PORTABLE
+				bExtractOnly = TRUE;
+				LoadPage (hwndDlg, EXTRACTION_PROGRESS_PAGE);
+#else
 				LoadPage (hwndDlg, INSTALL_PROGRESS_PAGE);
+#endif
 			}
 			else
 				LoadPage (hwndDlg, INTRO_PAGE);
@@ -892,24 +970,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 				bLicenseAccepted = TRUE;
 				EnableWindow (GetDlgItem (hwndDlg, IDHELP), TRUE);
-
-				if (nCurrentOS == WIN_2000)
-				{
-					WarningDirect (L"Warning: Please note that this may be the last version of VeraCrypt that supports Windows 2000. If you want to be able to upgrade to future versions of VeraCrypt (which is highly recommended), you will need to upgrade to Windows XP or a later version of Windows.\n\nNote: Microsoft stopped issuing security updates for Windows 2000 to the general public on 7/13/2010 (the last non-security update for Windows 2000 was issued to the general public in 2005).", hwndDlg);
-
-
-					HKEY hkey;
-
-					if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Updates\\Windows 2000\\SP5\\Update Rollup 1", 0, KEY_READ, &hkey) != ERROR_SUCCESS)
-					{
-						ErrorDirect (L"VeraCrypt requires Update Rollup 1 for Windows 2000 SP4 to be installed.\n\nFor more information, see http://support.microsoft.com/kb/891861", hwndDlg);
-						AbortProcessSilent ();
-					}
-
-					RegCloseKey (hkey);
-				}
 			}
-
+#ifndef PORTABLE
 			else if (nCurPageNo == WIZARD_MODE_PAGE)
 			{
 				if (IsButtonChecked (GetDlgItem (hCurPage, IDC_WIZARD_MODE_EXTRACT_ONLY)))
@@ -925,15 +987,22 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					bExtractOnly = TRUE;
 					nCurPageNo = EXTRACTION_OPTIONS_PAGE - 1;
 				}
+#ifdef VC_EFI_CUSTOM_MODE
+				else if (bUpgrade && !CheckSecureBootCompatibility (hwndDlg))
+				{
+					WarningDirect(L"This installer version supports only custom EFI SecureBoot.\nPlease use regular installer to update your system", hwndDlg);
+					return 1;
+				}
+#endif
 			}
-
+#endif
 			else if (nCurPageNo == EXTRACTION_OPTIONS_PAGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestExtractPath, ARRAYSIZE (WizardDestExtractPath));
 
 				bStartExtraction = TRUE;
 			}
-
+#ifndef PORTABLE
 			else if (nCurPageNo == INSTALL_OPTIONS_PAGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestInstallPath, ARRAYSIZE (WizardDestInstallPath));
@@ -946,7 +1015,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				PostMessage (hwndDlg, WM_CLOSE, 0, 0);
 				return 1;
 			}
-
+#endif
 			else if (nCurPageNo == EXTRACTION_PROGRESS_PAGE)
 			{
 				PostMessage (hwndDlg, WM_CLOSE, 0, 0);
@@ -969,22 +1038,25 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_PREV)
 		{
+#ifndef PORTABLE
 			if (nCurPageNo == WIZARD_MODE_PAGE)
 			{
 				bExtractOnly = IsButtonChecked (GetDlgItem (hCurPage, IDC_WIZARD_MODE_EXTRACT_ONLY));
-			}
-
-			else if (nCurPageNo == EXTRACTION_OPTIONS_PAGE)
+			} else
+#endif
+			if (nCurPageNo == EXTRACTION_OPTIONS_PAGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestExtractPath, ARRAYSIZE (WizardDestExtractPath));
+#ifndef PORTABLE
 				nCurPageNo = WIZARD_MODE_PAGE + 1;
+#endif
 			}
-
+#ifndef PORTABLE
 			else if (nCurPageNo == INSTALL_OPTIONS_PAGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestInstallPath, ARRAYSIZE (WizardDestInstallPath));
 			}
-
+#endif
 			LoadPage (hwndDlg, --nCurPageNo);
 
 			return 1;
@@ -1045,6 +1117,14 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case TC_APPMSG_INSTALL_SUCCESS:
 
 		/* Installation completed successfully */
+
+		/* if user selected a language, use for GUI in the next run */
+		if (bUserSetLanguage)
+		{
+			WCHAR langId[6];
+			MultiByteToWideChar (CP_ACP, 0, GetPreferredLangId(), -1, langId, ARRAYSIZE (langId));
+			WriteRegistryString (L"Software\\VeraCrypt", L"SetupUILanguage", langId);
+		}
 
 		bInProgress = FALSE;
 
@@ -1164,7 +1244,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (bPromptReleaseNotes
 					&& AskYesNo ("AFTER_UPGRADE_RELEASE_NOTES", hwndDlg) == IDYES)
 				{
-					Applink ("releasenotes", TRUE, "");
+					Applink ("releasenotes");
 				}
 
 				bPromptReleaseNotes = FALSE;
@@ -1172,16 +1252,25 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (bPromptTutorial
 					&& AskYesNo ("AFTER_INSTALL_TUTORIAL", hwndDlg) == IDYES)
 				{
-					Applink ("beginnerstutorial", TRUE, "");
+					Applink ("beginnerstutorial");
 				}
 
 				bPromptTutorial = FALSE;
 			}
 
+			if (bPromptFastStartup
+				&& AskWarnYesNo ("CONFIRM_DISABLE_FAST_STARTUP", hwndDlg) == IDYES)
+			{
+				WriteLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", L"HiberbootEnabled", 0);
+				bRestartRequired = TRUE;
+			}
+
+			bPromptFastStartup = FALSE;
+
 			if (bRestartRequired
 				&& AskYesNo (bUpgrade ? "UPGRADE_OK_REBOOT_REQUIRED" : "CONFIRM_RESTART", hwndDlg) == IDYES)
 			{
-				RestartComputer();
+				RestartComputer(FALSE);
 			}
 		}
 

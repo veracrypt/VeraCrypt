@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -52,18 +52,30 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 
 #endif // defined(_UEFI)
 
+#ifdef TC_WINDOWS_BOOT
+#include <stddef.h>
+#endif
+
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"1.19-BETA2"
+#define VERSION_STRING					"1.26.31"
+
+#ifdef VC_EFI_CUSTOM_MODE
+#define VERSION_STRING_SUFFIX			"-CustomEFI"
+#elif defined(VC_SKIP_OS_DRIVER_REQ_CHECK)
+#define VERSION_STRING_SUFFIX			"-TESTSIGNING"
+#else
+#define VERSION_STRING_SUFFIX			""
+#endif
 
 // Version number to compare against driver
-#define VERSION_NUM						0x0119
+#define VERSION_NUM						0x0126
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"August 21st, 2016"
-#define TC_RELEASE_DATE_YEAR			2016
-#define TC_RELEASE_DATE_MONTH			 8
+#define TC_RELEASE_DATE_YEAR			2026
+#define TC_RELEASE_DATE_MONTH			11
+#define TC_RELEASE_DATE_DAY			2
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL
@@ -83,7 +95,7 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 typedef __int8 int8;
 typedef __int16 int16;
 typedef __int32 int32;
-typedef unsigned __int8 byte;
+typedef unsigned __int8 uint8;
 typedef unsigned __int16 uint16;
 typedef unsigned __int32 uint32;
 
@@ -94,6 +106,12 @@ typedef unsigned __int64	TC_LARGEST_COMPILER_UINT;
 typedef __int64 int64;
 typedef unsigned __int64 uint64;
 #define LL(x) x##ui64
+#endif
+
+#if _MSC_VER > 1900
+#define VC_CDECL	__cdecl // this is needed because Windows driver on VS2019 uses stdcall for build
+#else
+#define VC_CDECL
 #endif
 
 #pragma warning( disable : 4201 )  // disable: 4201 nonstandard extension used : nameless struct/union
@@ -109,7 +127,7 @@ typedef int8_t int8;
 typedef int16_t int16;
 typedef int32_t int32;
 typedef int64_t int64;
-typedef uint8_t byte;
+typedef uint8_t uint8;
 typedef uint16_t uint16;
 typedef uint32_t uint32;
 typedef uint64_t uint64;
@@ -138,6 +156,8 @@ typedef uint64 TC_LARGEST_COMPILER_UINT;
 #define FALSE 0
 #define TRUE 1
 #endif
+
+#define VC_CDECL
 
 #endif // !_MSC_VER
 
@@ -174,10 +194,10 @@ typedef uint64 uint_64t;
 typedef CHAR16 wchar_t;
 typedef int LONG;
 
-#define wcscpy StrCpy
+#define StringCchCopyW StrCpyS
 #define wcslen StrLen
 #define wcscmp StrCmp
-#define wcscat StrCat
+#define StringCchCatW StrCatS
 
 #define memcpy(dest,source,count)         CopyMem(dest,source,(UINTN)(count))
 #define memset(dest,ch,count)             SetMem(dest,(UINTN)(count),(UINT8)(ch))
@@ -189,7 +209,7 @@ typedef int LONG;
 #define strchr(str,ch)                    ScanMem8((VOID *)(str),AsciiStrSize(str),(UINT8)ch)
 #define strcmp                            AsciiStrCmp
 #define strncmp(string1,string2,count)    (int)(AsciiStrnCmp(string1,string2,(UINTN)(count)))
-#define strcpy(strDest,strSource)         AsciiStrCpyS(strDest,MAX_STRING_SIZE,strSource)
+#define StringCchCopyA(strDest,strMaxSize,strSource)         AsciiStrCpyS(strDest,strMaxSize,strSource)
 #define strncpy(strDest,strSource,count)  AsciiStrnCpyS(strDest,MAX_STRING_SIZE,strSource,(UINTN)count)
 #define strlen(str)                       (size_t)(AsciiStrnLenS(str,MAX_STRING_SIZE))
 #define strstr                            AsciiStrStr
@@ -220,6 +240,9 @@ void ThrowFatalException(int line);
     || (defined(__GNUC__ ) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3))) \
     || (__has_builtin(__builtin_trap))
 #   define TC_THROW_FATAL_EXCEPTION __builtin_trap()
+#elif defined(_MSC_VER)
+#include <intrin.h>
+#	define TC_THROW_FATAL_EXCEPTION	__fastfail(FAST_FAIL_FATAL_APP_EXIT)
 #else
 #	define TC_THROW_FATAL_EXCEPTION	*(char *) 0 = 0
 #endif
@@ -235,13 +258,24 @@ void ThrowFatalException(int line);
 #include <ntddk.h>		/* Standard header file for nt drivers */
 #include <ntdddisk.h>		/* Standard I/O control codes  */
 
-#define TCalloc(size) ((void *) ExAllocatePoolWithTag( NonPagedPool, size, 'MMCV' ))
-#define TCfree(memblock) ExFreePoolWithTag( memblock, 'MMCV' )
+
+extern ULONG AllocTag;
+
+#define TCalloc(size) ((void *) ExAllocatePoolUninitialized( NonPagedPoolNx , size, AllocTag ))
+#define TCfree(memblock) ExFreePoolWithTag( memblock, AllocTag )
 
 #define DEVICE_DRIVER
 
 #ifndef BOOL
 typedef int BOOL;
+#endif
+
+#ifndef WORD
+typedef USHORT WORD;
+#endif
+
+#ifndef BOOLEAN
+typedef unsigned char  BOOLEAN;
 #endif
 
 #ifndef TRUE
@@ -251,6 +285,7 @@ typedef int BOOL;
 #ifndef FALSE
 #define FALSE !TRUE
 #endif
+
 
 #else				/* !TC_WINDOWS_DRIVER */
 #if !defined(_UEFI)
@@ -265,7 +300,17 @@ typedef int BOOL;
 
 #ifndef TC_LOCAL_WIN32_WINNT_OVERRIDE
 #	undef _WIN32_WINNT
-#	define	_WIN32_WINNT 0x0501	/* Does not apply to the driver */
+#ifdef _M_ARM64
+#	define  _WIN32_WINNT 0x0A00
+#else
+// for Visual Studio 2015 and later, set minimum Windows version to Windows 8
+// for old versions of Visual Studio, set minimum Windows version to Windows 7
+#if _MSC_VER >= 1900
+#	define	_WIN32_WINNT 0x0602
+#else
+#   define	_WIN32_WINNT 0x0601
+#endif
+#endif
 #endif
 
 #include <windows.h>		/* Windows header */
@@ -296,6 +341,9 @@ typedef int BOOL;
 #		define Dump(...)
 #		define DumpMem(...)
 #	endif
+#elif !defined (TC_WINDOWS_BOOT)
+#	define Dump(...)
+#	define DumpMem(...)
 #endif
 
 #if !defined (trace_msg) && !defined (TC_WINDOWS_BOOT)
@@ -325,8 +373,10 @@ typedef int BOOL;
 #if defined(_WIN32) && !defined(_UEFI)
 #define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); size_t burnc = size; RtlSecureZeroMemory (mem, size); while (burnc--) *burnm++ = 0; } while (0)
 #else
-#define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); int burnc = size; while (burnc--) *burnm++ = 0; } while (0)
+#define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); size_t burnc = size; while (burnc--) *burnm++ = 0; } while (0)
 #endif
+
+#define volatile_memcpy(d,s,size) do { volatile char *destm = (volatile char *)(d); volatile char *srcm = (volatile char *)(s); size_t memc = size; while (memc--) *destm++ = *srcm++; } while (0)
 
 // The size of the memory area to wipe is in bytes amd it must be a multiple of 8.
 #ifndef TC_NO_COMPILER_INT64
@@ -355,13 +405,31 @@ void EraseMemory (void *memory, int size);
 #define TC_MAX_PATH		260	/* Includes the null terminator */
 #endif
 
-#define TC_STR_RELEASED_BY L"Released by IDRIX on " TC_STR_RELEASE_DATE
+#define TC_RELEASE_DATE_MONTH_NAME_1	L"January"
+#define TC_RELEASE_DATE_MONTH_NAME_2	L"February"
+#define TC_RELEASE_DATE_MONTH_NAME_3	L"March"
+#define TC_RELEASE_DATE_MONTH_NAME_4	L"April"
+#define TC_RELEASE_DATE_MONTH_NAME_5	L"May"
+#define TC_RELEASE_DATE_MONTH_NAME_6	L"June"
+#define TC_RELEASE_DATE_MONTH_NAME_7	L"July"
+#define TC_RELEASE_DATE_MONTH_NAME_8	L"August"
+#define TC_RELEASE_DATE_MONTH_NAME_9	L"September"
+#define TC_RELEASE_DATE_MONTH_NAME_10	L"October"
+#define TC_RELEASE_DATE_MONTH_NAME_11	L"November"
+#define TC_RELEASE_DATE_MONTH_NAME_12	L"December"
+#define TC_RELEASE_DATE_MONTH_NAME_(m)	TC_RELEASE_DATE_MONTH_NAME_##m
+#define TC_RELEASE_DATE_MONTH_NAME(m)	TC_RELEASE_DATE_MONTH_NAME_(m)
+
+#define TC_RELEASE_DATE_WSTR2(x)		L##x
+#define TC_RELEASE_DATE_WSTR1(x)		TC_RELEASE_DATE_WSTR2(#x)
+#define TC_RELEASE_DATE_WSTR(x)		TC_RELEASE_DATE_WSTR1(x)
+
+#define TC_STR_RELEASED_BY L"Released by AM Crypto on " TC_RELEASE_DATE_MONTH_NAME(TC_RELEASE_DATE_MONTH) L" " TC_RELEASE_DATE_WSTR(TC_RELEASE_DATE_DAY) L", " TC_RELEASE_DATE_WSTR(TC_RELEASE_DATE_YEAR)
 
 #define MAX_URL_LENGTH	2084 /* Internet Explorer limit. Includes the terminating null character. */
 
-#define TC_HOMEPAGE "http://www.idrix.fr/"
-#define TC_APPLINK "https://veracrypt.codeplex.com"
-#define TC_APPLINK_SECURE "https://veracrypt.codeplex.com"
+#define TC_HOMEPAGE L"https://amcrypto.jp"
+#define TC_APPLINK L"https://veracrypt.jp"
 
 enum
 {
@@ -404,9 +472,11 @@ enum
 	ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG	= 31,
 	ERR_NONSYS_INPLACE_ENC_INCOMPLETE		= 32,
 	ERR_USER_ABORT							= 33,
-	ERR_UNSUPPORTED_TRUECRYPT_FORMAT		= 34,
-	ERR_RAND_INIT_FAILED					= 35,
-	ERR_CAPI_INIT_FAILED					= 36
+	ERR_RAND_INIT_FAILED					= 34,
+	ERR_CAPI_INIT_FAILED					= 35,
+	ERR_XTS_MASTERKEY_VULNERABLE			= 36,
+	ERR_SYSENC_XTS_MASTERKEY_VULNERABLE			= 37,
+	ERR_KEY_DERIVATION_FAILED				= 38
 };
 
 #endif 	// #ifndef TCDEFS_H

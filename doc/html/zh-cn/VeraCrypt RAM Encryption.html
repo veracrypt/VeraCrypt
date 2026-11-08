@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫您透露密码的情况下，VeraCrypt提供了合理的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，只需极少的内存，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求与预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20RAM%20Encryption.html">VeraCrypt内存加密</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>VeraCrypt内存加密机制</h1>
+
+<h2>简介</h2>
+
+<p>
+    VeraCrypt内存加密旨在保护存储在易失性内存中的磁盘加密密钥免受某些类型的攻击。该机制的主要目标是：
+    </p><ul>
+        <li>防范冷启动攻击。</li>
+        <li>添加一层混淆层，显著增加从内存转储（无论是实时还是离线）中恢复加密主密钥的难度。</li>
+    </ul>
+<p></p>
+
+<h3>实现概述</h3>
+
+<p>以下是内存加密实现方式的总结：</p>
+<ol>
+    <li>在Windows启动时，VeraCrypt驱动程序会分配一个1MiB的内存区域。如果分配失败，会将大小减半，直到分配成功（最小大小为8KiB）。所有这些变量都分配在非分页内核内存空间中。</li>
+    <li>然后，使用基于ChaCha20的密码学安全伪随机数生成器（CSPRNG）生成的随机字节填充该内存区域。</li>
+    <li>生成两个随机的64位整数，即 <code>HashSeedMask</code> 和 <code>CipherIVMask</code>。</li>
+    <li>对于每个卷的主密钥，内存加密算法会从内存区域和要加密的内存中提取的唯一值的组合中派生一个唯一密钥。这确保了每个加密内存区域都有一个不同的密钥。使用依赖于位置的密钥和初始化向量（IV）可防止主密钥从内存转储中轻易提取。</li>
+    <li>对于每个请求，主密钥都会被解密，这需要一个快速的解密算法。为此，使用了ChaCha12。</li>
+    <li>一旦挂载一个卷，其主密钥会立即使用上述算法进行加密。</li>
+    <li>对于卷的每个I/O请求，主密钥仅在该请求期间被解密，然后安全擦除。</li>
+    <li>卸载卷时，加密的主密钥会从内存中安全移除。</li>
+    <li>在Windows关机或重启时，启动期间分配的内存区域会被安全擦除。</li>
+</ol>
+
+<h3>防范冷启动攻击</h3>
+
+<p>
+    通过使用大内存页进行密钥派生，可以减轻冷启动攻击的影响。这确保攻击者无法恢复主密钥，因为关机后这个大内存区域的部分内容可能会损坏且无法恢复。有关冷启动攻击和缓解技术的更多详细信息，请参阅参考论文：
+</p>
+<ul>
+    <li><a href="https://www.blackhat.com/presentations/bh-usa-08/McGregor/BH_US_08_McGregor_Cold_Boot_Attacks.pdf" target="_blank">冷启动攻击（BlackHat）</a></li>
+    <li><a href="https://www.grc.com/sn/files/RAM_Hijacks.pdf" target="_blank">内存劫持</a></li>
+</ul>
+
+<h3>与Windows休眠和快速启动不兼容</h3>
+<p>
+    VeraCrypt的内存加密与Windows休眠和快速启动功能不兼容。在激活内存加密之前，VeraCrypt会禁用这些功能，以确保加密机制的安全性和功能性。
+</p>
+
+<h3>算法选择</h3>
+
+<p>
+    算法的选择基于安全性和性能之间的平衡：
+</p>
+<ul>
+    <li><strong>t1ha2：</strong> 一种非加密哈希函数，因其令人印象深刻的速度和能够达到GiB/s的哈希速率而被选中。由于每个加密/解密请求都要从1MB的内存区域派生密钥，因此这一点至关重要。它还符合严格雪崩准则，这对于此用例至关重要。</li>
+    <li><strong>ChaCha12：</strong> 出于性能原因，选择了ChaCha12而不是ChaCha20，它在保持快速加密/解密速度的同时提供了足够的加密强度。</li>
+</ul>
+
+<h3>关键算法</h3>
+
+<p>
+    有两个核心算法是内存加密过程的基础：
+</p>
+
+<h4>1. VcGetEncryptionID</h4>
+
+<p>
+    为要加密的内存缓冲区计算一个唯一ID。
+</p>
+<pre>    <code>
+    - 输入：pCryptoInfo，一个用于加密/解密的CRYPTO_INFO变量
+    - 输出：一个64位整数，用于标识pCryptoInfo变量
+    - 步骤：
+      - 计算pCryptoInfo的ks和ks2字段的虚拟内存地址之和：encID = ((uint64) pCryptoInfo->ks) + ((uint64) pCryptoInfo->ks2)
+      - 返回结果
+    </code>
+</pre>
+
+<h4>2. VcProtectMemory</h4>
+
+<p>
+    使用VcGetEncryptionID生成的唯一ID对内存缓冲区进行加密。
+</p>
+<pre>    <code>
+    - 输入：
+      - encID，要加密的内存的唯一ID
+      - pbData，指向要加密的内存的指针
+      - pbKeyDerivationArea，驱动程序在启动时分配的内存区域
+      - HashSeedMask和CipherIVMask，启动时生成的两个64位随机整数
+    - 输出：
+      - 无；pbData处的内存将在原地加密
+    - 步骤：
+      - 派生哈希种子：hashSeed = (((uint64) pbKeyDerivationArea) + encID) ^ HashSeedMask
+      - 计算128位哈希值：hash128 = t1h2 (pbKeyDerivationArea,hashSeed)。 
+      - 将hash128分解为两个64位整数：hash128 = hash128_1 || hash128_2
+      - 为ChaCha12创建一个256位密钥：chachaKey = hash128_1 || hash128_2 || (hash128_1 OR hash128_2) || (hash128_1 + hash128_2)
+      - 使用ChaCha12以hashSeed作为IV对chachaKey本身进行加密：ChaCha256Encrypt (chachaKey, hashSeed, chachaKey)
+      - 派生ChaCha12的64位IV：chachaIV = (((uint64) pbKeyDerivationArea) + encID) ^ CipherIVMask
+      - 使用ChaCha12对pbData处的内存进行加密：ChaCha256Encrypt (chachaKey, chachaIV, pbData)
+      - 安全擦除临时值
+    </code>
+</pre>
+
+<p>
+    值得注意的是，由于ChaCha12是一种流密码，加密和解密过程是相同的，因此 <code>VcProtectMemory</code> 函数可同时用于加密和解密。
+</p>
+
+<p>
+    要深入了解并查看代码库，可以访问VeraCrypt仓库，并在 <code>src/Common/Crypto.c</code> 文件中探索上述函数。
+</p>
+
+<h3>额外的安全措施</h3>
+
+<p>
+    从1.24版本开始，VeraCrypt集成了一种机制，当系统加密处于活动状态时，该机制会检测新设备插入系统的情况。如果插入了新设备，主密钥会立即从内存中清除，导致Windows蓝屏死机（BSOD）。这可以防范使用专用设备从运行中的系统中提取内存的攻击。但是，为了达到最高效率，此功能应与内存加密结合使用。<br>
+    要启用此功能，请导航至菜单“系统” -> “设置”，并勾选 <b>“如果插入新设备，则从内存中清除加密密钥”</b> 选项。
+</p>
+
+<h3>休眠和快速启动的技术限制</h3>
+<p>
+    Windows休眠和快速启动功能会将内存内容保存到硬盘。在VeraCrypt的内存加密上下文中，支持这些功能存在一个重大挑战，即所谓的“先有鸡还是先有蛋”的问题。<br>
+    为了保持安全性，内存加密中用于密钥派生的大内存区域必须以加密格式存储，与通常应用于当前驱动器的VeraCrypt加密分开。这个单独的加密存储还必须能够使用与预启动身份验证相同的密码解锁。此外，此过程必须在启动序列的早期进行，在文件系统访问可用之前，这就需要将加密数据原始存储在不同磁盘的特定扇区中。<br>
+    虽然这在技术上是可行的，但这种解决方案的复杂性和对用户不友好性使其不适合标准部署。因此，启用内存加密需要禁用Windows休眠和快速启动功能。<br>
+</p>
+
+</div><div class="ClearBoth"></div></body></html>

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -21,6 +21,7 @@
 #include "Resource.h"
 #include "Xml.h"
 #include "Favorites.h"
+#include "Pkcs5.h"
 
 using namespace std;
 
@@ -98,6 +99,7 @@ namespace VeraCrypt
 		favorite.SystemEncryption = prop.partitionInInactiveSysEncScope ? true : false;
 		favorite.OpenExplorerWindow = (bExplore == TRUE);
 		favorite.Pim = prop.volumePim;
+		favorite.Pkcs5 = prop.pkcs5;
 		memcpy (favorite.VolumeID, prop.volumeID, VOLUME_ID_SIZE);
 
 		if (favorite.VolumePathId.empty()
@@ -235,81 +237,100 @@ namespace VeraCrypt
 			}
 			return 1;
 
+		case WM_DESTROY:
+			DetachProtectionFromCurrentThread();
+			break;
+
 		case WM_COMMAND:
 
 			switch (lw)
 			{
 			case IDOK:
-
-				/* Global System Favorites settings */
-
-				if (SystemFavoritesMode)
 				{
-					BootEncryption BootEncObj (NULL);
+					BOOL bInitialOptionValue = NeedPeriodicDeviceListUpdate;
 
-					if (BootEncObj.GetStatus().DriveMounted)
+					/* Global System Favorites settings */
+
+					if (SystemFavoritesMode)
 					{
-						try
+						BootEncryption BootEncObj (NULL);
+
+						if (BootEncObj.GetStatus().DriveMounted)
 						{
-							uint32 reqConfig = IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT) ? TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES : 0;
-							if (reqConfig != (ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES))
-								BootEncObj.RegisterSystemFavoritesService (reqConfig ? TRUE : FALSE);
-
-							SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_NONADMIN_SYS_FAVORITES_ACCESS, IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY));
-						}
-						catch (Exception &e)
-						{
-							e.Show (hwndDlg);
-						}
-					}
-				}
-
-				/* (System) Favorites list */
-
-				if (SelectedItem != -1 && !Favorites.empty())
-					SetFavoriteVolume (hwndDlg, Favorites[SelectedItem], SystemFavoritesMode);
-
-				if (SaveFavoriteVolumes (hwndDlg, Favorites, SystemFavoritesMode))
-				{
-					if (!SystemFavoritesMode)
-					{
-						bMountFavoritesOnLogon = FALSE;
-
-						foreach (const FavoriteVolume &favorite, Favorites)
-						{
-							if (favorite.MountOnLogOn)
+							try
 							{
-								bMountFavoritesOnLogon = TRUE;
-								break;
+								uint32 reqConfig = IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT) ? TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES : 0;
+								if (reqConfig != (ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES))
+									BootEncObj.SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES, reqConfig ? true : false);
+
+								if (!BootEncObj.IsSystemFavoritesServiceRunning())
+								{
+									// The system favorites service should be always running
+									// If it is stopped for some reason, we reconfigure it
+									BootEncObj.RegisterSystemFavoritesService (TRUE);
+								}
+
+								SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_NONADMIN_SYS_FAVORITES_ACCESS, IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY));
+							}
+							catch (Exception &e)
+							{
+								e.Show (hwndDlg);
 							}
 						}
+					}
 
-						if (!bEnableBkgTask || bCloseBkgTaskWhenNoVolumes || IsNonInstallMode())
+					/* (System) Favorites list */
+
+					if (SelectedItem != -1 && !Favorites.empty())
+						SetFavoriteVolume (hwndDlg, Favorites[SelectedItem], SystemFavoritesMode);
+
+					if (SaveFavoriteVolumes (hwndDlg, Favorites, SystemFavoritesMode))
+					{
+						if (!SystemFavoritesMode)
 						{
-							foreach (const FavoriteVolume favorite, Favorites)
+							bMountFavoritesOnLogon = FALSE;
+
+							for (const FavoriteVolume& favorite: Favorites)
 							{
-								if (favorite.MountOnArrival)
+								if (favorite.MountOnLogOn)
 								{
-									Warning ("FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR", hwndDlg);
+									bMountFavoritesOnLogon = TRUE;
 									break;
 								}
 							}
+
+							if (!bEnableBkgTask || bCloseBkgTaskWhenNoVolumes || IsNonInstallMode())
+							{
+								for (const FavoriteVolume& favorite: Favorites)
+								{
+									if (favorite.MountOnArrival)
+									{
+										Warning ("FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR", hwndDlg);
+										break;
+									}
+								}
+							}
+
+							if (!bInitialOptionValue && NeedPeriodicDeviceListUpdate)
+							{
+								// a favorite was set to use VolumeID. We update the list of devices available for mounting as early as possible
+								UpdateMountableHostDeviceList ();
+							}
+
+							FavoriteVolumes = Favorites;
+
+							ManageStartupSeq();
+							SaveSettings (hwndDlg);
 						}
+						else
+							SystemFavoriteVolumes = Favorites;
 
-						FavoriteVolumes = Favorites;
+						OnFavoriteVolumesUpdated();
+						LoadDriveLetters (hwndDlg, GetDlgItem (MainDlg, IDC_DRIVELIST), 0);
 
-						ManageStartupSeq();
-						SaveSettings (hwndDlg);
+						EndDialog (hwndDlg, IDOK);
 					}
-					else
-						SystemFavoriteVolumes = Favorites;
-
-					OnFavoriteVolumesUpdated();
-					LoadDriveLetters (hwndDlg, GetDlgItem (MainDlg, IDC_DRIVELIST), 0);
-
-					EndDialog (hwndDlg, IDOK);
 				}
-
 				return 1;
 
 			case IDCANCEL:
@@ -379,7 +400,7 @@ namespace VeraCrypt
 				return 1;
 
 			case IDC_FAVORITES_HELP_LINK:
-				Applink (SystemFavoritesMode ? "sysfavorites" : "favorites", TRUE, "");
+				Applink (SystemFavoritesMode ? "sysfavorites" : "favorites");
 				return 1;
 			case IDC_SHOW_PIM:
 				HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PIM, IDC_PIM, 0);
@@ -388,7 +409,7 @@ namespace VeraCrypt
 			case IDC_PIM:
 				if (hw == EN_CHANGE)
 				{
-					int pim = GetPim (hwndDlg, IDC_PIM);
+					int pim = GetPim (hwndDlg, IDC_PIM, -1);
 					if (pim > (SystemFavoritesMode? MAX_BOOT_PIM_VALUE: MAX_PIM_VALUE))
 					{
 						SetDlgItemText (hwndDlg, IDC_PIM, L"");
@@ -435,13 +456,13 @@ namespace VeraCrypt
 		case WM_CTLCOLORSTATIC:
 			{
 				HDC hdc = (HDC)	wParam;
-				HWND hw = (HWND) lParam;
-				if (hw == GetDlgItem(hwndDlg, IDC_FAVORITE_VOLUME_ID))
+				HWND hwnd = (HWND) lParam;
+				if (hwnd == GetDlgItem(hwndDlg, IDC_FAVORITE_VOLUME_ID))
 				{
 					// This the favorite ID field. Make its background like normal edit
 					HBRUSH hbr = GetSysColorBrush (COLOR_WINDOW);
 					::SelectObject(hdc, hbr);
-					return (BOOL) hbr;
+					return (BOOL)(INT_PTR)hbr;
 				}
 			}
 			break;
@@ -461,7 +482,7 @@ namespace VeraCrypt
 		AppendMenu (FavoriteVolumesMenu, MF_SEPARATOR, 0, L"");
 
 		int i = 0;
-		foreach (const FavoriteVolume &favorite, FavoriteVolumes)
+		for (const FavoriteVolume& favorite: FavoriteVolumes)
 		{
 			UINT flags = MF_STRING;
 
@@ -491,7 +512,7 @@ namespace VeraCrypt
 		SendMessage (favoriteListControl, LVM_DELETEALLITEMS, 0, 0);
 
 		int line = 0;
-		foreach (const FavoriteVolume favorite, favorites)
+		for (const FavoriteVolume& favorite: favorites)
 		{
 			ListItemAdd (favoriteListControl, line, (wchar_t *) favorite.MountPoint.substr (0, 2).c_str());
 			FillListControlSubItems (favoriteListControl, line++, favorite);
@@ -512,7 +533,7 @@ namespace VeraCrypt
 
 	wstring GetFavoriteVolumeLabel (const wstring &volumePath, bool& useInExplorer)
 	{
-		foreach (const FavoriteVolume &favorite, FavoriteVolumes)
+		for (const FavoriteVolume& favorite: FavoriteVolumes)
 		{
 			if (favorite.Path == volumePath)
 			{
@@ -521,7 +542,7 @@ namespace VeraCrypt
 			}
 		}
 
-		foreach (const FavoriteVolume &favorite, SystemFavoriteVolumes)
+		for (const FavoriteVolume& favorite: SystemFavoriteVolumes)
 		{
 			if (favorite.Path == volumePath)
 			{
@@ -535,7 +556,7 @@ namespace VeraCrypt
 	}
 
 
-	void LoadFavoriteVolumes ()
+	static void LoadFavoriteVolumes (bool clearLetterConflicts)
 	{
 		LoadFavoriteVolumes (FavoriteVolumes, false);
 
@@ -545,12 +566,80 @@ namespace VeraCrypt
 		}
 		catch (...) { }	// Ignore errors as SystemFavoriteVolumes list is used only for resolving volume paths to labels
 
-		OnFavoriteVolumesUpdated();
+		OnFavoriteVolumesUpdated (clearLetterConflicts);
+	}
+
+
+	void LoadFavoriteVolumes ()
+	{
+		LoadFavoriteVolumes (true);
+	}
+
+
+	/* Longest label, in UTF-16 units, that the Organize Favorite Volumes dialog keeps */
+	static const size_t MaxFavoriteLabelLength = 1023;
+
+
+	/* Escape text for a double quoted XML attribute without a fixed buffer. */
+	static wstring QuoteXmlText (const wstring &text)
+	{
+		wstring quoted;
+
+		for (wchar_t c : text)
+		{
+			switch (c)
+			{
+			case L'&':	quoted += L"&amp;";	break;
+			case L'<':	quoted += L"&lt;";	break;
+			case L'>':	quoted += L"&gt;";	break;
+			case L'"':	quoted += L"&quot;";	break;
+			default:	quoted += c;		break;
+			}
+		}
+
+		return quoted;
+	}
+
+
+	/* Decode the escapes written by QuoteXmlText in a marked label. */
+	static void UnquoteXmlText (char *text)
+	{
+		char *in = text;
+		char *out = text;
+
+		while (*in)
+		{
+			if (strncmp (in, "&lt;", 4) == 0)
+			{
+				*out++ = '<';
+				in += 4;
+			}
+			else if (strncmp (in, "&gt;", 4) == 0)
+			{
+				*out++ = '>';
+				in += 4;
+			}
+			else if (strncmp (in, "&amp;", 5) == 0)
+			{
+				*out++ = '&';
+				in += 5;
+			}
+			else if (strncmp (in, "&quot;", 6) == 0)
+			{
+				*out++ = '"';
+				in += 6;
+			}
+			else
+				*out++ = *in++;
+		}
+
+		*out = 0;
 	}
 
 
 	void LoadFavoriteVolumes (vector <FavoriteVolume> &favorites, bool systemFavorites, bool noUacElevation)
 	{
+		bool bVolumeIdInUse = false;
 		favorites.clear();
 		wstring favoritesFilePath = systemFavorites ? GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false) : GetConfigPath (TC_APPD_FILENAME_FAVORITE_VOLUMES);
 
@@ -579,35 +668,71 @@ namespace VeraCrypt
 			DeleteFile (GetConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES));
 
 		char *xml = favoritesXml;
-		char mountPoint[MAX_PATH], volume[MAX_PATH];
+		char mountPoint[MAX_PATH], volume[MAX_PATH * 3];
 
 		if (xml == NULL)
 			return;
 
 		while (xml = XmlFindElement (xml, "volume"))
 		{
+			char *tagEnd = XmlFindTagEnd (xml);
+			if (!tagEnd)
+			{
+				xml++;
+				continue;
+			}
+
 			FavoriteVolume favorite;
 
 			XmlGetAttributeText (xml, "mountpoint", mountPoint, sizeof (mountPoint));
 			favorite.MountPoint = Utf8StringToWide (mountPoint);
 
-			XmlGetNodeText (xml, volume, sizeof (volume));
-			favorite.Path = Utf8StringToWide (volume);
+			wchar_t volumePath[MAX_PATH];
+			if (XmlGetNodeText (xml, volume, sizeof (volume)) == NULL
+				|| MultiByteToWideChar (CP_UTF8, 0, volume, -1, volumePath, ARRAYSIZE (volumePath)) == 0)
+			{
+				xml = tagEnd;
+				continue;
+			}
+			favorite.Path = volumePath;
 
 			char label[1024];
 
 			XmlGetAttributeText (xml, "ID", label, sizeof (label));
 			if (strlen (label) == (2*VOLUME_ID_SIZE))
 			{
-				std::vector<byte> arr;
+				std::vector<uint8> arr;
 				if (HexWideStringToArray (Utf8StringToWide (label).c_str(), arr) && arr.size() == VOLUME_ID_SIZE)
 				{
 					memcpy (favorite.VolumeID, &arr[0], VOLUME_ID_SIZE);
 				}
 			}
 
-			XmlGetAttributeText (xml, "label", label, sizeof (label));
-			favorite.Label = Utf8StringToWide (label);
+			/* The label is read into a buffer as long as the start tag that holds it. Earlier
+			   versions wrote labels as is, so only a label marked with labelEscaped is decoded.
+			   A favorite whose label is longer than the dialog keeps is skipped: escaped, each
+			   UTF-16 unit of an accepted label takes at most 6 bytes ("&quot;"), so a longer one
+			   is rejected before Utf8StringToWide, whose buffer it could exceed. */
+			vector <char> labelText ((size_t) (tagEnd - xml) + 1);
+			char labelEscaped[2];
+
+			XmlGetAttributeText (xml, "label", &labelText[0], (int) labelText.size());
+			if (strlen (&labelText[0]) > MaxFavoriteLabelLength * 6)
+			{
+				xml = tagEnd;
+				continue;
+			}
+
+			XmlGetAttributeText (xml, "labelEscaped", labelEscaped, sizeof (labelEscaped));
+			if (labelEscaped[0] == '1')
+				UnquoteXmlText (&labelText[0]);
+
+			favorite.Label = Utf8StringToWide (&labelText[0]);
+			if (favorite.Label.size() > MaxFavoriteLabelLength)
+			{
+				xml = tagEnd;
+				continue;
+			}
 
 			XmlGetAttributeText (xml, "pim", label, sizeof (label));
 			if (strlen(label) == 0)
@@ -615,9 +740,14 @@ namespace VeraCrypt
 				/* support old attribute name before it was changed to PIM*/
 				XmlGetAttributeText (xml, "pin", label, sizeof (label));
 			}
-			favorite.Pim = strtol (label, NULL, 10);
-			if (favorite.Pim < 0 || favorite.Pim > (systemFavorites? MAX_BOOT_PIM_VALUE : MAX_PIM_VALUE))
-				favorite.Pim = 0;
+			if (label[0])
+			{
+				favorite.Pim = strtol (label, NULL, 10);
+				if (favorite.Pim < 0 || favorite.Pim > (systemFavorites? MAX_BOOT_PIM_VALUE : MAX_PIM_VALUE))
+					favorite.Pim = -1;
+			}
+			else
+				favorite.Pim = -1;
 
 			char boolVal[2];
 			XmlGetAttributeText (xml, "readonly", boolVal, sizeof (boolVal));
@@ -669,21 +799,48 @@ namespace VeraCrypt
 					favorite.DisconnectedDevice = true;
 			}
 
+			XmlGetAttributeText (xml, "pkcs5", label, sizeof (label));
+			if (label[0])
+				favorite.Pkcs5 = strtol (label, NULL, 10);
+			else
+				favorite.Pkcs5 = -1;
+			if 	(	(favorite.Pkcs5 != -1) 
+				&&	(  (favorite.Pkcs5 < FIRST_PRF_ID)
+						|| (favorite.Pkcs5 > LAST_PRF_ID)
+					)
+				)
+			{
+				favorite.Pkcs5 = -1;
+			}
+
+			if (!systemFavorites && favorite.UseVolumeID)
+				bVolumeIdInUse = true;
+
 			favorites.push_back (favorite);
-			xml++;
+			// Old labels may contain '<volume '. Resume after the complete start tag.
+			xml = tagEnd;
+		}
+
+		if (!systemFavorites)
+		{
+			if (bVolumeIdInUse && !DisablePeriodicDeviceListUpdate)
+				NeedPeriodicDeviceListUpdate = TRUE;
+			else
+				NeedPeriodicDeviceListUpdate = FALSE;
 		}
 
 		free (favoritesXml);
 	}
 
 
-	static void OnFavoriteVolumesUpdated ()
+	static void OnFavoriteVolumesUpdated (bool clearLetterConflicts)
 	{
 		FillFavoriteVolumesMenu();
 
+		::ClearFavoriteVolumeArrivalMountSuppressions (clearLetterConflicts ? TRUE : FALSE);
 		FavoritesOnArrivalMountRequired.clear();
 
-		foreach (const FavoriteVolume favorite, FavoriteVolumes)
+		for (const FavoriteVolume& favorite: FavoriteVolumes)
 		{
 			if (favorite.MountOnArrival)
 			{
@@ -693,7 +850,7 @@ namespace VeraCrypt
 				{
 					bool present = false;
 
-					foreach (const FavoriteVolume favoriteConnected, FavoritesMountedOnArrivalStillConnected)
+					for (const FavoriteVolume& favoriteConnected: FavoritesMountedOnArrivalStillConnected)
 					{
 						if (favorite.Path == favoriteConnected.Path)
 						{
@@ -731,18 +888,21 @@ namespace VeraCrypt
 	{
 		FILE *f;
 		int cnt = 0;
+		bool bVolumeIdInUse = false;
 
-		f = _wfopen (GetConfigPath (systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES), L"w,ccs=UTF-8");
+		f = _wfopen (GetConfigPath (systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES), L"wb");
 		if (f == NULL)
 		{
 			handleWin32Error (MainDlg, SRC_POS);
 			return false;
 		}
 
-		XmlWriteHeader (f);
-		fputws (L"\n\t<favorites>", f);
+		finally_do_arg (FILE*&, f, { if (finally_arg) fclose (finally_arg); });
 
-		foreach (const FavoriteVolume &favorite, favorites)
+		XmlWriteHeaderUtf8 (f);
+		fputs ("\r\n\t<favorites>", f);
+
+		for (const FavoriteVolume& favorite: favorites)
 		{
 			wchar_t tq[2048];
 
@@ -751,16 +911,16 @@ namespace VeraCrypt
 
 			XmlQuoteTextW (!favorite.VolumePathId.empty() ? favorite.VolumePathId.c_str() : favorite.Path.c_str(), tq, ARRAYSIZE (tq));
 
-			wstring s = L"\n\t\t<volume mountpoint=\"" + favorite.MountPoint + L"\"";
+			wstring s = L"\r\n\t\t<volume mountpoint=\"" + favorite.MountPoint + L"\"";
 
 			if (!IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)))
 				s += L" ID=\"" + ArrayToHexWideString (favorite.VolumeID, sizeof (favorite.VolumeID)) + L"\"";
 
-			if (!favorite.Label.empty())
-				s += L" label=\"" + favorite.Label + L"\"";
-
-			if (favorite.Pim > 0)
+			if (favorite.Pim >= 0)
 				s += L" pim=\"" + IntToWideString(favorite.Pim) + L"\"";
+
+			if (favorite.Pkcs5 > 0)
+				s += L" pkcs5=\"" + IntToWideString(favorite.Pkcs5) + L"\"";
 
 			if (favorite.ReadOnly)
 				s += L" readonly=\"1\"";
@@ -787,24 +947,53 @@ namespace VeraCrypt
 				s += L" useLabelInExplorer=\"1\"";
 
 			if (favorite.UseVolumeID && !IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)))
+			{
 				s += L" useVolumeID=\"1\"";
+				if (!systemFavorites)
+					bVolumeIdInUse = true;
+			}
+
+			if (!favorite.Label.empty())
+			{
+				/* A '<' or '>' in the label would end the element when the file is read, so the
+				   label is escaped like the path. Earlier versions wrote labels as is, so a label
+				   that escaping changes is marked with labelEscaped, for LoadFavoriteVolumes to
+				   decode it. Other labels are written as before. Keep the label last so that
+				   older readers don't mistake text inside it for another attribute. */
+				wstring quotedLabel = QuoteXmlText (favorite.Label);
+
+				if (quotedLabel != favorite.Label)
+					s += L" labelEscaped=\"1\"";
+
+				s += L" label=\"" + quotedLabel + L"\"";
+			}
 
 			s += L">" + wstring (tq) + L"</volume>";
 
-			fwprintf (f, L"%ws", s.c_str());
+			// The CRT UTF-8 stream can split a surrogate pair while converting its
+			// internal buffers. Convert the complete record before writing bytes.
+			string utf8 = WideToUtf8String (s);
+			fwrite (utf8.data(), 1, utf8.size(), f);
 			cnt++;
 		}
 
-		fputws (L"\n\t</favorites>", f);
-		XmlWriteFooter (f);
+		fputs ("\r\n\t</favorites>", f);
+		XmlWriteFooterUtf8 (f);
 
-		if (!CheckFileStreamWriteErrors (hwndDlg, f, systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES))
+		if (!systemFavorites)
 		{
-			fclose (f);
-			return false;
+			if (bVolumeIdInUse && !DisablePeriodicDeviceListUpdate)
+				NeedPeriodicDeviceListUpdate = TRUE;
+			else
+				NeedPeriodicDeviceListUpdate = FALSE;
 		}
 
+		fflush (f);
+		if (!CheckFileStreamWriteErrors (hwndDlg, f, systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES))
+			return false;
+
 		fclose (f);
+		f = NULL;
 
 		BootEncryption bootEnc (MainDlg);
 
@@ -872,6 +1061,25 @@ namespace VeraCrypt
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE, favorite.Removable);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID, favorite.UseVolumeID && bIsDevice);
 
+		/* Populate the PRF algorithms list */
+		int nIndex, i, nSelected = 0;
+		HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
+		SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
+
+		nIndex = (int) SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
+		SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) 0);
+
+		for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
+		{
+			nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_kdf_name(i));
+			SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
+			if (favorite.Pkcs5 == i)
+				nSelected = nIndex;
+		}
+
+		if (favorite.Pkcs5 >= 0)
+			SendMessage (hComboBox, CB_SETCURSEL, nSelected, 0);
+
 		if (IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)) || !bIsDevice)
 		{
 			SetDlgItemText (hwndDlg, IDC_FAVORITE_VOLUME_ID, L"");
@@ -898,6 +1106,8 @@ namespace VeraCrypt
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOVE_UP), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOVE_DOWN), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_REMOVE), enable);
+		EnableWindow (GetDlgItem (hwndDlg, IDT_KDF), enable && !favorite.SystemEncryption);
+		EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), enable && !favorite.SystemEncryption);
 		EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PIM), enable);
@@ -954,7 +1164,7 @@ namespace VeraCrypt
 
 	static void SetFavoriteVolume (HWND hwndDlg, FavoriteVolume &favorite, bool systemFavoritesMode)
 	{
-		wchar_t label[1024];
+		wchar_t label[MaxFavoriteLabelLength + 1];
 		if (GetDlgItemTextW (hwndDlg, IDC_FAVORITE_LABEL, label, ARRAYSIZE (label)) != 0)
 		{
 			favorite.Label = label;
@@ -968,9 +1178,14 @@ namespace VeraCrypt
 		else
 			favorite.Label.clear();
 
-		favorite.Pim = GetPim (hwndDlg, IDC_PIM);
+		favorite.Pim = GetPim (hwndDlg, IDC_PIM, -1);
 		favorite.UseLabelInExplorer = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_USE_LABEL_IN_EXPLORER) != 0);
 		favorite.UseVolumeID = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID) != 0);
+		int nSelected = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0);
+		if (nSelected != CB_ERR)
+			favorite.Pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, nSelected, 0);
+		else
+			favorite.Pkcs5 = -1;
 
 		favorite.ReadOnly = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_READONLY) != 0);
 		favorite.Removable = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE) != 0);
@@ -1014,7 +1229,7 @@ namespace VeraCrypt
 	{
 		try
 		{
-			LoadFavoriteVolumes();
+			LoadFavoriteVolumes (false);
 		}
 		catch (Exception &e)
 		{

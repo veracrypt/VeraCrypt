@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title> VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt 是一款适用于 Windows、Mac OS X 和 Linux 的免费开源磁盘加密软件。如果攻击者迫使您透露密码，VeraCrypt 提供合理的否认性。与文件加密不同，VeraCrypt 执行的数据加密是实时（即时）、自动、透明的，占用内存极少，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Pipelining.html">流水线处理</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>流水线处理</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+在加密或解密数据时，VeraCrypt 使用所谓的流水线处理（异步处理）。当应用程序从 VeraCrypt 加密的卷/驱动器加载文件的一部分时，VeraCrypt 会自动在内存中对其进行解密。由于采用了流水线处理，应用程序无需等待文件的任何部分解密完成，就可以立即开始加载文件的其他部分。在向加密卷/驱动器写入数据时，加密过程也是如此。
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+流水线处理使得从加密驱动器读取数据和向其写入数据的速度与未加密驱动器一样快（这同样适用于文件托管和分区托管的 VeraCrypt <a href="VeraCrypt%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">卷</a>）。*
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+注意：流水线处理仅在 VeraCrypt 的 Windows 版本中实现。
+</div>
+<p>&nbsp;</p>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* 一些固态硬盘会在内部对数据进行压缩，当数据可压缩时（例如文本文件），这似乎会提高实际的读写速度。然而，加密数据无法被压缩（因为它看起来完全由随机的“噪声”组成，没有任何可压缩的模式）。这可能会产生各种影响。例如，读取或写入可压缩数据（如零序列）的基准测试软件在加密卷上报告的速度会比在未加密卷上低（为避免这种情况，请使用读取/写入随机或其他不可压缩数据的基准测试软件）。</span><span style="text-align:left; font-size:10px; line-height:12px">.</span></p>
+</div><div class="ClearBoth"></div></body></html>

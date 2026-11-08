@@ -31,8 +31,8 @@ typedef STREEBOG_ALIGN(16) struct _STREEBOG_CTX
 
 void STREEBOG_init(STREEBOG_CTX *ctx);
 void STREEBOG_init256(STREEBOG_CTX *ctx);
-void STREEBOG_add(STREEBOG_CTX *ctx, const byte *msg, size_t len);
-void STREEBOG_finalize(STREEBOG_CTX *ctx, byte *out);
+void STREEBOG_add(STREEBOG_CTX *ctx, const uint8 *msg, size_t len);
+void STREEBOG_finalize(STREEBOG_CTX *ctx, uint8 *out);
 
 #ifdef __cplusplus
 }

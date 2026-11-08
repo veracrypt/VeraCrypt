@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Key%20Derivation%20Algorithms.html">密钥推导算法</a>
+</p></div>
+<div class="wikidoc">
+<h1>密钥推导算法</h1>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+密钥推导函数（KDF）会将您的密码以及可选的密钥文件转换为用于解密 VeraCrypt 卷头的加密密钥。KDF 通过使用大的随机盐值和可调的工作因子（例如迭代次数或内存用量）来减缓暴力破解，并防止预计算攻击。
+</div>
+
+<h3>VeraCrypt 中可用的算法</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:8px; padding:0px">
+<strong><a href="Argon2id.html" style="color:#0080c0; text-decoration:none">Argon2id</a>：</strong>现代的内存困难型 KDF，内部基于 <a href="BLAKE2b-512.html" style="color:#0080c0; text-decoration:none">BLAKE2b-512</a>。推荐用于新的非系统卷。无需单独选择哈希算法。
+</li>
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding:0px">
+<strong><a href="pbkdf2.html" style="color:#0080c0; text-decoration:none">PBKDF2-HMAC</a>：</strong>广泛部署的 KDF，使用带有可选哈希函数的 HMAC。VeraCrypt 支持的 HMAC 哈希包括：
+<a href="SHA-512.html" style="color:#0080c0; text-decoration:none">SHA-512</a>、<a href="SHA-256.html" style="color:#0080c0; text-decoration:none">SHA-256</a>、<a href="Whirlpool.html" style="color:#0080c0; text-decoration:none">Whirlpool</a>、<a href="BLAKE2s-256.html" style="color:#0080c0; text-decoration:none">BLAKE2s-256</a> 和 <a href="Streebog.html" style="color:#0080c0; text-decoration:none">Streebog</a>。
+</li>
+</ul>
+
+</div>
+</div><div class="ClearBoth"></div></body></html>

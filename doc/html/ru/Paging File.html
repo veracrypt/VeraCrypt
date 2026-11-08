@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">Требования безопасности и меры предосторожности</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Data%20Leaks.html">Утечки данных</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Paging%20File.html">Файл подкачки</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Файл подкачки</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Примечание. Описанная ниже проблема вас <b>не</b> касается, если системный раздел
+или системный диск зашифрован (см. подробности в главе 
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Шифрование системы</a>) и если все файлы подкачки расположены в одном или нескольких разделах в области
+действия <a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+шифрования системы</a>, например, в разделе, на котором установлена Windows (см. подробности в четвёртом
+абзаце этого подраздела)</em><em style="text-align:left">.</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Файлы подкачки, иногда также именуемые swap-файлами или файлами обмена, используются операционной системой
+Windows для хранения частей программ и файлов с данными, не умещающихся в оперативной памяти (ОЗУ) компьютера.
+Это означает, что секретные данные, которые, как вы полагаете, находятся только в ОЗУ, на самом деле без
+вашего ведома могут быть записаны Windows в <i>незашифрованном</i> виде на жёсткий диск.
+<br style="text-align:left">
+<br style="text-align:left">
+Примите к сведению, что VeraCrypt <em style="text-align:left">не может</em> препятствовать сохранению
+содержимого открытых в ОЗУ секретных файлов в <i>незашифрованном</i> виде в файле подкачки (обратите внимание,
+что когда вы открываете хранящийся в томе VeraCrypt файл, например, в текстовом редакторе, содержимое
+этого файла находится в ОЗУ в <i>незашифрованном</i> виде).
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Чтобы избежать описанных выше проблем</strong>, зашифруйте системный
+раздел/диск (о том, как это сделать, см. главу
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Шифрование системы</a>) и убедитесь, что все файлы подкачки расположены на одном или нескольких разделах
+в области действия шифрования системы (например, в разделе, на котором установлена Windows). Обратите
+внимание, что в Windows XP последнее условие обычно бывает выполнено по умолчанию. В отличие от Windows XP,
+в Vista и более новых версиях Windows файлы подкачки по умолчанию создаются на <i>любом</i> подходящем томе.
+Поэтому прежде чем приступить к использованию VeraCrypt, нужно сделать следующее: щёлкните правой кнопкой
+мыши по значку <em style="text-align:left">Компьютер</em> (или <em style="text-align:left">Мой компьютер</em>)
+на рабочем столе или в меню <i>Пуск</i>, затем выберите <em style="text-align:left">
+Свойства</em> &gt; (в <span style="text-align:left">Windows Vista и новее</span>: &gt;
+<em style="text-align:left">Свойства системы</em> &gt;) вкладка <em style="text-align:left">
+Дополнительно</em> &gt; раздел <em style="text-align:left">Быстродействие</em> &gt; <em style="text-align:left">
+Параметры &gt; </em> вкладка <i>Дополнительно</i> &gt; раздел <em style="text-align:left">Виртуальная память
+</em> &gt; <em style="text-align:left">Изменить</em>. В Windows Vista и новее отключите параметр
+<em style="text-align:left">Автоматически выбирать объем файла подкачки</em>. Затем убедитесь, что в списке
+томов, доступных для создания файлов подкачки, присутствуют только те, которые входят в область действия
+шифрования системы (например, том, в котором установлена Windows). Чтобы запретить создание файла подкачки
+на каком-либо конкретном томе, выделите его, затем выберите пункт <em style="text-align:left">Без файла подкачки</em>
+и нажмите <em style="text-align:left">Задать</em>. По окончании нажмите <em style="text-align:left">
+OK</em> и перезагрузите компьютер.<br style="text-align:left">
+<br style="text-align:left">
+<em style="text-align:left">Примечание. Ещё один подходящий вариант – создать скрытую операционную систему
+(см. подробности в разделе
+<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Скрытая операционная система</a>)</em>.</div>
+</div><div class="ClearBoth"></div></body></html>

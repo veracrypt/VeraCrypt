@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -12,6 +12,9 @@
 
 #include "Volume/EncryptionTest.h"
 #include "Volume/EncryptionModeXTS.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "Volume/EncryptionModeWolfCryptXTS.h"
+#endif
 #include "Core.h"
 
 #ifdef TC_UNIX
@@ -26,7 +29,9 @@
 namespace VeraCrypt
 {
 	VolumeCreator::VolumeCreator ()
-		: SizeDone (0)
+		: SizeDone (0),
+		Stage (ProgressStage::NotStarted),
+		mProgressInfo {false, 0, 0, ProgressStage::NotStarted}
 	{
 	}
 
@@ -55,6 +60,7 @@ namespace VeraCrypt
 			if (filesystemSize < 1)
 				throw ParameterIncorrect (SRC_POS);
 
+			Stage.Set (ProgressStage::WritingData);
 			DataStart = Layout->GetDataOffset (HostSize);
 			WriteOffset = DataStart;
 			endOffset = DataStart + Layout->GetDataSize (HostSize);
@@ -134,13 +140,17 @@ namespace VeraCrypt
 			{
 				SizeDone.Set (Options->Size);
 
+				Stage.Set (ProgressStage::WritingBackupHeader);
+
 				// Backup header
 				SecureBuffer backupHeader (Layout->GetHeaderSize());
 
 				SecureBuffer backupHeaderSalt (VolumeHeader::GetSaltSize());
 				RandomNumberGenerator::GetData (backupHeaderSalt);
 
-				Options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, Options->Pim, backupHeaderSalt);
+				int derivationResult = Options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, Options->Pim, backupHeaderSalt);
+				if (derivationResult != 0)
+					throw ExternalException (SRC_POS, Options->VolumeHeaderKdf->GetDerivationFailureMessage (derivationResult));
 
 				Layout->GetHeader()->EncryptNew (backupHeader, backupHeaderSalt, HeaderKey, Options->VolumeHeaderKdf);
 
@@ -186,19 +196,26 @@ namespace VeraCrypt
 					VolumeFile->Write (backupHeader);
 				}
 
+				Stage.Set (ProgressStage::FlushingData);
 				VolumeFile->Flush();
+				Stage.Set (ProgressStage::Finished);
 			}
+			else
+				Stage.Set (ProgressStage::Aborted);
 		}
 		catch (Exception &e)
 		{
+			Stage.Set (ProgressStage::Error);
 			ThreadException.reset (e.CloneNew());
 		}
 		catch (exception &e)
 		{
+			Stage.Set (ProgressStage::Error);
 			ThreadException.reset (new ExternalException (SRC_POS, StringConverter::ToExceptionString (e)));
 		}
 		catch (...)
 		{
+			Stage.Set (ProgressStage::Error);
 			ThreadException.reset (new UnknownException (SRC_POS));
 		}
 
@@ -209,6 +226,9 @@ namespace VeraCrypt
 	void VolumeCreator::CreateVolume (shared_ptr <VolumeCreationOptions> options)
 	{
 		EncryptionTest::TestAll();
+		SizeDone.Set (0);
+		Stage.Set (ProgressStage::NotStarted);
+		ThreadException.reset();
 
 		{
 #ifdef TC_UNIX
@@ -233,7 +253,17 @@ namespace VeraCrypt
 				(options->Path.IsDevice() || options->Type == VolumeType::Hidden) ? File::OpenReadWrite : File::CreateReadWrite,
 				File::ShareNone);
 
-			HostSize = VolumeFile->Length();
+			if (!options->Path.IsDevice() && options->Type == VolumeType::Normal)
+			{
+				HostSize = options->Size;
+
+				if (options->Quick)
+					VolumeFile->SetLength (options->Size);
+			}
+			else
+			{
+				HostSize = VolumeFile->Length();
+			}
 		}
 
 		try
@@ -252,6 +282,9 @@ namespace VeraCrypt
 				{
 					throw UnsupportedSectorSize (SRC_POS);
 				}
+
+				if (HostSize % options->SectorSize != 0)
+					throw ParameterIncorrect (SRC_POS);
 			}
 			else
 				options->SectorSize = TC_SECTOR_SIZE_FILE_HOSTED_VOLUME;
@@ -267,6 +300,10 @@ namespace VeraCrypt
 				Layout.reset (new VolumeLayoutV2Hidden());
 
 				if (HostSize < TC_MIN_HIDDEN_VOLUME_HOST_SIZE)
+					throw ParameterIncorrect (SRC_POS);
+
+				if (HostSize <= TC_TOTAL_VOLUME_HEADERS_SIZE
+					|| options->Size > HostSize - TC_TOTAL_VOLUME_HEADERS_SIZE)
 					throw ParameterIncorrect (SRC_POS);
 				break;
 
@@ -295,9 +332,20 @@ namespace VeraCrypt
 			if (headerOptions.VolumeDataSize < 1)
 				throw ParameterIncorrect (SRC_POS);
 
+#ifndef VC_DCS_DISABLE_ARGON2
+			// New volumes are created in XTS mode; Argon2id header key material has a fixed format size.
+			if (options->VolumeHeaderKdf->IsArgon2() && options->EA->GetKeySize() * 2 > ARGON2_HEADER_KEYDATA_SIZE)
+				throw ParameterIncorrect (SRC_POS);
+#endif
+
 			// Master data key
 			MasterKey.Allocate (options->EA->GetKeySize() * 2);
 			RandomNumberGenerator::GetData (MasterKey);
+			// check that first half of MasterKey is different from its second half. If they are the same, through an exception
+			// cf CCSS,NSA comment at page 3: https://csrc.nist.gov/csrc/media/Projects/crypto-publication-review-project/documents/initial-comments/sp800-38e-initial-public-comments-2021.pdf
+			if (memcmp (MasterKey.Ptr(), MasterKey.Ptr() + MasterKey.Size() / 2, MasterKey.Size() / 2) == 0)
+				throw AssertionFailed (SRC_POS);
+
 			headerOptions.DataKey = MasterKey;
 
 			// PKCS5 salt
@@ -306,9 +354,11 @@ namespace VeraCrypt
 			headerOptions.Salt = salt;
 
 			// Header key
-			HeaderKey.Allocate (VolumeHeader::GetLargestSerializedKeySize());
-			PasswordKey = Keyfile::ApplyListToPassword (options->Keyfiles, options->Password);
-			options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, options->Pim, salt);
+			HeaderKey.Allocate (VolumeHeader::GetHeaderKeyDerivationSize (options->VolumeHeaderKdf));
+			PasswordKey = Keyfile::ApplyListToPassword (options->Keyfiles, options->Password, options->EMVSupportEnabled);
+			int derivationResult = options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, options->Pim, salt);
+			if (derivationResult != 0)
+				throw ExternalException (SRC_POS, options->VolumeHeaderKdf->GetDerivationFailureMessage (derivationResult));
 			headerOptions.HeaderKey = HeaderKey;
 
 			header->Create (headerBuffer, headerOptions);
@@ -355,13 +405,21 @@ namespace VeraCrypt
 
 			// Data area keys
 			options->EA->SetKey (MasterKey.GetRange (0, options->EA->GetKeySize()));
-			shared_ptr <EncryptionMode> mode (new EncryptionModeXTS ());
-			mode->SetKey (MasterKey.GetRange (options->EA->GetKeySize(), options->EA->GetKeySize()));
+                    #ifdef WOLFCRYPT_BACKEND
+                        shared_ptr <EncryptionMode> mode (new EncryptionModeWolfCryptXTS ());
+                        options->EA->SetKeyXTS (MasterKey.GetRange (options->EA->GetKeySize(), options->EA->GetKeySize()));
+                    #else
+                        shared_ptr <EncryptionMode> mode (new EncryptionModeXTS ());
+                    #endif
+                        mode->SetKey (MasterKey.GetRange (options->EA->GetKeySize(), options->EA->GetKeySize()));
 			options->EA->SetMode (mode);
 
 			Options = options;
 			AbortRequested = false;
 
+			mProgressInfo.TotalSize = options->Size;
+			mProgressInfo.SizeDone = 0;
+			mProgressInfo.Stage = ProgressStage::NotStarted;
 			mProgressInfo.CreationInProgress = true;
 
 			struct ThreadFunctor : public Functor
@@ -395,6 +453,7 @@ namespace VeraCrypt
 	VolumeCreator::ProgressInfo VolumeCreator::GetProgressInfo ()
 	{
 		mProgressInfo.SizeDone = SizeDone.Get();
+		mProgressInfo.Stage = static_cast <ProgressStage::Enum> (Stage.Get());
 		return mProgressInfo;
 	}
 }

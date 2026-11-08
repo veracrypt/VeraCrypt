@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认能力。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，仅需极少内存，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20Volume.html">VeraCrypt 卷</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Favorite%20Volumes.html">常用卷</a>
+</p></div>
+
+<div class="wikidoc">
+<h2 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; margin-bottom:17px">
+常用卷</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>常用卷在以下情况特别有用：</p>
+<ul>
+<li>您有一个卷，需要始终挂载到特定的驱动器号。</li>
+<li>您有一个卷，当它的宿主设备连接到计算机时（例如，位于USB闪存驱动器或外部USB硬盘上的容器），需要自动挂载。</li>
+<li>您有一个卷，在您登录操作系统时需要自动挂载。</li>
+<li>您有一个卷，需要始终以只读或可移动介质的方式挂载。</li>
+</ul>
+<p>
+<strong>注意：</strong> 请参考 <a href="Issues%20and%20Limitations.html">已知问题和限制</a> 部分，了解在启用Windows “快速启动” 功能时可能影响常用卷的问题。
+</p>
+<h3>要将VeraCrypt卷配置为常用卷，请按照以下步骤操作：</h3>
+<ol>
+<li>挂载该卷（挂载到您希望每次都挂载到的驱动器号）。</li>
+<li>在VeraCrypt主窗口的驱动器列表中，右键单击已挂载的卷，然后选择 “添加到常用卷”。</li>
+<li>此时应会出现 “常用卷管理器” 窗口。在该窗口中，您可以为该卷设置各种选项（见下文）。</li>
+<li>单击 “确定”。</li>
+</ol>
+<strong>常用卷可以通过多种方式挂载：</strong> 要挂载所有常用卷，请选择 “常用卷” &gt; “挂载常用卷”，或按下 “挂载常用卷” 热键（“设置” &gt; “热键”）。要仅挂载一个常用卷，请从 “常用卷” 菜单中的列表中选择它。执行此操作时，系统会要求您输入其密码（和/或密钥文件）（除非已缓存），如果密码正确，该卷将被挂载。如果该卷已经挂载，则会为其打开一个资源管理器窗口。
+<h3>选定的或所有常用卷可以在您登录Windows时自动挂载</h3>
+<p>要进行此设置，请按照以下步骤操作：</p>
+<ol>
+<li>挂载您希望在登录时自动挂载的卷（挂载到您希望每次都挂载到的驱动器号）。</li>
+<li>在VeraCrypt主窗口的驱动器列表中，右键单击已挂载的卷，然后选择 “添加到常用卷”。</li>
+<li>此时应会出现 “常用卷管理器” 窗口。在该窗口中，启用 “登录时挂载选定卷” 选项，然后单击 “确定”。</li>
+</ol>
+<p>然后，当您登录Windows时，系统会要求您输入卷的密码（和/或密钥文件），如果密码正确，该卷将被挂载。<br>
+<br>
+注意：如果您启用了预启动身份验证密码的缓存（“设置” &gt; “系统加密”），并且这些卷使用与系统分区/驱动器相同的密码，VeraCrypt将不会提示您输入密码。</p>
+<p>选定的或所有常用卷可以在其宿主设备连接到计算机时自动挂载。要进行此设置，请按照以下步骤操作：</p>
+<ol>
+<li>挂载该卷（挂载到您希望每次都挂载到的驱动器号）。</li>
+<li>在VeraCrypt主窗口的驱动器列表中，右键单击已挂载的卷，然后选择 “添加到常用卷”。</li>
+<li>此时应会出现 “常用卷管理器” 窗口。在该窗口中，启用 “宿主设备连接时挂载选定卷” 选项，然后单击 “确定”。</li>
+</ol>
+<p>然后，当您将包含VeraCrypt卷的USB闪存驱动器插入USB端口时，系统会要求您输入卷的密码（和/或密钥文件）（除非已缓存），如果密码正确，该卷将被挂载。<br>
+<br>
+注意：如果您启用了预启动身份验证密码的缓存（“设置” &gt; “系统加密”），并且该卷使用与系统分区/驱动器相同的密码，VeraCrypt将不会提示您输入密码。</p>
+<p>可以为每个常用卷分配一个特殊标签。此标签与文件系统标签不同，它会在VeraCrypt用户界面中显示，而不是显示卷的路径。要分配此类标签，请按照以下步骤操作：</p>
+<ol>
+<li>选择 “常用卷” &gt; “管理常用卷”。</li>
+<li>此时应会出现 “常用卷管理器” 窗口。在该窗口中，选择您要编辑标签的卷。</li>
+<li>在 “选定常用卷的标签” 输入字段中输入标签，然后单击 “确定”。</li>
+</ol>
+<p>请注意，“常用卷管理器” 窗口（“常用卷” &gt; “管理常用卷”）允许您 <strong>为每个常用卷设置各种其他选项</strong>。例如，可以将其中任何一个卷以只读或可移动介质的方式挂载。要设置这些选项，请按照以下步骤操作：</p>
+<ol>
+<li>选择 “常用卷” &gt; “管理常用卷”。</li>
+<li>此时应会出现 “常用卷管理器” 窗口。在该窗口中，选择您要设置选项的卷。</li>
+<li>设置选项，然后单击 “确定”。</li>
+</ol>
+<p>“常用卷管理器” 窗口（“常用卷” &gt; “管理常用卷”）中显示的系统常用卷的顺序 <strong>就是您选择 “常用卷” &gt; “挂载常用卷” 或按下 “挂载常用卷” 热键（“设置” &gt; “热键”）时挂载卷的顺序</strong>。您可以使用 “上移” 和 “下移” 按钮更改卷的顺序。<br>
+<br>
+注意，常用卷也可以是 <strong>在不进行预启动身份验证的情况下挂载的系统加密密钥范围内的分区</strong>（例如，位于未运行的另一个操作系统的加密系统驱动器上的分区）。当您挂载此类卷并将其添加到常用卷时，您将不再需要选择 “系统” &gt; “不进行预启动身份验证挂载” 或启用 “使用系统加密不进行预启动身份验证挂载分区” 挂载选项。您可以直接挂载常用卷（如上所述），而无需设置任何选项，因为卷的挂载模式会保存在包含常用卷列表的配置文件中。</p>
+<p>警告：当分配给常用卷的驱动器号（保存在配置文件中）不可用时，该卷将不会被挂载，且不会显示错误消息。<br>
+<br>
+<strong>要从常用卷列表中移除一个卷</strong>，请选择 “常用卷” &gt; “管理常用卷”，选择该卷，单击 “移除”，然后单击 “确定”。</p>
+<p>&nbsp;</p>
+<p><a href="System%20Favorite%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></p>
+</div>
+</div>
+</body></html>

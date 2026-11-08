@@ -22,6 +22,9 @@
     <Filter Include="Resource Files\Common">
       <UniqueIdentifier>{ece6c790-f488-400d-b92d-64f73ce9f990}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Setup">
+      <UniqueIdentifier>{922a1924-e0f2-4829-8ed2-eb783e03e8a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DlgExpandVolume.cpp">
@@ -120,10 +123,40 @@
     <ClCompile Include="..\Mount\Mount.c">
       <Filter>Source Files\Mount</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\XZip.cpp">
+    <ClCompile Include="..\Setup\SelfExtract.c">
+      <Filter>Source Files\Setup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\EMVToken.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\XUnzip.cpp">
+    <ClCompile Include="..\Common\TLVParser.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Token.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\CommandAPDU.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\PCSCException.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\ResponseAPDU.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SCardLoader.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SCardManager.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SCardReader.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\EMVCard.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SCard.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -230,10 +263,37 @@
     <ClInclude Include="..\Common\Xts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\XZip.h">
+    <ClInclude Include="..\Common\EMVToken.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\XUnzip.h">
+    <ClInclude Include="..\Common\TLVParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Token.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\CommandAPDU.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\PCSCException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\ResponseAPDU.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SCardLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SCardManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SCardReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\EMVCard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SCard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

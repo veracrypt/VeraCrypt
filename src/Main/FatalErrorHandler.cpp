@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -25,7 +25,7 @@
 
 #ifdef TC_MACOSX
 #	include <sys/ucontext.h>
-#elif defined (TC_BSD)
+#elif defined (TC_BSD) && !defined (TC_OPENBSD)
 #	include <ucontext.h>
 #endif
 
@@ -56,9 +56,13 @@ namespace VeraCrypt
 #elif defined (TC_MACOSX)
 #	ifdef __x86_64__
 		faultingInstructionAddress = context->uc_mcontext->__ss.__rip;
+#   else
+#	ifdef __aarch64__
+		faultingInstructionAddress = context->uc_mcontext->__ss.__pc;
 #	else
 		faultingInstructionAddress = context->uc_mcontext->__ss.__eip;
 #	endif
+#   endif
 
 #endif
 		wstringstream vars;
@@ -69,7 +73,7 @@ namespace VeraCrypt
 		vars << L"&addr=" << hex << faultingInstructionAddress << dec;
 		vars << FatalErrorHandler::GetCallStack (16);
 
-		wxString url = Gui->GetHomepageLinkURL (L"err-report", true, vars.str());
+		wxString url = Gui->GetHomepageLinkURL (L"err-report", vars.str());
 		url.Replace (L"=0x", L"=");
 		url.Replace (L"=0X0x", L"=0x");
 		url.Replace (L"=0X", L"=0x");
@@ -212,7 +216,7 @@ namespace VeraCrypt
 			vars.Replace (L"::", L".");
 			vars.Replace (L":", L".");
 
-			wxString url = Gui->GetHomepageLinkURL (L"err-report", true, vars);
+			wxString url = Gui->GetHomepageLinkURL (L"err-report", vars);
 			url.Replace (L"=0x", L"=");
 			url.Replace (L"=0X0x", L"=0x");
 			url.Replace (L"=0X", L"=0x");
@@ -243,7 +247,7 @@ namespace VeraCrypt
 		}
 		catch (...)
 		{
-			Gui->ShowError (_("Unknown exception occurred."));
+			Gui->ShowError (LangString["LINUX_UNKNOWN_EXC_OCCURRED"]);
 		}
 
 		_exit (1);

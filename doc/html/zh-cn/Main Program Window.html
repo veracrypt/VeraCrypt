@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者迫使您透露密码，VeraCrypt可提供似是而非的否认性。与文件加密不同，VeraCrypt进行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Main%20Program%20Window.html">主程序窗口</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>主程序窗口</h1>
+<h3>选择文件</h3>
+<p>允许您选择一个由文件托管的VeraCrypt卷。选择后，您可以对其执行各种操作（例如，点击“挂载”来挂载它）。也可以通过将其图标拖到“VeraCrypt.exe”图标（此时VeraCrypt将自动启动）或主程序窗口来选择一个卷。</p>
+<h3>选择设备</h3>
+<p>允许您选择一个VeraCrypt分区或存储设备（如USB记忆棒）。选择后，您可以对其执行各种操作（例如，点击“挂载”来挂载它）。<br>
+<br>
+注意：有一种更便捷的挂载VeraCrypt分区/设备的方法 - 有关更多信息，请参阅<em>自动挂载设备</em>部分。</p>
+<h3>挂载</h3>
+<p>点击“挂载”后，VeraCrypt将尝试使用缓存的密码（如果有）来挂载所选卷，如果这些密码都不起作用，会提示您输入密码。如果您输入了正确的密码（和/或提供了正确的密钥文件），卷将被挂载。</p>
+<p>重要提示：请注意，当您退出VeraCrypt应用程序时，VeraCrypt驱动程序将继续运行，且不会卸载任何VeraCrypt卷。</p>
+<h3 id="AutoMountDevices">自动挂载设备</h3>
+<p>此功能允许您无需手动选择（通过点击“选择设备”）即可挂载VeraCrypt分区/设备。VeraCrypt会逐个扫描系统中所有可用分区/设备的头部（DVD驱动器和类似设备除外），并尝试将每个分区/设备作为VeraCrypt卷进行挂载。请注意，无法识别VeraCrypt分区/设备，也无法确定其加密所用的密码。因此，程序无法直接“找到”VeraCrypt分区。相反，它必须尝试使用所有加密算法和所有缓存的密码（如果有）来挂载每个（甚至是未加密的）分区/设备。因此，请做好准备，在慢速计算机上此过程可能需要很长时间。<br>
+<br>
+如果您输入的密码错误，将尝试使用缓存的密码（如果有）进行挂载。如果您输入空密码且未选中<em>使用密钥文件</em>，则在尝试自动挂载分区/设备时仅使用缓存的密码。如果您不需要设置挂载选项，可以在点击<em>自动挂载设备</em>时按住<em>Shift</em>键来绕过密码提示（如果有缓存密码，将仅使用这些密码）。<br>
+<br>
+驱动器号将从主窗口的驱动器列表中所选的驱动器号开始分配。</p>
+<h3>卸载</h3>
+<p>此功能允许您卸载主窗口驱动器列表中所选的VeraCrypt卷。卸载VeraCrypt卷意味着关闭它，并使其无法进行读写操作。</p>
+<h3>全部卸载</h3>
+<p>注意：本节中的信息适用于所有具有相同或相似标题的菜单项和按钮（例如，也适用于系统托盘菜单项<em>全部卸载</em>）。<br>
+<br>
+此功能允许您卸载多个VeraCrypt卷。卸载VeraCrypt卷意味着关闭它，并使其无法进行读写操作。此功能将卸载所有已挂载的VeraCrypt卷，但以下情况除外：</p>
+<ul>
+<li>处于活动系统加密密钥范围内的分区/驱动器（例如，由VeraCrypt加密的系统分区，或位于由VeraCrypt加密的系统驱动器上的非系统分区，在加密的操作系统运行时挂载）。
+</li><li>用户账户无法完全访问的VeraCrypt卷（例如，从另一个用户账户中挂载的卷）。
+</li><li>未显示在VeraCrypt应用程序窗口中的VeraCrypt卷。例如，当启用“<em>仅允许管理员在VeraCrypt中查看和卸载系统收藏卷</em>”选项时，无管理员权限的VeraCrypt实例尝试卸载的系统收藏卷。</li></ul>
+<h3>清除缓存</h3>
+<p>清除驱动程序内存中缓存的所有密码（其中可能还包含已处理的密钥文件内容）。当缓存中没有密码时，此按钮将禁用。有关密码缓存的信息，请参阅<a href="Mounting%20VeraCrypt%20Volumes.html">
+<em>在驱动程序内存中缓存密码</em></a>部分。</p>
+<h3>从不保存历史记录</h3>
+<p>如果此选项禁用，将把最后二十个尝试作为VeraCrypt卷挂载的文件/设备的文件名和/或路径保存到历史记录文件中（通过点击主窗口中的卷组合框可以显示其内容）。<br>
+<br>
+当此选项启用时，VeraCrypt将清除Windows文件选择器为VeraCrypt创建的注册表项，并在通过Windows文件选择器选择容器或密钥文件时，将“当前目录”设置为用户的主目录（在便携模式下，设置为启动VeraCrypt的目录）。因此，Windows文件选择器将不会记住最后挂载的容器（或最后选择的密钥文件）的路径。但是，请注意，本段中描述的操作<em>不能</em>保证可靠和安全地执行（例如，请参阅
+<a href="Security%20Requirements%20and%20Precautions.html">
+<em>安全要求和预防措施</em></a>），因此我们强烈建议您对系统分区/驱动器进行加密，而不是依赖这些操作（请参阅
+<a href="System%20Encryption.html"><em>系统加密</em></a>）。<br>
+<br>
+此外，如果此选项启用，每当您隐藏VeraCrypt时，VeraCrypt主窗口中的卷路径输入字段将被清除。<br>
+<br>
+注意：您可以通过选择<em>工具</em> -&gt; <em>清除卷历史记录</em>来清除卷历史记录。</p>
+<h3>退出</h3>
+<p>终止VeraCrypt应用程序。驱动程序将继续运行，且不会卸载任何VeraCrypt卷。在“便携”模式下运行时，当不再需要VeraCrypt驱动程序时（例如，当主应用程序和/或卷创建向导的所有实例都关闭且没有挂载任何VeraCrypt卷时），将卸载该驱动程序。但是，如果您在VeraCrypt以便携模式运行时强制卸载VeraCrypt卷，或者在Windows Vista或更高版本上挂载可写的NTFS格式卷，则在退出VeraCrypt时，VeraCrypt驱动程序<em>可能不会</em>被卸载（只有在关闭或重启系统时才会卸载）。这可以防止因Windows中的一个错误而导致的各种问题（例如，只要有应用程序正在使用已卸载的卷，就无法再次启动VeraCrypt）。</p>
+<h3>卷工具</h3>
+<h4>更改卷密码</h4>
+<p>请参阅<a href="Program%20Menu.html">
+<em>卷 -&gt; 更改卷密码</em></a>部分。</p>
+<h4>设置卷头密钥推导算法</h4>
+<p>请参阅<a href="Program%20Menu.html">
+<em>卷 -&gt; 设置卷头密钥推导算法</em></a>部分。</p>
+<h4>备份卷头</h4>
+<p>请参阅<a href="Program%20Menu.html#tools-backup-volume-header">
+<em>工具 -&gt; 备份卷头</em></a>部分。</p>
+<h4>恢复卷头</h4>
+<p>请参阅<a href="Program%20Menu.html#tools-restore-volume-header">
+<em>工具 -&gt; 恢复卷头</em></a>部分。</p>
+<p>&nbsp;</p>
+<p><a href="Program%20Menu.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">下一部分 &gt;&gt;</a></p>
+</div><div class="ClearBoth"></div></body></html>

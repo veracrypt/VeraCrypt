@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="Code.html">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">Technical Details</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Header%20Key%20Derivation.html">Header Key Derivation, Salt, and Iteration Count</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Header Key Derivation, Salt, and Iteration Count</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Header key is used to encrypt and decrypt the encrypted area of the VeraCrypt volume header (for
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+system encryption</a>, of the keydata area), which contains the master key and other data (see the sections
+<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Encryption Scheme</a> and <a href="VeraCrypt%20Volume%20Format%20Specification.html" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt Volume Format Specification</a>). In volumes created by VeraCrypt (and for
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+system encryption</a>), the area is encrypted in XTS mode (see the section <a href="Modes%20of%20Operation.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Modes of Operation</a>). For system encryption, VeraCrypt uses PBKDF2-HMAC. For non-system volumes and file containers, VeraCrypt supports two key derivation functions for generating header keys: PBKDF2 (specified in PKCS #5 v2.0) and Argon2id.</div>
+
+<h3>PBKDF2-HMAC Key Derivation</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+The PBKDF2 method uses HMAC-based pseudorandom functions with the following hash algorithms available: SHA-512, SHA-256, BLAKE2s-256, Whirlpool, or Streebog (see [8, 9, 20, 22]) – the user selects which. The length of the derived
+ key does not depend on the size of the output of the underlying hash function. For example, a header key for the AES-256 cipher is always 256 bits long even if HMAC-SHA-512 is used (in XTS mode, an additional 256-bit secondary header key is used; hence,
+ two 256-bit keys are used for AES-256 in total). For more information, refer to [7]. A large number of iterations of the key derivation function have to be performed to derive a header key, which increases the time necessary to perform an exhaustive search
+ for passwords (i.e., brute force attack)&nbsp;[7].</div>
+
+<h3>Argon2id Key Derivation</h3>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Argon2id is a memory-hard key derivation function that provides resistance against both time-memory trade-off attacks and side-channel attacks. Unlike PBKDF2-HMAC, Argon2id does not use a separate hash algorithm selection – it uses its own internal hash function (<a href="BLAKE2b-512.html" style="text-align:left; color:#0080c0; text-decoration:none">BLAKE2b-512</a>). Argon2id requires three parameters: memory cost (amount of memory used), time cost (number of iterations), and parallelism (number of threads). VeraCrypt sets the parallelism parameter to 1 for all cases.</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+512-bit salt is used for both key derivation functions, which means there are 2<sup style="text-align:left; font-size:85%">512</sup> keys for each password. This significantly decreases vulnerability to 'off-line' dictionary/'rainbow table' attacks (pre-computing all the keys for a dictionary
+ of passwords is very difficult when a salt is used) [7]. The salt consists of random values generated by the
+<a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt random number generator</a> during the volume creation process.</div>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>Prior to version 1.12, VeraCrypt always used PBKDF2-HMAC with a fixed number of iterations that depended only on the volume type and the hash algorithm used.
+Starting from version 1.12, the <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
+PIM </a>field (<a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">Personal Iterations Multiplier</a>) enables users to have more control over the computational parameters used by the key derivation function.</p>
+
+<h4>PBKDF2-HMAC Parameters</h4>
+<p>When a <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
+PIM </a>value is not specified or if it is equal to zero, VeraCrypt uses the default values expressed below:<br/>
+<ul>
+<li>For system partition encryption (boot encryption) that uses SHA-256, BLAKE2s-256 or Streebog, <strong>200000</strong> iterations are used.</li>
+<li>For system encryption that uses SHA-512 or Whirlpool, <strong>500000</strong> iterations are used.</li>
+<li>For non-system encryption and file containers, all PBKDF2-HMAC variants will use <strong>500000</strong> iterations.
+</li></ul>
+</p>
+<p>When a <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
+PIM </a>value is given by the user, the number of iterations of the PBKDF2 key derivation function is calculated as follows:</p>
+<ul>
+<li>For system encryption that doesn't use SHA-512 or Whirlpool: Iterations = <strong>PIM x 2048</strong>
+</li><li>For system encryption that uses SHA-512 or Whirlpool: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
+</li><li>For non-system encryption and file containers: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
+</li></ul>
+
+<h4>Argon2id Parameters</h4>
+<p>When Argon2id is selected as the key derivation function, the PIM value controls both memory and time costs as described in the <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">PIM section</a>. If no PIM is specified, default parameters equivalent to PIM = 12 are used (416 MiB memory, 6 iterations).</p>
+<p>For Argon2id, VeraCrypt derives a fixed 192 bytes of header key material for the current volume format, independently of the selected encryption algorithm. The selected encryption algorithm then uses the required prefix of that derived output. For example, AES-XTS uses the first 64 bytes. Implementations must request 192 bytes from Argon2id and then select the required prefix; requesting only the selected algorithm's key material length produces a different Argon2id output because Argon2id includes the requested output length in its computation.</p>
+
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Header keys used by ciphers in a cascade are mutually independent, even though they are derived from a single password (to which keyfiles may have been applied). For example, for the AES-Twofish-Serpent cascade, the header key derivation function is instructed
+ to derive a 768-bit encryption key from a given password (and, for XTS mode, in addition, a 768-bit
+<em style="text-align:left">secondary</em> header key from the given password). The generated 768-bit header key is then split into three 256-bit keys (for XTS mode, the
+<em style="text-align:left">secondary</em> header key is split into three 256-bit keys too, so the cascade actually uses six 256-bit keys in total), out of which the first key is used by Serpent, the second key is used by Twofish, and the third by AES (in addition,
+ for XTS mode, the first secondary key is used by Serpent, the second secondary key is used by Twofish, and the third secondary key by AES). Hence, even when an adversary has one of the keys, he cannot use it to derive the other keys, as there is no feasible
+ method to determine the password from which the key was derived (except for brute force attack mounted on a weak password).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Next Section &gt;&gt;</a></div>
+</div><div class="ClearBoth"></div></body></html>

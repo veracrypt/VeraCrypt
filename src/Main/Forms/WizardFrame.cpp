@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -14,6 +14,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "Main/Resources.h"
 #include "WizardFrame.h"
+#include "WindowEventHandlers.h"
 
 namespace VeraCrypt
 {
@@ -40,8 +41,7 @@ namespace VeraCrypt
 		this->SetDefaultItem (NextButton);
 		NextButton->SetFocus();
 
-		foreach (wxWindow *c, MainPanel->GetChildren())
-			c->Connect (wxEVT_MOTION, wxMouseEventHandler (WizardFrame::OnMouseMotion), nullptr, this);
+		ConnectEventToChildWindows (MainPanel, wxEVT_MOTION, wxMouseEventHandler (WizardFrame::OnMouseMotion), this);
 	}
 
 	WizardFrame::~WizardFrame ()
@@ -100,7 +100,7 @@ namespace VeraCrypt
 
 	void WizardFrame::SetCancelButtonText (const wxString &text)
 	{
-		CancelButton->SetLabel (text.empty() ? wxString (_("Cancel")) : text);
+		CancelButton->SetLabel (text.empty() ? wxString (LangString["IDC_ABORT_BUTTON"]) : text);
 	}
 
 	void WizardFrame::SetImage (const wxBitmap &bitmap)
@@ -145,8 +145,7 @@ namespace VeraCrypt
 		CurrentPage->PageUpdatedEvent.Connect (EventConnector <WizardFrame> (this, &WizardFrame::OnPageUpdated));
 
 		CurrentPage->Connect (wxEVT_MOTION, wxMouseEventHandler (WizardFrame::OnMouseMotion), nullptr, this);
-		foreach (wxWindow *c, CurrentPage->GetChildren())
-			c->Connect (wxEVT_MOTION, wxMouseEventHandler (WizardFrame::OnMouseMotion), nullptr, this);
+		ConnectEventToChildWindows (CurrentPage, wxEVT_MOTION, wxMouseEventHandler (WizardFrame::OnMouseMotion), this);
 
 		if (MaxStaticTextWidth > 0)
 			CurrentPage->SetMaxStaticTextWidth (MaxStaticTextWidth);
@@ -167,7 +166,7 @@ namespace VeraCrypt
 
 		wxString nextButtonText = CurrentPage->GetNextButtonText();
 		if (nextButtonText.empty())
-			NextButton->SetLabel (_("&Next >"));
+			NextButton->SetLabel (_("NEXT"));
 		else
 			NextButton->SetLabel (nextButtonText);
 

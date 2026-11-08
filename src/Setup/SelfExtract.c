@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -12,7 +12,7 @@
 
 #include "Tcdefs.h"
 
-#include "Inflate.h"
+#include "zlib.h"
 #include "SelfExtract.h"
 #include "Wizard.h"
 #include "Setup.h"
@@ -22,6 +22,7 @@
 #include "Dir.h"
 #include "Language.h"
 #include "Resource.h"
+#include "LzmaLib.h"
 #include <tchar.h>
 #include <Strsafe.h>
 
@@ -29,15 +30,23 @@
 #define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
 #endif
 
-#define OutputPackageFile L"VeraCrypt Setup " _T(VERSION_STRING) L".exe"
-
-#define MAG_START_MARKER	"TCINSTRT"
-#define MAG_END_MARKER_OBFUSCATED	"T/C/I/N/S/C/R/C"
+#ifdef PORTABLE
+#define OutputPackageFile L"VeraCrypt Portable " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX)L".exe"
+#else
+#ifdef VC_COMREG
+#define OutputPackageFile L"VeraCrypt COMReg.exe"
+#else
+#define OutputPackageFile L"VeraCrypt Setup " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX) L".exe"
+#endif
+#endif
+#define MAG_START_MARKER	"VCINSTRT"
+#define MAG_END_MARKER_OBFUSCATED	"V/C/I/N/S/C/R/C"
 #define PIPE_BUFFER_LEN	(4 * BYTES_PER_KB)
 
 unsigned char MagEndMarker [sizeof (MAG_END_MARKER_OBFUSCATED)];
 wchar_t DestExtractPath [TC_MAX_PATH];
 DECOMPRESSED_FILE	Decompressed_Files [NBR_COMPRESSED_FILES];
+int Decompressed_Files_Count = 0;
 
 volatile char *PipeWriteBuf = NULL;
 volatile HANDLE hChildStdinWrite = INVALID_HANDLE_VALUE;
@@ -54,7 +63,7 @@ void SelfExtractStartupInit (void)
 // The end marker must be included in the self-extracting exe only once, not twice (used e.g.
 // by IsSelfExtractingPackage()) and that's why MAG_END_MARKER_OBFUSCATED is obfuscated and
 // needs to be deobfuscated using this function at startup.
-static void DeobfuscateMagEndMarker (void)
+void DeobfuscateMagEndMarker (void)
 {
 	int i;
 
@@ -84,144 +93,45 @@ static void PkgInfo (wchar_t *msg)
 
 
 // Returns 0 if decompression fails or, if successful, returns the size of the decompressed data
-static int DecompressBuffer (char *out, char *in, int len)
+static int DecompressBuffer (unsigned char *out, int outSize, unsigned char *in, int len)
 {
-	return (DecompressDeflatedData (out, in, len));		// Inflate
-}
-
-
-static void __cdecl PipeWriteThread (void *len)
-{
-	int sendBufSize = PIPE_BUFFER_LEN, bytesSent = 0;
-	int bytesToSend = *((int *) len), bytesSentTotal = 0;
-
-	if (PipeWriteBuf == NULL || (HANDLE) hChildStdinWrite == INVALID_HANDLE_VALUE)
+	int outlen = 0;
+	int status;
+	if (len > 5)
 	{
-		PkgError (L"Failed sending data to the STDIN pipe");
-		return;
-	}
-
-	while (bytesToSend > 0)
-	{
-		if (bytesToSend < PIPE_BUFFER_LEN)
-			sendBufSize = bytesToSend;
-
-		if (!WriteFile ((HANDLE) hChildStdinWrite, (char *) PipeWriteBuf + bytesSentTotal, sendBufSize, &bytesSent, NULL)
-			|| bytesSent == 0
-			|| bytesSent != sendBufSize)
+		// the first 5 bytes of in contain props parameter
+		size_t srcLen = len - 5;
+		size_t outputLen = (size_t) outSize;
+		status = LzmaUncompress (out, &outputLen, in + 5, &srcLen, in, 5);
+		if (status == SZ_OK)
 		{
-			PkgError (L"Failed sending data to the STDIN pipe");
-			return;
+			outlen = (int) outputLen;
 		}
-
-		bytesToSend -= bytesSent;
-		bytesSentTotal += bytesSent;
 	}
 
-	// Closing the pipe causes the child process to stop reading from it
-
-	if (!CloseHandle (hChildStdinWrite))
-	{
-		PkgError (L"Cannot close pipe");
-		return;
-	}
+	return outlen;
 }
 
 
 // Returns 0 if compression fails or, if successful, the size of the compressed data
-static int CompressBuffer (char *out, char *in, int len)
+static int CompressBuffer (unsigned char *out, int outSize, unsigned char *in, int len)
 {
-	SECURITY_ATTRIBUTES securityAttrib;
-	DWORD bytesReceived = 0;
-	HANDLE hChildStdoutWrite = INVALID_HANDLE_VALUE;
-	HANDLE hChildStdoutRead = INVALID_HANDLE_VALUE;
-	HANDLE hChildStdinRead = INVALID_HANDLE_VALUE;
-	STARTUPINFO startupInfo;
-	PROCESS_INFORMATION procInfo;
-	char pipeBuffer [PIPE_BUFFER_LEN];
-	int res_len = 0;
-	BOOL bGzipHeaderRead = FALSE;
-	wchar_t szGzipCmd[64];
-
-	ZeroMemory (&startupInfo, sizeof (startupInfo));
-	ZeroMemory (&procInfo, sizeof (procInfo));
-
-	// Pipe handle inheritance
-	securityAttrib.bInheritHandle = TRUE;
-	securityAttrib.nLength = sizeof (securityAttrib);
-	securityAttrib.lpSecurityDescriptor = NULL;
-
-	if (!CreatePipe (&hChildStdoutRead, &hChildStdoutWrite, &securityAttrib, 0))
+	unsigned char outProps[5];
+	size_t outPropsSize = 5;
+	int outlen = 0;
+	int status;
+	if (outSize > 5)
 	{
-		PkgError (L"Cannot create STDOUT pipe.");
-		return 0;
-	}
-	SetHandleInformation (hChildStdoutRead, HANDLE_FLAG_INHERIT, 0);
-
-	if (!CreatePipe (&hChildStdinRead, &((HANDLE) hChildStdinWrite), &securityAttrib, 0))
-	{
-		PkgError (L"Cannot create STDIN pipe.");
-		CloseHandle(hChildStdoutWrite);
-		CloseHandle(hChildStdoutRead);
-		return 0;
-	}
-	SetHandleInformation (hChildStdinWrite, HANDLE_FLAG_INHERIT, 0);
-
-	// Create a child process that will compress the data
-
-	startupInfo.wShowWindow = SW_HIDE;
-	startupInfo.hStdInput = hChildStdinRead;
-	startupInfo.hStdOutput = hChildStdoutWrite;
-	startupInfo.cb = sizeof (startupInfo);
-	startupInfo.hStdError = hChildStdoutWrite;
-	startupInfo.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
-
-	StringCchCopyW (szGzipCmd, ARRAYSIZE (szGzipCmd), L"gzip --best");
-	if (!CreateProcess (NULL, szGzipCmd, NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &procInfo))
-	{
-		PkgError (L"Error: Cannot run gzip.\n\nBefore you can create a self-extracting VeraCrypt package, you need to have the open-source 'gzip' compression tool placed in any directory in the search path for executable files (for example, in 'C:\\Windows\\').\n\nNote: gzip can be freely downloaded e.g. from www.gzip.org");
-		CloseHandle(hChildStdoutWrite);
-		CloseHandle(hChildStdoutRead);
-		CloseHandle(hChildStdinRead);
-		CloseHandle(hChildStdinWrite);
-		return 0;
-	}
-
-	CloseHandle (procInfo.hProcess);
-	CloseHandle (procInfo.hThread);
-
-	// Start sending the uncompressed data to the pipe (STDIN)
-	PipeWriteBuf = in;
-	_beginthread (PipeWriteThread, PIPE_BUFFER_LEN * 2, (void *) &len);
-
-	if (!CloseHandle (hChildStdoutWrite))
-	{
-		PkgError (L"Cannot close STDOUT write");
-		CloseHandle(hChildStdoutRead);
-		CloseHandle(hChildStdinRead);
-		return 0;
-	}
-
-	bGzipHeaderRead = FALSE;
-
-	// Read the compressed data from the pipe (sent by the child process to STDOUT)
-	while (TRUE)
-	{
-		if (!ReadFile (hChildStdoutRead, pipeBuffer, bGzipHeaderRead ? PIPE_BUFFER_LEN : 10, &bytesReceived, NULL))
-			break;
-
-		if (bGzipHeaderRead)
+		size_t outputLen = (size_t) (outSize - 5);
+		status = LzmaCompress (out + 5, &outputLen, in, len, outProps, &outPropsSize, 9, 0, -1, -1, -1, -1, -1);
+		if (status == SZ_OK)
 		{
-			memcpy (out + res_len, pipeBuffer, bytesReceived);
-			res_len += bytesReceived;
+			memcpy (out, outProps, outPropsSize);
+			outlen = (int) (outputLen + 5);
 		}
-		else
-			bGzipHeaderRead = TRUE;	// Skip the 10-byte gzip header
 	}
 
-	CloseHandle(hChildStdoutRead);
-	CloseHandle(hChildStdinRead);
-	return res_len - 8;	// A gzip stream ends with a CRC-32 hash and a 32-bit size (those 8 bytes need to be chopped off)
+	return outlen;
 }
 
 
@@ -234,7 +144,7 @@ static void WipeSignatureAreas (char *buffer)
 }
 
 
-BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
+BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir, BOOL bSkipX64)
 {
 	int i, x;
 	wchar_t inputFile [TC_MAX_PATH];
@@ -247,7 +157,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 	wchar_t tmpStr [2048];
 	int bufLen = 0, compressedDataLen = 0, uncompressedDataLen = 0;
 
-	x = wcslen (szDestDir);
+	x = (int) wcslen (szDestDir);
 	if (x < 2)
 		goto err;
 
@@ -264,7 +174,11 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 	if (!TCCopyFile (inputFile, outputFile))
 	{
 		handleWin32Error (hwndDlg, SRC_POS);
+#ifdef PORTABLE
+		PkgError (L"Cannot copy 'VeraCrypt Portable.exe' to the package");
+#else
 		PkgError (L"Cannot copy 'VeraCrypt Setup.exe' to the package");
+#endif
 		goto err;
 	}
 
@@ -274,6 +188,17 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 
 	for (i = 0; i < sizeof (szCompressedFiles) / sizeof (szCompressedFiles[0]); i++)
 	{
+		if (bSkipX64 && wcsstr(szCompressedFiles[i], L"-x64"))
+			continue;
+
+#ifdef VC_COMREG
+		if (	wcsstr(szCompressedFiles[i], L".zip") || wcsstr(szCompressedFiles[i], L".inf") 
+			||	wcsstr(szCompressedFiles[i], L".cat") || wcsstr(szCompressedFiles[i], L".txt")
+			||	wcsstr(szCompressedFiles[i], L"LICENSE") || wcsstr(szCompressedFiles[i], L"NOTICE")
+			)
+			continue;
+#endif
+
 		StringCbPrintfW (szTmpFilePath, sizeof(szTmpFilePath), L"%s%s", szDestDir, szCompressedFiles[i]);
 
 		if (!FileExists (szTmpFilePath))
@@ -290,7 +215,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 		bufLen += (int) GetFileSize64 (szTmpFilePath);
 
 		bufLen += 2;					// 16-bit filename length
-		bufLen += (wcslen(szCompressedFiles[i]) * sizeof (wchar_t));	// Filename
+		bufLen += (int) (wcslen(szCompressedFiles[i]) * sizeof (wchar_t));	// Filename
 		bufLen += 4;					// CRC-32
 		bufLen += 4;					// 32-bit file length
 	}
@@ -308,7 +233,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 
 
 	// Write the start marker
-	if (!SaveBufferToFile (MAG_START_MARKER, outputFile, strlen (MAG_START_MARKER), TRUE, FALSE))
+	if (!SaveBufferToFile (MAG_START_MARKER, outputFile, (DWORD) strlen (MAG_START_MARKER), TRUE, FALSE))
 	{
 		if (_wremove (outputFile))
 			PkgError (L"Cannot write the start marker\nFailed also to delete package file");
@@ -325,6 +250,17 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 	{
 		DWORD tmpFileSize;
 		unsigned char *tmpBuffer;
+
+		if (bSkipX64 && wcsstr(szCompressedFiles[i], L"-x64"))
+			continue;
+
+#ifdef VC_COMREG
+		if (	wcsstr(szCompressedFiles[i], L".zip") || wcsstr(szCompressedFiles[i], L".inf") 
+			||	wcsstr(szCompressedFiles[i], L".cat") || wcsstr(szCompressedFiles[i], L".txt")
+			||	wcsstr(szCompressedFiles[i], L"LICENSE") || wcsstr(szCompressedFiles[i], L"NOTICE")
+			)
+			continue;
+#endif
 
 		StringCbPrintfW (szTmpFilePath, sizeof(szTmpFilePath), L"%s%s", szDestDir, szCompressedFiles[i]);
 
@@ -388,7 +324,8 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 		goto err;
 	}
 
-	compressedBuffer = malloc (uncompressedDataLen + 524288);	// + 512K reserve
+	compressedDataLen = uncompressedDataLen + 524288;	// + 512K reserve
+	compressedBuffer = malloc (compressedDataLen);
 	if (compressedBuffer == NULL)
 	{
 		if (_wremove (outputFile))
@@ -398,7 +335,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 		goto err;
 	}
 
-	compressedDataLen = CompressBuffer (compressedBuffer, buffer, uncompressedDataLen);
+	compressedDataLen = CompressBuffer (compressedBuffer, compressedDataLen, buffer, uncompressedDataLen);
 	if (compressedDataLen <= 0)
 	{
 		if (_wremove (outputFile))
@@ -434,7 +371,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 	}
 
 	// Write the end marker
-	if (!SaveBufferToFile (MagEndMarker, outputFile, strlen (MagEndMarker), TRUE, FALSE))
+	if (!SaveBufferToFile (MagEndMarker, outputFile, (DWORD) strlen (MagEndMarker), TRUE, FALSE))
 	{
 		if (_wremove (outputFile))
 			PkgError (L"Cannot write the end marker.\nFailed also to delete package file");
@@ -495,18 +432,30 @@ err:
 
 
 // Verifies the CRC-32 of the whole self-extracting package (except the digital signature areas, if present)
-BOOL VerifyPackageIntegrity (void)
+BOOL VerifySelfPackageIntegrity ()
+{
+	wchar_t path [TC_MAX_PATH];
+
+	GetModuleFileName (NULL, path, ARRAYSIZE (path));
+	return VerifyPackageIntegrity (path);
+}
+
+BOOL VerifyPackageIntegrity (const wchar_t *path)
 {
 	int fileDataEndPos = 0;
 	int fileDataStartPos = 0;
 	unsigned __int32 crc = 0;
 	unsigned char *tmpBuffer;
 	int tmpFileSize;
-	wchar_t path [TC_MAX_PATH];
 
-	GetModuleFileName (NULL, path, ARRAYSIZE (path));
+	// verify Authenticode digital signature of the exe file
+	if (!VerifyModuleSignature (path))
+	{
+		Error ("DIST_PACKAGE_CORRUPTED", NULL);
+		return FALSE;
+	}
 
-	fileDataEndPos = (int) FindStringInFile (path, MagEndMarker, strlen (MagEndMarker));
+	fileDataEndPos = (int) FindStringInFile (path, MagEndMarker, (int) strlen (MagEndMarker));
 	if (fileDataEndPos < 0)
 	{
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
@@ -514,13 +463,13 @@ BOOL VerifyPackageIntegrity (void)
 	}
 	fileDataEndPos--;
 
-	fileDataStartPos = (int) FindStringInFile (path, MAG_START_MARKER, strlen (MAG_START_MARKER));
+	fileDataStartPos = (int) FindStringInFile (path, MAG_START_MARKER, (int) strlen (MAG_START_MARKER));
 	if (fileDataStartPos < 0)
 	{
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 		return FALSE;
 	}
-	fileDataStartPos += strlen (MAG_START_MARKER);
+	fileDataStartPos += (int) strlen (MAG_START_MARKER);
 
 
 	if (!LoadInt32 (path, &crc, fileDataEndPos + strlen (MagEndMarker) + 1))
@@ -541,7 +490,7 @@ BOOL VerifyPackageIntegrity (void)
 	// Zero all bytes that change when an exe is digitally signed (except appended blocks).
 	WipeSignatureAreas (tmpBuffer);
 
-	if (crc != GetCrc32 (tmpBuffer, fileDataEndPos + 1 + strlen (MagEndMarker)))
+	if (crc != GetCrc32 (tmpBuffer, fileDataEndPos + 1 + (int) strlen (MagEndMarker)))
 	{
 		free (tmpBuffer);
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
@@ -561,11 +510,11 @@ BOOL IsSelfExtractingPackage (void)
 
 	GetModuleFileName (NULL, path, ARRAYSIZE (path));
 
-	return (FindStringInFile (path, MagEndMarker, strlen (MagEndMarker)) != -1);
+	return (FindStringInFile (path, MagEndMarker, (int) strlen (MagEndMarker)) != -1);
 }
 
 
-static void FreeAllFileBuffers (void)
+void FreeAllFileBuffers (void)
 {
 	int fileNo;
 
@@ -583,6 +532,8 @@ static void FreeAllFileBuffers (void)
 		Decompressed_Files[fileNo].fileLength = 0;
 		Decompressed_Files[fileNo].crc = 0;
 	}
+
+	Decompressed_Files_Count = 0;
 }
 
 
@@ -590,19 +541,20 @@ static void FreeAllFileBuffers (void)
 // Creates a table of pointers to buffers containing the following objects for each file:
 // filename size, filename (not null-terminated!), file size, file CRC-32, uncompressed file contents.
 // For details, see the definition of the DECOMPRESSED_FILE structure.
-BOOL SelfExtractInMemory (wchar_t *path)
+BOOL SelfExtractInMemory (wchar_t *path, BOOL bSkipCountCheck)
 {
 	int filePos = 0, fileNo = 0;
 	int fileDataEndPos = 0;
 	int fileDataStartPos = 0;
 	int uncompressedLen = 0;
 	int compressedLen = 0;
+	int decompressedDataLen = 0;
 	unsigned char *compressedData = NULL;
 	unsigned char *bufPos = NULL, *bufEndPos = NULL;
 
 	FreeAllFileBuffers();
 
-	fileDataEndPos = (int) FindStringInFile (path, MagEndMarker, strlen (MagEndMarker));
+	fileDataEndPos = (int) FindStringInFile (path, MagEndMarker, (int) strlen (MagEndMarker));
 	if (fileDataEndPos < 0)
 	{
 		Error ("CANNOT_READ_FROM_PACKAGE", NULL);
@@ -611,14 +563,14 @@ BOOL SelfExtractInMemory (wchar_t *path)
 
 	fileDataEndPos--;
 
-	fileDataStartPos = (int) FindStringInFile (path, MAG_START_MARKER, strlen (MAG_START_MARKER));
+	fileDataStartPos = (int) FindStringInFile (path, MAG_START_MARKER, (int) strlen (MAG_START_MARKER));
 	if (fileDataStartPos < 0)
 	{
 		Error ("CANNOT_READ_FROM_PACKAGE", NULL);
 		return FALSE;
 	}
 
-	fileDataStartPos += strlen (MAG_START_MARKER);
+	fileDataStartPos += (int) strlen (MAG_START_MARKER);
 
 	filePos = fileDataStartPos;
 
@@ -643,9 +595,18 @@ BOOL SelfExtractInMemory (wchar_t *path)
 	if (compressedLen != fileDataEndPos - fileDataStartPos - 8 + 1)
 	{
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
+		return FALSE;
 	}
 
-	DecompressedData = malloc (uncompressedLen + 524288);	// + 512K reserve
+	// Test to make Coverity happy. It will always be false
+	if (uncompressedLen >= (INT_MAX - 524288))
+	{
+		Error ("DIST_PACKAGE_CORRUPTED", NULL);
+		return FALSE;
+	}
+
+	decompressedDataLen = uncompressedLen;
+	DecompressedData = malloc (decompressedDataLen);
 	if (DecompressedData == NULL)
 	{
 		Error ("ERR_MEM_ALLOC", NULL);
@@ -667,7 +628,7 @@ BOOL SelfExtractInMemory (wchar_t *path)
 	}
 
 	// Decompress the data
-	if (DecompressBuffer (DecompressedData, compressedData, compressedLen) != uncompressedLen)
+	if (DecompressBuffer (DecompressedData, decompressedDataLen, compressedData, compressedLen) != uncompressedLen)
 	{
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 		goto sem_end;
@@ -703,11 +664,13 @@ BOOL SelfExtractInMemory (wchar_t *path)
 		fileNo++;
 	}
 
-	if (fileNo < NBR_COMPRESSED_FILES)
+	if (!bSkipCountCheck && (fileNo < NBR_COMPRESSED_FILES))
 	{
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 		goto sem_end;
 	}
+
+	Decompressed_Files_Count = fileNo;
 
 	free (compressedData);
 	return TRUE;
@@ -718,7 +681,7 @@ sem_end:
 	return FALSE;
 }
 
-
+#ifdef SETUP
 void __cdecl ExtractAllFilesThread (void *hwndDlg)
 {
 	int fileNo;
@@ -731,7 +694,7 @@ void __cdecl ExtractAllFilesThread (void *hwndDlg)
 
 	GetModuleFileName (NULL, packageFile, ARRAYSIZE (packageFile));
 
-	if (!(bSuccess = SelfExtractInMemory (packageFile)))
+	if (!(bSuccess = SelfExtractInMemory (packageFile, FALSE)))
 		goto eaf_end;
 
 	if (mkfulldir (DestExtractPath, TRUE) != 0)
@@ -752,20 +715,38 @@ void __cdecl ExtractAllFilesThread (void *hwndDlg)
 	{
 		wchar_t fileName [TC_MAX_PATH] = {0};
 		wchar_t filePath [TC_MAX_PATH] = {0};
+		BOOL bResult = FALSE, zipFile = FALSE;
 
 		// Filename
 		StringCchCopyNW (fileName, ARRAYSIZE(fileName), Decompressed_Files[fileNo].fileName, Decompressed_Files[fileNo].fileNameLength);
 		StringCchCopyW (filePath, ARRAYSIZE(filePath), DestExtractPath);
 		StringCchCatW (filePath, ARRAYSIZE(filePath), fileName);
 
+		if ((wcslen (fileName) > 4) && (0 == wcscmp (L".zip", &fileName[wcslen(fileName) - 4])))
+			zipFile = TRUE;
+
 		StatusMessageParam (hwndDlg, "EXTRACTING_VERB", filePath);
 
+		if (zipFile)
+		{
+			bResult = DecompressZipToDir (
+				Decompressed_Files[fileNo].fileContent,
+				Decompressed_Files[fileNo].fileLength,
+				DestExtractPath,
+				CopyMessage,
+				hwndDlg);
+		}
+		else
+		{
+			bResult = SaveBufferToFile (
+				(char *) Decompressed_Files[fileNo].fileContent,
+				filePath,
+				Decompressed_Files[fileNo].fileLength,
+				FALSE, FALSE);
+		}
+
 		// Write the file
-		if (!SaveBufferToFile (
-			Decompressed_Files[fileNo].fileContent,
-			filePath,
-			Decompressed_Files[fileNo].fileLength,
-			FALSE, FALSE))
+		if (!bResult)
 		{
 			wchar_t szTmp[512];
 
@@ -785,4 +766,4 @@ eaf_end:
 	else
 		PostMessage (MainDlg, TC_APPMSG_EXTRACTION_FAILURE, 0, 0);
 }
-
+#endif

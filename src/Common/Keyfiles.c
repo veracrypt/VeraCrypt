@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -23,6 +23,7 @@
 #include "Dlgcode.h"
 #include "Language.h"
 #include "SecurityToken.h"
+#include "EMVToken.h"
 #include "Common/resource.h"
 #include "Platform/Finally.h"
 #include "Platform/ForEach.h"
@@ -147,52 +148,43 @@ void KeyFileCloneAll (KeyFile *firstKeyFile, KeyFile **outputKeyFile)
 }
 
 
-static BOOL KeyFileProcess (unsigned __int8 *keyPool, KeyFile *keyFile)
+static BOOL KeyFileProcess (unsigned __int8 *keyPool, unsigned __int32 keyPoolSize, KeyFile *keyFile)
 {
-	FILE *f;
 	unsigned __int8 buffer[64 * 1024];
 	unsigned __int32 crc = 0xffffffff;
-	int writePos = 0;
-	size_t bytesRead, totalRead = 0;
+	unsigned __int32 writePos = 0;
+	DWORD bytesRead, totalRead = 0;
 	int status = TRUE;
-
 	HANDLE src;
-	FILETIME ftCreationTime;
-	FILETIME ftLastWriteTime;
-	FILETIME ftLastAccessTime;
+	BOOL bReadStatus = FALSE;
 
-	BOOL bTimeStampValid = FALSE;
-
-	/* Remember the last access time of the keyfile. It will be preserved in order to prevent
-	an adversary from determining which file may have been used as keyfile. */
 	src = CreateFile (keyFile->FileName,
-		GENERIC_READ | GENERIC_WRITE,
+		GENERIC_READ | FILE_WRITE_ATTRIBUTES,
 		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 
 	if (src != INVALID_HANDLE_VALUE)
 	{
-		if (GetFileTime ((HANDLE) src, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime))
-			bTimeStampValid = TRUE;
+		/* We tell Windows not to update the Last Access timestamp in order to prevent
+		an adversary from determining which file may have been used as keyfile. */
+		FILETIME ftLastAccessTime;
+		ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
+		ftLastAccessTime.dwLowDateTime = 0xFFFFFFFF;
+
+		SetFileTime (src, NULL, &ftLastAccessTime, NULL);
+	}
+	else
+	{
+		/* try to open without FILE_WRITE_ATTRIBUTES in case we are in a ReadOnly filesystem (e.g. CD)                                                                                                                                                                                                                                         */
+		src = CreateFile (keyFile->FileName,
+			GENERIC_READ,
+			FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+		if (src == INVALID_HANDLE_VALUE)
+			return FALSE;
 	}
 
-	finally_do_arg (HANDLE, src,
+	while ((bReadStatus = ReadFile (src, buffer, sizeof (buffer), &bytesRead, NULL)) && (bytesRead > 0))
 	{
-		if (finally_arg != INVALID_HANDLE_VALUE)
-			CloseHandle (finally_arg);
-	});
-
-	f = _wfopen (keyFile->FileName, L"rb");
-	if (f == NULL) return FALSE;
-
-	while ((bytesRead = fread (buffer, 1, sizeof (buffer), f)) > 0)
-	{
-		size_t i;
-
-		if (ferror (f))
-		{
-			status = FALSE;
-			goto close;
-		}
+		DWORD i;
 
 		for (i = 0; i < bytesRead; i++)
 		{
@@ -203,7 +195,7 @@ static BOOL KeyFileProcess (unsigned __int8 *keyPool, KeyFile *keyFile)
 			keyPool[writePos++] += (unsigned __int8) (crc >> 8);
 			keyPool[writePos++] += (unsigned __int8) crc;
 
-			if (writePos >= KEYFILE_POOL_SIZE)
+			if (writePos >= keyPoolSize)
 				writePos = 0;
 
 			if (++totalRead >= KEYFILE_MAX_READ_LEN)
@@ -211,7 +203,7 @@ static BOOL KeyFileProcess (unsigned __int8 *keyPool, KeyFile *keyFile)
 		}
 	}
 
-	if (ferror (f))
+	if (!bReadStatus)
 	{
 		status = FALSE;
 	}
@@ -223,13 +215,9 @@ static BOOL KeyFileProcess (unsigned __int8 *keyPool, KeyFile *keyFile)
 
 close:
 	DWORD err = GetLastError();
-	fclose (f);
 
-	if (bTimeStampValid && !IsFileOnReadOnlyFilesystem (keyFile->FileName))
-	{
-		// Restore the keyfile timestamp
-		SetFileTime (src, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime);
-	}
+	CloseHandle (src);
+	burn (buffer, sizeof (buffer));
 
 	SetLastError (err);
 	return status;
@@ -248,12 +236,14 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 	wchar_t searchPath [TC_MAX_PATH*2];
 	struct _wfinddata_t fBuf;
 	intptr_t searchHandle;
+	unsigned __int32 keyPoolSize = password->Length <= MAX_LEGACY_PASSWORD? KEYFILE_POOL_LEGACY_SIZE : KEYFILE_POOL_SIZE;
 
 	HiddenFilesPresentInKeyfilePath = FALSE;
 
 	if (firstKeyFile == NULL) return TRUE;
 
 	VirtualLock (keyPool, sizeof (keyPool));
+	finally_do_arg (unsigned __int8 *, keyPool, { burn (finally_arg, KEYFILE_POOL_SIZE); });
 	memset (keyPool, 0, sizeof (keyPool));
 
 	for (kf = firstKeyFile; kf != NULL; kf = kf->Next)
@@ -261,12 +251,13 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 		// Determine whether it's a security token path
 		try
 		{
-			if (SecurityToken::IsKeyfilePathValid (kf->FileName))
+			if (Token::IsKeyfilePathValid (kf->FileName, EMVSupportEnabled? true : false))
 			{
 				// Apply security token keyfile
-				vector <byte> keyfileData;
-				SecurityTokenKeyfilePath secPath (kf->FileName);
-				SecurityToken::GetKeyfileData (SecurityTokenKeyfile (secPath), keyfileData);
+				vector <uint8> keyfileData;
+				finally_do_arg (vector <uint8> *, &keyfileData, { if (!finally_arg->empty()) burn (&finally_arg->front(), finally_arg->size()); });
+				TokenKeyfilePath secPath (kf->FileName);
+				Token::getTokenKeyfile (secPath)->GetKeyfileData (keyfileData);
 
 				if (keyfileData.empty())
 				{
@@ -278,10 +269,10 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 				}
 
 				unsigned __int32 crc = 0xffffffff;
-				int writePos = 0;
+				unsigned __int32 writePos = 0;
 				size_t totalRead = 0;
 
-				for (size_t i = 0; i < keyfileData.size(); i++)
+				for (i = 0; i < keyfileData.size(); i++)
 				{
 					crc = UPDC32 (keyfileData[i], crc);
 
@@ -290,19 +281,19 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 					keyPool[writePos++] += (unsigned __int8) (crc >> 8);
 					keyPool[writePos++] += (unsigned __int8) crc;
 
-					if (writePos >= KEYFILE_POOL_SIZE)
+					if (writePos >= keyPoolSize)
 						writePos = 0;
 
 					if (++totalRead >= KEYFILE_MAX_READ_LEN)
 						break;
 				}
 
-				burn (&keyfileData.front(), keyfileData.size());
 				continue;
 			}
 		}
 		catch (Exception &e)
 		{
+			burn (keyPool, sizeof (keyPool));
 			e.Show (NULL);
 			return FALSE;
 		}
@@ -371,7 +362,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 				++keyfileCount;
 
 				// Apply keyfile to the pool
-				if (!KeyFileProcess (keyPool, kfSub))
+				if (!KeyFileProcess (keyPool, keyPoolSize, kfSub))
 				{
 					handleWin32Error (hwndDlg, SRC_POS);
 					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
@@ -390,7 +381,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 			}
 		}
 		// Apply keyfile to the pool
-		else if (!KeyFileProcess (keyPool, kf))
+		else if (!KeyFileProcess (keyPool, keyPoolSize, kf))
 		{
 			handleWin32Error (hwndDlg, SRC_POS);
 			Error ("ERR_PROCESS_KEYFILE", hwndDlg);
@@ -400,7 +391,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 
 	/* Mix the keyfile pool contents into the password */
 
-	for (i = 0; i < sizeof (keyPool); i++)
+	for (i = 0; i < keyPoolSize; i++)
 	{
 		if (i < password->Length)
 			password->Text[i] += keyPool[i];
@@ -408,10 +399,8 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 			password->Text[i] = keyPool[i];
 	}
 
-	if (password->Length < (int)sizeof (keyPool))
-        password->Length = sizeof (keyPool);
-
-	burn (keyPool, sizeof (keyPool));
+	if (password->Length < keyPoolSize)
+        password->Length = keyPoolSize;
 
 	return status;
 }
@@ -495,8 +484,22 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW(GetDlgItem(hwndDlg, IDT_KEYFILES_NOTE), GetString ("KEYFILES_NOTE"));
 
 			ToHyperlink (hwndDlg, IDC_LINK_KEYFILES_INFO);
+			ToHyperlink (hwndDlg, IDC_LINK_KEYFILES_EXTENSIONS_WARNING);
 		}
 		return 1;
+
+	case WM_CTLCOLORSTATIC:
+		{
+			if (((HWND)lParam == GetDlgItem(hwndDlg, IDT_KEYFILE_WARNING)) )
+			{
+				// we're about to draw the static
+				// set the text colour in (HDC)wParam
+				SetBkMode((HDC)wParam,TRANSPARENT);
+				SetTextColor((HDC)wParam, RGB(255,0,0));
+				return (BOOL)(INT_PTR)GetSysColorBrush(COLOR_MENU);
+			}
+		}
+		return 0;
 
 	case WM_COMMAND:
 
@@ -505,11 +508,15 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 			if (kf)
 			{
-				if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", kf->FileName, sizeof(kf->FileName),bHistory))
+				std::vector<std::wstring> filesList;
+				if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", bHistory, filesList))
 				{
 					bool containerFileSkipped = false;
-					do
+					for	(std::vector<std::wstring>::const_iterator it = filesList.begin();
+							it != filesList.end();
+							++it)
 					{
+						StringCbCopyW (kf->FileName, sizeof (kf->FileName), it->c_str());
 						CorrectFileName (kf->FileName);
 						if (_wcsicmp (param->VolumeFileName, kf->FileName) == 0)
 							containerFileSkipped = true;
@@ -519,8 +526,13 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 							LoadKeyList (hwndDlg, param->FirstKeyFile);
 
 							kf = (KeyFile *) malloc (sizeof (KeyFile));
+							if (!kf)
+							{
+								Warning ("ERR_MEM_ALLOC", hwndDlg);
+								break;
+							}
 						}
-					} while (SelectMultipleFilesNext (kf->FileName, sizeof(kf->FileName)));
+					}
 
 					if (containerFileSkipped)
 					{
@@ -528,7 +540,8 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					}
 				}
 
-				free (kf);
+                if (kf)
+				    free (kf);
 			}
 			return 1;
 		}
@@ -536,25 +549,31 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if (lw == IDC_ADD_KEYFILE_PATH)
 		{
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
-
-			if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName))
-			{
-				param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
-				LoadKeyList (hwndDlg, param->FirstKeyFile);
-			}
-			else
-			{
-				free (kf);
-			}
+            if (kf)
+            {
+			    if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName, NULL))
+			    {
+				    param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
+				    LoadKeyList (hwndDlg, param->FirstKeyFile);
+			    }
+			    else
+			    {
+				    free (kf);
+			    }
+            }
+            else
+            {
+                Warning ("ERR_MEM_ALLOC", hwndDlg);
+            }
 			return 1;
 		}
 
 		if (lw == IDC_TOKEN_FILES_ADD)
 		{
-			list <SecurityTokenKeyfilePath> selectedTokenKeyfiles;
+			list <TokenKeyfilePath> selectedTokenKeyfiles;
 			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_KEYFILES), hwndDlg, (DLGPROC) SecurityTokenKeyfileDlgProc, (LPARAM) &selectedTokenKeyfiles) == IDOK)
 			{
-				foreach (const SecurityTokenKeyfilePath &keyPath, selectedTokenKeyfiles)
+				foreach (const TokenKeyfilePath &keyPath, selectedTokenKeyfiles)
 				{
 					KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 					if (kf)
@@ -605,7 +624,13 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_LINK_KEYFILES_INFO)
 		{
-			Applink ("keyfiles", TRUE, "");
+			Applink ("keyfiles");
+			return 1;
+		}
+
+		if (lw == IDC_LINK_KEYFILES_EXTENSIONS_WARNING)
+		{
+			Applink ("keyfilesextensions");
 			return 1;
 		}
 
@@ -679,6 +704,10 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		break;
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
+
 	}
 
 	return 0;
@@ -710,19 +739,29 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 			if (kf)
 			{
-				if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", kf->FileName, sizeof(kf->FileName),bHistory))
+				std::vector<std::wstring> filesList;
+				if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", bHistory, filesList))
 				{
-					do
+					for	(std::vector<std::wstring>::const_iterator it = filesList.begin();
+							it != filesList.end();
+							++it)
 					{
+						StringCbCopyW (kf->FileName, sizeof (kf->FileName), it->c_str());
 						param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
 						kf = (KeyFile *) malloc (sizeof (KeyFile));
-					} while (SelectMultipleFilesNext (kf->FileName, sizeof(kf->FileName)));
+                        if (!kf)
+                        {
+                            Warning ("ERR_MEM_ALLOC", hwndDlg);
+                            break;
+                        }
+					}
 
 					param->EnableKeyFiles = TRUE;
 					status = TRUE;
 				}
 
-				free (kf);
+                if (kf)
+				    free (kf);
 			}
 		}
 		break;
@@ -732,7 +771,7 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 			if (kf)
 			{
-				if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName))
+				if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName, NULL))
 				{
 					param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
 					param->EnableKeyFiles = TRUE;
@@ -743,15 +782,19 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 					free (kf);
 				}
 			}
+            else
+            {
+                Warning ("ERR_MEM_ALLOC", hwndDlg);
+            }
 		}
 		break;
 
 	case IDM_KEYFILES_POPUP_ADD_TOKEN_FILES:
 		{
-			list <SecurityTokenKeyfilePath> selectedTokenKeyfiles;
+			list <TokenKeyfilePath> selectedTokenKeyfiles;
 			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_KEYFILES), hwndDlg, (DLGPROC) SecurityTokenKeyfileDlgProc, (LPARAM) &selectedTokenKeyfiles) == IDOK)
 			{
-				foreach (const SecurityTokenKeyfilePath &keyPath, selectedTokenKeyfiles)
+				foreach (const TokenKeyfilePath &keyPath, selectedTokenKeyfiles)
 				{
 					KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 					if (kf)
@@ -762,6 +805,11 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 						param->EnableKeyFiles = TRUE;
 						status = TRUE;
 					}
+                    else
+                    {
+                        Warning ("ERR_MEM_ALLOC", hwndDlg);
+                        break;
+                    }
 				}
 			}
 		}

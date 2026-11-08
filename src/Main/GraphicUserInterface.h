@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -18,6 +18,9 @@
 #include "Main.h"
 #include "UserInterface.h"
 #include "Forms/WaitDialog.h"
+#ifdef TC_MACOSX
+#include <wx/weakref.h>
+#endif
 
 namespace VeraCrypt
 {
@@ -34,7 +37,7 @@ namespace VeraCrypt
 		virtual void BackupVolumeHeaders (shared_ptr <VolumePath> volumePath) const;
 		virtual void BeginBusyState () const { wxBeginBusyCursor(); }
 		virtual void BeginInteractiveBusyState (wxWindow *window);
-		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), int pim = 0, shared_ptr <Hash> currentHash = shared_ptr <Hash>(), bool truecryptMode = false, shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), int newPim = 0, shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Hash> newHash = shared_ptr <Hash>()) const { ThrowTextModeRequired(); }
+		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), int pim = 0, shared_ptr <Pkcs5Kdf> currentKdf = shared_ptr <Pkcs5Kdf>(), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), int newPim = 0, shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Pkcs5Kdf> newKdf = shared_ptr <Pkcs5Kdf>()) const { ThrowTextModeRequired(); }
 		wxHyperlinkCtrl *CreateHyperlink (wxWindow *parent, const wxString &linkUrl, const wxString &linkText) const;
 		virtual void CreateKeyfile (shared_ptr <FilePath> keyfilePath = shared_ptr <FilePath>()) const;
 		virtual void CreateVolume (shared_ptr <VolumeCreationOptions> options) const { ThrowTextModeRequired(); }
@@ -46,26 +49,28 @@ namespace VeraCrypt
 		virtual void DoShowWarning (const wxString &message) const;
 		virtual void EndBusyState () const { wxEndBusyCursor(); }
 		virtual void EndInteractiveBusyState (wxWindow *window) const;
-		virtual void ExportSecurityTokenKeyfile () const { ThrowTextModeRequired(); }
+		virtual void ExportTokenKeyfile () const { ThrowTextModeRequired(); }
 		virtual wxTopLevelWindow *GetActiveWindow () const;
 		virtual shared_ptr <GetStringFunctor> GetAdminPasswordRequestHandler ();
 		virtual int GetCharHeight (wxWindow *window) const;
 		virtual int GetCharWidth (wxWindow *window) const;
 		virtual int GetDefaultBorderSize () const { return 5; }
 		virtual wxFont GetDefaultBoldFont (wxWindow *window) const;
-		virtual wxString GetHomepageLinkURL (const wxString &linkId, bool secure = false, const wxString &extraVars = wxEmptyString) const;
+		virtual wxString GetHomepageLinkURL (const wxString &linkId, const wxString &extraVars = wxEmptyString) const;
 		virtual wxFrame *GetMainFrame () const { return mMainFrame; }
 		virtual int GetScrollbarWidth (wxWindow *window, bool noScrollBar = false) const;
 		virtual list <long> GetListCtrlSelectedItems (wxListCtrl *listCtrl) const;
 		virtual wxString GetListCtrlSubItemText (wxListCtrl *listCtrl, long itemIndex, int columnIndex) const;
-		virtual void ImportSecurityTokenKeyfiles () const { ThrowTextModeRequired(); }
+		virtual void ImportTokenKeyfiles () const { ThrowTextModeRequired(); }
 		virtual void InitSecurityTokenLibrary () const;
 		virtual void InsertToListCtrl (wxListCtrl *listCtrl, long itemIndex, const vector <wstring> &itemFields, int imageIndex = -1, void *itemDataPtr = nullptr) const;
 		virtual bool IsInBackgroundMode () const { return BackgroundMode; }
 		virtual bool IsTheOnlyTopLevelWindow (const wxWindow *window) const;
-		virtual void ListSecurityTokenKeyfiles () const;
+        virtual void ListTokenKeyfiles () const;
+        virtual void ListSecurityTokenKeyfiles () const;
+        virtual void ListEMVTokenKeyfiles () const;
 		virtual VolumeInfoList MountAllDeviceHostedVolumes (MountOptions &options) const;
-		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options) const;
+		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options, bool tryCachedPasswords = true) const;
 		virtual void MoveListCtrlItem (wxListCtrl *listCtrl, long itemIndex, long newItemIndex) const;
 		virtual void OnAutoDismountAllEvent ();
 		virtual bool OnInit ();
@@ -84,6 +89,7 @@ namespace VeraCrypt
 		virtual void SetListCtrlColumnWidths (wxListCtrl *listCtrl, list <int> columnWidthPermilles, bool hasVerticalScrollbar = true) const;
 		virtual void SetListCtrlHeight (wxListCtrl *listCtrl, size_t rowCount) const;
 		virtual void SetListCtrlWidth (wxListCtrl *listCtrl, size_t charCount, bool hasVerticalScrollbar = true) const;
+		virtual void SetContentProtection(bool enable) const;
 		virtual void ShowErrorTopMost (char *langStringId) const { ShowErrorTopMost (LangString[langStringId]); }
 		virtual void ShowErrorTopMost (const wxString &message) const;
 		virtual void ShowInfoTopMost (char *langStringId) const { ShowInfoTopMost (LangString[langStringId]); }
@@ -94,12 +100,21 @@ namespace VeraCrypt
 		virtual void UserEnrichRandomPool (wxWindow *parent, shared_ptr <Hash> hash = shared_ptr <Hash>()) const;
 		virtual void Yield () const;
 		virtual shared_ptr <VolumeInfo> MountVolumeThread (MountOptions &options) const;
+#ifdef TC_MACOSX
+		virtual shared_ptr <VolumeInfo> DismountVolumeThread (shared_ptr <VolumeInfo> volume, bool ignoreOpenFiles, bool interactive = true) const;
+		virtual void DismountAllVolumes (bool ignoreOpenFiles = false, bool interactive = true) const;
+		bool HasUnconfirmedCleanupWarnings () const { return !mUnconfirmedCleanupWarnings.empty(); }
+		void ShowUnconfirmedCleanupWarnings () const;
+#endif
+		VolumeInfoList GetMountedVolumesForUI () const;
 		WaitDialog* GetWaitDialog () { return mWaitDialog; }
 		void ExecuteWaitThreadRoutine (wxWindow *parent, WaitThreadRoutine *pRoutine) const;
 
 #ifdef TC_MACOSX
 		virtual void MacOpenFiles (const wxArrayString &fileNames);
 		virtual void MacReopenApp ();
+		static bool HandlePasswordEntryCustomEvent (wxEvent& event);
+		static void InstallPasswordEntryCustomKeyboardShortcuts (wxWindow* window);
 #endif
 
 		template <class T>
@@ -115,26 +130,48 @@ namespace VeraCrypt
 		Event OpenVolumeSystemRequestEvent;
 
 	protected:
+		virtual shared_ptr <VolumeInfo> MountVolumeWithProtectionRecovery (MountOptions &options, const PasswordException &protectionError) const;
 		virtual void OnEndSession (wxCloseEvent& event) { OnLogOff(); }
 #ifdef wxHAS_POWER_EVENTS
 		virtual void OnPowerSuspending (wxPowerEvent& event);
 #endif
 		static void OnSignal (int signal);
 		virtual void OnVolumesAutoDismounted ();
+#ifdef TC_MACOSX
+		VolumeInfoList GetVolumesForAutoDismount () const;
+		void ReportUnconfirmedCleanup (const exception &e) const;
+#endif
 		virtual int ShowMessage (const wxString &message, long style, bool topMost = false) const;
 		void ThrowTextModeRequired () const;
 
 		wxFrame *ActiveFrame;
 		bool BackgroundMode;
 #ifdef TC_WINDOWS
-		auto_ptr <wxDDEServer> DDEServer;
+		unique_ptr <wxDDEServer> DDEServer;
 #endif
+#ifdef TC_MACOSX
+		wxWeakRef <wxFrame> mMainFrame;
+#else
 		wxFrame *mMainFrame;
-		auto_ptr <wxSingleInstanceChecker> SingleInstanceChecker;
+#endif
+		unique_ptr <wxSingleInstanceChecker> SingleInstanceChecker;
 
 		mutable WaitDialog* mWaitDialog;
+#ifdef TC_MACOSX
+		mutable list <wxString> mUnconfirmedCleanupWarnings;
+		mutable bool mShowingCleanupWarning;
+#endif
+public:	
+#ifdef TC_MACOSX
+		static int g_customIdCmdV;
+		static int g_customIdCmdA;
+#endif
 
 	private:
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 5
+		shared_ptr <VolumeInfo> MountVolumeAndHandleProtectionError (MountOptions &options, bool &protectionError) const;
+#endif
+		shared_ptr <VolumeInfo> MountVolumeInternal (MountOptions &options, bool tryCachedPasswords, bool protectionRecovery) const;
 		GraphicUserInterface (const GraphicUserInterface &);
 		GraphicUserInterface &operator= (const GraphicUserInterface &);
 	};

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -30,7 +30,7 @@ namespace VeraCrypt
 		bool IsPimSelected () const { return PasswordPanel->IsUsePimChecked ();}
 		void SetPimSelected (bool selected) const { PasswordPanel->SetUsePimChecked (selected);}
 
-		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const { bool bUnsupportedKdf; return PasswordPanel->GetPkcs5Kdf(bUnsupportedKdf); }
+		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const { return PasswordPanel->GetPkcs5Kdf(); }
 		bool IsValid ();
 		void SetMaxStaticTextWidth (int width) { InfoStaticText->Wrap (width); }
 		void SetPageText (const wxString &text) { InfoStaticText->SetLabel (text); }

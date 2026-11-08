@@ -9,7 +9,7 @@
  or Copyright (c) 2012-2013 Josef Schneider <josef@netpage.dk>
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -49,6 +49,8 @@
 #define TIMER_ID_RANDVIEW								0xff
 #define TIMER_INTERVAL_RANDVIEW							50
 
+BOOL bSeManageVolumeNameSet = FALSE;
+
 // see definition of enum EV_FileSystem
 const wchar_t * szFileSystemStr[4] = {L"RAW",L"FAT",L"NTFS",L"EXFAT"};
 
@@ -59,7 +61,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 namespace VeraCryptExpander
 {
 /* defined in WinMain.c, referenced by ExpandVolumeWizard() */
-int ExtcvAskVolumePassword (HWND hwndDlg, const wchar_t* fileName, Password *password, int *pkcs5, int *pim, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions);
+int ExtcvAskVolumePassword (HWND hwndDlg, const wchar_t* fileName, Password *password, int *pkcs5, int *pim, char *titleStringId, BOOL enableMountOptions);
 }
 
 
@@ -67,7 +69,7 @@ int GetSpaceString(wchar_t *dest, size_t cbDest, uint64 size, BOOL bDevice)
 {
 	const wchar_t * szFmtBytes = L"%.0lf %s";
 	const wchar_t * szFmtOther = L"%.2lf %s";
-	const wchar_t * SuffixStr[] = {L"Byte", L"KB", L"MB", L"GB", L"TB"};
+	const wchar_t * SuffixStr[] = {GetString("BYTE"), GetString("KB"), GetString("MB"), GetString("GB"), GetString("TB")};
 	const uint64 Muliplier[] = {1, BYTES_PER_KB, BYTES_PER_MB, BYTES_PER_GB, BYTES_PER_TB};
 	const int nMaxSuffix = sizeof(Muliplier)/sizeof(uint64) - 1;
 	int i;
@@ -117,6 +119,20 @@ uint64 GetSizeBoxMultiplier(HWND hwndDlg)
 	return Muliplier[i];
 }
 
+void HandleQuickExpanddCheckBox (HWND hwndDlg)
+{
+	if (IsButtonChecked (GetDlgItem (hwndDlg, IDC_INIT_NEWSPACE)))
+	{
+		EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKEXPAND), FALSE);
+		SendDlgItemMessage (hwndDlg, IDC_QUICKEXPAND, BM_SETCHECK, BST_UNCHECKED, 0);
+	}
+	else
+	{
+		EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKEXPAND), TRUE);
+	}
+}
+
+
 BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static EXPAND_VOL_THREAD_PARAMS *pVolExpandParam;
@@ -130,6 +146,8 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			wchar_t szTemp[4096];
 
 			pVolExpandParam = (EXPAND_VOL_THREAD_PARAMS*)lParam;
+
+			LocalizeDialog (hwndDlg, NULL);
 
 			EnableWindow (GetDlgItem (hwndDlg, IDC_SIZEBOX), !pVolExpandParam->bIsDevice);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KB), !pVolExpandParam->bIsDevice);
@@ -163,7 +181,13 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				SetWindowText (GetDlgItem (hwndDlg, IDT_NEW_SIZE), L"");
 				GetSpaceString(szHostFreeStr,sizeof(szHostFreeStr),pVolExpandParam->hostSizeFree,FALSE);
-				StringCbPrintfW (szTemp,sizeof(szTemp),L"%s available on host drive", szHostFreeStr);
+				StringCbPrintfW (szTemp,sizeof(szTemp),GetString("EXPANDER_FREE_SPACE"), szHostFreeStr);
+
+				if (!pVolExpandParam->bDisableQuickExpand)
+				{
+					ShowWindow (GetDlgItem (hwndDlg, IDC_QUICKEXPAND), SW_SHOW);
+					HandleQuickExpanddCheckBox (hwndDlg);
+				}
 			}
 
 			SetWindowText (GetDlgItem (hwndDlg, IDC_EXPAND_VOLUME_NEWSIZE), szTemp);
@@ -171,19 +195,22 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			// set help text
 			if (pVolExpandParam->bIsDevice)
 			{
-				StringCbPrintfW (szTemp,sizeof(szTemp),L"This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.");
+				StringCbPrintfW (szTemp,sizeof(szTemp),GetString("EXPANDER_HELP_DEVICE"));
 				if (pVolExpandParam->bIsLegacy)
 					StringCbCatW(szTemp,sizeof(szTemp),L" Note: filling the new space with random data is not supported for legacy volumes.");
 			}
 			else
 			{
-				StringCbPrintfW (szTemp, sizeof(szTemp),L"Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).",TC_MINVAL_FS_EXPAND/1024);
+				StringCbPrintfW (szTemp, sizeof(szTemp),GetString("EXPANDER_HELP_FILE"),TC_MINVAL_FS_EXPAND/1024);
 			}
-			SetWindowText (GetDlgItem (hwndDlg, IDC_BOX_HELP), szTemp);
+			SetWindowText (GetDlgItem (hwndDlg, IDC_BOX_HELP), szTemp);			
 
 		}
 		return 0;
 
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 
 	case WM_COMMAND:
 		if (lw == IDCANCEL)
@@ -192,11 +219,12 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			return 1;
 		}
 
-		if (lw == IDOK)
+		if (lw == IDC_CONTINUE)
 		{
 			wchar_t szTemp[4096];
 
 			pVolExpandParam->bInitFreeSpace = IsButtonChecked (GetDlgItem (hwndDlg, IDC_INIT_NEWSPACE));
+			pVolExpandParam->bQuickExpand = IsButtonChecked (GetDlgItem (hwndDlg, IDC_QUICKEXPAND));
 			if (!pVolExpandParam->bIsDevice) // for devices new size is set by calling function
 			{
 				GetWindowText (GetDlgItem (hwndDlg, IDC_SIZEBOX), szTemp, ARRAYSIZE (szTemp));
@@ -205,6 +233,23 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			EndDialog (hwndDlg, lw);
 			return 1;
+		}
+
+		if (lw == IDC_INIT_NEWSPACE && !pVolExpandParam->bDisableQuickExpand)
+		{
+			HandleQuickExpanddCheckBox (hwndDlg);
+			return 1;
+		}
+
+		if (lw == IDC_QUICKEXPAND  && IsButtonChecked (GetDlgItem (hwndDlg, IDC_QUICKEXPAND)))
+		{
+			// If quick expand selected, then we warn about security issue
+			if (MessageBoxW (hwndDlg, GetString ("QUICK_EXPAND_WARNING"),
+				lpszTitle, YES_NO|MB_ICONWARNING|MB_DEFBUTTON2) == IDNO)
+			{
+				SendDlgItemMessage (hwndDlg, IDC_QUICKEXPAND, BM_SETCHECK, BST_UNCHECKED, 0);
+				return 1;
+			}
 		}
 
 		return 0;
@@ -269,6 +314,8 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 			VirtualLock (&mouseEntropyGathered, sizeof(mouseEntropyGathered));
 			VirtualLock (maskRandPool, sizeof(maskRandPool));
 
+			LocalizeDialog (hwndDlg, NULL);
+
 			mouseEntropyGathered = 0xFFFFFFFF;
 			mouseEventsInitialCount = 0;
 			bUseMask = FALSE;
@@ -286,7 +333,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SetWindowText (GetDlgItem (hwndDlg, IDC_EXPAND_VOLUME_NEWSIZE), szNewHostSize);
 			SetWindowText (GetDlgItem (hwndDlg, IDC_EXPAND_VOLUME_NAME), pProgressDlgParam->szVolumeName);
 			SetWindowText (GetDlgItem (hwndDlg, IDC_EXPAND_FILE_SYSTEM), szFileSystemStr[pProgressDlgParam->FileSystem]);
-			SetWindowText (GetDlgItem (hwndDlg, IDC_EXPAND_VOLUME_INITSPACE), pProgressDlgParam->bInitFreeSpace?L"Yes":L"No");
+			SetWindowText (GetDlgItem (hwndDlg, IDC_EXPAND_VOLUME_INITSPACE), pProgressDlgParam->bInitFreeSpace?GetString("UISTR_YES"):GetString("UISTR_NO"));
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_BOX_STATUS), WM_SETFONT, (WPARAM) hBoldFont, (LPARAM) TRUE);
 
@@ -298,11 +345,11 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 				showRandPool = FALSE;
 				EnableWindow (GetDlgItem (hwndDlg, IDC_DISPLAY_POOL_CONTENTS), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_RANDOM_BYTES), FALSE);
-				SetDlgItemText(hwndDlg, IDC_BOX_STATUS, L"Click 'Continue' to expand the volume.");
+				SetDlgItemText(hwndDlg, IDC_BOX_STATUS, GetString("EXPANDER_STATUS_TEXT_LEGACY"));
 			}
 			else
 			{
-				SetDlgItemText(hwndDlg, IDC_BOX_STATUS, L"IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.");
+				SetDlgItemText(hwndDlg, IDC_BOX_STATUS, GetString("EXPANDER_STATUS_TEXT"));
 			}
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_DISPLAY_POOL_CONTENTS), BM_SETCHECK, BST_UNCHECKED, 0);
@@ -320,17 +367,17 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (nStatus != 0)
 			{
 				if ( nStatus != ERR_USER_ABORT )
-					AddProgressDlgStatus (hwndDlg, L"Error: volume expansion failed.");
+					AddProgressDlgStatus (hwndDlg, GetString("EXPANDER_FINISH_ERROR"));
 				else
-					AddProgressDlgStatus (hwndDlg, L"Error: operation aborted by user.");
+					AddProgressDlgStatus (hwndDlg, GetString("EXPANDER_FINISH_ABORT"));
 			}
 			else
 			{
-				AddProgressDlgStatus (hwndDlg, L"Finished. Volume successfully expanded.");
+				AddProgressDlgStatus (hwndDlg, GetString("EXPANDER_FINISH_OK"));
 			}
 
-			SetWindowText (GetDlgItem (hwndDlg, IDOK), L"Exit");
-			EnableWindow (GetDlgItem (hwndDlg, IDOK), TRUE);
+			SetWindowText (GetDlgItem (hwndDlg, IDC_CONTINUE), GetString("EXIT"));
+			EnableWindow (GetDlgItem (hwndDlg, IDC_CONTINUE), TRUE);
 			EnableWindow (GetDlgItem (hwndDlg, IDCANCEL), FALSE);
 		}
 		return 1;
@@ -387,21 +434,23 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 		{
 			if (bVolTransformStarted)
 			{
-				if (MessageBoxW (hwndDlg, L"Warning: Volume expansion is in progress!\n\nStopping now may result in a damaged volume.\n\nDo you really want to cancel?", lpszTitle, YES_NO|MB_ICONQUESTION|MB_DEFBUTTON2) == IDNO)
+				if (MessageBoxW (hwndDlg, GetString("EXPANDER_CANCEL_WARNING"), lpszTitle, YES_NO|MB_ICONQUESTION|MB_DEFBUTTON2) == IDNO)
 					return 1;
 
 				// tell the volume transform thread to terminate
 				bVolTransformThreadCancel = TRUE;
 			}
+			NormalCursor ();
 			EndDialog (hwndDlg, lw);
 			return 1;
 		}
 
-		if (lw == IDOK)
+		if (lw == IDC_CONTINUE)
 		{
 			if (bVolTransformStarted)
 			{
 				// TransformThreadFunction finished -> OK button is now exit
+				NormalCursor ();
 				EndDialog (hwndDlg, lw);
 			}
 			else
@@ -409,8 +458,8 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 				showRandPool = FALSE;
 				KillTimer (hwndDlg, TIMER_ID_RANDVIEW);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_DISPLAY_POOL_CONTENTS), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDOK), FALSE);
-				SetProgressDlgStatus (hwndDlg, L"Starting volume expansion ...\r\n");
+				EnableWindow (GetDlgItem (hwndDlg, IDC_CONTINUE), FALSE);
+				SetProgressDlgStatus (hwndDlg, GetString("EXPANDER_STARTING_STATUS"));
 				bVolTransformStarted = TRUE;
 				pProgressDlgParam->hwndDlg = hwndDlg;
 				if ( _beginthread (volTransformThreadFunction, 0, pProgressDlgParam) == -1L )
@@ -431,6 +480,10 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 		burn (&mouseEntropyGathered, sizeof(mouseEntropyGathered));
 		burn (maskRandPool, sizeof(maskRandPool));
 		return 0;
+
+	case WM_DESTROY:
+		DetachProtectionFromCurrentThread();
+		break;
 	}
 
 	return 0;
@@ -444,7 +497,6 @@ typedef struct
 	Password *password;
 	int pkcs5_prf;
 	int pim;
-	BOOL truecryptMode;
 	BOOL write;
 	BOOL preserveTimestamps;
 	BOOL useBackupHeader;
@@ -456,7 +508,7 @@ void CALLBACK OpenVolumeWaitThreadProc(void* pArg, HWND hwndDlg)
 	OpenVolumeThreadParam* pThreadParam = (OpenVolumeThreadParam*) pArg;
 
 	*(pThreadParam)->nStatus = OpenVolume(pThreadParam->context, pThreadParam->volumePath, pThreadParam->password, pThreadParam->pkcs5_prf,
-		pThreadParam->pim, pThreadParam->truecryptMode, pThreadParam->write, pThreadParam->preserveTimestamps, pThreadParam->useBackupHeader);
+		pThreadParam->pim, pThreadParam->write, pThreadParam->preserveTimestamps, pThreadParam->useBackupHeader);
 }
 
 /*
@@ -494,7 +546,7 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 	{
 	case 1:
 	case 2:
-		MessageBoxW (hwndDlg, L"A VeraCrypt system volume can't be expanded.", lpszTitle, MB_OK|MB_ICONEXCLAMATION);
+		MessageBoxW (hwndDlg, GetString("EXPANDER_SYSTEM_VOLUME_ERROR"), lpszTitle, MB_OK|MB_ICONEXCLAMATION);
 		goto ret;
 	}
 
@@ -503,7 +555,7 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 
 	if (IsMountedVolume (lpszVolume))
 	{
-		Warning ("DISMOUNT_FIRST", hwndDlg);
+		Warning ("UNMOUNT_FIRST", hwndDlg);
 		goto ret;
 	}
 
@@ -522,7 +574,7 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 	switch (AskMultiChoice ((void **) volTypeChoices, FALSE, hwndDlg))
 	{
 	case 1:
-		MessageBoxW (hwndDlg, L"An outer volume containing a hidden volume can't be expanded, because this destroys the hidden volume.", lpszTitle, MB_OK|MB_ICONEXCLAMATION);
+		MessageBoxW (hwndDlg, GetString("EXPANDER_HIDDEN_VOLUME_ERROR"), lpszTitle, MB_OK|MB_ICONEXCLAMATION);
 		goto ret;
 
 	case 2:
@@ -548,9 +600,8 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 	while (TRUE)
 	{
 		OpenVolumeContext expandVol;
-		BOOL truecryptMode = FALSE;
 
-		if (!VeraCryptExpander::ExtcvAskVolumePassword (hwndDlg, lpszVolume, &VolumePassword, &VolumePkcs5, &VolumePim, &truecryptMode, "ENTER_NORMAL_VOL_PASSWORD", FALSE))
+		if (!VeraCryptExpander::ExtcvAskVolumePassword (hwndDlg, lpszVolume, &VolumePassword, &VolumePkcs5, &VolumePim, "ENTER_NORMAL_VOL_PASSWORD", FALSE))
 		{
 			goto ret;
 		}
@@ -561,7 +612,6 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 		if (KeyFilesEnable && FirstKeyFile)
 			KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile, lpszVolume);
 
-		WaitCursor ();
 
 		OpenVolumeThreadParam threadParam;
 		threadParam.context = &expandVol;
@@ -569,7 +619,6 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 		threadParam.password = &VolumePassword;
 		threadParam.pkcs5_prf = VolumePkcs5;
 		threadParam.pim = VolumePim;
-		threadParam.truecryptMode = FALSE;
 		threadParam.write = FALSE;
 		threadParam.preserveTimestamps = bPreserveTimestamp;
 		threadParam.useBackupHeader = FALSE;
@@ -658,13 +707,13 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 	// check if there is enough free space on host device/drive to expand the volume
 	if ( (bIsDevice && hostSize < volSize + TC_MINVAL_FS_EXPAND) || (!bIsDevice && hostSizeFree < TC_MINVAL_FS_EXPAND) )
 	{
-		MessageBoxW (hwndDlg, L"Not enough free space to expand the volume", lpszTitle, MB_OK|MB_ICONEXCLAMATION);
+		MessageBoxW (hwndDlg, GetString("EXPANDER_NO_FREE_SPACE"), lpszTitle, MB_OK|MB_ICONEXCLAMATION);
 		goto ret;
 	}
 
 	if (!bIsDevice && hostSize != volSize ) {
 		// there is some junk data at the end of the volume
-		if (MessageBoxW (hwndDlg, L"Warning: The container file is larger than the VeraCrypt volume area. The data after the VeraCrypt volume area will be overwritten.\n\nDo you want to continue?", lpszTitle, YES_NO|MB_ICONQUESTION|MB_DEFBUTTON2) == IDNO)
+		if (MessageBoxW (hwndDlg, GetString("EXPANDER_WARNING_FILE_CONTAINER_JUNK"), lpszTitle, YES_NO|MB_ICONQUESTION|MB_DEFBUTTON2) == IDNO)
 			goto ret;
 	}
 
@@ -673,17 +722,17 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 	case EV_FS_TYPE_NTFS:
 		break;
 	case EV_FS_TYPE_FAT:
-		if (MessageBoxW (hwndDlg,L"Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?",
+		if (MessageBoxW (hwndDlg, GetString("EXPANDER_WARNING_FAT"),
 			lpszTitle, YES_NO|MB_ICONQUESTION|MB_DEFBUTTON2) == IDNO)
 			goto ret;
 		break;
 	case EV_FS_TYPE_EXFAT:
-		if (MessageBoxW (hwndDlg,L"Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?",
+		if (MessageBoxW (hwndDlg, GetString("EXPANDER_WARNING_EXFAT"),
 			lpszTitle, YES_NO|MB_ICONQUESTION|MB_DEFBUTTON2) == IDNO)
 			goto ret;
 		break;
 	default:
-		if (MessageBoxW (hwndDlg,L"Warning: The VeraCrypt volume contains an unknown or no file system!\n\nOnly the VeraCrypt volume itself will be expanded, the file system remains unchanged.\n\nDo you want to continue?",
+		if (MessageBoxW (hwndDlg, GetString("EXPANDER_WARNING_UNKNOWN_FS"),
 			lpszTitle, YES_NO|MB_ICONQUESTION|MB_DEFBUTTON2) == IDNO)
 			goto ret;
 	}
@@ -691,6 +740,8 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 	EXPAND_VOL_THREAD_PARAMS VolExpandParam;
 
 	VolExpandParam.bInitFreeSpace = (bIsLegacy && bIsDevice) ? FALSE:TRUE;
+	VolExpandParam.bQuickExpand = FALSE;
+	VolExpandParam.bDisableQuickExpand = bIsDevice;
 	VolExpandParam.szVolumeName = lpszVolume;
 	VolExpandParam.FileSystem = volFSType;
 	VolExpandParam.pVolumePassword = &VolumePassword;
@@ -701,6 +752,17 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 	VolExpandParam.oldSize = bIsDevice ? volSize : hostSize;
 	VolExpandParam.newSize = hostSize;
 	VolExpandParam.hostSizeFree = hostSizeFree;
+
+	// disable Quick Expand if the file is sparse or compressed
+	if (!bIsDevice)
+	{
+		DWORD dwFileAttrib = GetFileAttributesW (lpszVolume);
+		if (INVALID_FILE_ATTRIBUTES != dwFileAttrib)
+		{
+			if (dwFileAttrib & (FILE_ATTRIBUTE_COMPRESSED | FILE_ATTRIBUTE_SPARSE_FILE))
+				VolExpandParam.bDisableQuickExpand = TRUE;
+		}
+	}
 
 	while (1)
 	{
@@ -717,32 +779,44 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 
 		if ( !bIsDevice )
 		{
-			if ( newVolumeSize < hostSize + TC_MINVAL_FS_EXPAND)
+			if ( (newVolumeSize < hostSize + TC_MINVAL_FS_EXPAND) && ((hostSize == volSize) || (newVolumeSize != hostSize) || ((hostSize - volSize) < TC_MINVAL_FS_EXPAND)))
 			{
-				StringCbPrintfW(szTmp,sizeof(szTmp),L"New volume size too small, must be at least %I64u kB larger than the current size.",TC_MINVAL_FS_EXPAND/BYTES_PER_KB);
+				StringCbPrintfW(szTmp,sizeof(szTmp),GetString("EXPANDER_ERROR_VOLUME_SIZE_TOO_SMALL"),TC_MINVAL_FS_EXPAND/BYTES_PER_KB);
 				MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_OK | MB_ICONEXCLAMATION );
 				continue;
 			}
 
 			if ( newVolumeSize - hostSize > hostSizeFree )
 			{
-				StringCbPrintfW(szTmp,sizeof(szTmp),L"New volume size too large, not enough space on host drive.");
+				StringCbPrintfW(szTmp,sizeof(szTmp), GetString("EXPANDER_ERROR_VOLUME_SIZE_TOO_LARGE"));
 				MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_OK | MB_ICONEXCLAMATION );
 				continue;
 			}
 
 			if ( newVolumeSize>maxSizeFS )
 			{
-				StringCbPrintfW(szTmp,sizeof(szTmp),L"Maximum file size of %I64u MB on host drive exceeded.",maxSizeFS/BYTES_PER_MB);
+				StringCbPrintfW(szTmp,sizeof(szTmp), GetString("EXPANDER_ERROR_MAX_FILE_SIZE_EXCEEDED"),maxSizeFS/BYTES_PER_MB);
 				MessageBoxW (hwndDlg, L"!\n",lpszTitle, MB_OK | MB_ICONEXCLAMATION );
 				continue;
+			}
+
+			if (VolExpandParam.bQuickExpand && !bSeManageVolumeNameSet)
+			{
+				if (!SetPrivilege (SE_MANAGE_VOLUME_NAME, TRUE))
+				{
+					MessageBoxW (hwndDlg, GetString("EXPANDER_ERROR_QUICKEXPAND_PRIVILEGES"),lpszTitle, MB_OK | MB_ICONEXCLAMATION );
+					VolExpandParam.bQuickExpand = FALSE;
+					continue;
+				}
+
+				bSeManageVolumeNameSet = TRUE;
 			}
 		}
 
 		if ( newVolumeSize > TC_MAX_VOLUME_SIZE )
 		{
 			// note: current limit TC_MAX_VOLUME_SIZE is 1 PetaByte
-			StringCbPrintfW(szTmp,sizeof(szTmp),L"Maximum VeraCrypt volume size of %I64u TB exceeded!\n",TC_MAX_VOLUME_SIZE/BYTES_PER_TB);
+			StringCbPrintfW(szTmp,sizeof(szTmp), GetString("EXPANDER_ERROR_MAX_VC_VOLUME_SIZE_EXCEEDED"),TC_MAX_VOLUME_SIZE/BYTES_PER_TB);
 			MessageBoxW (hwndDlg, szTmp,lpszTitle, MB_OK | MB_ICONEXCLAMATION );
 			if (bIsDevice)
 				break; // TODO: ask to limit volume size to TC_MAX_VOLUME_SIZE

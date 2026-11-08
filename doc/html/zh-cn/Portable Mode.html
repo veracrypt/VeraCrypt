@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。万一攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Portable%20Mode.html">便携模式</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>便携模式</h1>
+<p>VeraCrypt可以在所谓的便携模式下运行，这意味着它无需安装在运行它的操作系统上。不过，有两件事需要牢记：</p>
+<ol>
+<li>要能够以便携模式运行VeraCrypt，您需要管理员权限（原因请参阅 <a href="Using%20VeraCrypt%20Without%20Administrator%20Privileges.html">
+<em>在没有管理员权限的情况下使用VeraCrypt</em></a> 章节）。
+<table border="2">
+<tbody>
+<tr>
+<td style="text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; color:#ff0000; padding:15px; border:1px solid #000000">
+注意：无论您使用何种软件，就个人隐私而言，在大多数情况下，在没有管理员权限的系统上处理敏感数据 <em>并不</em> 安全，因为管理员可以轻松捕获并复制您的敏感数据，包括密码和密钥。</td>
+</tr>
+</tbody>
+</table>
+</li><li>检查注册表文件后，即使VeraCrypt是以便携模式运行的，也有可能发现它曾在Windows系统上运行过（并且挂载过VeraCrypt卷）。
+</li></ol>
+<p><strong>注意</strong>：如果这是个问题，请参阅 <a href="FAQ.html#notraces" target="_blank.html">
+常见问题解答中的这个问题</a> 以获取可能的解决方案。<br>
+<br>
+有两种方法可以在便携模式下运行VeraCrypt：</p>
+<ol>
+<li>从VeraCrypt自解压包中提取文件后，您可以直接运行 <em>VeraCrypt.exe</em>。<br>
+<br>
+注意：要从VeraCrypt自解压包中提取文件，请运行该包，然后在VeraCrypt安装向导的第二页选择 <em>提取</em>（而不是 <em>安装</em>）。
+</li><li>您可以使用 <em>移动磁盘设置</em> 功能来准备一个特殊的移动磁盘，并从那里启动VeraCrypt。
+</li></ol>
+<p>第二种选择有几个优点，将在本章的以下部分进行描述。</p>
+<p>注意：当以“便携”模式运行时，VeraCrypt驱动程序在不再需要时会被卸载（例如，当主应用程序和/或卷创建向导的所有实例都关闭且没有挂载VeraCrypt卷时）。但是，如果您在VeraCrypt以便携模式运行时强制卸载VeraCrypt卷，或者在Windows Vista或更高版本上挂载可写的NTFS格式卷，那么在退出VeraCrypt时，VeraCrypt驱动程序 <em>可能不会</em> 被卸载（只有在关闭或重启系统时才会卸载）。这是为了防止由Windows中的一个漏洞引起的各种问题（例如，只要有应用程序在使用已卸载的卷，就无法再次启动VeraCrypt）。</p>
+<h3>工具 -&gt; 移动磁盘设置</h3>
+<p>您可以使用此功能来准备一个特殊的移动磁盘，并从那里启动VeraCrypt。请注意，VeraCrypt“移动磁盘” <em>不是</em> 一个VeraCrypt卷，而是一个 <em>未加密</em> 的卷。一个“移动磁盘”包含VeraCrypt可执行文件，还可以选择包含“autorun.inf”脚本（请参阅下面的 <em>自动运行配置</em> 部分）。选择 <em>工具 -&gt; 移动磁盘设置</em> 后，应该会出现 <em>移动磁盘设置</em> 对话框。对话框中可以设置的一些参数值得进一步说明：</p>
+<h4>包含VeraCrypt卷创建向导</h4>
+<p>如果您需要使用从即将创建的移动磁盘上运行的VeraCrypt来创建新的VeraCrypt卷，请选中此选项。取消选中此选项可以节省移动磁盘上的空间。</p>
+<h4>自动运行配置 (autorun.inf)</h4>
+<p>在此部分，您可以将“移动磁盘”配置为在插入时自动启动VeraCrypt或挂载指定的VeraCrypt卷。这是通过在移动磁盘上创建一个名为“<em>autorun.inf</em>”的特殊脚本文件来实现的。每次插入“移动磁盘”时，操作系统都会自动执行此文件。<br>
+<br>
+但是请注意，此功能仅适用于可移动存储设备，如CD/DVD（在USB记忆棒上使用此功能需要Windows XP SP2、Windows Vista或更高版本的Windows），并且仅在操作系统中启用该功能时才有效。根据操作系统的配置，这些自动运行和自动挂载功能可能仅在移动磁盘文件创建在不可写的CD/DVD类介质上时才有效（这不是VeraCrypt的bug，而是Windows的限制）。<br>
+<br>
+还要注意，“<em>autorun.inf</em>”文件必须位于一个 <strong>未加密</strong> 磁盘的根目录（例如 <em>G:\</em>、<em>X:\</em> 或 <em>Y:\</em> 等）中，此功能才能正常工作。</p>
+</div><div class="ClearBoth"></div></body></html>

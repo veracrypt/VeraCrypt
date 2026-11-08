@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫你透露密码的情况下，VeraCrypt提供了似是而非的否认机制。与文件加密不同，VeraCrypt进行的数据加密是实时（动态）、自动、透明的，只需要很少的内存，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求和预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Volume%20Clones.html">卷克隆</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h2>卷克隆</h2>
+<p>切勿通过克隆现有VeraCrypt卷来创建新的VeraCrypt卷。始终使用VeraCrypt卷创建向导来创建新的VeraCrypt卷。如果克隆一个卷，然后同时使用该卷及其克隆卷，并且最终两个卷包含不同的数据，那么可能会有助于密码分析（两个卷将共享同一密钥集）。当卷中包含隐藏卷时，这一点尤其关键。另请注意，在这种情况下，似是而非的否认机制（请参阅 <a href="Plausible%20Deniability.html"><em>似是而非的否认</em></a> 部分）是不可能实现的。另请参阅 <a href="How%20to%20Back%20Up%20Securely.html"><em>如何安全备份</em></a> 章节。</p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

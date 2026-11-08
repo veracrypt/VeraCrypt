@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">Технические подробности</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Modes%20of%20Operation.html">Режимы работы</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Режимы работы</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+Для шифрования разделов, дисков и виртуальных томов VeraCrypt использует режим работы XTS.
+<br style="text-align:left">
+<br style="text-align:left">
+Режим XTS это фактически режим XEX <a href="http://www.cs.ucdavis.edu/%7Erogaway/papers/offsets.pdf">
+[12]</a>, который в 2003 году разработал Phillip Rogaway, с незначительной модификацией (режим XEX использует
+один ключ для двух разных целей, тогда как режим XTS использует два независимых ключа).<br style="text-align:left">
+<br style="text-align:left">
+В 2010 году режим XTS был одобрен NIST (Национальным институтом стандартов и технологий США) для защиты
+конфиденциальных данных на устройствах хранения информации [24]. В 2007 году он был также одобрен IEEE
+(Институтом инженеров по электротехнике и электронике США) для криптографической защиты данных в
+блочно-ориентированных устройствах хранения информации (IEEE 1619).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+&nbsp;</div>
+<h2 style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">Описание режима XTS</strong>:</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">C<sub style="text-align:left; font-size:85%">i</sub></em> =
+<em style="text-align:left">E</em><sub style="text-align:left; font-size:85%"><em style="text-align:left">K</em>1</sub>(<em style="text-align:left">P<sub style="text-align:left; font-size:85%">i</sub></em> ^ (<em style="text-align:left">E</em><sub style="text-align:left; font-size:85%"><em style="text-align:left">K</em>2</sub>(<em style="text-align:left">n</em>)
+<img src="gf2_mul.gif" alt="" width="10" height="10">
+<em style="text-align:left">a<sup style="text-align:left; font-size:85%">i</sup></em>)) ^ (<em style="text-align:left">E</em><sub style="text-align:left; font-size:85%"><em style="text-align:left">K</em>2</sub>(<em style="text-align:left">n</em>)
+<img src="gf2_mul.gif" alt="" width="10" height="10"><em style="text-align:left"> a<sup style="text-align:left; font-size:85%">i</sup></em>)</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+где:</div>
+<table style="border-collapse:separate; border-spacing:0px; width:608px; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; border:0px outset #999">
+<tbody style="text-align:left">
+<tr style="text-align:left">
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+&nbsp;<sup style="text-align:left; font-size:85%">&nbsp;<img src="gf2_mul.gif" alt="" width="10" height="10"></sup></td>
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+означает умножение двух полиномов в бинарном поле GF(2) по модулю <em style="text-align:left">
+x</em><sup style="text-align:left; font-size:85%">128</sup>&#43;<em style="text-align:left">x</em><sup style="text-align:left; font-size:85%">7</sup>&#43;<em style="text-align:left">x</em><sup style="text-align:left; font-size:85%">2</sup>&#43;<em style="text-align:left">x</em>&#43;1</td>
+</tr>
+<tr style="text-align:left">
+<td style="width:30px; vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+<em style="text-align:left">K</em>1</td>
+<td style="width:578px; vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+это ключ шифрования (256-битовый для каждого поддерживаемого шифра, то есть AES, Serpent и Twofish)</td>
+</tr>
+<tr style="text-align:left">
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+<em style="text-align:left">K</em>2</td>
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+это вторичный ключ (256-битовый для каждого поддерживаемого шифра, то есть AES, Serpent и Twofish)</td>
+</tr>
+<tr style="text-align:left">
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+<em style="text-align:left">i</em></td>
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+это индекс шифроблока внутри единицы данных; для первого шифроблока внутри единицы данных
+<em style="text-align:left">i</em> = 0</td>
+</tr>
+<tr style="text-align:left">
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+<em style="text-align:left">n</em></td>
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+это индекс единицы данных внутри области действия <em style="text-align:left">K</em>1; для первой единицы данных
+<em style="text-align:left">n</em> = 0</td>
+</tr>
+<tr style="text-align:left">
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+<em style="text-align:left">a</em></td>
+<td style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+это примитивный элемент поля Галуа (2<sup style="text-align:left; font-size:85%">128</sup>), соответствующий полиному
+<em style="text-align:left">x</em> (то есть 2)</td>
+</tr>
+<tr style="text-align:left">
+<td colspan="2" style="vertical-align:top; color:#000000; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; padding:0px">
+<br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">Остальные символы определены в разделе
+<a href="Notation.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Система обозначений</a>. </span></td>
+</tr>
+</tbody>
+</table>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+Размер каждой единицы данных всегда равен 512 байтам (вне зависимости от размера сектора).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+См. дополнительную информацию, относящуюся к режиму XTS, например, в <a href="http://www.cs.ucdavis.edu/%7Erogaway/papers/offsets.pdf" style="text-align:left; color:#0080c0; text-decoration:none">
+[12]</a> и <a href="http://csrc.nist.gov/publications/nistpubs/800-38E/nist-sp-800-38E.pdf" style="text-align:left; color:#0080c0; text-decoration:none">
+[24]</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Следующий раздел &gt;&gt;</a></div>
+</div><div class="ClearBoth"></div></body></html>

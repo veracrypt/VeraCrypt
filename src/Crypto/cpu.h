@@ -4,6 +4,46 @@
 #include "Common/Tcdefs.h"
 #include "config.h"
 
+// Applies to both X86/X32/X64 and ARM32/ARM64
+#if defined(CRYPTOPP_LLVM_CLANG_VERSION) || defined(CRYPTOPP_APPLE_CLANG_VERSION) || defined(CRYPTOPP_CLANG_INTEGRATED_ASSEMBLER)
+	#define NEW_LINE "\n"
+	#define INTEL_PREFIX ".intel_syntax;"
+	#define INTEL_NOPREFIX ".intel_syntax;"
+	#define ATT_PREFIX ".att_syntax;"
+	#define ATT_NOPREFIX ".att_syntax;"
+#elif defined(__GNUC__)
+	#define NEW_LINE
+	#define INTEL_PREFIX ".intel_syntax prefix;"
+	#define INTEL_NOPREFIX ".intel_syntax noprefix;"
+	#define ATT_PREFIX ".att_syntax prefix;"
+	#define ATT_NOPREFIX ".att_syntax noprefix;"
+#else
+	#define NEW_LINE
+	#define INTEL_PREFIX
+	#define INTEL_NOPREFIX
+	#define ATT_PREFIX
+	#define ATT_NOPREFIX
+#endif
+
+#if defined (_MSC_VER) && !defined (TC_WINDOWS_BOOT) 
+#if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
+#if defined(__cplusplus)
+extern "C" {
+#endif
+#if defined(_M_X64) || defined (_M_IX86) || defined (_M_IX86_FP)
+extern unsigned __int64 __rdtsc();
+#endif
+#if defined(__cplusplus)
+}
+#endif
+#else
+#include <intrin.h>
+#if defined(_M_X64) || defined (_M_IX86) || defined (_M_IX86_FP)
+#pragma intrinsic(__rdtsc)
+#endif
+#endif
+#endif
+
 #ifdef CRYPTOPP_GENERATE_X64_MASM
 
 #define CRYPTOPP_X86_ASM_AVAILABLE
@@ -63,14 +103,52 @@ extern void  _m_empty(void);
 extern int _mm_extract_epi16(__m128i _A, int _Imm);
 extern __m128i _mm_load_si128(__m128i const*_P);
 extern __m128i _mm_xor_si128(__m128i _A, __m128i _B);
+extern __m128i _mm_cvtsi32_si128(int a);
 extern __m128i _mm_cvtsi64_si128(__int64);
+extern int _mm_cvtsi128_si32(__m128i a);
 extern __m128i _mm_unpacklo_epi64(__m128i _A, __m128i _B);
 extern void _mm_store_si128(__m128i *_P, __m128i _B);
 extern __m64 _m_pxor(__m64 _MM1, __m64 _MM2);
 extern __m128i _mm_set_epi64(__m64 _Q1, __m64 _Q0);
+extern __m128i _mm_set1_epi64(__m64 q);
 extern __m128i _mm_setr_epi32(int _I0, int _I1, int _I2, int _I3);
+extern __m128i _mm_loadu_si128(__m128i const*_P);
+extern __m128i _mm_set_epi8(char b15, char b14, char b13, char b12, char b11, char b10, char b9, char b8, char b7, char b6, char b5, char b4, char b3, char b2, char b1, char b0);
+extern __m128i _mm_set_epi32(int _I3, int _I2, int _I1, int _I0);
+extern __m128i _mm_set1_epi32(int _I);
+extern void _mm_storeu_si128(__m128i *_P, __m128i _B);
+extern __m128i _mm_or_si128(__m128i _A, __m128i _B);
+extern __m128i _mm_slli_epi32(__m128i _A, int _Count);
+extern __m128i _mm_srli_epi32(__m128i _A, int _Count);
+extern __m128i _mm_add_epi32(__m128i _A, __m128i _B);
+extern __m128i _mm_sub_epi32(__m128i _A, __m128i _B);
+extern __m128i _mm_add_epi64 (__m128i a, __m128i b);
+extern __m128i _mm_or_si128(__m128i _A, __m128i _B);
+extern __m128i _mm_and_si128(__m128i _A, __m128i _B);
+extern __m128i _mm_andnot_si128(__m128i _A, __m128i _B);
+extern __m128i _mm_shufflehi_epi16(__m128i _A, int _Imm);
+extern __m128i _mm_shufflelo_epi16(__m128i _A, int _Imm);
+extern __m128i _mm_unpacklo_epi32(__m128i _A, __m128i _B);
+extern __m128i _mm_unpackhi_epi32(__m128i _A, __m128i _B);
+extern __m128i _mm_unpackhi_epi64(__m128i _A, __m128i _B);
+extern __m128i _mm_srli_epi16(__m128i _A, int _Count);
+extern __m128i _mm_srli_epi64(__m128i _A, int _Count);
+extern __m128i _mm_slli_epi16(__m128i _A, int _Count);
+extern __m128i _mm_shuffle_epi32 (__m128i a, int imm8);
+extern __m128i _mm_set_epi64x (__int64 e1, __int64 e0);
+extern __m128i _mm_set1_epi64x (__int64 a);
+extern __m128i _mm_castps_si128(__m128);
+extern __m128  _mm_castsi128_ps(__m128i);
+extern __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
+extern __m128i _mm_srli_si128(__m128i _A, int _Imm);
+extern __m128i _mm_slli_si128(__m128i _A, int _Imm);
+extern __m128i _mm_setzero_si128();
+extern __m128i _mm_mul_epu32(__m128i _A, __m128i _B);
+extern __m128i _mm_slli_epi64(__m128i _A, int _Count);
 #define _mm_xor_si64      _m_pxor
 #define _mm_empty         _m_empty
+#define _MM_SHUFFLE(fp3,fp2,fp1,fp0) (((fp3) << 6) | ((fp2) << 4) | \
+                                     ((fp1) << 2) | ((fp0)))
 #if defined(__cplusplus)
 }
 #endif
@@ -80,13 +158,13 @@ extern __m128i _mm_setr_epi32(int _I0, int _I1, int _I2, int _I3);
 #endif
 #endif
 
-#if CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE
-#if defined(__SSSE3__) || defined(__INTEL_COMPILER)
+#if CRYPTOPP_BOOL_SSSE3_INTRINSICS_AVAILABLE || defined(__INTEL_COMPILER)
 #if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {
 #endif
 extern __m128i _mm_shuffle_epi8 (__m128i a, __m128i b);
+extern __m128i _mm_alignr_epi8 (__m128i a, __m128i b, int n);
 #if defined(__cplusplus)
 }
 #endif
@@ -95,13 +173,14 @@ extern __m128i _mm_shuffle_epi8 (__m128i a, __m128i b);
 #endif
 #endif
 
-#if defined(__SSE4_1__) || defined(__INTEL_COMPILER) || defined(_MSC_VER)
+#if CRYPTOPP_BOOL_SSE41_INTRINSICS_AVAILABLE || defined(__INTEL_COMPILER)
 #if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {
 #endif
 extern int   _mm_extract_epi32(__m128i src, const int ndx);
 extern __m128i _mm_insert_epi32(__m128i dst, int s, const int ndx);
+extern __m128i _mm_blend_epi16 (__m128i v1, __m128i v2, const int mask);
 #if defined(_M_X64)
 extern __m128i _mm_insert_epi64(__m128i dst, __int64 s, const int ndx);
 #endif
@@ -133,6 +212,21 @@ extern __m128i _mm_aesdeclast_si128(__m128i v, __m128i rkey);
 #include <wmmintrin.h>
 #endif
 #endif
+
+#if CRYPTOPP_SHANI_AVAILABLE
+#if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern __m128i __cdecl _mm_sha256msg1_epu32(__m128i, __m128i);
+extern __m128i __cdecl _mm_sha256msg2_epu32(__m128i, __m128i);
+extern __m128i __cdecl _mm_sha256rnds2_epu32(__m128i, __m128i, __m128i);
+#if defined(__cplusplus)
+}
+#endif
+#else
+#include <immintrin.h>
+#endif
 #endif
 
 #if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X64
@@ -142,44 +236,80 @@ extern "C" {
 #endif
 
 #define CRYPTOPP_CPUID_AVAILABLE
+/* aes_hw_cpu_* come from the assembler module, which NOASM builds leave out */
+#if !defined(CRYPTOPP_DISABLE_AESNI) && !defined(WOLFCRYPT_BACKEND) && !defined(CRYPTOPP_DISABLE_ASM)
+#define TC_AES_HW_CPU
+#endif
 
 // these should not be used directly
-extern int g_x86DetectionDone;
-extern int g_hasAVX;
-extern int g_hasSSE42;
-extern int g_hasSSE41;
-extern int g_hasSSSE3;
-extern int g_hasAESNI;
-extern int g_hasCLMUL;
-extern int g_isP4;
-extern uint32 g_cacheLineSize;
+extern volatile int g_x86DetectionDone;
+extern volatile int g_hasSSE2;
+extern volatile int g_hasISSE;
+extern volatile int g_hasMMX;
+extern volatile int g_hasAVX;
+extern volatile int g_hasAVX2;
+extern volatile int g_hasBMI2;
+extern volatile int g_hasSSE42;
+extern volatile int g_hasSSE41;
+extern volatile int g_hasSSSE3;
+extern volatile int g_hasAESNI;
+extern volatile int g_hasCLMUL;
+extern volatile int g_isP4;
+extern volatile int g_hasRDRAND;
+extern volatile int g_hasRDSEED;
+extern volatile int g_hasSHA256;
+extern volatile int g_isIntel;
+extern volatile int g_isAMD;
+extern volatile uint32 g_cacheLineSize;
 void DetectX86Features(); // must be called at the start of the program/driver
-int CpuId(uint32 input, uint32 *output);
+int CpuId(uint32 input, uint32 output[4]);
+// disable all CPU extended features (e.g. SSE, AVX, AES) that may have
+// been enabled by DetectX86Features.
+void DisableCPUExtendedFeatures (); 
 
 #if CRYPTOPP_BOOL_X64
 #define HasSSE2()	1
 #define HasISSE()	1
-#define HasMMX()	1
 #else
-
-extern int g_hasSSE2;
-extern int g_hasISSE;
-extern int g_hasMMX;
-
 #define HasSSE2()	g_hasSSE2
 #define HasISSE()	g_hasISSE
-#define HasMMX()	g_hasMMX
-
 #endif
-
+#define HasMMX()	g_hasMMX
 #define HasSSE42() g_hasSSE42
 #define HasSSE41() g_hasSSE41
 #define HasSAVX() g_hasAVX
+#define HasSAVX2() g_hasAVX2
+#define HasSBMI2() g_hasBMI2
 #define HasSSSE3() g_hasSSSE3
 #define HasAESNI() g_hasAESNI
 #define HasCLMUL() g_hasCLMUL
 #define IsP4() g_isP4
+#define HasRDRAND() g_hasRDRAND
+#define HasRDSEED() g_hasRDSEED
+#define HasSHA256() g_hasSHA256
+#define IsCpuIntel() g_isIntel
+#define IsCpuAMD() g_isAMD
 #define GetCacheLineSize() g_cacheLineSize
+
+#if defined(__cplusplus)
+}
+#endif
+
+#elif CRYPTOPP_BOOL_ARMV8
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+#if !defined(CRYPTOPP_DISABLE_AESNI) && !defined(WOLFCRYPT_BACKEND)
+#define TC_AES_HW_CPU
+#endif
+
+extern volatile int g_hasAESARM;
+extern volatile int g_hasSHA256ARM;
+void DetectArmFeatures();
+
+#define HasAESNI() g_hasAESARM
+#define HasSHA256() g_hasSHA256ARM
 
 #if defined(__cplusplus)
 }
@@ -187,11 +317,33 @@ extern int g_hasMMX;
 
 #else
 
+#define HasSSE2()	0
+#define HasISSE()	0
+
+#define HasMMX()	0
+#define HasSSE42() 0
+#define HasSSE41() 0
+#define HasSAVX() 0
+#define HasSAVX2() 0
+#define HasSBMI2() 0
+#define HasSSSE3() 0
+#define HasAESNI() 0
+#define HasCLMUL() 0
+#define IsP4() 0
+#define HasRDRAND() 0
+#define HasRDSEED() 0
+#define IsCpuIntel() 0
+#define IsCpuAMD() 0
 #define GetCacheLineSize()	CRYPTOPP_L1_CACHE_LINE_SIZE
 
+#define DetectX86Features()
+#define DisableCPUExtendedFeatures()
+
 #endif
 
 #endif
+
+#if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X64
 
 #ifdef CRYPTOPP_GENERATE_X64_MASM
 	#define AS1(x) x*newline*
@@ -216,20 +368,6 @@ extern int g_hasMMX;
 #else
 	#define CRYPTOPP_GNU_STYLE_INLINE_ASSEMBLY
 
-    #if defined(CRYPTOPP_CLANG_VERSION) || defined(CRYPTOPP_APPLE_CLANG_VERSION)
-        #define NEW_LINE "\n"
-        #define INTEL_PREFIX ".intel_syntax;"
-        #define INTEL_NOPREFIX ".intel_syntax;"
-        #define ATT_PREFIX ".att_syntax;"
-        #define ATT_NOPREFIX ".att_syntax;"
-    #else
-        #define NEW_LINE
-        #define INTEL_PREFIX ".intel_syntax prefix;"
-        #define INTEL_NOPREFIX ".intel_syntax noprefix;"
-        #define ATT_PREFIX ".att_syntax prefix;"
-        #define ATT_NOPREFIX ".att_syntax noprefix;"
-        #endif
-
     // define these in two steps to allow arguments to be expanded
     #define GNU_AS1(x) #x ";" NEW_LINE
     #define GNU_AS2(x, y) #x ", " #y ";" NEW_LINE
@@ -249,21 +387,6 @@ extern int g_hasMMX;
 
 #define IF0(y)
 #define IF1(y) y
-
-// Should be confined to GCC, but its used to help manage Clang 3.4 compiler error.
-//   Also see LLVM Bug 24232, http://llvm.org/bugs/show_bug.cgi?id=24232 .
-#ifndef INTEL_PREFIX
-#define INTEL_PREFIX
-#endif
-#ifndef INTEL_NOPREFIX
-#define INTEL_NOPREFIX
-#endif
-#ifndef ATT_PREFIX
-#define ATT_PREFIX
-#endif
-#ifndef ATT_NOPREFIX
-#define ATT_NOPREFIX
-#endif
 
 #ifdef CRYPTOPP_GENERATE_X64_MASM
 #define ASM_MOD(x, y) ((x) MOD (y))
@@ -395,5 +518,23 @@ extern int g_hasMMX;
 	ASL(labelPrefix##9)\
 	AS2(	add		outputPtr, increment*16)
 
+#endif  //  X86/X32/X64
+
+#if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
+#ifdef  __cplusplus
+extern "C" {
+#endif
+extern unsigned __int64 __cdecl _rotl64(unsigned __int64,int);
+extern unsigned __int64 __cdecl _rotr64(unsigned __int64,int);
+extern unsigned int __cdecl _rotl(unsigned int,int);
+extern unsigned int __cdecl _rotr(unsigned int,int);
+extern unsigned char _rotr8(unsigned char value, unsigned char shift);
+extern unsigned short _rotr16(unsigned short value, unsigned char shift);
+extern unsigned char _rotl8(unsigned char value, unsigned char shift);
+extern unsigned short _rotl16(unsigned short value, unsigned char shift);
+#ifdef  __cplusplus
+}
+#endif
+#endif
 
 #endif

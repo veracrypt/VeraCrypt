@@ -4,15 +4,15 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
 */
 
-#include "Common/Tcdefs.h"
 #include "Memory.h"
 #include "Exception.h"
+#include <stdlib.h>
 
 namespace VeraCrypt
 {
@@ -22,6 +22,23 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 
 		void *bufPtr = malloc (size);
+		if (!bufPtr)
+			throw bad_alloc();
+
+		return bufPtr;
+	}
+	
+	void *Memory::AllocateAligned (std::size_t size, std::size_t alignment)
+	{
+		if (size < 1)
+			throw ParameterIncorrect (SRC_POS);
+#ifdef TC_WINDOWS
+		void *bufPtr = _aligned_malloc (size, alignment);
+#else
+		void *bufPtr = NULL;
+		if (0 != posix_memalign (&bufPtr, alignment, size))
+			bufPtr = NULL;
+#endif
 		if (!bufPtr)
 			throw bad_alloc();
 
@@ -44,11 +61,6 @@ namespace VeraCrypt
 		memcpy (memoryDestination, memorySource, size);
 	}
 
-	void Memory::Erase (void *memory, size_t size)
-	{
-		burn (memory, size);
-	}
-
 	void Memory::Zero (void *memory, size_t size)
 	{
 		memset (memory, 0, size);
@@ -58,5 +70,15 @@ namespace VeraCrypt
 	{
 		assert (memory != nullptr);
 		free (memory);
+	}
+	
+	void Memory::FreeAligned (void *memory)
+	{
+		assert (memory != nullptr);
+#ifdef TC_WINDOWS
+		_aligned_free (memory);
+#else
+		free (memory);
+#endif
 	}
 }

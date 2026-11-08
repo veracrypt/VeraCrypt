@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -35,6 +35,10 @@ namespace VeraCrypt
 
 		ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode = Mode::ChangePasswordAndKeyfiles, shared_ptr <VolumePassword> password = shared_ptr <VolumePassword> (), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList> (), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword> (), shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList> ());
 		virtual ~ChangePasswordDialog ();
+		
+#ifdef TC_MACOSX
+		virtual bool ProcessEvent(wxEvent& event);
+#endif
 
 	protected:
 		void OnOKButtonClick (wxCommandEvent& event);
@@ -42,6 +46,9 @@ namespace VeraCrypt
 		void OnPasswordPanelUpdate (EventArgs &args) { OnPasswordPanelUpdate(); }
 
 		Mode::Enum DialogMode;
+		bool KdfOnlyKdfSelectionInitialized;
+		shared_ptr <Pkcs5Kdf> LastCurrentKdf;
+		shared_ptr <Pkcs5Kdf> LastNewKdf;
 
 		VolumePasswordPanel *CurrentPasswordPanel;
 		VolumePasswordPanel *NewPasswordPanel;

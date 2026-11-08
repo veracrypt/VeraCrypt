@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -36,9 +36,9 @@ static wchar_t *seconds, *minutes, *hours, *days;
 // the speed of the "transform cursor").
 void InitProgressBar (__int64 totalBytes, __int64 bytesDone, BOOL bReverse, BOOL bIOThroughput, BOOL bDisplayStatus, BOOL bShowPercent)
 {
-	HWND hProgressBar = GetDlgItem (hCurPage, nPbar);
-	SendMessage (hProgressBar, PBM_SETRANGE32, 0, 10000);
-	SendMessage (hProgressBar, PBM_SETSTEP, 1, 0);
+	HWND hCurProgressBar = GetDlgItem (hCurPage, nPbar);
+	SendMessage (hCurProgressBar, PBM_SETRANGE32, 0, 10000);
+	SendMessage (hCurProgressBar, PBM_SETSTEP, 1, 0);
 
 	bProgressBarReverse = bReverse;
 	bRWThroughput = bIOThroughput;
@@ -66,7 +66,7 @@ BOOL UpdateProgressBarProc (__int64 byteOffset)
 {
 	wchar_t text[100];
 	wchar_t speed[100];
-	HWND hProgressBar = GetDlgItem (hCurPage, nPbar);
+	HWND hCurProgressBar = GetDlgItem (hCurPage, nPbar);
 	int time = GetTickCount ();
 	int elapsed = (time - startTime) / 1000;
 
@@ -126,7 +126,7 @@ BOOL UpdateProgressBarProc (__int64 byteOffset)
 
 	prevTime = time;
 
-	SendMessage (hProgressBar, PBM_SETPOS,
+	SendMessage (hCurProgressBar, PBM_SETPOS,
 		(int) (10000.0 * (bProgressBarReverse ? (TotalSize - byteOffset) : byteOffset) / (TotalSize == 0 ? 1 : TotalSize)),
 		0);
 

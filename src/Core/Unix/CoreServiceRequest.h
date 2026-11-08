@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -20,7 +20,7 @@ namespace VeraCrypt
 {
 	struct CoreServiceRequest : public Serializable
 	{
-		CoreServiceRequest () : ElevateUserPrivileges (false), FastElevation (false) { }
+		CoreServiceRequest () : ElevateUserPrivileges (false), FastElevation (false), UseDummySudoPassword (false), AllowInsecureMount (false) { }
 		TC_SERIALIZABLE (CoreServiceRequest);
 
 		virtual bool RequiresElevation () const { return false; }
@@ -29,6 +29,9 @@ namespace VeraCrypt
 		FilePath ApplicationExecutablePath;
 		bool ElevateUserPrivileges;
 		bool FastElevation;
+		string UserEnvPATH;
+		bool UseDummySudoPassword;
+		bool AllowInsecureMount;
 	};
 
 	struct CheckFilesystemRequest : CoreServiceRequest
@@ -71,6 +74,20 @@ namespace VeraCrypt
 		bool SyncVolumeInfo;
 	};
 
+#ifdef TC_LINUX
+	struct EmergencyDismountVolumeRequest : CoreServiceRequest
+	{
+		EmergencyDismountVolumeRequest () { }
+		EmergencyDismountVolumeRequest (shared_ptr <VolumeInfo> volumeInfo)
+			: MountedVolumeInfo (volumeInfo) { }
+		TC_SERIALIZABLE (EmergencyDismountVolumeRequest);
+
+		virtual bool RequiresElevation () const;
+
+		shared_ptr <VolumeInfo> MountedVolumeInfo;
+	};
+#endif
+
 	struct GetDeviceSectorSizeRequest : CoreServiceRequest
 	{
 		GetDeviceSectorSizeRequest () { }
@@ -109,6 +126,38 @@ namespace VeraCrypt
 		TC_SERIALIZABLE (ExitRequest);
 	};
 
+#ifdef TC_MACOSX
+	struct ExecuteMacOSXAPFSFormatterRequest : CoreServiceRequest
+	{
+		ExecuteMacOSXAPFSFormatterRequest () { }
+		ExecuteMacOSXAPFSFormatterRequest (const DevicePath &devicePath, uint64 userId, uint64 groupId)
+			: Device (devicePath), OwnerGroupId (groupId), OwnerUserId (userId) { }
+		TC_SERIALIZABLE (ExecuteMacOSXAPFSFormatterRequest);
+
+		virtual bool RequiresElevation () const;
+
+		DevicePath Device;
+		uint64 OwnerGroupId;
+		uint64 OwnerUserId;
+	};
+#endif
+
+#ifdef TC_OPENBSD
+	struct ExecuteOpenBSDFFSFormatterRequest : CoreServiceRequest
+	{
+		ExecuteOpenBSDFFSFormatterRequest () { }
+		ExecuteOpenBSDFFSFormatterRequest (const DevicePath &devicePath, uint64 userId, uint64 groupId)
+			: Device (devicePath), OwnerGroupId (groupId), OwnerUserId (userId) { }
+		TC_SERIALIZABLE (ExecuteOpenBSDFFSFormatterRequest);
+
+		virtual bool RequiresElevation () const;
+
+		DevicePath Device;
+		uint64 OwnerGroupId;
+		uint64 OwnerUserId;
+	};
+#endif
+
 	struct MountVolumeRequest : CoreServiceRequest
 	{
 		MountVolumeRequest () { }
@@ -122,6 +171,17 @@ namespace VeraCrypt
 	protected:
 		shared_ptr <MountOptions> DeserializedOptions;
 	};
+
+#ifdef TC_LINUX
+	// A distinct request opts into the extended response. Old services reject it
+	// during deserialization, before mounting; legacy requests keep their old reply.
+	struct MountVolumeRequestV2 : MountVolumeRequest
+	{
+		MountVolumeRequestV2 () { }
+		MountVolumeRequestV2 (MountOptions *options) : MountVolumeRequest (options) { }
+		static Serializable *GetNewSerializable () { return new MountVolumeRequestV2(); }
+	};
+#endif
 
 
 	struct SetFileOwnerRequest : CoreServiceRequest

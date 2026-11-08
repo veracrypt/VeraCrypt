@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -16,6 +16,7 @@
 #include <new>
 #include <memory.h>
 #include "PlatformBase.h"
+#include "Common/Tcdefs.h"
 
 #ifdef TC_WINDOWS
 
@@ -73,17 +74,18 @@ namespace VeraCrypt
 	{
 	public:
 		static void *Allocate (size_t size);
+		static void *AllocateAligned (size_t size, size_t alignment);
 		static int Compare (const void *memory1, size_t size1, const void *memory2, size_t size2);
 		static void Copy (void *memoryDestination, const void *memorySource, size_t size);
-		static void Erase (void *memory, size_t size);
 		static void Free (void *memory);
+		static void FreeAligned (void *memory);
 		static void Zero (void *memory, size_t size);
 	};
 
 	class Endian
 	{
 	public:
-		static byte Big (const byte &x)
+		static uint8 Big (const uint8 &x)
 		{
 			return x;
 		}
@@ -115,7 +117,7 @@ namespace VeraCrypt
 #endif
 		}
 
-		static byte Little (const byte &x)
+		static uint8 Little (const uint8 &x)
 		{
 			return x;
 		}
@@ -155,22 +157,22 @@ namespace VeraCrypt
 
 		static uint32 MirrorBytes (const uint32 &x)
 		{
-			uint32 n = (byte) x;
-			n <<= 8; n |= (byte) (x >> 8);
-			n <<= 8; n |= (byte) (x >> 16);
-			return (n << 8) | (byte) (x >> 24);
+			uint32 n = (uint8) x;
+			n <<= 8; n |= (uint8) (x >> 8);
+			n <<= 8; n |= (uint8) (x >> 16);
+			return (n << 8) | (uint8) (x >> 24);
 		}
 
 		static uint64 MirrorBytes (const uint64 &x)
 		{
-			uint64 n = (byte) x;
-			n <<= 8; n |= (byte) (x >> 8);
-			n <<= 8; n |= (byte) (x >> 16);
-			n <<= 8; n |= (byte) (x >> 24);
-			n <<= 8; n |= (byte) (x >> 32);
-			n <<= 8; n |= (byte) (x >> 40);
-			n <<= 8; n |= (byte) (x >> 48);
-			return (n << 8) | (byte) (x >> 56);
+			uint64 n = (uint8) x;
+			n <<= 8; n |= (uint8) (x >> 8);
+			n <<= 8; n |= (uint8) (x >> 16);
+			n <<= 8; n |= (uint8) (x >> 24);
+			n <<= 8; n |= (uint8) (x >> 32);
+			n <<= 8; n |= (uint8) (x >> 40);
+			n <<= 8; n |= (uint8) (x >> 48);
+			return (n << 8) | (uint8) (x >> 56);
 		}
 	};
 }

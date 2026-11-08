@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -45,9 +45,9 @@ void ClearScreen ();
 void DisableScreenOutput ();
 void EnableScreenOutput ();
 bool EscKeyPressed ();
-byte GetKeyboardChar ();
-byte GetKeyboardChar (byte *scanCode);
-byte GetShiftFlags ();
+uint8 GetKeyboardChar ();
+uint8 GetKeyboardChar (uint8 *scanCode);
+uint8 GetShiftFlags ();
 int GetString (char *buffer, size_t bufferSize);
 void InitVideoMode ();
 bool IsKeyboardCharAvailable ();
@@ -64,7 +64,7 @@ void PrintEndl (int cnt);
 void PrintRepeatedChar (char c, int n);
 void PrintError (const char *message);
 void PrintErrorNoEndl (const char *message);
-void PrintHex (byte b);
+void PrintHex (uint8 b);
 void PrintHex (uint16 data);
 void PrintHex (uint32 data);
 void PrintHex (const uint64 &data);

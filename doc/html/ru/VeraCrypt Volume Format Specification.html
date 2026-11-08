@@ -1,0 +1,758 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">Технические подробности</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20Volume%20Format%20Specification.html">Спецификация формата томов VeraCrypt</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Спецификация формата томов VeraCrypt</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Формат томов на основе файлов идентичен формату томов на основе разделов/устройств (однако "заголовок тома"
+или ключевые данные для системного раздела/диска хранятся в последних 512 байтах первой дорожки логического диска).
+Тома VeraCrypt не имеют никаких "сигнатур" или идентифицирующих строк. Пока тома не расшифрованы, они выглядят
+как состоящие исключительно из случайных данных.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Свободное пространство на каждом томе VeraCrypt заполняется случайными данными при создании тома.*
+Случайные данные генерируются следующим образом: непосредственно перед началом форматирования тома VeraCrypt
+генератор случайных чисел создаёт временный ключ шифрования и временный вторичный ключ (режим XTS)
+(см. раздел <a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Генератор случайных чисел</a>). Выбранный пользователем алгоритм шифрования инициализируется временными ключами.
+Затем используется алгоритм шифрования для шифрования блоков открытого текста, состоящих из случайных байтов,
+созданных генератором случайных чисел. Алгоритм шифрования работает в режиме XTS (см. раздел <a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Скрытый том</a>). Полученные блоки зашифрованного текста используются для заполнения (перезаписи) свободного места на томе.
+Временные ключи хранятся в ОЗУ и стираются после завершения форматирования.</div>
+<p><br style="text-align:left">
+Спецификация формата томов VeraCrypt:</p>
+<table style="border-collapse:separate; border-spacing:0px; width:608px; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; border-width:0px 0px 1px 1px; border-style:solid; border-color:#ffffff #ffffff #000000 #000000">
+<tbody style="text-align:left">
+<tr style="text-align:left">
+<th style="width:76px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:9px 0px; border-color:#000000 #000000 #000000 white">
+Смещение (байты)</th>
+<th style="width:50px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:9px 0px; border-color:#000000 #000000 #000000 white">
+Размер (байты)</th>
+<th style="width:98px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:9px 0px; border-color:#000000 #000000 #000000 white">
+Статус<br>
+шифрования&dagger;</th>
+<th style="width:382px; font-weight:normal; text-align:center; vertical-align:middle; color:#000000; border-width:1px 1px 1px 0px; border-style:solid solid solid none; padding:9px 0px; border-color:#000000 #000000 #000000 white">
+Описание</th>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">0&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">64&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Не зашифровано&sect;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Соль</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">64&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">4&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;ASCII-строка &quot;VERA&quot;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">68&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">2&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Версия формата заголовка тома (2)</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">70&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">2&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Минимальная версия программы, необходимая
+ для открытия тома</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">72&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">4&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Контрольная сумма CRC-32 (расшифрованных) байтов 256-511</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">76&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">16&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зарезервировано (должно содержать нули)</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">92&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">8&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Размер скрытого тома (для нескрытых томов – ноль)</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">100&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">8&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Размер тома</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">108&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">8&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Байтовое смещение начала области действия мастер-ключа</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">116&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">8&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Размер зашифрованного участка в области действия мастер-ключа</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">124&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">4&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Биты флагов (бит 0 установлен: шифрование системы; бит 1 установлен: несистемный "на месте" зашифрованный/расшифрованный том; биты 2-31 зарезервированы)</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">128&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">4&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Размер сектора (в байтах)</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">132&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">120&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зарезервировано (должно содержать нули)</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">252&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">4&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Контрольная сумма CRC-32 (расшифрованных) байтов 64-251</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">256&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right"><em>Пер.</em>&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Объединённые первичный и вторичный мастер-ключи**</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">512&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">65024&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зарезервировано (при шифровании системы этот элемент опущен&Dagger;&Dagger;)</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">65536&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">65536&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано /</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Область для заголовка скрытого тома (если внутри тома нет скрытого тома, эта область содержит случайные данные&dagger;&dagger;). При шифровании системы этот элемент опущен.&Dagger;&Dagger; См. байты 0-65535</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Не зашифровано&sect;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">131072&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right"><em>Пер.</em>&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Область данных (область действия мастер-ключа). При шифровании системы смещение может быть другим (зависит от смещения системного раздела)</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right"><em>S</em>-131072&Dagger;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">65536&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано /</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Резервная копия заголовка (зашифрованная другим ключом заголовка, сформированным с помощью другой соли). При шифровании системы этот элемент опущен.&Dagger;&Dagger; См. байты 0-65535</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Не зашифровано&sect;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right"><em>S</em>-65536&Dagger;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">65536&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Зашифровано /</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Резервная копия заголовка скрытого тома (зашифрованная другим ключом заголовка, сформированным с помощью другой соли). Если внутри тома нет скрытого тома, эта область содержит случайные данные.&dagger;&dagger; При шифровании системы этот элемент опущен.&Dagger;&Dagger; См. байты 0-65535</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;Не зашифровано&sect;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="right">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+<div align="left">&nbsp;</div>
+</td>
+</tr>
+<tr style="text-align:left">
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+<td style="color:#000000; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif; text-align:center; vertical-align:middle; border-width:0px 1px 0px 0px; border-style:none solid solid none; padding:0px 5px; border-color:white #000000 #ffffff white">
+&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Поля, расположенные с байта №0 (соль) и №256 (мастер-ключи) содержат случайные данные, созданные генератором случайных чисел (см. раздел
+<a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Генератор случайных чисел</a>) во время создания тома.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Если в томе VeraCrypt содержится скрытый том (внутри его пустого места), заголовок скрытого тома расположен
+с байта №65536 хост-тома (заголовок хост/внешнего тома расположен с байта №0 хост-тома – см. раздел
+<a href="Hidden%20Volume.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Скрытый том</a>). Если внутри тома VeraCrypt нет скрытого тома, байты 65536-131071 тома (то есть область, где
+может находиться заголовок скрытого тома) содержат случайные данные (см. информацию выше о методе заполнения
+свободного пространства тома случайными данными при создании тома). Расположение заголовка скрытого тома такое же,
+как и у стандартного тома (байты 0-65535).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Максимально возможный размер тома VeraCrypt – 2<sup style="text-align:left; font-size:85%">63</sup> байтов (8 589 934 592 ГБ).
+Однако из соображений безопасности (с учётом 128-битового размера блоков, используемых
+<a href="Encryption%20Algorithms.html" style="text-align:left; color:#0080c0; text-decoration:none">
+алгоритмами шифрования</a>), максимально разрешённый размер тома составляет 1 ПБ (1 048 576 ГБ).</div>
+<h4 style="text-align:left; font-family:Arial,Helvetica,Verdana,sans-serif; font-weight:bold; margin-top:0px; font-size:12px; margin-bottom:1px">
+Встроенные резервные копии заголовков</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Каждый том VeraCrypt содержит встроенную резервную копию заголовка, расположенную в конце тома (см. выше).
+Резервная копия заголовка это <em style="text-align:left">не</em> копия заголовка тома, так как она зашифрована
+другим ключом заголовка, сформированным с использованием другой соли (см. раздел
+<a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Формирование ключа заголовка, соль и количество итераций</a>).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+При смене пароля и/или PIM и/или ключевых файлов тома, либо при восстановлении заголовка из встроенной (или внешней)
+резервной копии выполняется перешифрование заголовка тома и резервной копии заголовка (встроенной в том) с помощью
+других ключей заголовка (сформированных с использованием вновь сгенерированной соли – соль для заголовка тома отличается
+от соли для резервной копии заголовка). Каждая соль создаётся генератором случайных чисел VeraCrypt (см. раздел
+<a href="Random%20Number%20Generator.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Генератор случайных чисел</a>).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Более подробные сведения о резервных копиях заголовков см. в подразделе <a href="Program%20Menu.html#tools-restore-volume-header" style="text-align:left; color:#0080c0; text-decoration:none">
+Сервис &gt; Восстановить заголовок тома</a> в главе <a href="Main%20Program%20Window.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Главное окно программы</a>.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<a href="Standard%20Compliance.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">Следующий раздел &gt;&gt;</a></div>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* При условии, что отключены опции <i>Быстрое форматирование</i>
+и <i>Динамический</i>, а также что том не содержит файловую систему, которая была зашифрована на месте (обратите внимание,
+что VeraCrypt не позволяет пользователю создавать скрытый том внутри такого тома).</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">&dagger; Зашифрованные области заголовка тома
+шифруются в режиме XTS с использованием первичного и вторичного ключей заголовка. См. подробности в разделах
+<a href="Encryption%20Scheme.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Схема шифрования</a> и <a href="Header%20Key%20Derivation.html" style="text-align:left; color:#0080c0; text-decoration:none">
+Формирование ключа заголовка, соль и количество итераций</a>.</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">&Dagger; <em style="text-align:left">
+S</em> обозначает размер хоста тома (в байтах).</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">&sect; Обратите внимание, что соль не нужно шифровать,
+так как её не требуется держать в секрете [7] (соль это последовательность случайных значений).</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">** Здесь хранится несколько объединённых мастер-ключей,
+когда том зашифрован с помощью каскада шифров (вторичные мастер-ключи используются для режима XTS).</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">&dagger;&dagger; См. выше в этом разделе информацию
+о методе заполнения свободного пространства тома случайными данными при создании тома.</span><br style="text-align:left">
+<span style="text-align:left; font-size:10px; line-height:12px">&Dagger;&Dagger; Здесь значение "шифрование системы"
+не включает скрытый том, содержащий скрытую операционную систему.</span></p>
+</div><div class="ClearBoth"></div></body></html>

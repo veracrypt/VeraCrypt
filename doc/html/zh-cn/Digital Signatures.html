@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。若攻击者强迫您透露密码，VeraCrypt可提供似是而非的否认。与文件加密不同，VeraCrypt进行的数据加密是实时（动态）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Miscellaneous.html">杂项</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Digital%20Signatures.html">数字签名</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>数字签名</h1>
+<h3>为何要验证数字签名</h3>
+<p>您从我们服务器下载的VeraCrypt安装包可能已被攻击者创建或修改。例如，攻击者可能利用我们使用的服务器软件中的漏洞，篡改存储在服务器上的安装包，或者在传输过程中篡改任何文件。<br>
+<br>
+因此，您应始终验证从任何来源下载或以其他方式获取的每个VeraCrypt发行包的完整性和真实性。换句话说，您应始终确保该文件是由我们创建的，且未被攻击者篡改。验证文件所谓的数字签名是实现这一目的的一种方法。</p>
+<h3>我们使用的数字签名类型</h3>
+<p>我们目前使用两种类型的数字签名：</p>
+<ul>
+<li><strong>PGP</strong>签名（适用于所有受支持系统的所有二进制和源代码包）。
+</li><li><strong>X.509</strong>签名（适用于Windows的二进制包）。
+</li></ul>
+<h3>X.509签名的优点</h3>
+<p>与PGP签名相比，X.509签名具有以下优点：</p>
+<ul>
+<li>更容易验证签署文件的密钥确实是我们的（而非攻击者的）。
+</li><li>验证X.509签名无需下载或安装任何额外软件（见下文）。
+</li><li>无需下载和导入我们的公钥（它已嵌入到签名文件中）。
+</li><li>无需下载任何单独的签名文件（签名已嵌入到签名文件中）。
+</li></ul>
+<h3>PGP签名的优点</h3>
+<p>与X.509签名相比，PGP签名具有以下优点：</p>
+<ul>
+<li>它们不依赖任何证书颁发机构（证书颁发机构可能会被对手渗透或控制，或者出于其他原因不可信）。
+</li></ul>
+<h3>如何验证X.509签名</h3>
+<p>请注意，目前X.509签名仅适用于Windows的VeraCrypt自解压安装包。每个此类文件中都嵌入了一个X.509数字签名以及由公共证书颁发机构颁发的VeraCrypt基金会数字证书。要验证Windows自解压安装包的完整性和真实性，请遵循以下步骤：</p>
+<ol>
+<li>下载VeraCrypt自解压安装包。 </li><li>在Windows资源管理器中，右键单击下载的文件（‘<em>VeraCrypt Setup.exe</em>’），然后从上下文菜单中选择‘<em>属性</em>’。
+</li><li>在<em>属性</em>对话框窗口中，选择‘<em>数字签名</em>’选项卡。
+</li><li>在‘<em>数字签名</em>’选项卡的‘<em>签名列表</em>’中，双击显示“<em>IDRIX</em>”或
+<em>“IDRIX SARL”</em>的行。 </li><li>此时应会出现‘<em>数字签名详细信息</em>’对话框窗口。如果您在对话框窗口顶部看到以下句子，则表示包的完整性和真实性已成功验证：<br>
+<br>
+“<em>此数字签名有效。</em>”<br>
+<br>
+如果您没有看到上述句子，则该文件很可能已损坏。注意：在某些过时的Windows版本中，缺少一些必要的证书，这会导致签名验证失败。
+</li></ol>
+<h3 id="VerifyPGPSignature">如何验证PGP签名</h3>
+<p>要验证PGP签名，请遵循以下步骤：</p>
+<ol>
+<li>安装任何支持PGP签名的公钥加密软件。对于Windows，您可以下载 <a href="http://www.gpg4win.org/" target="_blank">Gpg4win</a>。有关更多信息，您可以访问 <a href="https://www.gnupg.org/">https://www.gnupg.org/</a>。 </li>
+<li>创建一个私钥（有关如何操作的信息，请参阅公钥加密软件的文档）。</li>
+<li>从<strong>AM Crypto</strong>网站（<a href="https://amcrypto.jp/VeraCrypt/VeraCrypt_PGP_public_key.asc" target="_blank">https://amcrypto.jp/VeraCrypt/VeraCrypt_PGP_public_key.asc</a>）或受信任的公钥库（ID=0x680D16DE）下载我们的PGP公钥，并将下载的密钥导入到您的密钥环中（有关如何操作的信息，请参阅公钥加密软件的文档）。请检查其指纹是否为
+<strong>5069A233D55A0EEB174A5FC3821ACD02680D16DE</strong>。
+<ul>
+<li>对于VeraCrypt 1.22及以下版本，验证必须使用可在 <a href="https://amcrypto.jp/VeraCrypt/VeraCrypt_PGP_public_key_2014.asc" target="_blank">https://amcrypto.jp/VeraCrypt/VeraCrypt_PGP_public_key_2014.asc</a> 获得的PGP公钥，或从受信任的公钥库（ID=0x54DDD393）获取，其指纹为 <strong>993B7D7E8E413809828F0F29EB559C7C54DDD393</strong>。
+</li>
+</ul>
+</li>
+<li>用您的私钥签署导入的密钥，以将其标记为受信任（有关如何操作的信息，请参阅公钥加密软件的文档）。<br>
+<br>
+注意：如果您跳过此步骤并尝试验证我们的任何PGP签名，您将收到一条错误消息，指出签名密钥无效。
+</li>
+<li>通过下载您要验证的文件的<em>PGP签名</em>（在 <a href="https://veracrypt.jp/en/Downloads.html">下载页面</a>）来下载数字签名。
+</li>
+<li>验证下载的签名（有关如何操作的信息，请参阅公钥加密软件的文档）。</li>
+</ol>
+<p>在Linux下，可以使用以下命令完成这些步骤：</p>
+<ul>
+<li>检查公钥的指纹是否为 <strong>5069A233D55A0EEB174A5FC3821ACD02680D16DE</strong>：<strong>gpg --import --import-options show-only VeraCrypt_PGP_public_key.asc</strong>（对于较旧的gpg版本，请改为输入：
+<strong>gpg --with-fingerprint VeraCrypt_PGP_public_key.asc</strong>）</li><li>如果指纹符合预期，则导入公钥： <strong>gpg --import VeraCrypt_PGP_public_key.asc</strong>
+</li><li>验证Linux安装存档的签名（此处为1.23版本）： <strong>
+gpg --verify veracrypt-1.23-setup.tar.bz2.sig veracrypt-1.23-setup.tar.bz2</strong>
+</li></ul>
+</div><div class="ClearBoth"></div></body></html>

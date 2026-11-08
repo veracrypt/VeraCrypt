@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -37,18 +37,21 @@ namespace VeraCrypt
 			{
 				KB = 0,
 				MB,
-				GB
+				GB,
+				TB
 			};
 		};
 
 		void OnBrowseButtonClick (wxCommandEvent& event);
 		void OnVolumeSizePrefixSelected (wxCommandEvent& event) { PageUpdatedEvent.Raise(); }
 		void OnVolumeSizeTextChanged (wxCommandEvent& event) { PageUpdatedEvent.Raise(); }
+		void OnUseAllFreeSpaceCheckBoxClick( wxCommandEvent& event );
 
 		uint64 MaxVolumeSize;
 		bool MaxVolumeSizeValid;
 		uint64 MinVolumeSize;
 		uint32 SectorSize;
+		uint64 AvailableDiskSpace;
 	};
 }
 

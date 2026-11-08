@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -16,7 +16,7 @@ import "..\Common\Password.h";
 [
 	uuid(56327DDA-F1A7-4e13-B128-520D129BDEF6),
 	helpstring("VeraCrypt Format UAC Support Library"),
-	version(2.6)	// Update ComSetup.cpp when changing version number
+	version(2.12)	// Update ComSetup.cpp when changing version number
 ]
 library TrueCryptFormatCom
 {
@@ -28,7 +28,7 @@ library TrueCryptFormatCom
 	]
 	interface ITrueCryptFormatCom : IUnknown
 	{
-		int AnalyzeHiddenVolumeHost (LONG_PTR hwndDlg, int *driveNo, __int64 hiddenVolHostSize, int *realClusterSize, __int64 *nbrFreeClusters);
+		int AnalyzeHiddenVolumeHost (__int64 hwndDlg, int *driveNo, __int64 hiddenVolHostSize, int *realClusterSize, __int64 *nbrFreeClusters);
 		DWORD CallDriver (DWORD ioctl, BSTR input, BSTR *output);
 		DWORD CopyFile (BSTR sourceFile, BSTR destinationFile);
 		DWORD DeleteFile (BSTR file);
@@ -46,8 +46,23 @@ library TrueCryptFormatCom
 		DWORD BackupEfiSystemLoader ();
 		DWORD RestoreEfiSystemLoader ();
 		DWORD GetEfiBootDeviceNumber (BSTR* pSdn);
-		DWORD ReadEfiConfig (BSTR* pContent, DWORD *pcbRead);
 		DWORD WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg);
+		DWORD UpdateSetupConfigFile (BOOL bForInstall);
+		DWORD GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
+		DWORD NotifyService (DWORD dwNotifyCode);
+		DWORD FastFileResize (BSTR  filePath, __int64 fileSize);
+		DWORD GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported);
+	};
+
+	[
+		uuid(86DF18EF-52CA-45C8-8D1B-C00D92BE9380),
+		object,
+		oleautomation,
+		helpstring("VeraCrypt Format UAC Firmware Policy Interface")
+	]
+	interface ITrueCryptFormatCom2 : ITrueCryptFormatCom
+	{
+		DWORD GetFirmwareWindowsUefiCa2023Support ([out] BOOL *present);
 	};
 
 	[
@@ -57,5 +72,6 @@ library TrueCryptFormatCom
 	coclass TrueCryptFormatCom
 	{
 		[default] interface ITrueCryptFormatCom;
+		interface ITrueCryptFormatCom2;
 	}
 }

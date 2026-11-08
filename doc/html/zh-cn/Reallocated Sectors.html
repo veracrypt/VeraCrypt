@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执狂提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫您透露密码的情况下，VeraCrypt提供似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即插即用）、自动、透明的，所需内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">安全要求和预防措施</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Reallocated%20Sectors.html">重新分配的扇区</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>重新分配的扇区</h1>
+<p>某些存储设备，如硬盘驱动器，会在内部重新分配/重新映射坏扇区。每当设备检测到一个无法写入数据的扇区时，它会将该扇区标记为坏扇区，并将其重新映射到驱动器上一个隐藏的保留区域中的扇区。随后对该坏扇区的任何读写操作都会被重定向到保留区域中的扇区。这意味着坏扇区中的任何现有数据仍会保留在驱动器上，并且无法被擦除（用其他数据覆盖）。这可能会带来各种安全隐患。例如，要在原地加密的数据可能会在坏扇区中保持未加密状态。同样，要擦除的数据（例如，在创建隐藏操作系统的过程中）可能会留在坏扇区中。每当扇区被重新分配时，似是而非的否认性（请参阅 <a href="Plausible%20Deniability.html"><em>似是而非的否认性</em></a> 部分）可能会受到不利影响。更多可能的安全影响示例列在 <a href="Security%20Requirements%20and%20Precautions.html"><em>安全要求和预防措施</em></a> 部分。请注意，此列表并非详尽无遗（这些只是示例）。此外，VeraCrypt <em>无法</em> 防止与重新分配的扇区相关或由其引起的任何安全问题。要了解硬盘驱动器上重新分配的扇区数量，您可以使用例如第三方软件工具来读取S.M.A.R.T.数据。</p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

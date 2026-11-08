@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Miscellaneous.html">Разное</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20System%20Files.html">Системные файлы VeraCrypt</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>Системные файлы VeraCrypt и программные данные</h1>
+<p>Примечание. <code>%windir%</code> – это основной путь установки Windows (например, C:\WINDOWS)</p>
+<h4>Драйвер VeraCrypt</h4>
+<p><code>%windir%\SYSTEM32\DRIVERS\veracrypt.sys</code></p>
+<p>Примечание. Этот файл отсутствует, если VeraCrypt работает в переносном (portable) режиме.</p>
+<h4>Установки VeraCrypt, программные данные и другие системные файлы</h4>
+<p>ВНИМАНИЕ: VeraCrypt <em>не</em> шифрует никаких из указанных в этом разделе файлов (если только
+не зашифрован системный раздел/диск).<br>
+<br>
+Следующие файлы сохраняются в папке <code>%APPDATA%\VeraCrypt\</code>. В переносном (portable) режиме
+эти файлы сохраняются в папке, откуда был запущен файл <em>VeraCrypt.exe</em> (то есть в папке, где
+расположен <em>VeraCrypt.exe</em>):</p>
+<ul>
+<li><code>Configuration.xml</code> (основной конфигурационный файл).</li></ul>
+<ul>
+<li><code>System Encryption.xml</code> (временный конфигурационный файл, используемый во время начального процесса шифрования/дешифрования на месте системного раздела/диска).
+</li></ul>
+<ul>
+<li><code>Default Keyfiles.xml</code>
+<ul>
+<li>Примечание. Этот файл может отсутствовать, если не используется соответствующая функция VeraCrypt.
+</li></ul>
+</li></ul>
+<ul>
+<li><code>Favorite Volumes.xml</code>
+<ul>
+<li>Примечание. Этот файл может отсутствовать, если не используется соответствующая функция VeraCrypt.
+</li></ul>
+</li></ul>
+<ul>
+<li><code>History.xml</code> (список последних 20 файлов/устройств, которые пытались смонтировать как тома
+VeraCrypt или использовать как хосты для томов VeraCrypt; эту функцию можно отключить –  см. подробности в разделе
+<em>Не сохранять историю</em>)
+<ul>
+<li>Примечание. Этот файл может отсутствовать, если не используется соответствующая функция VeraCrypt.
+</li></ul>
+</li></ul>
+<ul>
+<li><code>In-Place Encryption</code> (временный конфигурационный файл, используемый во время начального процесса шифрования/дешифрования несистемного тома на месте).
+</li></ul>
+<ul>
+<li><code>In-Place Encryption Wipe Algo</code> (временный конфигурационный файл, используемый во время начального процесса шифрования/дешифрования несистемного тома на месте).
+</li></ul>
+<ul>
+<li><code>Post-Install Task - Tutorial</code> (временный конфигурационный файл, используемый при установке или обновлении VeraCrypt).
+</li></ul>
+<ul>
+<li><code>Post-Install Task - Release Notes</code> (временный конфигурационный файл, используемый при установке или обновлении VeraCrypt).
+</li></ul>
+<p>Следующий файл сохраняется в папке <code>%ALLUSERSPROFILE%\VeraCrypt\</code>:</p>
+<ul>
+<li><code>Original System Loader</code> (резервная копия исходного содержимого первой дорожки диска, сделанная до того, как в неё был записан загрузчик VeraCrypt).
+<ul>
+<li>Примечание. Этот файл может отсутствовать, если системный раздел/диск не зашифрован.
+</li></ul>
+</li></ul>
+<p>Следующие файлы сохраняются в папке <code>%windir%\system32</code> (32-разрядные системы) или в <code>%windir%\SysWOW64</code> (64-разрядные системы):</p>
+<ul>
+<li><code>VeraCrypt System Favorite Volumes.xml</code>
+<ul>
+<li>Примечание. Этот файл может отсутствовать, если не используется соответствующая функция VeraCrypt.
+</li></ul>
+</li></ul>
+<ul>
+<li><code>VeraCrypt.exe</code>
+<ul>
+<li>Примечание. Копия этого файла находится в данной папке только при включённом монтировании системных избранных томов.
+</li></ul>
+</li></ul>
+<p>&nbsp;</p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

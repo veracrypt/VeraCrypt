@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+<style>
+.textbox {
+  vertical-align: top;
+  height: auto !important;
+  font-family: Helvetica,sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+  background-color: white;
+  width: auto;
+  border-radius: 10px;
+}
+
+.texttohide {
+  font-family: Helvetica,sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+
+</style>
+
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">Технические подробности</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelines.html">Сборка VeraCrypt из исходного кода</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="CompilingGuidelineLinux.html">Руководство по сборке в Linux</a>
+</p></div>
+
+<div class="wikidoc">
+В этом руководстве описано, как настроить систему Linux для сборки программы VeraCrypt из исходных кодов и как выполнить компиляцию. <br>
+Здесь как пример приведена процедура для Ubuntu 22.04 LTS, процедуры для других версий Linux аналогичны.
+</div>
+
+<div class="wikidoc">
+<br>
+<br>
+Для компиляции VeraCrypt необходимы следующие компоненты:
+<ol>
+	<li>GNU Make</li>
+	<li>GNU C/C++ Compiler</li>
+	<li>YASM 1.3.0</li>
+	<li>pkg-config</li>
+	<li>Общая библиотека wxWidgets 3.x и заголовочные файлы, установленные системой, либо исходный код библиотеки wxWidgets 3.x</li>
+	<li>Библиотека FUSE и заголовочные файлы</li>
+	<li>Библиотека PCSC-lite и заголовочные файлы</li>
+</ol>
+</div>
+
+<div class="wikidoc">
+<p>Ниже приведены шаги процедуры. Нажав на любую ссылку, вы сразу перейдёте к соответствующему шагу:
+<ul>
+<li><strong><a href="#InstallationOfGNUMake">Установка GNU Make</a></strong></li>
+<li><strong><a href="#InstallationOfGNUCompiler">Установка GNU C/C++ Compiler</a></strong></li>
+<li><strong><a href="#InstallationOfYASM">Установка YASM</a></strong></li>
+<li><strong><a href="#InstallationOfPKGConfig">Установка pkg-config</a></strong></li>
+<li><strong><a href="#InstallationOfwxWidgets">Установка wxWidgets 3.2</a></strong></li>
+<li><strong><a href="#InstallationOfFuse">Установка libfuse</a></strong></li>
+<li><strong><a href="#InstallationOfPCSCLite">Установка libpcsclite</a></strong></li>
+<li><strong><a href="#DownloadVeraCrypt">Загрузка VeraCrypt</a></strong></li>
+<li><strong><a href="#CompileVeraCrypt">Компиляция VeraCrypt</a></strong></li>
+</ul>
+</p>
+<p>Их также можно выполнить, запустив приведённый ниже список команд в терминале или скопировав их в скрипт:<br>
+<code>
+sudo apt update <br>
+sudo apt install -y build-essential yasm pkg-config libwxgtk3.0-gtk3-dev <br>
+sudo apt install -y libfuse-dev git libpcsclite-dev <br>
+git clone https://github.com/veracrypt/VeraCrypt.git <br>
+cd ~/VeraCrypt/src <br>
+make
+</code>
+</p>
+</div>
+
+<div class="wikidoc">
+ <div class="textbox" id="InstallationOfGNUMake">
+  <a href="#InstallationOfGNUMake">Установка GNU Make</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Откройте терминал.
+			</li>
+			<li>
+				Выполните следующие команды: <br>
+				<code>
+				sudo apt update <br>
+				sudo apt install build-essential
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfGNUCompiler">
+  <a href="#InstallationOfGNUCompiler">Установка GNU C/C++ Compiler</a>
+  <div class="texttohide">
+    <p> Если build-essential уже был установлен на предыдущем шаге, этот шаг можно пропустить.
+		<ol>
+			<li>
+				Откройте терминал.
+			</li>
+			<li>
+				Выполните следующие команды: <br>
+				<code>
+				sudo apt update <br>
+				sudo apt install build-essential
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfYASM">
+  <a href="#InstallationOfYASM">Установка YASM</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Откройте терминал.
+			</li>
+			<li>
+				Выполните следующие команды: <br>
+				<code>
+				sudo apt update <br>
+				sudo apt install yasm
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+ <div class="textbox" id="InstallationOfPKGConfig">
+  <a href="#InstallationOfPKGConfig">Установка pkg-config</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Откройте терминал.
+			</li>
+			<li>
+				Выполните следующие команды: <br>
+				<code>
+				sudo apt update <br>
+				sudo apt install pkg-config
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfwxWidgets">
+  <a href="#InstallationOfwxWidgets">Установка wxWidgets 3.2</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Откройте терминал.
+			</li>
+			<li>
+				Выполните следующие команды: <br>
+				<code>		
+				sudo apt update <br>
+				sudo apt install libwxgtk3.0-gtk3-dev <br>
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="InstallationOfFuse">
+  <a href="#InstallationOfFuse">Установка libfuse</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Откройте терминал.
+			</li>
+			<li>
+				Выполните следующие команды: <br>
+				<code>
+				sudo apt update <br>
+				sudo apt install libfuse-dev
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+
+<div class="textbox" id="InstallationOfPCSCLite">
+	<a href="#InstallationOfPCSCLite">Установка libpcsclite</a>
+	<div class="texttohide">
+		<p>
+		<ol>
+			<li>
+				Откройте терминал.
+			</li>
+			<li>
+				Выполните следующие команды: <br>
+				<code>
+					sudo apt update <br>
+					sudo apt install libpcsclite-dev
+				</code>
+			</li>
+		</ol>
+		</p>
+	</div>
+</div>
+ 
+ <div class="textbox" id="DownloadVeraCrypt">
+  <a href="#DownloadVeraCrypt">Загрузка VeraCrypt</a>
+  <div class="texttohide">
+    <p>
+		<ol>
+			<li>
+				Откройте терминал.
+			</li>
+			<li>
+				Выполните следующие команды: <br>
+				<code>
+				sudo apt update <br>
+				sudo apt install git <br>
+				git clone https://github.com/veracrypt/VeraCrypt.git
+				</code>
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+ <div class="textbox" id="CompileVeraCrypt">
+  <a href="#CompileVeraCrypt">Компиляция VeraCrypt</a>
+  <div class="texttohide">
+    <p> Примечания: <br>
+	<ul>
+		<li>
+			По умолчанию создаётся универсальный исполняемый файл, поддерживающий как графический, так и текстовый пользовательский интерфейс (через ключ --text). <br>
+			В Linux исполняемый файл только для консоли, для которого не требуется библиотека графического интерфейса, может быть создан с использованием параметра "NOGUI". <br>
+			Для этого нужно загрузить исходники wxWidgets, извлечь их в любое место по вашему выбору, а затем выполнить следующие команды: <br>
+			<code>
+			make NOGUI=1 WXSTATIC=1 WX_ROOT=/path/to/wxWidgetsSources wxbuild <br>
+			make NOGUI=1 WXSTATIC=1 WX_ROOT=/path/to/wxWidgetsSources
+			</code>
+		</li>
+		<li>
+			Если вы не используете системную библиотеку wxWidgets, то придётся загрузить и использовать исходники wxWidgets, как указано выше, но на этот раз необходимо выполнить следующие команды для сборки версии VeraCrypt с графическим интерфейсом (NOGUI не указан): <br>
+			<code>
+			make WXSTATIC=1 WX_ROOT=/path/to/wxWidgetsSources wxbuild <br>
+			make WXSTATIC=1 WX_ROOT=/path/to/wxWidgetsSources
+			</code>
+		</li>
+	</ul>
+	Шаги:
+		<ol>
+			<li>
+				Откройте терминал.
+			</li>
+			<li>
+				Выполните следующие команды: <br>
+				<code>		
+				cd ~/VeraCrypt/src <br>
+				make
+				</code>
+			</li>
+			<li>
+				Если всё прошло нормально, исполняемый файл VeraCrypt должен находиться в каталоге "Main".
+			</li>
+		</ol>
+	</p>
+  </div>
+ </div>
+ 
+</div>
+</body></html>

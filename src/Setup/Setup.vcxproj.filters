@@ -51,23 +51,14 @@
     <ClCompile Include="..\Common\Dlgcode.c">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Endian.c">
-      <Filter>Source Files\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\Inflate.c">
-      <Filter>Source Files\Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\Common\Language.c">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
     <ClCompile Include="..\Common\Registry.c">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\XZip.cpp">
-      <Filter>Source Files\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\XUnzip.cpp">
-      <Filter>Source Files\Common</Filter>
+    <ClCompile Include="..\Common\Endian.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +124,9 @@
     <ClInclude Include="..\Common\Language.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\SetupService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\Common\Registry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -152,12 +146,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Wizard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\XZip.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\XUnzip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

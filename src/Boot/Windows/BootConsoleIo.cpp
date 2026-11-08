@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -19,17 +19,19 @@
 
 static int ScreenOutputDisabled = 0;
 
+#if defined(TC_TRACE_INT13) || !defined(TC_WINDOWS_BOOT_RESCUE_DISK_MODE)
 void DisableScreenOutput ()
 {
 	++ScreenOutputDisabled;
 }
+#endif
 
-
+#ifdef TC_TRACE_INT13
 void EnableScreenOutput ()
 {
 	--ScreenOutputDisabled;
 }
-
+#endif
 
 void PrintChar (char c)
 {
@@ -99,7 +101,7 @@ void Print (const uint64 &number)
 }
 
 
-void PrintHex (byte b)
+void PrintHex (uint8 b)
 {
 	PrintChar (((b >> 4) >= 0xA ? 'A' - 0xA : '0') + (b >> 4));
 	PrintChar (((b & 0xF) >= 0xA ? 'A' - 0xA : '0') + (b & 0xF));
@@ -108,8 +110,8 @@ void PrintHex (byte b)
 
 void PrintHex (uint16 data)
 {
-	PrintHex (byte (data >> 8));
-	PrintHex (byte (data));
+	PrintHex (uint8 (data >> 8));
+	PrintHex (uint8 (data));
 }
 
 
@@ -217,9 +219,9 @@ void PrintErrorNoEndl (const char *message)
 }
 
 
-byte GetShiftFlags ()
+uint8 GetShiftFlags ()
 {
-	byte flags;
+	uint8 flags;
 	__asm
 	{
 		mov ah, 2
@@ -231,19 +233,40 @@ byte GetShiftFlags ()
 }
 
 
-byte GetKeyboardChar ()
+uint8 GetKeyboardChar ()
 {
 	return GetKeyboardChar (nullptr);
 }
 
+/*
+inline void Sleep ()
+{
+	__asm
+	{
+		mov al, 0
+		mov ah, 0x86
+		// Sleep for 250 milliseconds = 250 000 microseconds = 0x0003D090
+		mov cx, 0x0003
+		mov dx, 0xD090
+		int 0x15
+	}
+}
+*/
 
-byte GetKeyboardChar (byte *scanCode)
+uint8 GetKeyboardChar (uint8 *scanCode)
 {
 	// Work around potential BIOS bugs (Windows boot manager polls the keystroke buffer)
-	while (!IsKeyboardCharAvailable());
+	while (!IsKeyboardCharAvailable())
+	{
+		// reduce CPU usage by halting CPU until the next external interrupt is fired
+		__asm
+		{
+			hlt
+		}
+	}
 
-	byte asciiCode;
-	byte scan;
+	uint8 asciiCode;
+	uint8 scan;
 	__asm
 	{
 		mov ah, 0
@@ -279,7 +302,7 @@ bool EscKeyPressed ()
 {
 	if (IsKeyboardCharAvailable ())
 	{
-		byte keyScanCode;
+		uint8 keyScanCode;
 		GetKeyboardChar (&keyScanCode);
 		return keyScanCode == TC_BIOS_KEY_ESC;
 	}
@@ -299,6 +322,12 @@ void ClearBiosKeystrokeBuffer ()
 		mov cx, 32
 		cld
 		rep stosb
+
+        // reset position pointers at 0x41A and 0x41C to the begining
+        // of keyboard buffer to avoid revealing password/PIM length
+        mov ax, 0x001e
+        mov es:[0x41a], ax
+        mov es:[0x41c], ax
 		pop es
 	}
 }
@@ -317,8 +346,8 @@ bool IsDigit (char c)
 
 int GetString (char *buffer, size_t bufferSize)
 {
-	byte c;
-	byte scanCode;
+	uint8 c;
+	uint8 scanCode;
 	size_t pos = 0;
 
 	while (pos < bufferSize)

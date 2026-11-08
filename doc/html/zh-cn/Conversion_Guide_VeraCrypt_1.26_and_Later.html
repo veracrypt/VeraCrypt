@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title> VeraCrypt - 1.26及更高版本转换指南</title>
+<meta name="description" content="本指南介绍了如何处理VeraCrypt 1.26及更高版本中弃用的功能，以及如何转换TrueCrypt卷。"/>
+<meta name="keywords" content="VeraCrypt, TrueCrypt, 转换, 加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Conversion_Guide_VeraCrypt_1.26_and_Later.html">1.26及更高版本转换指南</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>VeraCrypt 1.26及更高版本转换指南</h1>
+
+<h2>1. 引言</h2>
+<p>VeraCrypt 1.26及更高版本进行了重大更改，移除了对某些功能的支持。如果您在挂载卷时遇到问题，本指南将帮助您理解并解决这些问题。</p>
+
+<h2>2. VeraCrypt 1.26及更高版本中弃用的功能</h2>
+<p>以下功能已被弃用：</p>
+<ul>
+<li>TrueCrypt模式</li>
+<li>HMAC - RIPEMD - 160哈希算法</li>
+<li>GOST89加密算法</li>
+</ul>
+<p>如果您在挂载VeraCrypt 1.25.9或更早版本创建的卷时遇到错误，请使用VeraCrypt 1.25.9检查是否使用了这些弃用的功能。在图形用户界面中突出显示该卷，然后点击“卷属性”进行检查。</p>
+
+<h2>3. 基于版本的修复程序</h2>
+
+<h3>3.1 场景1：使用VeraCrypt 1.25.9或更早版本</h3>
+<p>如果您正在使用或可以升级到VeraCrypt 1.25.9，请遵循以下步骤：</p>
+<ul>
+<li>将TrueCrypt卷转换为VeraCrypt卷</li>
+<li>更改弃用的HMAC - RIPEMD - 160哈希算法</li>
+<li>如果使用GOST89加密算法，则重新创建VeraCrypt卷</li>
+</ul>
+<p>点击 <a href="https://veracrypt.jp/en/Downloads_1.25.9.html">此处</a> 下载1.25.9版本。</p>
+
+<h3>3.2 场景2：已升级到VeraCrypt 1.26或更高版本</h3>
+<p>如果您已经升级到VeraCrypt 1.26或更高版本，请遵循以下步骤：</p>
+<ul>
+<li>将TrueCrypt卷转换为VeraCrypt卷</li>
+<li>更改弃用的HMAC - RIPEMD - 160哈希算法</li>
+</ul>
+<p>如果您使用的是Linux或Mac系统，请暂时降级到VeraCrypt 1.25.9。Windows用户可以使用 <a href="https://launchpad.net/veracrypt/trunk/1.25.9/+download/VCPassChanger_%28TrueCrypt_Convertion%29.zip">此处下载</a> 的VCPassChanger工具。</p>
+<ul>
+<li>如果使用GOST89加密算法，则重新创建VeraCrypt卷</li>
+</ul>
+所有操作系统都需要暂时降级到1.25.9版本。
+<h2>4. 转换和修复程序</h2>
+
+<h3>4.1 将TrueCrypt卷转换为VeraCrypt卷</h3>
+<p>使用TrueCrypt 6.x或7.x版本创建的TrueCrypt文件容器和分区，可以使用VeraCrypt 1.25.9或Windows上的VCPassChanger工具转换为VeraCrypt卷。更多详细信息，请参考 <a href="Converting%20TrueCrypt%20volumes%20and%20partitions.html">文档</a>。</p>
+<p>转换后，文件扩展名仍将为 <code>.tc</code>。如果您希望VeraCrypt 1.26或更高版本能够自动识别，请手动将其更改为 <code>.hc</code>。</p>
+
+<h3>4.2 更改弃用的HMAC - RIPEMD - 160哈希算法</h3>
+<p>使用“设置头部密钥推导算法”功能，将HMAC - RIPEMD - 160哈希算法更改为VeraCrypt 1.26支持的算法。更多详细信息，请参考 <a href="Hash%20Algorithms.html">文档</a>。</p>
+
+<h3>4.3 如果使用GOST89加密算法，则重新创建VeraCrypt卷</h3>
+<p>如果您的卷使用了GOST89加密算法，您需要将数据复制到其他位置，然后使用支持的加密算法重新创建卷。更多详细信息，请参考 <a href="Encryption%20Algorithms.html">加密算法文档</a>。</p>
+
+<h2>5. 重要说明</h2>
+<p><strong>对使用VeraCrypt 1.17或更早版本创建卷的用户的说明：</strong></p>
+<blockquote>
+<p>为避免泄露您的卷是否包含隐藏卷的信息，或者如果您依赖似是而非的否认权，则必须重新创建外部和隐藏卷，包括系统加密和隐藏操作系统。请丢弃VeraCrypt 1.18a之前创建的现有卷。</p>
+</blockquote>
+
+<p>更多信息，请访问：</p>
+<ul>
+<li><a href="TrueCrypt%20Support.html">TrueCrypt支持</a></li>
+<li><a href="Converting%20TrueCrypt%20volumes%20and%20partitions.html">转换TrueCrypt卷和分区</a></li>
+</ul>
+
+</div>
+
+<div class="ClearBoth"></div>
+</body>
+</html>

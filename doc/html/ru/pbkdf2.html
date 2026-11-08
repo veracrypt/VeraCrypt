@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a class="active" href="Documentation.html">Документация</a></li>
+	  <li><a href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Документация</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Key%20Derivation%20Algorithms.html">Алгоритмы формирования ключа</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="pbkdf2.html">PBKDF2</a>
+</p></div>
+<div class="wikidoc">
+<h1>PBKDF2</h1>
+
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
+PBKDF2 (Password-Based Key Derivation Function 2) — широко применяемая KDF, которая многократно применяет псевдослучайную функцию HMAC, чтобы замедлить подбор пароля. В VeraCrypt PBKDF2 доступна с несколькими HMAC-хеш-функциями и используется для формирования ключей, расшифровывающих заголовок тома.
+</div>
+
+<h3>Варианты PBKDF2-HMAC, поддерживаемые в VeraCrypt</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding:0px">
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="SHA-512.html" style="color:#0080c0; text-decoration:none">SHA-512</a></strong></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="SHA-256.html" style="color:#0080c0; text-decoration:none">SHA-256</a></strong></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="Whirlpool.html" style="color:#0080c0; text-decoration:none">Whirlpool</a></strong></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="BLAKE2s-256.html" style="color:#0080c0; text-decoration:none">BLAKE2s-256</a></strong></li>
+<li style="text-align:left; margin:0px 0px 0px 0px; padding:0px"><strong>PBKDF2-HMAC-<a href="Streebog.html" style="color:#0080c0; text-decoration:none">Streebog</a></strong></li>
+</ul>
+
+<h3>Параметры в VeraCrypt</h3>
+
+<h4>Соль</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
+512-битовая случайная соль, сохраняемая в заголовке тома, смешивается с паролем, чтобы предотвратить предвычисления и атаки с радужными таблицами.
+</div>
+
+<h4>Количество итераций</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
+Количество итераций PBKDF2 зависит от выбранного HMAC-хеша, контекста (например, системное или несистемное шифрование) и значения <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html" style="color:#0080c0; text-decoration:none">PIM</a>. Увеличение PIM повышает число итераций и, следовательно, время, необходимое для формирования ключей. Точные значения и формулы приведены в разделе <a href="Header%20Key%20Derivation.html" style="color:#0080c0; text-decoration:none">Формирование ключа заголовка, соль и количество итераций</a>.
+</div>
+
+<h4>Длина вывода</h4>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding:0px">
+Объём сформированного ключевого материала заголовка зависит от выбранного алгоритма или каскада шифрования. В текущих томах XTS VeraCrypt использует как первичные, так и вторичные ключи заголовка; например, для AES-256-XTS требуется всего 512 бит (два 256-битовых ключа), а для каскада AES-Twofish-Serpent-XTS — 1536 бит (шесть 256-битовых ключей).
+</div>
+
+<h3>Преимущества и особенности</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding:0px">
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>Широкая совместимость:</strong> PBKDF2 широко поддерживается на разных платформах и в разных средах.</li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><strong>Низкие требования к памяти:</strong> подходит для систем с ограниченными ресурсами.</li>
+<li style="text-align:left; margin:0px 0px 0px 0px; padding:0px"><strong>Не обладает повышенными требованиями к памяти:</strong> по сравнению с <a href="Argon2id.html" style="color:#0080c0; text-decoration:none">Argon2id</a>, PBKDF2 обеспечивает меньшую устойчивость к атакам с использованием массово-параллельного оборудования (GPU/ASIC). Если необходимо использовать PBKDF2, рассмотрите возможность повышения PIM.</li>
+</ul>
+
+<h3>Связанные разделы</h3>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding:0px">
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><a href="Key%20Derivation%20Algorithms.html" style="color:#0080c0; text-decoration:none">Алгоритмы формирования ключа (обзор)</a></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><a href="Argon2id.html" style="color:#0080c0; text-decoration:none">Argon2id</a></li>
+<li style="text-align:left; margin:0px 0px 6px 0px; padding:0px"><a href="Header%20Key%20Derivation.html" style="color:#0080c0; text-decoration:none">Формирование ключа заголовка, соль и количество итераций</a></li>
+<li style="text-align:left; margin:0px 0px 0px 0px; padding:0px"><a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html" style="color:#0080c0; text-decoration:none">PIM (Персональный множитель итераций)</a></li>
+</ul>
+</div><div class="ClearBoth"></div></body></html>

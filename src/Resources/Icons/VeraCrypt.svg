@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" version="1.1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <polygon points="2 128 65 19 191 19 254 128 191 237 65 237" fill="#fff"/>
+ <path id="t1" d="m74.5 82h-27l13 23z" fill="#08abd8"/>
+ <path id="t2" d="m74.5 82-14 23h27z" fill="#0ea6d3"/>
+ <path id="t3" d="m87.5 105h-27l13 23z" fill="#1a9cd1"/>
+ <path id="t4" d="m87.5 105-14 23h27z" fill="#238dcd"/>
+ <path id="t5" d="m100.5 128h-27l13 23z" fill="#2886c7"/>
+ <path id="t6" d="m100.5 128-14 23h27z" fill="#2077bc"/>
+ <path id="t7" d="m113.5 151h-27l14 23z" fill="#2a69b1"/>
+ <path id="t8" d="m113.5 151 14 23h-27z" fill="#0d657a"/>
+ <path id="t9" d="m113.5 151h27l-13 23z" fill="#2f98af"/>
+ <path id="t10" d="m126.5 128 14 23h-27z" fill="#2da4ad"/>
+ <path id="t11" d="m126.5 128h27l-13 23z" fill="#21674f"/>
+ <path id="t12" d="m139.5 105 14 23h-27z" fill="#33b394"/>
+ <path id="t13" d="m139.5 105h27l-13 23z" fill="#44b799"/>
+ <path id="t14" d="m152.5 82 14 23h-27z" fill="#52b99b"/>
+ <path id="t15" d="m152.5 82h27l-13 23z" fill="#6bbfa4"/>
+ <path id="t16" d="m179.5 82 14 23h-27z" fill="#85c8b1"/>
+ <path id="t17" d="m179.5 82h27l-13 23z" fill="#96cfba"/>
+ <path id="t18" d="m153.5 128 14 23h-27z" fill="#2f9f81"/>
+ <path id="t19" d="m140.5 151h27l-13 23z" fill="#2a8d70"/>
+ <path id="t20" d="m167.5 151 14 23h-27z" fill="#278768"/>
+ <path id="t21" d="m167.5 151h27l-13 23z" fill="#2e997c"/>
+ <path id="t22" d="m194.5 151 14 23h-27z" fill="#2bac8f"/>
+ <use xlink:href="#t1"/>
+ <use xlink:href="#t2"/>
+ <use xlink:href="#t3"/>
+ <use xlink:href="#t4"/>
+ <use xlink:href="#t5"/>
+ <use xlink:href="#t6"/>
+ <use xlink:href="#t7"/>
+ <use xlink:href="#t8"/>
+ <use xlink:href="#t9"/>
+ <use xlink:href="#t10"/>
+ <use xlink:href="#t11"/>
+ <use xlink:href="#t12"/>
+ <use xlink:href="#t13"/>
+ <use xlink:href="#t14"/>
+ <use xlink:href="#t15"/>
+ <use xlink:href="#t16"/>
+ <use xlink:href="#t17"/>
+ <use xlink:href="#t18"/>
+ <use xlink:href="#t19"/>
+ <use xlink:href="#t20"/>
+ <use xlink:href="#t21"/>
+ <use xlink:href="#t22"/>
+</svg>

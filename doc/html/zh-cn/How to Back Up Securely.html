@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密工具</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者强迫您透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，占用内存极少，且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="How%20to%20Back%20Up%20Securely.html">如何安全备份</a>
+</p></div>
+<div class="wikidoc">
+<div>
+<h2>如何安全备份</h2>
+<p>由于硬件或软件错误/故障，存储在VeraCrypt卷上的文件可能会损坏。因此，我们强烈建议您定期备份所有重要文件（当然，这不仅适用于存储在VeraCrypt卷上的加密数据，也适用于任何重要数据）。</p>
+<h3>非系统卷</h3>
+<p>要安全备份非系统VeraCrypt卷，建议遵循以下步骤：</p>
+<ol>
+<li>使用VeraCrypt卷创建向导创建一个新的VeraCrypt卷（不要启用“快速格式化”选项或“动态”选项）。这将是您的“备份”卷，因此其大小应与您的“主”卷大小匹配（或更大）。<br>
+<br>
+如果“主”卷是一个隐藏的VeraCrypt卷（请参阅“<a href="Hidden%20Volume.html">隐藏卷</a>”部分），则“备份”卷也必须是一个隐藏的VeraCrypt卷。在创建隐藏的“备份”卷之前，您必须为其创建一个新的宿主（外部）卷，且不要启用“快速格式化”选项。此外，特别是如果“备份”卷是文件宿主的，隐藏的“备份”卷应仅占用容器的一小部分，并且外部卷应几乎完全被文件填满（否则，隐藏卷的似是而非的否认性可能会受到不利影响）。
+</li><li>挂载新创建的“备份”卷。</li><li>挂载“主”卷。</li><li>将所有文件从已挂载的“主”卷直接复制到已挂载的“备份”卷。</li></ol>
+<h4>重要提示：如果您将备份卷存储在对手可以反复访问的任何位置（例如，存放在银行保险箱中的设备上），每次您要备份该卷时，都应重复上述所有步骤（包括步骤1）（见下文）。</h4>
+<p>如果您遵循上述步骤，将有助于防止对手发现：</p>
+<ul>
+<li>卷的哪些扇区正在发生变化（因为您总是遵循步骤1）。例如，如果您将备份卷存储在存放在银行保险箱中的设备上（或对手可以反复访问的任何其他位置），并且该卷包含一个隐藏卷，这一点尤为重要（有关更多信息，请参阅“<a href="Plausible%20Deniability.html">似是而非的否认性</a>”一章中的“<a href="Security%20Requirements%20for%20Hidden%20Volumes.html">隐藏卷的安全要求和预防措施</a>”小节）。
+</li><li>其中一个卷是另一个卷的备份。</li></ul>
+<h3>系统分区</h3>
+<p>注意：除了备份文件，我们还建议您备份VeraCrypt救援磁盘（选择“系统”&gt;“创建救援磁盘”）。有关更多信息，请参阅“<em>VeraCrypt救援磁盘</em>”部分。</p>
+<p>要安全可靠地备份加密的系统分区，建议遵循以下步骤：</p>
+<ol>
+<li>如果您的计算机上安装了多个操作系统，请启动不需要预启动身份验证的操作系统。<br>
+<br>
+如果您的计算机上没有安装多个操作系统，您可以启动WinPE或BartPE CD/DVD（完全存储在CD/DVD上并从其启动的“实时”Windows；有关更多信息，请在“<a href="FAQ.html">常见问题解答</a>”部分中搜索关键字“BartPE”）。<br>
+<br>
+如果以上两种方法都不可行，请将您的系统驱动器作为辅助驱动器连接到另一台计算机，然后启动该计算机上安装的操作系统。<br>
+<br>
+注意：出于安全考虑，如果您要备份的操作系统位于一个隐藏的VeraCrypt卷中（请参阅“<a href="Hidden%20Operating%20System.html">隐藏操作系统</a>”部分），则在此步骤中启动的操作系统必须是另一个隐藏操作系统或“实时CD”操作系统（见上文）。有关更多信息，请参阅“<a href="Plausible%20Deniability.html">似是而非的否认性</a>”一章中的“<a href="Security%20Requirements%20for%20Hidden%20Volumes.html">隐藏卷的安全要求和预防措施</a>”小节。
+</li><li>使用VeraCrypt卷创建向导创建一个新的非系统VeraCrypt卷（不要启用“快速格式化”选项或“动态”选项）。这将是您的“备份”卷，因此其大小应与您要备份的系统分区大小匹配（或更大）。<br>
+<br>
+如果您要备份的操作系统安装在一个隐藏的VeraCrypt卷中（请参阅“隐藏操作系统”部分），则“备份”卷也必须是一个隐藏的VeraCrypt卷。在创建隐藏的“备份”卷之前，您必须为其创建一个新的宿主（外部）卷，且不要启用“快速格式化”选项。此外，特别是如果“备份”卷是文件宿主的，隐藏的“备份”卷应仅占用容器的一小部分，并且外部卷应几乎完全被文件填满（否则，隐藏卷的似是而非的否认性可能会受到不利影响）。
+</li><li>挂载新创建的“备份”卷。</li><li>按照以下步骤挂载您要备份的系统分区：
+<ol type="a">
+<li>点击“选择设备”，然后选择您要备份的系统分区（如果是隐藏操作系统，则选择包含安装操作系统的隐藏卷的分区）。
+</li><li>点击“确定”。</li><li>选择“系统”&gt;“无需预启动身份验证挂载”。</li><li>输入您的预启动身份验证密码，然后点击“确定”。</li></ol>
+</li><li>挂载“备份”卷，然后使用第三方程序或Windows工具创建驻留在系统分区上的文件系统的映像，并将映像直接存储在已挂载的备份卷上。</li></ol>
+<h4>重要提示：如果您将备份卷存储在对手可以反复访问的任何位置（例如，存放在银行保险箱中的设备上），每次您要备份该卷时，都应重复上述所有步骤（包括步骤2）（见下文）。</h4>
+<p>如果您遵循上述步骤，将有助于防止对手发现：</p>
+<ul>
+<li>卷的哪些扇区正在发生变化（因为您总是遵循步骤2）。例如，如果您将备份卷存储在存放在银行保险箱中的设备上（或对手可以反复访问的任何其他位置），并且该卷包含一个隐藏卷，这一点尤为重要（有关更多信息，请参阅“<a href="Plausible%20Deniability.html">似是而非的否认性</a>”一章中的“<a href="Security%20Requirements%20for%20Hidden%20Volumes.html">隐藏卷的安全要求和预防措施</a>”小节）。
+</li><li>其中一个卷是另一个卷的备份。</li></ul>
+<h3>一般注意事项</h3>
+<p>如果您将备份卷存储在对手可以复制该卷的任何位置，请考虑使用级联密码对该卷进行加密（例如，使用AES - Twofish - Serpent）。否则，如果该卷仅使用单一加密算法进行加密，并且该算法后来被破解（例如，由于密码分析技术的进步），攻击者可能能够解密其复制的卷。三种不同加密算法同时被破解的概率明显低于仅其中一种被破解的概率。</p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

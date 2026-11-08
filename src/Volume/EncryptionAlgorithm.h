@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -27,12 +27,12 @@ namespace VeraCrypt
 	public:
 		virtual ~EncryptionAlgorithm ();
 
-		virtual void Decrypt (byte *data, uint64 length) const;
+		virtual void Decrypt (uint8 *data, uint64 length) const;
 		virtual void Decrypt (const BufferPtr &data) const;
-		virtual void DecryptSectors (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const;
-		virtual void Encrypt (byte *data, uint64 length) const;
+		virtual void DecryptSectors (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const;
+		virtual void Encrypt (uint8 *data, uint64 length) const;
 		virtual void Encrypt (const BufferPtr &data) const;
-		virtual void EncryptSectors (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const;
+		virtual void EncryptSectors (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const;
 		static EncryptionAlgorithmList GetAvailableAlgorithms ();
 		virtual const CipherList &GetCiphers () const { return Ciphers; }
 		virtual shared_ptr <EncryptionAlgorithm> GetNew () const = 0;
@@ -46,7 +46,10 @@ namespace VeraCrypt
 		virtual bool IsModeSupported (const EncryptionMode &mode) const;
 		virtual bool IsModeSupported (const shared_ptr <EncryptionMode> mode) const;
 		virtual void SetKey (const ConstBufferPtr &key);
-		virtual void SetMode (shared_ptr <EncryptionMode> mode);
+            #ifdef WOLFCRYPT_BACKEND
+		virtual void SetKeyXTS (const ConstBufferPtr &key);
+            #endif
+                virtual void SetMode (shared_ptr <EncryptionMode> mode);
 
 	protected:
 		EncryptionAlgorithm ();
@@ -86,8 +89,13 @@ namespace VeraCrypt
 	TC_ENCRYPTION_ALGORITHM (TwofishSerpent);
 	TC_ENCRYPTION_ALGORITHM (SerpentTwofishAES);
 	TC_ENCRYPTION_ALGORITHM (Camellia);
-	TC_ENCRYPTION_ALGORITHM (GOST89);
 	TC_ENCRYPTION_ALGORITHM (Kuznyechik);
+	TC_ENCRYPTION_ALGORITHM (KuznyechikTwofish);
+	TC_ENCRYPTION_ALGORITHM (KuznyechikAES);
+	TC_ENCRYPTION_ALGORITHM (KuznyechikSerpentCamellia);
+	TC_ENCRYPTION_ALGORITHM (CamelliaKuznyechik);
+	TC_ENCRYPTION_ALGORITHM (CamelliaSerpent);
+
 
 #undef TC_ENCRYPTION_ALGORITHM
 }

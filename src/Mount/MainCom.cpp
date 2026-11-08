@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -26,7 +26,7 @@ using namespace VeraCrypt;
 
 static volatile LONG ObjectCount = 0;
 
-class TrueCryptMainCom : public ITrueCryptMainCom
+class TrueCryptMainCom : public ITrueCryptMainCom2
 {
 
 public:
@@ -59,7 +59,7 @@ public:
 
 	virtual HRESULT STDMETHODCALLTYPE QueryInterface (REFIID riid, void **ppvObject)
 	{
-		if (riid == IID_IUnknown || riid == IID_ITrueCryptMainCom)
+		if (riid == IID_IUnknown || riid == IID_ITrueCryptMainCom || riid == IID_ITrueCryptMainCom2)
 			*ppvObject = this;
 		else
 		{
@@ -71,19 +71,19 @@ public:
 		return S_OK;
 	}
 
-	virtual void STDMETHODCALLTYPE AnalyzeKernelMiniDump (LONG_PTR hwndDlg)
+	virtual void STDMETHODCALLTYPE AnalyzeKernelMiniDump (__int64 hwndDlg)
 	{
 		// Do nothing
 		MainDlg = (HWND) hwndDlg;
 	}
 
-	virtual int STDMETHODCALLTYPE BackupVolumeHeader (LONG_PTR hwndDlg, BOOL bRequireConfirmation, BSTR lpszVolume)
+	virtual int STDMETHODCALLTYPE BackupVolumeHeader (__int64 hwndDlg, BOOL bRequireConfirmation, BSTR lpszVolume)
 	{
 		MainDlg = (HWND) hwndDlg;
 		return ::BackupVolumeHeader ((HWND) hwndDlg, bRequireConfirmation, lpszVolume);
 	}
 
-	virtual int STDMETHODCALLTYPE RestoreVolumeHeader (LONG_PTR hwndDlg, BSTR lpszVolume)
+	virtual int STDMETHODCALLTYPE RestoreVolumeHeader (__int64 hwndDlg, BSTR lpszVolume)
 	{
 		MainDlg = (HWND) hwndDlg;
 		return ::RestoreVolumeHeader ((HWND) hwndDlg, lpszVolume);
@@ -94,10 +94,10 @@ public:
 		return BaseCom::CallDriver (ioctl, input, output);
 	}
 
-	virtual int STDMETHODCALLTYPE ChangePassword (BSTR volumePath, Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd)
+	virtual int STDMETHODCALLTYPE ChangePassword (BSTR volumePath, Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd)
 	{
 		MainDlg = (HWND) hWnd;
-		return ::ChangePwd (volumePath, oldPassword, 0, 0, FALSE, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
+		return ::ChangePwd (volumePath, oldPassword, 0, 0, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
 	}
 
 	virtual DWORD STDMETHODCALLTYPE CopyFile (BSTR sourceFile, BSTR destinationFile)
@@ -140,22 +140,22 @@ public:
 		return BaseCom::WriteLocalMachineRegistryDwordValue (keyPath, valueName, value);
 	}
 
-	virtual int STDMETHODCALLTYPE ChangePasswordEx (BSTR volumePath, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd)
+	virtual int STDMETHODCALLTYPE ChangePasswordEx (BSTR volumePath, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd)
 	{
 		MainDlg = (HWND) hWnd;
-		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, 0, FALSE, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
+		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, 0, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
 	}
 
-	virtual int STDMETHODCALLTYPE ChangePasswordEx2 (BSTR volumePath, Password *oldPassword, int old_pkcs5, BOOL truecryptMode, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd)
+	virtual int STDMETHODCALLTYPE ChangePasswordEx2 (BSTR volumePath, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd)
 	{
 		MainDlg = (HWND) hWnd;
-		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, 0, truecryptMode, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
+		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, 0, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
 	}
 
-	virtual int STDMETHODCALLTYPE ChangePasswordEx3 (BSTR volumePath, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, LONG_PTR hWnd)
+	virtual int STDMETHODCALLTYPE ChangePasswordEx3 (BSTR volumePath, Password *oldPassword, int old_pkcs5, int old_pim, Password *newPassword, int pkcs5, int pim, int wipePassCount, __int64 hWnd)
 	{
 		MainDlg = (HWND) hWnd;
-		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, old_pim, truecryptMode, newPassword, pkcs5, pim, wipePassCount, (HWND) hWnd);
+		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, old_pim, newPassword, pkcs5, pim, wipePassCount, (HWND) hWnd);
 	}
 
 	virtual DWORD STDMETHODCALLTYPE GetFileSize (BSTR filePath, unsigned __int64 *pSize)
@@ -188,14 +188,39 @@ public:
 		return BaseCom::GetEfiBootDeviceNumber (pSdn);
 	}
 
-	virtual DWORD STDMETHODCALLTYPE ReadEfiConfig (BSTR* pContent, DWORD *pcbRead)
+	virtual DWORD STDMETHODCALLTYPE GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded)
 	{
-		return BaseCom::ReadEfiConfig (pContent, pcbRead);
+		return BaseCom::GetSecureBootConfig (pSecureBootEnabled, pVeraCryptKeysLoaded);
+	}
+
+	virtual DWORD STDMETHODCALLTYPE GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported)
+	{
+		return BaseCom::GetEfiBootLoaderSigningSupport (pMicrosoft2023UefiCAsSupported);
+	}
+
+	virtual DWORD STDMETHODCALLTYPE GetFirmwareWindowsUefiCa2023Support (BOOL *present)
+	{
+		return BaseCom::GetFirmwareWindowsUefiCa2023Support (present);
 	}
 
 	virtual DWORD STDMETHODCALLTYPE WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg)
 	{
 		return BaseCom::WriteEfiBootSectorUserConfig (userConfig, customUserMessage,pim, hashAlg);
+	}
+
+	virtual DWORD STDMETHODCALLTYPE UpdateSetupConfigFile (BOOL bForInstall)
+	{
+		return BaseCom::UpdateSetupConfigFile (bForInstall);
+	}
+
+	virtual DWORD STDMETHODCALLTYPE NotifyService (DWORD dwNotifyCode)
+	{
+		return BaseCom::NotifyService (dwNotifyCode);
+	}
+
+	virtual DWORD STDMETHODCALLTYPE FastFileResize (BSTR filePath, __int64 fileSize)
+	{
+		return BaseCom::FastFileResize (filePath, fileSize);
 	}
 
 protected:
@@ -260,7 +285,7 @@ extern "C" int UacBackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, w
 	CComPtr<ITrueCryptMainCom> tc;
 	int r;
 
-	CoInitialize (NULL);
+	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 	if (ComGetInstance (hwndDlg, &tc))
 	{
@@ -269,7 +294,7 @@ extern "C" int UacBackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, w
 		if (bstr)
 		{
 			volumeBstr.Attach (bstr);
-			r = tc->BackupVolumeHeader ((LONG_PTR) hwndDlg, bRequireConfirmation, volumeBstr);
+			r = tc->BackupVolumeHeader ((__int64) hwndDlg, bRequireConfirmation, volumeBstr);
 		}
 		else
 			r = ERR_OUTOFMEMORY;
@@ -288,7 +313,7 @@ extern "C" int UacRestoreVolumeHeader (HWND hwndDlg, wchar_t *lpszVolume)
 	CComPtr<ITrueCryptMainCom> tc;
 	int r;
 
-	CoInitialize (NULL);
+	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 	if (ComGetInstance (hwndDlg, &tc))
 	{
@@ -297,7 +322,7 @@ extern "C" int UacRestoreVolumeHeader (HWND hwndDlg, wchar_t *lpszVolume)
 		if (bstr)
 		{
 			volumeBstr.Attach (bstr);
-			r = tc->RestoreVolumeHeader ((LONG_PTR) hwndDlg, volumeBstr);
+			r = tc->RestoreVolumeHeader ((__int64) hwndDlg, volumeBstr);
 		}
 		else
 			r = ERR_OUTOFMEMORY;
@@ -311,18 +336,18 @@ extern "C" int UacRestoreVolumeHeader (HWND hwndDlg, wchar_t *lpszVolume)
 }
 
 
-extern "C" int UacChangePwd (wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, HWND hwndDlg)
+extern "C" int UacChangePwd (wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pim, Password *newPassword, int pkcs5, int pim, int wipePassCount, HWND hwndDlg)
 {
 	CComPtr<ITrueCryptMainCom> tc;
 	int r;
 
-	CoInitialize (NULL);
+	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
 	if (ComGetInstance (hwndDlg, &tc))
 	{
 		CComBSTR bstrVolume (lpszVolume);
 		WaitCursor ();
-		r = tc->ChangePasswordEx3 (bstrVolume, oldPassword, old_pkcs5, old_pim, truecryptMode, newPassword, pkcs5, pim, wipePassCount, (LONG_PTR) hwndDlg);
+		r = tc->ChangePasswordEx3 (bstrVolume, oldPassword, old_pkcs5, old_pim, newPassword, pkcs5, pim, wipePassCount, (__int64) hwndDlg);
 		NormalCursor ();
 	}
 	else

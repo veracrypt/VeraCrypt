@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -22,7 +22,7 @@ namespace VeraCrypt
 	{
 	public:
 		VolumePassword ();
-		VolumePassword (const byte *password, size_t size) { Set (password, size); }
+		VolumePassword (const uint8 *password, size_t size) { Set (password, size); }
 		VolumePassword (const SecureBuffer &password) { Set (password.Ptr (), password.Size ()); }
 		VolumePassword (const VolumePassword &password) { Set (password); }
 		virtual ~VolumePassword ();
@@ -33,16 +33,18 @@ namespace VeraCrypt
 
 		operator BufferPtr () const { return BufferPtr (PasswordBuffer); }
 
-		byte *DataPtr () const { return PasswordBuffer; }
+		uint8 *DataPtr () const { return PasswordBuffer; }
 		bool IsEmpty () const { return PasswordSize == 0; }
 		size_t Size () const { return PasswordSize; }
-		void Set (const byte *password, size_t size);
+		void Set (const uint8 *password, size_t size);
 		void Set (const VolumePassword &password);
 
 		TC_SERIALIZABLE (VolumePassword);
 
-		static const size_t MaxSize = 64;
-		static const size_t WarningSizeThreshold = 12;
+		static const size_t MaxLegacySize;
+		static const size_t MaxSize;
+		static const size_t SmallPimPasswordSizeThreshold;
+		static const size_t WarningSizeThreshold;
 
 	protected:
 		void AllocateBuffer ();
@@ -80,6 +82,7 @@ namespace VeraCrypt
 	TC_EXCEPTION (PasswordEmpty); \
 	TC_EXCEPTION (PasswordTooLong); \
 	TC_EXCEPTION (PasswordUTF8TooLong); \
+	TC_EXCEPTION (PasswordLegacyUTF8TooLong); \
 	TC_EXCEPTION (PasswordUTF8Invalid); \
 	TC_EXCEPTION (UnportablePassword);
 

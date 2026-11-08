@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -25,6 +25,7 @@ namespace VeraCrypt
 		static void TestAll (bool enableCpuEncryptionSupport);
 
 	protected:
+		static void TestAlignment ();
 		static void TestCiphers ();
 		static void TestLegacyModes ();
 		static void TestPkcs5 ();
@@ -33,12 +34,12 @@ namespace VeraCrypt
 
 	struct XtsTestVector
 	{
-		byte key1[32];
-		byte key2[32];
-		byte dataUnitNo[8];
+		uint8 key1[32];
+		uint8 key2[32];
+		uint8 dataUnitNo[8];
 		unsigned int blockNo;
-		byte plaintext[ENCRYPTION_DATA_UNIT_SIZE];
-		byte ciphertext[ENCRYPTION_DATA_UNIT_SIZE];
+		uint8 plaintext[ENCRYPTION_DATA_UNIT_SIZE];
+		uint8 ciphertext[ENCRYPTION_DATA_UNIT_SIZE];
 	};
 
 	static const XtsTestVector XtsTestVectors[];

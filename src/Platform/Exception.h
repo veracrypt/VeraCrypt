@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -82,6 +82,7 @@ namespace VeraCrypt
 	TC_EXCEPTION_NODECL (ExecutedProcessFailed); \
 	TC_EXCEPTION (AlreadyInitialized); \
 	TC_EXCEPTION (AssertionFailed); \
+	TC_EXCEPTION (DeviceSectorSizeMismatch); \
 	TC_EXCEPTION (ExternalException); \
 	TC_EXCEPTION (InsufficientData); \
 	TC_EXCEPTION (NotApplicable); \
@@ -91,12 +92,13 @@ namespace VeraCrypt
 	TC_EXCEPTION (ParameterTooLarge); \
 	TC_EXCEPTION (PartitionDeviceRequired); \
 	TC_EXCEPTION (StringConversionFailed); \
+	TC_EXCEPTION (TerminalNotFound); \
 	TC_EXCEPTION (TestFailed); \
 	TC_EXCEPTION (TimeOut); \
 	TC_EXCEPTION (UnknownException); \
-	TC_EXCEPTION (UnsupportedAlgoInTrueCryptMode); \
-	TC_EXCEPTION (UnsupportedTrueCryptFormat); \
-	TC_EXCEPTION (UserAbort)
+	TC_EXCEPTION (UserAbort); \
+	TC_EXCEPTION (MountPointBlocked); \
+	TC_EXCEPTION (MountPointNotAllowed)
 
 	TC_EXCEPTION_SET;
 

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - 为偏执者提供强大安全保障的免费开源磁盘加密软件</title>
+<meta name="description" content="VeraCrypt是一款适用于Windows、Mac OS X和Linux的免费开源磁盘加密软件。在攻击者迫使您透露密码的情况下，VeraCrypt提供了似是而非的否认性。与文件加密不同，VeraCrypt执行的数据加密是实时（即时）、自动、透明的，占用内存极少，并且不涉及临时未加密文件。"/>
+<meta name="keywords" content="加密, 安全"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+    <ul>
+      <li><a href="Home.html">主页</a></li>
+      <li><a href="Code.html">源代码</a></li>
+      <li><a href="Downloads.html">下载</a></li>
+      <li><a class="active" href="Documentation.html">文档</a></li>
+      <li><a href="Donation.html">捐赠</a></li>
+      <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">论坛</a></li>
+    </ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">文档</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Incompatibilities.html">兼容性问题</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>兼容性问题</h1>
+<h2>
+使用FLEXnet Publisher&reg; / SafeCast激活Adobe Photoshop&reg;及其他产品</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">注意：如果您使用的是非级联加密算法（即AES、Serpent或Twofish），则以下描述的问题<strong style="text-align:left">不会</strong>影响您。* 如果您不使用<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none">
+系统加密</a>（预启动身份验证），该问题同样<strong style="text-align:left">不会</strong>影响您。</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Acresso FLEXnet Publisher激活软件（前身为Macrovision SafeCast，用于激活第三方软件，如Adobe Photoshop）会将数据写入第一个驱动器磁道。如果在您的系统分区/驱动器由VeraCrypt加密时发生这种情况，
+VeraCrypt引导加载程序的一部分将被损坏，您将无法启动Windows。在这种情况下，请使用您的
+<a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt救援磁盘</a>来重新访问您的系统。有两种方法可以做到这一点：</div>
+<ol style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+您可以保持第三方软件处于激活状态，但您需要<em style="text-align:left">每次</em>都从VeraCrypt救援磁盘CD/DVD启动您的系统。只需将您的救援磁盘插入您的CD/DVD驱动器，然后在救援磁盘屏幕上输入您的密码。
+</li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+如果您不想每次都从VeraCrypt救援磁盘CD/DVD启动您的系统，您可以恢复系统驱动器上的VeraCrypt引导加载程序。为此，在救援磁盘屏幕上，选择
+<em style="text-align:left">修复选项</em> &gt; <em style="text-align:left">
+恢复VeraCrypt引导加载程序</em>。但是请注意，这将使第三方软件停用。
+</li></ol>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+有关如何使用您的VeraCrypt救援磁盘的信息，请参阅<a href="VeraCrypt%20Rescue%20Disk.html" style="text-align:left; color:#0080c0; text-decoration:none">
+VeraCrypt救援磁盘</a>章节。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">可能的永久解决方案</strong>：解密系统分区/驱动器，然后使用非级联加密算法（即AES、Serpent或Twofish）重新对其进行加密。*</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+请注意，这不是VeraCrypt的错误（该问题是由第三方激活软件的不当设计引起的）。</div>
+<h2>Outpost防火墙和Outpost安全套件</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+如果安装了Outpost防火墙或Outpost安全套件并启用了主动防护功能，则在挂载/卸载卷的操作过程中，计算机会完全冻结5 - 10秒。这是由于Outpost系统防护选项中保护“活动桌面”对象的功能与VeraCrypt在挂载/卸载操作期间显示的等待对话框之间的冲突导致的。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+解决此问题的一种方法是在首选项中禁用VeraCrypt等待对话框：使用菜单“设置 -> 首选项”，并勾选“执行操作时不显示等待消息对话框”选项。</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+更多信息可在 <a href="https://sourceforge.net/p/veracrypt/tickets/100/">https://sourceforge.net/p/veracrypt/tickets/100/</a> 找到。
+</div>
+<hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
+<p><span style="text-align:left; font-size:10px; line-height:12px">* 原因是VeraCrypt引导加载程序比用于密码级联的引导加载程序小，因此在第一个驱动器磁道中有足够的空间来备份VeraCrypt引导加载程序。因此，每当VeraCrypt引导加载程序损坏时，会自动运行其备份副本。</span><br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+<br style="text-align:left">
+&nbsp;&nbsp;另请参阅：<a href="Issues%20and%20Limitations.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">
+已知问题与限制</a>，&nbsp;&nbsp;<a href="Troubleshooting.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold">故障排除</a></p>
+</div><div class="ClearBoth"></div></body></html>

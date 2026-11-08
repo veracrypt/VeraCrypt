@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -14,6 +14,11 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <fcntl.h>
+
+#ifndef ERESTART
+#define ERESTART EINTR
+#endif
+
 #endif
 
 #include "RandomNumberGenerator.h"
@@ -44,8 +49,38 @@ namespace VeraCrypt
 			throw_sys_sub_if (random == -1, L"/dev/random");
 			finally_do_arg (int, random, { close (finally_arg); });
 
-			throw_sys_sub_if (read (random, buffer, buffer.Size()) == -1 && errno != EAGAIN, L"/dev/random");
+			// ensure that we have read at least 32 bytes from /dev/random before allowing it to fail gracefully
+			while (true)
+			{
+				int rndCount = read (random, buffer, buffer.Size());
+				throw_sys_sub_if ((rndCount == -1) && errno != EAGAIN && errno != ERESTART && errno != EINTR, L"/dev/random");
+				if (rndCount != -1) {
+					// We count returned bytes until 32-bytes threshold reached
+					if (DevRandomBytesCount < 32)
+						DevRandomBytesCount += rndCount;
+					break;
+				}
+				else if (DevRandomBytesCount >= 32) {
+					// allow /dev/random to fail gracefully since we have enough bytes
+					break;
+				}
+				else {
+					// wait 250ms before querying /dev/random again
+					::usleep (250 * 1000);
+				}
+			}
+			
 			AddToPool (buffer);
+			
+			/* use JitterEntropy library to get good quality random bytes based on CPU timing jitter */
+			if (JitterRngCtx)
+			{
+				ssize_t rndLen = jent_read_entropy (JitterRngCtx, (char*) buffer.Ptr(), buffer.Size());
+				if (rndLen > 0)
+				{
+					AddToPool (buffer);
+				}
+			}
 		}
 #endif
 	}
@@ -79,7 +114,13 @@ namespace VeraCrypt
 
 		ScopeLock lock (AccessMutex);
 		size_t bufferLen = buffer.Size(), loopLen;
-		byte* pbBuffer = buffer.Get();
+		uint8* pbBuffer = buffer.Get();
+		
+		// Initialize JitterEntropy RNG for this call
+		if (0 == jent_entropy_init ())
+		{
+			JitterRngCtx = jent_entropy_collector_alloc (1, 0);
+		}
 
 		// Poll system for data
 		AddSystemDataToPool (fast);
@@ -127,6 +168,12 @@ namespace VeraCrypt
 
 			pbBuffer += loopLen;
 		}
+		
+		if (JitterRngCtx)
+		{
+			jent_entropy_collector_free (JitterRngCtx);
+			JitterRngCtx = NULL;
+		}
 	}
 
 	shared_ptr <Hash> RandomNumberGenerator::GetHash ()
@@ -138,18 +185,26 @@ namespace VeraCrypt
 	void RandomNumberGenerator::HashMixPool ()
 	{
 		BytesAddedSincePoolHashMix = 0;
+		size_t digestSize = PoolHash->GetDigestSize();
+		size_t poolSize = Pool.Size();
+		// pool size must be multiple of digest size
+		// this is always the case with default pool size value (320 bytes)
+		if (poolSize % digestSize)
+			throw AssertionFailed (SRC_POS);
 
-		for (size_t poolPos = 0; poolPos < Pool.Size(); )
+		for (size_t poolPos = 0; poolPos < poolSize; poolPos += digestSize)
 		{
 			// Compute the message digest of the entire pool using the selected hash function
-			SecureBuffer digest (PoolHash->GetDigestSize());
+			SecureBuffer digest (digestSize);
+			PoolHash->Init();
 			PoolHash->ProcessData (Pool);
 			PoolHash->GetDigest (digest);
 
-			// Add the message digest to the pool
-			for (size_t digestPos = 0; digestPos < digest.Size() && poolPos < Pool.Size(); ++digestPos)
+			/* XOR the resultant message digest to the pool at the poolIndex position. */
+			/* this matches the documentation: https://veracrypt.jp/en/Random%20Number%20Generator.html */
+			for (size_t digestIndex = 0; digestIndex < digestSize; digestIndex++)
 			{
-				Pool[poolPos++] += digest[digestPos];
+				Pool [poolPos + digestIndex] ^= digest [digestIndex];
 			}
 		}
 	}
@@ -173,7 +228,7 @@ namespace VeraCrypt
 		Running = true;
 		EnrichedByUser = false;
 
-		Pool.Allocate (PoolSize);
+		Pool.Allocate (PoolSize, 16);
 		Test();
 
 		if (!PoolHash)
@@ -196,30 +251,43 @@ namespace VeraCrypt
 
 		EnrichedByUser = false;
 		Running = false;
+		DevRandomBytesCount = 0;
 	}
 
 	void RandomNumberGenerator::Test ()
 	{
 		shared_ptr <Hash> origPoolHash = PoolHash;
-		PoolHash.reset (new Ripemd160());
+	    #ifndef WOLFCRYPT_BACKEND
+                PoolHash.reset (new Blake2s());
+            #else
+                PoolHash.reset (new Sha256());
+            #endif
 
 		Pool.Zero();
 		Buffer buffer (1);
 		for (size_t i = 0; i < PoolSize * 10; ++i)
 		{
-			buffer[0] = (byte) i;
+			buffer[0] = (uint8) i;
 			AddToPool (buffer);
 		}
 
-		if (Crc32::ProcessBuffer (Pool) != 0x2de46d17)
-			throw TestFailed (SRC_POS);
+	    #ifndef WOLFCRYPT_BACKEND
+ 		if (Crc32::ProcessBuffer (Pool) != 0x9c743238)
+            #else
+                if (Crc32::ProcessBuffer (Pool) != 0xac95ac1a)
+            #endif
+		        throw TestFailed (SRC_POS);
 
 		buffer.Allocate (PoolSize);
 		buffer.CopyFrom (PeekPool());
 		AddToPool (buffer);
 
-		if (Crc32::ProcessBuffer (Pool) != 0xcb88e019)
-			throw TestFailed (SRC_POS);
+	    #ifndef WOLFCRYPT_BACKEND
+                if (Crc32::ProcessBuffer (Pool) != 0xd2d09c8d)
+            #else
+                if (Crc32::ProcessBuffer (Pool) != 0xb79f3c12)
+            #endif
+		        throw TestFailed (SRC_POS);
 
 		PoolHash = origPoolHash;
 	}
@@ -232,4 +300,6 @@ namespace VeraCrypt
 	size_t RandomNumberGenerator::ReadOffset;
 	bool RandomNumberGenerator::Running = false;
 	size_t RandomNumberGenerator::WriteOffset;
+	struct rand_data *RandomNumberGenerator::JitterRngCtx = NULL;
+	int RandomNumberGenerator::DevRandomBytesCount = 0;
 }

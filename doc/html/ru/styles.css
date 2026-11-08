@@ -1,0 +1,176 @@
+#menu {
+    display: none;
+}
+
+#menu ul {
+    list-style-type: none;
+    margin: 0px auto;
+    padding: 0;
+    overflow: hidden;
+    background-color: #08aad7;
+}
+
+#menu li {
+    float: left;
+}
+
+#menu li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+}
+
+#menu li a.active {
+    background-color: #84c7b0;
+}
+
+#menu li a:hover {
+    background-color: #111111;
+}
+
+#currency-form select:hover, #currency-form input[type="submit"]:hover {
+    background-color: #111111;
+    color: white;
+}
+
+#currency-form select {
+    border: 1px solid #08aad7;
+    border-radius: 3px;
+}
+
+#currency-form input[type="submit"] {
+    border-radius: 3px;
+}
+
+.donation-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.donation-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+}
+
+.donation-button a {
+    display: block;
+    text-decoration: none;
+}
+
+.donation-button img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.currency-label {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.donation-button a:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+/* Language Selector Styles */
+#lang-selector {
+    position: absolute;
+    top: 18px;
+    right: 32px;
+    z-index: 9999;
+    font-family: inherit;
+    user-select: none;
+  }
+  
+  #lang-selector button {
+    background: #fff;
+    border: 1px solid #08aad7;
+    border-radius: 6px;
+    padding: 6px 12px 6px 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    min-width: 110px;
+    font-size: 15px;
+    box-shadow: 0 2px 8px rgba(8,170,215,0.08);
+    transition: border 0.2s;
+  }
+  
+  #lang-selector button:focus {
+    outline: 2px solid #08aad7;
+  }
+  
+  #lang-selector img {
+    width: 20px;
+    height: 13px;
+    border-radius: 3px;
+    margin-right: 7px;
+    vertical-align: middle;
+  }
+  
+  #lang-selector ul {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background: #fff;
+    border: 1px solid #08aad7;
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(8,170,215,0.12);
+    margin: 0;
+    padding: 4px 0;
+    min-width: 150px;
+    list-style: none;
+  }
+  
+  #lang-selector ul.open {
+    display: block;
+    animation: fadeIn 0.15s;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+  
+  #lang-selector li {
+    display: flex;
+    align-items: center;
+    padding: 7px 16px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.15s;
+  }
+  
+  #lang-selector li[aria-selected="true"],
+  #lang-selector li:hover,
+  #lang-selector li:focus {
+    background: #e6f7fb;
+  }
+  
+  #lang-selector li img {
+    margin-right: 10px;
+    width: 20px;
+    height: 13px;
+    border-radius: 3px;
+  }
+  
+  @media (max-width: 600px) {
+    #lang-selector {
+      top: 8px;
+      right: 8px;
+      font-size: 14px;
+    }
+    #lang-selector ul {
+      min-width: 110px;
+    }
+  }

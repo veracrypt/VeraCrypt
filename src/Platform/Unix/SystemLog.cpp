@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -12,6 +12,7 @@
 
 #include <syslog.h>
 #include "Platform/SystemLog.h"
+#include "Platform/StringConverter.h"
 
 namespace VeraCrypt
 {
@@ -27,5 +28,10 @@ namespace VeraCrypt
 		openlog ("veracrypt", LOG_PID, LOG_USER);
 		syslog (LOG_ERR, "%s", errorMessage.c_str());
 		closelog();
+	}
+
+	void SystemLog::WriteException (const exception &ex)
+	{
+		WriteError (string ("exception: ") + StringConverter::ToSingle (StringConverter::ToExceptionString (ex)));
 	}
 }

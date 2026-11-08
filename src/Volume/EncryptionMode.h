@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -27,12 +27,12 @@ namespace VeraCrypt
 	public:
 		virtual ~EncryptionMode ();
 
-		virtual void Decrypt (byte *data, uint64 length) const = 0;
-		virtual void DecryptSectors (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const;
-		virtual void DecryptSectorsCurrentThread (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const = 0;
-		virtual void Encrypt (byte *data, uint64 length) const = 0;
-		virtual void EncryptSectors (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const;
-		virtual void EncryptSectorsCurrentThread (byte *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const = 0;
+		virtual void Decrypt (uint8 *data, uint64 length) const = 0;
+		virtual void DecryptSectors (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const;
+		virtual void DecryptSectorsCurrentThread (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const = 0;
+		virtual void Encrypt (uint8 *data, uint64 length) const = 0;
+		virtual void EncryptSectors (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const;
+		virtual void EncryptSectorsCurrentThread (uint8 *data, uint64 sectorIndex, uint64 sectorCount, size_t sectorSize) const = 0;
 		static EncryptionModeList GetAvailableModes ();
 		virtual const SecureBuffer &GetKey () const { throw NotApplicable (SRC_POS); }
 		virtual size_t GetKeySize () const = 0;
@@ -48,8 +48,8 @@ namespace VeraCrypt
 		EncryptionMode ();
 
 		virtual void ValidateState () const;
-		void ValidateParameters (byte *data, uint64 length) const;
-		virtual void ValidateParameters (byte *data, uint64 sectorCount, size_t sectorSize) const;
+		void ValidateParameters (uint8 *data, uint64 length) const;
+		virtual void ValidateParameters (uint8 *data, uint64 sectorCount, size_t sectorSize) const;
 
 		static const size_t EncryptionDataUnitSize = ENCRYPTION_DATA_UNIT_SIZE;
 

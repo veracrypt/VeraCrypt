@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -31,13 +31,16 @@ namespace VeraCrypt
 			CloseBackgroundTaskOnNoVolumes (true),
 			CloseExplorerWindowsOnDismount (true),
 			CloseSecurityTokenSessionsAfterMount (false),
+			EMVSupportEnabled (false),
 			DisableKernelEncryptionModeWarning (false),
+			DisableScreenProtection (false),
 			DismountOnInactivity (false),
 			DismountOnLogOff (true),
 			DismountOnPowerSaving (false),
 			DismountOnScreenSaver (false),
 			DisplayMessageAfterHotkeyDismount (false),
 			ForceAutoDismount (true),
+			Language (L"system"),
 			LastSelectedSlotNumber (0),
 			MaxVolumeIdleTime (60),
 			MountDevicesOnLogon (false),
@@ -72,13 +75,16 @@ namespace VeraCrypt
 		bool CloseBackgroundTaskOnNoVolumes;
 		bool CloseExplorerWindowsOnDismount;
 		bool CloseSecurityTokenSessionsAfterMount;
+        bool EMVSupportEnabled;
 		bool DisableKernelEncryptionModeWarning;
+		bool DisableScreenProtection;
 		bool DismountOnInactivity;
 		bool DismountOnLogOff;
 		bool DismountOnPowerSaving;
 		bool DismountOnScreenSaver;
 		bool DisplayMessageAfterHotkeyDismount;
 		bool ForceAutoDismount;
+		wstring Language;
 		uint64 LastSelectedSlotNumber;
 		int32 MaxVolumeIdleTime;
 		bool MountDevicesOnLogon;
@@ -93,6 +99,10 @@ namespace VeraCrypt
 		bool Verbose;
 		bool WipeCacheOnAutoDismount;
 		bool WipeCacheOnClose;
+
+		// A map used to store unknown entries from the configuration file in order to preserve them when saving the configuration.
+		// This helps to preserve unknown entries that may be used by future versions of VeraCrypt or entries used by old versions that were removed from current version.
+		map <wxString, wxString> UnknownConfigMapEntries;
 
 	protected:
 		wxString GetDefaultKeyfilesFileName () const { return L"Default Keyfiles.xml"; }

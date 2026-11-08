@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -23,6 +23,12 @@
 #include <sys/disk.h>
 #endif
 
+#ifdef TC_OPENBSD
+#include <sys/ioctl.h>
+#include <sys/dkio.h>
+#include <sys/disklabel.h>
+#endif
+
 #ifdef TC_SOLARIS
 #include <stropts.h>
 #include <sys/dkio.h>
@@ -31,6 +37,10 @@
 #include <sys/file.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#ifdef TC_FREEBSD
+#include <sys/sysctl.h>
+#endif
 
 #include "Platform/File.h"
 #include "Platform/TextReader.h"
@@ -60,6 +70,24 @@ namespace VeraCrypt
 		{
 			close (FileHandle);
 			FileIsOpen = false;
+
+#ifdef TC_LINUX
+			if (RequesterBacked)
+			{
+				// Root may be denied changing this file's attributes: restore them with the
+				// requester's credentials, unless another process serves the file.
+				RequesterBacked = false;
+				if ((mFileOpenFlags & File::PreserveTimestamps) && !ReleaseOnly)
+				{
+					try
+					{
+						RestoreTimestampsAsRequester();
+					}
+					catch (...) { }
+				}
+				return;
+			}
+#endif
 
 			if ((mFileOpenFlags & File::PreserveTimestamps) && Path.IsFile())
 			{
@@ -113,6 +141,15 @@ namespace VeraCrypt
 			throw_sys_sub_if (ioctl (FileHandle, DIOCGSECTORSIZE, &sectorSize) == -1, wstring (Path));
 			return (uint32) sectorSize;
 
+#elif defined (TC_OPENBSD)
+			struct disklabel dl;
+			throw_sys_sub_if (ioctl (FileHandle, DIOCGDINFO, &dl) == -1, wstring (Path));
+
+			if (dl.d_secsize == 0)
+				throw ParameterIncorrect (SRC_POS);
+
+			return (uint32) dl.d_secsize;
+
 #elif defined (TC_SOLARIS)
 			struct dk_minfo mediaInfo;
 			throw_sys_sub_if (ioctl (FileHandle, DKIOCGMEDIAINFO, &mediaInfo) == -1, wstring (Path));
@@ -146,6 +183,31 @@ namespace VeraCrypt
 		throw_sys_sub_if (ioctl (FileHandle, DKIOCGETBASE, &offset) == -1, wstring (Path));
 		return offset;
 
+#elif defined (TC_FREEBSD)
+		// Get the kernel GEOM configuration
+		size_t sysctlDataLen, mibLen;
+		int mib[4];
+		mibLen = 4;
+		throw_sys_sub_if (sysctlnametomib ("kern.geom.conftxt", mib, &mibLen), wstring (Path));
+		throw_sys_sub_if (sysctl (mib, mibLen, NULL, &sysctlDataLen, NULL, 0), wstring (Path));
+		vector<char> conftxt(sysctlDataLen);
+		throw_sys_sub_if (sysctl (mib, mibLen, (void *)conftxt.data(), &sysctlDataLen, NULL, 0), wstring (Path));
+
+		// Find the slice/partition data
+		string conftxtStr (conftxt.begin(), conftxt.end());
+		size_t confLoc = conftxtStr.find (Path.ToBaseName());
+		throw_sys_sub_if (confLoc == string::npos, wstring (Path));
+
+		// Skip to the ninth column
+		for (int i = 0; i < 6;i++) {
+			confLoc = conftxtStr.find (" ", confLoc + 1);
+			throw_sys_sub_if (confLoc == string::npos, wstring (Path));
+		}
+		confLoc++;
+		size_t end = conftxtStr.find (" ", confLoc);
+		throw_sys_sub_if (end == string::npos, wstring (Path));
+		return StringConverter::ToUInt64 (conftxtStr.substr (confLoc, end - confLoc));
+
 #elif defined (TC_SOLARIS)
 
 		struct extpart_info partInfo;
@@ -171,11 +233,49 @@ namespace VeraCrypt
 			throw_sys_sub_if (ioctl (FileHandle, DKIOCGETBLOCKSIZE, &blockSize) == -1, wstring (Path));
 			throw_sys_sub_if (ioctl (FileHandle, DKIOCGETBLOCKCOUNT, &blockCount) == -1, wstring (Path));
 			return blockCount * blockSize;
+#	elif TC_OPENBSD
+			struct disklabel dl;
+			struct stat statData;
+			throw_sys_sub_if (ioctl (FileHandle, DIOCGDINFO, &dl) == -1, wstring (Path));
+			throw_sys_sub_if (fstat (FileHandle, &statData) == -1, wstring (Path));
+
+			if (dl.d_secsize == 0)
+				throw ParameterIncorrect (SRC_POS);
+
+			uint64 sectors;
+			int partition = DISKPART (statData.st_rdev);
+			if (partition == RAW_PART)
+			{
+				sectors = DL_GETDSIZE (&dl);
+			}
+			else
+			{
+				if (partition < 0 || partition >= dl.d_npartitions)
+					throw ParameterIncorrect (SRC_POS);
+
+				sectors = DL_GETPSIZE (&dl.d_partitions[partition]);
+			}
+
+			if (sectors > ((uint64) -1) / dl.d_secsize)
+				throw ParameterIncorrect (SRC_POS);
+
+			return sectors * dl.d_secsize;
 #	else
 			uint64 mediaSize;
 			throw_sys_sub_if (ioctl (FileHandle, DIOCGMEDIASIZE, &mediaSize) == -1, wstring (Path));
 			return mediaSize;
 #	endif
+		}
+#endif
+#ifdef TC_LINUX
+		// On Linux, try to use BLKGETSIZE64 for devices
+		if (Path.IsDevice())
+		{
+			uint64 mediaSize;
+			if (ioctl (FileHandle, BLKGETSIZE64, &mediaSize) != -1)
+			{
+				return mediaSize;
+			}
 		}
 #endif
 		off_t current = lseek (FileHandle, 0, SEEK_CUR);
@@ -192,6 +292,9 @@ namespace VeraCrypt
 		int sysFlags = O_LARGEFILE;
 #else
 		int sysFlags = 0;
+#endif
+#ifdef O_CLOEXEC
+		sysFlags |= O_CLOEXEC;
 #endif
 
 		switch (mode)
@@ -229,7 +332,41 @@ namespace VeraCrypt
 		}
 
 		FileHandle = open (string (path).c_str(), sysFlags, S_IRUSR | S_IWUSR);
+#ifdef TC_LINUX
+		if (FileHandle == -1 && (errno == EACCES || errno == EPERM) && (flags & File::AllowRequesterAccess)
+			&& (mode == OpenRead || mode == OpenWrite || mode == OpenReadWrite))
+		{
+			int rootError = errno;
+			if (OpenAsRequester (path, sysFlags))
+			{
+				Path = path;
+				mFileOpenFlags = flags;
+				FileIsOpen = true;
+				return;
+			}
+
+			errno = rootError;
+		}
+#endif
 		throw_sys_sub_if (FileHandle == -1, wstring (path));
+
+#ifdef TC_LINUX
+		if (mode != OpenRead)
+		{
+			// Some block devices accept writable opens even when write protected.
+			// Report EROFS so the volume mount can retry with read only protection.
+			struct stat statData;
+			int readOnly = 0;
+			if (fstat (FileHandle, &statData) == 0 && S_ISBLK (statData.st_mode)
+				&& ioctl (FileHandle, BLKROGET, &readOnly) == 0 && readOnly)
+			{
+				close (FileHandle);
+				FileHandle = -1;
+				errno = EROFS;
+				throw SystemException (SRC_POS, wstring (path));
+			}
+		}
+#endif
 
 #if 0 // File locking is disabled to avoid remote filesystem locking issues
 		try
@@ -328,6 +465,20 @@ namespace VeraCrypt
 #endif
 
 		throw_sys_sub_if (lseek (FileHandle, offset, SEEK_END) == -1, wstring (Path));
+	}
+
+	void File::SetCloseOnExec () const
+	{
+		if_debug (ValidateState());
+		int flags = fcntl (FileHandle, F_GETFD);
+		throw_sys_sub_if (flags == -1, wstring (Path));
+		throw_sys_sub_if (fcntl (FileHandle, F_SETFD, flags | FD_CLOEXEC) == -1, wstring (Path));
+	}
+
+	void File::SetLength (uint64 length) const
+	{
+		if_debug (ValidateState());
+		throw_sys_sub_if (ftruncate (FileHandle, length) == -1, wstring (Path));
 	}
 
 	void File::Write (const ConstBufferPtr &buffer) const

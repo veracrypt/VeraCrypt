@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -43,7 +43,7 @@ namespace VeraCrypt
 			vector <char> buffer (4096);
 			uint64 len;
 
-			while ((len = DataFile->Read (BufferPtr (reinterpret_cast <byte *> (&buffer[0]), buffer.size()))) > 0)
+			while ((len = DataFile->Read (BufferPtr (reinterpret_cast <uint8 *> (&buffer[0]), buffer.size()))) > 0)
 				str.insert (str.end(), buffer.begin(), buffer.begin() + static_cast <int> (len));
 
 			return str;

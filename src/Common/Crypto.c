@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses' 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -19,6 +19,14 @@
 #if !defined(_UEFI)
 #include <string.h>
 #ifndef TC_WINDOWS_BOOT
+#ifdef TC_WINDOWS_DRIVER
+#include <ntstrsafe.h>
+#define StringCchCatW	RtlStringCchCatW
+#define StringCchCopyW	RtlStringCchCopyW
+#else
+#include <strsafe.h>
+#endif
+#include "Crypto/t1ha.h"
 #include "EncryptionThreadPool.h"
 #endif
 #endif
@@ -50,17 +58,18 @@ static Cipher Ciphers[] =
 //	  ID		Name			(Bytes)		(Bytes)		(Bytes)
 #ifdef TC_WINDOWS_BOOT
 	{ AES,		"AES",			16,			32,			AES_KS				},
-	{ SERPENT,	"Serpent",		16,			32,			140*4				},
+#ifndef WOLFCRYPT_BACKEND
+        { SERPENT,	"Serpent",		16,			32,			140*4				},
 	{ TWOFISH,	"Twofish",		16,			32,			TWOFISH_KS			},
+#endif
 #else
 	{ AES,		L"AES",			16,			32,			AES_KS				},
+#ifndef WOLFCRYPT_BACKEND
 	{ SERPENT,	L"Serpent",		16,			32,			140*4				},
 	{ TWOFISH,	L"Twofish",		16,			32,			TWOFISH_KS			},
 	{ CAMELLIA,	L"Camellia",	16,			32,			CAMELLIA_KS			},
-#if defined(CIPHER_GOST89)
-	{ GOST89,	L"GOST89",		16,			32,			GOST_KS },
-#endif  // defined(CIPHER_GOST89)
 	{ KUZNYECHIK,	L"Kuznyechik",16,		32,			KUZNYECHIK_KS },
+#endif
 #endif
 	{ 0,		0,				0,			0,			0					}
 };
@@ -75,18 +84,22 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 
 	{ { 0,							0 }, { 0, 0},		0, 0 },	// Must be all-zero
 	{ { AES,							0 }, { XTS, 0 },	1, 1 },
+#ifndef WOLFCRYPT_BACKEND
 	{ { SERPENT,					0 }, { XTS, 0 },	1, 1 },
 	{ { TWOFISH,					0 }, { XTS, 0 },	1, 1 },
 	{ { CAMELLIA,					0 }, { XTS, 0 },	1, 1 },
-#if defined(CIPHER_GOST89)
-	{ { GOST89,						0 }, { XTS, 0 },	0, 1 },
-#endif  // defined(CIPHER_GOST89)
 	{ { KUZNYECHIK,				0 }, { XTS, 0 },	0, 1 },
 	{ { TWOFISH, AES,				0 }, { XTS, 0 },	1, 1 },
 	{ { SERPENT, TWOFISH, AES,	0 }, { XTS, 0 },	1, 1 },
 	{ { AES, SERPENT,				0 }, { XTS, 0 },	1, 1 },
 	{ { AES, TWOFISH, SERPENT,	0 }, { XTS, 0 },	1, 1 },
 	{ { SERPENT, TWOFISH,		0 }, { XTS, 0 },	1, 1 },
+	{ { KUZNYECHIK, CAMELLIA,		0 }, { XTS, 0 },	0, 1 },
+	{ { TWOFISH, KUZNYECHIK,		0 }, { XTS, 0 },	0, 1 },
+	{ { SERPENT, CAMELLIA,		0 }, { XTS, 0 },	0, 1 },
+	{ { AES, KUZNYECHIK,		0 }, { XTS, 0 },	0, 1 },
+	{ { CAMELLIA, SERPENT, KUZNYECHIK,	0 }, { XTS, 0 },	0, 1 },
+#endif
 	{ { 0,							0 }, { 0,    0},	0, 0 }		// Must be all-zero
 
 #else // TC_WINDOWS_BOOT
@@ -94,6 +107,7 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 	// Encryption algorithms available for boot drive encryption
 	{ { 0,						0 }, { 0, 0 },		0 },	// Must be all-zero
 	{ { AES,					0 }, { XTS, 0 },	1 },
+#ifndef WOLFCRYPT_BACKEND
 	{ { SERPENT,				0 }, { XTS, 0 },	1 },
 	{ { TWOFISH,				0 }, { XTS, 0 },	1 },
 	{ { TWOFISH, AES,			0 }, { XTS, 0 },	1 },
@@ -101,6 +115,7 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 	{ { AES, SERPENT,			0 }, { XTS, 0 },	1 },
 	{ { AES, TWOFISH, SERPENT,	0 }, { XTS, 0 },	1 },
 	{ { SERPENT, TWOFISH,		0 }, { XTS, 0 },	1 },
+#endif
 	{ { 0,						0 }, { 0, 0 },		0 },	// Must be all-zero
 
 #endif
@@ -113,11 +128,16 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 static Hash Hashes[] =
 {	// ID				Name					Deprecated	System Encryption
 	{ SHA512,		L"SHA-512",				FALSE,	FALSE },
-	{ WHIRLPOOL,	L"Whirlpool",			FALSE,	FALSE },
 	{ SHA256,		L"SHA-256",				FALSE,	TRUE },
-	{ RIPEMD160,	L"RIPEMD-160",			TRUE,		TRUE },
+    #ifndef WOLFCRYPT_BACKEND
+        { BLAKE2S,		L"BLAKE2s-256",				FALSE,	TRUE },
+        { WHIRLPOOL,	L"Whirlpool",			FALSE,	FALSE },
 	{ STREEBOG,		L"Streebog",	FALSE,	FALSE },
-	{ 0, 0, 0 }
+#ifndef VC_DCS_DISABLE_ARGON2
+	{ ARGON2,		L"BLAKE2b-512",	FALSE,	FALSE },
+#endif
+    #endif
+        { 0, 0, 0 }
 };
 #endif
 
@@ -141,6 +161,7 @@ int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
 #endif
 		break;
 
+#ifndef WOLFCRYPT_BACKEND	
 	case SERPENT:
 		serpent_set_key (key, ks);
 		break;
@@ -156,16 +177,12 @@ int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
 #endif
 
 #if !defined(TC_WINDOWS_BOOT) 
-#if defined(CIPHER_GOST89)
-	case GOST89:
-		gost_set_key(key, (gost_kds*)ks);
-		break;
-#endif // && defined(CIPHER_GOST89)
 	case KUZNYECHIK:
 		kuznyechik_set_key(key, (kuznyechik_kds*)ks);
 		break;
 #endif // !defined(TC_WINDOWS_BOOT)
 
+#endif
 	default:
 		// Unknown/wrong cipher ID
 		return ERR_CIPHER_INIT_FAILURE;
@@ -179,8 +196,7 @@ void EncipherBlock(int cipher, void *data, void *ks)
 	switch (cipher)
 	{
 	case AES:	
-		// In 32-bit kernel mode, due to KeSaveFloatingPointState() overhead, AES instructions can be used only when processing the whole data unit.
-#if (defined (_WIN64) || !defined (TC_WINDOWS_DRIVER)) && !defined (TC_WINDOWS_BOOT)
+#if !defined (TC_WINDOWS_BOOT)
 		if (IsAesHwCpuSupported())
 			aes_hw_cpu_encrypt (ks, data);
 		else
@@ -188,17 +204,16 @@ void EncipherBlock(int cipher, void *data, void *ks)
 			aes_encrypt (data, data, ks);
 		break;
 
+#ifndef WOLFCRYPT_BACKEND
 	case TWOFISH:		twofish_encrypt (ks, data, data); break;
 	case SERPENT:		serpent_encrypt (data, data, ks); break;
 #if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_CAMELLIA)
 	case CAMELLIA:		camellia_encrypt (data, data, ks); break;
 #endif
 #if !defined(TC_WINDOWS_BOOT)
-#if defined(CIPHER_GOST89)
-	case GOST89:		gost_encrypt(data, data, ks, 1); break;
-#endif // defined(CIPHER_GOST89)
 	case KUZNYECHIK:		kuznyechik_encrypt_block(data, data, ks); break;
 #endif // !defined(TC_WINDOWS_BOOT) 
+#endif
 	default:			TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
 	}
 }
@@ -207,17 +222,11 @@ void EncipherBlock(int cipher, void *data, void *ks)
 
 void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 {
-	byte *data = dataPtr;
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-	KFLOATING_SAVE floatingPointState;
-#endif
+	uint8 *data = dataPtr;
 
 	if (cipher == AES
 		&& (blockCount & (32 - 1)) == 0
 		&& IsAesHwCpuSupported()
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		&& NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState))
-#endif
 		)
 	{
 		while (blockCount > 0)
@@ -228,13 +237,34 @@ void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 			blockCount -= 32;
 		}
 
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		KeRestoreFloatingPointState (&floatingPointState);
+	}
+#ifndef WOLFCRYPT_BACKEND	
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
+	else if (cipher == SERPENT
+			&& (blockCount >= 4)
+			&& HasSSE2()
+		)
+	{
+		serpent_encrypt_blocks (data, data, blockCount, ks);
+	}
 #endif
+#if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
+   else if (cipher == TWOFISH)	{
+			twofish_encrypt_blocks(ks, data, data, (uint32) blockCount);
 	}
-	else if (cipher == GOST89)	{
-			gost_encrypt(data, data, ks, (int)blockCount);
+	else if (cipher == CAMELLIA)	{
+			camellia_encrypt_blocks(ks, data, data, (uint32) blockCount);
 	}
+#endif
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
+	else if (cipher == KUZNYECHIK
+			&& HasSSE2()
+		)
+	{
+		kuznyechik_encrypt_blocks (data, data, blockCount, ks);
+	}
+#endif
+#endif
 	else
 	{
 		size_t blockSize = CipherGetBlockSize (cipher);
@@ -252,27 +282,24 @@ void DecipherBlock(int cipher, void *data, void *ks)
 {
 	switch (cipher)
 	{
+#ifndef WOLFCRYPT_BACKEND	
 	case SERPENT:	serpent_decrypt (data, data, ks); break;
 	case TWOFISH:	twofish_decrypt (ks, data, data); break;
 #if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_CAMELLIA)
 	case CAMELLIA:	camellia_decrypt (data, data, ks); break;
 #endif
 #if !defined(TC_WINDOWS_BOOT)
-#if defined(CIPHER_GOST89)
-	case GOST89:	gost_decrypt(data, data, ks, 1); break;
-#endif // defined(CIPHER_GOST89)
 	case KUZNYECHIK:	kuznyechik_decrypt_block(data, data, ks); break;
 #endif // !defined(TC_WINDOWS_BOOT)
+#endif
 
 
 #ifndef TC_WINDOWS_BOOT
 
 	case AES:
-#if defined (_WIN64) || !defined (TC_WINDOWS_DRIVER)
 		if (IsAesHwCpuSupported())
-			aes_hw_cpu_decrypt ((byte *) ks + sizeof (aes_encrypt_ctx), data);
+			aes_hw_cpu_decrypt ((uint8 *) ks + sizeof (aes_encrypt_ctx), data);
 		else
-#endif
 			aes_decrypt (data, data, (void *) ((char *) ks + sizeof(aes_encrypt_ctx)));
 		break;
 
@@ -287,34 +314,49 @@ void DecipherBlock(int cipher, void *data, void *ks)
 
 void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 {
-	byte *data = dataPtr;
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-	KFLOATING_SAVE floatingPointState;
-#endif
+	uint8 *data = dataPtr;
 
 	if (cipher == AES
 		&& (blockCount & (32 - 1)) == 0
 		&& IsAesHwCpuSupported()
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		&& NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState))
-#endif
 		)
 	{
 		while (blockCount > 0)
 		{
-			aes_hw_cpu_decrypt_32_blocks ((byte *) ks + sizeof (aes_encrypt_ctx), data);
+			aes_hw_cpu_decrypt_32_blocks ((uint8 *) ks + sizeof (aes_encrypt_ctx), data);
 
 			data += 32 * 16;
 			blockCount -= 32;
 		}
 
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-		KeRestoreFloatingPointState (&floatingPointState);
+	}
+#ifndef WOLFCRYPT_BACKEND	
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
+	else if (cipher == SERPENT
+			&& (blockCount >= 4)
+			&& HasSSE2()
+		)
+	{
+		serpent_decrypt_blocks (data, data, blockCount, ks);
+	}
 #endif
+#if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
+   else if (cipher == TWOFISH)	{
+			twofish_decrypt_blocks(ks, data, data, (uint32) blockCount);
 	}
-	else if (cipher == GOST89)	{
-			gost_decrypt(data, data, ks, (int)blockCount);
+	else if (cipher == CAMELLIA)	{
+			camellia_decrypt_blocks(ks, data, data, (uint32) blockCount);
 	}
+#endif
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
+	else if (cipher == KUZNYECHIK			
+			&& HasSSE2()
+		)
+	{
+		kuznyechik_decrypt_blocks (data, data, blockCount, ks);
+	}
+#endif
+#endif
 	else
 	{
 		size_t blockSize = CipherGetBlockSize (cipher);
@@ -347,17 +389,13 @@ const wchar_t *CipherGetName (int cipherId)
    Cipher* pCipher = CipherGet (cipherId);
    return  pCipher? pCipher -> Name : L"";
 }
-#endif
 
 int CipherGetBlockSize (int cipherId)
 {
-#ifdef TC_WINDOWS_BOOT
-	return CipherGet (cipherId) -> BlockSize;
-#else
    Cipher* pCipher = CipherGet (cipherId);
    return pCipher? pCipher -> BlockSize : 0;
-#endif
 }
+#endif
 
 int CipherGetKeySize (int cipherId)
 {
@@ -383,8 +421,16 @@ int CipherGetKeyScheduleSize (int cipherId)
 
 BOOL CipherSupportsIntraDataUnitParallelization (int cipher)
 {
-	return cipher == AES && IsAesHwCpuSupported() ||
-		cipher == GOST89;
+	return (cipher == AES && IsAesHwCpuSupported()) 
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
+		|| (cipher == SERPENT && HasSSE2())
+		|| (cipher == KUZNYECHIK && HasSSE2())
+#endif
+#if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
+		|| (cipher == TWOFISH)
+		|| (cipher == CAMELLIA)
+#endif
+		;
 }
 
 #endif
@@ -397,6 +443,7 @@ int EAGetFirst ()
 	return 1;
 }
 
+#ifndef TC_WINDOWS_BOOT
 // Returns number of EAs
 int EAGetCount (void)
 {
@@ -408,6 +455,7 @@ int EAGetCount (void)
 	}
 	return count;
 }
+#endif
 
 int EAGetNext (int previousEA)
 {
@@ -446,16 +494,24 @@ int EAInit (int ea, unsigned char *key, unsigned __int8 *ks)
 
 #ifndef TC_WINDOWS_BOOT
 
-BOOL EAInitMode (PCRYPTO_INFO ci)
+BOOL EAInitMode (PCRYPTO_INFO ci, unsigned char* key2)
 {
 	switch (ci->mode)
 	{
 	case XTS:
 		// Secondary key schedule
-		if (EAInit (ci->ea, ci->k2, ci->ks2) != ERR_SUCCESS)
+		if (EAInit (ci->ea, key2, ci->ks2) != ERR_SUCCESS)
 			return FALSE;
+                
+            #ifdef WOLFCRYPT_BACKEND
+                if (xts_encrypt_key256 (key2, (aes_encrypt_ctx *) ci->ks) != EXIT_SUCCESS)
+			return ERR_CIPHER_INIT_FAILURE;
 
-		/* Note: XTS mode could potentially be initialized with a weak key causing all blocks in one data unit
+		if (xts_decrypt_key256 (key2, (aes_decrypt_ctx *) (ci->ks + sizeof(aes_encrypt_ctx))) != EXIT_SUCCESS)
+			return ERR_CIPHER_INIT_FAILURE;
+            #endif
+
+                /* Note: XTS mode could potentially be initialized with a weak key causing all blocks in one data unit
 		on the volume to be tweaked with zero tweaks (i.e. 512 bytes of the volume would be encrypted in ECB
 		mode). However, to create a TrueCrypt volume with such a weak key, each human being on Earth would have
 		to create approximately 11,378,125,361,078,862 (about eleven quadrillion) TrueCrypt volumes (provided 
@@ -469,33 +525,35 @@ BOOL EAInitMode (PCRYPTO_INFO ci)
 	return TRUE;
 }
 
-static void EAGetDisplayName(wchar_t *buf, int ea, int i)
+static void EAGetDisplayName(wchar_t *buf, size_t bufLen, int ea, int i)
 {
-	wcscpy (buf, CipherGetName (i));
+	StringCchCopyW (buf, bufLen, CipherGetName (i));
 	if (i = EAGetPreviousCipher(ea, i))
 	{
-		wcscat (buf, L"(");
-		EAGetDisplayName (&buf[wcslen(buf)], ea, i);
-		wcscat (buf, L")");
+		size_t curLen;
+		StringCchCatW (buf, bufLen, L"(");
+		curLen = wcslen(buf);
+		EAGetDisplayName (&buf[curLen], bufLen - curLen, ea, i);
+		StringCchCatW (buf, bufLen, L")");
 	}
 }
 
 // Returns name of EA, cascaded cipher names are separated by hyphens
-wchar_t *EAGetName (wchar_t *buf, int ea, int guiDisplay)
+wchar_t *EAGetName (wchar_t *buf, size_t bufLen, int ea, int guiDisplay)
 {
 	if (guiDisplay)
 	{
-		EAGetDisplayName (buf, ea, EAGetLastCipher(ea));
+		EAGetDisplayName (buf, bufLen, ea, EAGetLastCipher(ea));
 	}
 	else
 	{
 		int i = EAGetLastCipher(ea);
-		wcscpy (buf, (i != 0) ? CipherGetName (i) : L"?");
+		StringCchCopyW (buf, bufLen, (i != 0) ? CipherGetName (i) : L"?");
 
 		while (i = EAGetPreviousCipher(ea, i))
 		{
-			wcscat (buf, L"-");
-			wcscat (buf, CipherGetName (i));
+			StringCchCatW (buf, bufLen, L"-");
+			StringCchCatW (buf, bufLen, CipherGetName (i));
 		}
 	}
 	return buf;
@@ -509,7 +567,7 @@ int EAGetByName (wchar_t *name)
 
 	do
 	{
-		EAGetName(n, ea, 1);
+		EAGetName(n, 128, ea, 1);
 #if defined(_UEFI)
 		if (wcscmp(n, name) == 0)
 #else
@@ -539,6 +597,8 @@ int EAGetKeySize (int ea)
 }
 
 
+#ifndef TC_WINDOWS_BOOT
+
 // Returns the first mode of operation of EA
 int EAGetFirstMode (int ea)
 {
@@ -558,11 +618,8 @@ int EAGetNextMode (int ea, int previousModeId)
 	return 0;
 }
 
-
-#ifndef TC_WINDOWS_BOOT
-
-// Returns the name of the mode of operation of the whole EA
-wchar_t *EAGetModeName (int ea, int mode, BOOL capitalLetters)
+// Returns the name of the mode of operation
+const wchar_t *EAGetModeName (int mode)
 {
 	switch (mode)
 	{
@@ -571,7 +628,7 @@ wchar_t *EAGetModeName (int ea, int mode, BOOL capitalLetters)
 		return L"XTS";
 
 	}
-	return L"[unknown]";
+	return L"[UNKNOWN]";
 }
 
 #endif // TC_WINDOWS_BOOT
@@ -591,38 +648,7 @@ int EAGetKeyScheduleSize (int ea)
 	return size;
 }
 
-
-// Returns the largest key size needed by an EA for the specified mode of operation
-int EAGetLargestKeyForMode (int mode)
-{
-	int ea, key = 0;
-
-	for (ea = EAGetFirst (); ea != 0; ea = EAGetNext (ea))
-	{
-		if (!EAIsModeSupported (ea, mode))
-			continue;
-
-		if (EAGetKeySize (ea) >= key)
-			key = EAGetKeySize (ea);
-	}
-	return key;
-}
-
-
-// Returns the largest key needed by any EA for any mode
-int EAGetLargestKey ()
-{
-	int ea, key = 0;
-
-	for (ea = EAGetFirst (); ea != 0; ea = EAGetNext (ea))
-	{
-		if (EAGetKeySize (ea) >= key)
-			key = EAGetKeySize (ea);
-	}
-
-	return key;
-}
-
+#ifndef TC_WINDOWS_BOOT
 
 // Returns number of ciphers in EA
 int EAGetCipherCount (int ea)
@@ -633,6 +659,7 @@ int EAGetCipherCount (int ea)
 	return i - 1;
 }
 
+#endif
 
 int EAGetFirstCipher (int ea)
 {
@@ -678,18 +705,16 @@ int EAGetPreviousCipher (int ea, int previousCipherId)
 	return 0;
 }
 
-
+#ifndef TC_WINDOWS_BOOT
 int EAIsFormatEnabled (int ea)
 {
 	return EncryptionAlgorithms[ea].FormatEnabled;
 }
 
-#ifndef TC_WINDOWS_BOOT
 int EAIsMbrSysEncEnabled (int ea)
 {
 	return EncryptionAlgorithms[ea].MbrSysEncEnabled;
 }
-#endif
 
 // Returns TRUE if the mode of operation is supported for the encryption algorithm
 BOOL EAIsModeSupported (int ea, int testedMode)
@@ -704,7 +729,6 @@ BOOL EAIsModeSupported (int ea, int testedMode)
 	return FALSE;
 }
 
-#ifndef TC_WINDOWS_BOOT
 Hash *HashGet (int id)
 {
 	int i;
@@ -715,16 +739,22 @@ Hash *HashGet (int id)
 	return 0;
 }
 
-
+#ifdef _WIN32
 int HashGetIdByName (wchar_t *name)
 {
 	int i;
+#ifndef VC_DCS_DISABLE_ARGON2
+	if (_wcsicmp (name, L"Argon2") == 0 || _wcsicmp (name, L"Argon2id") == 0)
+		return ARGON2;
+#endif
+
 	for (i = 0; Hashes[i].Id != 0; i++)
-		if (wcscmp (Hashes[i].Name, name) == 0)
+		if (_wcsicmp (Hashes[i].Name, name) == 0)
 			return Hashes[i].Id;
 
 	return 0;
 }
+#endif
 
 const wchar_t *HashGetName (int hashId)
 {
@@ -732,11 +762,11 @@ const wchar_t *HashGetName (int hashId)
    return pHash? pHash -> Name : L"";
 }
 
-void HashGetName2 (wchar_t *buf, int hashId)
+void HashGetName2 (wchar_t *buf, size_t bufLen, int hashId)
 {
    Hash* pHash = HashGet(hashId);
    if (pHash)
-		wcscpy(buf, pHash -> Name);
+		StringCchCopyW (buf, bufLen, pHash -> Name);
 	else
 		buf[0] = L'\0';
 }
@@ -755,7 +785,29 @@ BOOL HashForSystemEncryption (int hashId)
 
 }
 
-// Returns the maximum number of bytes necessary to be generated by the PBKDF2 (PKCS #5)
+BOOL HashIsAvailable (int hashId)
+{
+   return (HashGet(hashId) != 0);
+}
+
+// Returns the largest key size needed by an EA for the specified mode of operation
+int EAGetLargestKeyForMode (int mode)
+{
+	int ea, key = 0;
+
+	for (ea = EAGetFirst (); ea != 0; ea = EAGetNext (ea))
+	{
+		if (!EAIsModeSupported (ea, mode))
+			continue;
+
+		if (EAGetKeySize (ea) >= key)
+			key = EAGetKeySize (ea);
+	}
+	return key;
+}
+
+// Returns the maximum number of bytes necessary to be generated by PBKDF2 (PKCS #5).
+// Argon2id header key material uses the fixed ARGON2_HEADER_KEYDATA_SIZE value.
 int GetMaxPkcs5OutSize (void)
 {
 	int size = 32;
@@ -773,7 +825,7 @@ int GetMaxPkcs5OutSize (void)
 
 #ifdef TC_WINDOWS_BOOT
 
-static byte CryptoInfoBufferInUse = 0;
+static uint8 CryptoInfoBufferInUse = 0;
 CRYPTO_INFO CryptoInfoBuffer;
 
 #endif
@@ -809,11 +861,25 @@ PCRYPTO_INFO crypto_open ()
 }
 
 #ifndef TC_WINDOWS_BOOT
-void crypto_loadkey (PKEY_INFO keyInfo, char *lpszUserKey, int nUserKeyLen)
+void crypto_loadkey (PKEY_INFO keyInfo, unsigned char *lpszUserKey, int nUserKeyLen)
 {
 	keyInfo->keyLength = nUserKeyLen;
 	burn (keyInfo->userKey, sizeof (keyInfo->userKey));
 	memcpy (keyInfo->userKey, lpszUserKey, nUserKeyLen);
+}
+
+void crypto_eraseKeys (PCRYPTO_INFO cryptoInfo)
+{
+	burn (cryptoInfo->ks, sizeof (cryptoInfo->ks));
+	burn (cryptoInfo->ks2, sizeof (cryptoInfo->ks2));
+#ifdef TC_WINDOWS_DRIVER
+	burn (cryptoInfo->master_keydata_hash, sizeof (cryptoInfo->master_keydata_hash));
+#else
+	burn (cryptoInfo->master_keydata, sizeof (cryptoInfo->master_keydata));
+	burn (cryptoInfo->k2, sizeof (cryptoInfo->k2));
+#endif
+	burn (&cryptoInfo->noIterations, sizeof (cryptoInfo->noIterations));
+	burn (&cryptoInfo->volumePim, sizeof (cryptoInfo->volumePim));
 }
 #endif
 
@@ -1022,14 +1088,14 @@ void EncipherBlock(int cipher, void *data, void *ks)
 {
 #ifdef TC_WINDOWS_BOOT_AES
 	if (IsAesHwCpuSupported())
-		aes_hw_cpu_encrypt ((byte *) ks, data);
+		aes_hw_cpu_encrypt ((uint8 *) ks, data);
 	else
 		aes_encrypt (data, data, ks); 
-#elif defined (TC_WINDOWS_BOOT_SERPENT)
+#elif defined (TC_WINDOWS_BOOT_SERPENT) && !defined (WOLFCRYPT_BACKEND)
 	serpent_encrypt (data, data, ks);
-#elif defined (TC_WINDOWS_BOOT_TWOFISH)
+#elif defined (TC_WINDOWS_BOOT_TWOFISH) && !defined (WOLFCRYPT_BACKEND)
 	twofish_encrypt (ks, data, data);
-#elif defined (TC_WINDOWS_BOOT_CAMELLIA)
+#elif defined (TC_WINDOWS_BOOT_CAMELLIA) && !defined (WOLFCRYPT_BACKEND)
 	camellia_encrypt (data, data, ks);
 #endif
 }
@@ -1038,14 +1104,14 @@ void DecipherBlock(int cipher, void *data, void *ks)
 {
 #ifdef TC_WINDOWS_BOOT_AES
 	if (IsAesHwCpuSupported())
-		aes_hw_cpu_decrypt ((byte *) ks + sizeof (aes_encrypt_ctx) + 14 * 16, data);
+		aes_hw_cpu_decrypt ((uint8 *) ks + sizeof (aes_encrypt_ctx) + 14 * 16, data);
 	else
-		aes_decrypt (data, data, (aes_decrypt_ctx *) ((byte *) ks + sizeof(aes_encrypt_ctx))); 
-#elif defined (TC_WINDOWS_BOOT_SERPENT)
+		aes_decrypt (data, data, (aes_decrypt_ctx *) ((uint8 *) ks + sizeof(aes_encrypt_ctx))); 
+#elif defined (TC_WINDOWS_BOOT_SERPENT) && !defined (WOLFCRYPT_BACKEND)
 	serpent_decrypt (data, data, ks);
-#elif defined (TC_WINDOWS_BOOT_TWOFISH)
+#elif defined (TC_WINDOWS_BOOT_TWOFISH) && !defined (WOLFCRYPT_BACKEND)
 	twofish_decrypt (ks, data, data);
-#elif defined (TC_WINDOWS_BOOT_CAMELLIA)
+#elif defined (TC_WINDOWS_BOOT_CAMELLIA) && !defined (WOLFCRYPT_BACKEND)
 	camellia_decrypt (data, data, ks);
 #endif
 }
@@ -1101,20 +1167,20 @@ static BOOL HwEncryptionDisabled = FALSE;
 
 BOOL IsAesHwCpuSupported ()
 {
+#ifdef TC_WINDOWS_BOOT_AES
 	static BOOL state = FALSE;
 	static BOOL stateValid = FALSE;
 
 	if (!stateValid)
 	{
-#ifdef TC_WINDOWS_BOOT_AES
 		state = is_aes_hw_cpu_supported() ? TRUE : FALSE;
-#else
-		state = g_hasAESNI ? TRUE : FALSE;
-#endif
 		stateValid = TRUE;
 	}
 
 	return state && !HwEncryptionDisabled;
+#else
+	return (HasAESNI() && !HwEncryptionDisabled)? TRUE : FALSE;
+#endif
 }
 
 void EnableHwEncryption (BOOL enable)
@@ -1133,3 +1199,298 @@ BOOL IsHwEncryptionEnabled ()
 }
 
 #endif // !TC_WINDOWS_BOOT
+
+#if !defined (TC_WINDOWS_BOOT) && !defined (_UEFI)
+
+static BOOL CpuRngDisabled = TRUE;
+static BOOL RamEncryptionEnabled = FALSE;
+
+BOOL IsCpuRngSupported ()
+{
+#ifndef _M_ARM64
+	if (HasRDSEED() || HasRDRAND())
+		return TRUE;
+	else
+#endif
+		return FALSE;
+}
+
+void EnableCpuRng (BOOL enable)
+{
+	CpuRngDisabled = !enable;
+}
+
+BOOL IsCpuRngEnabled ()
+{
+	return !CpuRngDisabled;
+}
+
+BOOL IsRamEncryptionSupported ()
+{
+	if (t1ha_selfcheck__t1ha2() == 0)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+void EnableRamEncryption (BOOL enable)
+{
+	RamEncryptionEnabled = enable;
+}
+
+BOOL IsRamEncryptionEnabled ()
+{
+	return RamEncryptionEnabled;
+}
+
+/* masking for random index to remove bias */
+uint8 GetRngMask (uint8 count)
+{
+	if (count >= 128)
+		return 0xFF;
+	if (count >= 64)
+		return 0x7F;
+	if (count >= 32)
+		return 0x3F;
+	if (count >= 16)
+		return 0x1F;
+	if (count >= 8)
+		return 0x0F;
+	if (count >= 4)
+		return 0x07;
+	if (count >= 2)
+		return 0x03;
+	return 1;
+}
+
+uint8 GetRandomIndex (ChaCha20RngCtx* pCtx, uint8 elementsCount)
+{
+	uint8 index = 0;
+	uint8 mask = GetRngMask (elementsCount);
+
+	while (TRUE)
+	{
+		ChaCha20RngGetBytes (pCtx, &index, 1);
+		index &= mask;
+		if (index < elementsCount)
+			break;
+	}
+
+	return index;
+}
+
+#if !defined (_UEFI)
+/* declaration of variables and functions used for RAM encryption on 64-bit build */
+static uint8* pbKeyDerivationArea = NULL;
+static ULONG cbKeyDerivationArea = 0;
+
+static uint64 HashSeedMask = 0;
+static uint64 CipherIVMask = 0;
+#ifdef TC_WINDOWS_DRIVER
+ULONG AllocTag = 'MMCV';
+#endif
+
+#if !defined(PAGE_SIZE)
+#define PAGE_SIZE 4096
+#endif
+
+BOOL InitializeSecurityParameters(GetRandSeedFn rngCallback)
+{
+	ChaCha20RngCtx ctx;
+	uint8 pbSeed[CHACHA20RNG_KEYSZ + CHACHA20RNG_IVSZ];
+#ifdef TC_WINDOWS_DRIVER
+	uint8 i;
+	char randomStr[4];
+	Dump ("InitializeSecurityParameters BEGIN\n");
+#endif
+
+	rngCallback (pbSeed, sizeof (pbSeed));
+
+	ChaCha20RngInit (&ctx, pbSeed, rngCallback, 0);
+
+#ifdef TC_WINDOWS_DRIVER
+
+	/* Generate random value for tag that is similar to pool tag values used by Windows kernel.
+	 * Fully random tag would be too suspicious and outstanding.
+     * First character is always a capital letter.
+     * Second character is a letter, lowercase or uppercase.
+     * Third character is a letter, lowercase or uppercase.
+     * Fourth character is a letter or a digit.
+	 */
+
+    /* 1. First character (Capital Letter) */
+    randomStr[0] = 'A' + GetRandomIndex(&ctx, 26);
+
+    /* 2. Second character (Letter) */
+    i = GetRandomIndex(&ctx, 52);
+    if (i < 26)
+        randomStr[1] = 'A' + i;
+    else
+        randomStr[1] = 'a' + (i - 26);
+
+    /* 3. Third character (Letter) */
+    i = GetRandomIndex(&ctx, 52);
+    if (i < 26)
+        randomStr[2] = 'A' + i;
+    else
+        randomStr[2] = 'a' + (i - 26);
+
+    /* 4. Fourth character (Letter or Digit) */
+    i = GetRandomIndex(&ctx, 62);
+    if (i < 26)
+        randomStr[3] = 'A' + i;
+    else if (i < 52)
+        randomStr[3] = 'a' + (i - 26);
+    else
+        randomStr[3] = '0' + (i - 52);
+
+	/* combine all characters in reverse order as explained in MSDN */
+	AllocTag = 0;
+	for (i = 0; i < 4; i++)
+	{
+		AllocTag = (AllocTag << 8) + randomStr[3-i];
+	}
+
+#endif
+
+	cbKeyDerivationArea = 1024 * 1024;
+	do
+	{
+		pbKeyDerivationArea = (uint8*) TCalloc(cbKeyDerivationArea);
+		if (!pbKeyDerivationArea)
+			cbKeyDerivationArea >>= 1;
+	} while (!pbKeyDerivationArea && (cbKeyDerivationArea >= (2*PAGE_SIZE)));
+
+	if (!pbKeyDerivationArea)
+	{
+		cbKeyDerivationArea = 0;
+		Dump ("InitializeSecurityParameters return=FALSE END\n");
+		return FALSE;
+	}
+
+	/* fill key derivation area with random bytes */
+	ChaCha20RngGetBytes (&ctx, pbKeyDerivationArea, cbKeyDerivationArea);
+
+	/* generate hash seed mask */
+	ChaCha20RngGetBytes(&ctx, (unsigned char*) &HashSeedMask, sizeof (HashSeedMask));	
+
+	/* generate IV mask */
+	ChaCha20RngGetBytes(&ctx, (unsigned char*) &CipherIVMask, sizeof (CipherIVMask));	
+
+	FAST_ERASE64 (pbSeed, sizeof (pbSeed));
+	burn (&ctx, sizeof (ctx));
+#ifdef TC_WINDOWS_DRIVER
+	burn (randomStr, sizeof(randomStr));
+
+	Dump ("InitializeSecurityParameters return=TRUE END\n");
+#endif
+	return TRUE;
+}
+
+void ClearSecurityParameters()
+{
+	Dump ("ClearSecurityParameters BEGIN\n");
+	if (pbKeyDerivationArea)
+	{
+		FAST_ERASE64 (pbKeyDerivationArea, cbKeyDerivationArea);
+		TCfree (pbKeyDerivationArea);
+		pbKeyDerivationArea =NULL;
+		cbKeyDerivationArea = 0;
+	}
+
+	FAST_ERASE64 (&HashSeedMask, 8);
+	FAST_ERASE64 (&CipherIVMask, 8);
+#ifdef TC_WINDOWS_DRIVER
+	burn (&AllocTag, sizeof (AllocTag));
+#endif
+	Dump ("ClearSecurityParameters END\n");
+}
+
+#ifdef TC_WINDOWS_DRIVER
+void VcProtectMemory (uint64 encID, unsigned char* pbData, size_t cbData, unsigned char* pbData2, size_t cbData2)
+#else
+void VcProtectMemory (uint64 encID, unsigned char* pbData, size_t cbData, 
+							unsigned char* pbData2, size_t cbData2,
+							unsigned char* pbData3, size_t cbData3,
+							unsigned char* pbData4, size_t cbData4)
+#endif
+{
+	if (pbKeyDerivationArea)
+	{
+		uint64 hashLow, hashHigh, hashSeed, cipherIV;
+		uint64 pbKey[4];
+		ChaCha256Ctx ctx;
+
+		hashSeed = (((uint64) pbKeyDerivationArea) + encID) ^ HashSeedMask;
+		hashLow = t1ha2_atonce128(&hashHigh, pbKeyDerivationArea, cbKeyDerivationArea, hashSeed);
+
+		/* set the key to the hash result */
+		pbKey[0] = hashLow;
+		pbKey[1] = hashHigh;
+		/* we now have a 128-bit key and we will expand it to 256-bit by using ChaCha12 cipher */
+		/* first we need to generate a the other 128-bit half of the key */
+		pbKey[2] = hashLow ^ hashHigh;
+		pbKey[3] = hashLow + hashHigh;
+
+		/* Initialize ChaCha12 cipher */
+		ChaCha256Init (&ctx, (unsigned char*) pbKey, (unsigned char*) &hashSeed, 12);
+		/* encrypt the key by itself */
+		ChaCha256Encrypt (&ctx, (unsigned char*) pbKey, sizeof(pbKey), (unsigned char*) pbKey);
+
+		/* Initialize ChaCha12 cipher */
+		cipherIV = (((uint64) pbKeyDerivationArea) + encID) ^ CipherIVMask;
+		ChaCha256Init (&ctx, (unsigned char*) pbKey, (unsigned char*) &cipherIV, 12);
+
+		ChaCha256Encrypt (&ctx, pbData, cbData, pbData);
+		ChaCha256Encrypt (&ctx, pbData2, cbData2, pbData2);
+#ifndef TC_WINDOWS_DRIVER
+		ChaCha256Encrypt (&ctx, pbData3, cbData3, pbData3);
+		ChaCha256Encrypt (&ctx, pbData4, cbData4, pbData4);
+#endif
+		FAST_ERASE64 (pbKey, sizeof(pbKey));
+		FAST_ERASE64 (&hashLow, 8);
+		FAST_ERASE64 (&hashHigh, 8);
+		FAST_ERASE64 (&hashSeed, 8);
+		FAST_ERASE64 (&cipherIV, 8);
+		burn (&ctx, sizeof (ctx));
+	}
+}
+
+uint64 VcGetEncryptionID (PCRYPTO_INFO pCryptoInfo)
+{
+	return ((uint64) pCryptoInfo->ks) + ((uint64) pCryptoInfo->ks2)
+#ifndef TC_WINDOWS_DRIVER
+		+ ((uint64) pCryptoInfo->master_keydata) + ((uint64) pCryptoInfo->k2)
+#endif
+		;
+}
+
+static void VcInternalProtectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
+{
+#ifdef TC_WINDOWS_DRIVER
+	VcProtectMemory (encID, pCryptoInfo->ks, MAX_EXPANDED_KEY, pCryptoInfo->ks2, MAX_EXPANDED_KEY);
+#else
+	VcProtectMemory (encID, pCryptoInfo->ks, MAX_EXPANDED_KEY,
+					pCryptoInfo->ks2, MAX_EXPANDED_KEY,
+					pCryptoInfo->master_keydata, MASTER_KEYDATA_SIZE,
+					pCryptoInfo->k2, MASTER_KEYDATA_SIZE);
+#endif
+
+}
+
+void VcProtectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
+{
+	Dump ("VcProtectKeys BEGIN\n");
+	VcInternalProtectKeys (pCryptoInfo, encID);
+	Dump ("VcProtectKeys END\n");
+}
+
+void VcUnprotectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
+{
+	Dump ("VcUnprotectKeys BEGIN\n");
+	VcInternalProtectKeys (pCryptoInfo, encID);
+	Dump ("VcUnprotectKeys END\n");
+}
+#endif
+
+#endif

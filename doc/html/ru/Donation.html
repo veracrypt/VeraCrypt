@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Бесплатное надёжное шифрование дисков с открытым исходным кодом</title>
+<meta name="description" content="VeraCrypt это бесплатное программное обеспечение для шифрования дисков с открытым исходным кодом для Windows, Mac OS X (macOS) и Linux. В случае, если злоумышленник вынуждает вас раскрыть пароль, VeraCrypt обеспечивает правдоподобное отрицание наличия шифрования. В отличие от пофайлового шифрования, VeraCrypt шифрует данные в реальном времени (на лету), автоматически, прозрачно, требует очень мало памяти и не использует временные незашифрованные файлы."/>
+<meta name="keywords" content="encryption, security, шифрование, безопасность"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+<script src="donation.js"></script>
+</head>
+<body>
+
+<div>
+<a href="Documentation.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Начало</a></li>
+	  <li><a href="Code.html">Исходный код</a></li>
+	  <li><a href="Downloads.html">Загрузить</a></li>
+	  <li><a href="Documentation.html">Документация</a></li>
+	  <li><a class="active" href="Donation.html">Поддержать разработку</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Форум</a></li>
+	</ul>
+</div>
+
+<div class="wikidoc">
+<h1>Пожертвование на разработку VeraCrypt</h1>
+<p>Вы можете поддержать развитие VeraCrypt, отправив пожертвование с помощью PayPal, криптовалюты (<a href="#Bitcoin">Bitcoin</a> и <a href="#Ethereum">Ethereum</a>) или платформы Liberapay.</p>
+
+<hr>
+<h3><img src="paypal_30x30.png" style="vertical-align: middle; margin-right: 5px">PayPal</h3>
+<div class="donation-buttons">
+    <div class="donation-button">
+        <a title="Пожертвовать в евро" href="https://www.paypal.com/ncp/payment/9AACJR53PQP8E" target="_blank">
+            <img src="Donation_donate_Euros.gif" alt="Пожертвовать в евро" width="92" height="26">
+        </a>
+        <div class="currency-label">Евро</div>
+    </div>
+    <div class="donation-button">
+        <a title="Пожертвовать в долларах США" href="https://www.paypal.com/ncp/payment/XRGBNLDGXTNQA" target="_blank">
+            <img src="Donation_donate_Dollars.gif" alt="Пожертвовать в долларах США" width="92" height="26">
+        </a>
+        <div class="currency-label">Доллар США</div>
+    </div>
+    <div class="donation-button">
+        <a title="Пожертвовать в фунтах стерлингов" href="https://www.paypal.com/ncp/payment/UGT632M8TW4HA" target="_blank">
+            <img src="Donation_donate_GBP.gif" alt="Пожертвовать в фунтах стерлингов" width="92" height="26">
+        </a>
+        <div class="currency-label">Фунт стерлингов</div>
+    </div>
+    <div class="donation-button">
+        <a title="Пожертвовать в канадских долларах" href="https://www.paypal.com/ncp/payment/DFEB4P5V4XM8W" target="_blank">
+            <img src="Donation_donate_Dollars.gif" alt="Пожертвовать в канадских долларах" width="92" height="26">
+        </a>
+        <div class="currency-label">Канадский доллар</div>
+    </div>
+    <div class="donation-button">
+        <a title="Пожертвовать в швейцарских франках" href="https://www.paypal.com/ncp/payment/NDJVSPDYZYFVC" target="_blank">
+            <img src="Donation_donate_CHF.gif" alt="Пожертвовать в швейцарских франках" width="92" height="26">
+        </a>
+        <div class="currency-label">Швейцарский франк</div>
+    </div>
+    <div class="donation-button">
+        <a title="Пожертвовать в японских иенах" href="https://www.paypal.com/ncp/payment/3DFS2PKBVEL8A" target="_blank">
+            <img src="Donation_donate_YEN.gif" alt="Пожертвовать в японских иенах" width="92" height="26">
+        </a>
+        <div class="currency-label">Японская иена</div>
+    </div>
+    <div class="donation-button">
+        <a title="Пожертвовать в австралийских долларах" href="https://www.paypal.com/ncp/payment/HH6AP8SNSSWKW" target="_blank">
+            <img src="Donation_donate_Dollars.gif" alt="Пожертвовать в австралийских долларах" width="92" height="26">
+        </a>
+        <div class="currency-label">Австралийский доллар</div>
+    </div>
+    <div class="donation-button">
+        <a title="Пожертвовать в польских злотых" href="https://www.paypal.com/ncp/payment/JQKQEDJE38WVW" target="_blank">
+            <img src="Donation_donate_PLN.gif" alt="Пожертвовать в польских злотых" width="92" height="26">
+        </a>
+        <div class="currency-label">Польский злотый</div>
+    </div>
+</div>
+
+<p>Для других валют выберите из списка ниже:</p>
+<form method="get" action="" id="currency-form" target="_blank">
+	<select name="currency" style="padding: 5px; margin-right: 10px;" required>
+		<option value="" disabled selected>Выберите вашу валюту</option>
+		<option value="https://www.paypal.com/ncp/payment/9AACJR53PQP8E">€ EUR - Евро</option>
+		<option value="https://www.paypal.com/ncp/payment/XRGBNLDGXTNQA">$ USD - Доллар США</option>
+		<option value="https://www.paypal.com/ncp/payment/HH6AP8SNSSWKW">$ AUD - Австралийский доллар</option>
+		<option value="https://www.paypal.com/ncp/payment/X3BDJ5XLVZL24">R$ BRL - Бразильский реал</option>
+		<option value="https://www.paypal.com/ncp/payment/DFEB4P5V4XM8W">$ CAD - Канадский доллар</option>
+		<option value="https://www.paypal.com/ncp/payment/NDJVSPDYZYFVC">₣ CHF - Швейцарский франк</option>
+		<option value="https://www.paypal.com/ncp/payment/3UUB36LDZ2XVU">Kč CZK - Чешская крона</option>
+		<option value="https://www.paypal.com/ncp/payment/9N6BCVTALPJNE">kr DKK - Датская крона</option>
+		<option value="https://www.paypal.com/ncp/payment/UGT632M8TW4HA">£ GBP - Фунт стерлингов</option>
+		<option value="https://www.paypal.com/ncp/payment/FS5L43P792NXS">$ HKD - Гонконгский доллар</option>
+		<option value="https://www.paypal.com/ncp/payment/N5U89YYGMLHJ2">Ft HUF - Венгерский форинт</option>
+		<option value="https://www.paypal.com/ncp/payment/ERAXUDHRSVNDL">₪ ILS - Израильский шекель</option>
+		<option value="https://www.paypal.com/ncp/payment/3DFS2PKBVEL8A">¥ JPY - Японская иена</option>
+		<option value="https://www.paypal.com/ncp/payment/MAACFQYRWFQ6G">$ MXN - Мексиканский песо</option>
+		<option value="https://www.paypal.com/ncp/payment/6T7GWLZ7Y7TQY">$ NZD - Новозеландский доллар</option>
+		<option value="https://www.paypal.com/ncp/payment/5MU4HNJYT7L5Y">kr NOK - Норвежская крона</option>
+		<option value="https://www.paypal.com/ncp/payment/BVK9SER6QTT38">₱ PHP - Филиппинский песо</option>
+		<option value="https://www.paypal.com/ncp/payment/JQKQEDJE38WVW">zł PLN - Польский злотый</option>
+		<option value="https://www.paypal.com/ncp/payment/6E48Z9QEWBWAA">kr SEK - Шведская крона</option>
+		<option value="https://www.paypal.com/ncp/payment/CGQXK7PWFCADY">S$ SGD - Сингапурский доллар</option>
+		<option value="https://www.paypal.com/ncp/payment/4LBLJCN8TCVCY">฿ THB - Тайский бат</option>
+		<option value="https://www.paypal.com/ncp/payment/BPP3KCC67RL5U">NT$ TWD - Новый тайваньский доллар</option>
+	</select>
+	<input type="submit" value="Пожертвовать" style="padding: 5px 15px; background-color: #08aad7; color: white; border: none; cursor: pointer;">
+</form>
+
+<hr>
+<h3>Платформы для пожертвований:</h3>
+<ul>
+<li><strong>Liberapay: <a href="https://liberapay.com/VeraCrypt/donate" target="_blank"><img alt="Пожертвовать с помощью Liberapay" src="liberapay_donate.svg" style="vertical-align: middle; margin-bottom: 5px"></a></strong></li>
+</ul>
+
+<hr>
+<h3 id="Bitcoin"><img src="BC_Logo_30x30.png" style="vertical-align: middle; margin-right: 5px">Bitcoin</h3>
+<ul>
+<li><strong>SegWit:</strong>
+<p><img src="Donation_VC_BTC_Sigwit.png" alt="Адрес VeraCrypt для BTC SegWit" width="200" height="200"></p>
+<p><strong>bc1qrlzz2u302vp4nuu8sm9zkl0vtyfcpmmppedede</strong></p>
+</li>
+<li><strong>Устаревший:</strong>
+<p><img src="Donation_VeraCrypt_Bitcoin_small.png" alt="Адрес VeraCrypt для Bitcoin" width="200" height="200"></p>
+<p><strong>1CKsjZXqAxK5doo6XdJJtwDyo2GUwzz9ha</strong></p>
+</li>
+</ul>
+
+<hr>
+<h3 id="Ethereum"><img src="Ethereum_Logo_19x30.png" style="vertical-align: middle; margin-right: 5px">Ethereum</h3>
+<p><img src="Donation_VeraCrypt_Ethereum.png" alt="Адрес VeraCrypt для Ethereum" width="200" height="200"></p>
+<p><strong>0xA73130B89af878ABfAA950c6Db5b82549f600925</strong></p>
+
+
+<hr>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div><div class="ClearBoth"></div></body></html>

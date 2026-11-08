@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -36,7 +36,7 @@ namespace VeraCrypt
 		AppendToList ("VIRTUAL_DEVICE", wstring (volumeInfo.VirtualDevice));
 #endif
 		AppendToList ("SIZE", Gui->SizeToString (volumeInfo.Size));
-		AppendToList ("TYPE", Gui->VolumeTypeToString (volumeInfo.Type, volumeInfo.TrueCryptMode, volumeInfo.Protection));
+		AppendToList ("TYPE", Gui->VolumeTypeToString (volumeInfo.Type, volumeInfo.Protection));
 		AppendToList ("READ_ONLY", LangString [volumeInfo.Protection == VolumeProtection::ReadOnly ? "UISTR_YES" : "UISTR_NO"]);
 
 		wxString protection;
@@ -62,9 +62,9 @@ namespace VeraCrypt
 		AppendToList ("BLOCK_SIZE", blockSize.str() + L" " + LangString ["BITS"]);
 		AppendToList ("MODE_OF_OPERATION", volumeInfo.EncryptionModeName);
 		if (volumeInfo.Pim <= 0)
-			AppendToList ("PKCS5_PRF", volumeInfo.Pkcs5PrfName);
+			AppendToList ("KDF", volumeInfo.Pkcs5PrfName);
 		else
-			AppendToList ("PKCS5_PRF", StringFormatter (L"{0} (Dynamic)", volumeInfo.Pkcs5PrfName));
+			AppendToList ("KDF", StringFormatter (L"{0} (Dynamic)", volumeInfo.Pkcs5PrfName));
 
 #if 0
 		AppendToList ("PKCS5_ITERATIONS", StringConverter::FromNumber (volumeInfo.Pkcs5IterationCount));
@@ -89,7 +89,7 @@ namespace VeraCrypt
 		Fit();
 		Center();
 
-		StdButtonsOK->SetDefault();
+		OKButton->SetDefault();
 	}
 
 	void VolumePropertiesDialog::AppendToList (const string &name, const wxString &value)

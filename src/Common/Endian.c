@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -43,17 +43,3 @@ uint64 MirrorBytes64 (uint64 x)
 }
 #endif
 
-void
-LongReverse (unsigned __int32 *buffer, unsigned byteCount)
-{
-	unsigned __int32 value;
-
-	byteCount /= sizeof (unsigned __int32);
-	while (byteCount--)
-	{
-		value = *buffer;
-		value = ((value & 0xFF00FF00L) >> 8) | \
-		    ((value & 0x00FF00FFL) << 8);
-		*buffer++ = (value << 16) | (value >> 16);
-	}
-}

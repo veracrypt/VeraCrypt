@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 #include "..\\common\\resource.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -41,65 +41,93 @@ IDR_MOUNT_TLB           TYPELIB                 "Mount.tlb"
 // Dialog
 //
 
-IDD_PREFERENCES_DLG DIALOGEX 0, 0, 336, 333
+IDD_PREFERENCES_DLG DIALOGEX 0, 0, 340, 252
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Preferences"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
+    CONTROL         "",IDC_PREF_TAB,"SysTabControl32",TCS_MULTILINE | WS_CLIPSIBLINGS | WS_TABSTOP,7,7,326,212
+    PUSHBUTTON      "More Settings...",IDC_MORE_SETTINGS,7,229,85,14
+    DEFPUSHBUTTON   "OK",IDOK,229,229,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,283,229,50,14
+END
+
+IDD_PREFERENCES_TAB_GENERAL DIALOGEX 0, 0, 320, 210
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Default Mount Options",IDT_DEFAULT_MOUNT_OPTIONS,7,7,304,40
     CONTROL         "Mount volumes as read-only",IDC_PREF_MOUNT_READONLY,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,11,11,150,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,14,20,140,16
     CONTROL         "Mount volumes as removable media",IDC_PREF_MOUNT_REMOVABLE,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,162,11,165,16
-    CONTROL         "Enabled",IDC_PREF_BKG_TASK_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,44,111,10
-    CONTROL         "Exit when there are no mounted volumes",IDC_CLOSE_BKG_TASK_WHEN_NOVOL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,44,188,10
-    CONTROL         "Start VeraCrypt Background Task",IDC_PREF_LOGON_START,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,75,126,10
-    CONTROL         "Mount all device-hosted VeraCrypt volumes",IDC_PREF_LOGON_MOUNT_DEVICES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,75,188,10
-    CONTROL         "User logs off",IDC_PREF_DISMOUNT_LOGOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,81,104,114,11
-    CONTROL         "User session locked",IDC_PREF_DISMOUNT_SESSION_LOCKED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,105,130,11
-    CONTROL         "Screen saver is launched",IDC_PREF_DISMOUNT_SCREENSAVER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,81,116,114,10
-    CONTROL         "Entering power saving mode",IDC_PREF_DISMOUNT_POWERSAVING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,115,130,11
-    CONTROL         "Auto-dismount volume after no data has been read/written to it for",IDC_PREF_DISMOUNT_INACTIVE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,128,246,11
-    EDITTEXT        IDC_PREF_DISMOUNT_INACTIVE_TIME,258,127,27,12,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
-    CONTROL         "Force auto-dismount even if volume contains open files or directories",IDC_PREF_FORCE_AUTO_DISMOUNT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,141,294,10
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,158,20,150,16
+
+    GROUPBOX        "Windows",IDT_WINDOWS_RELATED_SETTING,7,53,304,135
     CONTROL         "Open Explorer window for successfully mounted volume",IDC_PREF_OPEN_EXPLORER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,171,316,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,66,290,11
     CONTROL         "Use a different taskbar icon when there are mounted volumes",IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,184,314,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,80,290,10
     CONTROL         "Preserve modification timestamp of file containers",IDC_PRESERVE_TIMESTAMPS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,196,316,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,94,290,10
     CONTROL         "Make disconnected network drives available for mounting",IDC_SHOW_DISCONNECTED_NETWORK_DRIVES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,208,316,10
-    CONTROL         "Cache passwords in driver memory",IDC_PREF_CACHE_PASSWORDS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,254,146,11
-    CONTROL         "Wipe cached passwords on exit",IDC_PREF_WIPE_CACHE_ON_EXIT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,254,165,11
-    CONTROL         "Temporary Cache password during ""Mount Favorite Volumes"" operations",IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,268,294,11
-    CONTROL         "Wipe cached passwords on auto-dismount",IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,282,296,11
-    CONTROL         "Include PIM when caching a password",IDC_PREF_CACHE_PIM,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,296,296,10
-    PUSHBUTTON      "More Settings...",IDC_MORE_SETTINGS,5,317,85,14
-    DEFPUSHBUTTON   "OK",IDOK,225,317,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,281,317,50,14
-    GROUPBOX        "Windows",IDT_WINDOWS_RELATED_SETTING,4,160,328,76
-    GROUPBOX        "Default Mount Options",IDT_DEFAULT_MOUNT_OPTIONS,4,3,328,26
-    GROUPBOX        "VeraCrypt Background Task",IDT_TASKBAR_ICON,4,33,328,26
-    GROUPBOX        "Auto-Dismount",IDT_AUTO_DISMOUNT,4,94,328,62
-    LTEXT           "minutes",IDT_MINUTES,289,129,39,10
-    LTEXT           "Dismount all when:",IDT_AUTO_DISMOUNT_ON,9,104,71,20
-    GROUPBOX        "Password Cache",IDT_PW_CACHE_OPTIONS,4,243,328,68
-    GROUPBOX        "Actions to perform upon logon to Windows",IDT_LOGON,4,63,328,28
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,108,290,10
     CONTROL         "Don't show wait message dialog when performing operations",IDC_HIDE_WAITING_DIALOG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,220,316,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,122,290,10
+    CONTROL         "Use Secure Desktop for password entry",IDC_SECURE_DESKTOP_PASSWORD_ENTRY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,136,290,10
+    CONTROL         "Enable Input Method Editor (IME) in Secure Desktop",IDC_SECURE_DESKTOP_ENABLE_IME,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,149,290,10
+    CONTROL         "Use legacy maximum password length (64 characters)",IDC_USE_LEGACY_MAX_PASSWORD_LENGTH,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,162,290,10
+END
+
+IDD_PREFERENCES_TAB_ACTIONS DIALOGEX 0, 0, 320, 210
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "VeraCrypt Background Task",IDT_TASKBAR_ICON,7,7,304,40
+    CONTROL         "Enabled",IDC_PREF_BKG_TASK_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,20,111,10
+    CONTROL         "Exit when there are no mounted volumes",IDC_CLOSE_BKG_TASK_WHEN_NOVOL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,133,20,170,10
+
+    GROUPBOX        "Actions to perform upon logon to Windows",IDT_LOGON,7,53,304,40
+    CONTROL         "Start VeraCrypt Background Task",IDC_PREF_LOGON_START,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,66,126,10
+    CONTROL         "Mount all device-hosted VeraCrypt volumes",IDC_PREF_LOGON_MOUNT_DEVICES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,143,66,160,10
+
+    GROUPBOX        "Auto-Unmount",IDT_AUTO_UNMOUNT,7,99,304,90
+    LTEXT           "Unmount all when:",IDT_AUTO_UNMOUNT_ON,14,112,71,20
+    CONTROL         "User logs off",IDC_PREF_UNMOUNT_LOGOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,85,112,100,11
+    CONTROL         "User session locked",IDC_PREF_UNMOUNT_SESSION_LOCKED,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,190,112,115,11
+    CONTROL         "Screen saver is launched",IDC_PREF_UNMOUNT_SCREENSAVER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,85,126,100,10
+    CONTROL         "Entering power saving mode",IDC_PREF_UNMOUNT_POWERSAVING,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,190,126,115,11
+    CONTROL         "Auto-unmount volume after no data has been read/written to it for",IDC_PREF_UNMOUNT_INACTIVE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,142,230,11
+    EDITTEXT        IDC_PREF_UNMOUNT_INACTIVE_TIME,245,141,27,12,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    LTEXT           "minutes",IDT_MINUTES,276,143,39,10
+    CONTROL         "Force auto-unmount even if volume contains open files or directories",IDC_PREF_FORCE_AUTO_UNMOUNT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,158,290,10
+END
+
+IDD_PREFERENCES_TAB_PASSWORD DIALOGEX 0, 0, 320, 210
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Password Cache",IDT_PW_CACHE_OPTIONS,7,7,304,80
+    CONTROL         "Cache passwords in driver memory",IDC_PREF_CACHE_PASSWORDS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,20,146,11
+    CONTROL         "Wipe cached passwords on exit",IDC_PREF_WIPE_CACHE_ON_EXIT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,165,20,140,11
+    CONTROL         "Temporarily cache password during ""Mount Favorite Volumes"" operations",IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,36,294,11
+    CONTROL         "Wipe cached passwords on auto-unmount",IDC_PREF_WIPE_CACHE_ON_AUTOUNMOUNT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,52,294,11
+    CONTROL         "Include PIM when caching a password",IDC_PREF_CACHE_PIM,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,68,294,10
 END
 
 IDD_VOLUME_PROPERTIES DIALOGEX 60, 30, 284, 224
@@ -119,7 +147,6 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_OLD_PASSWORD,89,14,181,13,ES_PASSWORD | ES_AUTOHSCROLL
     COMBOBOX        IDC_PKCS5_OLD_PRF_ID,89,33,97,90,CBS_DROPDOWNLIST | WS_TABSTOP
-    CONTROL         "TrueCrypt Mode",IDC_TRUECRYPT_MODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,35,83,10
     EDITTEXT        IDC_OLD_PIM,89,51,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
     CONTROL         "Use P&IM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,59,115,10
     CONTROL         "Use keyfiles",IDC_ENABLE_KEYFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,72,109,10
@@ -139,15 +166,15 @@ BEGIN
     RTEXT           "Password:",IDT_PASSWORD,12,16,72,8
     RTEXT           "Password:",IDT_NEW_PASSWORD,8,124,76,8
     RTEXT           "Confirm Password:",IDT_CONFIRM_PASSWORD,9,140,75,16
-    RTEXT           "PKCS-5 PRF:",IDT_NEW_PKCS5_PRF,9,200,74,10,SS_CENTERIMAGE
+    RTEXT           "KDF:",IDT_NEW_KDF,9,200,74,10,SS_CENTERIMAGE
     GROUPBOX        "Current",IDT_CURRENT,6,3,270,97
     GROUPBOX        "New",IDT_NEW,6,108,270,130
     RTEXT           "Wipe mode:",IDT_WIPE_MODE,9,220,74,8,0,WS_EX_RIGHT
-    RTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,12,34,74,10,SS_CENTERIMAGE
+    RTEXT           "KDF:",IDT_KDF,12,34,74,10,SS_CENTERIMAGE
     RTEXT           "Volume PIM:",IDT_OLD_PIM,12,54,74,10,NOT WS_VISIBLE
-    LTEXT           "(Empty or 0 for default iterations)",IDC_OLD_PIM_HELP,135,54,196,8,NOT WS_VISIBLE
+    LTEXT           "(Empty or 0 for defaults)",IDC_OLD_PIM_HELP,135,54,196,8,NOT WS_VISIBLE
     RTEXT           "Volume PIM:",IDT_PIM,9,157,75,16,NOT WS_VISIBLE
-    LTEXT           "(Empty or 0 for default iterations)",IDC_PIM_HELP,135,157,197,8,NOT WS_VISIBLE
+    LTEXT           "(Empty or 0 for defaults)",IDC_PIM_HELP,135,157,197,8,NOT WS_VISIBLE
 END
 
 IDD_MOUNT_DLG DIALOGEX 0, 0, 375, 271
@@ -168,16 +195,16 @@ BEGIN
     PUSHBUTTON      "Select D&evice...",IDC_SELECT_DEVICE,276,211,84,14
     DEFPUSHBUTTON   "OK",IDOK,8,243,84,18,WS_GROUP
     PUSHBUTTON      "&Auto-Mount Devices",IDC_MOUNTALL,100,243,84,18
-    PUSHBUTTON      "Di&smount All",IDC_UNMOUNTALL,192,243,84,18,WS_GROUP
+    PUSHBUTTON      "Unmount A&ll",IDC_UNMOUNTALL,192,243,84,18,WS_GROUP
     PUSHBUTTON      "E&xit",IDC_EXIT,284,243,84,18,WS_GROUP
-    CONTROL         112,IDC_LOGO,"Static",SS_BITMAP | SS_NOTIFY | WS_BORDER,13,190,33,31
+    CONTROL         IDB_LOGO_96DPI,IDC_LOGO,"Static",SS_BITMAP | SS_NOTIFY | WS_BORDER,13,190,33,31
     GROUPBOX        "Volume",IDT_VOLUME,8,179,360,53
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,2,0,372,147
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,282,242,88,20
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,190,242,88,20
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,6,242,88,20
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,98,242,88,20
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,2,151,372,119
+    CONTROL         "",IDC_LOWER_BOX,"Static",SS_ETCHEDFRAME,2,151,372,119
 END
 
 IDD_PASSWORD_DLG DIALOGEX 0, 0, 330, 103
@@ -187,20 +214,19 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_PASSWORD,69,8,179,14,ES_PASSWORD | ES_AUTOHSCROLL
     COMBOBOX        IDC_PKCS5_PRF_ID,69,26,96,90,CBS_DROPDOWNLIST | WS_TABSTOP
-    CONTROL         "TrueCrypt Mode",IDC_TRUECRYPT_MODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,28,76,10
     EDITTEXT        IDC_PIM,69,43,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
     CONTROL         "Use P&IM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,48,97,10
     CONTROL         "Cache passwords and keyfil&es in memory",IDC_CACHE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,61,153,10
-    CONTROL         "&Display password",IDC_SHOW_PASSWORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,74,83,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,61,241,10
+    CONTROL         "&Display password",IDC_SHOW_PASSWORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,74,244,10
     CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,87,99,11
     PUSHBUTTON      "&Keyfiles...",IDC_KEY_FILES,173,84,75,14
     PUSHBUTTON      "Mount Opti&ons...",IDC_MOUNT_OPTIONS,252,84,69,14
-    LTEXT           "(Empty or 0 for default iterations)",IDC_PIM_HELP,115,46,199,8,NOT WS_VISIBLE
+    LTEXT           "(Empty or 0 for defaults)",IDC_PIM_HELP,115,46,199,8,NOT WS_VISIBLE
     DEFPUSHBUTTON   "OK",IDOK,252,8,69,14
     PUSHBUTTON      "Cancel",IDCANCEL,252,25,69,14
     RTEXT           "Password:",IDT_PASSWORD,0,10,65,13
-    RTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,0,27,65,11
+    RTEXT           "KDF:",IDT_KDF,0,27,65,11
     RTEXT           "Volume PIM:",IDT_PIM,0,46,65,8,NOT WS_VISIBLE
 END
 
@@ -213,6 +239,8 @@ BEGIN
     PUSHBUTTON      "Browse...",IDC_BROWSE_DIRS,228,28,57,14
     CONTROL         "Include VeraCrypt Volume Creation Wizard",IDC_COPY_WIZARD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,48,258,10
+    CONTROL         "Include VeraCrypt Volume Expander",IDC_COPY_EXPANDER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,62,258,10
     CONTROL         "Do nothing",IDC_AUTORUN_DISABLE,"Button",BS_AUTORADIOBUTTON,15,115,262,10
     CONTROL         "&Start VeraCrypt",IDC_AUTORUN_START,"Button",BS_AUTORADIOBUTTON,15,126,262,11
     CONTROL         "&Auto-mount VeraCrypt volume (specified below)",IDC_AUTORUN_MOUNT,
@@ -225,6 +253,8 @@ BEGIN
     CONTROL         "Mount volume as read-&only",IDC_MOUNT_READONLY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,224,256,10
     CONTROL         "&Cache password in driver memory",IDC_TRAV_CACHE_PASSWORDS,
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,237,256,10
+    CONTROL         "Include PIM when caching a password",IDC_PREF_CACHE_PIM,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,250,256,10
     DEFPUSHBUTTON   "Create",IDC_CREATE,173,278,57,14
     PUSHBUTTON      "Close",IDCLOSE,236,278,57,14
     GROUPBOX        "File Settings",IDT_FILE_SETTINGS,6,7,287,71
@@ -234,10 +264,6 @@ BEGIN
     LTEXT           "Create traveler disk files at (traveler disk root directory):",IDT_TRAVEL_ROOT,18,19,259,8
     GROUPBOX        "Mount Settings",IDT_MOUNT_SETTINGS,13,152,272,114,WS_DISABLED
     LTEXT           "Upon insertion of traveler disk: ",IDT_TRAVEL_INSERTION,13,102,263,8
-    CONTROL         "Include VeraCrypt Volume Expander",IDC_COPY_EXPANDER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,62,258,10
-    CONTROL         "Include PIM when caching a password",IDC_PREF_CACHE_PIM,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,250,256,10
 END
 
 IDD_HOTKEYS_DLG DIALOGEX 0, 0, 389, 257
@@ -254,19 +280,19 @@ BEGIN
     CONTROL         "Alt",IDC_HK_MOD_ALT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,216,158,43,10,WS_EX_TRANSPARENT
     CONTROL         "Win",IDC_HK_MOD_WIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,266,158,34,10,WS_EX_TRANSPARENT
     PUSHBUTTON      "Remove",IDC_HOTKEY_REMOVE,304,158,59,14
-    CONTROL         "Play system notification sound after successful hot-key dismount",IDC_HK_DISMOUNT_PLAY_SOUND,
+    CONTROL         "Play system notification sound after successful hot-key unmount",IDC_HK_UNMOUNT_PLAY_SOUND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,201,348,10
-    CONTROL         "Display balloon tooltip after successful hot-key dismount",IDC_HK_DISMOUNT_BALLOON_TOOLTIP,
+    CONTROL         "Display balloon tooltip after successful hot-key unmount",IDC_HK_UNMOUNT_BALLOON_TOOLTIP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,213,351,10,WS_EX_TRANSPARENT
     DEFPUSHBUTTON   "OK",IDOK,260,236,59,14
     PUSHBUTTON      "Cancel",IDCANCEL,323,236,59,14
     PUSHBUTTON      "Reset",IDC_RESET_HOTKEYS,7,236,59,14
     RTEXT           "Key to assign:",IDT_HOTKEY_KEY,15,142,86,8
-    GROUPBOX        "Hot Key Options",IDT_DISMOUNT_ACTION,7,188,375,42
+    GROUPBOX        "Hot Key Options",IDT_UNMOUNT_ACTION,7,188,375,42
     GROUPBOX        "Shortcut",IDT_ASSIGN_HOTKEY,7,127,375,53
 END
 
-IDD_TOKEN_PREFERENCES DIALOGEX 0, 0, 316, 199
+IDD_TOKEN_PREFERENCES DIALOGEX 0, 0, 316, 229
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Security Token Preferences"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -276,33 +302,50 @@ BEGIN
     PUSHBUTTON      "Auto-&Detect Library",IDC_AUTO_DETECT_PKCS11_MODULE,16,41,112,14
     CONTROL         "&Close token session (log out) after a volume is successfully mounted",IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT,
                     "Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,16,154,284,9
-    DEFPUSHBUTTON   "OK",IDOK,205,178,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,259,178,50,14
+    CONTROL         "&Enable EMV Support",IDC_ENABLE_EMV_SUPPORT,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,16,185,284,9
+    DEFPUSHBUTTON   "OK",IDOK,205,208,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,259,208,50,14
     GROUPBOX        "PKCS #11 Library Path",IDT_PKCS11_LIB_PATH,7,7,302,129
     GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,7,140,302,30
+    GROUPBOX        "EMV Options",IDT_EMV_OPTIONS,7,172,302,30
     LTEXT           "",IDT_PKCS11_LIB_HELP,16,63,286,65
 END
 
-IDD_EFI_SYSENC_SETTINGS DIALOGEX 0, 0, 370, 139
+IDD_EFI_SYSENC_SETTINGS DIALOGEX 0, 0, 375, 250
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - System Encryption Settings"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "&Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)",IDC_BOOT_LOADER_CACHE_PASSWORD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,79,339,10
-    DEFPUSHBUTTON   "OK",IDOK,257,115,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,313,115,50,14
-    GROUPBOX        "Boot Loader Screen Options",IDT_BOOT_LOADER_SCREEN_OPTIONS,8,7,355,53
-    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,8,64,355,44
-    CONTROL         "Include PIM when caching pre-boot authentication password",IDC_BOOT_LOADER_CACHE_PIM,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,18,94,340,10
+    GROUPBOX        "Boot Loader Screen Options",IDT_BOOT_LOADER_SCREEN_OPTIONS,8,7,355,45
     CONTROL         "Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)",IDC_DISABLE_BOOT_LOADER_PIM_PROMPT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,20,339,9
     CONTROL         "Do not request Hash algorithm in the pre-boot authentication screen",IDC_DISABLE_BOOT_LOADER_HASH_PROMPT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,35,339,9
+    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,7,53,355,75
+    CONTROL         "&Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)",IDC_BOOT_LOADER_CACHE_PASSWORD,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,68,339,10
+    CONTROL         "Include PIM when caching pre-boot authentication password",IDC_BOOT_LOADER_CACHE_PIM,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,16,83,340,10
+    CONTROL         "Block TRIM command on system partition/drive",IDC_BLOCK_SYSENC_TRIM,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,98,340,10
+    CONTROL         "Clear encryption keys from memory if a new device is inserted",IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,112,340,10
+    GROUPBOX        "Advanced Options",IDT_ADVANCED_OPTIONS,7,131,355,91
+    CONTROL         "Automatically fix boot configuration issues that may prevent Windows from starting",IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,144,340,10
+    CONTROL         "Force machine to boot on VeraCrypt in the next startup",IDC_FORCE_NEXT_BOOT_VERACRYPT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,158,340,10
+    CONTROL         "Force the presence of VeraCrypt entry in the EFI firmware boot menu",IDC_FORCE_VERACRYPT_BOOT_ENTRY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,172,340,10
+    CONTROL         "Force VeraCrypt entry to be the first in the EFI firmware boot menu",IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,186,340,10
+    PUSHBUTTON      "Edit Boot Loader Configuration",IDC_EDIT_DCSPROP,10,201,173,14
+    PUSHBUTTON      "Display EFI Platform Information",IDC_SHOW_PLATFORMINFO,187,201,173,14
+    PUSHBUTTON      "Cancel",IDCANCEL,313,226,50,14
+    DEFPUSHBUTTON   "OK",IDOK,255,226,50,14
 END
 
-IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 370, 248
+IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 371, 341
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Performance Options"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -311,20 +354,34 @@ BEGIN
     CONTROL         "Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)",IDC_ENABLE_HARDWARE_ENCRYPTION,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,18,41,340,17
     LTEXT           "More information",IDC_MORE_INFO_ON_HW_ACCELERATION,18,61,165,10,SS_NOTIFY
-    CONTROL         "Do not use the following number of processors for encryption/decryption:",IDC_LIMIT_ENC_THREAD_POOL,
+    CONTROL         "Do not use the following number of logical processors for encryption/decryption:",IDC_LIMIT_ENC_THREAD_POOL,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,18,103,283,11
     COMBOBOX        IDC_ENCRYPTION_FREE_CPU_COUNT,304,101,48,51,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "",IDT_LIMIT_ENC_THREAD_POOL_NOTE,18,126,334,33
     LTEXT           "More information",IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION,18,159,165,10,SS_NOTIFY
-    PUSHBUTTON      "&Benchmark",IDC_BENCHMARK,7,227,59,14
-    DEFPUSHBUTTON   "OK",IDOK,257,227,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,313,227,50,14
+    CONTROL         "Enable extended disk control codes support",IDC_ENABLE_EXTENDED_IOCTL_SUPPORT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,198,337,10
+    CONTROL         "Allow TRIM command for non-system SSD partition/drive",IDC_ALLOW_TRIM_NONSYS_SSD,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,211,337,10
+    CONTROL         "Allow Windows Disk Defragmenter to defragment non-system partition/drive",IDC_ALLOW_WINDOWS_DEFRAG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,224,337,10
+    CONTROL         "Use CPU hardware random generator as an additional source of entropy",IDC_ENABLE_CPU_RNG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,237,335,10
+    CONTROL         "Activate encryption of keys and passwords stored in RAM",IDC_ENABLE_RAM_ENCRYPTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,271,337,10
+    CONTROL         "Disable memory protection for Accessibility tools compatibility",IDC_DISABLE_MEMORY_PROTECTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,284,339,10
+    PUSHBUTTON      "?",IDC_DISABLE_MEMORY_PROTECTION_HELP,364,280,7,14
+    CONTROL         "Disable protection against screenshots and screen recording",IDC_DISABLE_SCREEN_PROTECTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,298,346,10
+    PUSHBUTTON      "&Benchmark",IDC_BENCHMARK,7,320,59,14
+    DEFPUSHBUTTON   "OK",IDOK,257,320,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,314,320,50,14
     LTEXT           "Processor (CPU) in this computer supports hardware acceleration for AES:",IDT_HW_AES_SUPPORTED_BY_CPU,18,23,273,9
     GROUPBOX        "Hardware Acceleration",IDT_ACCELERATION_OPTIONS,7,6,355,74
     GROUPBOX        "Thread-Based Parallelization",IDT_PARALLELIZATION_OPTIONS,7,84,355,93
-    LTEXT           "",IDT_LIMIT_ENC_THREAD_POOL_NOTE,18,126,334,33
-    GROUPBOX        "Driver Configuration",IDT_DRIVER_OPTIONS,7,183,356,36
-    CONTROL         "Enable extended disk control codes support",IDC_ENABLE_EXTENDED_IOCTL_SUPPORT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,198,337,10
+    GROUPBOX        "Driver Configuration",IDT_DRIVER_OPTIONS,7,183,357,69
+    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,7,257,357,56
 END
 
 IDD_FAVORITE_VOLUMES DIALOGEX 0, 0, 380, 368
@@ -355,16 +412,18 @@ BEGIN
     GROUPBOX        "",IDC_FAV_VOL_OPTIONS_GROUP_BOX,7,123,366,219
     LTEXT           "Label of selected favorite volume:",IDT_FAVORITE_LABEL,18,215,202,8
     GROUPBOX        "Global Settings",IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX,7,300,366,42
-    EDITTEXT        IDC_PIM,18,183,42,13,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "(Empty or 0 for default iterations)",IDC_PIM_HELP,64,185,189,8
-    LTEXT           "Volume PIM:",IDT_PIM,18,173,65,8
-    CONTROL         "Display PIM",IDC_SHOW_PIM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,199,150,10
+    EDITTEXT        IDC_PIM,87,183,42,13,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "(Empty or 0 for defaults)",IDC_PIM_HELP,135,186,189,8
+    LTEXT           "Volume PIM:",IDT_PIM,18,185,65,8
+    CONTROL         "Display PIM",IDC_SHOW_PIM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,200,150,10
     CONTROL         "Use favorite label as Explorer drive label",IDC_FAVORITE_USE_LABEL_IN_EXPLORER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,242,349,10
-    LTEXT           "Volume ID:",IDT_VOLUME_ID,18,131,57,8
-    EDITTEXT        IDC_FAVORITE_VOLUME_ID,18,141,344,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Volume ID:",IDT_VOLUME_ID,18,132,62,8
+    EDITTEXT        IDC_FAVORITE_VOLUME_ID,87,130,275,14,ES_AUTOHSCROLL | ES_READONLY
     CONTROL         "Use Volume ID to mount favorite",IDC_FAVORITE_USE_VOLUME_ID,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,159,337,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,148,337,10
+    COMBOBOX        IDC_PKCS5_PRF_ID,87,166,96,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    LTEXT           "KDF:",IDT_KDF,19,168,63,10
 END
 
 IDD_DEFAULT_MOUNT_PARAMETERS DIALOGEX 0, 0, 167, 65
@@ -372,14 +431,13 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTI
 CAPTION "VeraCrypt - Mount Parameters"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
+    COMBOBOX        IDC_PKCS5_PRF_ID,57,24,103,90,CBS_DROPDOWNLIST | WS_TABSTOP
     DEFPUSHBUTTON   "OK",IDOK,57,44,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,111,44,50,14
-    COMBOBOX        IDC_PKCS5_PRF_ID,57,24,103,90,CBS_DROPDOWNLIST | WS_TABSTOP
-    LTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,8,26,44,11
-    CONTROL         "TrueCrypt Mode",IDC_TRUECRYPT_MODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,76,10
+    LTEXT           "KDF:",IDT_KDF,8,26,44,11
 END
 
-IDD_SYSENC_SETTINGS DIALOGEX 0, 0, 370, 286
+IDD_SYSENC_SETTINGS DIALOGEX 0, 0, 371, 344
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - System Encryption Settings"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -387,22 +445,29 @@ BEGIN
     CONTROL         "Do not &show any texts in the pre-boot authentication screen (except the below custom message)",IDC_DISABLE_BOOT_LOADER_OUTPUT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,20,339,9
     EDITTEXT        IDC_CUSTOM_BOOT_LOADER_MESSAGE,18,50,216,14,ES_AUTOHSCROLL
-    CONTROL         "&Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)",IDC_BOOT_LOADER_CACHE_PASSWORD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,192,339,10
-    CONTROL         "Allow pre-boot &authentication to be bypassed by pressing the Esc key (enables boot manager)",IDC_ALLOW_ESC_PBA_BYPASS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,222,340,10
-    DEFPUSHBUTTON   "OK",IDOK,257,262,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,313,262,50,14
-    LTEXT           "Display this custom message in the pre-boot authentication screen (24 characters maximum):",IDT_CUSTOM_BOOT_LOADER_MESSAGE,18,39,337,8
-    GROUPBOX        "Boot Loader Screen Options",IDT_BOOT_LOADER_SCREEN_OPTIONS,8,7,355,165
-    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,8,177,355,75
-    LTEXT           "",IDC_CUSTOM_BOOT_LOADER_MESSAGE_HELP,18,72,337,73
-    CONTROL         "Disable ""Evil Maid"" attack detection",IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,237,340,10
-    CONTROL         "Include PIM when caching pre-boot authentication password",IDC_BOOT_LOADER_CACHE_PIM,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,18,207,340,10
     CONTROL         "Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)",IDC_DISABLE_BOOT_LOADER_PIM_PROMPT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,157,339,9
+    CONTROL         "&Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)",IDC_BOOT_LOADER_CACHE_PASSWORD,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,192,339,10
+    CONTROL         "Include PIM when caching pre-boot authentication password",IDC_BOOT_LOADER_CACHE_PIM,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,18,207,339,10
+    CONTROL         "Allow pre-boot &authentication to be bypassed by pressing the Esc key (enables boot manager)",IDC_ALLOW_ESC_PBA_BYPASS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,222,339,10
+    CONTROL         "Disable ""Evil Maid"" attack detection",IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,237,339,10
+    CONTROL         "Block TRIM command on system partition/drive",IDC_BLOCK_SYSENC_TRIM,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,251,339,10
+    CONTROL         "Clear encryption keys from memory if a new device is inserted",IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,265,339,10
+    CONTROL         "Automatically fix boot configuration issues that may prevent Windows from starting",IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,298,339,10
+    PUSHBUTTON      "Cancel",IDCANCEL,314,320,50,14
+    DEFPUSHBUTTON   "OK",IDOK,257,320,50,14
+    LTEXT           "Display this custom message in the pre-boot authentication screen (24 characters maximum):",IDT_CUSTOM_BOOT_LOADER_MESSAGE,18,39,337,8
+    LTEXT           "",IDC_CUSTOM_BOOT_LOADER_MESSAGE_HELP,18,72,337,73
+    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,9,177,355,105
+    GROUPBOX        "Boot Loader Screen Options",IDT_BOOT_LOADER_SCREEN_OPTIONS,9,7,355,165
+    GROUPBOX        "Advanced Options",IDT_ADVANCED_OPTIONS,9,285,355,29
 END
 
 /////////////////////////////////////////////////////////////////////////////
@@ -411,14 +476,14 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_PREFERENCES_DLG, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 329
         TOPMARGIN, 7
-        BOTTOMMARGIN, 331
+        BOTTOMMARGIN, 345
     END
 
     IDD_VOLUME_PROPERTIES, DIALOG
@@ -476,17 +541,17 @@ BEGIN
     IDD_EFI_SYSENC_SETTINGS, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 363
+        RIGHTMARGIN, 368
         TOPMARGIN, 7
-        BOTTOMMARGIN, 129
+        BOTTOMMARGIN, 240
     END
 
     IDD_PERFORMANCE_SETTINGS, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 363
+        RIGHTMARGIN, 364
         TOPMARGIN, 7
-        BOTTOMMARGIN, 241
+        BOTTOMMARGIN, 334
     END
 
     IDD_FAVORITE_VOLUMES, DIALOG
@@ -508,9 +573,9 @@ BEGIN
     IDD_SYSENC_SETTINGS, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 363
+        RIGHTMARGIN, 364
         TOPMARGIN, 7
-        BOTTOMMARGIN, 276
+        BOTTOMMARGIN, 334
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -522,8 +587,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,19,2,0
- PRODUCTVERSION 1,19,2,0
+ FILEVERSION 1,26,31,0
+ PRODUCTVERSION 1,26,31,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -538,13 +603,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "IDRIX"
+            VALUE "CompanyName", "AM Crypto"
             VALUE "FileDescription", "VeraCrypt"
-            VALUE "FileVersion", "1.19-BETA2"
+            VALUE "FileVersion", "1.26.31"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCrypt.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.19-BETA2"
+            VALUE "ProductVersion", "1.26.31"
         END
     END
     BLOCK "VarFileInfo"
@@ -598,7 +663,7 @@ IDB_SYS_DRIVEICON_MASK  BITMAP                  "System_drive_icon_mask_96dpi.bm
 // Menu
 //
 
-IDR_MENU MENU 
+IDR_MENU MENU
 BEGIN
     POPUP "&Volumes"
     BEGIN
@@ -613,8 +678,8 @@ BEGIN
         MENUITEM "Mount Volume with Options",   IDM_MOUNT_VOLUME_OPTIONS
         MENUITEM "Auto-Mount All Device-Hosted Volumes", IDM_MOUNTALL
         MENUITEM SEPARATOR
-        MENUITEM "Dismount Volume",             IDM_UNMOUNT_VOLUME
-        MENUITEM "Dismount All Mounted Volumes", IDM_UNMOUNTALL
+        MENUITEM "Unmount Volume",              IDM_UNMOUNT_VOLUME
+        MENUITEM "Unmount All Mounted Volumes", IDM_UNMOUNTALL
         MENUITEM SEPARATOR
         MENUITEM "Change Volume Password...",   IDM_CHANGE_PASSWORD
         MENUITEM "Add/Remove Keyfiles to/from Volume...", IDM_ADD_REMOVE_VOL_KEYFILES
@@ -633,7 +698,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Create Rescue Disk...",       IDM_CREATE_RESCUE_DISK
         MENUITEM "Verify Rescue Disk",          IDM_VERIFY_RESCUE_DISK
-        MENUITEM "Verify Rescue Disk Image", IDM_VERIFY_RESCUE_DISK_ISO
+        MENUITEM "Verify Rescue Disk Image",    IDM_VERIFY_RESCUE_DISK_ISO
+        MENUITEM "Repair EFI Boot Loader...",   IDM_REPAIR_EFI_BOOT_LOADER
         MENUITEM SEPARATOR
         MENUITEM "Mount Without Pre-Boot &Authentication...", IDM_MOUNT_SYSENC_PART_WITHOUT_PBA
         MENUITEM SEPARATOR
@@ -717,7 +783,7 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_UACSTRING           "VeraCrypt"
 END

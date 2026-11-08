@@ -287,7 +287,7 @@ static mode(32t) gf_poly64[2] = { 0, 0xd8000000 };
 
 /* This function multiples a field element x, in the polynomial */
 /* field representation. It uses 32-bit word operations to gain */
-/* speed but compensates for machine endianess and hence works  */
+/* speed but compensates for machine endianness and hence works  */
 /* correctly on both styles of machine                          */
 
 in_line void mul_x(mode(32t) x[4])
@@ -333,7 +333,7 @@ in_line void mul_x64(mode(32t) x[2])
 }
 
 /* Multiply of a GF128 field element by x^8 using 32-bit words  */
-/* for speed - machine endianess matters here                   */
+/* for speed - machine endianness matters here                   */
 
 #if (PLATFORM_BYTE_ORDER == BRG_LITTLE_ENDIAN)
 
@@ -380,7 +380,7 @@ in_line void mul_bex8_64(mode(32t) x[2])   /* mutiply with long words  */
 
 #endif
 
-/* hence choose the correct version for the machine endianess       */
+/* hence choose the correct version for the machine endianness       */
 
 #if PLATFORM_BYTE_ORDER == BRG_BIG_ENDIAN
 #define mul_x8  mul_bex8

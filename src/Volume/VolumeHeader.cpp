@@ -4,15 +4,18 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
 */
 
 #include "Crc32.h"
+#include "EncryptionThreadPool.h"
 #include "EncryptionModeXTS.h"
-#include "Pkcs5Kdf.h"
+#ifdef WOLFCRYPT_BACKEND
+#include "EncryptionModeWolfCryptXTS.h"
+#endif
 #include "Pkcs5Kdf.h"
 #include "VolumeHeader.h"
 #include "VolumeException.h"
@@ -20,6 +23,15 @@
 
 namespace VeraCrypt
 {
+	static void DrainKeyDerivationWorkItems (SyncEvent &noOutstandingWorkItemEvent, size_t enqueuedWorkItemCount, bool &workItemsDrained)
+	{
+		if (enqueuedWorkItemCount > 0 && !workItemsDrained)
+		{
+			noOutstandingWorkItemEvent.Wait();
+			workItemsDrained = true;
+		}
+	}
+
 	VolumeHeader::VolumeHeader (uint32 size)
 	{
 		Init();
@@ -44,6 +56,7 @@ namespace VeraCrypt
 		EncryptedAreaLength = 0;
 		Flags = 0;
 		SectorSize = 0;
+		XtsKeyVulnerable = false;
 	}
 
 	void VolumeHeader::Create (const BufferPtr &headerBuffer, VolumeHeaderCreationOptions &options)
@@ -58,6 +71,9 @@ namespace VeraCrypt
 
 		DataAreaKey.Zero();
 		DataAreaKey.CopyFrom (options.DataKey);
+
+		// check if the XTS key is vulnerable by comparing the two parts of the key
+		XtsKeyVulnerable = (memcmp (options.DataKey.Get() + options.EA->GetKeySize(), options.DataKey.Get(), options.EA->GetKeySize()) == 0);
 
 		VolumeCreationTime = 0;
 		HiddenVolumeDataSize = (options.Type == VolumeType::Hidden ? options.VolumeDataSize : 0);
@@ -76,61 +92,170 @@ namespace VeraCrypt
 		}
 
 		EA = options.EA;
-		shared_ptr <EncryptionMode> mode (new EncryptionModeXTS ());
-		EA->SetMode (mode);
+            #ifdef WOLFCRYPT_BACKEND
+                shared_ptr <EncryptionMode> mode (new EncryptionModeWolfCryptXTS ());
+            #else
+                shared_ptr <EncryptionMode> mode (new EncryptionModeXTS ());
+            #endif
+                EA->SetMode (mode);
 
 		EncryptNew (headerBuffer, options.Salt, options.HeaderKey, options.Kdf);
 	}
 
-	bool VolumeHeader::Decrypt (const ConstBufferPtr &encryptedData, const VolumePassword &password, int pim, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, const Pkcs5KdfList &keyDerivationFunctions, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes)
+	bool VolumeHeader::Decrypt (const ConstBufferPtr &encryptedData, const VolumePassword &password, int pim, shared_ptr <Pkcs5Kdf> kdf, const Pkcs5KdfList &keyDerivationFunctions, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes)
 	{
 		if (password.Size() < 1)
 			throw PasswordEmpty (SRC_POS);
 
 		ConstBufferPtr salt (encryptedData.GetRange (SaltOffset, SaltSize));
-		SecureBuffer header (EncryptedHeaderDataSize);
-		SecureBuffer headerKey (GetLargestSerializedKeySize());
+
+		if (!kdf && EncryptionThreadPool::IsRunning() && keyDerivationFunctions.size() > 1)
+		{
+			typedef EncryptionThreadPool::KeyDerivationWorkItem KeyDerivationWorkItem;
+
+			list < shared_ptr <KeyDerivationWorkItem> > keyDerivationWorkItems;
+			SharedVal <size_t> outstandingWorkItemCount (0);
+			SyncEvent keyDerivationCompletedEvent;
+			SyncEvent noOutstandingWorkItemEvent;
+			long volatile abortKeyDerivation = 0;
+			size_t enqueuedWorkItemCount = 0;
+			size_t processedWorkItemCount = 0;
+			bool workItemsDrained = false;
+
+			try
+			{
+				foreach (shared_ptr <Pkcs5Kdf> pkcs5, keyDerivationFunctions)
+				{
+					shared_ptr <KeyDerivationWorkItem> keyDerivationWorkItem (new KeyDerivationWorkItem (pkcs5, GetHeaderKeyDerivationSize (pkcs5)));
+					keyDerivationWorkItems.push_back (keyDerivationWorkItem);
+					EncryptionThreadPool::BeginKeyDerivation (*keyDerivationWorkItem, password, pim, salt, keyDerivationCompletedEvent, noOutstandingWorkItemEvent, outstandingWorkItemCount, &abortKeyDerivation);
+					++enqueuedWorkItemCount;
+				}
+
+				while (processedWorkItemCount < keyDerivationWorkItems.size())
+				{
+					bool processed = false;
+
+					foreach (shared_ptr <KeyDerivationWorkItem> keyDerivationWorkItem, keyDerivationWorkItems)
+					{
+						if (!keyDerivationWorkItem->Processed && keyDerivationWorkItem->Completed.Get())
+						{
+							keyDerivationWorkItem->Processed = true;
+							++processedWorkItemCount;
+							processed = true;
+
+							if (keyDerivationWorkItem->ItemException.get() || keyDerivationWorkItem->ExceptionCaptureFailed)
+							{
+								// KDF exceptions are fatal setup/runtime errors; candidate failures are reported via Result.
+								abortKeyDerivation = 1;
+								DrainKeyDerivationWorkItems (noOutstandingWorkItemEvent, enqueuedWorkItemCount, workItemsDrained);
+								if (keyDerivationWorkItem->ItemException.get())
+									keyDerivationWorkItem->ItemException->Throw();
+								throw UnknownException (SRC_POS);
+							}
+
+							if (keyDerivationWorkItem->Result != 0)
+								continue;
+
+							if (DecryptWithHeaderKey (encryptedData, keyDerivationWorkItem->Kdf, keyDerivationWorkItem->DerivedKey, encryptionAlgorithms, encryptionModes))
+							{
+								abortKeyDerivation = 1;
+								DrainKeyDerivationWorkItems (noOutstandingWorkItemEvent, enqueuedWorkItemCount, workItemsDrained);
+								return true;
+							}
+						}
+					}
+
+					if (processedWorkItemCount < keyDerivationWorkItems.size() && !processed)
+						keyDerivationCompletedEvent.Wait();
+				}
+			}
+			catch (...)
+			{
+				abortKeyDerivation = 1;
+				DrainKeyDerivationWorkItems (noOutstandingWorkItemEvent, enqueuedWorkItemCount, workItemsDrained);
+				throw;
+			}
+
+			DrainKeyDerivationWorkItems (noOutstandingWorkItemEvent, enqueuedWorkItemCount, workItemsDrained);
+			return false;
+		}
 
 		foreach (shared_ptr <Pkcs5Kdf> pkcs5, keyDerivationFunctions)
 		{
 			if (kdf && (kdf->GetName() != pkcs5->GetName()))
 				continue;
 
-			pkcs5->DeriveKey (headerKey, password, pim, salt);
-
-			foreach (shared_ptr <EncryptionMode> mode, encryptionModes)
+			SecureBuffer headerKey (GetHeaderKeyDerivationSize (pkcs5));
+			int derivationResult = pkcs5->DeriveKey (headerKey, password, pim, salt);
+			if (derivationResult != 0)
 			{
-				if (typeid (*mode) != typeid (EncryptionModeXTS))
-					mode->SetKey (headerKey.GetRange (0, mode->GetKeySize()));
+				if (!kdf)
+					continue;
 
-				foreach (shared_ptr <EncryptionAlgorithm> ea, encryptionAlgorithms)
+				throw ExternalException (SRC_POS, pkcs5->GetDerivationFailureMessage (derivationResult));
+			}
+
+			if (DecryptWithHeaderKey (encryptedData, pkcs5, headerKey, encryptionAlgorithms, encryptionModes))
+				return true;
+		}
+
+		return false;
+	}
+
+	bool VolumeHeader::DecryptWithHeaderKey (const ConstBufferPtr &encryptedData, shared_ptr <Pkcs5Kdf> pkcs5, const ConstBufferPtr &headerKey, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes)
+	{
+		SecureBuffer header (EncryptedHeaderDataSize);
+
+		foreach (shared_ptr <EncryptionMode> mode, encryptionModes)
+		{
+			#ifdef WOLFCRYPT_BACKEND
+			bool xtsMode = typeid (*mode) == typeid (EncryptionModeWolfCryptXTS);
+			#else
+			bool xtsMode = typeid (*mode) == typeid (EncryptionModeXTS);
+			#endif
+
+			if (!xtsMode)
+			{
+				if (mode->GetKeySize() > headerKey.Size())
+					continue;
+				mode->SetKey (headerKey.GetRange (0, mode->GetKeySize()));
+			}
+
+			foreach (shared_ptr <EncryptionAlgorithm> ea, encryptionAlgorithms)
+			{
+				if (!ea->IsModeSupported (mode))
+					continue;
+
+				size_t requiredHeaderKeySize = xtsMode ? ea->GetKeySize() * 2 : LegacyEncryptionModeKeyAreaSize + ea->GetKeySize();
+				if (requiredHeaderKeySize > headerKey.Size())
+					continue;
+
+				if (xtsMode)
 				{
-					if (!ea->IsModeSupported (mode))
-						continue;
+					ea->SetKey (headerKey.GetRange (0, ea->GetKeySize()));
+				#ifdef WOLFCRYPT_BACKEND
+					ea->SetKeyXTS (headerKey.GetRange (ea->GetKeySize(), ea->GetKeySize()));
+				#endif
 
-					if (typeid (*mode) == typeid (EncryptionModeXTS))
-					{
-						ea->SetKey (headerKey.GetRange (0, ea->GetKeySize()));
+					mode = mode->GetNew();
+					mode->SetKey (headerKey.GetRange (ea->GetKeySize(), ea->GetKeySize()));
+				}
+				else
+				{
+					ea->SetKey (headerKey.GetRange (LegacyEncryptionModeKeyAreaSize, ea->GetKeySize()));
+				}
 
-						mode = mode->GetNew();
-						mode->SetKey (headerKey.GetRange (ea->GetKeySize(), ea->GetKeySize()));
-					}
-					else
-					{
-						ea->SetKey (headerKey.GetRange (LegacyEncryptionModeKeyAreaSize, ea->GetKeySize()));
-					}
+				ea->SetMode (mode);
 
-					ea->SetMode (mode);
+				header.CopyFrom (encryptedData.GetRange (EncryptedHeaderDataOffset, EncryptedHeaderDataSize));
+				ea->Decrypt (header);
 
-					header.CopyFrom (encryptedData.GetRange (EncryptedHeaderDataOffset, EncryptedHeaderDataSize));
-					ea->Decrypt (header);
-
-					if (Deserialize (header, ea, mode, truecryptMode))
-					{
-						EA = ea;
-						Pkcs5 = pkcs5;
-						return true;
-					}
+				if (Deserialize (header, ea, mode))
+				{
+					EA = ea;
+					Pkcs5 = pkcs5;
+					return true;
 				}
 			}
 		}
@@ -138,18 +263,12 @@ namespace VeraCrypt
 		return false;
 	}
 
-	bool VolumeHeader::Deserialize (const ConstBufferPtr &header, shared_ptr <EncryptionAlgorithm> &ea, shared_ptr <EncryptionMode> &mode, bool truecryptMode)
+	bool VolumeHeader::Deserialize (const ConstBufferPtr &header, shared_ptr <EncryptionAlgorithm> &ea, shared_ptr <EncryptionMode> &mode)
 	{
 		if (header.Size() != EncryptedHeaderDataSize)
 			throw ParameterIncorrect (SRC_POS);
 
-		if (truecryptMode && (header[0] != 'T' ||
-			header[1] != 'R' ||
-			header[2] != 'U' ||
-			header[3] != 'E'))
-			return false;
-
-		if (!truecryptMode && (header[0] != 'V' ||
+		if ((header[0] != 'V' ||
 			header[1] != 'E' ||
 			header[2] != 'R' ||
 			header[3] != 'A'))
@@ -173,15 +292,8 @@ namespace VeraCrypt
 
 		RequiredMinProgramVersion = DeserializeEntry <uint16> (header, offset);
 
-		if (!truecryptMode && (RequiredMinProgramVersion > Version::Number()))
+		if ((RequiredMinProgramVersion > Version::Number()))
 			throw HigherVersionRequired (SRC_POS);
-
-		if (truecryptMode)
-		{
-			if (RequiredMinProgramVersion < 0x600 || RequiredMinProgramVersion > 0x71a)
-				throw UnsupportedTrueCryptFormat (SRC_POS);
-			RequiredMinProgramVersion = CurrentRequiredMinProgramVersion;
-		}
 
 		VolumeKeyAreaCrc32 = DeserializeEntry <uint32> (header, offset);
 		VolumeCreationTime = DeserializeEntry <uint64> (header, offset);
@@ -219,10 +331,20 @@ namespace VeraCrypt
 		ea = ea->GetNew();
 		mode = mode->GetNew();
 
+            #ifndef WOLFCRYPT_BACKEND
 		if (typeid (*mode) == typeid (EncryptionModeXTS))
 		{
-			ea->SetKey (header.GetRange (offset, ea->GetKeySize()));
+                    ea->SetKey (header.GetRange (offset, ea->GetKeySize()));
+            #else
+		if (typeid (*mode) == typeid (EncryptionModeWolfCryptXTS))
+		{
+                       ea->SetKey (header.GetRange (offset, ea->GetKeySize()));
+			ea->SetKeyXTS (header.GetRange (offset + ea->GetKeySize(), ea->GetKeySize()));
+            #endif
 			mode->SetKey (header.GetRange (offset + ea->GetKeySize(), ea->GetKeySize()));
+
+			// check if the XTS key is vulnerable by comparing the two parts of the key
+			XtsKeyVulnerable = (memcmp (DataAreaKey.Ptr() + ea->GetKeySize(), DataAreaKey.Ptr(), ea->GetKeySize()) == 0);
 		}
 		else
 		{
@@ -243,16 +365,20 @@ namespace VeraCrypt
 		if (offset > header.Size())
 			throw ParameterIncorrect (SRC_POS);
 
-		return Endian::Big (*reinterpret_cast<const T *> (header.Get() + offset - sizeof (T)));
+		T value;
+		memcpy (&value, header.Get() + offset - sizeof (T), sizeof (T));
+		return Endian::Big (value);
 	}
 
 	template <typename T>
 	T VolumeHeader::DeserializeEntryAt (const ConstBufferPtr &header, const size_t &offset) const
 	{
-		if (offset > header.Size())
+		if (offset > header.Size() || header.Size() - offset < sizeof (T))
 			throw ParameterIncorrect (SRC_POS);
 
-		return Endian::Big (*reinterpret_cast<const T *> (header.Get() + offset));
+		T value;
+		memcpy (&value, header.Get() + offset, sizeof (T));
+		return Endian::Big (value);
 	}
 
 	void VolumeHeader::EncryptNew (const BufferPtr &newHeaderBuffer, const ConstBufferPtr &newSalt, const ConstBufferPtr &newHeaderKey, shared_ptr <Pkcs5Kdf> newPkcs5Kdf)
@@ -263,10 +389,17 @@ namespace VeraCrypt
 		shared_ptr <EncryptionMode> mode = EA->GetMode()->GetNew();
 		shared_ptr <EncryptionAlgorithm> ea = EA->GetNew();
 
+            #ifndef WOLFCRYPT_BACKEND
 		if (typeid (*mode) == typeid (EncryptionModeXTS))
 		{
-			mode->SetKey (newHeaderKey.GetRange (EA->GetKeySize(), EA->GetKeySize()));
-			ea->SetKey (newHeaderKey.GetRange (0, ea->GetKeySize()));
+                        ea->SetKey (newHeaderKey.GetRange (0, ea->GetKeySize()));
+            #else
+		if (typeid (*mode) == typeid (EncryptionModeWolfCryptXTS))
+		{
+                        ea->SetKey (newHeaderKey.GetRange (0, ea->GetKeySize()));
+                        ea->SetKeyXTS (newHeaderKey.GetRange (EA->GetKeySize(), EA->GetKeySize()));
+            #endif
+                        mode->SetKey (newHeaderKey.GetRange (EA->GetKeySize(), EA->GetKeySize()));
 		}
 		else
 		{
@@ -284,6 +417,16 @@ namespace VeraCrypt
 
 		if (newPkcs5Kdf)
 			Pkcs5 = newPkcs5Kdf;
+	}
+
+	size_t VolumeHeader::GetHeaderKeyDerivationSize (shared_ptr <Pkcs5Kdf> kdf)
+	{
+	#ifndef VC_DCS_DISABLE_ARGON2
+		if (kdf && kdf->IsArgon2())
+			return ARGON2_HEADER_KEYDATA_SIZE;
+	#endif
+
+		return GetLargestSerializedKeySize();
 	}
 
 	size_t VolumeHeader::GetLargestSerializedKeySize ()
@@ -349,7 +492,8 @@ namespace VeraCrypt
 		if (offset > header.Size())
 			throw ParameterIncorrect (SRC_POS);
 
-		*reinterpret_cast<T *> (header.Get() + offset - sizeof (T)) = Endian::Big (entry);
+		T value = Endian::Big (entry);
+		memcpy (header.Get() + offset - sizeof (T), &value, sizeof (T));
 	}
 
 	void VolumeHeader::SetSize (uint32 headerSize)

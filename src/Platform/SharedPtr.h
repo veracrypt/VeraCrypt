@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -14,12 +14,25 @@
 #define TC_HEADER_Platform_SharedPtr
 
 #include <stdexcept>
+#include <memory>
 #include "SharedVal.h"
 
 #ifdef nullptr
 
 namespace VeraCrypt
 {
+#if (__cplusplus >= 201103L) || defined(__GXX_EXPERIMENTAL_CXX0X__)
+	#define VC_USE_NATIVE_PTR	1
+#endif
+
+#ifdef VC_USE_NATIVE_PTR
+
+#define shared_ptr std::shared_ptr
+#define make_shared std::make_shared
+#define move_ptr	std::move
+
+#else
+
 	template <class T>
 	class SharedPtr
 	{
@@ -28,7 +41,18 @@ namespace VeraCrypt
 			: Pointer (nullptr), UseCount (nullptr) { }
 
 		explicit SharedPtr (T *pointer)
-			: Pointer (pointer), UseCount (new SharedVal <uint64> (1)) { }
+			: Pointer (pointer), UseCount (nullptr)
+		{
+			try
+			{
+				UseCount = new SharedVal <uint64> (1);
+			}
+			catch (...)
+			{
+				delete Pointer;
+				throw;
+			}
+		}
 
 		SharedPtr (const SharedPtr &source)
 		{
@@ -157,6 +181,10 @@ namespace VeraCrypt
 
 #define make_shared VeraCrypt::make_shared
 
+#define unique_ptr auto_ptr
+#define move_ptr(p)	p
+
+#endif
 }
 
 #endif // nullptr

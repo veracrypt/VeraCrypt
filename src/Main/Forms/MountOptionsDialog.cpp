@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -14,27 +14,105 @@
 #include "Main/Main.h"
 #include "Main/GraphicUserInterface.h"
 #include "MountOptionsDialog.h"
+#ifdef TC_MACOSX
+#include "Main/MacOSXWindowTitle.h"
+#else
+#include <wx/settings.h>
+#endif
 
 namespace VeraCrypt
 {
+	namespace
+	{
+		// Formats password dialog titles and checks whether they fit the title bar.
+		class MountOptionsTitleFormatter
+		{
+		public:
+			MountOptionsTitleFormatter (wxTopLevelWindow *window, const wxString &prefix)
+				: Window (window), Prefix (prefix)
+#ifndef TC_MACOSX
+				, TitleFont (wxSystemSettings::GetFont (wxSYS_DEFAULT_GUI_FONT).Bold())
+				// Window-manager decorations and fonts are not exposed by wxGTK. Reserve
+				// space for the caption buttons and margins on both sides of the title.
+				, TitleWidth (max (1, window->GetClientSize().GetWidth() - 6 * window->GetCharHeight()))
+#endif
+			{
+			}
+
+			wxString Format (const wxString &path) const
+			{
+				return Prefix + StringFormatter (LangString["ENTER_PASSWORD_FOR"], path);
+			}
+
+			bool Fits (const wxString &path) const
+			{
+				const wxString title = Format (path);
+#ifdef TC_MACOSX
+				return MacOSXWindowTitleFits (Window, title);
+#else
+				int width;
+				Window->GetTextExtent (title, &width, NULL, NULL, NULL, &TitleFont);
+				return width <= TitleWidth;
+#endif
+			}
+
+		private:
+			wxTopLevelWindow *Window;
+			wxString Prefix;
+#ifndef TC_MACOSX
+			wxFont TitleFont;
+			int TitleWidth;
+#endif
+		};
+	}
+
+#ifdef TC_MACOSX
+
+	bool MountOptionsDialog::ProcessEvent(wxEvent& event)
+	{
+		if(GraphicUserInterface::HandlePasswordEntryCustomEvent (event))
+			return true;
+		else
+			return MountOptionsDialogBase::ProcessEvent(event);
+	}
+#endif
+
 	MountOptionsDialog::MountOptionsDialog (wxWindow *parent, MountOptions &options, const wxString &title, bool disableMountOptions)
 		: MountOptionsDialogBase (parent, wxID_ANY, wxString()
 #ifdef __WXGTK__ // GTK apparently needs wxRESIZE_BORDER to support dynamic resizing
 		, wxDefaultPosition, wxSize (-1,-1), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER
 #endif
-		), Options (options)
+		), Options (options), ProtectionRecovery (false),
+		TitlePath (title.empty() && options.Path ? wstring (*options.Path) : wstring())
+#ifdef TC_UNIX
+		, m_showRedBorder(false)
+#endif
 	{
 		if (!title.empty())
 			this->SetTitle (title);
-		else if (options.Path && !options.Path->IsEmpty())
-			this->SetTitle (StringFormatter (LangString["ENTER_PASSWORD_FOR"], wstring (*options.Path)));
+		else if (!TitlePath.empty())
+			this->SetTitle (StringFormatter (LangString["ENTER_PASSWORD_FOR"], TitlePath));
 		else
 			this->SetTitle (LangString["ENTER_TC_VOL_PASSWORD"]);
 
+#ifdef TC_UNIX
+		if (Gui->InsecureMountAllowed())
+		{
+			this->SetTitle (LangString["INSECURE_MODE"] + L" - " + this->GetTitle());
+			m_showRedBorder = true;
+			Bind(wxEVT_PAINT, &MountOptionsDialog::OnPaint, this);  
+		}
+#endif
+
 		if (disableMountOptions)
 			OptionsButton->Show (false);
+			
 
-		PasswordPanel = new VolumePasswordPanel (this, &options, options.Password, disableMountOptions, options.Keyfiles, !disableMountOptions, true, true, false, true, true);
+#ifdef TC_MACOSX
+		GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (this);
+#endif
+
+		PasswordPanel = new VolumePasswordPanel (this, &options, options.Password, options.Keyfiles, !disableMountOptions, true, true, false, true, true);
 		PasswordPanel->SetCacheCheckBoxValidator (wxGenericValidator (&Options.CachePassword));
 
 		PasswordSizer->Add (PasswordPanel, 1, wxALL | wxEXPAND);
@@ -50,6 +128,7 @@ namespace VeraCrypt
 		NoFilesystemCheckBox->SetValidator (wxGenericValidator (&Options.NoFilesystem));
 		RemovableCheckBox->SetValidator (wxGenericValidator (&Options.Removable));
 		PartitionInSystemEncryptionScopeCheckBox->SetValidator (wxGenericValidator (&Options.PartitionInSystemEncryptionScope));
+		BackupHeaderCheckBox->SetValidator (wxGenericValidator (&Options.UseBackupHeaders));
 
 		TransferDataToWindow();
 
@@ -65,16 +144,40 @@ namespace VeraCrypt
 		OptionsButton->SetLabel (OptionsButtonLabel + L" >");
 		OptionsPanel->Show (false);
 
-		ProtectionPasswordPanel = new VolumePasswordPanel (OptionsPanel, &options, options.ProtectionPassword, true, options.ProtectionKeyfiles, false, true, true, false, true, true, _("P&assword to hidden volume:"));
+		MountOptions protectionOptions;
+		protectionOptions.Pim = options.ProtectionPim;
+		protectionOptions.Kdf = options.ProtectionKdf;
+		ProtectionPasswordPanel = new VolumePasswordPanel (ProtectionSizer->GetStaticBox(), &protectionOptions, options.ProtectionPassword, options.ProtectionKeyfiles, false, true, true, false, true, true, LangString["IDT_HIDDEN_PROT_PASSWD"]);
+		ProtectionPasswordPanel->TopOwnerParent = this;
 		ProtectionPasswordSizer->Add (ProtectionPasswordPanel, 1, wxALL | wxEXPAND);
 
+		Bind (wxEVT_SIZE, &MountOptionsDialog::OnSize, this);
 		UpdateDialog();
 		Center();
 	}
 
 	void MountOptionsDialog::OnInitDialog (wxInitDialogEvent& event)
 	{
-		PasswordPanel->SetFocusToPasswordTextCtrl();
+		UpdateTitle();
+		if (ProtectionRecovery)
+			ProtectionPasswordPanel->SetFocusToPasswordTextCtrl();
+		else
+			PasswordPanel->SetFocusToPasswordTextCtrl();
+	}
+
+	void MountOptionsDialog::SetProtectionRecovery (bool recovery)
+	{
+		if (recovery && !ProtectionRecovery)
+			PasswordPanel->SetPasswordVisible (false);
+		ProtectionRecovery = recovery;
+		PasswordPanel->Enable (!recovery);
+		if (recovery)
+		{
+			BackupHeaderCheckBox->SetValue (Options.UseBackupHeaders);
+			OptionsPanel->Show (true);
+			OptionsButton->SetLabel (OptionsButtonLabel + L" <");
+			UpdateDialog();
+		}
 	}
 
 	void MountOptionsDialog::OnMountPointButtonClick (wxCommandEvent& event)
@@ -86,15 +189,13 @@ namespace VeraCrypt
 
 	void MountOptionsDialog::OnOKButtonClick (wxCommandEvent& event)
 	{
-		bool bUnsupportedKdf = false;
-
 		/* verify that PIM values are valid before continuing*/
-		int Pim = PasswordPanel->GetVolumePim();
+		int Pim = ProtectionRecovery ? Options.Pim : PasswordPanel->GetVolumePim();
 		int ProtectionPim = (!ReadOnlyCheckBox->IsChecked() && ProtectionCheckBox->IsChecked())?
 			ProtectionPasswordPanel->GetVolumePim() : 0;
 
 		/* invalid PIM: set focus to PIM field and stop processing */
-		if (-1 == Pim || (PartitionInSystemEncryptionScopeCheckBox->IsChecked() && Pim > MAX_BOOT_PIM_VALUE))
+		if (!ProtectionRecovery && (-1 == Pim || (PartitionInSystemEncryptionScopeCheckBox->IsChecked() && Pim > MAX_BOOT_PIM_VALUE)))
 		{
 			PasswordPanel->SetFocusToPimTextCtrl();
 			return;
@@ -108,24 +209,28 @@ namespace VeraCrypt
 
 		TransferDataFromWindow();
 
-		try
+		if (!ProtectionRecovery)
 		{
-			Options.Password = PasswordPanel->GetPassword();
+			try
+			{
+				Options.Password = PasswordPanel->GetPassword(Options.PartitionInSystemEncryptionScope);
+			}
+			catch (PasswordException& e)
+			{
+				Gui->ShowWarning (e);
+				return;
+			}
+
+			if (Options.PartitionInSystemEncryptionScope && Options.Password->Size() > VolumePassword::MaxLegacySize)
+			{
+				Gui->ShowWarning (StringFormatter (LangString["LINUX_SYSTEM_ENC_PW_LENGTH_NOTE"], (int) VolumePassword::MaxLegacySize));
+				return;
+			}
+
+			Options.Pim = Pim;
+			Options.Kdf = PasswordPanel->GetPkcs5Kdf();
+			Options.Keyfiles = PasswordPanel->GetKeyfiles();
 		}
-		catch (PasswordException& e)
-		{
-			Gui->ShowWarning (e);
-			return;
-		}
-		Options.Pim = Pim;
-		Options.Kdf = PasswordPanel->GetPkcs5Kdf(bUnsupportedKdf);
-		if (bUnsupportedKdf)
-		{
-			Gui->ShowWarning (LangString ["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
-			return;
-		}
-		Options.TrueCryptMode = PasswordPanel->GetTrueCryptMode();
-		Options.Keyfiles = PasswordPanel->GetKeyfiles();
 
 		if (ReadOnlyCheckBox->IsChecked())
 		{
@@ -135,7 +240,7 @@ namespace VeraCrypt
 		{
 			try
 			{
-				Options.ProtectionPassword = ProtectionPasswordPanel->GetPassword();
+				Options.ProtectionPassword = ProtectionPasswordPanel->GetPassword(false);
 			}
 			catch (PasswordException& e)
 			{
@@ -144,12 +249,7 @@ namespace VeraCrypt
 			}
 			Options.Protection = VolumeProtection::HiddenVolumeReadOnly;
 			Options.ProtectionPim = ProtectionPim;
-			Options.ProtectionKdf = ProtectionPasswordPanel->GetPkcs5Kdf(Options.TrueCryptMode, bUnsupportedKdf);
-			if (bUnsupportedKdf)
-			{
-				Gui->ShowWarning (LangString ["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
-				return;
-			}
+			Options.ProtectionKdf = ProtectionPasswordPanel->GetPkcs5Kdf();
 			Options.ProtectionKeyfiles = ProtectionPasswordPanel->GetKeyfiles();
 		}
 		else
@@ -162,6 +262,7 @@ namespace VeraCrypt
 			Options.MountPoint = make_shared <DirectoryPath> (mountPoint);
 
 		Options.FilesystemOptions = FilesystemOptionsTextCtrl->GetValue();
+		Options.EMVSupportEnabled = Gui->GetPreferences().EMVSupportEnabled;
 
 		EndModal (wxID_OK);
 	}
@@ -216,5 +317,95 @@ namespace VeraCrypt
 		Fit();
 		Layout();
 		MainSizer->Fit( this );
+		UpdateTitle();
+	}
+
+	void MountOptionsDialog::UpdateTitle ()
+	{
+		if (TitlePath.empty())
+			return;
+
+		wxString titlePrefix;
+#ifdef TC_UNIX
+		if (m_showRedBorder)
+			titlePrefix = LangString["INSECURE_MODE"] + L" - ";
+#endif
+		const MountOptionsTitleFormatter titleFormatter (this, titlePrefix);
+
+#ifdef TC_MACOSX
+		// AppKit needs the full title to lay out the available caption width.
+		const wxString fullTitle = titleFormatter.Format (TitlePath);
+		if (GetTitle() != fullTitle)
+			SetTitle (fullTitle);
+#endif
+
+		wxString displayPath = TitlePath;
+		if (!titleFormatter.Fits (TitlePath))
+		{
+			const wxString baseName = wstring (FilesystemPath (wstring (TitlePath)).ToBaseName());
+			displayPath = baseName;
+			const wxString suffix = L"\u2026/" + baseName;
+			if (TitlePath != baseName && titleFormatter.Fits (suffix))
+			{
+				// Preserve the complete basename, then spend the remaining width on
+				// the beginning of the path. Measure the whole localized title.
+				size_t low = 0, high = TitlePath.length() - baseName.length();
+				while (low < high)
+				{
+					size_t middle = low + (high - low + 1) / 2;
+					if (titleFormatter.Fits (TitlePath.Left (middle) + suffix))
+						low = middle;
+					else
+						high = middle - 1;
+				}
+				displayPath = TitlePath.Left (low) + suffix;
+			}
+			else if (!titleFormatter.Fits (baseName))
+			{
+				// If even the basename is too wide, retain its beginning and end
+				// rather than letting the window manager truncate the extension.
+				size_t low = 0, high = baseName.length();
+				while (low < high)
+				{
+					size_t middle = low + (high - low + 1) / 2;
+					if (titleFormatter.Fits (baseName.Left ((middle + 1) / 2) + L"\u2026" + baseName.Right (middle / 2)))
+						low = middle;
+					else
+						high = middle - 1;
+				}
+				displayPath = baseName.Left ((low + 1) / 2) + L"\u2026" + baseName.Right (low / 2);
+			}
+		}
+
+		const wxString title = titleFormatter.Format (displayPath);
+		if (GetTitle() != title)
+			SetTitle (title);
+	}
+
+#ifdef TC_UNIX
+	void MountOptionsDialog::OnPaint(wxPaintEvent& event)  
+	{  
+		wxPaintDC dc(this);  
+		if (m_showRedBorder)  
+		{  
+			wxSize size = GetClientSize();  
+			wxPen pen(*wxRED, 3); // 3 pixels width  
+			dc.SetPen(pen);  
+			dc.SetBrush(*wxTRANSPARENT_BRUSH);  
+			dc.DrawRectangle(0, 0, size.GetWidth(), size.GetHeight());  
+		}  
+		event.Skip();  
+	}  
+	
+#endif
+
+	void MountOptionsDialog::OnSize(wxSizeEvent& event)
+	{  
+		UpdateTitle();
+		event.Skip();  
+#ifdef TC_UNIX
+		if (m_showRedBorder)  
+			Refresh();  
+#endif
 	}
 }

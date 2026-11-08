@@ -1,27 +1,83 @@
-PATH=%PATH%;%WSDK81%\bin\x86
+PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x86
 
-rem sign using SHA-1
-signtool sign /v /a /n IDRIX /i Thawte /ac thawte_Primary_MS_Cross_Cert.cer /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\veracrypt.sys" "..\Release\Setup Files\veracrypt-x64.sys"
-signtool sign /v /a /n IDRIX /i Thawte /ac Thawt_CodeSigning_CA.crt /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt.exe" "..\Release\Setup Files\VeraCrypt Format.exe" "..\Release\Setup Files\VeraCryptExpander.exe" "..\Release\Setup Files\VeraCrypt-x64.exe" "..\Release\Setup Files\VeraCrypt Format-x64.exe" "..\Release\Setup Files\VeraCryptExpander-x64.exe"
+set VC_VERSION=1.26.31
+set VC_VERSION_NBRE=1.26.31
+set SIGNINGPATH=%~dp0
+cd %SIGNINGPATH%
+
+rem call "..\..\doc\chm\create_chm.bat"
+
+cd %SIGNINGPATH%
 
 rem sign using SHA-256
-signtool sign /v /a /n "IDRIX SARL" /i GlobalSign /ac GlobalSign_Root_CA_MS_Cross_Cert.crt /as /fd sha256 /tr http://timestamp.globalsign.com/?signature=sha2 /td SHA256 "..\Release\Setup Files\veracrypt.sys" "..\Release\Setup Files\veracrypt-x64.sys"
-signtool sign /v /a /n "IDRIX SARL" /i GlobalSign /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /as /fd sha256 /tr http://timestamp.globalsign.com/?signature=sha2 /td SHA256 "..\Release\Setup Files\VeraCrypt.exe" "..\Release\Setup Files\VeraCrypt Format.exe" "..\Release\Setup Files\VeraCryptExpander.exe" "..\Release\Setup Files\VeraCrypt-x64.exe" "..\Release\Setup Files\VeraCrypt Format-x64.exe" "..\Release\Setup Files\VeraCryptExpander-x64.exe"
+signtool sign /v /sha1 86E1D426731E79117452F090188A828426B29B5F /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\VeraCrypt-x64.exe" "..\Release\Setup Files\VeraCrypt Format-x64.exe" "..\Release\Setup Files\VeraCryptExpander-x64.exe" "..\Release\Setup Files\VeraCrypt-arm64.exe" "..\Release\Setup Files\VeraCrypt Format-arm64.exe" "..\Release\Setup Files\VeraCryptExpander-arm64.exe" "..\Release\Setup Files\VeraCryptSetup.dll" "..\Release\SDK Files\x64\VeraCryptFormat.dll" "..\Release\SDK Files\arm64\VeraCryptFormat.dll"
 
+rem create setup and MSI
+cd "..\Release\Setup Files\"
+copy ..\..\LICENSE .
+copy ..\..\License.txt .
+copy ..\..\NOTICE .
+copy ..\..\Resources\Texts\License.rtf .
+copy ..\..\Common\VeraCrypt.ico .
+copy ..\..\Setup\VeraCrypt_setup_background.bmp .
+copy ..\..\Setup\VeraCrypt_setup.bmp .
+copy ..\..\Setup\Setup.ico .
+del *.xml
+rmdir /S /Q Languages
+mkdir Languages
+
+@echo off
+setlocal
+
+rem Define the source and target directories
+set "SOURCE_DIR=..\..\..\Translations"
+set "TARGET_DIR=Languages"
+
+rem Copy files matching Language.xx.xml where xx is any two characters
+copy /V /Y "%SOURCE_DIR%\Language.??.xml" "%TARGET_DIR%\."
+
+rem Copy files matching Language.xx-yy.xml where xx and yy are any two characters
+copy /V /Y "%SOURCE_DIR%\Language.??-??.xml" "%TARGET_DIR%\."
+
+endlocal
+@echo on
+
+del Languages.zip
+tar -a -cf Languages.zip Languages
+rmdir /S /Q docs
+mkdir docs\html
+mkdir docs\EFI-DCS
+xcopy /E /V /Y ..\..\..\doc\html\* docs\html\.
+copy "..\..\..\doc\chm\VeraCrypt User Guide*.chm" docs\.
+copy "..\..\..\doc\EFI-DCS\*.pdf" docs\EFI-DCS\.
+del docs.zip
+tar -a -cf docs.zip docs
+"VeraCrypt Setup.exe" /p
+"VeraCrypt Portable.exe" /p
+VeraCryptCOMRegBase.exe /p
+
+cd %SIGNINGPATH%
+signtool sign /v /sha1 86E1D426731E79117452F090188A828426B29B5F /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\VeraCrypt COMReg.exe"
 
 cd "..\Release\Setup Files\"
+call build_msi_x64.bat %VC_VERSION_NBRE%
+del LICENSE
+del License.txt
+del NOTICE
+del License.rtf
+del VeraCrypt.ico
+del VeraCrypt_setup_background.bmp
+del VeraCrypt_setup.bmp
+del Setup.ico
+del "VeraCrypt User Guide*.chm"
+del Languages.zip
+del docs.zip
+rmdir /S /Q Languages
+rmdir /S /Q docs
 
-copy /V /Y ..\..\..\Translations\*.xml .
+cd %SIGNINGPATH%
 
-"VeraCrypt Setup.exe" /p
-
-del *.xml
-
-cd "..\..\Signing"
-
-rem sign using SHA-1
-signtool sign /v /a /n IDRIX /i Thawte /ac Thawt_CodeSigning_CA.crt /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup 1.19-BETA2.exe"
-rem sign using SHA-256
-signtool sign /v /a /n "IDRIX SARL" /i GlobalSign /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /as /fd sha256 /tr http://timestamp.globalsign.com/?signature=sha2 /td SHA256 "..\Release\Setup Files\VeraCrypt Setup 1.19-BETA2.exe"
+rem sign Setup using SHA-256
+signtool sign /v /sha1 86E1D426731E79117452F090188A828426B29B5F /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /fd sha256 /tr http://timestamp.digicert.com /td SHA256 "..\Release\Setup Files\VeraCrypt Setup %VC_VERSION%.exe" "..\Release\Setup Files\VeraCrypt Portable %VC_VERSION%.exe" "..\Release\Setup Files\bin\VeraCrypt_Setup_x64_%VC_VERSION_NBRE%.msi" "..\Release\Setup Files\bin\VeraCrypt_Setup_x64_%VC_VERSION_NBRE%_en-us.msi"
 
 pause

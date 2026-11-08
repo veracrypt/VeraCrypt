@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -12,10 +12,10 @@
 
 #include "BootConfig.h"
 
-byte BootSectorFlags;
+uint8 BootSectorFlags;
 
-byte BootLoaderDrive;
-byte BootDrive;
+uint8 BootLoaderDrive;
+uint8 BootDrive;
 bool BootDriveGeometryValid = false;
 bool PreventNormalSystemBoot = false;
 bool PreventBootMenu = false;
@@ -39,7 +39,7 @@ uint64 HiddenVolumeStartSector;
 
 void ReadBootSectorUserConfiguration ()
 {
-	byte userConfig;
+	uint8 userConfig;
 
 	AcquireSectorBuffer();
 
@@ -83,16 +83,31 @@ ret:
 }
 
 
-BiosResult UpdateBootSectorConfiguration (byte drive)
+BiosResult UpdateBootSectorConfiguration (uint8 drive)
 {
-	AcquireSectorBuffer();
+	uint64 mbrSector;
+	mbrSector.HighPart = 0;
+	mbrSector.LowPart = 0;
 
+	AcquireSectorBuffer();
+/*
 	BiosResult result = ReadWriteMBR (false, drive);
 	if (result != BiosResultSuccess)
 		goto ret;
 
 	SectorBuffer[TC_BOOT_SECTOR_CONFIG_OFFSET] = BootSectorFlags;
 	result = ReadWriteMBR (true, drive);
+*/
+
+	BiosResult result = ReadWriteSectors (false, TC_BOOT_LOADER_BUFFER_SEGMENT, 0, drive, mbrSector, 8, false);
+	if (result != BiosResultSuccess)
+		goto ret;
+
+	CopyMemory (TC_BOOT_LOADER_BUFFER_SEGMENT, 0, SectorBuffer, TC_LB_SIZE);
+	SectorBuffer[TC_BOOT_SECTOR_CONFIG_OFFSET] = BootSectorFlags;
+	CopyMemory (SectorBuffer, TC_BOOT_LOADER_BUFFER_SEGMENT,0, TC_LB_SIZE);
+
+	result = ReadWriteSectors (true, TC_BOOT_LOADER_BUFFER_SEGMENT, 0, drive, mbrSector, 8, false);
 
 ret:
 	ReleaseSectorBuffer();

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2026 AM Crypto
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -17,6 +17,8 @@
 #include "Platform/SystemLog.h"
 #include "Volume/EncryptionThreadPool.h"
 #include "Core/Unix/CoreService.h"
+#include "Core/Unix/UnixUser.h"
+#include "Crypto/cpu.h"
 #include "Main/Application.h"
 #include "Main/Main.h"
 #include "Main/UserInterface.h"
@@ -29,8 +31,23 @@ using namespace VeraCrypt;
 
 int main (int argc, char **argv)
 {
+#ifdef TC_LINUX
+	// The requester helper must never initialize a core service or handle secrets.
+	if (argc > 1 && strcmp (argv[1], TC_REQUESTER_HELPER_CMDLINE_OPTION) == 0)
+		return argc == 3 ? File::RunRequesterHelperService (argv[2]) : 1;
+#endif
+
 	try
 	{
+		// Detect CPU features before starting services or encryption threads.
+		// Forked services inherit the flags, and elevated services skip UI initialization.
+#ifdef CRYPTOPP_CPUID_AVAILABLE
+		DetectX86Features ();
+#endif
+#if CRYPTOPP_BOOL_ARMV8
+		DetectArmFeatures();
+#endif
+
 		// Make sure all required commands can be executed via default search path
 		string sysPathStr = "/usr/sbin:/sbin:/usr/bin:/bin";
 
@@ -43,12 +60,16 @@ int main (int argc, char **argv)
 
 		setenv ("PATH", sysPathStr.c_str(), 1);
 
-		if (argc > 1 && strcmp (argv[1], TC_CORE_SERVICE_CMDLINE_OPTION) == 0)
+		if (argc > 1 && (strcmp (argv[1], TC_CORE_SERVICE_CMDLINE_OPTION) == 0 || strcmp (argv[1], TC_CORE_SERVICE_NO_FORK_CMDLINE_OPTION) == 0))
 		{
 			// Process elevated requests
 			try
 			{
-				CoreService::ProcessElevatedRequests();
+				bool forkProcess = strcmp (argv[1], TC_CORE_SERVICE_CMDLINE_OPTION) == 0;
+				if (!forkProcess)
+					setenv (TC_DOAS_CORE_SERVICE_ENV, "1", 1);
+
+				CoreService::ProcessElevatedRequests (forkProcess);
 				return 0;
 			}
 			catch (exception &e)
@@ -76,7 +97,7 @@ int main (int argc, char **argv)
 #endif
 
 #ifdef __WXGTK__
-		if (!getenv ("DISPLAY"))
+		if (!getenv ("DISPLAY") && !getenv ("WAYLAND_DISPLAY"))
 			forceTextUI = true;
 #endif
 
