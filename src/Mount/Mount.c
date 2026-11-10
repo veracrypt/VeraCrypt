@@ -3637,6 +3637,68 @@ static wchar_t PasswordDlgVolume[MAX_PATH + 1];
 static BOOL PasswordDialogDisableMountOptions;
 static char *PasswordDialogTitleStringId;
 
+// Sets the height of the hidden volume protection note to the height its text needs when wrapped
+// to the control's width with the control's active font. Must be called after LocalizeDialog.
+static void FitPasswordDlgCredentialsNote (HWND hwndDlg)
+{
+	HWND credentialsNote = GetDlgItem (hwndDlg, HIDVOL_PROT_OUTER_CREDENTIALS_NOTE);
+	HFONT hFont = (HFONT) SendMessage (credentialsNote, WM_GETFONT, 0, 0);
+	wchar_t text[1024];
+	RECT noteRect, textRect;
+	HGDIOBJ oldFont = NULL;
+	HDC hdc;
+
+	GetWindowTextW (credentialsNote, text, ARRAYSIZE (text));
+	GetClientRect (credentialsNote, &noteRect);
+	textRect = noteRect;
+
+	hdc = GetDC (credentialsNote);
+	if (hFont)
+		oldFont = SelectObject (hdc, (HGDIOBJ) hFont);
+
+	if (DrawTextW (hdc, text, -1, &textRect, DT_CALCRECT | DT_WORDBREAK | DT_EXPANDTABS) != 0 && textRect.bottom > 0)
+	{
+		SetWindowPos (credentialsNote, NULL, 0, 0, noteRect.right, textRect.bottom,
+			SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+	}
+
+	if (oldFont)
+		SelectObject (hdc, oldFont);
+	ReleaseDC (credentialsNote, hdc);
+}
+
+static void UpdatePasswordDlgPasswordLabel (HWND hwndDlg)
+{
+	BOOL hiddenVolumeProtection = !PasswordDialogDisableMountOptions && !mountOptions.ReadOnly && mountOptions.ProtectHiddenVolume;
+	HWND credentialsNote = GetDlgItem (hwndDlg, HIDVOL_PROT_OUTER_CREDENTIALS_NOTE);
+	BOOL credentialsNoteVisible = (GetWindowLongPtr (credentialsNote, GWL_STYLE) & WS_VISIBLE) != 0;
+
+	SetDlgItemTextW (hwndDlg, IDT_PASSWORD, GetString (hiddenVolumeProtection ? "IDT_OUTER_VOL_PASSWORD" : "IDT_PASSWORD"));
+
+	if (hiddenVolumeProtection != credentialsNoteVisible)
+	{
+		// The note sits right below the dialog's original client area. When shown, the client area
+		// grows to the note's bottom plus the standard dialog margin; when hidden, it ends at the note's top.
+		RECT dialogRect, clientRect, noteRect;
+		RECT margin = { 0, 0, 0, 5 };
+		int heightChange;
+
+		MapDialogRect (hwndDlg, &margin);
+		GetWindowRect (hwndDlg, &dialogRect);
+		GetClientRect (hwndDlg, &clientRect);
+		GetWindowRect (credentialsNote, &noteRect);
+		MapWindowPoints (NULL, hwndDlg, (LPPOINT) &noteRect, 2);
+
+		heightChange = (hiddenVolumeProtection ? noteRect.bottom + margin.bottom : noteRect.top) - clientRect.bottom;
+
+		ShowWindow (credentialsNote, hiddenVolumeProtection ? SW_SHOW : SW_HIDE);
+		SetWindowPos (hwndDlg, NULL,
+			dialogRect.left, dialogRect.top - heightChange / 2,
+			dialogRect.right - dialogRect.left, dialogRect.bottom - dialogRect.top + heightChange,
+			SWP_NOACTIVATE | SWP_NOZORDER);
+	}
+}
+
 /* Except in response to the WM_INITDIALOG message, the dialog box procedure
    should return nonzero if it processes the message, and zero if it does
    not. - see DialogProc */
@@ -3704,6 +3766,8 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			SendMessage (hComboBox, CB_SETCURSEL, defaultPrfIndex, 0);
 
 			ToNormalPwdField (hwndDlg, IDC_PASSWORD);
+			FitPasswordDlgCredentialsNote (hwndDlg);
+			UpdatePasswordDlgPasswordLabel (hwndDlg);
 			SendMessage (GetDlgItem (hwndDlg, IDC_CACHE), BM_SETCHECK, bCacheInDriver ? BST_CHECKED:BST_UNCHECKED, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_PIM), EM_LIMITTEXT, MAX_PIM, 0);
 
@@ -3907,6 +3971,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			DialogBoxParamW (hInst,
 				MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), hwndDlg,
 				(DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions);
+			UpdatePasswordDlgPasswordLabel (hwndDlg);
 
 			if (!bPrebootPasswordDlgMode && mountOptions.PartitionInInactiveSysEncScope)
 				SendMessage (hwndDlg, TC_APPMSG_PREBOOT_PASSWORD_MODE, 0, 0);
@@ -6686,7 +6751,8 @@ static BOOL MountAllDevicesThreadCode (HWND hwndDlg, MountAllDevicesThreadParam*
 			{
 				WCHAR szTmp[4096];
 
-				StringCbPrintfW (szTmp, sizeof(szTmp), GetString (KeyFilesEnable || FirstCmdKeyFile ? "PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT" : "PASSWORD_WRONG_AUTOMOUNT"));
+				StringCbCopyW (szTmp, sizeof(szTmp),
+					GetString (mountOptions.ProtectHiddenVolume ? "HIDVOL_PROT_PASSWORD_OR_KEYFILE_WRONG" : (KeyFilesEnable || FirstCmdKeyFile ? "PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT" : "PASSWORD_WRONG_AUTOMOUNT")));
 				if (CheckCapsLock (hwndDlg, TRUE))
 					StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
 
