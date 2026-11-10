@@ -77,6 +77,8 @@ struct TestCore : CoreLinux
     MountedFilesystemList GetMountedFilesystems (const DevicePath & = DevicePath(),
         const DirectoryPath & = DirectoryPath()) const override { return MountedFilesystemList(); }
     string GetTempDirectory () const override { return Root; }
+    // The production locks, in a directory that the unprivileged test can create
+    string GetMountLockDirectory () const override { return Root + "/locks"; }
     shared_ptr<VolumeInfo> GetMountedVolume (const VolumePath &) const override
     {
         shared_ptr<VolumeInfo> info (new VolumeInfo);
