@@ -36,6 +36,11 @@
 
 <p><strong style="text-align:left">Unreleased</strong>:</p>
 <ul>
+<li><strong>Windows:</strong>
+	<ul>
+	<li>Keep the current boot loader during an EXE upgrade if the previous system service cannot be stopped and replaced immediately. When replacement is pending a restart, restart Windows, run VeraCrypt Repair/Reinstall to complete the boot loader update, then restart Windows again. Deferred updates check the retained EFI boot chain and save recovery guidance for the next VeraCrypt launch.</li>
+	</ul>
+</li>
 <li><strong>Linux, macOS and BSD:</strong>
 	<ul>
 	<li>Security: Fix defects in the unsupported wolfCrypt backend (<code>WOLFCRYPT=1</code>), including volume headers encrypted with an all-zero key after a PBKDF2 failure (GH #1986). Official VeraCrypt binaries and standard builds aren't affected. Reported by <a href="https://github.com/curious-rabbit" target="_blank">curious-rabbit</a>.</li>
