@@ -397,6 +397,7 @@ namespace VeraCrypt
 		void ReadSystemLoaderBackupForRestore (std::vector<uint8> &data);
 		void RestoreSystemLoader (const std::vector<uint8> &validatedBiosBackup);
 		uint32 GetChecksum (uint8 *data, size_t size);
+		bool BootSectorMatchesLoader (const uint8 *bootSector, uint8 *loaderArea, size_t loaderAreaSize);
 		DISK_GEOMETRY_EX GetDriveGeometry (int driveNumber);
 		PartitionList GetDrivePartitions (int driveNumber);
 		wstring GetRemarksOnHiddenOS ();

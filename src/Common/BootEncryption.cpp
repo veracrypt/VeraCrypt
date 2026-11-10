@@ -1797,6 +1797,30 @@ namespace VeraCrypt
 	}
 
 
+	// Whether the code of a boot sector starts the loader in the sectors that follow it
+	// (loaderArea). BootSector.asm checks the decompressor and the compressed loader
+	// against the length and checksum of the boot sector, then their backup if the
+	// boot sector has one, and stops with "Loader damaged!" otherwise.
+	bool BootEncryption::BootSectorMatchesLoader (const uint8 *bootSector, uint8 *loaderArea, size_t loaderAreaSize)
+	{
+		const size_t decompressorSize = TC_BOOT_LOADER_DECOMPRESSOR_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS;
+		const size_t backupOffset = TC_BOOT_LOADER_BACKUP_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS;
+		const uint16 loaderSize = *(const uint16 *) (bootSector + TC_BOOT_SECTOR_LOADER_LENGTH_OFFSET);
+		const uint32 checksum = *(const uint32 *) (bootSector + TC_BOOT_SECTOR_LOADER_CHECKSUM_OFFSET);
+		const size_t size = decompressorSize + loaderSize;
+
+		if (loaderSize <= TC_GZIP_HEADER_SIZE || loaderSize > TC_MAX_BOOT_LOADER_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS || size > loaderAreaSize)
+			return false;
+
+		if (GetChecksum (loaderArea, size) == checksum)
+			return true;
+
+		return (bootSector[TC_BOOT_SECTOR_CONFIG_OFFSET] & TC_BOOT_CFG_FLAG_BACKUP_LOADER_AVAILABLE)
+			&& size <= backupOffset && backupOffset + size <= loaderAreaSize
+			&& GetChecksum (loaderArea + backupOffset, size) == checksum;
+	}
+
+
 	void BootEncryption::CreateBootLoaderInMemory (uint8 *buffer, size_t bufferSize, bool rescueDisk, bool hiddenOSCreation)
 	{
 		if (bufferSize < TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE)
@@ -5396,8 +5420,38 @@ namespace VeraCrypt
 
 				// perform actual write only if content is different and either we are not in PostOOBE mode or the MBR contains VeraCrypt/Windows signature.
 				// this last check is done to avoid interfering with multi-boot configuration where MBR belongs to a boot manager like Grub
-				if (memcmp (mbr, bootLoaderBuf, TC_MAX_MBR_BOOT_CODE_SIZE) 
-					&& (!PostOOBEMode || BufferContainsString (mbr, sizeof (mbr), TC_APP_NAME) || IsWindowsMBR (mbr, sizeof (mbr))))
+				bool writeMbr = memcmp (mbr, bootLoaderBuf, TC_MAX_MBR_BOOT_CODE_SIZE)
+					&& (!PostOOBEMode || BufferContainsString (mbr, sizeof (mbr), TC_APP_NAME) || IsWindowsMBR (mbr, sizeof (mbr)));
+				bool writeLoader = !PostOOBEMode;
+
+				if (writeMbr && PostOOBEMode)
+				{
+					// The boot sector code checks the loader that follows it on the disk. Never
+					// write the code for another loader, e.g. that of a service executable that
+					// replaced the previous one at restart: the disk still has the previous loader.
+					std::vector<uint8> diskLoader (sizeof (bootLoaderBuf) - TC_SECTOR_SIZE_BIOS);
+					device.SeekAt (TC_SECTOR_SIZE_BIOS);
+					if (device.Read (diskLoader.data (), (DWORD) diskLoader.size ()) != diskLoader.size ())
+						throw ParameterIncorrect (SRC_POS);
+
+					if (!BootSectorMatchesLoader (bootLoaderBuf, diskLoader.data (), diskLoader.size ()))
+					{
+						if (BufferContainsString (mbr, sizeof (mbr), TC_APP_NAME)
+							&& BootSectorMatchesLoader (mbr, diskLoader.data (), diskLoader.size ()))
+						{
+							// Keep the complete loader on the disk until the installer, Repair or a
+							// password change updates it.
+							writeMbr = false;
+						}
+						else
+						{
+							// The disk does not start a VeraCrypt loader as it is: write ours completely.
+							writeLoader = true;
+						}
+					}
+				}
+
+				if (writeMbr)
 				{
 					memcpy (mbr, bootLoaderBuf, TC_MAX_MBR_BOOT_CODE_SIZE);
 
@@ -5412,7 +5466,7 @@ namespace VeraCrypt
 						throw ErrorException ("ERROR_MBR_PROTECTED", SRC_POS);
 				}
 
-				if (!PostOOBEMode)
+				if (writeLoader)
 				{
 					// Write boot loader
 					device.SeekAt (TC_SECTOR_SIZE_BIOS);
