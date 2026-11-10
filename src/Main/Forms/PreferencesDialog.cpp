@@ -75,6 +75,7 @@ namespace VeraCrypt
 	PreferencesDialog::PreferencesDialog (wxWindow* parent)
 		: PreferencesDialogBase (parent),
 		LastVirtualKeyPressed (0),
+		LockDismountOnNewDevice (false),
 		Preferences (Gui->GetPreferences()),
 		RestoreValidatorBell (false)
 	{
@@ -85,6 +86,7 @@ namespace VeraCrypt
 #endif
 		// Security
 		TC_CHECK_BOX_VALIDATOR (DismountOnLogOff);
+		TC_CHECK_BOX_VALIDATOR (DismountOnNewDevice);
 		TC_CHECK_BOX_VALIDATOR (DismountOnPowerSaving);
 		TC_CHECK_BOX_VALIDATOR (DismountOnScreenSaver);
 		TC_CHECK_BOX_VALIDATOR (DismountOnInactivity);
@@ -284,10 +286,29 @@ namespace VeraCrypt
 #if defined (TC_WINDOWS) || defined (TC_MACOSX)
 		FilesystemSizer->Show (false);
 #else
-		// Auto-dismount is not supported on Linux as dismount may require the user to enter admin password
-		AutoDismountSizer->Show (false);
+		// Auto-dismount is not supported on Linux as dismount may require the user to enter admin password,
+		// except when a new device is connected: a volume is then unmounted at the latest once the password is entered
+		DismountOnLogOffCheckBox->Show (false);
+		DismountOnScreenSaverCheckBox->Show (false);
+		DismountOnPowerSavingCheckBox->Show (false);
+		AutoDismountSizer->Show (DismountOnInactivityCheckBox->GetContainingSizer(), false);
+		ForceAutoDismountCheckBox->Show (false);
 		WipeCacheOnAutoDismountCheckBox->Show (false);
+		if (!NewDeviceMonitor::IsSupported())
+			AutoDismountSizer->Show (false);
 #endif
+
+		if (!NewDeviceMonitor::IsSupported())
+		{
+			DismountOnNewDeviceCheckBox->Show (false);
+		}
+		else if (Gui->IsDismountOnNewDeviceLocked())
+		{
+			// Locked until VeraCrypt is terminated. Disabling the background task would close VeraCrypt.
+			DismountOnNewDeviceCheckBox->SetValue (true);
+			DismountOnNewDeviceCheckBox->Enable (false);
+			BackgroundTaskEnabledCheckBox->Enable (false);
+		}
 
 #ifndef TC_WINDOWS
 		LogOnSizer->Show (false);
@@ -501,6 +522,16 @@ namespace VeraCrypt
 		event.Skip();
 	}
 
+	void PreferencesDialog::OnDismountOnNewDeviceCheckBoxClick (wxCommandEvent& event)
+	{
+		LockDismountOnNewDevice = false;
+		if (event.IsChecked())
+		{
+			Gui->ShowWarning (LangString["LINUX_UNMOUNT_NEW_DEVICE_WARNING"]);
+			LockDismountOnNewDevice = Gui->AskYesNo (LangString["LINUX_UNMOUNT_NEW_DEVICE_LOCK_PROMPT"], false, true);
+		}
+	}
+
 	void PreferencesDialog::OnDismountOnPowerSavingCheckBoxClick (wxCommandEvent& event)
 	{
 		if (event.IsChecked() && !ForceAutoDismountCheckBox->IsChecked())
@@ -584,7 +615,23 @@ namespace VeraCrypt
 			Gui->ShowInfo (LangString["LINUX_RESTART_FOR_LANGUAGE_CHANGE"]);
 		}
 
+		bool lockDismountOnNewDevice = LockDismountOnNewDevice && Preferences.DismountOnNewDevice;
+		if (Gui->IsDismountOnNewDeviceLocked())
+			Preferences.DismountOnNewDevice = true;
+
+		// Closing the main window of a locked VeraCrypt must keep it reachable
+		if (Gui->IsDismountOnNewDeviceLocked() || lockDismountOnNewDevice)
+			Preferences.BackgroundTaskEnabled = true;
+
 		Gui->SetPreferences (Preferences);
+
+		if (lockDismountOnNewDevice)
+		{
+			// Reports the error if it cannot be started: VeraCrypt then stays closable
+			Gui->UpdateNewDeviceMonitor();
+			if (Gui->IsNewDeviceMonitorRunning())
+				Gui->LockDismountOnNewDevice();
+		}
 
 		try
 		{

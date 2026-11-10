@@ -89,6 +89,7 @@ namespace VeraCrypt
 #endif
 			TC_CONFIG_SET (DismountOnInactivity);
 			TC_CONFIG_SET (DismountOnLogOff);
+			TC_CONFIG_SET (DismountOnNewDevice);
 			TC_CONFIG_SET (DismountOnPowerSaving);
 			TC_CONFIG_SET (DismountOnScreenSaver);
 			TC_CONFIG_SET (DisplayMessageAfterHotkeyDismount);
@@ -220,6 +221,7 @@ namespace VeraCrypt
 #endif
 		TC_CONFIG_ADD (DismountOnInactivity);
 		TC_CONFIG_ADD (DismountOnLogOff);
+		TC_CONFIG_ADD (DismountOnNewDevice);
 		TC_CONFIG_ADD (DismountOnPowerSaving);
 		TC_CONFIG_ADD (DismountOnScreenSaver);
 		TC_CONFIG_ADD (DisplayMessageAfterHotkeyDismount);

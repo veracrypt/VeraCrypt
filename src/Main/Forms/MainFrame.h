@@ -34,6 +34,7 @@ namespace VeraCrypt
 #endif
 
 	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_UPDATE_VOLUME_LIST, -1);
+	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_NEW_DEVICE, -1);
 	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_PREF_UPDATED, -1);
 	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_OPEN_VOLUME_REQUEST, -1);
 	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_VOLUME_DISCOVERY_COMPLETED, -1);
@@ -49,6 +50,9 @@ namespace VeraCrypt
 	public:
 		MainFrame (wxWindow* parent);
 		virtual ~MainFrame ();
+
+		// Shows why VeraCrypt cannot be closed while it is locked running
+		bool CanExitWhenLocked () const;
 
 		void OnDeviceChange (const DirectoryPath &mountPoint = DirectoryPath());
 #ifdef TC_UNIX
@@ -108,7 +112,7 @@ namespace VeraCrypt
 		void MountAllDevices ();
 		void MountVolume ();
 		void OnAboutMenuItemSelected (wxCommandEvent& event);
-		void OnQuit(wxCommandEvent& event) { Close(true); }
+		void OnQuit(wxCommandEvent& event) { if (CanExitWhenLocked()) Close(true); }
 		void OnActivate (wxActivateEvent& event);
 		void OnAddAllMountedToFavoritesMenuItemSelected (wxCommandEvent& event);
 		void OnAddToFavoritesMenuItemSelected (wxCommandEvent& event);
@@ -168,6 +172,7 @@ namespace VeraCrypt
 		void OnOpenVolumeSystemRequestEvent (EventArgs &args);
 		void OnOrganizeFavoritesMenuItemSelected (wxCommandEvent& event);
 		void OnPreferencesMenuItemSelected (wxCommandEvent& event);
+		void OnNewDevice (wxThreadEvent& event) { Gui->OnNewDeviceConnected (wstring (event.GetString())); }
 		void OnPreferencesUpdated (wxCommandEvent& event);
 		void OnPreferencesUpdatedEvent (EventArgs &args) { wxQueueEvent (this, new wxCommandEvent( wxEVT_COMMAND_PREF_UPDATED,0)); }
 		void OnRemoveKeyfilesMenuItemSelected (wxCommandEvent& event) { ChangePassword (ChangePasswordDialog::Mode::RemoveAllKeyfiles); }
