@@ -89,6 +89,10 @@ enum
 #define VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME	L"EfiBootLoaderRescueDiskPromptId"
 #define VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME	L"EfiBootLoaderRescueDiskPromptResourceSet"
 #define VC_EFI_BOOT_LOADER_RESCUE_DISK_RESOURCE_SET_VALUE_NAME	L"EfiBootLoaderRescueDiskResourceSet"
+// Set by an installer whose boot loader update waits for Windows to restart, to the
+// version that it installs. The EFI loader refresh of that version, or an installer
+// whose update completes, then asks for a new Rescue Disk and deletes the value.
+#define VC_RESCUE_DISK_NOTICE_PENDING_VALUE_NAME			L"RescueDiskNoticePending"
 #define VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN				0
 #define VC_EFI_WINDOWS_LOADER_SIGNER_PCA_2011			2011
 #define VC_EFI_WINDOWS_LOADER_SIGNER_CA_2023			2023

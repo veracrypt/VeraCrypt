@@ -2847,6 +2847,55 @@ namespace VeraCrypt
 		return promptId;
 	}
 
+	// An installer that keeps the Rescue Disk reminder for the restart records the version
+	// that it installs. Only the loader refresh of that version completes the update: the
+	// previous service, until the restart, refreshes the previous loader.
+	static const wchar_t RescueDiskNoticeVersion[] = _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX);
+
+	DWORD BootEncryption::SetRescueDiskNoticePending ()
+	{
+		HKEY key;
+		DWORD error = RegCreateKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey,
+			0, NULL, REG_OPTION_NON_VOLATILE, KEY_SET_VALUE | KEY_WOW64_64KEY, NULL, &key, NULL);
+		if (error != ERROR_SUCCESS)
+			return error;
+		error = RegSetValueExW (key, VC_RESCUE_DISK_NOTICE_PENDING_VALUE_NAME, 0, REG_SZ,
+			reinterpret_cast<const BYTE *> (RescueDiskNoticeVersion), sizeof (RescueDiskNoticeVersion));
+		RegCloseKey (key);
+		return error;
+	}
+
+	// thisVersion: only a reminder kept for the update to this version
+	bool BootEncryption::IsRescueDiskNoticePending (bool thisVersion)
+	{
+		wchar_t version[64] = {0};
+		DWORD size = sizeof (version);
+		HKEY key;
+		DWORD error = RegOpenKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey,
+			0, KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key);
+		if (error == ERROR_SUCCESS)
+		{
+			error = RegGetValueW (key, NULL, VC_RESCUE_DISK_NOTICE_PENDING_VALUE_NAME, RRF_RT_REG_SZ, NULL, version, &size);
+			RegCloseKey (key);
+		}
+		if (thisVersion)
+			return error == ERROR_SUCCESS && wcscmp (version, RescueDiskNoticeVersion) == 0;
+		return (error == ERROR_SUCCESS && version[0]) || error == ERROR_MORE_DATA;
+	}
+
+	DWORD BootEncryption::ClearRescueDiskNoticePending ()
+	{
+		HKEY key;
+		DWORD error = RegOpenKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey,
+			0, KEY_SET_VALUE | KEY_WOW64_64KEY, &key);
+		if (error == ERROR_SUCCESS)
+		{
+			error = RegDeleteValueW (key, VC_RESCUE_DISK_NOTICE_PENDING_VALUE_NAME);
+			RegCloseKey (key);
+		}
+		return error == ERROR_FILE_NOT_FOUND ? ERROR_SUCCESS : error;
+	}
+
 	static bool WriteEfiBootLoaderDiagnosticsRegistryDword (const wchar_t *valueName, DWORD value)
 	{
 #ifndef SETUP
@@ -2865,7 +2914,7 @@ namespace VeraCrypt
 		return WriteLocalMachineRegistryDwordEx (EfiBootLoaderDiagnosticsRegistryKey, valueName, value, KEY_WOW64_64KEY) ? true : false;
 	}
 
-	static void MarkEfiBootLoaderRescueDiskRecreationNeeded (const EfiBootLoaderImages& images)
+	static void MarkEfiBootLoaderRescueDiskRecreationNeeded (const EfiBootLoaderImages& images, bool rescueDiskNoticePending)
 	{
 		if (!images.ResourceSet)
 			return;
@@ -2875,8 +2924,15 @@ namespace VeraCrypt
 		if (promptId == 0)
 			promptId = 1;
 
-		WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, images.ResourceSet);
-		WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, promptId);
+		// An installer left this update to the restart: a Rescue Disk recorded with
+		// the same family predates it too.
+		bool marked = !rescueDiskNoticePending
+			|| WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_RESOURCE_SET_VALUE_NAME, 0);
+		marked = WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, images.ResourceSet) && marked;
+		marked = WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, promptId) && marked;
+		// Keep that reminder until the GUI is sure to ask: the next refresh retries.
+		if (marked && rescueDiskNoticePending)
+			BootEncryption::ClearRescueDiskNoticePending ();
 		SetLastError (previousLastError);
 	}
 
@@ -3625,8 +3681,14 @@ namespace VeraCrypt
 		return !EfiBootLoaderImagesDiffer (efiBoot, images);
 	}
 
-	static bool EfiBootLoaderRefreshRequiresRescueDiskPrompt (EfiBoot& efiBoot, const EfiBootLoaderImages& images)
+	static bool EfiBootLoaderRefreshRequiresRescueDiskPrompt (EfiBoot& efiBoot, const EfiBootLoaderImages& images, bool rescueDiskNoticePending)
 	{
+		// An installer left the update to this version to the restart: its loader is in
+		// place once this refresh completes, whatever the family, even if an earlier
+		// refresh that could not ask for the Rescue Disk already changed the files.
+		if (rescueDiskNoticePending)
+			return true;
+
 		DWORD recordedResourceSet = 0;
 		bool bRecordedResourceSetKnown = ReadRecordedEfiBootLoaderResourceSet (recordedResourceSet);
 		if (bRecordedResourceSetKnown && recordedResourceSet == images.ResourceSet)
@@ -5262,7 +5324,8 @@ namespace VeraCrypt
 						const bool bRefreshMsBootloader = !bModifiedMsBoot
 							|| bMissingMsBoot
 							|| (EfiBootInst.FileExists (szStdMsBootloader) && EfiBootInst.IsVeraCryptBootLoader (szStdMsBootloader));
-						const bool bRescueDiskPromptRequired = EfiBootLoaderRefreshRequiresRescueDiskPrompt (EfiBootInst, efiImages);
+						const bool bRescueDiskNoticePending = IsRescueDiskNoticePending (true);
+						const bool bRescueDiskPromptRequired = EfiBootLoaderRefreshRequiresRescueDiskPrompt (EfiBootInst, efiImages, bRescueDiskNoticePending);
 
 						// Keep the firmware-visible loader path valid before the larger module refresh.
 						if (bRefreshMsBootloader && !EfiBootInst.FileExists (szStdMsBootloader))
@@ -5321,7 +5384,7 @@ namespace VeraCrypt
 							}
 						}
 						if (bRescueDiskPromptRequired)
-							MarkEfiBootLoaderRescueDiskRecreationNeeded (efiImages);
+							MarkEfiBootLoaderRescueDiskRecreationNeeded (efiImages, bRescueDiskNoticePending);
 						return;
 					}
 				}

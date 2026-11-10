@@ -385,6 +385,9 @@ namespace VeraCrypt
 		bool GetEfiBootChainTrustStatus (EfiBootChainTrustStatus& status);
 		static DWORD WriteBootLoaderUpdateResult (const BootLoaderUpdateResult& result);
 		static DWORD ReadBootLoaderUpdateResult (const GUID& requestId, BootLoaderUpdateResult& result);
+		static DWORD SetRescueDiskNoticePending ();
+		static bool IsRescueDiskNoticePending (bool thisVersion);
+		static DWORD ClearRescueDiskNoticePending ();
 		static void ClearEfiBootLoaderDiagnosticsRegistry ();
 		bool IsUsingUnsupportedAlgorithm(LONG driverVersion);
 		void NotifyService (DWORD dwNotifyCmd);
