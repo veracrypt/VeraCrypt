@@ -375,11 +375,7 @@ UpdateBuffer(
 
 				updated = TRUE;
 				if (doUpdate && buffer != NULL) {
-					memcpy(
-						buffer + bufferPos,
-						sectorData + sectorPos,
-						intersectLength
-					);
+					BootSecRegionCopy (buffer + bufferPos, sectorData + sectorPos, intersectLength);
 				}
 				else {
 					// If no update is needed but intersection found

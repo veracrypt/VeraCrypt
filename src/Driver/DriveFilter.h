@@ -60,6 +60,8 @@ BOOL BootSecRegionHandoffValid (void);
 uint8 *BootSecRegionSector (uint32 index, uint64 *diskOffset, uint32 *length);
 // Validated password cache, or NULL. The caller burns it after copying.
 DCS_DEP_PWD_CACHE *BootSecRegionPasswordCache (void);
+// Copies to or from a sector object, which writes to the disk update. IRQL <= DISPATCH_LEVEL.
+void BootSecRegionCopy (uint8 *destination, const uint8 *source, uint32 length);
 extern PKTHREAD EncryptionSetupThread;
 extern PKTHREAD DecoySystemWipeThread;
 

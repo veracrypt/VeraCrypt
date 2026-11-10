@@ -45,6 +45,8 @@ uint32 BootPkcs5 = 0;
 static BOOL BootSecRegionValid = FALSE;
 static DCS_DISK_ENTRY_LIST *BootDeList = NULL;
 static uint8 *BootPwdCache = NULL;
+// Held while sector data is copied to or from the records
+static KSPIN_LOCK BootSecRegionLock;
 
 // DcsInt copies at most one 128 KiB authentication zone: it validates the list
 // DataSize against the decrypted zone before publishing it.
@@ -433,6 +435,46 @@ BootSecRegionPasswordCache (void)
 	return (DCS_DEP_PWD_CACHE *) BootPwdCache;
 }
 
+// A read served from a sector record gets the whole sector before or after a
+// write updates it, never a mix of both.
+void
+BootSecRegionCopy (uint8 *destination, const uint8 *source, uint32 length)
+{
+	KIRQL irql;
+	KeAcquireSpinLock (&BootSecRegionLock, &irql);
+	memcpy (destination, source, length);
+	KeReleaseSpinLock (&BootSecRegionLock, irql);
+}
+
+// The I/O queue serves reads of the sectors in the records, and refuses writes
+// to them. A write to the disk that bypasses the queue must update the records,
+// or reads keep returning the sectors of the boot handoff, such as the volume
+// header from before a password change.
+static void
+BootSecRegionUpdate (uint64 diskOffset, const uint8 *data, uint32 length)
+{
+	uint32 i;
+
+	if (!BootSecRegionHandoffValid ())
+		return;
+
+	for (i = 0; i < BootDeList->Count; ++i)
+	{
+		uint64 sectorStart;
+		uint32 sectorLength;
+		uint64 intersectStart;
+		uint32 intersectLength;
+		uint8 *sectorData = BootSecRegionSector (i, &sectorStart, &sectorLength);
+		if (sectorData == NULL)
+			continue;
+
+		// BootSecRegionValidate() checked that start + length does not wrap
+		GetIntersection (diskOffset, length, sectorStart, sectorStart + sectorLength - 1, &intersectStart, &intersectLength);
+		if (intersectLength != 0)
+			BootSecRegionCopy (sectorData + (intersectStart - sectorStart), data + (intersectStart - diskOffset), intersectLength);
+	}
+}
+
 // Check the crypto-info range of a CRC-valid BootArguments before it is
 // mapped, read or burned. Every layout must hold the BOOT_CRYPTO_HEADER that
 // the caller reads. DcsInt writes one fixed layout; the BIOS loader's object
@@ -527,6 +569,7 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 	size_t BootArgsRegionsCount = bIsEfi? sizeof(BootArgsRegionsEFI)/ sizeof(BootArgsRegionsEFI[0]) : sizeof(BootArgsRegionsDefault)/ sizeof(BootArgsRegionsDefault[0]);
 
 	KeInitializeMutex (&MountMutex, 0);
+	KeInitializeSpinLock (&BootSecRegionLock);
 //	__debugbreak();
 	for (bootLoaderArgsIndex = 0;
 		bootLoaderArgsIndex < BootArgsRegionsCount && status != STATUS_SUCCESS;
@@ -1303,6 +1346,7 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 		Dump ("TCWriteDevice error %x", status);
 		goto ret;
 	}
+	BootSecRegionUpdate (offset.QuadPart, header, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
 
 ret:
 	TCfree (header);
@@ -2928,6 +2972,7 @@ uint64 GetBootDriveLength ()
 NTSTATUS WriteBootDriveSector (PIRP irp, PIO_STACK_LOCATION irpSp)
 {
 	WriteBootDriveSectorRequest *request;
+	NTSTATUS status;
 
 	if (!UserCanAccessDriveDevice())
 		return STATUS_ACCESS_DENIED;
@@ -2943,5 +2988,8 @@ NTSTATUS WriteBootDriveSector (PIRP irp, PIO_STACK_LOCATION irpSp)
 		|| request->Offset.QuadPart > BootDriveLength.QuadPart - (LONGLONG) sizeof (request->Data))
 		return STATUS_INVALID_PARAMETER;
 
-	return TCWriteDevice (BootDriveFilterExtension->LowerDeviceObject, request->Data, request->Offset, sizeof (request->Data));
+	status = TCWriteDevice (BootDriveFilterExtension->LowerDeviceObject, request->Data, request->Offset, sizeof (request->Data));
+	if (NT_SUCCESS (status))
+		BootSecRegionUpdate (request->Offset.QuadPart, request->Data, sizeof (request->Data));
+	return status;
 }
