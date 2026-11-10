@@ -19,6 +19,8 @@
 #include "Volumes.h"
 #include <IntSafe.h>
 
+#define VC_DIRECT_HOST_READ_MAX_IN_FLIGHT 8
+
 // Returns STATUS_SUCCESS on success and sets *outVa.
 // On failure, returns STATUS_INVALID_USER_BUFFER or STATUS_INSUFFICIENT_RESOURCES
 // and leaves *outVa as NULL. If *outTempMdl not NULL, the caller must unlock/free it at completion.
@@ -238,6 +240,150 @@ static void DecrementOutstandingIoCount (EncryptedIoQueue *queue)
 }
 
 
+static BOOL IsWriteBarrierIrp (PIRP irp)
+{
+	UCHAR majorFunction = IoGetCurrentIrpStackLocation (irp)->MajorFunction;
+	return majorFunction == IRP_MJ_WRITE || majorFunction == IRP_MJ_FLUSH_BUFFERS;
+}
+
+
+static void ReleaseWriteBarrier (EncryptedIoQueue *queue)
+{
+	LONG remaining = InterlockedDecrement (&queue->PendingWriteBarrierCount);
+	ASSERT (remaining >= 0);
+	UNREFERENCED_PARAMETER (remaining);
+}
+
+
+static void WaitForDirectHostReads (EncryptedIoQueue *queue)
+{
+	for (;;)
+	{
+		KIRQL oldIrql;
+
+		KeAcquireSpinLock (&queue->DirectHostReadLock, &oldIrql);
+		if (queue->DirectHostReadsInFlight == 0)
+		{
+			KeReleaseSpinLock (&queue->DirectHostReadLock, oldIrql);
+			return;
+		}
+		KeReleaseSpinLock (&queue->DirectHostReadLock, oldIrql);
+
+		KeWaitForSingleObject (&queue->NoDirectHostReadsEvent, Executive, KernelMode, FALSE, NULL);
+	}
+}
+
+
+void EncryptedIoQueueBlockDirectReadCrypto (EncryptedIoQueue *queue)
+{
+	// Stop admission before key erasure and wait only for decryptions that
+	// already acquired the key schedules. Host reads may finish afterwards,
+	// but they will fail without touching erased keys.
+	InterlockedExchange ((volatile LONG *) &queue->ThreadBlockReadWrite, TRUE);
+	ExWaitForRundownProtectionRelease (&queue->DirectReadCryptoRundown);
+}
+
+
+_Function_class_(KSTART_ROUTINE)
+static VOID DirectHostIoThreadProc (PVOID threadArg)
+{
+	EncryptedIoQueue *queue = (EncryptedIoQueue *) threadArg;
+	NTSTATUS impersonationStatus = STATUS_SUCCESS;
+
+	KeSetPriorityThread (KeGetCurrentThread (), LOW_REALTIME_PRIORITY);
+	if (!queue->IsFilterDevice && queue->SecurityClientContext)
+	{
+		impersonationStatus = SeImpersonateClientEx (queue->SecurityClientContext, NULL);
+		if (!NT_SUCCESS (impersonationStatus))
+			InterlockedExchange (&queue->DirectHostReadEnabled, FALSE);
+	}
+
+	for (;;)
+	{
+		VC_DIRECT_HOST_IO_TASK *task = NULL;
+		KIRQL oldIrql;
+		NTSTATUS status = KeWaitForSingleObject (
+			&queue->DirectHostIoQueueSemaphore,
+			Executive,
+			KernelMode,
+			FALSE,
+			NULL);
+
+		if (!NT_SUCCESS (status))
+			continue;
+
+		KeAcquireSpinLock (&queue->DirectHostIoQueueLock, &oldIrql);
+		if (!IsListEmpty (&queue->DirectHostIoQueue))
+		{
+			PLIST_ENTRY entry = RemoveHeadList (&queue->DirectHostIoQueue);
+			task = CONTAINING_RECORD (entry, VC_DIRECT_HOST_IO_TASK, ListEntry);
+		}
+		else if (InterlockedCompareExchange (&queue->DirectHostIoExitRequested, 0, 0) != 0)
+		{
+			KeReleaseSpinLock (&queue->DirectHostIoQueueLock, oldIrql);
+			break;
+		}
+		KeReleaseSpinLock (&queue->DirectHostIoQueueLock, oldIrql);
+
+		if (task && task->Routine)
+		{
+			task->WorkerStatus = impersonationStatus;
+			task->Routine (task);
+		}
+	}
+
+	PsTerminateSystemThread (STATUS_SUCCESS);
+}
+
+
+BOOL EncryptedIoQueueSubmitDirectIoTask (EncryptedIoQueue *queue, VC_DIRECT_HOST_IO_TASK *task)
+{
+	KIRQL oldIrql;
+
+	if (!task || !task->Routine)
+		return FALSE;
+
+	KeAcquireSpinLock (&queue->DirectHostIoQueueLock, &oldIrql);
+	if (queue->DirectHostIoThreadCount == 0
+		|| queue->StopPending
+		|| InterlockedCompareExchange (&queue->DirectHostIoExitRequested, 0, 0) != 0)
+	{
+		KeReleaseSpinLock (&queue->DirectHostIoQueueLock, oldIrql);
+		return FALSE;
+	}
+
+	if (task->IrpToMarkPending)
+		IoMarkIrpPending (task->IrpToMarkPending);
+	InsertTailList (&queue->DirectHostIoQueue, &task->ListEntry);
+	KeReleaseSpinLock (&queue->DirectHostIoQueueLock, oldIrql);
+	KeReleaseSemaphore (&queue->DirectHostIoQueueSemaphore, IO_DISK_INCREMENT, 1, FALSE);
+	return TRUE;
+}
+
+
+static void StopDirectHostIoThreads (EncryptedIoQueue *queue)
+{
+	ULONG i;
+
+	if (queue->DirectHostIoThreadCount == 0)
+		return;
+
+	InterlockedExchange (&queue->DirectHostIoExitRequested, TRUE);
+	KeReleaseSemaphore (
+		&queue->DirectHostIoQueueSemaphore,
+		IO_DISK_INCREMENT,
+		(LONG) queue->DirectHostIoThreadCount,
+		FALSE);
+
+	for (i = 0; i < queue->DirectHostIoThreadCount; ++i)
+	{
+		TCStopThread (queue->DirectHostIoThreads[i], NULL);
+		queue->DirectHostIoThreads[i] = NULL;
+	}
+	queue->DirectHostIoThreadCount = 0;
+}
+
+
 static void OnItemCompleted (EncryptedIoQueueItem *item, BOOL freeItem)
 {
 	if (item->TempUserMdl) {
@@ -246,15 +392,18 @@ static void OnItemCompleted (EncryptedIoQueueItem *item, BOOL freeItem)
 		item->TempUserMdl = NULL;
 	}
 
+	if (item->WriteBarrierTracked)
+		ReleaseWriteBarrier (item->Queue);
+
 	DecrementOutstandingIoCount (item->Queue);
 	IoReleaseRemoveLock (&item->Queue->RemoveLock, item->OriginalIrp);
 
 	if (NT_SUCCESS (item->Status) && !item->Flush)
 	{
 		if (item->Write)
-			item->Queue->TotalBytesWritten += item->OriginalLength;
+			InterlockedAdd64 (&item->Queue->TotalBytesWritten, item->OriginalLength);
 		else
-			item->Queue->TotalBytesRead += item->OriginalLength;
+			InterlockedAdd64 (&item->Queue->TotalBytesRead, item->OriginalLength);
 	}
 
 	if (freeItem)
@@ -695,9 +844,22 @@ static VOID IoThreadProc (PVOID threadArg)
 					IO_STATUS_BLOCK ioStatus;
 
 					if (request->Item->Write)
-						request->Item->Status = ZwWriteFile (queue->HostFileHandle, NULL, NULL, NULL, &ioStatus, request->Data, request->Length, &request->Offset, NULL);
+					{
+						request->Item->Status = ZwWriteFile (
+							queue->HostFileHandle,
+							NULL,
+							NULL,
+							NULL,
+							&ioStatus,
+							request->Data,
+							request->Length,
+							&request->Offset,
+							NULL);
+					}
 					else
+					{
 						request->Item->Status = TCCachedRead (queue, &ioStatus, request->Data, request->Offset, request->Length);
+					}
 
 					if (NT_SUCCESS (request->Item->Status) && ioStatus.Information != request->Length)
 						request->Item->Status = STATUS_END_OF_FILE;
@@ -765,6 +927,7 @@ static VOID IoThreadProc (PVOID threadArg)
 					DecrementOutstandingIoCount (queue);
 				}
 			}
+
 		}
 	}
 
@@ -807,7 +970,10 @@ static VOID MainThreadProc (PVOID threadArg)
 			item = GetPoolBuffer (queue, sizeof (EncryptedIoQueueItem));
 			if (!item)
 			{
+				BOOL writeBarrierTracked = IsWriteBarrierIrp (irp);
 				TCCompleteDiskIrp (irp, STATUS_INSUFFICIENT_RESOURCES, 0);
+				if (writeBarrierTracked)
+					ReleaseWriteBarrier (queue);
 				DecrementOutstandingIoCount (queue);
 				IoReleaseRemoveLock (&queue->RemoveLock, irp);
 
@@ -819,13 +985,7 @@ static VOID MainThreadProc (PVOID threadArg)
 			item->TempUserMdl = NULL;
 			item->Status = STATUS_SUCCESS;
 			item->Flush = FALSE;
-
-			IoSetCancelRoutine (irp, NULL);
-			if (irp->Cancel)
-			{
-				CompleteOriginalIrp (item, STATUS_CANCELLED, 0);
-				continue;
-			}
+			item->WriteBarrierTracked = IsWriteBarrierIrp (irp);
 
 			switch (irpSp->MajorFunction)
 			{
@@ -852,6 +1012,16 @@ static VOID MainThreadProc (PVOID threadArg)
 				CompleteOriginalIrp (item, STATUS_INVALID_PARAMETER, 0);
 				continue;
 			}
+
+			IoSetCancelRoutine (irp, NULL);
+			if (irp->Cancel)
+			{
+				CompleteOriginalIrp (item, STATUS_CANCELLED, 0);
+				continue;
+			}
+
+			if (item->WriteBarrierTracked)
+				WaitForDirectHostReads (queue);
 
 #ifdef TC_TRACE_IO_QUEUE
 			item->OriginalIrpOffset = item->OriginalOffset;
@@ -1042,20 +1212,21 @@ static VOID MainThreadProc (PVOID threadArg)
 			}
 			
 			dataBuffer = NULL;
-			NTSTATUS mapStatus = MapIrpDataBuffer(
-				irp,
-				item->Write,
-				item->OriginalLength,
-				&dataBuffer,
-				&item->TempUserMdl);
-			if (!NT_SUCCESS(mapStatus))
 			{
-				CompleteOriginalIrp (item, mapStatus, 0);
-				continue;
+				NTSTATUS mapStatus = MapIrpDataBuffer(
+					irp,
+					item->Write,
+					item->OriginalLength,
+					&dataBuffer,
+					&item->TempUserMdl);
+				if (!NT_SUCCESS (mapStatus))
+				{
+					CompleteOriginalIrp (item, mapStatus, 0);
+					continue;
+				}
 			}
 
 			// Divide data block to fragments to enable efficient overlapping of encryption and IO operations
-
 			dataRemaining = item->OriginalLength;
 			fragmentOffset = item->OriginalOffset;
 
@@ -1146,9 +1317,122 @@ static VOID MainThreadProc (PVOID threadArg)
 }
 
 
+NTSTATUS EncryptedIoQueueBeginDirectRead (EncryptedIoQueue *queue, PIRP irp)
+{
+	NTSTATUS status;
+
+	status = IoAcquireRemoveLock (&queue->RemoveLock, irp);
+	if (!NT_SUCCESS (status))
+		return status;
+
+	InterlockedIncrement (&queue->OutstandingIoCount);
+	if (queue->StartPending
+		|| queue->StopPending
+		|| queue->ThreadExitRequested
+		|| queue->SuspendPending
+		|| queue->Suspended
+		|| queue->ThreadBlockReadWrite)
+	{
+		status = STATUS_DEVICE_NOT_READY;
+		goto err;
+	}
+
+	return STATUS_SUCCESS;
+
+err:
+	DecrementOutstandingIoCount (queue);
+	IoReleaseRemoveLock (&queue->RemoveLock, irp);
+	return status;
+}
+
+
+NTSTATUS EncryptedIoQueueAdmitDirectRead (EncryptedIoQueue *queue)
+{
+	KIRQL oldIrql;
+	NTSTATUS status = STATUS_SUCCESS;
+
+	if (queue->StartPending
+		|| queue->StopPending
+		|| queue->ThreadExitRequested
+		|| queue->SuspendPending
+		|| queue->Suspended
+		|| queue->ThreadBlockReadWrite)
+	{
+		return STATUS_DEVICE_NOT_READY;
+	}
+
+	// A pending write blocks new direct reads. If this read wins the race,
+	// MainThread observes it under the same lock and waits before writing.
+	KeAcquireSpinLock (&queue->DirectHostReadLock, &oldIrql);
+	if (queue->ThreadBlockReadWrite
+		|| InterlockedCompareExchange (&queue->PendingWriteBarrierCount, 0, 0) != 0
+		|| queue->DirectHostReadsInFlight >= VC_DIRECT_HOST_READ_MAX_IN_FLIGHT)
+	{
+		status = STATUS_DEVICE_BUSY;
+	}
+	else if (queue->DirectHostReadsInFlight++ == 0)
+		KeClearEvent (&queue->NoDirectHostReadsEvent);
+	KeReleaseSpinLock (&queue->DirectHostReadLock, oldIrql);
+	return status;
+}
+
+
+static void ReleaseDirectReadAdmission (EncryptedIoQueue *queue)
+{
+	KIRQL oldIrql;
+
+	KeAcquireSpinLock (&queue->DirectHostReadLock, &oldIrql);
+	ASSERT (queue->DirectHostReadsInFlight > 0);
+	if (--queue->DirectHostReadsInFlight == 0)
+		KeSetEvent (&queue->NoDirectHostReadsEvent, IO_DISK_INCREMENT, FALSE);
+	KeReleaseSpinLock (&queue->DirectHostReadLock, oldIrql);
+}
+
+
+static void ReleaseDirectReadLifetime (EncryptedIoQueue *queue, PIRP irp)
+{
+	DecrementOutstandingIoCount (queue);
+	IoReleaseRemoveLock (&queue->RemoveLock, irp);
+}
+
+
+void EncryptedIoQueueCancelDirectRead (EncryptedIoQueue *queue, PIRP irp)
+{
+	ReleaseDirectReadLifetime (queue, irp);
+}
+
+
+void EncryptedIoQueueAbortDirectRead (EncryptedIoQueue *queue, PIRP irp)
+{
+	ReleaseDirectReadAdmission (queue);
+	ReleaseDirectReadLifetime (queue, irp);
+}
+
+
+void EncryptedIoQueueFinishDirectReadIo (EncryptedIoQueue *queue)
+{
+	ReleaseDirectReadAdmission (queue);
+}
+
+
+void EncryptedIoQueueCompleteDirectRead (EncryptedIoQueue *queue, PIRP irp, ULONG length, NTSTATUS status, ULONG_PTR information)
+{
+	if (NT_SUCCESS (status))
+		InterlockedAdd64 (&queue->TotalBytesRead, length);
+
+	TCCompleteDiskIrp (irp, status, information);
+	ReleaseDirectReadLifetime (queue, irp);
+}
+
+
 NTSTATUS EncryptedIoQueueAddIrp (EncryptedIoQueue *queue, PIRP irp)
 {
 	NTSTATUS status;
+	BOOL writeBarrierTracked = IsWriteBarrierIrp (irp);
+
+	// Publish the barrier before queuing so a later direct read cannot overtake it.
+	if (writeBarrierTracked)
+		InterlockedIncrement (&queue->PendingWriteBarrierCount);
 
 	InterlockedIncrement (&queue->OutstandingIoCount);
 	if (queue->StopPending)
@@ -1181,6 +1465,8 @@ NTSTATUS EncryptedIoQueueAddIrp (EncryptedIoQueue *queue, PIRP irp)
 	return STATUS_PENDING;
 
 err:
+	if (writeBarrierTracked)
+		ReleaseWriteBarrier (queue);
 	DecrementOutstandingIoCount (queue);
 	return status;
 }
@@ -1279,11 +1565,22 @@ NTSTATUS EncryptedIoQueueStart (EncryptedIoQueue *queue)
 
 	queue->OutstandingIoCount = 0;
 	queue->IoThreadPendingRequestCount = 0;
+	queue->DirectHostReadsInFlight = 0;
+	queue->PendingWriteBarrierCount = 0;
+	queue->DirectHostIoThreadCount = 0;
+	queue->DirectHostIoExitRequested = FALSE;
+	RtlZeroMemory (queue->DirectHostIoThreads, sizeof (queue->DirectHostIoThreads));
 
 	queue->FirstPoolBuffer = NULL;
 	KeInitializeMutex (&queue->BufferPoolMutex, 0);
 
 	KeInitializeEvent (&queue->NoOutstandingIoEvent, SynchronizationEvent, FALSE);
+	KeInitializeEvent (&queue->NoDirectHostReadsEvent, NotificationEvent, TRUE);
+	KeInitializeSpinLock (&queue->DirectHostReadLock);
+	ExInitializeRundownProtection (&queue->DirectReadCryptoRundown);
+	InitializeListHead (&queue->DirectHostIoQueue);
+	KeInitializeSpinLock (&queue->DirectHostIoQueueLock);
+	KeInitializeSemaphore (&queue->DirectHostIoQueueSemaphore, 0, MAXLONG);
 	KeInitializeEvent (&queue->PoolBufferFreeEvent, SynchronizationEvent, FALSE);
 	KeInitializeEvent (&queue->QueueResumedEvent, SynchronizationEvent, FALSE);
 
@@ -1445,6 +1742,24 @@ retry_preallocated:
 		goto err;
 	}
 
+	if (InterlockedCompareExchange (&queue->DirectHostReadEnabled, 0, 0) != 0)
+	{
+		for (i = 0; i < VC_DIRECT_HOST_IO_THREAD_COUNT; ++i)
+		{
+			status = TCStartThread (
+				DirectHostIoThreadProc,
+				queue,
+				&queue->DirectHostIoThreads[queue->DirectHostIoThreadCount]);
+			if (!NT_SUCCESS (status))
+			{
+				StopDirectHostIoThreads (queue);
+				InterlockedExchange (&queue->DirectHostReadEnabled, FALSE);
+				break;
+			}
+			++queue->DirectHostIoThreadCount;
+		}
+	}
+
 #ifdef TC_TRACE_IO_QUEUE
 	GetElapsedTimeInit (&queue->LastPerformanceCounter);
 #endif
@@ -1499,6 +1814,7 @@ NTSTATUS EncryptedIoQueueStop (EncryptedIoQueue *queue)
 
 	Dump ("Queue stopping  out=%d\n", queue->OutstandingIoCount);
 
+	StopDirectHostIoThreads (queue);
 	queue->ThreadExitRequested = TRUE;
 
 	TCStopThread (queue->MainThread, &queue->MainThreadQueueNotEmptyEvent);
