@@ -14,30 +14,66 @@
 
 namespace VeraCrypt
 {
+	void VolumePasswordCache::AddKdf (const VolumePassword &password, shared_ptr <Pkcs5Kdf> kdf)
+	{
+		for (CachedPasswordList::iterator iter = CachedPasswords.begin(); iter != CachedPasswords.end(); ++iter)
+		{
+			if (*iter->Password == password)
+			{
+				AddKdf (*iter, kdf);
+				break;
+			}
+		}
+	}
+
+	void VolumePasswordCache::AddKdf (CachedPassword &cached, shared_ptr <Pkcs5Kdf> kdf)
+	{
+		const wstring name = kdf ? kdf->GetName() : wstring();
+
+		for (Pkcs5KdfList::iterator iter = cached.Kdfs.begin(); iter != cached.Kdfs.end(); ++iter)
+		{
+			if ((*iter ? (*iter)->GetName() : wstring()) == name)
+			{
+				cached.Kdfs.erase (iter);
+				break;
+			}
+		}
+
+		cached.Kdfs.push_front (kdf);
+	}
+
 	CachedPasswordList VolumePasswordCache::GetPasswords ()
 	{
 		CachedPasswordList passwords;
 
-		foreach_ref (const VolumePassword &password, CachedPasswords)
-			passwords.push_back (make_shared <VolumePassword> (VolumePassword (password)));
+		foreach (const CachedPassword &cached, CachedPasswords)
+		{
+			CachedPassword copy;
+			copy.Password = make_shared <VolumePassword> (VolumePassword (*cached.Password));
+			copy.Kdfs = cached.Kdfs;
+			passwords.push_back (copy);
+		}
 
 		return passwords;
 	}
 
-	void VolumePasswordCache::Store (const VolumePassword &newPassword)
+	void VolumePasswordCache::Store (const VolumePassword &newPassword, shared_ptr <Pkcs5Kdf> kdf)
 	{
-		CachedPasswordList::iterator iter = CachedPasswords.begin();
-		foreach_ref (const VolumePassword &password, CachedPasswords)
+		CachedPassword cached;
+		cached.Password = make_shared <VolumePassword> (VolumePassword (newPassword));
+
+		for (CachedPasswordList::iterator iter = CachedPasswords.begin(); iter != CachedPasswords.end(); ++iter)
 		{
-			if (newPassword == password)
+			if (*iter->Password == newPassword)
 			{
+				cached.Kdfs = iter->Kdfs;
 				CachedPasswords.erase (iter);
 				break;
 			}
-			iter++;
 		}
 
-		CachedPasswords.push_front (make_shared <VolumePassword> (VolumePassword (newPassword)));
+		AddKdf (cached, kdf);
+		CachedPasswords.push_front (cached);
 
 		if (CachedPasswords.size() > Capacity)
 			CachedPasswords.pop_back();
