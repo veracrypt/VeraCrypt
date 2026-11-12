@@ -14,6 +14,7 @@
 extern "C" {
 #endif
 
+char *XmlFindTagEnd (char *xmlNode);
 char *XmlNextNode (char *xmlNode);
 char *XmlFindElement (char *xmlNode, char *nodeName);
 char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttrValue, int xmlAttrValueSize);
@@ -27,8 +28,14 @@ BOOL XmlTest (void);
 
 #if !defined(_UEFI)
 wchar_t *XmlQuoteTextW(const wchar_t *textSrc, wchar_t *textDst, int textDstMaxSize);
-int XmlWriteHeader (FILE *file);
-int XmlWriteFooter (FILE *file);
+/* For binary streams. Formatting uses CRLF; the header includes the UTF-8 BOM. */
+int XmlWriteHeaderUtf8 (FILE *file);
+int XmlWriteFooterUtf8 (FILE *file);
+/* Write a complete UTF-16 string to a byte stream. Returns EOF on failure. */
+int XmlWriteTextUtf8 (FILE *file, const wchar_t *text);
+/* Escape XML element text on a byte stream. Narrow input is UTF-8. */
+int XmlWriteEscapedText (FILE *file, const char *text);
+int XmlWriteEscapedTextUtf8 (FILE *file, const wchar_t *text);
 #endif !defined(_UEFI)
 
 #ifdef __cplusplus

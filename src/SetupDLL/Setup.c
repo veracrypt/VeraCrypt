@@ -23,7 +23,7 @@
 
 #include "Apidrvr.h"
 #include "BootEncryption.h"
-#include "SystemEncryptionFiles.h"
+#include "SetupService.h"
 #include "Platform/Finally.h"
 #include "Boot/Windows/BootCommon.h"
 #include "Combo.h"
@@ -96,14 +96,40 @@ BOOL bUpdateRescueDisk = FALSE;
 BOOL bRepairMode = FALSE;
 BOOL bUserSetLanguage = FALSE;
 
-static BOOL EfiBootLoaderSelectionWasRefused ()
+// A deferred custom action cannot inherit a driver handle from another action.
+// Keep our connection alive until post-install backup validation has finished.
+class MsiDriverHandle
 {
-	DWORD resourceSet = 0;
-	return ReadLocalMachineRegistryDword (
-		(wchar_t *) VC_EFI_BOOT_LOADER_DIAGNOSTICS_REGISTRY_KEY,
-		(wchar_t *) VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME,
-		&resourceSet) && resourceSet == 0;
-}
+public:
+	MsiDriverHandle () : Owned (INVALID_HANDLE_VALUE) { }
+	int Attach ()
+	{
+		if (hDriver != INVALID_HANDLE_VALUE)
+			return 0;
+		int status = DriverAttach ();
+		Owned = hDriver;
+		if (!status && Owned == INVALID_HANDLE_VALUE)
+		{
+			SetLastError (ERROR_INVALID_HANDLE);
+			return ERR_OS_ERROR;
+		}
+		return status;
+	}
+	~MsiDriverHandle ()
+	{
+		// This scope is the sole closer of a handle it attaches. Consumers must
+		// invalidate hDriver if they release it; never close a displaced value.
+		if (Owned != INVALID_HANDLE_VALUE && hDriver == Owned)
+		{
+			hDriver = INVALID_HANDLE_VALUE;
+			CloseHandle (Owned);
+		}
+	}
+private:
+	HANDLE Owned;
+	MsiDriverHandle (const MsiDriverHandle &);
+	MsiDriverHandle &operator= (const MsiDriverHandle &);
+};
 
 /*
 BOOL bMakePackage = FALSE;
@@ -121,37 +147,6 @@ BOOL bDesktopIconStatusDetermined = FALSE;
 
 /* Defined in this file, but a little bit late */
 BOOL IsSystemRestoreEnabled ();
-
-/* 
- * Same as in Setup.c
- */
-BOOL ForceCopyFile (LPCWSTR szSrcFile, LPCWSTR szDestFile)
-{
-	BOOL bRet = CopyFileW (szSrcFile, szDestFile, FALSE);
-	if (!bRet)
-	{
-		wstring renamedPath = szDestFile;
-		renamedPath += VC_FILENAME_RENAMED_SUFFIX;
-
-		/* rename the locked file in order to be able to create a new one */
-		if (MoveFileExW (szDestFile, renamedPath.c_str(), MOVEFILE_REPLACE_EXISTING))
-		{
-			bRet = CopyFileW (szSrcFile, szDestFile, FALSE);
-			if (bRet)
-			{
-				/* delete the renamed file when the machine reboots */
-				MoveFileEx (renamedPath.c_str(), NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
-			}
-			else
-			{
-				/* restore the original file name */
-				MoveFileEx (renamedPath.c_str(), szDestFile, MOVEFILE_REPLACE_EXISTING);
-			}
-		}
-	}
-
-	return bRet;
-}
 
 /* 
  * Same as in Setup.c
@@ -540,9 +535,25 @@ void SearchAndDeleteRegistrySubString (HKEY hKey, const wchar_t *subKey, const w
 
 /* **************************************************************************** */
 
-// Adds a line to the log file of the installer.
+static void LogSetupEvent (const wstring &message, eMSILogLevel level)
+{
+	DWORD previousError = GetLastError ();
+	HANDLE source = RegisterEventSourceW (NULL, TC_SYSTEM_FAVORITES_SERVICE_NAME);
+	if (source)
+	{
+		WORD type = level == MSI_ERROR_LEVEL ? EVENTLOG_ERROR_TYPE : EVENTLOG_WARNING_TYPE;
+		LPCWSTR strings[] = { L"VeraCrypt MSI", message.c_str () };
+		ReportEventW (source, type, 0, 0xC0000000 + type, NULL, ARRAYSIZE (strings), 0, strings, NULL);
+		DeregisterEventSource (source);
+	}
+	SetLastError (previousError);
+}
+
+// Adds a line to the log file of the installer. Warnings and failures also
+// reach the Application event log regardless of MSI logging settings.
 void MSILog(MSIHANDLE hInstall, eMSILogLevel level, const wchar_t* zcFormat, ...)
 {
+    DWORD previousError = GetLastError ();
     std::wstring wszMessage;
 
     // initialize use of the variable argument array
@@ -564,6 +575,8 @@ void MSILog(MSIHANDLE hInstall, eMSILogLevel level, const wchar_t* zcFormat, ...
     va_end(vaArgs);
 
     wszMessage.assign(zc.data(), iLen);
+    if (level != MSI_INFO_LEVEL)
+        LogSetupEvent (wszMessage, level);
 
 #ifdef TEST_HARNESS
     if (!hInstall)
@@ -580,39 +593,22 @@ void MSILog(MSIHANDLE hInstall, eMSILogLevel level, const wchar_t* zcFormat, ...
     MsiRecordSetString(hRecord, 1, wszMessage.c_str());
     // send message to running installer
     MsiProcessMessage(hInstall, INSTALLMESSAGE_INFO, hRecord);
+    SetLastError (previousError);
 }
 
 // Adds a line to the log file of the installer and shows a popup.
 // Since MsiProcessMessage() takes the UILEVEL into account,
 // this won't cause a deadlock in case of a silent install.
-void MSILogAndShow(MSIHANDLE hInstall, eMSILogLevel level, const wchar_t* zcFormat, ...)
+static void MSILogAndShowMessage (MSIHANDLE hInstall, eMSILogLevel level, const wstring &wszMessage, bool logEvent)
 {
-    std::wstring wszMessage;
-
-    // initialize use of the variable argument array
-    va_list vaArgs;
-    va_start(vaArgs, zcFormat);
-
-    // reliably acquire the size
-    // from a copy of the variable argument array
-    // and a functionally reliable call to mock the formatting
-    va_list vaArgsCopy;
-    va_copy(vaArgsCopy, vaArgs);
-    const int iLen = vswprintf(NULL, 0, zcFormat, vaArgsCopy);
-    va_end(vaArgsCopy);
-
-    // return a formatted string without risking memory mismanagement
-    // and without assuming any compiler or platform specific behavior
-    std::vector<wchar_t> zc(iLen + 1);
-    vswprintf(zc.data(), zc.size(), zcFormat, vaArgs);
-    va_end(vaArgs);
-
-    wszMessage.assign(zc.data(), iLen);
+    DWORD previousError = GetLastError ();
+    if (logEvent && level != MSI_INFO_LEVEL)
+        LogSetupEvent (wszMessage, level);
 
 #ifdef TEST_HARNESS
     if (!hInstall)
     {
-        MessageBox(NULL, pszMessage, wszMessage.c_str(), 0);
+        MessageBox(NULL, wszMessage.c_str(), L"VeraCrypt", 0);
         return;
     }
 #endif
@@ -633,6 +629,152 @@ void MSILogAndShow(MSIHANDLE hInstall, eMSILogLevel level, const wchar_t* zcForm
 		MsiProcessMessage(hInstall, INSTALLMESSAGE(INSTALLMESSAGE_WARNING + MB_OK), hRecord1);
 	else
 		MsiProcessMessage(hInstall, INSTALLMESSAGE(INSTALLMESSAGE_ERROR + MB_OK), hRecord1);
+    SetLastError (previousError);
+}
+
+void MSILogAndShow(MSIHANDLE hInstall, eMSILogLevel level, const wchar_t* zcFormat, ...)
+{
+    DWORD previousError = GetLastError ();
+    va_list vaArgs;
+    va_start(vaArgs, zcFormat);
+    va_list vaArgsCopy;
+    va_copy(vaArgsCopy, vaArgs);
+    const int iLen = vswprintf(NULL, 0, zcFormat, vaArgsCopy);
+    va_end(vaArgsCopy);
+    std::vector<wchar_t> text(iLen + 1);
+    vswprintf(text.data(), text.size(), zcFormat, vaArgs);
+    va_end(vaArgs);
+
+    MSILogAndShowMessage (hInstall, level, wstring (text.data (), iLen), true);
+    SetLastError (previousError);
+}
+
+// Exceptions from common code must not open a raw MessageBox in a deferred
+// action (including /qn installs). Keep the full cause and source in the log;
+// the caller displays one concise, MSI-managed message for the operation.
+static void MSILogException (MSIHANDLE hInstaller, const Exception &exception)
+{
+	wstring message;
+	if (const SystemException *systemError = dynamic_cast<const SystemException *> (&exception))
+	{
+		DWORD errorCode = systemError->ErrorCode ? systemError->ErrorCode : ERROR_GEN_FAILURE;
+		wchar_t description[512] = {0};
+		if (!FormatMessageW (FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL,
+			errorCode, 0, description, ARRAYSIZE (description), NULL))
+			StringCchCopyW (description, ARRAYSIZE (description), L"Windows operation failed");
+		wchar_t code[32];
+		StringCchPrintfW (code, ARRAYSIZE (code), L" (0x%.8X)", errorCode);
+		message = AppendSrcPos ((wstring (description) + code).c_str (), systemError->SrcPos);
+	}
+	else if (const ErrorException *error = dynamic_cast<const ErrorException *> (&exception))
+		message = AppendSrcPos (error->ErrMsg.empty () ? GetString (error->ErrLangId ? error->ErrLangId : "") : error->ErrMsg.c_str (), error->SrcPos);
+	else if (const ParameterIncorrect *parameterError = dynamic_cast<const ParameterIncorrect *> (&exception))
+		message = AppendSrcPos (L"Parameter incorrect.", parameterError->SrcPos);
+	else
+		message = L"VeraCrypt operation failed with an unexpected exception.";
+	MSILog (hInstaller, MSI_WARNING_LEVEL, L"%s", message.c_str ());
+}
+
+static void ShowSetupWarning_Dll (MSIHANDLE hInstaller, DWORD &notifications, DWORD flag, const char *shortMessage)
+{
+	notifications |= flag;
+	MSILog (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString (GetSetupNotificationMessage (flag)));
+	MSILogAndShowMessage (hInstaller, MSI_WARNING_LEVEL, GetString (shortMessage), false);
+}
+
+static void ShowSetupError_Dll (MSIHANDLE hInstaller, const char *message, const char *shortMessage, const char *source)
+{
+	MSILog (hInstaller, MSI_ERROR_LEVEL, L"%s", source
+		? AppendSrcPos (GetString (message), source).c_str () : GetString (message));
+	MSILogAndShowMessage (hInstaller, MSI_ERROR_LEVEL, GetString (shortMessage), false);
+}
+
+static DWORD ReadBootLoaderResultAfterStart_Dll (const GUID &requestId, BOOL started, BootLoaderUpdateResult &result)
+{
+	// A timeout can occur just before publication. The GUID makes even a read
+	// after a failed start safe; never infer service health from this result.
+	DWORD error;
+	for (unsigned attempt = 0; ; ++attempt)
+	{
+		error = BootEncryption::ReadBootLoaderUpdateResult (requestId, result);
+		if (started || attempt == 4 || (error != ERROR_FILE_NOT_FOUND && error != ERROR_PATH_NOT_FOUND && error != ERROR_NOT_FOUND))
+			return error;
+		Sleep (250);
+	}
+}
+
+static void ReportBootLoaderUpdateResult_Dll (MSIHANDLE hInstaller, DWORD error, const BootLoaderUpdateResult &result,
+	bool resultRead, DWORD serviceError, DWORD &notifications)
+{
+	notifications &= ~VC_SETUP_NOTIFY_BOOT_MASK;
+	if (!resultRead)
+	{
+		if (!error)
+			error = ERROR_GEN_FAILURE;
+		MSILog (hInstaller, MSI_WARNING_LEVEL, L"Boot loader update result unavailable for this request: error 0x%.8X", error);
+		ShowSetupWarning_Dll (hInstaller, notifications,
+			error == ERROR_SUCCESS_REBOOT_REQUIRED ? VC_SETUP_NOTIFY_BOOT_RESTART : VC_SETUP_NOTIFY_BOOT_UNCONFIRMED,
+			error == ERROR_SUCCESS_REBOOT_REQUIRED ? "SYSENC_BOOT_LOADER_UPDATE_RESTART" : "MSI_SYSENC_BOOT_LOADER_UPDATE_UNCONFIRMED");
+		return;
+	}
+	MSILog (hInstaller, MSI_INFO_LEVEL, L"Boot loader update result: disposition=%lu update=0x%.8X assessment=0x%.8X warnings=0x%.8X resourceSet=%lu",
+		result.Disposition, result.UpdateError, result.AssessmentError, result.WarningMask, result.ResourceSet);
+	if (serviceError)
+		ShowSetupWarning_Dll (hInstaller, notifications, VC_SETUP_NOTIFY_SERVICE, "MSI_SYSENC_SERVICE_REPAIR_REQUIRED");
+	if (result.Disposition == VC_BOOT_LOADER_UPDATE_SKIPPED_HIDDEN_OS)
+	{
+		MSILog (hInstaller, MSI_INFO_LEVEL, L"Boot loader update intentionally skipped in the hidden OS; update the decoy OS first.");
+		return;
+	}
+	if (result.UpdateError != ERROR_SUCCESS)
+	{
+		if (result.UpdateError == VC_ERROR_EFI_UNSUPPORTED_SECURE_BOOT_DB)
+			ShowSetupWarning_Dll (hInstaller, notifications, VC_SETUP_NOTIFY_BOOT_POLICY, "MSI_SYSENC_BOOT_LOADER_POLICY_REFUSED");
+		else
+			ShowSetupWarning_Dll (hInstaller, notifications, VC_SETUP_NOTIFY_BOOT_UNCONFIRMED, "MSI_SYSENC_BOOT_LOADER_UPDATE_UNCONFIRMED");
+		return;
+	}
+	if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE)
+	{
+		ShowSetupWarning_Dll (hInstaller, notifications, VC_SETUP_NOTIFY_ASSESSMENT, "MSI_SYSENC_EFI_ASSESSMENT_UNAVAILABLE");
+		return;
+	}
+	if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER)
+	{
+		notifications |= VC_SETUP_NOTIFY_VERACRYPT;
+		MSILog (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYSENC_EFI_LOADER_NOT_TRUSTED_BY_SECUREBOOT"));
+	}
+	if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER)
+	{
+		notifications |= VC_SETUP_NOTIFY_WINDOWS;
+		MSILog (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYSENC_EFI_WINDOWS_LOADER_NOT_TRUSTED_BY_SECUREBOOT"));
+	}
+	if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION)
+	{
+		notifications |= VC_SETUP_NOTIFY_WINDOWS_MIGRATION;
+		MSILog (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYSENC_EFI_WINDOWS_LOADER_PCA2011_MIGRATION_NEEDED"));
+		MSILog (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYSENC_EFI_WINDOWS_LOADER_MIGRATION_GUIDANCE"));
+	}
+	if (result.WarningMask & (VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER | VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER))
+		MSILogAndShowMessage (hInstaller, MSI_WARNING_LEVEL, GetString ("MSI_SYSENC_EFI_COMPATIBILITY_WARNING"), false);
+	else if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION)
+		MSILogAndShowMessage (hInstaller, MSI_WARNING_LEVEL, GetString ("MSI_SYSENC_EFI_WINDOWS_MIGRATION_WARNING"), false);
+}
+
+static DWORD RefreshCarriedSetupNotifications_Dll (const GUID &generation, DWORD carriedMask, DWORD notifications)
+{
+	if (carriedMask)
+	{
+		GUID currentGeneration = {};
+		DWORD currentMask = ReadSetupNotifications (&currentGeneration);
+		const GUID empty = {};
+		// Only a successful read of the original generation can retire carried
+		// warnings. Preserve freshly recomputed failures and unreadable state.
+		if (memcmp (&generation, &empty, sizeof (empty)) != 0
+			&& memcmp (&generation, &currentGeneration, sizeof (generation)) == 0)
+			notifications &= ~(carriedMask & ~currentMask);
+	}
+	return notifications;
 }
 
 /* **************************************************************************** */
@@ -904,7 +1046,7 @@ DWORD handleWin32Error_Dll (MSIHANDLE hInstaller, const char* srcPos)
 	// Access denied
 	if (dwError == ERROR_ACCESS_DENIED && !IsAdmin ())
 	{
-		MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, AppendSrcPos (GetString ("ERR_ACCESS_DENIED"), srcPos).c_str ());
+		ShowSetupError_Dll (hInstaller, "ERR_ACCESS_DENIED", "MSI_ERR_ACCESS_DENIED", srcPos);
 		SetLastError (dwError);		// Preserve the original error code
 		return dwError;
 	}
@@ -932,7 +1074,7 @@ DWORD handleWin32Error_Dll (MSIHANDLE hInstaller, const char* srcPos)
 
 	// User-friendly hardware error explanation
 	if (IsDiskError (dwError))
-		MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, GetString("ERR_HARDWARE_ERROR"));
+		ShowSetupError_Dll (hInstaller, "ERR_HARDWARE_ERROR", "MSI_ERR_HARDWARE_ERROR", srcPos);
 
 	// Device not ready
 	if (dwError == ERROR_NOT_READY)
@@ -978,7 +1120,7 @@ void handleError_Dll (MSIHANDLE hInstaller, int code, const char* srcPos)
 		MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, AppendSrcPos (GetString ("VOL_SIZE_WRONG"), srcPos).c_str());
 		break;
 	case ERR_COMPRESSION_NOT_SUPPORTED:
-		MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, AppendSrcPos (GetString ("COMPRESSION_NOT_SUPPORTED"), srcPos).c_str());
+		ShowSetupError_Dll (hInstaller, "COMPRESSION_NOT_SUPPORTED", "MSI_COMPRESSION_NOT_SUPPORTED", srcPos);
 		break;
 	case ERR_PASSWORD_CHANGE_VOL_TYPE:
 		MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, AppendSrcPos (GetString ("WRONG_VOL_TYPE"), srcPos).c_str());
@@ -1009,7 +1151,7 @@ void handleError_Dll (MSIHANDLE hInstaller, int code, const char* srcPos)
 		break;
 
 	case ERR_DRIVER_VERSION:
-		MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, GetString("DRIVER_VERSION"));
+		ShowSetupError_Dll (hInstaller, "DRIVER_VERSION", "MSI_DRIVER_VERSION", srcPos);
 		break;
 
 	case ERR_NEW_VERSION_REQUIRED:
@@ -1029,11 +1171,11 @@ void handleError_Dll (MSIHANDLE hInstaller, int code, const char* srcPos)
 		break;
 
 	case ERR_NONSYS_INPLACE_ENC_INCOMPLETE:
-		MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, GetString ("ERR_NONSYS_INPLACE_ENC_INCOMPLETE"));
+		ShowSetupError_Dll (hInstaller, "ERR_NONSYS_INPLACE_ENC_INCOMPLETE", "MSI_ERR_NONSYS_INPLACE_ENC_INCOMPLETE", srcPos);
 		break;
 
 	case ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG:
-		MSILogAndShow (hInstaller, MSI_ERROR_LEVEL, GetString ("ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG"));
+		ShowSetupError_Dll (hInstaller, "ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG", "MSI_ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG", srcPos);
 		break;
 
 	case ERR_PARAMETER_INCORRECT:
@@ -1225,10 +1367,7 @@ BOOL StartStopService_Dll (MSIHANDLE hInstaller, wchar_t *lpszService, BOOL bSta
 {
 	SC_HANDLE hManager, hService = NULL;
 	BOOL bOK = FALSE;
-	SERVICE_STATUS status = {0};
-	DWORD dwError, dwStartTime, dwLastProgress, dwCheckPoint = 0;
-	DWORD dwExpectedState = bStart? SERVICE_RUNNING : SERVICE_STOPPED;
-	DWORD dwPendingState = bStart? SERVICE_START_PENDING : SERVICE_STOP_PENDING;
+	DWORD dwError;
 
 	hManager = OpenSCManager (NULL, NULL, SC_MANAGER_ALL_ACCESS);
 	if (hManager == NULL)
@@ -1243,55 +1382,17 @@ BOOL StartStopService_Dll (MSIHANDLE hInstaller, wchar_t *lpszService, BOOL bSta
 	else
 		MSILog(hInstaller, MSI_INFO_LEVEL, L"STOPPING %s", lpszService);
 
-	if (bStart)
-	{
-		if (!StartService (hService, argc, argv) && (GetLastError () != ERROR_SERVICE_ALREADY_RUNNING))
-			goto error;
-	}
-	else
-		ControlService (hService, SERVICE_CONTROL_STOP, &status);
-
-	dwStartTime = dwLastProgress = GetTickCount ();
-	for (;;)
-	{
-		if (!QueryServiceStatus (hService, &status))
-			goto error;
-
-		if (status.dwCurrentState == dwExpectedState)
-		{
-			bOK = TRUE;
-			break;
-		}
-
-		if (status.dwCurrentState != dwPendingState)
-		{
-			SetLastError (status.dwWin32ExitCode ? status.dwWin32ExitCode : ERROR_SERVICE_REQUEST_TIMEOUT);
-			goto error;
-		}
-
-		DWORD dwNow = GetTickCount ();
-		if (status.dwCheckPoint > dwCheckPoint)
-		{
-			dwCheckPoint = status.dwCheckPoint;
-			dwLastProgress = dwNow;
-		}
-
-		// Honor pending-state progress, but cap the wait at the service's two-minute startup allowance.
-		if (dwNow - dwStartTime >= 120000
-			|| dwNow - dwLastProgress >= (status.dwWaitHint ? status.dwWaitHint : WAIT_PERIOD * 1000))
-		{
-			SetLastError (ERROR_SERVICE_REQUEST_TIMEOUT);
-			goto error;
-		}
-		Sleep (1000);
-	}
+	dwError = SetupService::ChangeState (hService, bStart != FALSE, argc, argv);
+	bOK = dwError == ERROR_SUCCESS;
+	SetLastError (dwError);
 
 error:
 	dwError = bOK ? ERROR_SUCCESS : GetLastError ();
 
-	if (bOK == FALSE && hService == NULL && dwError == ERROR_SERVICE_DOES_NOT_EXIST)
+	if (!bStart && bOK == FALSE && hService == NULL && dwError == ERROR_SERVICE_DOES_NOT_EXIST)
 	{
 		bOK = TRUE;
+		dwError = ERROR_SUCCESS;
 	}
 	else if (!bOK)
 		MSILog(hInstaller, MSI_ERROR_LEVEL, L"Failed to %s service %s. Error 0x%.8X", bStart ? L"start" : L"stop", lpszService, dwError);
@@ -1441,7 +1542,8 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 				}
 				else if (bUninstallInProgress || bDowngrade)
 				{
-					MSILogAndShow(hInstaller, MSI_ERROR_LEVEL, (bDowngrade ? GetString("SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE") : GetString("SETUP_FAILED_BOOT_DRIVE_ENCRYPTED")));
+					ShowSetupError_Dll (hInstaller, bDowngrade ? "SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE" : "SETUP_FAILED_BOOT_DRIVE_ENCRYPTED",
+						bDowngrade ? "SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE" : "MSI_SETUP_FAILED_BOOT_DRIVE_ENCRYPTED", NULL);
 					bOK = FALSE;
 					goto end;
 				}
@@ -1751,6 +1853,9 @@ BOOL DoRegUninstall_Dll (MSIHANDLE hInstaller, BOOL bRemoveDeprecated)
 	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\Classes\\VeraCryptVolume");
 	*/
 
+	BootEncryption::ClearEfiBootLoaderDiagnosticsRegistry ();
+	RegDeleteKeyExW (HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt\\Diagnostics", KEY_WOW64_64KEY, 0);
+	// Also remove diagnostics written to the redirected view by older installers.
 	DeleteRegistryKey (HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt\\Diagnostics\\EfiBootLoader");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt\\Diagnostics");
 
@@ -1796,103 +1901,35 @@ BOOL DoRegUninstall_Dll (MSIHANDLE hInstaller, BOOL bRemoveDeprecated)
 	return TRUE;
 }
 
-/* 
- * Same as in Setup.c, UpgradeBootLoader(), but 
- * replaced StatusMessage() with MSILog().
- */
-BOOL UpgradeBootLoader_Dll (MSIHANDLE hInstaller, HWND hwndDlg)
+// The service owns loader updates. This optional query only preserves the
+// rescue-disk reminder for upgrades from older boot-loader versions.
+static void UpdateRescueDiskNotice_Dll (MSIHANDLE hInstaller, HWND hwndDlg, BOOL bootLoaderUpdated)
 {
-	MSILog(hInstaller, MSI_INFO_LEVEL, L"Begin UpgradeBootLoader_Dll");
-
-	BOOL bOK = FALSE, bNeedUnloadDriver = FALSE;
-	int status;
-
-	if (!SystemEncryptionUpdate)
-	{
-		MSILog(hInstaller, MSI_INFO_LEVEL, L"SystemEncryptionUpdate == FALSE");
-		bOK = TRUE;
-		goto end;
-	}
-
-	if (hDriver == INVALID_HANDLE_VALUE)
-	{
-		status = DriverAttach();
-		if ((status == 0) && (hDriver != INVALID_HANDLE_VALUE))
-		{
-			bNeedUnloadDriver = TRUE;
-		}
-		else
-		{
-			MSILog(hInstaller, MSI_INFO_LEVEL, L"UpgradeBootLoader_Dll: failed to attach to driver");
-		}
-	}
+	if (!SystemEncryptionUpdate || !bootLoaderUpdated)
+		return;
 
 	try
 	{
 		BootEncryption bootEnc (hwndDlg);
-		uint64 bootLoaderVersion = bootEnc.GetInstalledBootLoaderVersion();
-		if ((bootLoaderVersion < VERSION_NUM) || (bReinstallMode && (bootLoaderVersion == VERSION_NUM)))
+		// This reports the loader that booted Windows, even after the service
+		// updated its files. It is only used for the legacy rescue-disk reminder.
+		uint64 bootLoaderVersion = bootEnc.GetInstalledBootLoaderVersion ();
+		if (bootLoaderVersion <= TC_RESCUE_DISK_UPGRADE_NOTICE_MAX_VERSION)
 		{
-			MSILog (hInstaller, MSI_INFO_LEVEL, GetString("INSTALLER_UPDATING_BOOT_LOADER"));
-
-			// this is done by the service now
-			//bootEnc.InstallBootLoader (true);
-
-			// Validate the installed boot files and their known-CA compatibility with the active
-			// Secure Boot db/dbx before the user reboots. In the MSI
-			// upgrade path, the System Favorites service has already attempted the loader refresh.
-			try
-			{
-				if (EfiBootLoaderSelectionWasRefused ())
-				{
-					MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, GetString("SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA"));
-				}
-				else
-				{
-					EfiBootChainTrustStatus trustStatus;
-					if (bootEnc.GetEfiBootChainTrustStatus (trustStatus))
-					{
-						if (!trustStatus.StatusKnown)
-							MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, GetString("SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA"));
-						else if (!trustStatus.VeraCryptLoaderFilesValid || !trustStatus.VeraCryptLoaderKnownCaAllowed)
-							MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, GetString("SYSENC_EFI_LOADER_NOT_TRUSTED_BY_SECUREBOOT"));
-						if (trustStatus.StatusKnown && (!trustStatus.WindowsLoaderInspectionSucceeded
-							|| !trustStatus.WindowsLoaderPresent
-							|| !trustStatus.WindowsLoaderSignerKnown
-							|| !trustStatus.WindowsLoaderKnownCaAllowed))
-							MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, GetString("SYSENC_EFI_WINDOWS_LOADER_NOT_TRUSTED_BY_SECUREBOOT"));
-						else if (trustStatus.StatusKnown && trustStatus.WindowsLoaderMigrationRecommended)
-							MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, GetString("SYSENC_EFI_WINDOWS_LOADER_PCA2011_MIGRATION_NEEDED"));
-					}
-				}
-			}
-			catch (...) { }
-
-			if (bootEnc.GetInstalledBootLoaderVersion() <= TC_RESCUE_DISK_UPGRADE_NOTICE_MAX_VERSION)
-			{
-				bUpdateRescueDisk = TRUE;
-				MSILog (hInstaller, MSI_INFO_LEVEL, GetString(IsHiddenOSRunning() ? "BOOT_LOADER_UPGRADE_OK_HIDDEN_OS" : "BOOT_LOADER_UPGRADE_OK"));
-			}
+			bUpdateRescueDisk = TRUE;
+			MSILog (hInstaller, MSI_INFO_LEVEL, GetString (IsHiddenOSRunning () ? "BOOT_LOADER_UPGRADE_OK_HIDDEN_OS" : "BOOT_LOADER_UPGRADE_OK"));
 		}
-		bOK = TRUE;
-		goto end;
 	}
 	catch (Exception &e)
 	{
-		e.Show (hwndDlg);
+		// A failed reminder query must not roll back an already updated loader.
+		MSILog (hInstaller, MSI_INFO_LEVEL, L"Could not query the booted loader version for the rescue-disk reminder; the service result still determines the update outcome.");
+		MSILogException (hInstaller, e);
 	}
-	catch (...) { }
-
-	MSILog (hInstaller, MSI_ERROR_LEVEL, GetString("BOOT_LOADER_UPGRADE_FAILED"));
-
-end:
-	if (bNeedUnloadDriver)
+	catch (...)
 	{
-		CloseHandle (hDriver);
-		hDriver = INVALID_HANDLE_VALUE;
+		MSILog (hInstaller, MSI_WARNING_LEVEL, L"Could not query the booted loader version for the rescue-disk reminder: unexpected exception. The service result still determines the update outcome.");
 	}
-	MSILog(hInstaller, MSI_INFO_LEVEL, L"End UpgradeBootLoader_Dll");
-	return bOK;
 }
 
 /* 
@@ -1906,8 +1943,6 @@ BOOL DoApplicationDataUninstall_Dll (MSIHANDLE hInstaller)
 	wchar_t path[MAX_PATH];
 	wchar_t path2[MAX_PATH];
 	BOOL bOK = TRUE;
-	try { BootEncryption::UpdateSetupConfigFile (false); }
-	catch (Exception &e) { e.Show (NULL); return FALSE; }
 
 	MSILog(hInstaller, MSI_INFO_LEVEL, GetString("REMOVING_APPDATA"));
 
@@ -1948,14 +1983,11 @@ BOOL DoApplicationDataUninstall_Dll (MSIHANDLE hInstaller)
 		bOK = FALSE;
 	}
 
-	// remove VeraCrypt under common appdata
-	if (SUCCEEDED (SHGetFolderPath (NULL, CSIDL_COMMON_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, path)))
-	{
-		StringCbCatW (path, sizeof(path), L"\\VeraCrypt");
-
-		// Preserve both legacy backup names for recovery.
-		RemoveDirectoryW (path);
-	}
+	// The VeraCrypt directory under common appdata, used by VeraCrypt 1.26.29 and
+	// older, is kept: it can contain backups of the original system loader, and once
+	// secured, it prevents standard users from creating files there. Otherwise, one
+	// of them could create it again, with a script that a remaining Windows Setup
+	// registration would run.
 
 	MSILog(hInstaller, MSI_INFO_LEVEL, L"End DoApplicationDataUninstall");
 	return bOK;
@@ -1980,12 +2012,18 @@ BOOL DoUninstall_Dll (MSIHANDLE hInstaller, HWND hwndDlg)
 	}
 	else
 	{
+		// A failure does not prevent the uninstallation.
 		try { BootEncryption::UpdateSetupConfigFile (false); }
-		catch (Exception &e) { e.Show (hwndDlg); bOK = FALSE; }
+		catch (Exception &e)
+		{
+			MSILogException (hInstaller, e);
+			MSILog (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYSENC_SETUP_CONFIG_REMOVE_FAILED"));
+			MSILogAndShowMessage (hInstaller, MSI_WARNING_LEVEL, GetString ("MSI_SYSENC_SETUP_CONFIG_REMOVE_FAILED"), false);
+		}
 		if (!Rollback && bSystemRestore && !bTempSkipSysRestore)
 			SetSystemRestorePoint_Dll (hInstaller, FALSE);
 
-		if (!bOK || DoServiceUninstall_Dll (hInstaller, hwndDlg, L"veracrypt") == FALSE)
+		if (DoServiceUninstall_Dll (hInstaller, hwndDlg, L"veracrypt") == FALSE)
 		{
 			bOK = FALSE;
 		}
@@ -2500,17 +2538,11 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PreInstall(MSIHANDLE hInstaller)
 
 	bootEnc.SetParentWindow(hwndDlg);
 
-	try { BootEncryption::UpdateSetupConfigFile (false); }
-	catch (Exception &e) { e.Show (hwndDlg); goto end; }
-
 	if (DoDriverUnload_Dll (hInstaller, hwndDlg) == FALSE)
 	{
 		MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PreInstall: DoDriverUnload_Dll() failed");
 		goto end;
 	}
-	try { if (SystemEncryptionUpdate) BootEncryption::PrepareSystemEncryptionInstallation (InstallationPath); }
-	catch (Exception &e) { e.Show (hwndDlg); goto end; }
-
 
 	if (bSystemRestore)
 	{
@@ -2591,6 +2623,30 @@ end:
 	return uiRet;
 }
 
+/*
+ * Same as Setup.c, function RecordInstallationPath().
+ * Unlike the EXE installer, the MSI records the installation directory nowhere
+ * else that the system favorites service and the COM servers can find it.
+ */
+static BOOL RecordInstallationPath (const wchar_t *path, BOOL bOnlyIfServiceExists)
+{
+	const wchar_t *key = L"SYSTEM\\CurrentControlSet\\Services\\veracrypt";
+	// Never replace a recorded path with an invalid one.
+	if (!path || wcslen (path) < 3 || path[1] != L':' || path[2] != L'\\')
+	{
+		SetLastError (ERROR_BAD_PATHNAME);
+		return FALSE;
+	}
+	if (bOnlyIfServiceExists)
+	{
+		HKEY hkey;
+		if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, key, 0, KEY_QUERY_VALUE, &hkey) != ERROR_SUCCESS)
+			return TRUE;
+		RegCloseKey (hkey);
+	}
+	return WriteLocalMachineRegistryString (key, L"InstallationPath", path, FALSE);
+}
+
 /* 
  * Same as Setup.c, function DoInstall(), but 
  * without the actual installation, it only performs 
@@ -2602,6 +2658,15 @@ end:
  */
 EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 {
+	MsiDriverHandle postInstallDriver;
+	BootLoaderUpdateResult bootLoaderResult = {};
+	DWORD bootLoaderResultError = ERROR_NOT_READY;
+	bool bootLoaderResultRead = false;
+	DWORD bootLoaderServiceError = ERROR_SUCCESS;
+	GUID setupNotificationGeneration = {};
+	DWORD setupNotifications = ReadSetupNotifications (&setupNotificationGeneration);
+	DWORD carriedSetupNotifications = setupNotifications & (VC_SETUP_NOTIFY_CONFIG_UPDATE | VC_SETUP_NOTIFY_CONFIG_REMOVE);
+	bool saveSetupNotifications = false;
 	HWND			hwndDlg			= NULL;
 	std::wstring    szValueBuf		= L"";
 	DWORD           cchValueBuf		= 0;
@@ -2761,9 +2826,22 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 		MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: VC_CustomAction_Init() failed");
 		goto end;
 	}
+	saveSetupNotifications = true;
+	if (!SystemEncryptionUpdate)
+		setupNotifications &= ~VC_SETUP_NOTIFY_BOOT_MASK;
 	atexit(VC_CustomAction_Cleanup);
 	bootEnc.SetParentWindow(hwndDlg);
 	
+	if (SystemEncryptionUpdate)
+	{
+		int status = postInstallDriver.Attach ();
+		if (status != 0)
+		{
+			handleError_Dll (hInstaller, status, SRC_POS);
+			goto end;
+		}
+	}
+
 	//	Last part of DoFilesInstall()
 	{
 		BOOL bResult = FALSE;
@@ -2811,23 +2889,21 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 
 		if (bResult)
 		{
-			// Update the path of the service
+			// Update the executable of the system favorites service. A failure does
+			// not fail the installation: the service keeps its previous executable,
+			// and a replacement that is not possible now is done when Windows restarts.
 			BootEncryption BootEncObj (hwndDlg);
 
 			try
 			{
 				if (SystemEncryptionUpdate || BootEncObj.IsSystemFavoritesServiceInstalled ())
 				{
-					SystemEncryptionFiles::Directory sourceDirectory;
-					SystemEncryptionFiles::Handle sourceFile;
-					DWORD sourceError = SystemEncryptionFiles::OpenInstallerFile (szTmp, sourceDirectory, sourceFile);
-					if (sourceError != ERROR_SUCCESS) { SetLastError (sourceError); throw SystemException (SRC_POS); }
 					uint32 driverFlags = ReadDriverConfigurationFlags ();
 					uint32 serviceFlags = BootEncObj.ReadServiceConfigurationFlags ();
 
 					BootEncObj.UpdateSystemFavoritesService ();
 
-					MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: INSTALLING %s", servicePath.c_str());
+					MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostInstall: INSTALLING %s", servicePath.c_str());
 
 					// Tell the service not to update loader on stop
 					BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, true);
@@ -2838,10 +2914,65 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 						try { finally_arg->SetDriverConfigurationFlag (finally_arg2, true); } catch (...) { }
 					});
 
-					throw_sys_if (!StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL));
-					throw_sys_if (!CopyFile (szTmp, servicePath.c_str(), FALSE));
-					LPCWSTR szArgs[3] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT, VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_LOADER };
-					throw_sys_if (!StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, SystemEncryptionUpdate ? 3 : 2, szArgs));
+					// The new service locates the installation from this value.
+					if (!RecordInstallationPath (szInstallDir.c_str (), TRUE))
+						MSILog (hInstaller, MSI_WARNING_LEVEL, L"VC_CustomAction_PostInstall: failed to record the installation path. Error 0x%.8X", GetLastError ());
+
+					// The executable of a service that cannot be stopped is replaced when Windows restarts.
+					if (!StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL))
+					{
+						bootLoaderServiceError = GetLastError () ? GetLastError () : ERROR_GEN_FAILURE;
+						MSILog (hInstaller, MSI_WARNING_LEVEL, L"VC_CustomAction_PostInstall: failed to stop %s. Error 0x%.8X", TC_SYSTEM_FAVORITES_SERVICE_NAME, bootLoaderServiceError);
+						bRestartRequired = TRUE; // The previous executable runs until then
+					}
+					DWORD copyError = SetupService::UpdateExecutable (szTmp, servicePath);
+					bootLoaderResultError = copyError;
+					if (copyError == ERROR_SUCCESS)
+					{
+						// we tell the service not to load system favorites on startup and to update bootloader on startup
+						GUID requestId = {};
+						wstring requestArgument;
+						if (SystemEncryptionUpdate)
+						{
+							HRESULT hr = CoCreateGuid (&requestId);
+							bootLoaderResultError = FAILED (hr) ? (DWORD) hr : ERROR_NOT_READY;
+							wchar_t id[39];
+							if (SUCCEEDED (hr) && StringFromGUID2 (requestId, id, ARRAYSIZE (id)))
+							{
+								requestArgument = wstring (VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_REQUEST) + id;
+								MSILog (hInstaller, MSI_INFO_LEVEL, L"Boot loader update request: %s", id);
+							}
+						}
+						LPCWSTR szArgs[4] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT,
+							VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_LOADER, requestArgument.c_str () };
+						DWORD argc = SystemEncryptionUpdate ? (requestArgument.empty () ? 3 : 4) : 2;
+						BOOL started = StartStopService_Dll (hInstaller, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, argc, szArgs);
+						if (!started)
+						{
+							bootLoaderServiceError = GetLastError () ? GetLastError () : ERROR_GEN_FAILURE;
+							bootLoaderResultError = bootLoaderServiceError;
+							bRestartRequired = TRUE; // The service starts with Windows
+						}
+						if (!requestArgument.empty ())
+						{
+							bootLoaderResultError = ReadBootLoaderResultAfterStart_Dll (requestId, started, bootLoaderResult);
+							bootLoaderResultRead = bootLoaderResultError == ERROR_SUCCESS;
+						}
+					}
+					else
+					{
+						// Never start the previous executable again: it could reinstall its own,
+						// older boot loader. The service starts when Windows restarts.
+						bRestartRequired = TRUE;
+						if (copyError == ERROR_SUCCESS_REBOOT_REQUIRED)
+							MSILog (hInstaller, MSI_WARNING_LEVEL, L"VC_CustomAction_PostInstall: %s will be replaced when Windows restarts", servicePath.c_str());
+						else
+						{
+							MSILog (hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: failed to update %s. Error 0x%.8X", servicePath.c_str(), copyError);
+							if (!SystemEncryptionUpdate)
+								ShowSetupWarning_Dll (hInstaller, setupNotifications, VC_SETUP_NOTIFY_SERVICE, "SYSTEM_FAVORITES_SERVICE_UPDATE_FAILED");
+						}
+					}
 
 					BootEncObj.SetDriverConfigurationFlag (driverFlags, true);
 					BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER,
@@ -2850,22 +2981,26 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 			}
 			catch (Exception &e)
 			{
-				e.Show (hwndDlg);
-				EnableWow64FsRedirection (TRUE);
-				goto end;
+				const SystemException *systemError = dynamic_cast<const SystemException *> (&e);
+				bootLoaderServiceError = systemError && systemError->ErrorCode ? systemError->ErrorCode : ERROR_GEN_FAILURE;
+				if (!bootLoaderResultRead)
+					bootLoaderResultError = bootLoaderServiceError;
+				MSILogException (hInstaller, e);
+				if (!SystemEncryptionUpdate)
+					ShowSetupWarning_Dll (hInstaller, setupNotifications, VC_SETUP_NOTIFY_SERVICE, "MSI_SYSENC_SERVICE_REPAIR_REQUIRED");
 			}
 		}
 
-		// delete files from legacy path
-		if (FileExists (favoritesLegacyFile.c_str()))
+		// delete files from legacy path, keeping the favorites if they could not be copied
+		if (FileExists (favoritesLegacyFile.c_str()) && FileExists (favoritesFile.c_str()))
 		{
-			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: REMOVING %s", favoritesLegacyFile.c_str());
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostInstall: REMOVING %s", favoritesLegacyFile.c_str());
 			ForceDeleteFile (favoritesLegacyFile.c_str());
 		}
 
 		if (FileExists (serviceLegacyPath.c_str()))
 		{
-			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: REMOVING %s", serviceLegacyPath.c_str());
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostInstall: REMOVING %s", serviceLegacyPath.c_str());
 			ForceDeleteFile (serviceLegacyPath.c_str());
 		}
 
@@ -2974,24 +3109,45 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 		MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: DoDriverInstall_Dll() failed");
 		bOK = FALSE;
 	}
-	else if (SystemEncryptionUpdate && UpgradeBootLoader_Dll(hInstaller, hwndDlg) == FALSE)
-	{
-		MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostInstall: UpgradeBootLoader_Dll() failed");
-		bOK = FALSE;
-	}
+	if (bOK && SystemEncryptionUpdate)
+		UpdateRescueDiskNotice_Dll (hInstaller, hwndDlg,
+			bootLoaderResultRead && bootLoaderResult.Disposition == VC_BOOT_LOADER_UPDATE_COMPLETED);
 
 	//	Shortcuts are installed by MSI, so we skip that.
 
 	if (!UnloadDriver)
 		bRestartRequired = TRUE;
 
-	try
+	if (bOK)
 	{
-		BootEncryption::UpdateSetupConfigFile (bOK && SystemEncryptionUpdate);
+		// Record the installation path again, in case the driver service has just
+		// been installed.
+		if (!RecordInstallationPath (szInstallDir.c_str (), FALSE))
+			MSILog (hInstaller, MSI_WARNING_LEVEL, L"VC_CustomAction_PostInstall: failed to record the installation path. Error 0x%.8X", GetLastError ());
+
+		// Windows feature update support. A failure is reported but does not fail
+		// the installation: the system favorites service retries when it starts.
+		setupNotifications &= ~(VC_SETUP_NOTIFY_CONFIG_UPDATE | VC_SETUP_NOTIFY_CONFIG_REMOVE);
+		carriedSetupNotifications = 0;
+		try { BootEncryption::UpdateSetupConfigFile (SystemEncryptionUpdate != FALSE); }
+		catch (Exception &e)
+		{
+			MSILogException (hInstaller, e);
+			ShowSetupWarning_Dll (hInstaller, setupNotifications,
+				SystemEncryptionUpdate ? VC_SETUP_NOTIFY_CONFIG_UPDATE : VC_SETUP_NOTIFY_CONFIG_REMOVE,
+				SystemEncryptionUpdate ? "MSI_SYSENC_SETUP_CONFIG_UPDATE_FAILED" : "MSI_SYSENC_SETUP_CONFIG_REMOVE_FAILED");
+		}
+		try
+		{
+			bootEnc.RenameDeprecatedSystemLoaderBackup (SystemEncryptionUpdate != FALSE);
+			setupNotifications &= ~VC_SETUP_NOTIFY_BACKUP;
+		}
+		catch (Exception &e)
+		{
+			MSILogException (hInstaller, e);
+			ShowSetupWarning_Dll (hInstaller, setupNotifications, VC_SETUP_NOTIFY_BACKUP, "MSI_SYS_LOADER_BACKUP_MIGRATION_FAILED");
+		}
 	}
-	catch (Exception &e) { e.Show (hwndDlg); bOK = FALSE; }
-	try { bootEnc.RenameDeprecatedSystemLoaderBackup (SystemEncryptionUpdate != FALSE); }
-	catch (Exception &e) { e.Show (hwndDlg); Warning ("SYS_LOADER_BACKUP_MIGRATION_FAILED", hwndDlg); }
 
 	if (bSystemRestore)
 		SetSystemRestorePoint_Dll (hInstaller, TRUE);
@@ -3010,6 +3166,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 			Silent = TRUE;
 
 			DoUninstall_Dll (hInstaller, hwndDlg);
+			saveSetupNotifications = false;
 
 			bUninstall = FALSE;
 			Rollback = FALSE;
@@ -3140,6 +3297,20 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 	}
 end:
 
+	if (saveSetupNotifications)
+	{
+		if (SystemEncryptionUpdate)
+			ReportBootLoaderUpdateResult_Dll (hInstaller, bootLoaderResultError, bootLoaderResult,
+				bootLoaderResultRead, bootLoaderServiceError, setupNotifications);
+		setupNotifications = RefreshCarriedSetupNotifications_Dll (setupNotificationGeneration, carriedSetupNotifications, setupNotifications);
+		DWORD error = SaveSetupNotifications (setupNotifications);
+		if (error != ERROR_SUCCESS)
+		{
+			MSILog (hInstaller, MSI_WARNING_LEVEL, L"Could not save recovery notifications for the GUI: error 0x%.8X", error);
+			if (setupNotifications)
+				MSILogAndShow (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("MSI_SETUP_NOTIFICATIONS_FAILED"));
+		}
+	}
 	MSILog(hInstaller, MSI_INFO_LEVEL, L"End VC_CustomAction_PostInstall");
 	return uiRet;
 }
@@ -3251,12 +3422,18 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PreUninstall(MSIHANDLE hInstaller)
 	}
 	else
 	{
+		// A failure does not prevent the uninstallation.
 		try { BootEncryption::UpdateSetupConfigFile (false); }
-		catch (Exception &e) { e.Show (hwndDlg); bOK = FALSE; }
+		catch (Exception &e)
+		{
+			MSILogException (hInstaller, e);
+			MSILog (hInstaller, MSI_WARNING_LEVEL, L"%s", GetString ("SYSENC_SETUP_CONFIG_REMOVE_FAILED"));
+			MSILogAndShowMessage (hInstaller, MSI_WARNING_LEVEL, GetString ("MSI_SYSENC_SETUP_CONFIG_REMOVE_FAILED"), false);
+		}
 		if (!Rollback && bSystemRestore && !bTempSkipSysRestore)
 			SetSystemRestorePoint_Dll (hInstaller, FALSE);
 
-		if (!bOK || DoServiceUninstall_Dll (hInstaller, hwndDlg, L"veracrypt") == FALSE)
+		if (DoServiceUninstall_Dll (hInstaller, hwndDlg, L"veracrypt") == FALSE)
 		{
 			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PreUninstall: DoServiceUninstall_Dll(veracrypt) failed");
 			bOK = FALSE;
@@ -3533,25 +3710,32 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostUninstall(MSIHANDLE hInstaller)
 		// delete all files related to system favorites service
 		if (FileExists (favoritesFile.c_str()))
 		{
-			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", favoritesFile.c_str());
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", favoritesFile.c_str());
 			ForceDeleteFile (favoritesFile.c_str());
 		}
 
 		if (FileExists (servicePath.c_str()))
 		{
-			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", servicePath.c_str());
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", servicePath.c_str());
 			ForceDeleteFile (servicePath.c_str());
+		}
+		// A copy of the service executable staged by an upgrade must not be restored
+		// when Windows restarts.
+		if (!SetupService::DeletePendingReplacements (servicePath))
+		{
+			MSILog(hInstaller, MSI_WARNING_LEVEL, L"VC_CustomAction_PostUninstall: %s will be removed again when Windows restarts", servicePath.c_str());
+			MoveFileExW (servicePath.c_str(), NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
 		}
 
 		if (FileExists (favoritesLegacyFile.c_str()))
 		{
-			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", favoritesLegacyFile.c_str());
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", favoritesLegacyFile.c_str());
 			ForceDeleteFile (favoritesLegacyFile.c_str());
 		}
 
 		if (FileExists (serviceLegacyPath.c_str()))
 		{
-			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", serviceLegacyPath.c_str());
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", serviceLegacyPath.c_str());
 			ForceDeleteFile (serviceLegacyPath.c_str());
 		}
 
@@ -3560,18 +3744,18 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostUninstall(MSIHANDLE hInstaller)
 		// remove the installation folder is case it remains after uninstall
 		if (DirectoryExists (szInstallDir.c_str()))
 		{
-			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", szInstallDir.c_str());
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostUninstall: REMOVING %s", szInstallDir.c_str());
 			if(DeleteDirectory (szInstallDir.c_str()))
 			{
-				MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: %s removed", szInstallDir.c_str());
+				MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostUninstall: %s removed", szInstallDir.c_str());
 			}
 			else
 			{
-				MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: %s could not be removed. Scheduling removal on reboot", szInstallDir.c_str());
+				MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostUninstall: %s could not be removed. Scheduling removal on reboot", szInstallDir.c_str());
 				if (DeleteContentsOnReboot(szInstallDir.c_str()))
 				{
 					bRestartRequired = TRUE;
-					MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: %s scheduled for removal on reboot", szInstallDir.c_str());
+					MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostUninstall: %s scheduled for removal on reboot", szInstallDir.c_str());
 				}
 				else
 				{
@@ -3581,7 +3765,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostUninstall(MSIHANDLE hInstaller)
 		}
 		else
 		{
-			MSILog(hInstaller, MSI_ERROR_LEVEL, L"VC_CustomAction_PostUninstall: %s does not exist", szInstallDir.c_str());
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_PostUninstall: %s does not exist", szInstallDir.c_str());
 		}
 	}
 

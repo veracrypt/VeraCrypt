@@ -57,6 +57,8 @@ namespace VeraCrypt
 
 	protected:
 		static shared_ptr <VolumeInfo> ReadAuxiliaryVolumeInfo (const DirectoryPath &auxMountPoint);
+		VolumeSlotNumber GetDefaultMountPointSlot (const DirectoryPath &mountPoint) const;
+		void ValidateMountPoint (const DirectoryPath &mountPoint) const;
 		virtual DevicePath AttachFileToLoopDevice (const FilePath &filePath, bool readOnly) const { throw NotApplicable (SRC_POS); }
 		virtual void DetachLoopDevice (const DevicePath &devicePath) const { throw NotApplicable (SRC_POS); }
 		virtual void DismountNativeVolume (shared_ptr <VolumeInfo> mountedVolume) const { throw NotApplicable (SRC_POS); }

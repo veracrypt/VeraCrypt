@@ -22,13 +22,19 @@ on:
       - 'src/Volume/**'
       - 'src/Makefile'
       - 'Tests/test_linux_privilege_helpers.py'
+      - 'Tests/test_linux_service_inheritance.py'
+      - 'Tests/test_linux_process.py'
+      - 'Tests/linux_process_test.cpp'
       - 'Tests/test_stdin_password.py'
       - 'Tests/test_mount_helper.py'
+      - 'Tests/test_linux_mount_point_protection.py'
       - 'Tests/test.*.hc'
       - 'Tests/test_volume_read.py'
       - 'Tests/volume_read_test.cpp'
       - 'Tests/test_linux_mount_read_only.py'
       - 'Tests/linux_mount_read_only_test.cpp'
+      - 'Tests/test_linux_mount_points.py'
+      - 'Tests/linux_mount_points_test.cpp'
       - 'Tests/response_apdu_test.cpp'
       - '.github/workflows/build-linux.yml'
   pull_request:
@@ -52,13 +58,19 @@ on:
       - 'src/Volume/**'
       - 'src/Makefile'
       - 'Tests/test_linux_privilege_helpers.py'
+      - 'Tests/test_linux_service_inheritance.py'
+      - 'Tests/test_linux_process.py'
+      - 'Tests/linux_process_test.cpp'
       - 'Tests/test_stdin_password.py'
       - 'Tests/test_mount_helper.py'
+      - 'Tests/test_linux_mount_point_protection.py'
       - 'Tests/test.*.hc'
       - 'Tests/test_volume_read.py'
       - 'Tests/volume_read_test.cpp'
       - 'Tests/test_linux_mount_read_only.py'
       - 'Tests/linux_mount_read_only_test.cpp'
+      - 'Tests/test_linux_mount_points.py'
+      - 'Tests/linux_mount_points_test.cpp'
       - 'Tests/response_apdu_test.cpp'
       - '.github/workflows/build-linux.yml'
 
@@ -158,14 +170,21 @@ jobs:
     - name: Read known data from the test volumes
       run: python3 Tests/test_volume_read.py --build-dir src --require-thread-pool
 
+    - name: Check Unix process descriptors and timeouts
+      run: python3 Tests/test_linux_process.py --build-dir src
+
     # The package build above defaults to FUSE2 and leaves matching archives.
     - name: Check Linux mount protection and fallback
       run: python3 Tests/test_linux_mount_read_only.py --build-dir src --fuse-package=fuse
+
+    - name: Check Unix mount-point validation and directory handling
+      run: python3 Tests/test_linux_mount_points.py --build-dir src --fuse-package=fuse
 
     - name: Install and test VeraCrypt GUI .deb packages
       run: |
         sudo apt install -y /tmp/VeraCrypt_Packaging/GUI/Packaging/veracrypt-*.deb
         python3 Tests/test_linux_privilege_helpers.py --veracrypt "$(command -v veracrypt)"
+        python3 Tests/test_linux_service_inheritance.py --veracrypt "$(command -v veracrypt)"
         veracrypt --text --test && veracrypt --text --version
         sudo veracrypt --text --non-interactive Tests/test.sha256.hc --hash sha256 --slot 1 --password test --mount-options=ro
         sudo veracrypt --text --non-interactive Tests/test.sha512.hc --hash sha512 --slot 2 --password test --mount-options=ro
@@ -201,11 +220,13 @@ jobs:
         sudo locale-gen en_US en_US.UTF-8
         sudo python3 Tests/test_stdin_password.py --require-locales
         sudo python3 Tests/test_mount_helper.py --helper /usr/sbin/mount.veracrypt
+        sudo python3 Tests/test_linux_mount_point_protection.py
         sudo apt remove -y veracrypt
 
     - name: Install and test VeraCrypt Console .deb packages
       run: |
         sudo apt install -y /tmp/VeraCrypt_Packaging/Console/Packaging/veracrypt-console-*.deb
+        python3 Tests/test_linux_service_inheritance.py --veracrypt "$(command -v veracrypt)"
         veracrypt --test && veracrypt --version
         sudo veracrypt --non-interactive Tests/test.sha256.hc --hash sha256 --slot 1 --password test --mount-options=ro
         sudo veracrypt --non-interactive Tests/test.sha512.hc --hash sha512 --slot 2 --password test --mount-options=ro

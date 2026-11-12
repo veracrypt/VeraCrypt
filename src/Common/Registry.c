@@ -16,11 +16,16 @@
 
 BOOL ReadLocalMachineRegistryDword (wchar_t *subKey, wchar_t *name, DWORD *value)
 {
+	return ReadLocalMachineRegistryDwordEx (subKey, name, value, 0);
+}
+
+BOOL ReadLocalMachineRegistryDwordEx (const wchar_t *subKey, const wchar_t *name, DWORD *value, REGSAM view)
+{
 	HKEY hkey = 0;
 	DWORD size = sizeof (*value);
 	DWORD type;
 
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, subKey, 0, KEY_READ, &hkey) != ERROR_SUCCESS)
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, subKey, 0, KEY_READ | view, &hkey) != ERROR_SUCCESS)
 		return FALSE;
 
 	if (RegQueryValueEx (hkey, name, NULL, &type, (BYTE *) value, &size) != ERROR_SUCCESS)
@@ -153,12 +158,17 @@ void WriteRegistryInt (wchar_t *subKey, wchar_t *name, int value)
 
 BOOL WriteLocalMachineRegistryDword (wchar_t *subKey, wchar_t *name, DWORD value)
 {
+	return WriteLocalMachineRegistryDwordEx (subKey, name, value, 0);
+}
+
+BOOL WriteLocalMachineRegistryDwordEx (const wchar_t *subKey, const wchar_t *name, DWORD value, REGSAM view)
+{
 	HKEY hkey = 0;
 	DWORD disp;
 	LONG status;
 
 	if ((status = RegCreateKeyEx (HKEY_LOCAL_MACHINE, subKey,
-		0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &disp)) != ERROR_SUCCESS)
+		0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE | view, NULL, &hkey, &disp)) != ERROR_SUCCESS)
 	{
 		SetLastError (status);
 		return FALSE;
@@ -201,12 +211,17 @@ BOOL WriteLocalMachineRegistryMultiString (wchar_t *subKey, wchar_t *name, wchar
 
 BOOL WriteLocalMachineRegistryString (const wchar_t *subKey, const wchar_t *name, const wchar_t *str, BOOL expandable)
 {
+	return WriteLocalMachineRegistryStringEx (subKey, name, str, expandable, 0);
+}
+
+BOOL WriteLocalMachineRegistryStringEx (const wchar_t *subKey, const wchar_t *name, const wchar_t *str, BOOL expandable, REGSAM view)
+{
 	HKEY hkey = 0;
 	DWORD disp;
 	LONG status;
 
 	if ((status = RegCreateKeyEx (HKEY_LOCAL_MACHINE, subKey,
-		0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &disp)) != ERROR_SUCCESS)
+		0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE | view, NULL, &hkey, &disp)) != ERROR_SUCCESS)
 	{
 		SetLastError (status);
 		return FALSE;

@@ -191,8 +191,14 @@ namespace VeraCrypt
 	static void ThrowUnconfirmedCleanups (const list <DismountServiceCleanupFailed> &failures, const wstring &otherFailure)
 	{
 		wstring details;
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ == 4 && __GNUC_MINOR__ < 6
+		// GCC did not support range-based for loops until version 4.6.
+		for (list <DismountServiceCleanupFailed>::const_iterator failure = failures.begin(); failure != failures.end(); ++failure)
+			details += (details.empty() ? L"" : L"\n\n") + failure->GetSubject();
+#else
 		for (const DismountServiceCleanupFailed &failure : failures)
 			details += (details.empty() ? L"" : L"\n\n") + failure.GetSubject();
+#endif
 
 		if (!otherFailure.empty())
 			details += L"\n\n" + otherFailure;
@@ -250,7 +256,7 @@ namespace VeraCrypt
 						}
 						else
 						{
-							if (AskYesNo (StringFormatter (LangString["UNMOUNT_LOCK_FAILED"], wstring (volume->Path)), true, true))
+							if (AskYesNo (LangString["UNMOUNT_LOCK_FAILED"], true, true))
 							{
 								BusyScope busy (this);
 								volume = DismountVolumeThread (volume, true);
@@ -624,7 +630,7 @@ namespace VeraCrypt
 		EX2MSG (PasswordOrMountOptionsIncorrect,	LangString["PASSWORD_OR_KEYFILE_OR_MODE_WRONG"] + LangString["LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT"]);
 		EX2MSG (PasswordTooLong,					StringFormatter (LangString["LINUX_EX2MSG_PASSWORDTOOLONG"], (int) VolumePassword::MaxSize));
 		EX2MSG (PasswordUTF8TooLong,				StringFormatter (LangString["PASSWORD_UTF8_TOO_LONG"], (int) VolumePassword::MaxSize));
-		EX2MSG (PasswordLegacyUTF8TooLong,			StringFormatter (LangString["LEGACY_PASSWORD_UTF8_TOO_LONG"], (int) VolumePassword::MaxLegacySize));
+		EX2MSG (PasswordLegacyUTF8TooLong,			LangString["LEGACY_PASSWORD_UTF8_TOO_LONG"]);
 		EX2MSG (PasswordUTF8Invalid,				LangString["PASSWORD_UTF8_INVALID"]);
 		EX2MSG (PartitionDeviceRequired,			LangString["LINUX_EX2MSG_PARTITIONDEVICEREQUIRED"]);
 		EX2MSG (ProtectionPasswordIncorrect,		LangString["LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT"]);

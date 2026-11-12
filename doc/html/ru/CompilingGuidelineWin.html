@@ -105,8 +105,9 @@
     <p>
 		<ol>
 			<li>
-				Загрузите файл "nasm-2.08-installer.exe" отсюда: <br>
-				<a href="https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/" target="_blank">https://www.nasm.us/pub/nasm/releasebuilds/2.08/win32/</a>
+				Загрузите установщик актуальной версии NASM (например, "nasm-2.16.03-installer-x64.exe") отсюда: <br>
+				<a href="https://www.nasm.us/pub/nasm/releasebuilds/" target="_blank">https://www.nasm.us/pub/nasm/releasebuilds/</a> <br>
+                Подходят актуальные версии NASM; для проверенных в этом руководстве сборок приложений Windows использовался NASM 2.16.03.
 			</li>
 			<li>
 				Запустите файл от имени администратора.
@@ -137,8 +138,9 @@
 						<img src="CompilingGuidelineWin/SelectPathVariable.jpg" width="25%">
 					</li>
 					<li>
-						Нажмите кнопку "Создать" и добавьте следующее значение: <br>
-						<p style="font-family: 'Courier New', monospace;">C:\Program Files (x86)\nasm</p>
+						Нажмите кнопку "Создать" и добавьте папку, в которую установлен NASM, например: <br>
+						<p style="font-family: 'Courier New', monospace;">C:\Program Files\NASM</p>
+						(32-битный установщик NASM использует "C:\Program Files (x86)\nasm")
 					</li>
 					<li>
 						Закройте окна, нажимая кнопки OK.
@@ -146,9 +148,9 @@
 				</ol>
 			</li>
 			<li>
-				Чтобы проверить, правильно ли работает конфигурация, откройте командную строку и посмотрите вывод следующей команды: <br>
-				<p style="font-family: 'Courier New', monospace;">nasm</p> <br>
-				<img src="CompilingGuidelineWin/NasmCommandLine.jpg" width="50%">
+                Чтобы проверить установку, откройте новую командную строку и выполните: <br>
+                <p style="font-family: 'Courier New', monospace;">where.exe nasm<br>nasm -v</p>
+                Первая команда выводит исполняемые файлы NASM, найденные в Path; вторая показывает версию, которая будет использована. Убедитесь, что команды указывают на нужную установку.
 			</li>
 		</ol>
 	</p>
@@ -165,27 +167,14 @@
 				C:\Program Files\YASM
 			</li>
 			<li>
-				Загрузите предварительно собранный Win64 zip-архив YASM отсюда: <br>
+				Загрузите "yasm-1.3.0-win64.exe" из раздела Assets официальной страницы релиза: <br>
 				<a href="https://github.com/yasm/yasm/releases/tag/v1.3.0" target="_blank">https://github.com/yasm/yasm/releases/tag/v1.3.0</a>
-			</li>
-			<li>
-				Ваш интернет-браузер может сообщить, что, возможно, файл представляет угрозу безопасности, так как редко скачивается или из-за незашифрованного соединения. Тем не менее официальный сайт – наиболее надёжный источник этого файла, поэтому мы рекомендуем разрешить загрузку.
-			</li>
-			<li>
-				Распакуйте загруженный zip-архив и скопируйте извлечённые файлы в папку "C:\Program Files\YASM".
-			</li>
-			<li>
-				Загрузите файл "Win64 .exe" отсюда: <br>
-				<a href="https://github.com/yasm/yasm/releases/tag/v1.3.0" target="_blank">https://github.com/yasm/yasm/releases/tag/v1.3.0</a>
-			</li>
-			<li>
-				Ваш интернет-браузер может сообщить, что, возможно, файл представляет угрозу безопасности, так как редко скачивается или из-за незашифрованного соединения. Тем не менее официальный сайт – наиболее надёжный источник этого файла, поэтому мы рекомендуем разрешить загрузку.
 			</li>
 			<li>
 				Переименуйте файл в "yasm.exe" и скопируйте его в папку "C:\Program Files\YASM".
 			</li>
 			<li>
-				Добавьте путь к папке YASM в переменную PATH и создайте новую системную переменную для YASM. Это сделает команду доступной отовсюду при вызове из командной строки. <br>
+				Добавьте путь к папке YASM в переменную PATH. Это сделает команду доступной отовсюду при вызове из командной строки. <br>
 				<ol style="list-style-type: upper-roman;">
 					<li>
 						Откройте Проводник.
@@ -210,28 +199,16 @@
 						Нажмите кнопку "Создать" и добавьте следующее значение: <br>
 						<p style="font-family: 'Courier New', monospace;">C:\Program Files\YASM</p>
 					</li>
-					<li>
-						Закройте верхнее окно, нажав OK.
-					</li>
-					<li>
-						В поле "Системные переменные" нажмите кнопку "Создать...". <br>
-						<img src="CompilingGuidelineWin/AddNewSystemVar.jpg" width="25%">
-					</li>
-					<li>
-						Заполните форму следующими значениями: <br>
-						<p style="font-family: 'Courier New', monospace;">Имя переменной: YASMPATH<br> Значение переменной: C:\Program Files\YASM</p>
-					</li>
+
 					<li>
 						Закройте окна, нажимая кнопки OK.
 					</li>
 				</ol>
 			</li>
 			<li>
-				Чтобы проверить, правильно ли работает конфигурация, откройте командную строку и посмотрите вывод следующей команды: <br>
-				<p style="font-family: 'Courier New', monospace;">yasm</p> <br>
-				и <br>
-				<p style="font-family: 'Courier New', monospace;">vsyasm</p> <br>
-				<img src="CompilingGuidelineWin/YasmCommandLine.jpg" width="50%">
+                Чтобы проверить установку, откройте новую командную строку и выполните: <br>
+                <p style="font-family: 'Courier New', monospace;">where.exe yasm<br>yasm --version</p>
+                Первая команда выводит исполняемые файлы YASM, найденные в Path; вторая должна сообщить версию YASM 1.3.0. Убедитесь, что команды указывают на нужную установку.
 			</li>
 		</ol>
 	</p>
@@ -426,16 +403,16 @@
 				Процесс компиляции должен завершиться с предупреждениями, но без ошибок. Некоторые проекты следует пропустить.
 			</li>
 			<li>
-				Выберите "Release|Win32" как активную конфигурацию и соберите решение, чтобы скомпилировать Win32-проекты установщика и вспомогательные проекты, используемые скриптами выпуска.
+				Выберите "Release|Win32" как активную конфигурацию и соберите решение, чтобы скомпилировать проекты Setup, Portable, COMReg и SetupDLL, используемые скриптами упаковки релиза. Стандартные сборки решения "Release|x64" и "Release|ARM64" пропускают эти Win32-проекты, поэтому при подготовке пакетов релиза необходима эта дополнительная сборка.
 			</li>
 			<li>
 				Чтобы собрать драйверы VeraCrypt, выберите проект "Driver" и соберите его для "Release|x64" и "Release|ARM64".
 			</li>
 			<li>
-				Собирайте "ReleaseCustomEFI|x64" или "ReleaseCustomEFI|ARM64" только если нужны конфигурации выпуска с пользовательским EFI/загрузчиком. Эти конфигурации включают проект Boot и требуют необязательные инструменты устаревшего загрузчика BIOS, перечисленные выше.
+				Собирайте "ReleaseCustomEFI|x64" или "ReleaseCustomEFI|ARM64" только если нужны конфигурации выпуска с пользовательским EFI/загрузчиком. Эти конфигурации включают проект Boot и требуют необязательные инструменты устаревшего загрузчика BIOS, перечисленные выше. Они также собирают проекты Setup, Portable, COMReg и SetupDLL в конфигурациях Win32.
 			</li>
 			<li>
-				Если вы используете Build Tools for Visual Studio 2022 вместо IDE Visual Studio, откройте "Developer Command Prompt for VS 2022" или "Developer PowerShell for VS 2022" от имени администратора, перейдите в корневой каталог исходного кода VeraCrypt и выполните эквивалентные команды MSBuild:
+				Если вы используете Build Tools for Visual Studio 2022 вместо IDE Visual Studio, откройте "Developer Command Prompt for VS 2022" или "Developer PowerShell for VS 2022", перейдите в корневой каталог исходного кода VeraCrypt и выполните эквивалентные команды MSBuild (для компиляции права администратора не требуются):
 				<br>
 				<code>
 					msbuild src\VeraCrypt.sln /m /p:Configuration=Release /p:Platform=x64 <br>
@@ -466,7 +443,7 @@
     <p>
 		<ol>
 			<li>
-				Откройте командную строку Visual Studio 2022 от имени администратора, чтобы средства подписи Windows SDK, включая "signtool.exe", были доступны через Path.
+				Откройте командную строку разработчика Visual Studio 2022 от имени администратора для описанной ниже процедуры подписи и упаковки. Убедитесь, что средства подписи Windows SDK, включая "signtool.exe", доступны через Path.
 			</li>
 			<li>
 				Перейдите в папку "src/Signing/".
@@ -512,6 +489,19 @@
   <div class="texttohide">
     <p>
 		<ul>
+<li>
+<b>Распространённые ошибки сборки и их причины</b> <br>
+Отсутствие компонентов сборки может вызывать следующие ошибки. Проверьте соответствующие пункты в приведённых выше списках компонентов:
+<ul>
+<li><p style="font-family: 'Courier New', monospace;">error MSB8040: Spectre-mitigated libraries are required for this project</p>
+В Visual Studio Installer на вкладке "Individual components" установите библиотеки MSVC v143 с защитой от Spectre, соответствующие версии набора инструментов и каждой целевой архитектуре (x64/x86 или ARM64), а также соответствующие компоненты ATL "with Spectre Mitigations".</li>
+<li><p style="font-family: 'Courier New', monospace;">error C1083: Cannot open include file: 'atlbase.h' (or 'atlcomcli.h')</p>
+Компоненты ATL не установлены. В Visual Studio Installer на вкладке "Individual components" установите "C++ ATL for latest v143 build tools" (и вариант с защитой от Spectre) для каждой архитектуры, под которую выполняется сборка.</li>
+<li><p style="font-family: 'Courier New', monospace;">error MSB8066: Custom build for 'Aes_hw_cpu.asm;...' exited with code 9009</p>
+Ассемблеры не найдены: "nasm.exe" и "yasm.exe" должны быть доступны через Path (код завершения 9009 означает "команда не найдена"). Командная строка или экземпляр Visual Studio, открытые до изменения переменной Path, не видят нового значения — откройте их заново и повторите сборку.</li>
+</ul>
+</li>
+
 			<li>
 				<b>Этот дистрибутив повреждён.</b> <br>
 				<img src="CompilingGuidelineWin/DistributionPackageDamaged.jpg" width="20%"> <br>

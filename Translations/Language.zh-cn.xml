@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.26.30">
+  <localization prog-version="1.26.31">
     <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.3" translators="Barney Li, Zhangjintao, Nkh0472, 风之暇想" />
     <font lang="zh-cn" class="normal" size="12" face="Microsoft YaHei" />
     <font lang="zh-cn" class="bold" size="14" face="Microsoft YaHei" />
@@ -207,7 +207,7 @@
     <entry lang="zh-cn" key="IDM_BENCHMARK">基准测试...</entry>
     <entry lang="zh-cn" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">设置首密钥衍生算法...</entry>
     <entry lang="zh-cn" key="IDM_CHANGE_PASSWORD">修改加密卷密码...</entry>
-    <entry lang="zh-cn" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">设置首密钥离散算法...</entry>
+    <entry lang="zh-cn" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">设置首密钥衍生算法...</entry>
     <entry lang="zh-cn" key="IDM_CHANGE_SYS_PASSWORD">修改密码...</entry>
     <entry lang="zh-cn" key="IDM_CLEAR_HISTORY">清除加密卷历史记录</entry>
     <entry lang="zh-cn" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">关闭所有安全口令牌会话</entry>
@@ -1713,9 +1713,34 @@
     <entry lang="zh-cn" key="SYS_LOADER_BACKUP_EMPTY">原始系统引导器备份为空。现有文件已被保留。</entry>
     <entry lang="zh-cn" key="SYS_LOADER_BACKUP_DECRYPT_WITHOUT_RESTORE">由于备份无法使用，无法自动恢复原始 BIOS 系统引导器。\n\n您可以解密该驱动器，但之后 Windows 可能需要使用可信的 Windows 恢复介质或已验证的 VeraCrypt 应急盘进行启动修复。继续之前请获取合适的恢复介质。当系统的任何部分仍处于加密状态时，请勿恢复未加密的引导加载程序。\n\n您希望在无自动引导器恢复的情况下解密吗？</entry>
     <entry lang="zh-cn" key="SYS_LOADER_BACKUP_SKIP_RESTORE">系统驱动器已完全解密并卸载，但其原始 BIOS 系统引导器备份无法使用。\n\n您可以在不恢复引导器的情况下完成移除系统加密。当前引导代码将保持原位。如果启动尚未修复，请使用可信的 Windows 恢复介质或已验证的 VeraCrypt 应急盘进行修复。\n\n您希望在无恢复原始系统引导器的情况下完成清理吗？</entry>
-    <entry lang="zh-cn" key="SYSENC_STORAGE_UNTRUSTED">本机 Common Files 文件夹下的 VeraCryptSystem 支持目录、其某个受保护的子目录或某个上级目录存在不安全的所有权、权限或重定向路径。这会阻止访问受保护的系统加密存储。现有文件已被保留。\n\n请让管理员调查并重新定位造成阻碍的对象，然后运行 VeraCrypt 修复/重新安装。请勿仅通过更改所有权或权限来认可旧的引导器备份。</entry>
     <entry lang="zh-cn" key="SYSENC_SETUP_CONFIG_REMOVE_FAILED">VeraCrypt 无法移除其 Windows 功能更新注册项。\n\n请解决前面的配置错误，然后运行 VeraCrypt 修复/重新安装以重试清理。在这些注册项被移除之前，请勿启动 Windows 功能更新。</entry>
-    <entry lang="zh-cn" key="SYSENC_SETUP_CONFIG_CONFLICT">Windows 安装程序配置中包含一个 VeraCrypt 无法识别为其自身的 PostOOBE 或 ReflectDrivers 注册项。该注册项已被保留。\n\n请让管理员解决配置冲突，然后在启动 Windows 功能更新之前运行 VeraCrypt 修复/重新安装。</entry>
+    <entry lang="zh-cn" key="SYSENC_SETUP_CONFIG_UPDATE_FAILED">VeraCrypt 无法为已加密的系统配置 Windows 功能更新支持。\n\nVeraCrypt 会在其系统服务启动时自动重试。如果此警告再次出现，请解决前面的错误，然后运行 VeraCrypt 修复/重新安装。在此之前，请勿启动 Windows 功能更新。</entry>
+    <entry lang="zh-cn" key="SYSTEM_FAVORITES_SERVICE_UPDATE_FAILED">VeraCrypt 无法更新其系统服务的可执行文件，该服务仍在使用先前的版本。\n\n请重启 Windows，然后再次运行 VeraCrypt 安装程序以修复安装。</entry>
+    <entry lang="zh-cn" key="SYSENC_EFI_ASSESSMENT_UNAVAILABLE">VeraCrypt 无法完成安全启动兼容性检查。这并不表示存在不兼容。在能够检查固件策略和已安装的引导文件之前，请保持安全启动设置不变。</entry>
+    <entry lang="zh-cn" key="SYSENC_BOOT_LOADER_UPDATE_UNCONFIRMED">VeraCrypt 无法确认引导加载程序更新已完成。应用程序安装可能已成功，但引导加载程序仍需处理。\n\n请查看 Windows 应用程序事件日志以了解原因。重启 Windows，然后运行 VeraCrypt 修复/重新安装。请准备好可信的 VeraCrypt 应急盘，并在确认更新完成之前不要更改安全启动设置。</entry>
+    <entry lang="zh-cn" key="MSI_SYSENC_BOOT_LOADER_UPDATE_UNCONFIRMED">无法确认引导加载程序更新。请重启 Windows，然后运行修复/重新安装。打开 VeraCrypt 获取恢复指导；请查看 Windows 应用程序事件日志以了解原因。</entry>
+    <entry lang="zh-cn" key="SYSENC_BOOT_LOADER_UPDATE_RESTART">系统服务更新正在等待重启，因此引导加载程序更新尚未确认。请重启 Windows，然后运行 VeraCrypt 修复/重新安装。</entry>
+    <entry lang="zh-cn" key="SYSENC_BOOT_LOADER_POLICY_REFUSED">VeraCrypt 拒绝更新引导加载程序，因为无法针对受支持的引导加载程序集验证固件安全启动策略。现有引导加载程序已被保留。\n\n请查看 Windows 应用程序事件日志以了解详细信息。如果 db 中缺少所需的签名 CA，请启用 Microsoft Corporation UEFI CA 2011，或同时启用 Microsoft UEFI CA 2023 和 Microsoft Option ROM UEFI CA 2023。即使某个 CA 已在 db 中启用，只要它列在 dbx 中，就仍处于已撤销状态。如果策略无法读取或格式错误，请先解决该错误。然后运行修复/重新安装。更改固件设置前，请准备好可信的应急介质。</entry>
+    <entry lang="zh-cn" key="MSI_SYSENC_BOOT_LOADER_POLICY_REFUSED">由于无法验证安全启动策略，引导加载程序更新被拒绝。现有引导加载程序已被保留。打开 VeraCrypt 获取指导；请查看 Windows 应用程序事件日志以了解详细信息。</entry>
+    <entry lang="zh-cn" key="SYSENC_SERVICE_REPAIR_REQUIRED">VeraCrypt 在安装期间无法完成系统服务操作。这可能影响自动引导加载程序维护和系统收藏加密卷，即使引导加载程序更新本身已完成。\n\n请查看 Windows 应用程序事件日志以了解失败的操作。重启 Windows，然后运行 VeraCrypt 修复/重新安装。</entry>
+    <entry lang="zh-cn" key="MSI_SYSENC_SERVICE_REPAIR_REQUIRED">VeraCrypt 系统服务操作失败。请重启 Windows，然后运行修复/重新安装。打开 VeraCrypt 获取指导；请查看 Windows 应用程序事件日志以了解详细信息。</entry>
+    <entry lang="zh-cn" key="MSI_SYSENC_EFI_ASSESSMENT_UNAVAILABLE">无法检查安全启动兼容性。请保持安全启动设置不变。打开 VeraCrypt 获取指导；请查看 Windows 应用程序事件日志以了解详细信息。</entry>
+    <entry lang="zh-cn" key="MSI_SYSENC_EFI_COMPATIBILITY_WARNING">已安装的引导链在使用安全启动前需要处理。打开 VeraCrypt 获取恢复指导；请查看 Windows 应用程序事件日志以了解详细信息。</entry>
+    <entry lang="zh-cn" key="MSI_SYSENC_EFI_WINDOWS_MIGRATION_WARNING">Windows 启动管理器需要处理安全启动 CA 过渡。打开 VeraCrypt 获取指导；请查看 Windows 应用程序事件日志以了解详细信息。</entry>
+    <entry lang="zh-cn" key="MSI_SYS_LOADER_BACKUP_MIGRATION_FAILED">无法验证原始引导器备份。在解密或重新创建应急介质之前，请解决此问题或获取可信的应急盘。请勿备份当前引导区域作为替代。打开 VeraCrypt 了解详细信息。</entry>
+    <entry lang="zh-cn" key="MSI_SYSENC_SETUP_CONFIG_UPDATE_FAILED">无法配置 Windows 功能更新支持。请勿启动 Windows 功能更新。打开 VeraCrypt 获取指导；请查看 Windows 应用程序事件日志以了解详细信息。</entry>
+    <entry lang="zh-cn" key="MSI_SYSENC_SETUP_CONFIG_REMOVE_FAILED">无法移除 Windows 功能更新注册项。在清理完成之前，请勿启动 Windows 功能更新。请查看 Windows 应用程序事件日志，然后运行 VeraCrypt 修复/重新安装。</entry>
+    <entry lang="zh-cn" key="MSI_SETUP_NOTIFICATIONS_FAILED">无法为下次启动 VeraCrypt 保存恢复指导。在解密、重新创建应急介质或更改安全启动设置之前，请阅读 Windows 应用程序事件日志中的 VeraCrypt 条目。</entry>
+    <entry lang="zh-cn" key="MSI_ERR_ACCESS_DENIED">Windows 拒绝访问。请以管理员权限运行安装程序，并检查所需文件、文件夹和设备的权限。</entry>
+    <entry lang="zh-cn" key="MSI_ERR_HARDWARE_ERROR">Windows 报告了硬件错误。请检查驱动器、其线缆和系统内存。请查看 Windows 应用程序事件日志以了解详细信息，并联系硬件供应商寻求帮助。</entry>
+    <entry lang="zh-cn" key="MSI_COMPRESSION_NOT_SUPPORTED">VeraCrypt 容器不支持文件系统压缩。在文件资源管理器中，打开容器的“属性”&gt;“高级”，清除“压缩内容以节省磁盘空间”。</entry>
+    <entry lang="zh-cn" key="MSI_DRIVER_VERSION">正在运行不兼容的 VeraCrypt 驱动程序。请重启 Windows，然后运行此安装程序以更新或修复 VeraCrypt。</entry>
+    <entry lang="zh-cn" key="MSI_ERR_NONSYS_INPLACE_ENC_INCOMPLETE">分区加密或解密未完成。请先完成该操作再继续。在 VeraCrypt 中，选择“加密卷”&gt;“继续被中断的过程”。</entry>
+    <entry lang="zh-cn" key="MSI_ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG">无法通过这种方式更改隐藏系统加密卷的头信息。请启动隐形操作系统，然后使用“系统”&gt;“修改密码”或“系统”&gt;“设置首密钥衍生算法”。</entry>
+    <entry lang="zh-cn" key="MSI_SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">此操作要求系统驱动器完全解密。在继续之前，请在 VeraCrypt 中选择“系统”&gt;“永久解密系统分区/驱动器”。</entry>
+    <entry lang="zh-cn" key="SYSENC_EFI_WINDOWS_LOADER_MIGRATION_GUIDANCE">此检查仅涵盖当前活动的 Windows 启动管理器。在撤销之前，还请验证解密回退和应急备份是否兼容。创建新的 VeraCrypt 应急盘可能会复用较早存储的启动管理器备份；仅创建该盘并不能证明该备份与撤销操作兼容。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_BOOT_MANAGER_PCA2011">此应急盘中包含的 Windows 启动管理器备份由 Microsoft Windows Production PCA 2011 签名。您的固件已包含 Windows UEFI CA 2023。\n\n在 PCA 2011 撤销（AvailableUpdates 位 0x80，包括组合值 0x280）之后，恢复此备份可能导致 Windows 在启用安全启动时无法启动。创建新的应急盘会复用此已存储的备份；它不会更新其签名。\n\n在应用撤销之前，请准备兼容的、更新后的 Windows 恢复介质，并验证解密回退。请勿依赖此应急盘恢复兼容的 Windows 启动管理器。它对于其他 VeraCrypt 恢复任务仍然有用。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_BOOT_MANAGER_CHECK_FAILED">VeraCrypt 无法根据固件安全启动策略检查此应急盘中的 Windows 启动管理器备份。\n\n创建或验证此盘并不能证明其存储的 Windows 启动管理器与 PCA 2011 撤销（AvailableUpdates 位 0x80，包括组合值 0x280）兼容。在应用撤销之前，请验证您的恢复备份，并准备兼容的、更新后的 Windows 恢复介质。</entry>
     <entry lang="en" key="IDC_PREF_REMEMBER_MONITOR">Remember which monitor the main window was shown on</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

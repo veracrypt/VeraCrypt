@@ -360,6 +360,8 @@ USB-флешку или жёсткий диск с интерфейсом USB), 
 См. подробности в главе <a href="System%20Favorite%20Volumes.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
 Системные избранные тома</a>.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Примечание. Системные избранные тома недоступны на ранних этапах загрузки Windows и инициализации хранилища. Поэтому управляемые Windows зависимости запуска, такие как автоматически подключаемые VHD/VHDX, файлы VHDX, на которых размещён Dev Drive, и VHD/VHDX для собственной загрузки, нельзя хранить на системных избранных томах. Для VHD/VHDX, не требующихся при загрузке или раннем запуске, используйте отложенную задачу с повторными попытками или службу, зависящую от <em>VeraCryptSystemFavorites</em>, чтобы подключить их после монтирования системного избранного тома. Этот способ не подходит для VHD/VHDX для собственной загрузки и любых других файлов, к которым Windows должна обращаться до запуска служб.</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <br style="text-align:left">
 <strong style="text-align:left">Можно ли автоматически монтировать том при каждом входе в Windows?</strong></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
@@ -727,7 +729,7 @@ Bart's PE Builder</a>. Для BartPE даже не требуется никак
 <a href="VeraCrypt%20Rescue%20Disk.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
 диска восстановления VeraCrypt</a> на CD/DVD не требуется. Можно завести централизованное хранилище ISO-образов
 для всех рабочих станций (вместо хранилища дисков CD/DVD). Подробности см. в разделе
-<a href="Command%20Line%20Usage.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
+<a href="Command%20Line%20Usage%20for%20Windows.html" target="_blank" style="text-align:left; color:#0080c0; text-decoration:none">
 Использование в командной строке</a> (опция <em style="text-align:left">/noisocheck</em>).</span></div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 <br style="text-align:left">

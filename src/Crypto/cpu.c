@@ -291,8 +291,9 @@ static int Detect_MS_HyperV_AES ()
 
 #endif
 
-/* Keep this guard in sync with TrySHA256 in Sha2Intel.c. */
-#if !defined(_UEFI) && !defined(CRYPTOPP_DISABLE_ASM) && \
+/* Keep this guard in sync with TrySHA256 in Sha2Intel.c. The wolfCrypt
+ * backend does not link VeraCrypt's native SHA implementation. */
+#if !defined(_UEFI) && !defined(CRYPTOPP_DISABLE_ASM) && !defined(WOLFCRYPT_BACKEND) && \
 	CRYPTOPP_SHANI_AVAILABLE
 #define TC_SHA256_PROBE_AVAILABLE
 extern int TrySHA256();

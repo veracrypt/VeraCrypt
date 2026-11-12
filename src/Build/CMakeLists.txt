@@ -11,10 +11,11 @@ elseif ( NOT DEFINED NOGUI )
 endif()
 
 option(VC_WITH_FUSE3 "Link against FUSE3 instead of FUSE2 when packaging" OFF)
+option(VC_WITH_INDICATOR "Package an RPM GUI built with Ayatana AppIndicator support" OFF)
 
 # - Set version of the package
-set( FULL_VERSION 		"1.26.30" )
-set( VERSION 			"1.26.30" )
+set( FULL_VERSION 		"1.26.31" )
+set( VERSION 			"1.26.31" )
 set( RELEASE 			"1" )
 
 # - Set PROJECT_NAME and CONFLICT_PACKAGE values
@@ -182,6 +183,15 @@ if ( UNIX )
 		file(READ "/etc/fedora-release" FEDORA_RELEASE)
 		string(REGEX MATCH "release ([0-9 /\\.]+)" _ ${FEDORA_RELEASE})
 		set(PLATFORM_VERSION ${CMAKE_MATCH_1})
+
+	# Check after CentOS and Fedora, which also provide /etc/redhat-release.
+	elseif(EXISTS "/etc/redhat-release")
+
+		set ( PLATFORM "RHEL" )
+
+		file(READ "/etc/redhat-release" REDHAT_RELEASE)
+		string(REGEX MATCH "release ([0-9 /\\.]+)" _ ${REDHAT_RELEASE})
+		set(PLATFORM_VERSION ${CMAKE_MATCH_1})
 	
 	# Only if distribution uses systemd and if all previous files didn't exist
 	# i.e OpenSUSE
@@ -237,7 +247,7 @@ if ( PLATFORM STREQUAL "Debian" OR PLATFORM STREQUAL "Ubuntu" )
 		execute_process(COMMAND dpkg --print-architecture OUTPUT_VARIABLE ARCHITECTURE OUTPUT_STRIP_TRAILING_WHITESPACE)
 	endif( )
 	
-elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR ( PLATFORM STREQUAL "Fedora" ))
+elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "RHEL" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR ( PLATFORM STREQUAL "Fedora" ))
 
 	execute_process(COMMAND arch OUTPUT_VARIABLE ARCHITECTURE OUTPUT_STRIP_TRAILING_WHITESPACE)
 	
@@ -416,7 +426,7 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA 	${DEBIAN_PREINST};${DEBIAN_POSTINST};${DEBIAN_PRERM};${DEBIAN_POSTRM})
 	set(CPACK_DEBIAN_PACKAGE_CONFLICTS 		"${CONFLICT_PACKAGE}")
 	
-elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR ( PLATFORM STREQUAL "Fedora" ))
+elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "RHEL" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR ( PLATFORM STREQUAL "Fedora" ))
 	
 	# RPM control script(s)
 	file( MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Packaging/rpm-control)
@@ -480,6 +490,27 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) OR (
 			set( CPACK_RPM_PACKAGE_REQUIRES     "${VC_RPM_FUSE_PACKAGE}, device-mapper, gtk3, sudo" )
 		else()
 			set( CPACK_RPM_PACKAGE_REQUIRES     "${VC_RPM_FUSE_PACKAGE}, device-mapper, gtk2, sudo" )
+		endif()
+
+		if(VC_WITH_INDICATOR)
+			# Require the same GTK variant selected by src/Makefile. Detect the
+			# installed development module instead of assuming distro availability.
+			if(GTK3_FOUND)
+				pkg_check_modules(AYATANA_APPINDICATOR REQUIRED ayatana-appindicator3-0.1)
+				if(PLATFORM STREQUAL "openSUSE")
+					set(VC_RPM_INDICATOR_PACKAGE "libayatana-appindicator3-1")
+				else()
+					set(VC_RPM_INDICATOR_PACKAGE "libayatana-appindicator-gtk3")
+				endif()
+			else()
+				pkg_check_modules(AYATANA_APPINDICATOR REQUIRED ayatana-appindicator-0.1)
+				if(PLATFORM STREQUAL "openSUSE")
+					set(VC_RPM_INDICATOR_PACKAGE "libayatana-appindicator1")
+				else()
+					set(VC_RPM_INDICATOR_PACKAGE "libayatana-appindicator-gtk2")
+				endif()
+			endif()
+			set(CPACK_RPM_PACKAGE_REQUIRES "${CPACK_RPM_PACKAGE_REQUIRES}, ${VC_RPM_INDICATOR_PACKAGE}")
 		endif()
 	endif()
 

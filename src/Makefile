@@ -25,7 +25,7 @@
 # SSSE3:		Enable SSSE3 support in compiler
 # SSE41:		Enable SSE4.1 support in compiler
 # NOSSE2:		Disable SEE2 support in compiler
-# WOLFCRYPT:	Build with wolfCrypt as crypto provider (see Crypto/wolfCrypt.md)
+# WOLFCRYPT=1:	Build with wolfCrypt as crypto provider (see Crypto/wolfCrypt.md)
 # WITHFUSET:	Build with FUSE-T support on macOS instead of MacFUSE
 
 #------ Targets ------
@@ -194,7 +194,7 @@ ifeq "$(origin NOAESNI)" "command line"
 	DISABLE_AESNI := 1
 endif
 
-ifeq "$(origin WOLFCRYPT)" "command line"
+ifeq "$(origin WOLFCRYPT):$(WOLFCRYPT)" "command line:1"
 	ENABLE_WOLFCRYPT := 1
 	C_CXX_FLAGS += -DWOLFCRYPT_BACKEND
 	export LIBS += -lwolfssl

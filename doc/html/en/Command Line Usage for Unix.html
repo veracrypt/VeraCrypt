@@ -45,6 +45,7 @@
 <p><code>veracrypt [OPTIONS] COMMAND</code></p>
 <p><code>veracrypt [OPTIONS] VOLUME_PATH [MOUNT_DIRECTORY]</code></p>
 <p>If no explicit command is specified and a volume path is given, VeraCrypt mounts the volume. When <code>MOUNT_DIRECTORY</code> is omitted, VeraCrypt uses the default mount directory.</p>
+<p>On Linux and BSD, VeraCrypt automatically creates and manages only default mount directories, such as <code>/media/veracrypt2</code>: the mount prefix followed by a slot number from 1 to 64, without leading zeros. Custom mount directories must already exist with suitable permissions. For example, <code>/media/veracrypt-backup</code> and <code>/media/veracrypt1/photos</code> are custom directories, even though their names start with the default prefix; VeraCrypt does not automatically create them, change their ownership or remove them after dismounting.</p>
 
 <h4>Commands</h4>
 <table border="1" cellspacing="0" cellpadding="1">

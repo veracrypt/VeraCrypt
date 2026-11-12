@@ -326,10 +326,11 @@ void LoadSettings (HWND hwndDlg)
 	EMVSupportEnabled = ConfigReadInt ("EMVSupportEnabled", 0);
 
 	{
-		char szTmp[TC_MAX_PATH] = {0};
+		char szTmp[ARRAYSIZE (SecurityTokenLibraryPath) * 3] = {0};
 		WideCharToMultiByte (CP_UTF8, 0, SecurityTokenLibraryPath, -1, szTmp, sizeof (szTmp), NULL, NULL);
-		ConfigReadString ("SecurityTokenLibrary", "", szTmp, sizeof (szTmp) - 1);
-		MultiByteToWideChar (CP_UTF8, 0, szTmp, -1, SecurityTokenLibraryPath, ARRAYSIZE (SecurityTokenLibraryPath));
+		ConfigReadString ("SecurityTokenLibrary", "", szTmp, sizeof (szTmp));
+		if (MultiByteToWideChar (CP_UTF8, 0, szTmp, -1, SecurityTokenLibraryPath, ARRAYSIZE (SecurityTokenLibraryPath)) == 0)
+			SecurityTokenLibraryPath[0] = 0;
 
 		if (SecurityTokenLibraryPath[0])
 			InitSecurityTokenLibrary(hwndDlg);

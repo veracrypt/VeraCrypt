@@ -684,6 +684,24 @@ namespace VeraCrypt
 			}
 		}
 
+		static void GetFirmwareWindowsUefiCa2023Support (BOOL *present)
+		{
+			Elevate ();
+			// A separate interface lets an older elevated process fail the query
+			// safely, without changing the existing COM interface's vtable.
+#ifdef TCMOUNT
+			CComQIPtr<ITrueCryptMainCom2> firmware (ElevatedComInstance);
+#else
+			CComQIPtr<ITrueCryptFormatCom2> firmware (ElevatedComInstance);
+#endif
+			DWORD result = firmware ? firmware->GetFirmwareWindowsUefiCa2023Support (present) : ERROR_NOT_SUPPORTED;
+			if (result != ERROR_SUCCESS)
+			{
+				SetLastError (result);
+				throw SystemException (SRC_POS);
+			}
+		}
+
 		static void WriteEfiBootSectorUserConfig (uint8 userConfig, const string &customUserMessage, int pim, int hashAlg)
 		{
 			Elevate();
@@ -810,6 +828,7 @@ namespace VeraCrypt
 		static void UpdateSetupConfigFile (bool bForInstall) { throw ParameterIncorrect (SRC_POS); }
 		static void GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded) { throw ParameterIncorrect (SRC_POS); }
 		static void GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported) { throw ParameterIncorrect (SRC_POS); }
+		static void GetFirmwareWindowsUefiCa2023Support (BOOL *present) { throw ParameterIncorrect (SRC_POS); }
 		static void RegisterSystemFavoritesService(BOOL registerService) { throw ParameterIncorrect(SRC_POS); }
 		static BOOL IsPagingFileActive(BOOL checkNonWindowsPartitionsOnly) { throw ParameterIncorrect(SRC_POS); }
 		static void WriteLocalMachineRegistryDwordValue(wchar_t* keyPath, wchar_t* valueName, DWORD value) { throw ParameterIncorrect(SRC_POS); }
@@ -1422,8 +1441,23 @@ namespace VeraCrypt
 			{
 				CallDriver (TC_IOCTL_GET_DRIVE_PARTITION_INFO, &diskPartInfo, sizeof (diskPartInfo), &diskPartInfo, sizeof (diskPartInfo));
 			}
+			catch (SystemException &e)
+			{
+				// An absent partition is expected during enumeration. A broken
+				// driver connection must not become "Windows partition not found".
+				if (e.ErrorCode == ERROR_INVALID_HANDLE)
+					throw;
+				continue;
+			}
+			catch (UserAbort &)
+			{
+				// Do not turn a cancelled elevation into repeated prompts.
+				throw;
+			}
 			catch (...)
 			{
+				// Preserve enumeration of the remaining partitions when a query
+				// is unsupported (including the SETUP elevator stub).
 				continue;
 			}
 
@@ -1648,6 +1682,12 @@ namespace VeraCrypt
 	{
 		if (DriveConfigValid)
 			return DriveConfig;
+
+		if (hDriver == INVALID_HANDLE_VALUE)
+		{
+			SetLastError (ERROR_INVALID_HANDLE);
+			throw SystemException (SRC_POS);
+		}
 
 		SystemDriveConfiguration config;
 
@@ -2307,7 +2347,7 @@ namespace VeraCrypt
 	EfiBootConf::EfiBootConf() : passwordType (0),
 		passwordMsg ("Password: "),
 		passwordPicture ("login.bmp"),
-		hashMsg ("(0) TEST ALL (1) SHA512 (2) WHIRLPOOL (3) SHA256 (4) BLAKE2S (5) STREEBOG\nHash: "),
+		hashMsg ("(0) TEST ALL (1) SHA512 (2) WHIRLPOOL (3) SHA256 (4) BLAKE2S (5) STREEBOG\r\nHash: "),
 		hashAlgo (0),
 		requestHash (0),
 		pimMsg ("PIM (Leave empty for default): "),
@@ -2396,9 +2436,9 @@ namespace VeraCrypt
 			}
 
 			string quotedValue = XmlQuoteConfigValue (configValue);
-			if ( 0 != fwprintf (
-					configFile, L"\n\t\t<config key=\"%hs\">%hs</config>",
-					configKey, quotedValue.c_str()))
+			if (fprintf (
+					configFile, "\r\n\t\t<config key=\"%s\">%s</config>",
+					configKey, quotedValue.c_str()) > 0)
 			{
 				bRet = TRUE;
 			}
@@ -2463,7 +2503,7 @@ namespace VeraCrypt
 		DWORD size = 0;
 		char* configContent = LoadFile (fileName, &size);
 
-		FILE *configFile = _wfopen (fileName, L"w,ccs=UTF-8");
+		FILE *configFile = _wfopen (fileName, L"wb");
 		if (configFile == NULL) {
 			burn (configContent, size);
 			free (configContent);
@@ -2471,8 +2511,8 @@ namespace VeraCrypt
 		}
 		
 
-		XmlWriteHeader (configFile);
-		fputws (L"\n\t<configuration>", configFile);
+		XmlWriteHeaderUtf8 (configFile);
+		fputs ("\r\n\t<configuration>", configFile);
 
 		WriteConfigInteger (configFile, configContent, "PasswordType", passwordType);
 		WriteConfigString (configFile, configContent, "PasswordMsg", passwordMsg.c_str());
@@ -2527,12 +2567,12 @@ namespace VeraCrypt
 			XmlGetNodeText (xml, value, sizeof (value));
 
 			string quotedValue = XmlQuoteConfigValue (value);
-			fwprintf (configFile, L"\n\t\t<config key=\"%hs\">%hs</config>", key, quotedValue.c_str());
+			fprintf (configFile, "\r\n\t\t<config key=\"%s\">%s</config>", key, quotedValue.c_str());
 			xml++;
 		}
 
-		fputws (L"\n\t</configuration>", configFile);
-		XmlWriteFooter (configFile);
+		fputs ("\r\n\t</configuration>", configFile);
+		XmlWriteFooterUtf8 (configFile);
 
 		TCFlushFile (configFile);
 
@@ -2767,19 +2807,19 @@ namespace VeraCrypt
 	static bool ReadRecordedEfiBootLoaderResourceSet (DWORD& resourceSet)
 	{
 		resourceSet = 0;
-		return ReadLocalMachineRegistryDword (
+		return ReadLocalMachineRegistryDwordEx (
 			(wchar_t *) EfiBootLoaderDiagnosticsRegistryKey,
 			(wchar_t *) VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME,
-			&resourceSet) && resourceSet != 0;
+			&resourceSet, KEY_WOW64_64KEY) && resourceSet != 0;
 	}
 
 	static DWORD ReadEfiBootLoaderRescueDiskPromptId ()
 	{
 		DWORD promptId = 0;
-		ReadLocalMachineRegistryDword (
+		ReadLocalMachineRegistryDwordEx (
 			(wchar_t *) EfiBootLoaderDiagnosticsRegistryKey,
 			(wchar_t *) VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME,
-			&promptId);
+			&promptId, KEY_WOW64_64KEY);
 		return promptId;
 	}
 
@@ -2798,7 +2838,7 @@ namespace VeraCrypt
 			return false;
 		}
 #endif
-		return WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) valueName, value) ? true : false;
+		return WriteLocalMachineRegistryDwordEx (EfiBootLoaderDiagnosticsRegistryKey, valueName, value, KEY_WOW64_64KEY) ? true : false;
 	}
 
 	static void MarkEfiBootLoaderRescueDiskRecreationNeeded (const EfiBootLoaderImages& images)
@@ -2826,10 +2866,17 @@ namespace VeraCrypt
 		SetLastError (previousLastError);
 	}
 
-	static void ClearEfiBootLoaderDiagnosticsRegistry ()
+	void BootEncryption::ClearEfiBootLoaderDiagnosticsRegistry ()
 	{
 		DWORD previousLastError = GetLastError ();
-		::DeleteRegistryKey (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey);
+		HKEY key;
+		if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, 0,
+			KEY_READ | KEY_WRITE | DELETE | KEY_WOW64_64KEY, &key) == ERROR_SUCCESS)
+		{
+			RegDeleteTreeW (key, NULL);
+			RegCloseKey (key);
+			RegDeleteKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, KEY_WOW64_64KEY, 0);
+		}
 		SetLastError (previousLastError);
 	}
 
@@ -2845,16 +2892,16 @@ namespace VeraCrypt
 		StringCchPrintfW (selectionTimeUtc, ARRAYSIZE (selectionTimeUtc), L"%04u-%02u-%02uT%02u:%02u:%02uZ",
 			systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour, systemTime.wMinute, systemTime.wSecond);
 
-		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME, resourceSet);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESOURCE_SET_VALUE_NAME, resourceSet);
 		if (!resourceSet)
 		{
-			WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, 0);
-			WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, (wchar_t *) VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, 0);
+			WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, 0);
+			WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, 0);
 		}
-		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderFirmwareDbLastError", firmwareDbError);
-		WriteLocalMachineRegistryDword ((wchar_t *) EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderFirmwareDbxLastError", firmwareDbxError);
-		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionReason", selectionReason, FALSE);
-		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionTimeUtc", selectionTimeUtc, FALSE);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderFirmwareDbLastError", firmwareDbError);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderFirmwareDbxLastError", firmwareDbxError);
+		WriteLocalMachineRegistryStringEx (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionReason", selectionReason, FALSE, KEY_WOW64_64KEY);
+		WriteLocalMachineRegistryStringEx (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootLoaderSelectionTimeUtc", selectionTimeUtc, FALSE, KEY_WOW64_64KEY);
 		SetLastError (previousLastError);
 	}
 
@@ -3278,6 +3325,22 @@ namespace VeraCrypt
 	static bool IsFirmwareDbUnavailableError (DWORD dwError)
 	{
 		return (dwError == ERROR_ENVVAR_NOT_FOUND) || (dwError == ERROR_INVALID_FUNCTION);
+	}
+
+	DWORD GetFirmwareWindowsUefiCa2023Support (BOOL *present)
+	{
+		if (!present)
+			return ERROR_INVALID_PARAMETER;
+		*present = FALSE;
+		FirmwareDbMicrosoftUefiCaSupport db = {};
+		bool dbRead = TryFirmwareDbGetMicrosoftUefiCaSupport (db);
+		DWORD error = dbRead ? ERROR_SUCCESS : GetLastError ();
+		if (db.DbMalformed)
+			return db.ParseError ? db.ParseError : ERROR_INVALID_DATA;
+		if (!dbRead)
+			return IsFirmwareDbUnavailableError (error) ? ERROR_SUCCESS : (error ? error : ERROR_GEN_FAILURE);
+		*present = db.ContainsWindowsUefiCa2023 ? TRUE : FALSE;
+		return ERROR_SUCCESS;
 	}
 
 	static bool TryFirmwareSecureBootEnabled (bool& bSecureBootEnabled, DWORD* pLastError = NULL)
@@ -4518,8 +4581,8 @@ namespace VeraCrypt
 		}
 
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"WindowsLoaderRefreshSigner", preferredSigner);
-		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"WindowsLoaderRefreshSource",
-			(wchar_t *) preferredCandidatePath.c_str (), FALSE);
+		WriteLocalMachineRegistryStringEx (EfiBootLoaderDiagnosticsRegistryKey, L"WindowsLoaderRefreshSource",
+			preferredCandidatePath.c_str (), FALSE, KEY_WOW64_64KEY);
 		return true;
 	}
 
@@ -4797,168 +4860,232 @@ namespace VeraCrypt
 		}
 	}
 
-	static std::vector<unsigned char> SystemEncryptionSetupScript (wstring installation)
+	// Name the object that could not be used, so that the failure can be resolved.
+	static wstring SystemEncryptionFileError (DWORD error, const wstring &path)
 	{
-		if (!installation.empty () && installation.back () == L'\\') installation.pop_back ();
-		if (installation.size () < 3 || installation[1] != L':' || installation[2] != L'\\'
-			|| installation.find_first_of (L"\"\r\n%") != wstring::npos)
-			CheckSystemEncryptionFileResult (ERROR_BAD_PATHNAME);
-		// cmd does not necessarily use the ANSI code page, and inherits delayed
-		// expansion from its caller. Parse the ASCII preamble on separate lines
-		// before reading the UTF-8 command. Never execute it if chcp fails.
-		wstring command = L"@echo off\r\nsetlocal EnableExtensions DisableDelayedExpansion\r\n";
-		// ASCII paths need no code-page change, including in a detached cmd
-		// process with no console on which chcp could operate.
-		for (size_t i = 0; i < installation.size (); ++i)
+		wstring message = path + L"\n\n";
+		LPWSTR text = NULL;
+		if (FormatMessageW (FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+			NULL, error, 0, reinterpret_cast<LPWSTR> (&text), 0, NULL) && text)
 		{
-			if (installation[i] > 0x7f)
-			{
-				command += L"\"%SystemRoot%\\System32\\chcp.com\" 65001 >nul\r\nif errorlevel 1 exit /b 1\r\n";
-				break;
-			}
+			message += text;
+			LocalFree (text);
 		}
-		command += L"\"" + installation + L"\\VeraCrypt.exe\" /PostOOBE\r\n";
-		int length = WideCharToMultiByte (CP_UTF8, WC_ERR_INVALID_CHARS, command.c_str (), (int) command.size (), NULL, 0, NULL, NULL);
-		throw_sys_if (length <= 0);
-		std::vector<unsigned char> script (length);
-		throw_sys_if (!WideCharToMultiByte (CP_UTF8, WC_ERR_INVALID_CHARS, command.c_str (), (int) command.size (),
-			reinterpret_cast<char *> (&script[0]), length, NULL, NULL));
-		return script;
+		while (!message.empty () && iswspace (message[message.size () - 1]))
+			message.erase (message.size () - 1);
+		wchar_t code[32];
+		StringCchPrintfW (code, ARRAYSIZE (code), L" (0x%.8X)", error);
+		return message + code;
 	}
 
-	static void WriteSystemEncryptionSetupConfig (const wstring &directory, const SystemEncryptionSetup::Ini &config,
-		std::vector<unsigned char> &snapshot, bool preserveEncoding = true)
+	static void CheckSystemEncryptionFileResult (DWORD error, const wstring &path, const char *srcPos)
 	{
-		if (config.IsEmpty ())
-		{
-			// Windows Setup can reject an empty configuration. Sanitizing an
-			// absent file must not create one before staging has even succeeded.
-			CheckSystemEncryptionFileResult (SystemEncryptionFiles::Remove (directory, L"SetupConfig.ini", &snapshot));
-			snapshot.clear ();
-			return;
-		}
-		std::vector<unsigned char> bytes;
-		if (preserveEncoding) CheckSystemEncryptionFileResult (config.PreservedBytes (bytes));
-		else bytes = config.Bytes ();
-		CheckSystemEncryptionFileResult (SystemEncryptionFiles::Write (directory, L"SetupConfig.ini",
-			bytes.data (), (DWORD) bytes.size (), &snapshot));
-		snapshot.swap (bytes);
+		if (error != ERROR_SUCCESS)
+			throw ErrorException (SystemEncryptionFileError (error, path), srcPos);
 	}
 
-	static bool SystemEncryptionSetupPathMatches (wstring path, wstring ownedPath)
+	static DWORD WriteSystemEncryptionFile (const wchar_t *name, const uint8 *data, DWORD size)
 	{
-		std::replace (path.begin (), path.end (), L'/', L'\\');
-		std::replace (ownedPath.begin (), ownedPath.end (), L'/', L'\\');
-		while (path.size () > 3 && path.back () == L'\\') path.pop_back ();
-		while (ownedPath.size () > 3 && ownedPath.back () == L'\\') ownedPath.pop_back ();
-		return !ownedPath.empty () && _wcsicmp (path.c_str (), ownedPath.c_str ()) == 0;
+		SystemEncryptionFiles::SecurityDescriptor security;
+		DWORD error = SystemEncryptionFiles::NewSecurity (security, false);
+		return error == ERROR_SUCCESS
+			? SystemEncryptionFiles::WriteWhole (GetSystemEncryptionDataDirectory (), name, data, size, security.Value)
+			: error;
 	}
 
-	void BootEncryption::PrepareSystemEncryptionInstallation (const wchar_t *path)
+	// Only administrators can create objects in the native Common Files folder, so
+	// an existing directory is used. Only its permissions are reset, and it is still
+	// used if they cannot be reset but only administrators can modify it.
+	static DWORD PrepareSystemEncryptionDataDirectory (const wstring &path)
 	{
-		wstring installation = path;
-		if (!installation.empty () && installation.back () == L'\\') installation.pop_back ();
-		DWORD error = SystemEncryptionFiles::ProvisionInstallerObject (installation, true);
-		if (!SystemEncryptionFiles::Missing (error)) CheckSystemEncryptionFileResult (error);
-		SystemEncryptionFiles::Directory directory;
-		CheckSystemEncryptionFileResult (directory.Open (installation, true));
-		PrepareSystemEncryptionStorage ();
+		SystemEncryptionFiles::AdministratorPrivileges privileges;
+		SystemEncryptionFiles::SecurityDescriptor security;
+		DWORD error = SystemEncryptionFiles::NewSecurity (security, true);
+		return error == ERROR_SUCCESS ? SystemEncryptionFiles::PrepareDirectory (path, security.Value) : error;
 	}
 
 	void BootEncryption::PrepareSystemEncryptionStorage ()
 	{
-		SystemEncryptionFiles::Directory directory;
-		CheckSystemEncryptionFileResult (directory.Open (GetSystemEncryptionDataDirectory (), true));
+		const wstring path = GetSystemEncryptionDataDirectory ();
+		CheckSystemEncryptionFileResult (PrepareSystemEncryptionDataDirectory (path), path, SRC_POS);
+	}
+
+	// Up to VeraCrypt 1.26.29, Windows Setup ran a script of the legacy directory,
+	// in which standard users can create files. Stop them from modifying that
+	// directory, and delete the script. Reserve a missing directory if an old
+	// registration still uses it, or cannot be read. Never throws: returns the
+	// first failure, and optionally the object concerned.
+	DWORD BootEncryption::SecureLegacySystemEncryptionFiles (wstring *failedPath)
+	{
+		try
+		{
+			const wstring legacy = GetSystemEncryptionDataDirectory (true);
+			SystemEncryptionFiles::AdministratorPrivileges privileges;
+			SystemEncryptionFiles::SecurityDescriptor security;
+			DWORD error = SystemEncryptionFiles::NewSecurity (security, true);
+			if (error == ERROR_SUCCESS)
+				error = SystemEncryptionFiles::SecureLegacyDirectory (legacy, security.Value);
+			if (SystemEncryptionFiles::Missing (error))
+			{
+				wchar_t location[TC_MAX_PATH + 20];
+				wstring script;
+				DWORD readError = GetSetupconfigLocation (location, ARRAYSIZE (location))
+					? SystemEncryptionSetup::GetValue (SystemEncryptionSetup::NormalizePath (location) + L"\\SetupConfig.ini", L"PostOOBE", script)
+					: ERROR_PATH_NOT_FOUND;
+				// An absent directory under ProgramData can be recreated by a user.
+				// Protect the name until the old registration is known to be gone.
+				error = readError != ERROR_SUCCESS || SystemEncryptionSetup::PathMatches (script, legacy + L"\\SetupComplete.cmd")
+					? SystemEncryptionFiles::SecureLegacyDirectory (legacy, security.Value, true, true) : ERROR_SUCCESS;
+			}
+			if (error != ERROR_SUCCESS && failedPath)
+				*failedPath = legacy;
+
+			DWORD deleteError = SystemEncryptionFiles::DeleteLegacy (legacy, L"SetupComplete.cmd");
+			if (error == ERROR_SUCCESS && deleteError != ERROR_SUCCESS)
+			{
+				error = deleteError;
+				if (failedPath)
+					*failedPath = legacy + L"\\SetupComplete.cmd";
+			}
+			return error;
+		}
+		catch (SystemException &e)
+		{
+			if (failedPath)
+				*failedPath = L"%ProgramData%\\VeraCrypt";
+			return e.ErrorCode != ERROR_SUCCESS ? e.ErrorCode : ERROR_PATH_NOT_FOUND;
+		}
+		catch (...)
+		{
+			if (failedPath)
+				*failedPath = L"%ProgramData%\\VeraCrypt";
+			return ERROR_GEN_FAILURE;
+		}
+	}
+
+	// Windows Setup adds the driver package of the installation directory to the
+	// new system, and the PostOOBE script runs its VeraCrypt.exe. Never register a
+	// directory that lacks them, or that has not been determined, such as the
+	// default directory assumed before an installer records the actual one.
+	static DWORD CheckSystemEncryptionInstallation (const wstring &installation, BOOL determined, wstring &failedPath)
+	{
+		if (!determined)
+		{
+			failedPath = L"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\veracrypt\\InstallationPath";
+			return ERROR_FILE_NOT_FOUND;
+		}
+		const wchar_t *files[] = { L"VeraCrypt.exe", L"veracrypt.inf", L"veracrypt.sys", L"veracrypt.cat" };
+		const wchar_t *separator = !installation.empty () && installation[installation.size () - 1] == L'\\' ? L"" : L"\\";
+		for (size_t i = 0; i < ARRAYSIZE (files); ++i)
+		{
+			failedPath = installation + separator + files[i];
+			DWORD attributes = GetFileAttributesW (failedPath.c_str ());
+			if (attributes == INVALID_FILE_ATTRIBUTES)
+				return GetLastError ();
+			if (attributes & FILE_ATTRIBUTE_DIRECTORY)
+				return ERROR_FILE_NOT_FOUND;
+		}
+		failedPath.clear ();
+		return ERROR_SUCCESS;
 	}
 
 	void BootEncryption::UpdateSetupConfigFile (bool bForInstall)
 	{
-		if (!IsWin10BuildAtLeast (WIN_10_1607_BUILD)) return;
+		// Every failure is reported, naming the object concerned, once everything
+		// else has been done.
+		wstring failures;
+		auto record = [&failures] (DWORD error, const wstring &path) -> DWORD
+		{
+			if (error != ERROR_SUCCESS)
+				failures += (failures.empty () ? L"" : L"\n\n") + SystemEncryptionFileError (error, path);
+			return error;
+		};
+
+		// Whatever happens below, an old registration must not run a script that a
+		// standard user controls.
+		wstring legacyPath;
+		const bool legacySecured = record (SecureLegacySystemEncryptionFiles (&legacyPath), legacyPath) == ERROR_SUCCESS;
+
+		// Starting from Windows 10 1607 (Build 14393), ReflectDrivers in SetupConfig.ini is supported
 		wchar_t location[TC_MAX_PATH + 20], installPath[TC_MAX_PATH] = { 0 };
-		if (!GetSetupconfigLocation (location, ARRAYSIZE (location))) CheckSystemEncryptionFileResult (ERROR_PATH_NOT_FOUND);
-		wstring configDirectory = location;
-		while (configDirectory.size () > 3 && configDirectory.back () == L'\\') configDirectory.pop_back ();
-		// Normalize only a full administrator's own objects. Never adopt an ordinary
-		// user's configuration or change permissions on a legacy loader backup.
-		for (bool folder : { true, false })
+		if (!IsWin10BuildAtLeast (WIN_10_1607_BUILD)
+			|| record (GetSetupconfigLocation (location, ARRAYSIZE (location)) ? ERROR_SUCCESS : ERROR_PATH_NOT_FOUND, L"SetupConfig.ini") != ERROR_SUCCESS)
 		{
-			DWORD provision = SystemEncryptionFiles::ProvisionInstallerObject (folder ? configDirectory : configDirectory + L"\\SetupConfig.ini", folder);
-			if (!SystemEncryptionFiles::Missing (provision)) CheckSystemEncryptionFileResult (provision);
+			if (!failures.empty ())
+				throw ErrorException (failures, SRC_POS);
+			return;
 		}
-		SystemEncryptionFiles::Directory directory;
-		DWORD error = directory.Open (configDirectory, bForInstall);
-		if (!bForInstall && SystemEncryptionFiles::Missing (error)) return;
-		CheckSystemEncryptionFileResult (error);
-		// Serialize only configuration publication. The lock lives in the already
-		// validated directory, so an ordinary user cannot reserve its name first.
-		SystemEncryptionFiles::SecurityDescriptor security;
-		throw_sys_if (!ConvertStringSecurityDescriptorToSecurityDescriptorW (
-			L"O:BAG:BAD:P(A;;FA;;;SY)(A;;FA;;;BA)", SDDL_REVISION_1, &security.Value, NULL));
-		SystemEncryptionFiles::Handle lock;
-		CheckSystemEncryptionFileResult (directory.OpenFile (L"VeraCrypt-SetupConfig.lock", GENERIC_WRITE | READ_CONTROL | FILE_READ_ATTRIBUTES,
-			0, FILE_OPEN_IF, security.Value, lock));
-		CheckSystemEncryptionFileResult (SystemEncryptionFiles::CheckHandle (lock.Value, false));
-		std::vector<unsigned char> snapshot;
-		error = SystemEncryptionFiles::Read (directory, L"SetupConfig.ini", snapshot);
-		if (!SystemEncryptionFiles::Missing (error)) CheckSystemEncryptionFileResult (error);
-		else if (!bForInstall) return;
-		SystemEncryptionSetup::Ini config;
-		CheckSystemEncryptionFileResult (config.Load (snapshot));
-		GetInstallationPath (NULL, installPath, ARRAYSIZE (installPath), NULL);
-		wstring installation = installPath;
-		if (!installation.empty () && installation.back () == L'\\') installation.pop_back ();
-		const wstring storage = GetSystemEncryptionDataDirectory ();
-		const wstring scriptPath = storage + L"\\SetupComplete.cmd", driversPath = storage + L"\\Drivers";
+		BOOL installationDetermined = FALSE;
+		GetInstallationPath (NULL, installPath, ARRAYSIZE (installPath), &installationDetermined);
+
 		const wstring legacyScript = GetSystemEncryptionDataDirectory (true) + L"\\SetupComplete.cmd";
-		bool legacy = false, foreign = false;
-		CheckSystemEncryptionFileResult (config.RemoveMatching (L"PostOOBE", [&] (const wstring &path) {
-			bool old = SystemEncryptionSetupPathMatches (path, legacyScript);
-			bool ours = old || SystemEncryptionSetupPathMatches (path, scriptPath);
-			legacy |= old;
-			foreign |= !path.empty () && !ours;
-			return ours;
-		}));
-		CheckSystemEncryptionFileResult (config.RemoveMatching (L"ReflectDrivers", [&] (const wstring &path) {
-			bool ours = SystemEncryptionSetupPathMatches (path, installation) || SystemEncryptionSetupPathMatches (path, driversPath);
-			foreign |= !path.empty () && !ours;
-			return ours;
-		}));
-		// Disarm the vulnerable script before any attempt to create new storage.
-		// The installer also calls this cleanup before replacing its package.
-		if (legacy || !bForInstall) WriteSystemEncryptionSetupConfig (configDirectory, config, snapshot);
-		if (!bForInstall) return;
-		SystemEncryptionSetup::Ini clean = config;
-		try
+		const wstring storage = GetSystemEncryptionDataDirectory ();
+		// VeraCrypt 1.26.30 registered a copy of the driver package.
+		const wstring oldDrivers = storage + L"\\Drivers";
+		SystemEncryptionSetup::Registration registration;
+		registration.Directory = SystemEncryptionSetup::NormalizePath (location);
+		registration.Drivers = SystemEncryptionSetup::NormalizePath (installPath);
+		registration.Script = storage + L"\\SetupComplete.cmd";
+		registration.OwnedDrivers.push_back (registration.Drivers);
+		registration.OwnedDrivers.push_back (oldDrivers);
+		registration.OwnedScripts.push_back (registration.Script);
+		// VeraCrypt 1.26.29 and older registered a script of the legacy directory.
+		registration.OwnedScripts.push_back (legacyScript);
+		const wstring config = SystemEncryptionSetup::ConfigPath (registration);
+		bool configurationUpdated = false;
+
+		if (bForInstall)
 		{
-			if (foreign) throw ErrorException ("SYSENC_SETUP_CONFIG_CONFLICT", SRC_POS);
-			SystemEncryptionFiles::Directory target;
-			SystemEncryptionFiles::Handle executable;
-			CheckSystemEncryptionFileResult (SystemEncryptionFiles::OpenInstallerFile (installation + L"\\VeraCrypt.exe", target, executable));
-			std::vector<unsigned char> script = SystemEncryptionSetupScript (installation), package[3];
-			const wchar_t *names[] = { L"veracrypt.inf", L"veracrypt.sys", L"veracrypt.cat" };
-			for (size_t i = 0; i < ARRAYSIZE (names); ++i)
+			wstring installationFile;
+			if (record (CheckSystemEncryptionInstallation (registration.Drivers, installationDetermined, installationFile), installationFile) != ERROR_SUCCESS)
 			{
-				CheckSystemEncryptionFileResult (SystemEncryptionFiles::ProvisionInstallerObject (installation + L"\\" + names[i], false));
-				CheckSystemEncryptionFileResult (SystemEncryptionFiles::Read (target, names[i], package[i]));
-				if (package[i].empty ()) CheckSystemEncryptionFileResult (ERROR_INVALID_DATA);
+				// Keep the current registrations, which may be correct. Only remove one
+				// that runs the script of VeraCrypt 1.26.29 and older, in case a
+				// standard user can still control it.
+				if (!legacySecured)
+				{
+					SystemEncryptionSetup::Registration legacyRegistration;
+					legacyRegistration.Directory = registration.Directory;
+					legacyRegistration.OwnedScripts.push_back (legacyScript);
+					record (SystemEncryptionSetup::Unregister (legacyRegistration), config);
+				}
 			}
-			PrepareSystemEncryptionStorage ();
-			SystemEncryptionFiles::Directory drivers;
-			CheckSystemEncryptionFileResult (drivers.Open (driversPath, true));
-			for (size_t i = 0; i < ARRAYSIZE (names); ++i)
-				CheckSystemEncryptionFileResult (SystemEncryptionFiles::Write (driversPath, names[i], package[i].data (), (DWORD) package[i].size ()));
-			CheckSystemEncryptionFileResult (SystemEncryptionFiles::Write (storage, L"SetupComplete.cmd", script.data (), (DWORD) script.size ()));
-			wstring scriptValue = L"\"" + scriptPath + L"\"", driversValue = L"\"" + driversPath + L"\"";
-			CheckSystemEncryptionFileResult (config.Set (L"PostOOBE", &scriptValue));
-			CheckSystemEncryptionFileResult (config.Set (L"ReflectDrivers", &driversValue));
-			WriteSystemEncryptionSetupConfig (configDirectory, config, snapshot, false);
+			else
+			{
+				// Publish the script before registering it.
+				std::vector<unsigned char> script;
+				DWORD error = record (SystemEncryptionSetup::Script (SystemEncryptionSetup::ScriptInstallationPath (registration.Drivers), script),
+					registration.Drivers);
+				if (error == ERROR_SUCCESS)
+					error = record (PrepareSystemEncryptionDataDirectory (storage), storage);
+				if (error == ERROR_SUCCESS)
+					error = record (WriteSystemEncryptionFile (L"SetupComplete.cmd", &script[0], (DWORD) script.size ()), registration.Script);
+				if (error == ERROR_SUCCESS)
+					configurationUpdated = record (SystemEncryptionSetup::Register (registration), config) == ERROR_SUCCESS;
+			}
 		}
-		catch (...)
+		else
 		{
-			// Never leave an old registration pointing at files that failed validation.
-			WriteSystemEncryptionSetupConfig (configDirectory, clean, snapshot);
-			throw;
+			configurationUpdated = record (SystemEncryptionSetup::Unregister (registration), config) == ERROR_SUCCESS;
+			DeleteFileW (registration.Script.c_str ());
 		}
+
+		// VeraCrypt 1.26.30 registered a copy of its driver package. Keep it if
+		// migration failed or the current registration cannot be inspected.
+		wstring reflectedDrivers;
+		if (configurationUpdated
+			&& record (SystemEncryptionSetup::GetValue (config, L"ReflectDrivers", reflectedDrivers), config) == ERROR_SUCCESS
+			&& !SystemEncryptionSetup::PathMatches (reflectedDrivers, oldDrivers))
+		{
+			const wchar_t *oldDriverFiles[] = { L"veracrypt.inf", L"veracrypt.sys", L"veracrypt.cat" };
+			for (size_t i = 0; i < ARRAYSIZE (oldDriverFiles); ++i)
+				DeleteFileW ((oldDrivers + L"\\" + oldDriverFiles[i]).c_str ());
+			RemoveDirectoryW (oldDrivers.c_str ());
+		}
+		DeleteFileW ((registration.Directory + L"\\VeraCrypt-SetupConfig.lock").c_str ());
+
+		if (!failures.empty ())
+			throw ErrorException (failures, SRC_POS);
 	}
 
 	void BootEncryption::InstallBootLoader (bool preserveUserConfig, bool hiddenOSCreation, int pim, int hashAlg)
@@ -5349,17 +5476,22 @@ namespace VeraCrypt
 
 	void BootEncryption::ReadSystemLoaderBackup (std::vector<uint8> &data)
 	{
-		SystemEncryptionFiles::Directory protectedDirectory;
-		DWORD error = protectedDirectory.Open (GetSystemEncryptionDataDirectory (), false, false, false);
-		if (error == ERROR_INVALID_SECURITY_DESCR || error == ERROR_REPARSE_POINT_ENCOUNTERED)
-			throw ErrorException ("SYSENC_STORAGE_UNTRUSTED", SRC_POS);
-		if (error == ERROR_SUCCESS) error = SystemEncryptionFiles::Read (protectedDirectory, TC_SYS_BOOT_LOADER_BACKUP_NAME, data);
+		const DWORD maxSize = (DWORD) TC_MAX_EFI_BOOT_LOADER_FILE_SIZE;
+		// Backups made by VeraCrypt 1.26.30 and later are in the protected storage.
+		DWORD error = SystemEncryptionFiles::ReadWhole (GetSystemEncryptionDataDirectory () + L"\\" + TC_SYS_BOOT_LOADER_BACKUP_NAME, data, maxSize);
 		if (SystemEncryptionFiles::Missing (error))
 		{
 			wstring legacyDirectory = GetSystemEncryptionDataDirectory (true);
-			error = SystemEncryptionFiles::Read (legacyDirectory, TC_SYS_BOOT_LOADER_BACKUP_NAME, data, true);
-			if (SystemEncryptionFiles::Missing (error))
-				error = SystemEncryptionFiles::Read (legacyDirectory, TC_SYS_BOOT_LOADER_BACKUP_NAME_LEGACY, data, true);
+			error = SystemEncryptionFiles::ReadLegacy (legacyDirectory, TC_SYS_BOOT_LOADER_BACKUP_NAME, data, maxSize);
+			// A standard user may have created a file of the current name before an
+			// installer could rename a backup of the deprecated name. That backup is
+			// still used if it is trusted.
+			if (SystemEncryptionFiles::Missing (error) || error == ERROR_INVALID_SECURITY_DESCR)
+			{
+				DWORD deprecatedError = SystemEncryptionFiles::ReadLegacy (legacyDirectory, TC_SYS_BOOT_LOADER_BACKUP_NAME_LEGACY, data, maxSize);
+				if (deprecatedError == ERROR_SUCCESS || SystemEncryptionFiles::Missing (error))
+					error = deprecatedError;
+			}
 		}
 		if (error == ERROR_INVALID_SECURITY_DESCR)
 			throw ErrorException ("SYS_LOADER_BACKUP_UNTRUSTED", SRC_POS);
@@ -5379,38 +5511,59 @@ namespace VeraCrypt
 
 	void BootEncryption::RenameDeprecatedSystemLoaderBackup (bool requireBackup)
 	{
-		// Both installers call this during upgrades. Copy only a validated legacy
-		// backup, and retain the original for recovery. Never bless old bytes by
-		// taking ownership or by hashing them during migration.
+		// The installers call this to copy the backup of an encrypted system from
+		// the legacy directory to the protected storage. The legacy file is kept.
+		// A backup that no system encryption needs is left where it is.
+		if (!requireBackup)
+			return;
+		const wstring path = GetSystemEncryptionDataDirectory () + L"\\" + TC_SYS_BOOT_LOADER_BACKUP_NAME;
 		std::vector<uint8> data;
-		DWORD error = SystemEncryptionFiles::Read (GetSystemEncryptionDataDirectory (), TC_SYS_BOOT_LOADER_BACKUP_NAME, data);
-		bool protectedBackup = error == ERROR_SUCCESS;
-		if (!protectedBackup)
+		DWORD error = SystemEncryptionFiles::ReadWhole (path, data, (DWORD) TC_MAX_EFI_BOOT_LOADER_FILE_SIZE);
+		bool migrate = SystemEncryptionFiles::Missing (error);
+		if (migrate)
+			ReadSystemLoaderBackup (data);
+		else
+			CheckSystemEncryptionFileResult (error, path, SRC_POS);
+		// Also validate an existing protected backup. A BIOS backup must be complete.
+		if (data.empty ())
+			throw ErrorException ("SYS_LOADER_BACKUP_EMPTY", SRC_POS);
+		if (!GetSystemDriveConfiguration ().SystemPartition.IsGPT && data.size () != TC_BOOT_LOADER_AREA_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS)
+			throw ErrorException ("SYS_LOADER_BACKUP_SIZE_INVALID", SRC_POS);
+		if (migrate)
 		{
-			if (!SystemEncryptionFiles::Missing (error)) CheckSystemEncryptionFileResult (error);
-			try
-			{
-				ReadSystemLoaderBackup (data);
-			}
-			catch (SystemException &e)
-			{
-				if (!requireBackup && SystemEncryptionFiles::Missing (e.ErrorCode)) return;
-				throw;
-			}
+			PrepareSystemEncryptionStorage ();
+			CheckSystemEncryptionFileResult (WriteSystemEncryptionFile (TC_SYS_BOOT_LOADER_BACKUP_NAME, &data[0], (DWORD) data.size ()), path, SRC_POS);
 		}
-		// Migration being unnecessary does not establish recovery availability.
-		// Validate existing protected bytes too, and never publish a partial BIOS
-		// backup. EFI backups have a variable size and the same capture bound.
-		if (data.empty () || (GetSystemDriveConfiguration ().SystemPartition.IsGPT
-			? data.size () > TC_MAX_EFI_BOOT_LOADER_FILE_SIZE
-			: data.size () != TC_BOOT_LOADER_AREA_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS))
-			CheckSystemEncryptionFileResult (ERROR_INVALID_DATA);
-		if (!protectedBackup)
-			CheckSystemEncryptionFileResult (SystemEncryptionFiles::Write (GetSystemEncryptionDataDirectory (),
-				TC_SYS_BOOT_LOADER_BACKUP_NAME, &data[0], (DWORD) data.size ()));
 	}
 
 #ifndef SETUP
+	static const char *GetRescueDiskBootManagerWarning (const std::vector<uint8> &backup)
+	{
+		BOOL windowsCa2023 = FALSE;
+		DWORD error = GetFirmwareWindowsUefiCa2023Support (&windowsCa2023);
+		if (error != ERROR_SUCCESS && !IsAdmin () && IsUacSupported ())
+		{
+			// Rescue creation already uses this UAC helper to select its EFI
+			// resources. Query the Windows CA separately: VeraCrypt's 2023 CA
+			// pair does not establish that the Windows CA is present.
+			try
+			{
+				Elevator::GetFirmwareWindowsUefiCa2023Support (&windowsCa2023);
+				error = ERROR_SUCCESS;
+			}
+			catch (Exception &) { }
+		}
+		if (error != ERROR_SUCCESS)
+			return "RESCUE_DISK_EFI_BOOT_MANAGER_CHECK_FAILED";
+		if (!windowsCa2023)
+			return NULL;
+
+		DWORD signer = VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN;
+		if (!GetEmbeddedPeSignerFamily (backup, signer) || signer == VC_EFI_WINDOWS_LOADER_SIGNER_UNKNOWN)
+			return "RESCUE_DISK_EFI_BOOT_MANAGER_CHECK_FAILED";
+		return signer == VC_EFI_WINDOWS_LOADER_SIGNER_PCA_2011 ? "RESCUE_DISK_EFI_BOOT_MANAGER_PCA2011" : NULL;
+	}
+
 	void BootEncryption::CreateRescueIsoImage (bool initialSetup, const wstring &isoImagePath)
 	{
 		BootEncryptionStatus encStatus = GetStatus();
@@ -5494,6 +5647,11 @@ namespace VeraCrypt
 			try
 			{
 				ReadSystemLoaderBackup (fileBuf);
+				// Check the same trusted bytes that are embedded, independently of
+				// setup-notice resolution or acknowledgement. Creating fresh media
+				// does not refresh the original Windows boot-manager backup.
+				if (const char *warning = GetRescueDiskBootManagerWarning (fileBuf))
+					Warning ((char *) warning, ParentWindow);
 				bLoadAdded = ZipAdd (z, "EFI/Boot/original_bootx64.vc_backup", &fileBuf[0], (DWORD) fileBuf.size ());
 			}
 			catch (Exception &e)
@@ -6143,8 +6301,8 @@ namespace VeraCrypt
 
 			// Publish only the bounded, completely read snapshot. Do not reopen
 			// and copy a source that may have changed since it was inspected.
-			CheckSystemEncryptionFileResult (SystemEncryptionFiles::Write (GetSystemEncryptionDataDirectory (),
-				TC_SYS_BOOT_LOADER_BACKUP_NAME, &bootLoaderBuf[0], (DWORD) bootLoaderBuf.size ()));
+			CheckSystemEncryptionFileResult (WriteSystemEncryptionFile (TC_SYS_BOOT_LOADER_BACKUP_NAME, &bootLoaderBuf[0], (DWORD) bootLoaderBuf.size ()),
+				GetSystemEncryptionDataDirectory () + L"\\" + TC_SYS_BOOT_LOADER_BACKUP_NAME, SRC_POS);
 			if (restoreStandardLoader)
 				EfiBootInst.SaveFile (szStdMsBootloader, bootLoaderBuf.data (), (DWORD) bootLoaderBuf.size ());
 			EfiBootInst.SaveFile (szBackupMsBootloader, bootLoaderBuf.data (), (DWORD) bootLoaderBuf.size ());
@@ -6172,8 +6330,8 @@ namespace VeraCrypt
 				}
 			}
 
-			CheckSystemEncryptionFileResult (SystemEncryptionFiles::Write (GetSystemEncryptionDataDirectory (),
-				TC_SYS_BOOT_LOADER_BACKUP_NAME, bootLoaderBuf, sizeof (bootLoaderBuf)));
+			CheckSystemEncryptionFileResult (WriteSystemEncryptionFile (TC_SYS_BOOT_LOADER_BACKUP_NAME, bootLoaderBuf, sizeof (bootLoaderBuf)),
+				GetSystemEncryptionDataDirectory () + L"\\" + TC_SYS_BOOT_LOADER_BACKUP_NAME, SRC_POS);
 		}
 	}
 
@@ -6873,13 +7031,68 @@ namespace VeraCrypt
 		*pMicrosoft2023UefiCAsSupported = GetPreferredEfiBootLoaderResourceSet ().ResourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2023;
 	}
 
+	static bool IsValidBootLoaderUpdateResult (const BootLoaderUpdateResult& result)
+	{
+		const GUID emptyId = {};
+		return result.Version == VC_BOOT_LOADER_UPDATE_RESULT_VERSION
+			&& ((result.Disposition == VC_BOOT_LOADER_UPDATE_COMPLETED && result.UpdateError == ERROR_SUCCESS)
+				|| (result.Disposition == VC_BOOT_LOADER_UPDATE_SKIPPED_HIDDEN_OS && result.UpdateError == ERROR_SUCCESS
+					&& !result.WarningMask && !result.AssessmentError && !result.ResourceSet)
+				|| (result.Disposition == VC_BOOT_LOADER_UPDATE_FAILED && result.UpdateError != ERROR_SUCCESS))
+			&& memcmp (&result.RequestId, &emptyId, sizeof (emptyId)) != 0
+			&& !(result.WarningMask & ~(VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER
+				| VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER | VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION
+				| VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE))
+			&& (result.ResourceSet == 0 || result.ResourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2011
+				|| result.ResourceSet == VC_EFI_BOOT_LOADER_RESOURCE_SET_2023);
+	}
+
+	DWORD BootEncryption::WriteBootLoaderUpdateResult (const BootLoaderUpdateResult& result)
+	{
+		if (!IsValidBootLoaderUpdateResult (result))
+			return ERROR_INVALID_DATA;
+		HKEY key;
+		DWORD error = RegCreateKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey,
+			0, NULL, REG_OPTION_NON_VOLATILE, KEY_SET_VALUE | KEY_WOW64_64KEY, NULL, &key, NULL);
+		if (error != ERROR_SUCCESS)
+			return error;
+		error = RegSetValueExW (key, L"SystemFavoritesUpdateResult", 0, REG_BINARY,
+			reinterpret_cast<const BYTE *> (&result), sizeof (result));
+		RegCloseKey (key);
+		return error;
+	}
+
+	DWORD BootEncryption::ReadBootLoaderUpdateResult (const GUID& requestId, BootLoaderUpdateResult& result)
+	{
+		memset (&result, 0, sizeof (result));
+		HKEY key;
+		DWORD error = RegOpenKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey,
+			0, KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key);
+		if (error != ERROR_SUCCESS)
+			return error;
+		BootLoaderUpdateResult recorded = {};
+		DWORD size = sizeof (recorded);
+		error = RegGetValueW (key, NULL, L"SystemFavoritesUpdateResult", RRF_RT_REG_BINARY,
+			NULL, &recorded, &size);
+		RegCloseKey (key);
+		if (error != ERROR_SUCCESS)
+			return error;
+		if (size != sizeof (recorded) || !IsValidBootLoaderUpdateResult (recorded))
+			return ERROR_INVALID_DATA;
+		if (memcmp (&requestId, &recorded.RequestId, sizeof (requestId)) != 0)
+			return ERROR_NOT_FOUND;
+		result = recorded;
+		return ERROR_SUCCESS;
+	}
+
 	static void RecordEfiBootChainTrustStatusDiagnostics (
-		const EfiBootChainTrustStatus& status,
+		EfiBootChainTrustStatus& status,
 		DWORD chainError = ERROR_SUCCESS,
 		DWORD firmwareDbError = ERROR_SUCCESS,
 		DWORD firmwareDbxError = ERROR_SUCCESS)
 	{
 		DWORD previousLastError = GetLastError ();
+		status.LastError = chainError;
 		WCHAR checkTimeUtc[32] = {0};
 		SYSTEMTIME systemTime;
 		GetSystemTime (&systemTime);
@@ -6891,6 +7104,8 @@ namespace VeraCrypt
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderFirmwareDbLastError", firmwareDbError);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderFirmwareDbxLastError", firmwareDbxError);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"SecureBootEnabled", status.SecureBootEnabled ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"SecureBootUnavailable", status.SecureBootUnavailable ? 1 : 0);
+		WriteEfiBootLoaderDiagnosticsRegistryDword (L"SecureBootDisabledWithNoDb", status.SecureBootDisabledWithNoDb ? 1 : 0);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"FirmwareDbxPresent", status.FirmwareDbxPresent ? 1 : 0);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"VeraCryptLoaderFilesValid", status.VeraCryptLoaderFilesValid ? 1 : 0);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"VeraCryptLoaderKnownCaAllowed", status.VeraCryptLoaderKnownCaAllowed ? 1 : 0);
@@ -6903,12 +7118,101 @@ namespace VeraCrypt
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"WindowsLoaderMigrationRecommended", status.WindowsLoaderMigrationRecommended ? 1 : 0);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderInstalledResourceSet", status.InstalledResourceSet);
 		WriteEfiBootLoaderDiagnosticsRegistryDword (L"EfiBootLoaderRecordedResourceSet", status.RecordedResourceSet);
-		RegDeleteKeyValueW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, L"VeraCryptLoaderTrusted");
-		RegDeleteKeyValueW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, L"VeraCryptLoaderRevoked");
-		RegDeleteKeyValueW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, L"WindowsLoaderTrusted");
-		RegDeleteKeyValueW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, L"WindowsLoaderRevoked");
-		WriteLocalMachineRegistryString (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootChainCheckTimeUtc", checkTimeUtc, FALSE);
+		HKEY key;
+		if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey, 0, KEY_SET_VALUE | KEY_WOW64_64KEY, &key) == ERROR_SUCCESS)
+		{
+			RegDeleteValueW (key, L"VeraCryptLoaderTrusted");
+			RegDeleteValueW (key, L"VeraCryptLoaderRevoked");
+			RegDeleteValueW (key, L"WindowsLoaderTrusted");
+			RegDeleteValueW (key, L"WindowsLoaderRevoked");
+			RegCloseKey (key);
+		}
+		WriteLocalMachineRegistryStringEx (EfiBootLoaderDiagnosticsRegistryKey, L"EfiBootChainCheckTimeUtc", checkTimeUtc, FALSE, KEY_WOW64_64KEY);
 		SetLastError (previousLastError);
+	}
+
+	static bool ReadEfiBootChainPolicy (EfiBootChainTrustStatus& status,
+		FirmwareDbMicrosoftUefiCaSupport& support, FirmwareDbMicrosoftUefiCaSupport& forbiddenSupport)
+	{
+		bool bSecureBootEnabled = false;
+		if (!TryFirmwareSecureBootEnabled (bSecureBootEnabled))
+		{
+			DWORD dwError = GetLastError ();
+			if (!IsFirmwareDbUnavailableError (dwError))
+			{
+				RecordEfiBootChainTrustStatusDiagnostics (status, dwError);
+				return false;
+			}
+			status.SecureBootUnavailable = true;
+		}
+		status.SecureBootEnabled = bSecureBootEnabled;
+
+		// Known-CA policy facts are asserted only from fully parsed db and dbx
+		// variables. This does not model the other UEFI revocation forms (image
+		// hashes, certificate TBS hashes, and security-version revocations).
+		if (!TryFirmwareDbGetMicrosoftUefiCaSupport (support))
+		{
+			DWORD dwError = GetLastError ();
+			if ((status.SecureBootUnavailable && IsFirmwareDbUnavailableError (dwError))
+				|| (!bSecureBootEnabled && dwError == ERROR_ENVVAR_NOT_FOUND))
+			{
+				// Absence is expected without Secure Boot support or with cleared keys.
+				// Keep CA-allowed fields false and inspect the installed boot files below.
+				status.SecureBootDisabledWithNoDb = !status.SecureBootUnavailable;
+				memset (&support, 0, sizeof (support));
+			}
+			else
+			{
+				RecordEfiBootChainTrustStatusDiagnostics (status, dwError, dwError);
+				return false;
+			}
+		}
+		if (support.DbMalformed)
+		{
+			DWORD dwError = support.ParseError ? support.ParseError : ERROR_INVALID_DATA;
+			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, dwError);
+			return false;
+		}
+
+		bool bFirmwareDbxPresent = false;
+		if (!TryFirmwareDbxGetMicrosoftUefiCaSupport (forbiddenSupport, &bFirmwareDbxPresent))
+		{
+			DWORD dwError = GetLastError ();
+			if (!status.SecureBootUnavailable || !IsFirmwareDbUnavailableError (dwError))
+			{
+				RecordEfiBootChainTrustStatusDiagnostics (status, dwError, ERROR_SUCCESS, dwError);
+				return false;
+			}
+			memset (&forbiddenSupport, 0, sizeof (forbiddenSupport));
+			bFirmwareDbxPresent = false;
+		}
+		if (forbiddenSupport.DbMalformed)
+		{
+			DWORD dwError = forbiddenSupport.ParseError ? forbiddenSupport.ParseError : ERROR_INVALID_DATA;
+			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, ERROR_SUCCESS, dwError);
+			return false;
+		}
+		status.FirmwareDbxPresent = bFirmwareDbxPresent;
+
+		return true;
+	}
+
+	DWORD GetEfiBootChainWarningMask (const EfiBootChainTrustStatus& status)
+	{
+		if (!status.StatusKnown)
+			return VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE;
+
+		// An unavailable policy must not imply CA trust or suppress file checks.
+		bool noPolicy = status.SecureBootUnavailable || status.SecureBootDisabledWithNoDb;
+		DWORD warnings = 0;
+		if (!status.VeraCryptLoaderFilesValid || (!noPolicy && !status.VeraCryptLoaderKnownCaAllowed))
+			warnings |= VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER;
+		if (!status.WindowsLoaderInspectionSucceeded || !status.WindowsLoaderPresent
+			|| !status.WindowsLoaderSignerKnown || (!noPolicy && !status.WindowsLoaderKnownCaAllowed))
+			warnings |= VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER;
+		else if (status.WindowsLoaderMigrationRecommended)
+			warnings |= VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION;
+		return warnings;
 	}
 
 	bool BootEncryption::GetEfiBootChainTrustStatus (EfiBootChainTrustStatus& status)
@@ -6919,47 +7223,9 @@ namespace VeraCrypt
 		if (!config.SystemPartition.IsGPT || !IsAdmin())
 			return false;
 
-		bool bSecureBootEnabled = false;
-		if (!TryFirmwareSecureBootEnabled (bSecureBootEnabled))
-		{
-			DWORD dwError = GetLastError ();
-			RecordEfiBootChainTrustStatusDiagnostics (status, dwError);
+		FirmwareDbMicrosoftUefiCaSupport support, forbiddenSupport;
+		if (!ReadEfiBootChainPolicy (status, support, forbiddenSupport))
 			return true;
-		}
-		status.SecureBootEnabled = bSecureBootEnabled;
-
-		// Known-CA policy facts are asserted only from fully parsed db and dbx
-		// variables. This does not model the other UEFI revocation forms (image
-		// hashes, certificate TBS hashes, and security-version revocations).
-		FirmwareDbMicrosoftUefiCaSupport support;
-		if (!TryFirmwareDbGetMicrosoftUefiCaSupport (support))
-		{
-			DWORD dwError = GetLastError ();
-			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, dwError);
-			return true;
-		}
-		if (support.DbMalformed)
-		{
-			DWORD dwError = support.ParseError ? support.ParseError : ERROR_INVALID_DATA;
-			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, dwError);
-			return true;
-		}
-
-		FirmwareDbMicrosoftUefiCaSupport forbiddenSupport;
-		bool bFirmwareDbxPresent = false;
-		if (!TryFirmwareDbxGetMicrosoftUefiCaSupport (forbiddenSupport, &bFirmwareDbxPresent))
-		{
-			DWORD dwError = GetLastError ();
-			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, ERROR_SUCCESS, dwError);
-			return true;
-		}
-		if (forbiddenSupport.DbMalformed)
-		{
-			DWORD dwError = forbiddenSupport.ParseError ? forbiddenSupport.ParseError : ERROR_INVALID_DATA;
-			RecordEfiBootChainTrustStatusDiagnostics (status, dwError, ERROR_SUCCESS, dwError);
-			return true;
-		}
-		status.FirmwareDbxPresent = bFirmwareDbxPresent;
 
 		DWORD recordedResourceSet = 0;
 		if (ReadRecordedEfiBootLoaderResourceSet (recordedResourceSet))
@@ -7496,9 +7762,6 @@ namespace VeraCrypt
 		if (encStatus.DriveMounted)
 			throw ParameterIncorrect (SRC_POS);
 
-		if (!IsAdmin() && IsUacSupported()) Elevator::UpdateSetupConfigFile (true);
-		else UpdateSetupConfigFile (true);
-
 		try
 		{
 			InstallBootLoader (false, hiddenSystem, -1, hashAlgo);
@@ -7521,17 +7784,20 @@ namespace VeraCrypt
 				e.Show (ParentWindow);
 			}
 
-			try
-			{
-				if (!IsAdmin() && IsUacSupported()) Elevator::UpdateSetupConfigFile (false);
-				else UpdateSetupConfigFile (false);
-			}
-			catch (Exception &e)
-			{
-				e.Show (ParentWindow);
-			}
-
 			throw;
+		}
+
+		// Windows feature update support. The system favorites service retries it
+		// when it starts, so a failure does not prevent system encryption.
+		try
+		{
+			if (!IsAdmin() && IsUacSupported()) Elevator::UpdateSetupConfigFile (true);
+			else UpdateSetupConfigFile (true);
+		}
+		catch (Exception &e)
+		{
+			e.Show (ParentWindow);
+			Warning ("SYSENC_SETUP_CONFIG_UPDATE_FAILED", ParentWindow);
 		}
 	}
 

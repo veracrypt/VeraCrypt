@@ -127,7 +127,8 @@ reproduce official release artifacts from a git checkout, set
 VeraCrypt sources tracked in another git checkout are treated the same way and
 use that checkout's HEAD timestamp.
 
-Both the generated `.deb` and `.rpm` packages are reproducible, including on older rpm (e.g. CentOS/RHEL 7) that lacks the `SOURCE_DATE_EPOCH`/`_buildhost` build macros.
+Both the generated `.deb` and `.rpm` packages are reproducible, including with
+older RPM versions that lack the `SOURCE_DATE_EPOCH`/`_buildhost` build macros.
 
 By default, a universal executable supporting both graphical and text user
 interface (through the switch --text) is built.
@@ -138,6 +139,8 @@ built using the 'NOGUI' parameter:
 
 `$ make NOGUI=1 WXSTATIC=1`
 
+On MacOSX, building a console-only executable is not supported.
+
 ## Arch Linux package build:
 
 Arch Linux users can build and install a package from the current checkout with
@@ -147,7 +150,73 @@ makepkg:
 
 `$ makepkg -si`
 
-On MacOSX, building a console-only executable is not supported.
+AppIndicator support is disabled by default. To enable it, set `INDICATOR=1`
+in the environment when running makepkg:
+
+`$ INDICATOR=1 makepkg -si`
+
+This adds `libayatana-appindicator` to the package dependencies and passes
+`INDICATOR=1` to the VeraCrypt build. Leave the variable unset or set it to `0`
+to disable support. If a package has already been built, add `-f` to rebuild it.
+The [Ayatana package](https://archlinux.org/packages/extra/x86_64/libayatana-appindicator/)
+provides both the development files and the runtime library.
+
+For release builds, follow the [Arch packaging instructions](./src/Build/Packaging/arch/README.md)
+to generate `PKGBUILD.release` and set its source checksum, then run:
+
+`$ INDICATOR=1 makepkg -p PKGBUILD.release -si`
+
+Use the same `INDICATOR` setting when generating `.SRCINFO` so that the
+dependency metadata matches the package.
+
+## RPM packages with AppIndicator support:
+
+AppIndicator support is disabled by default. Pass `INDICATOR` to
+`src/Build/build_cmake_rpm.sh` or `src/Build/build_cmake_opensuse.sh` to enable
+Ayatana AppIndicator support in the GUI package:
+
+```sh
+./src/Build/build_cmake_rpm.sh INDICATOR
+# To also use FUSE3:
+./src/Build/build_cmake_rpm.sh INDICATOR FUSE3
+```
+
+Both scripts accept the same options and build GUI and console packages with
+static wxWidgets libraries. They expect the wxWidgets 3.2.5 sources in a
+directory named `wxWidgets-3.2.5` next to the VeraCrypt checkout or in `/tmp`,
+along with the usual build dependencies, CMake and `rpmbuild`.
+
+The build selects GTK3 when `pkg-config` finds `gtk+-3.0`, and GTK2 otherwise.
+Install the GTK development files and the corresponding Ayatana development
+package:
+
+| Distribution | GTK3 development package | GTK2 development package (where available) |
+| --- | --- | --- |
+| Fedora / CentOS / RHEL and compatible distributions | `libayatana-appindicator-gtk3-devel` | `libayatana-appindicator-gtk2-devel` |
+| openSUSE | `libayatana-appindicator3-devel` | `libayatana-appindicator-devel` |
+
+The Ayatana package must provide `ayatana-appindicator3-0.1` for GTK3 or
+`ayatana-appindicator-0.1` for GTK2 through `pkg-config`.
+
+The scripts reuse an existing `wxBuildGui` without checking its GTK version.
+Rebuild wxWidgets if the selected GTK version has changed.
+
+For distribution-provided Ayatana packages, the minimum releases are Fedora
+38, Enterprise Linux 9 (with EPEL) and openSUSE Leap 15.0; openSUSE Tumbleweed
+also provides them. Install the GTK3 development packages if your distribution
+does not provide GTK2. See [Fedora/EPEL packages](https://packages.fedoraproject.org/pkgs/libayatana-appindicator/)
+and [openSUSE package](https://build.opensuse.org/package/show/openSUSE:Factory/libayatana-appindicator).
+
+With `INDICATOR`, the scripts check for these development files using
+`pkg-config` and stop before building if they are missing. Builds without
+`INDICATOR` do not require Ayatana.
+
+With AppIndicator enabled, the GUI RPM requires
+`libayatana-appindicator-gtk3` (or `libayatana-appindicator-gtk2`) on Fedora,
+CentOS, RHEL and compatible distributions, and `libayatana-appindicator3-1`
+(or `libayatana-appindicator1`) on openSUSE. Console packages do not require it.
+When packaging a GUI built with `make INDICATOR=1` through CMake directly, pass
+`-DVC_WITH_INDICATOR=TRUE` to record the matching RPM dependency.
 
 ## Mac OS X specifics:
 

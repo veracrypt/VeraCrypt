@@ -1589,6 +1589,9 @@ namespace VeraCrypt
 	{
 		InputPipe.reset (new Pipe());
 		OutputPipe.reset (new Pipe());
+		// Keep the service channel private when the UI or service launches a program.
+		SetPipeCloseOnExec (*InputPipe);
+		SetPipeCloseOnExec (*OutputPipe);
 
 		int pid = fork();
 		throw_sys_if (pid == -1);

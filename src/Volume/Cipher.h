@@ -65,6 +65,9 @@ namespace VeraCrypt
 
 		static bool HwSupportEnabled;
 		bool Initialized;
+#ifdef WOLFCRYPT_BACKEND
+		bool XtsInitialized;
+#endif
 		SecureBuffer Key;
 		SecureBuffer ScheduledKey;
 

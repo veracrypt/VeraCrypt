@@ -1,11 +1,14 @@
 # wolfSSL as crypto provider for VeraCrypt
 
-[wolfCrypt](https://www.wolfssl.com/products/wolfcrypt/) is wolfSSL's cutting edge crypto engine and a 
-potential FIPS solution for users of VeraCrypt. Follow the steps below to setup VeraCrypt with wolfCrypt. 
+[wolfCrypt](https://www.wolfssl.com/products/wolfcrypt/) is an optional, unsupported
+crypto backend contributed by wolfSSL. Standard VeraCrypt builds do not enable it.
+Using this backend does not by itself make VeraCrypt a FIPS-validated application.
 
 ## Building wolfSSL
 
-Clone wolfSSL and build it as shown below.
+Use wolfSSL 5.9.2 or later and build it as shown below. VeraCrypt initializes the
+provider's PBKDF2 iteration ceiling to support its full PIM range and treats
+derivation failures as errors.
 
 ```
 git clone https://github.com/wolfssl/wolfssl && cd wolfssl
@@ -17,7 +20,9 @@ sudo make install
 
 ## Building VeraCrypt with wolfSSL
 
-Build VeraCrypt with the `WOLFCRYPT` command line option.
+Pass `WOLFCRYPT=1` on the `make` command line to build VeraCrypt with wolfCrypt.
+Leaving it unset or setting `WOLFCRYPT=0` selects the standard backend. Clean
+before switching backends.
 
 ```
 make WXSTATIC=1 wxbuild && make WXSTATIC=1 clean && make WXSTATIC=1 WOLFCRYPT=1 && make WXSTATIC=1 WOLFCRYPT=1 package

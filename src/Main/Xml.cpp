@@ -30,8 +30,9 @@ namespace VeraCrypt
 	{
 		xmlString.Replace (L"&lt;", L"<");
 		xmlString.Replace (L"&gt;", L">");
-		xmlString.Replace (L"&amp;", L"&");
 		xmlString.Replace (L"&quot;", L"\"");
+		// Decode '&' last so escaped entity text is not interpreted a second time.
+		xmlString.Replace (L"&amp;", L"&");
 		return xmlString;
 	}
 
@@ -177,9 +178,10 @@ namespace VeraCrypt
 
 	wxString XmlWriter::EscapeChars (wxString rawString) const
 	{
+		// '&' first, so that the entities written for the other characters are not escaped again
+		rawString.Replace (L"&", L"&amp;");
 		rawString.Replace (L"<", L"&lt;");
 		rawString.Replace (L">", L"&gt;");
-		rawString.Replace (L"&", L"&amp;");
 		rawString.Replace (L"\"", L"&quot;");
 		return rawString;
 	}

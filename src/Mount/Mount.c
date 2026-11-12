@@ -589,6 +589,8 @@ static HANDLE MainInitMutex = NULL;		/* Mutex for main dialog WM_INITDIALOG */
 static BOOL MainInitMutexAcquired = FALSE;	/* TRUE if the main window mutex has been acquired */
 static HANDLE TaskBarIconMutex = NULL;
 static BOOL MainWindowHidden = FALSE;
+static BOOL MainDialogInitialized = FALSE;
+static BOOL SetupNotificationsPosted = FALSE;
 static int pwdChangeDlgMode	= PCDM_CHANGE_PASSWORD;
 static int bSysEncPwdChangeDlgMode = FALSE;
 static int bPrebootPasswordDlgMode = FALSE;
@@ -1823,10 +1825,11 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	}
 
 	{
-		char szTmp[MAX_PATH];
-		WideCharToMultiByte (CP_UTF8, 0, SecurityTokenLibraryPath, -1, szTmp, MAX_PATH, NULL, NULL);
-		ConfigReadCompareString ("SecurityTokenLibrary", "", szTmp, sizeof (szTmp) - 1, bOnlyCheckModified, pbSettingsModified);
-		MultiByteToWideChar (CP_UTF8, 0, szTmp, -1, SecurityTokenLibraryPath, ARRAYSIZE (SecurityTokenLibraryPath));
+		char szTmp[ARRAYSIZE (SecurityTokenLibraryPath) * 3] = {0};
+		WideCharToMultiByte (CP_UTF8, 0, SecurityTokenLibraryPath, -1, szTmp, sizeof (szTmp), NULL, NULL);
+		ConfigReadCompareString ("SecurityTokenLibrary", "", szTmp, sizeof (szTmp), bOnlyCheckModified, pbSettingsModified);
+		if (MultiByteToWideChar (CP_UTF8, 0, szTmp, -1, SecurityTokenLibraryPath, ARRAYSIZE (SecurityTokenLibraryPath)) == 0)
+			SecurityTokenLibraryPath[0] = 0;
 		if (!bOnlyCheckModified && SecurityTokenLibraryPath[0])
 		{
 			InitSecurityTokenLibrary(hwndDlg);
@@ -7695,6 +7698,7 @@ static void ResumeInterruptedSysEncProcess (HWND hwndDlg)
 
 void CreateRescueDisk (HWND hwndDlg)
 {
+	ShowSetupNotifications (hwndDlg);
 	try
 	{
 		BootEncStatus = BootEncObj->GetStatus();
@@ -8471,12 +8475,29 @@ static BOOL RepairMainWindowPlacement (HWND hwnd)
 	return SetWindowPlacement (hwnd, &wp);
 }
 
+static void QueueSetupNotifications (HWND hwnd)
+{
+	if (MainDialogInitialized && !MainInitMutexAcquired && !MainWindowHidden && !SetupNotificationsPosted)
+		SetupNotificationsPosted = PostMessage (hwnd, VC_APPMSG_SHOW_SETUP_NOTIFICATIONS, 0, 0);
+}
+
+static void ProcessSetupNotifications (HWND hwnd)
+{
+	SetupNotificationsPosted = FALSE;
+	// The initial post can precede the dialog's first ShowWindow. Check here,
+	// after WM_INITDIALOG, and leave hidden/background instances undisturbed.
+	if (MainDialogInitialized && !MainInitMutexAcquired && !MainWindowHidden
+		&& IsWindowVisible (hwnd) && IsWindowEnabled (hwnd) && !IsIconic (hwnd))
+		ShowSetupNotifications (hwnd);
+}
+
 static void ShowMainWindow (HWND hwnd)
 {
 	PlaceMainWindowOnRememberedMonitor (hwnd);
 	RepairMainWindowPlacement (hwnd);
 	ShowWindow (hwnd, SW_SHOW);
 	ShowWindow (hwnd, SW_RESTORE);
+	QueueSetupNotifications (hwnd);
 }
 
 /* Except in response to the WM_INITDIALOG and WM_ENDSESSION messages, the dialog box procedure
@@ -8922,7 +8943,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetFocus (GetDlgItem (hwndDlg, IDC_DRIVELIST));
 
 			/* Check system encryption status */
-
 			if (!Quit)	// Do not care about system encryption or in-place encryption if we were launched from the system startup sequence (the wizard was added to it too).
 			{
 				BOOL bActionPerformed = FALSE;
@@ -8980,6 +9000,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			// unlock the init mutex
 			ReleaseMainInitMutex ();
+			MainDialogInitialized = TRUE;
+			QueueSetupNotifications (hwndDlg);
 		}
 		return 0;
 
@@ -9005,6 +9027,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 		}
 		break;
+
+	case WM_SHOWWINDOW:
+	case WM_ENABLE:
+		if (wParam)
+			QueueSetupNotifications (hwndDlg);
+		return 0;
 
 	case WM_WINDOWPOSCHANGING:
 		if (MainWindowHidden)
@@ -10617,6 +10645,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		ShowMainWindow (hwndDlg);
 		return 1;
 
+	case VC_APPMSG_SHOW_SETUP_NOTIFICATIONS:
+		ProcessSetupNotifications (hwndDlg);
+		return 1;
+
 	case VC_APPMSG_CREATE_RESCUE_DISK:
 		CreateRescueDisk (hwndDlg);
 		return 1;
@@ -11390,15 +11422,36 @@ static bool IsUnsupportedEfiSecureBootDbException (const ErrorException &e)
 	return e.ErrLangId && strcmp (e.ErrLangId, "SYSENC_EFI_UNSUPPORTED_SECUREBOOT_CA") == 0;
 }
 
-static void SystemFavoritesServiceLogBootLoaderUpdateError (const wchar_t *operation, const ErrorException &e)
+static void SystemFavoritesServiceLogBootLoaderUpdateError (const wchar_t *operation, const Exception &e)
 {
-	if (IsUnsupportedEfiSecureBootDbException (e))
+	// Service startup has no GUI language catalog. Record stable message IDs,
+	// raw exception text and source positions instead of calling GetString.
+	wstring message = wstring (operation) + L" failed";
+	wchar_t detail[1024];
+	if (const ErrorException *error = dynamic_cast<const ErrorException *> (&e))
 	{
-		SystemFavoritesServiceLogError (wstring (operation) + L" failed: Secure Boot is enabled, but the firmware Secure Boot db/dbx policy does not permit a Microsoft UEFI CA set supported by VeraCrypt, or the policy could not be read completely. See HKLM\\SOFTWARE\\VeraCrypt\\Diagnostics\\EfiBootLoader for the recorded selection reason.");
-		return;
+		StringCchPrintfW (detail, ARRAYSIZE (detail), L": message ID=%hs; source=%hs.",
+			error->ErrLangId ? error->ErrLangId : "", error->SrcPos ? error->SrcPos : "");
+		message += detail;
+		if (!error->ErrMsg.empty ())
+			message += L" " + error->ErrMsg;
+		if (IsUnsupportedEfiSecureBootDbException (*error))
+			message += L" Secure Boot policy could not be validated for a supported loader set. The existing loader was retained. See HKLM\\SOFTWARE\\VeraCrypt\\Diagnostics\\EfiBootLoader for the selection reason.";
 	}
-
-	SystemFavoritesServiceLogError (wstring (operation) + L" failed while updating the boot loader.");
+	else if (const SystemException *systemError = dynamic_cast<const SystemException *> (&e))
+	{
+		StringCchPrintfW (detail, ARRAYSIZE (detail), L": Windows error 0x%.8X; source=%hs.",
+			systemError->ErrorCode ? systemError->ErrorCode : ERROR_GEN_FAILURE, systemError->SrcPos ? systemError->SrcPos : "");
+		message += detail;
+	}
+	else if (const ParameterIncorrect *parameterError = dynamic_cast<const ParameterIncorrect *> (&e))
+	{
+		StringCchPrintfW (detail, ARRAYSIZE (detail), L": Parameter incorrect; source=%hs.", parameterError->SrcPos ? parameterError->SrcPos : "");
+		message += detail;
+	}
+	else
+		message += L": unexpected VeraCrypt exception.";
+	SystemFavoritesServiceLogError (message);
 }
 
 
@@ -11439,28 +11492,61 @@ static BOOL GetSystemFavoritesServiceBootLoaderUpdateOptions (uint32 serviceFlag
 	return TRUE;
 }
 
-enum
-{
-	VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER = 0x01,
-	VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER = 0x02,
-	VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION = 0x04
-};
-
 static DWORD SystemFavoritesServiceLastEfiBootChainWarningMask = MAXDWORD;
+
+static void SystemFavoritesServiceClearSetupNotifications (const GUID &generation, DWORD mask)
+{
+	DWORD newlyResolved = 0;
+	DWORD error = ClearSetupNotifications (&generation, mask, &newlyResolved);
+	if (error != ERROR_SUCCESS)
+	{
+		wchar_t message[160];
+		StringCchPrintfW (message, ARRAYSIZE (message), L"Could not clear resolved setup notifications (mask 0x%.8X): error 0x%.8X.", mask, error);
+		SystemFavoritesServiceLogWarning (message);
+	}
+	else if (newlyResolved)
+	{
+		wchar_t generationText[40];
+		StringFromGUID2 (generation, generationText, ARRAYSIZE (generationText));
+		wchar_t message[192];
+		StringCchPrintfW (message, ARRAYSIZE (message), L"Setup recovery notifications resolved for generation %s (mask 0x%.8X).", generationText, newlyResolved);
+		SystemFavoritesServiceLogInfo (message);
+	}
+}
 
 static void SystemFavoritesServiceUpdateSetupConfigFile ()
 {
+	GUID generation = {};
+	DWORD notifications = ReadSetupNotifications (&generation);
 	try
 	{
 		BootEncryption bootEnc (NULL);
-		BootEncryption::UpdateSetupConfigFile (bootEnc.GetDriverServiceStartType () == SERVICE_BOOT_START);
+		bool forInstall = bootEnc.GetDriverServiceStartType () == SERVICE_BOOT_START;
+		BootEncryption::UpdateSetupConfigFile (forInstall);
+		// Successful encryption support supersedes an earlier cleanup failure
+		// from an unencrypted installation: these registrations are needed now.
+		DWORD resolved = VC_SETUP_NOTIFY_CONFIG_REMOVE;
+		if (forInstall)
+			resolved |= VC_SETUP_NOTIFY_CONFIG_UPDATE;
+		if (notifications & resolved)
+			SystemFavoritesServiceClearSetupNotifications (generation, resolved);
 	}
-	catch (Exception &) { SystemFavoritesServiceLogError (L"Windows feature update configuration could not be secured. Repair/Reinstall VeraCrypt before a Windows feature update."); }
+	catch (Exception &e) { SystemFavoritesServiceLogBootLoaderUpdateError (L"Windows feature update configuration", e); }
+	// This also runs from the stop and preshutdown handlers. Never end the service.
+	catch (...) { SystemFavoritesServiceLogError (L"Windows feature update configuration could not be updated: unexpected exception."); }
 }
 
-static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce)
+static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce, const GUID *requestId = NULL)
 {
 	SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing called");
+	GUID notificationGeneration = {};
+	DWORD notifications = ReadSetupNotifications (&notificationGeneration);
+	BootLoaderUpdateResult result = {};
+	result.Version = VC_BOOT_LOADER_UPDATE_RESULT_VERSION;
+	result.Disposition = VC_BOOT_LOADER_UPDATE_FAILED;
+	result.UpdateError = ERROR_GEN_FAILURE;
+	if (requestId)
+		result.RequestId = *requestId;
 	SystemFavoritesServiceBootLoaderUpdateOptions updateOptions;
 	uint32 serviceFlags = BootEncObj->ReadServiceConfigurationFlags ();
 	if (GetSystemFavoritesServiceBootLoaderUpdateOptions (serviceFlags, bForce, updateOptions))
@@ -11474,6 +11560,8 @@ static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce)
 				BootEncryption bootEnc (NULL, updateOptions.PostOOBE, updateOptions.SetBootEntry, updateOptions.ForceFirstBootEntry, updateOptions.ForceSetNextBoot);
 				SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing: InstallBootLoader calling");
 				bootEnc.InstallBootLoader (true);
+				result.Disposition = VC_BOOT_LOADER_UPDATE_COMPLETED;
+				result.UpdateError = ERROR_SUCCESS;
 				SystemFavoritesServiceLogInfo (L"SystemFavoritesServiceUpdateLoaderProcessing: InstallBootLoader called");
 
 				// Record actual-file and known-CA compatibility failures so a subsequent
@@ -11483,51 +11571,104 @@ static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce)
 					EfiBootChainTrustStatus trustStatus;
 					if (bootEnc.GetEfiBootChainTrustStatus (trustStatus))
 					{
-						DWORD warningMask = 0;
-						if (!trustStatus.StatusKnown
-							|| !trustStatus.VeraCryptLoaderFilesValid
-							|| !trustStatus.VeraCryptLoaderKnownCaAllowed)
-							warningMask |= VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER;
-						if (trustStatus.StatusKnown && (!trustStatus.WindowsLoaderInspectionSucceeded
-							|| !trustStatus.WindowsLoaderPresent
-							|| !trustStatus.WindowsLoaderSignerKnown
-							|| !trustStatus.WindowsLoaderKnownCaAllowed))
-							warningMask |= VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER;
-						else if (trustStatus.StatusKnown && trustStatus.WindowsLoaderMigrationRecommended)
-							warningMask |= VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION;
-
-						// The service refreshes the loader at several lifecycle events. Emit each
-						// unchanged warning state only once per service process to avoid log spam.
-						if (warningMask != SystemFavoritesServiceLastEfiBootChainWarningMask)
-						{
-							if (warningMask & VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER)
-								SystemFavoritesServiceLogWarning (L"Secure Boot compatibility check: VeraCrypt could not validate the installed DCS files against an embedded loader set and confirm that its known signing CAs are allowed by db and not listed by dbx. Do not boot with Secure Boot enabled until the policy and loader set have been repaired.");
-							if (warningMask & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER)
-								SystemFavoritesServiceLogWarning (L"Secure Boot compatibility check: the Windows boot manager used by VeraCrypt (bootmgfw_ms.vc) is missing or unreadable, its embedded signer is unrecognized, or its known signing CA is not allowed by db or is listed by dbx. The handoff to Windows may fail when Secure Boot is enabled.");
-							else if (warningMask & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION)
-								SystemFavoritesServiceLogWarning (L"Secure Boot transition check: bootmgfw_ms.vc is still signed by Microsoft Windows Production PCA 2011 although firmware db already contains Windows UEFI CA 2023. Complete the Windows 2023 boot manager update before applying the PCA 2011 dbx revocation.");
-
-							SystemFavoritesServiceLastEfiBootChainWarningMask = warningMask;
-						}
+						result.ResourceSet = trustStatus.InstalledResourceSet;
+						result.WarningMask = GetEfiBootChainWarningMask (trustStatus);
+						if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE)
+							result.AssessmentError = trustStatus.LastError ? trustStatus.LastError : ERROR_GEN_FAILURE;
+						// A removed CA or an unreadable/missing loader can also make
+						// the recommendation disappear. Require the actual 2023 loader.
+						// This covers the active handoff only, not the original-loader
+						// backups used by decryption or rescue media, or all revocations.
+						if ((notifications & VC_SETUP_NOTIFY_WINDOWS_MIGRATION) && trustStatus.StatusKnown
+							&& trustStatus.WindowsLoaderSigner == VC_EFI_WINDOWS_LOADER_SIGNER_CA_2023
+							&& !trustStatus.WindowsLoaderKnownCaRevoked
+							&& !(result.WarningMask & (VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE
+								| VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER | VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION)))
+							SystemFavoritesServiceClearSetupNotifications (notificationGeneration, VC_SETUP_NOTIFY_WINDOWS_MIGRATION);
 					}
 				}
-				catch (...) { }
+				catch (SystemException &e)
+				{
+					result.AssessmentError = e.ErrorCode ? e.ErrorCode : ERROR_GEN_FAILURE;
+					result.WarningMask |= VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE;
+					SystemFavoritesServiceLogBootLoaderUpdateError (L"Secure Boot assessment", e);
+				}
+				catch (Exception &e)
+				{
+					result.AssessmentError = ERROR_EXCEPTION_IN_SERVICE;
+					result.WarningMask |= VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE;
+					SystemFavoritesServiceLogBootLoaderUpdateError (L"Secure Boot assessment", e);
+				}
+				catch (...)
+				{
+					result.AssessmentError = ERROR_EXCEPTION_IN_SERVICE;
+					result.WarningMask |= VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE;
+				}
+			}
+			else
+			{
+				// This is intentional, not a failed or confirmed update. The
+				// installer already checks whether the decoy must be updated first.
+				result.Disposition = VC_BOOT_LOADER_UPDATE_SKIPPED_HIDDEN_OS;
+				result.UpdateError = ERROR_SUCCESS;
+				if (bForce)
+					SystemFavoritesServiceLogInfo (L"Boot loader update skipped by design in the hidden OS. Update the decoy OS first.");
 			}
 		}
 		catch (ErrorException &e)
 		{
-			SystemFavoritesServiceLogBootLoaderUpdateError (L"SystemFavoritesServiceUpdateLoaderProcessing", e);
+			result.UpdateError = IsUnsupportedEfiSecureBootDbException (e)
+				? VC_ERROR_EFI_UNSUPPORTED_SECURE_BOOT_DB : ERROR_EXCEPTION_IN_SERVICE;
+			SystemFavoritesServiceLogBootLoaderUpdateError (L"Boot loader update", e);
 		}
-		catch (Exception &)
+		catch (SystemException &e)
 		{
-			SystemFavoritesServiceLogError (L"SystemFavoritesServiceUpdateLoaderProcessing failed while updating the boot loader.");
+			result.UpdateError = e.ErrorCode ? e.ErrorCode : ERROR_GEN_FAILURE;
+			SystemFavoritesServiceLogBootLoaderUpdateError (L"Boot loader update", e);
+		}
+		catch (Exception &e)
+		{
+			result.UpdateError = ERROR_EXCEPTION_IN_SERVICE;
+			SystemFavoritesServiceLogBootLoaderUpdateError (L"Boot loader update", e);
 		}
 		catch (...)
 		{
+			result.UpdateError = ERROR_EXCEPTION_IN_SERVICE;
 			SystemFavoritesServiceLogError (L"SystemFavoritesServiceUpdateLoaderProcessing failed with an unexpected exception while updating the boot loader.");
 		}
 	}
+	if (result.UpdateError != ERROR_SUCCESS)
+		result.Disposition = VC_BOOT_LOADER_UPDATE_FAILED;
+	if (bForce || result.WarningMask != SystemFavoritesServiceLastEfiBootChainWarningMask)
+	{
+		if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE)
+		{
+			wchar_t message[256];
+			StringCchPrintfW (message, ARRAYSIZE (message), L"Secure Boot compatibility could not be assessed: error 0x%.8X. No incompatibility has been established by this assessment.", result.AssessmentError);
+			SystemFavoritesServiceLogWarning (message);
+		}
+		// Service startup bypasses the GUI language initialization.
+		if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER)
+			SystemFavoritesServiceLogWarning (L"Secure Boot compatibility check: VeraCrypt could not validate the installed DCS files against an embedded loader set and confirm that its known signing CAs are allowed by db and not listed by dbx. Do not boot with Secure Boot enabled until the policy and loader set have been repaired.");
+		if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER)
+			SystemFavoritesServiceLogWarning (L"Secure Boot compatibility check: the Windows boot manager used by VeraCrypt (bootmgfw_ms.vc) is missing or unreadable, its embedded signer is unrecognized, or its known signing CA is not allowed by db or is listed by dbx. The handoff to Windows may fail when Secure Boot is enabled.");
+		else if (result.WarningMask & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION)
+			SystemFavoritesServiceLogWarning (L"Secure Boot transition check: bootmgfw_ms.vc is still signed by Microsoft Windows Production PCA 2011 although firmware db already contains Windows UEFI CA 2023. Complete the Windows 2023 boot manager update before applying the PCA 2011 dbx revocation. This check covers the active Windows boot manager only. Decryption fallback and rescue-disk backups require separate verification; recreating rescue media can reuse an older stored loader.");
+		SystemFavoritesServiceLastEfiBootChainWarningMask = result.WarningMask;
+	}
 	SystemFavoritesServiceUpdateSetupConfigFile ();
+	// Ordinary startup, shutdown, unlock and resume checks cannot overwrite an
+	// installer's response. SERVICE_RUNNING alone does not mean the update worked.
+	if (bForce && requestId)
+	{
+		DWORD error = BootEncryption::WriteBootLoaderUpdateResult (result);
+		if (error != ERROR_SUCCESS)
+		{
+			wchar_t message[128];
+			StringCchPrintfW (message, ARRAYSIZE (message), L"Could not publish the installer boot loader update result: error 0x%.8X.", error);
+			SystemFavoritesServiceLogError (message);
+		}
+	}
 }
 
 // Global vector containing all devices previsouly knwon to the system
@@ -11669,12 +11810,27 @@ static void SystemFavoritesServiceInvalidParameterHandler (const wchar_t *expres
 	TC_THROW_FATAL_EXCEPTION;
 }
 
+static bool ParseBootLoaderUpdateRequest (const wchar_t *argument, GUID& requestId)
+{
+	const size_t prefixLength = wcslen (VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_REQUEST);
+	const GUID emptyId = {};
+	requestId = emptyId;
+	if (!argument || wcsncmp (argument, VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_REQUEST, prefixLength) != 0)
+		return false;
+	const wchar_t *id = argument + prefixLength;
+	return wcslen (id) == 38 && id[0] == L'{' && id[37] == L'}'
+		&& SUCCEEDED (CLSIDFromString (id, &requestId))
+		&& memcmp (&requestId, &emptyId, sizeof (emptyId)) != 0;
+}
+
 static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 {
 	BOOL status = FALSE;
 	DEV_BROADCAST_DEVICEINTERFACE hdr;
 	BOOL bSkipMount = FALSE;
 	BOOL bUpdateLoader = FALSE;
+	GUID updateRequest = {};
+	BOOL haveUpdateRequest = FALSE;
 	DWORD i;
 	memset (&SystemFavoritesServiceStatus, 0, sizeof (SystemFavoritesServiceStatus));
 	SystemFavoritesServiceStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
@@ -11687,6 +11843,8 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 			bSkipMount = TRUE;
 		else if (0 == _wcsicmp (argv[i], VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_LOADER))
 			bUpdateLoader = TRUE;
+		else if (0 == wcsncmp (argv[i], VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_REQUEST, wcslen (VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_REQUEST)))
+			haveUpdateRequest = ParseBootLoaderUpdateRequest (argv[i], updateRequest);
 	}
 
 	ZeroMemory (&hdr, sizeof(hdr));
@@ -11709,7 +11867,7 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 	if (bUpdateLoader)
 	{
 		SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 120000);
-		SystemFavoritesServiceUpdateLoaderProcessing (TRUE);
+		SystemFavoritesServiceUpdateLoaderProcessing (TRUE, haveUpdateRequest ? &updateRequest : NULL);
 	}
 
 	if (!bSkipMount)
@@ -12611,31 +12769,45 @@ static void SaveDefaultKeyFilesParam (HWND hwnd)
 		FILE *f;
 		KeyFile *kf = FirstKeyFile;
 
-		f = _wfopen (GetConfigPath (TC_APPD_FILENAME_DEFAULT_KEYFILES), L"w,ccs=UTF-8");
+		f = _wfopen (GetConfigPath (TC_APPD_FILENAME_DEFAULT_KEYFILES), L"wb");
 		if (f == NULL)
 		{
 			handleWin32Error (MainDlg, SRC_POS);
 			return;
 		}
 
-		XmlWriteHeader (f);
+		XmlWriteHeaderUtf8 (f);
 
-		fputws (L"\n\t<defaultkeyfiles>", f);
+		fputs ("\r\n\t<defaultkeyfiles>", f);
 
 		while (kf != NULL)
 		{
-			wchar_t q[TC_MAX_PATH * 2];
+			wchar_t q[ARRAYSIZE (kf->FileName) * 5];
 
-			XmlQuoteTextW (kf->FileName, q, ARRAYSIZE (q));
-			fwprintf (f, L"\n\t\t<keyfile>%s</keyfile>", q);
+			if (XmlQuoteTextW (kf->FileName, q, ARRAYSIZE (q)) == NULL)
+			{
+				fclose (f);
+				SetLastError (ERROR_INSUFFICIENT_BUFFER);
+				handleWin32Error (hwnd, SRC_POS);
+				return;
+			}
+			fputs ("\r\n\t\t<keyfile>", f);
+			if (XmlWriteTextUtf8 (f, q) == EOF)
+			{
+				handleWin32Error (hwnd, SRC_POS);
+				fclose (f);
+				return;
+			}
+			fputs ("</keyfile>", f);
 
 			kf = kf->Next;
 		}
 
-		fputws (L"\n\t</defaultkeyfiles>", f);
+		fputs ("\r\n\t</defaultkeyfiles>", f);
 
-		XmlWriteFooter (f);
+		XmlWriteFooterUtf8 (f);
 
+		fflush (f);
 		CheckFileStreamWriteErrors (hwnd, f, TC_APPD_FILENAME_DEFAULT_KEYFILES);
 		fclose (f);
 		return;

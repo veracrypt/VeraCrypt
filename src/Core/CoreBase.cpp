@@ -290,6 +290,10 @@ namespace VeraCrypt
 
 		SecureBuffer modeKey (encryptionAlgorithm->GetMode()->GetKeySize());
 		RandomNumberGenerator::GetData (modeKey);
+#ifdef WOLFCRYPT_BACKEND
+		// Refresh the active XTS context with both newly generated keys.
+		encryptionAlgorithm->SetKeyXTS (modeKey);
+#endif
 		encryptionAlgorithm->GetMode()->SetKey (modeKey);
 	}
 

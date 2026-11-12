@@ -239,8 +239,10 @@ namespace VeraCrypt
 	// versions, so these fields deliberately do not claim complete firmware trust.
 	struct EfiBootChainTrustStatus
 	{
-		bool StatusKnown;              // Secure Boot state read and firmware db/dbx CA entries parsed completely
+		bool StatusKnown;              // policy assessed (including no policy); file validity reported separately
 		bool SecureBootEnabled;
+		bool SecureBootUnavailable;    // SecureBoot variable/API absent; does not assert CA trust
+		bool SecureBootDisabledWithNoDb; // verified disabled and db absent; does not assert CA trust
 		bool FirmwareDbxPresent;       // false is valid and means the optional dbx variable is absent
 		bool VeraCryptLoaderFilesValid; // installed DCS files and any VeraCrypt standard-path copies match one embedded set
 		bool VeraCryptLoaderKnownCaAllowed; // required signing CA(s) found in db and no matching CA found in dbx
@@ -254,7 +256,41 @@ namespace VeraCrypt
 		DWORD WindowsLoaderSigner;     // VC_EFI_WINDOWS_LOADER_SIGNER_* value
 		DWORD InstalledResourceSet;    // resource set identified from the actual installed DCS files
 		DWORD RecordedResourceSet;     // last resource set recorded at installation/refresh time
+		DWORD LastError;               // why the assessment could not be completed
 	};
+
+	enum
+	{
+		VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER = 0x01,
+		VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER = 0x02,
+		VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION = 0x04,
+		VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE = 0x08
+	};
+	DWORD GetEfiBootChainWarningMask (const EfiBootChainTrustStatus& status);
+	DWORD GetFirmwareWindowsUefiCa2023Support (BOOL *present);
+
+	// One atomic registry value shared by the x86 MSI and native service. Only
+	// an explicitly requested startup update publishes a result. A fresh GUID
+	// distinguishes this request from previous installs and service processes.
+	enum
+	{
+		VC_BOOT_LOADER_UPDATE_RESULT_VERSION = 2,
+		VC_BOOT_LOADER_UPDATE_COMPLETED = 1,
+		VC_BOOT_LOADER_UPDATE_SKIPPED_HIDDEN_OS = 2,
+		VC_BOOT_LOADER_UPDATE_FAILED = 3
+	};
+
+	struct BootLoaderUpdateResult
+	{
+		DWORD Version;
+		GUID RequestId;
+		DWORD UpdateError;
+		DWORD AssessmentError;
+		DWORD WarningMask;
+		DWORD ResourceSet;
+		DWORD Disposition;
+	};
+	static_assert (sizeof (BootLoaderUpdateResult) == 40, "Boot loader update result layout");
 
 	class BootEncryption
 	{
@@ -342,11 +378,14 @@ namespace VeraCrypt
 		void BackupSystemLoader ();
 		void RestoreSystemLoader ();
 		static void UpdateSetupConfigFile (bool bForInstall);
+		static DWORD SecureLegacySystemEncryptionFiles (wstring *failedPath = NULL);
 		static void PrepareSystemEncryptionStorage ();
-		static void PrepareSystemEncryptionInstallation (const wchar_t *path);
 		void GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
 		void GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSupported);
 		bool GetEfiBootChainTrustStatus (EfiBootChainTrustStatus& status);
+		static DWORD WriteBootLoaderUpdateResult (const BootLoaderUpdateResult& result);
+		static DWORD ReadBootLoaderUpdateResult (const GUID& requestId, BootLoaderUpdateResult& result);
+		static void ClearEfiBootLoaderDiagnosticsRegistry ();
 		bool IsUsingUnsupportedAlgorithm(LONG driverVersion);
 		void NotifyService (DWORD dwNotifyCmd);
 	protected:
@@ -399,6 +438,7 @@ namespace VeraCrypt
 #define TC_SYSTEM_FAVORITES_SERVICE_CMDLINE_OPTION		L"/systemFavoritesService"
 #define VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT		L"/SkipMount"
 #define VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_LOADER	L"/UpdateLoader"
+#define VC_SYSTEM_FAVORITES_SERVICE_ARG_UPDATE_REQUEST L"/UpdateLoaderRequest="
 
 #define VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER			0x1
 #define VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT			0x2

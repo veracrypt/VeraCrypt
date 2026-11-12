@@ -17,6 +17,19 @@ cd src/Build/Packaging/arch
 makepkg -si
 ```
 
+AppIndicator support is disabled by default. To enable it for the GUI, set
+`INDICATOR=1` in makepkg's environment:
+
+```sh
+INDICATOR=1 makepkg -si
+```
+
+Both PKGBUILDs then add `libayatana-appindicator` as a build and runtime
+dependency and pass `INDICATOR=1` to VeraCrypt's Makefile. Leave the variable
+unset or set it to `0` to disable support. Add `-f` when replacing an already
+built package. The recipes clean the VeraCrypt build before compiling so that
+changing the setting rebuilds the affected objects.
+
 The package build uses VeraCrypt's normal GNU Make build, stages files through
 `make install DESTDIR=...`, omits the generic self-uninstaller and
 AppImage-specific staging files, installs the HTML documentation for offline
@@ -47,13 +60,26 @@ make pkgbuild-release
 
 Replace only the first temporary `SKIP` checksum in `PKGBUILD.release` with the
 published SHA-512 checksum for the source archive. Leave the `.sig` checksum as
-`SKIP`; makepkg uses it for PGP verification. Coordinate changes with the
-official Arch package maintainer when targeting Arch's official repositories. If
-copying `PKGBUILD.release` to an AUR-style packaging repository, regenerate
-`.SRCINFO`:
+`SKIP`; makepkg uses it for PGP verification. The generated release recipe
+accepts the same environment variable:
 
 ```sh
-makepkg --printsrcinfo > .SRCINFO
+INDICATOR=1 makepkg -p PKGBUILD.release -si
+```
+
+Coordinate changes with the official Arch package maintainer when targeting
+Arch's official repositories. If copying `PKGBUILD.release` to an AUR-style
+packaging repository, regenerate `.SRCINFO`:
+
+```sh
+makepkg -p PKGBUILD.release --printsrcinfo > .SRCINFO
+```
+
+Use the same `INDICATOR` setting when generating `.SRCINFO` and building the
+package so that dependency metadata matches the selected variant:
+
+```sh
+INDICATOR=1 makepkg -p PKGBUILD.release --printsrcinfo > .SRCINFO
 ```
 
 Use `PKGBUILD.release` for reproducible-build checks; byte-identical packages

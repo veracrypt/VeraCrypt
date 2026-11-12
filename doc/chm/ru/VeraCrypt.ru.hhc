@@ -237,6 +237,16 @@
         <param name="Name" value="Использование в командной строке">
         <param name="Local" value="Command Line Usage.html">
         </OBJECT>
+    <UL>
+        <LI> <OBJECT type="text/sitemap">
+            <param name="Name" value="Windows">
+            <param name="Local" value="Command Line Usage for Windows.html">
+            </OBJECT>
+        <LI> <OBJECT type="text/sitemap">
+            <param name="Name" value="Linux и macOS">
+            <param name="Local" value="Command Line Usage for Unix.html">
+            </OBJECT>
+    </UL>
     <LI> <OBJECT type="text/sitemap">
         <param name="Name" value="Модель безопасности">
         <param name="Local" value="Security Model.html">

@@ -308,7 +308,10 @@ DWORD BaseCom::SetDriverServiceStartType (DWORD startType)
 
 DWORD BaseCom::WriteLocalMachineRegistryDwordValue (BSTR keyPath, BSTR valueName, DWORD value)
 {
-	if (!::WriteLocalMachineRegistryDword (keyPath, valueName, value))
+	// The x86 COM server and native service share EFI diagnostics. Other keys
+	// retain their existing registry view and COM interface semantics.
+	REGSAM view = keyPath && _wcsicmp (keyPath, VC_EFI_BOOT_LOADER_DIAGNOSTICS_REGISTRY_KEY) == 0 ? KEY_WOW64_64KEY : 0;
+	if (!::WriteLocalMachineRegistryDwordEx (keyPath, valueName, value, view))
 		return GetLastError();
 
 	return ERROR_SUCCESS;
@@ -491,6 +494,21 @@ DWORD BaseCom::GetEfiBootLoaderSigningSupport (BOOL* pMicrosoft2023UefiCAsSuppor
 	}
 
 	return ERROR_SUCCESS;
+}
+
+DWORD BaseCom::GetFirmwareWindowsUefiCa2023Support (BOOL *present)
+{
+	if (!present)
+		return ERROR_INVALID_PARAMETER;
+	*present = FALSE;
+	if (!IsAdmin ())
+		return ERROR_ACCESS_DENIED;
+	try
+	{
+		return VeraCrypt::GetFirmwareWindowsUefiCa2023Support (present);
+	}
+	catch (SystemException &e) { return e.ErrorCode ? e.ErrorCode : ERROR_GEN_FAILURE; }
+	catch (...) { return ERROR_GEN_FAILURE; }
 }
 
 DWORD BaseCom::WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg)

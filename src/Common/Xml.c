@@ -12,6 +12,7 @@
 #if !defined(_UEFI)
 #include <windows.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <strsafe.h>
 #else
 #include "Tcdefs.h"
@@ -29,6 +30,75 @@ static BOOL BeginsWith (char *string, char *subString)
 	}
 
 	return FALSE;
+}
+
+
+static BOOL XmlIsSpace (char c)
+{
+	return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+}
+
+
+static BOOL XmlIsNameChar (char c)
+{
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9') || c == '_' || c == '-' || c == '.' || c == ':';
+}
+
+
+/* Read the complete start tag before accepting an attribute. VeraCrypt writes
+   double quoted values. Raw '<' and '>' inside them are kept for old favorites.
+   Checking the syntax after each value also rejects a missing closing quote
+   that would otherwise consume the opening quote of a later element. */
+static char *XmlParseStartTag (char *xmlNode, const char *xmlAttrName, char **value, size_t *valueLen)
+{
+	char *t = xmlNode;
+	size_t wantedLen = xmlAttrName ? strlen (xmlAttrName) : 0;
+
+	if (!t || *t != '<') return NULL;
+	++t;
+	if (!XmlIsNameChar (*t)) return NULL;
+	while (XmlIsNameChar (*t)) ++t;
+
+	for (;;)
+	{
+		char *name, *text;
+		size_t nameLen;
+
+		if (*t == '>') return t;
+		if (*t == '/' && t[1] == '>') return t + 1;
+		if (!XmlIsSpace (*t)) return NULL;
+		while (XmlIsSpace (*t)) ++t;
+		if (*t == '>') return t;
+		if (*t == '/' && t[1] == '>') return t + 1;
+
+		name = t;
+		while (XmlIsNameChar (*t)) ++t;
+		nameLen = (size_t) (t - name);
+		if (nameLen == 0) return NULL;
+		while (XmlIsSpace (*t)) ++t;
+		if (*t != '=') return NULL;
+		++t;
+		while (XmlIsSpace (*t)) ++t;
+		if (*t != '"') return NULL;
+		text = ++t;
+		t = strchr (text, '"');
+		if (!t) return NULL;
+
+		if (xmlAttrName && !*value && nameLen == wantedLen && memcmp (name, xmlAttrName, nameLen) == 0)
+		{
+			*value = text;
+			*valueLen = (size_t) (t - text);
+		}
+		++t;
+	}
+}
+
+
+/* Returns the '>' ending a valid start tag, ignoring angle brackets in values. */
+char *XmlFindTagEnd (char *xmlNode)
+{
+	return XmlParseStartTag (xmlNode, NULL, NULL, NULL);
 }
 
 
@@ -52,11 +122,13 @@ char *XmlFindElement (char *xmlNode, char *nodeName)
 	char *t = xmlNode;
 	size_t nameLen = strlen (nodeName);
 
+	if (!t || !*t || nameLen == 0) return NULL;
+
 	do
 	{
-		if (BeginsWith (t + 1, nodeName)
+		if (*t == '<' && BeginsWith (t + 1, nodeName)
 			&& (t[nameLen + 1] == '>'
-			|| t[nameLen + 1] == ' ')) return t;
+			|| XmlIsSpace (t[nameLen + 1]))) return t;
 
 	} while (t = XmlNextNode (t));
 
@@ -70,11 +142,11 @@ char *XmlFindElementByAttributeValue (char *xml, char *nodeName, const char *att
 
 	while (xml = XmlFindElement (xml, nodeName))
 	{
-		XmlGetAttributeText (xml, attrName, attr, sizeof (attr));
-		if (strcmp (attr, attrValue) == 0)
+		char *tagEnd = XmlFindTagEnd (xml);
+		if (XmlGetAttributeText (xml, attrName, attr, sizeof (attr)) && strcmp (attr, attrValue) == 0)
 			return xml;
 
-		xml++;
+		xml = tagEnd ? tagEnd : xml + 1;
 	}
 
 	return NULL;
@@ -83,49 +155,19 @@ char *XmlFindElementByAttributeValue (char *xml, char *nodeName, const char *att
 
 char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttrValue, int xmlAttrValueSize)
 {
-	char *t = xmlNode;
-	char *nodeEnd = xmlNode;
-	char *quote1, *quote2;
-	int l = 0;
+	char *value = NULL;
+	size_t valueLen = 0;
 
 	if (xmlAttrValueSize <= 0)
 		return NULL;
 
 	xmlAttrValue[0] = 0;
-	if (t[0] != '<') return NULL;
+	if (!XmlParseStartTag (xmlNode, xmlAttrName, &value, &valueLen)
+		|| !value || valueLen >= (size_t) xmlAttrValueSize)
+		return NULL;
 
-	nodeEnd = strchr (nodeEnd, '>');
-	if (nodeEnd == NULL) return NULL;
-
-	while ((t = strstr (t, xmlAttrName)) && t < nodeEnd)
-	{
-		char *o = t + strlen (xmlAttrName);
-		if (t[-1] == ' '
-			&&
-			(BeginsWith (o, "=\"")
-			|| BeginsWith (o, "= \"")
-			|| BeginsWith (o, " =\"")
-			|| BeginsWith (o, " = \""))
-			)
-			break;
-
-		t++;
-	}
-
-	if (t == NULL || t > nodeEnd) return NULL;
-
-	quote1 = strchr (t, '"');
-	if (quote1 == NULL || quote1 > nodeEnd) return NULL;
-	t = quote1 + 1;
-
-	quote2 = strchr (t, '"');
-	if (quote2 == NULL || quote2 > nodeEnd) return NULL;
-
-	l = (int)(quote2 - t);
-	if (l < 0 || l >= xmlAttrValueSize) return NULL;
-
-	memcpy (xmlAttrValue, t, l);
-	xmlAttrValue[l] = 0;
+	memcpy (xmlAttrValue, value, valueLen);
+	xmlAttrValue[valueLen] = 0;
 
 	return xmlAttrValue;
 }
@@ -145,11 +187,11 @@ char *XmlGetNodeText (char *xmlNode, char *xmlText, int xmlTextSize)
 	if (t[0] != '<')
 		return NULL;
 
-	t = (char*) strchr (t, '>');
+	t = XmlFindTagEnd (t);
 	if (t == NULL) return NULL;
 
 	t++;
-	e = strchr (e, '<');
+	e = strchr (t, '<');
 	if (e == NULL) return NULL;
 
 	l = (int)(e - t);
@@ -289,15 +331,73 @@ wchar_t *XmlQuoteTextW (const wchar_t *textSrc, wchar_t *textDst, int textDstMax
 
 #if !defined(_UEFI)
 #pragma warning( default : 4706 )
-int XmlWriteHeader (FILE *file)
+#define TC_XML_HEADER "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<VeraCrypt>"
+#define TC_XML_FOOTER "\r\n</VeraCrypt>"
+
+int XmlWriteHeaderUtf8 (FILE *file)
 {
-	return fputws (L"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<VeraCrypt>", file);
+	return fputs ("\xEF\xBB\xBF" TC_XML_HEADER, file);
 }
 
 
-int XmlWriteFooter (FILE *file)
+int XmlWriteFooterUtf8 (FILE *file)
 {
-	return fputws (L"\n</VeraCrypt>", file);
+	return fputs (TC_XML_FOOTER, file);
+}
+
+
+int XmlWriteEscapedText (FILE *file, const char *text)
+{
+	const char *segment = text;
+	const char *special;
+	while ((special = strpbrk (segment, "&<>")) != NULL)
+	{
+		size_t size = (size_t) (special - segment);
+		const char *escaped = *special == '&' ? "&amp;" : (*special == '<' ? "&lt;" : "&gt;");
+		if (fwrite (segment, 1, size, file) != size || fputs (escaped, file) == EOF)
+			return EOF;
+		segment = special + 1;
+	}
+	return fputs (segment, file);
+}
+
+
+static int XmlWriteWideTextUtf8 (FILE *file, const wchar_t *text, BOOL escape)
+{
+	int size = WideCharToMultiByte (CP_UTF8, 0, text, -1, NULL, 0, NULL, NULL);
+	char *utf8;
+	int result = EOF;
+	DWORD error;
+	if (size == 0)
+		return EOF;
+
+	utf8 = (char *) malloc (size);
+	if (!utf8)
+	{
+		SetLastError (ERROR_NOT_ENOUGH_MEMORY);
+		return EOF;
+	}
+
+	// Convert the complete string so a CRT buffer can't split a surrogate pair.
+	if (WideCharToMultiByte (CP_UTF8, 0, text, -1, utf8, size, NULL, NULL) != 0)
+		result = escape ? XmlWriteEscapedText (file, utf8) : fputs (utf8, file);
+
+	error = GetLastError ();
+	free (utf8);
+	SetLastError (error);
+	return result;
+}
+
+
+int XmlWriteTextUtf8 (FILE *file, const wchar_t *text)
+{
+	return XmlWriteWideTextUtf8 (file, text, FALSE);
+}
+
+
+int XmlWriteEscapedTextUtf8 (FILE *file, const wchar_t *text)
+{
+	return XmlWriteWideTextUtf8 (file, text, TRUE);
 }
 #endif !defined(_UEFI)
 
@@ -305,6 +405,7 @@ int XmlWriteFooter (FILE *file)
 BOOL XmlTest (void)
 {
 	char buffer[10];
+	char largeBuffer[256];
 
 	/* XmlGetAttributeText tests */
 
@@ -326,7 +427,8 @@ BOOL XmlTest (void)
 
 	/* 4. closing quote belongs to a later tag, not the current one */
 	char xmlAttrCrossTag[] = "<Node attr=\"123456789></Node><Other attr=\"test\"></Other>";
-	if (XmlGetAttributeText (xmlAttrCrossTag, "attr", buffer, sizeof (buffer)) != NULL)
+	if (XmlGetAttributeText (xmlAttrCrossTag, "attr", largeBuffer, sizeof (largeBuffer)) != NULL
+		|| largeBuffer[0] != 0 || XmlFindTagEnd (xmlAttrCrossTag) != NULL)
 		return FALSE;
 
 
@@ -362,6 +464,76 @@ BOOL XmlTest (void)
 	buffer[1] = 0;
 	if (XmlGetNodeText (xmlNodeOverflowSeed, buffer, sizeof (buffer)) != NULL || buffer[0] != 0)
 		return FALSE;
+
+	/* A label must not hide a real option or encoding marker, regardless of order. */
+	{
+		char *tags[] = {
+			"<volume label=\"Archive > readonly=\" readonly=\"1\">path</volume>",
+			"<volume readonly=\"1\" label=\"Archive > readonly=\">path</volume>",
+			"<volume label=\"&amp; labelEscaped=\" labelEscaped=\"1\">path</volume>",
+			"<volume labelEscaped=\"1\" label=\"&amp; labelEscaped=\">path</volume>"
+		};
+		int i;
+		for (i = 0; i < 4; ++i)
+		{
+			if (!XmlGetAttributeText (tags[i], i < 2 ? "readonly" : "labelEscaped", buffer, sizeof (buffer))
+				|| strcmp (buffer, "1") != 0
+				|| !XmlGetNodeText (tags[i], buffer, sizeof (buffer)) || strcmp (buffer, "path") != 0)
+				return FALSE;
+		}
+	}
+
+	/* Match complete attribute names and allow XML whitespace around '='. */
+	{
+		char xml[] = "<readonly xreadonly=\"0\" readonlyExtra=\"0\" label=\" readonly=\"\r\n\treadonly \t=\r\n\"1\" />";
+		if (!XmlGetAttributeText (xml, "readonly", buffer, sizeof (buffer)) || strcmp (buffer, "1") != 0)
+			return FALSE;
+		buffer[0] = 's';
+		if (XmlGetAttributeText (xml, "missing", buffer, sizeof (buffer)) || buffer[0] != 0)
+			return FALSE;
+	}
+
+	/* Legacy label text stays literal, even when it resembles markup. */
+	{
+		char xml[] = "<volume label=\"Old <volume copy> &lt; O'Brien\">path</volume>";
+		if (!XmlGetAttributeText (xml, "label", largeBuffer, sizeof (largeBuffer))
+			|| strcmp (largeBuffer, "Old <volume copy> &lt; O'Brien") != 0
+			|| XmlFindTagEnd (xml) != strstr (xml, "\">path") + 1)
+			return FALSE;
+	}
+
+	/* Reject a damaged tag even if the requested attribute precedes the damage. */
+	{
+		char *tags[] = {
+			"<Node attr=\"x><Other q=\"\">ok</Other>",
+			"<Node attr=\"ok\" label=\"broken >path</Node>\r\n<Other q=\"value\">next</Other>",
+			"<Node attr=\"ok\"extra=\"value\">text</Node>",
+			"<Node attr=unquoted>text</Node>",
+			"<Node attr=\"ok\" trailing>text</Node>",
+			"<Node attr=\"ok\"", "<Node", "<", ""
+		};
+		int i;
+		for (i = 0; i < sizeof (tags) / sizeof (tags[0]); ++i)
+		{
+			largeBuffer[0] = 's';
+			if (XmlFindTagEnd (tags[i])
+				|| XmlGetAttributeText (tags[i], "attr", largeBuffer, sizeof (largeBuffer)) || largeBuffer[0] != 0
+				|| XmlGetNodeText (tags[i], largeBuffer, sizeof (largeBuffer)) || largeBuffer[0] != 0)
+				return FALSE;
+		}
+	}
+
+	/* Searching by attribute must skip names inside values and distinguish absent from empty. */
+	{
+		char xml[] = "<config label=\"old <config key=\" key=\"first\">one</config>"
+			"<config\tkey=\"second\">two</config><config key=\"\">empty</config>";
+		char absent[] = "<config other=\"x\">value</config>";
+		if (XmlFindElementByAttributeValue (xml, "config", "key", "second") != strstr (xml, "<config\t")
+			|| XmlFindElementByAttributeValue (xml, "config", "key", "") != strstr (xml, "<config key=\"\"")
+			|| XmlFindElementByAttributeValue (absent, "config", "key", "") != NULL
+			|| XmlFindElement (xml + strlen (xml), "config") != NULL)
+			return FALSE;
+	}
 
 	return TRUE;
 }
