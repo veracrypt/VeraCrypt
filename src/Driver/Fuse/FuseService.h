@@ -110,6 +110,9 @@ namespace VeraCrypt
 		static VolumeSlotNumber SlotNumber;
 		static uid_t UserId;
 		static gid_t GroupId;
+#if defined(TC_MACOSX) && !defined(VC_MACOSX_FUSET)
+		static bool FskitBackend;	// decided once per mount, before the fork
+#endif
 		static unique_ptr <Pipe> SignalHandlerPipe;
 	};
 }
