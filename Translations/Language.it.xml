@@ -656,7 +656,7 @@
     <entry lang="it" key="SELECTED_PARTITION_NOT_INPLACE_ENC">La partizione/dispositivo selezionato non sta usando cifratura sul posto.\nHeader Flags = 0x%.8X</entry>
     <entry lang="it" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\nNota: se si sta tentando di montare una partizione che si trova su un'unità di sistema cifrata senza autenticazione di pre-boot, oppure di montare la partizione di sistema cifrata di un sistema operativo che non è in esecuzione, è possibile farlo selezionando "Sistema" &gt; "Monta senza autenticazione di pre-boot".</entry>
     <entry lang="it" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">In questa modalità non è possibile montare una partizione che si trova su un'unità una cui parte rientra nell'ambito della chiave della cifratura di sistema attiva.\n\nPrima di poter montare questa partizione in questa modalità, è necessario avviare un sistema operativo installato su un'unità diversa (cifrata o non cifrata) oppure avviare un sistema operativo non cifrato.</entry>
-    <entry lang="it" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">(è possibile decifrare solo l'intero disco di sistema)</entry>
+    <entry lang="it" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">VeraCrypt non può decifrare una singola partizione su un'unità di sistema interamente cifrata (è possibile decifrare solo l'intera unità di sistema).</entry>
     <entry lang="it" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Attenzione: poiché l'unità contiene il VeraCrypt Boot Loader, potrebbe essere un'unità di sistema interamente cifrata. In tal caso, si noti che VeraCrypt non può decifrare una singola partizione su un'unità di sistema interamente cifrata (è possibile decifrare solo l'intera unità di sistema). Se è così, sarà possibile continuare ora, ma in seguito si riceverà il messaggio di errore "Password non corretta".</entry>
     <entry lang="it" key="PREV">&lt; I&amp;ndietro</entry>
     <entry lang="it" key="RAWDEVICES">Impossibile elencare le unità installate sul sistema!</entry>
@@ -666,7 +666,7 @@
     <entry lang="it" key="SELECT_KEYFILE_PATH">Selezionare un percorso di ricerca dei keyfile. ATTENZIONE: verrà memorizzato solo il percorso, non i file.</entry>
     <entry lang="it" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Selezionare una cartella dove salvare i keyfile.</entry>
     <entry lang="it" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">Il file contenitore attuale è stato selezionato come keyfile. Verrà ignorato.</entry>
-    <entry lang="it" key="SERPENT_HELP">Serpent è stato uno dei finalisti di AES.</entry>
+    <entry lang="it" key="SERPENT_HELP">Progettato da Ross Anderson, Eli Biham e Lars Knudsen. Pubblicato nel 1998. Chiave a 256 bit, blocco a 128 bit. La modalità operativa è XTS. Serpent è stato uno dei finalisti di AES.</entry>
     <entry lang="it" key="SIZE_HELP">Specificare la dimensione del contenitore da creare.\n\nSe si crea un contenitore dinamico (file sparse), questo parametro specificherà la sua dimensione massima possibile.\n\nSi noti che la dimensione minima possibile di un volume FAT è 292 KiB, quella di un volume exFAT è 424 KiB, quella di un volume NTFS è 3792 KiB e quella di un volume ReFS è 642 MiB.</entry>
     <entry lang="it" key="SIZE_HELP_HIDDEN_HOST_VOL">Specificare la dimensione del volume esterno da creare (si creerà prima il volume esterno e poi un volume nascosto al suo interno). La dimensione minima possibile di un volume al cui interno si intende creare un volume nascosto è 340 KiB.</entry>
     <entry lang="it" key="SIZE_HELP_HIDDEN_VOL">Specificare la dimensione del volume nascosto da creare. La dimensione minima possibile di un volume nascosto è 40 KiB (oppure 3664 KiB se è formattato come NTFS). La dimensione massima possibile che si può specificare per il volume nascosto è mostrata sopra.</entry>
@@ -689,7 +689,7 @@
     <entry lang="it" key="AUTORUN_MAY_NOT_ALWAYS_WORK">Si noti che, a seconda della configurazione del sistema operativo, queste funzioni di avvio e montaggio automatico possono funzionare solo quando i file del traveler disk sono creati su un supporto non scrivibile tipo CD/DVD. Si noti anche che questo non è un difetto di VeraCrypt (è una limitazione di Windows).</entry>
     <entry lang="it" key="TRAVELER_DISK_CREATED">Il traveler disk di VeraCrypt è stato creato.\n\nSi noti che per eseguire VeraCrypt in modalità portatile sono necessari i privilegi di amministratore. Si noti anche che, esaminando il file di registro, potrebbe essere possibile stabilire che VeraCrypt è stato eseguito su un sistema Windows anche se in modalità portatile.</entry>
     <entry lang="it" key="TC_TRAVELER_DISK">Traveler Disk di VeraCrypt</entry>
-    <entry lang="it" key="TWOFISH_HELP">Twofish è stato uno dei finalisti di AES.</entry>
+    <entry lang="it" key="TWOFISH_HELP">Progettato da Bruce Schneier, John Kelsey, Doug Whiting, David Wagner, Chris Hall e Niels Ferguson. Pubblicato nel 1998. Chiave a 256 bit, blocco a 128 bit. La modalità operativa è XTS. Twofish è stato uno dei finalisti di AES.</entry>
     <entry lang="it" key="MORE_INFO_ABOUT">Maggiori informazioni su %s</entry>
     <entry lang="it" key="UNKNOWN">Sconosciuto</entry>
     <entry lang="it" key="ERR_UNKNOWN">Si è verificato un errore sconosciuto (%d).</entry>
@@ -1396,7 +1396,7 @@
     <entry lang="it" key="IDC_SKIP_RESCUE_VERIFICATION">Salta la verifica del disco di ripristino</entry>
     <entry lang="it" key="IDC_HIDE_WAITING_DIALOG">Non mostrare la finestra di attesa durante le operazioni</entry>
     <entry lang="it" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Non richiedere l'algoritmo di hash nella schermata di autenticazione pre-boot</entry>
-    <entry lang="it" key="KUZNYECHIK_HELP">Kuznyechik è un cifrario a blocchi pubblicato nel 2015 e definito nello Standard Nazionale della Federazione Russa GOST R 34.12-2015 e anche nel RFC 7801. Chiave a 256 bit, blocco a 128 bit. Il modo di funzionamento è XTS.</entry>
+    <entry lang="it" key="KUZNYECHIK_HELP">Kuznyechik è un cifrario a blocchi pubblicato nel 2015 e definito nello Standard Nazionale della Federazione Russa GOST R 34.12-2015 e anche nel RFC 7801. Chiave a 256 bit, blocco a 128 bit. La modalità operativa è XTS.</entry>
     <entry lang="it" key="CAMELLIA_HELP">Sviluppato congiuntamente da Mitsubishi Electric e NTT del Giappone. Pubblicato per la prima volta nel 2000. Chiave a 256 bit, blocco a 128 bit. La modalità operativa è XTS. È stato approvato per l'uso dall'ISO / IEC, dal progetto NESSIE dell'Unione Europea e dal progetto giapponese CRYPTREC.</entry>
     <entry lang="it" key="TIME">Tempo</entry>
     <entry lang="it" key="ITERATIONS">Iterazioni</entry>
@@ -1580,7 +1580,7 @@
     <entry lang="it" key="IDT_INIT_SPACE">Riempi il nuovo spazio: </entry>
     <entry lang="it" key="EXPANDER_FREE_SPACE">Disponibile %s di spazio libero sull'unità host</entry>
     <entry lang="it" key="EXPANDER_HELP_DEVICE">Questo è un volume VeraCrypt basato su dispositivo.\n\nLa nuova dimensione del volume sarà scelta automaticamente come dimensione del dispositivo host.</entry>
-    <entry lang="it" key="EXPANDER_HELP_FILE">Specificare la nuova dimensione del volume VeraCrypt (deve essere almeno %I64u KB più grande della dimensione attuale).</entry>
+    <entry lang="it" key="EXPANDER_HELP_FILE">Specificare la nuova dimensione del volume VeraCrypt (deve essere almeno %I64u KiB più grande della dimensione attuale).</entry>
     <entry lang="it" key="QUICK_EXPAND_WARNING">ATTENZIONE: usare l'espansione rapida solo nei seguenti casi:\n\n1) Il dispositivo su cui si trova il file contenitore non contiene dati sensibili e non è necessaria la negabilità plausibile.\n2) Il dispositivo su cui si trova il file contenitore è già stato cifrato completamente e in modo sicuro.\n\nUsare comunque l'espansione rapida?</entry>
     <entry lang="it" key="EXPANDER_STATUS_TEXT">IMPORTANTE: muovere il mouse nel modo più casuale possibile all'interno di questa finestra. Più a lungo lo si muove, meglio è. Questo aumenta in modo significativo la robustezza crittografica delle chiavi di cifratura. Fare poi clic su "Continua" per espandere il volume.</entry>
     <entry lang="it" key="EXPANDER_STATUS_TEXT_LEGACY">Fare clic su "Continua" per espandere il volume.</entry>
