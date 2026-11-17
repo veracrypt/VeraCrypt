@@ -14,6 +14,7 @@
 #include <ntddk.h>
 #include <ntddvol.h>
 #include <Ntstrsafe.h>
+#include <IntSafe.h>
 #include "Cache.h"
 #include "Crc.h"
 #include "Crypto.h"
@@ -38,6 +39,44 @@ BootArguments BootArgs;
 uint8*  BootSecRegionData = NULL;
 uint32 BootSecRegionSize = 0;
 uint32 BootPkcs5 = 0;
+
+// Set once LoadBootArguments() has validated the copied handoff. Mount and the
+// I/O queue consume these pointers instead of reparsing the raw list.
+static BOOL BootSecRegionValid = FALSE;
+static DCS_DISK_ENTRY_LIST *BootDeList = NULL;
+static uint8 *BootPwdCache = NULL;
+// Held while sector data is copied to or from the records
+static KSPIN_LOCK BootSecRegionLock;
+
+// DcsInt copies at most one 128 KiB authentication zone: it validates the list
+// DataSize against the decrypted zone before publishing it.
+#define DCS_HANDOFF_MAX_BYTES (128 * 1024)
+#define DCS_DE_LIST_MAX_COUNT 15
+#define DCS_DE_LIST_SECTOR 512
+
+// DcsInt has written one layout after BootArguments since VeraCrypt 1.18
+// (BOOT_PARAMS in DcsInt.c): BOOT_CRYPTO_HEADER, a 16-bit pad, then
+// SECREGION_BOOT_PARAMS. The BIOS loader instead passes a near pointer to its
+// CRYPTO_INFO, which starts with the same three fields, inside its segment.
+#define DCS_BOOT_CRYPTO_INFO_OFFSET (TC_BOOT_LOADER_ARGS_OFFSET + sizeof (BootArguments))
+#define DCS_SECREGION_PARAMS_OFFSET (sizeof (BOOT_CRYPTO_HEADER) + sizeof (uint16))
+#define DCS_BOOT_CRYPTO_INFO_LENGTH (DCS_SECREGION_PARAMS_OFFSET + sizeof (SECREGION_BOOT_PARAMS))
+#define BIOS_BOOT_LOADER_SEGMENT_SIZE 0x10000
+
+// BootArguments versions with a parser here: VeraCrypt 1.x, and DcsInt from its
+// first release. A later 1.x loader stays accepted. Its fields are a fixed format,
+// and a driver can be older than the loader: a hidden system runs its old driver
+// until it is updated after the decoy system, and restoring an older Windows image
+// leaves the newer loader on the EFI partition. A record outside this range comes
+// from no loader this driver can read (TrueCrypt uses 0x07xx).
+#define BOOT_LOADER_MIN_VERSION 0x010a
+#define DCS_BOOT_LOADER_MIN_VERSION 0x0118
+#define BOOT_LOADER_MAX_VERSION 0x01ff
+
+// From this version a DcsInt boot extension that cannot be used fails the boot
+// arguments. Fixed, unlike VERSION_NUM: a loader must not become "older", and
+// regain the fallback to the header and GPT on disk, when a later driver comes.
+#define DCS_STRICT_HANDOFF_MIN_VERSION 0x0126
 
 static uint64 BootLoaderArgsPtr;
 static BOOL BootDriveSignatureValid = FALSE;
@@ -150,6 +189,371 @@ static BOOL GetHiddenSystemRemapOffsets (PCRYPTO_INFO cryptoInfo, int64 *hiddenV
 	return TRUE;
 }
 
+static BOOL
+DcsRangeInRegion (uint32 regionSize, uint64 offset, uint64 length)
+{
+	ULONGLONG end;
+	if (length == 0 || offset > regionSize)
+		return FALSE;
+	if (FAILED (ULongLongAdd (offset, length, &end)) || end > regionSize)
+		return FALSE;
+	return TRUE;
+}
+
+static BOOL
+DcsRangesOverlap (uint64 offsetA, uint64 lengthA, uint64 offsetB, uint64 lengthB)
+{
+	if (offsetA > MAXULONG64 - lengthA || offsetB > MAXULONG64 - lengthB)
+		return TRUE;
+	return (offsetA < offsetB + lengthB) && (offsetB < offsetA + lengthA);
+}
+
+// Mount and the I/O queue read the list by slot: the disk ID from slot 2 and
+// the password cache from slot 8. A fixed slot holds its own type or is
+// unused, and slot 2 must hold the disk ID. Slots from DE_IDX_TOTAL on may
+// carry extra sector entries or types nothing reads, never a fixed-slot record.
+// Same rule as DeListValidate() in DCS.
+static BOOL
+DcsDeTypeAllowed (uint32 index, uint32 type)
+{
+	if (index == DE_IDX_DISKID)
+		return type == DE_DISKID;
+	if (type == DE_Unused)
+		return TRUE;
+	switch (index)
+	{
+	case DE_IDX_CRYPTOHEADER:
+	case DE_IDX_MAINGPTHDR:
+	case DE_IDX_MAINGPTENTRYS:
+	case DE_IDX_ALTGPTHDR:
+	case DE_IDX_ALTGPTENTRYS:
+		return type == DE_Sectors;
+	case DE_IDX_LIST:
+		return type == DE_List;
+	case DE_IDX_EXEC:
+		return type == DE_ExecParams;
+	case DE_IDX_PWDCACHE:
+		return type == DE_PwdCache;
+	case DE_IDX_RND:
+		return type == DE_Rnd;
+	default:
+		return type == DE_Sectors || type > DE_Rnd;
+	}
+}
+
+// Validate the copied handoff once. On failure the copy is burned and the
+// mount and I/O paths receive no list to reinterpret.
+static void
+BootSecRegionValidate (void)
+{
+	DCS_DISK_ENTRY_LIST *list;
+	uint32 crcSaved;
+	uint32 i;
+	uint32 j;
+
+	BootSecRegionValid = FALSE;
+	BootDeList = NULL;
+	BootPwdCache = NULL;
+	if (BootSecRegionData == NULL || BootSecRegionSize < 1024 || BootSecRegionSize > DCS_HANDOFF_MAX_BYTES)
+		goto reject;
+
+	list = (DCS_DISK_ENTRY_LIST *) (BootSecRegionData + DCS_DE_LIST_SECTOR);
+	if (list->Signature != DCS_DISK_ENTRY_LIST_HEADER_SIGN)
+		goto reject;
+	if (list->HeaderSize != sizeof (DCS_DISK_ENTRY_LIST))
+		goto reject;
+	if (list->Count > DCS_DE_LIST_MAX_COUNT)
+		goto reject;
+	if (list->DataSize < 1024 || list->DataSize > BootSecRegionSize)
+		goto reject;
+
+	crcSaved = list->CRC32;
+	list->CRC32 = 0;
+	{
+		uint32 crc = GetCrc32 ((uint8 *) list, sizeof (DCS_DISK_ENTRY_LIST));
+		list->CRC32 = crcSaved;
+		if (crc != crcSaved)
+			goto reject;
+	}
+
+	for (i = list->Count; i < DCS_DE_LIST_MAX_COUNT; ++i)
+	{
+		if (list->DE[i].Type != DE_Unused)
+			goto reject;
+	}
+	// DCS has always written the crypto header, the list and the disk ID to slots
+	// 0, 1 and 2. MountDrive() identifies the boot disk by the ID in slot 2 and
+	// copies the header from the start of the zone.
+	if (list->Count <= DE_IDX_DISKID
+		|| list->DE[DE_IDX_CRYPTOHEADER].Type != DE_Sectors
+		|| list->DE[DE_IDX_LIST].Type != DE_List
+		|| list->DE[DE_IDX_DISKID].Type != DE_DISKID)
+		goto reject;
+
+	for (i = 0; i < list->Count; ++i)
+	{
+		DCS_DISK_ENTRY *de = &list->DE[i];
+		if (!DcsDeTypeAllowed (i, de->Type))
+			goto reject;
+		switch (de->Type)
+		{
+		case DE_Unused:
+		case DE_DISKID:
+			break;
+		case DE_List:
+			// only slot 1, describing the list sector itself
+			if (de->Offset != DCS_DE_LIST_SECTOR || de->Length != DCS_DE_LIST_SECTOR)
+				goto reject;
+			if (!DcsRangeInRegion (list->DataSize, de->Offset, de->Length))
+				goto reject;
+			break;
+		case DE_Sectors:
+			if ((de->Sectors.Offset % DCS_DE_LIST_SECTOR) != 0
+				|| (de->Sectors.Start % DCS_DE_LIST_SECTOR) != 0
+				|| (de->Sectors.Length % DCS_DE_LIST_SECTOR) != 0
+				|| de->Sectors.Length == 0
+				|| de->Sectors.Length > MAXULONG)
+				goto reject;
+			if (i == DE_IDX_CRYPTOHEADER)
+			{
+				if (de->Sectors.Offset != 0 || de->Sectors.Length != DCS_DE_LIST_SECTOR || de->Sectors.Start != 62 * 512)
+					goto reject;
+			}
+			else if (de->Sectors.Offset < 1024)
+				goto reject;
+			{
+				ULONGLONG end;
+				if (FAILED (ULongLongAdd (de->Sectors.Start, de->Sectors.Length, &end)) || end == 0)
+					goto reject;
+			}
+			if (!DcsRangeInRegion (list->DataSize, de->Sectors.Offset, de->Sectors.Length))
+				goto reject;
+			break;
+		case DE_ExecParams:
+			if (de->Length != sizeof (DCS_DEP_EXEC) || de->Offset < 1024)
+				goto reject;
+			if (!DcsRangeInRegion (list->DataSize, de->Offset, de->Length))
+				goto reject;
+			break;
+		case DE_PwdCache:
+			// DcsDeTypeAllowed() admits it only in slot 8
+			if (de->Length != sizeof (DCS_DEP_PWD_CACHE) || (de->Offset % DCS_DE_LIST_SECTOR) != 0 || de->Offset < 1024)
+				goto reject;
+			if (!DcsRangeInRegion (list->DataSize, de->Offset, de->Length))
+				goto reject;
+			BootPwdCache = BootSecRegionData + de->Offset;
+			break;
+		case DE_Rnd:
+			if (de->Length != 512 || (de->Offset % DCS_DE_LIST_SECTOR) != 0 || de->Offset < 1024)
+				goto reject;
+			if (!DcsRangeInRegion (list->DataSize, de->Offset, de->Length))
+				goto reject;
+			break;
+		default:
+			// unknown types, allowed only from DE_IDX_TOTAL on, are not read
+			break;
+		}
+	}
+
+	for (i = 0; i < list->Count; ++i)
+	{
+		uint64 offA;
+		uint64 lenA;
+		if (list->DE[i].Type == DE_Unused || list->DE[i].Type == DE_DISKID)
+			continue;
+		if (list->DE[i].Type != DE_Sectors && list->DE[i].Type != DE_List
+			&& list->DE[i].Type != DE_ExecParams && list->DE[i].Type != DE_PwdCache && list->DE[i].Type != DE_Rnd)
+			continue;
+		offA = (list->DE[i].Type == DE_Sectors) ? list->DE[i].Sectors.Offset : list->DE[i].Offset;
+		lenA = (list->DE[i].Type == DE_Sectors) ? list->DE[i].Sectors.Length : list->DE[i].Length;
+		for (j = i + 1; j < list->Count; ++j)
+		{
+			uint64 offB;
+			uint64 lenB;
+			if (list->DE[j].Type == DE_Unused || list->DE[j].Type == DE_DISKID)
+				continue;
+			if (list->DE[j].Type != DE_Sectors && list->DE[j].Type != DE_List
+				&& list->DE[j].Type != DE_ExecParams && list->DE[j].Type != DE_PwdCache && list->DE[j].Type != DE_Rnd)
+				continue;
+			offB = (list->DE[j].Type == DE_Sectors) ? list->DE[j].Sectors.Offset : list->DE[j].Offset;
+			lenB = (list->DE[j].Type == DE_Sectors) ? list->DE[j].Sectors.Length : list->DE[j].Length;
+			if (DcsRangesOverlap (offA, lenA, offB, lenB))
+				goto reject;
+			// Mount takes the header from the start of the zone and the I/O queue
+			// serves reads from these records, so two records for one disk sector
+			// would give them different views of it. Same rule as DeListValidate().
+			if (list->DE[i].Type == DE_Sectors && list->DE[j].Type == DE_Sectors
+				&& DcsRangesOverlap (list->DE[i].Sectors.Start, list->DE[i].Sectors.Length, list->DE[j].Sectors.Start, list->DE[j].Sectors.Length))
+				goto reject;
+		}
+	}
+
+	BootDeList = list;
+	BootSecRegionValid = TRUE;
+	return;
+
+reject:
+	if (BootSecRegionData != NULL)
+		burn (BootSecRegionData, BootSecRegionSize);
+	TCfree (BootSecRegionData);
+	BootSecRegionData = NULL;
+	BootSecRegionSize = 0;
+	BootDeList = NULL;
+	BootPwdCache = NULL;
+	BootSecRegionValid = FALSE;
+}
+
+BOOL
+BootSecRegionHandoffValid (void)
+{
+	return BootSecRegionValid && BootDeList != NULL;
+}
+
+uint8 *
+BootSecRegionSector (uint32 index, uint64 *diskOffset, uint32 *length)
+{
+	DCS_DISK_ENTRY *de;
+	if (!BootSecRegionHandoffValid () || index >= BootDeList->Count)
+		return NULL;
+	de = &BootDeList->DE[index];
+	if (de->Type != DE_Sectors)
+		return NULL;
+	if (diskOffset != NULL)
+		*diskOffset = de->Sectors.Start;
+	if (length != NULL)
+		*length = (uint32) de->Sectors.Length;
+	return BootSecRegionData + de->Sectors.Offset;
+}
+
+DCS_DEP_PWD_CACHE *
+BootSecRegionPasswordCache (void)
+{
+	if (!BootSecRegionHandoffValid () || BootPwdCache == NULL)
+		return NULL;
+	if (BootDeList->DE[DE_IDX_PWDCACHE].Type != DE_PwdCache)
+		return NULL;
+	return (DCS_DEP_PWD_CACHE *) BootPwdCache;
+}
+
+// A read served from a sector record gets the whole sector before or after a
+// write updates it, never a mix of both.
+void
+BootSecRegionCopy (uint8 *destination, const uint8 *source, uint32 length)
+{
+	KIRQL irql;
+	KeAcquireSpinLock (&BootSecRegionLock, &irql);
+	memcpy (destination, source, length);
+	KeReleaseSpinLock (&BootSecRegionLock, irql);
+}
+
+// The I/O queue serves reads of the sectors in the records, and refuses writes
+// to them. A write to the disk that bypasses the queue must update the records,
+// or reads keep returning the sectors of the boot handoff, such as the volume
+// header from before a password change.
+static void
+BootSecRegionUpdate (uint64 diskOffset, const uint8 *data, uint32 length)
+{
+	uint32 i;
+
+	if (!BootSecRegionHandoffValid ())
+		return;
+
+	for (i = 0; i < BootDeList->Count; ++i)
+	{
+		uint64 sectorStart;
+		uint32 sectorLength;
+		uint64 intersectStart;
+		uint32 intersectLength;
+		uint8 *sectorData = BootSecRegionSector (i, &sectorStart, &sectorLength);
+		if (sectorData == NULL)
+			continue;
+
+		// BootSecRegionValidate() checked that start + length does not wrap
+		GetIntersection (diskOffset, length, sectorStart, sectorStart + sectorLength - 1, &intersectStart, &intersectLength);
+		if (intersectLength != 0)
+			BootSecRegionCopy (sectorData + (intersectStart - sectorStart), data + (intersectStart - diskOffset), intersectLength);
+	}
+}
+
+// Check the crypto-info range of a CRC-valid BootArguments before it is
+// mapped, read or burned. Every layout must hold the BOOT_CRYPTO_HEADER that
+// the caller reads. DcsInt writes one fixed layout; the BIOS loader's object
+// lies in its own segment.
+static BOOL
+BootCryptoInfoRangeValid (BOOL bIsEfi, uint64 bootArgsBase, uint16 offset, uint16 length, PHYSICAL_ADDRESS *address)
+{
+	ULONGLONG start;
+	ULONGLONG end;
+
+	if (length < sizeof (BOOT_CRYPTO_HEADER))
+		return FALSE;
+
+	if (bIsEfi)
+	{
+		if (offset != DCS_BOOT_CRYPTO_INFO_OFFSET || length != DCS_BOOT_CRYPTO_INFO_LENGTH)
+			return FALSE;
+	}
+	else if ((uint32) offset + (uint32) length > BIOS_BOOT_LOADER_SEGMENT_SIZE)
+		return FALSE;
+
+	if (FAILED (ULongLongAdd (bootArgsBase, offset, &start)) || FAILED (ULongLongAdd (start, length, &end)))
+		return FALSE;
+	if (end > (ULONGLONG) MAXLONGLONG)
+		return FALSE;
+
+	address->QuadPart = (LONGLONG) start;
+	return TRUE;
+}
+
+// DcsInt places its copy of the authentication zone at one of the fixed
+// regions it also uses for the boot parameters, never over them. Check the
+// range before it is mapped, copied or burned.
+static BOOL
+BootSecRegionRangeValid (uint64 bootArgsBase, uint64 ptr, uint32 size)
+{
+	ULONGLONG end;
+	ULONGLONG bootParamsEnd;
+	size_t i;
+	BOOL known = FALSE;
+
+	if (size < 1024 || size > DCS_HANDOFF_MAX_BYTES)
+		return FALSE;
+	if (FAILED (ULongLongAdd (ptr, size, &end)) || end > (ULONGLONG) MAXLONGLONG)
+		return FALSE;
+	if (FAILED (ULongLongAdd (bootArgsBase, DCS_BOOT_CRYPTO_INFO_OFFSET + DCS_BOOT_CRYPTO_INFO_LENGTH, &bootParamsEnd)))
+		return FALSE;
+
+	for (i = 0; i < sizeof (BootArgsRegionsEFI) / sizeof (BootArgsRegionsEFI[0]); ++i)
+	{
+		if (BootArgsRegionsEFI[i] == ptr)
+			known = TRUE;
+	}
+	if (!known)
+		return FALSE;
+
+	if (ptr < bootParamsEnd && bootArgsBase < end)
+		return FALSE;
+	return TRUE;
+}
+
+static BOOL
+BootLoaderVersionKnown (BOOL bIsEfi, uint16 version)
+{
+	return version >= (bIsEfi ? DCS_BOOT_LOADER_MIN_VERSION : BOOT_LOADER_MIN_VERSION)
+		&& version <= BOOT_LOADER_MAX_VERSION;
+}
+
+// The boot arguments cannot be used: no boot drive is mounted from them
+static void
+DiscardBootArguments (void)
+{
+	burn (&BootArgs, sizeof (BootArgs));
+	BootArgsValid = FALSE;
+	BootDriveSignatureValid = FALSE;
+	BootLoaderArgsPtr = 0;
+	BootPkcs5 = 0;
+}
+
 NTSTATUS LoadBootArguments (BOOL bIsEfi)
 {
 	NTSTATUS status = STATUS_UNSUCCESSFUL;
@@ -157,10 +561,15 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 	uint8 *mappedBootArgs;
 	uint8 *mappedCryptoInfo = NULL;
 	uint16 bootLoaderArgsIndex;
+	BOOL strictEfiLayout = FALSE;
+	// The record is read from the mapping once. Every check and the copy kept in
+	// BootArgs use these bytes, whatever writes that physical memory meanwhile.
+	BootArguments bootArgsCopy;
 	uint64* BootArgsRegionsPtr = bIsEfi? BootArgsRegionsEFI : BootArgsRegionsDefault;
 	size_t BootArgsRegionsCount = bIsEfi? sizeof(BootArgsRegionsEFI)/ sizeof(BootArgsRegionsEFI[0]) : sizeof(BootArgsRegionsDefault)/ sizeof(BootArgsRegionsDefault[0]);
 
 	KeInitializeMutex (&MountMutex, 0);
+	KeInitializeSpinLock (&BootSecRegionLock);
 //	__debugbreak();
 	for (bootLoaderArgsIndex = 0;
 		bootLoaderArgsIndex < BootArgsRegionsCount && status != STATUS_SUCCESS;
@@ -175,29 +584,67 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 
 		if (TC_IS_BOOT_ARGUMENTS_SIGNATURE (mappedBootArgs))
 		{
-			BootArguments *bootArguments = (BootArguments *) mappedBootArgs;
+			BootArguments *bootArguments = &bootArgsCopy;
 			Dump ("BootArguments found at 0x%x\n", bootArgsAddr.LowPart);
 
 			DumpMem (mappedBootArgs, sizeof (BootArguments));
+			RtlCopyMemory (&bootArgsCopy, mappedBootArgs, sizeof (bootArgsCopy));
 
-			if (bootArguments->BootLoaderVersion == VERSION_NUM
-				&& bootArguments->BootArgumentsCrc32 != GetCrc32 ((uint8 *) bootArguments, (int) ((uint8 *) &bootArguments->BootArgumentsCrc32 - (uint8 *) bootArguments)))
+			// Every VeraCrypt boot loader, BIOS or DCS, writes this CRC. Check it
+			// before any field is used. A bad CRC from this release is fatal as
+			// before; a structure from another release that fails it is skipped.
+			if (bootArguments->BootArgumentsCrc32 != GetCrc32 ((uint8 *) bootArguments, (int) ((uint8 *) &bootArguments->BootArgumentsCrc32 - (uint8 *) bootArguments)))
 			{
+				BOOL currentVersion = (bootArguments->BootLoaderVersion == VERSION_NUM);
 				Dump ("BootArguments CRC incorrect\n");
 				burn (mappedBootArgs, sizeof (BootArguments));
+				burn (&bootArgsCopy, sizeof (bootArgsCopy));
 				MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
 				mappedBootArgs = NULL;
-				TC_BUG_CHECK (STATUS_CRC_ERROR);
+				if (currentVersion)
+					TC_BUG_CHECK (STATUS_CRC_ERROR);
+				continue;
+			}
+
+			if (!BootLoaderVersionKnown (bIsEfi, bootArguments->BootLoaderVersion))
+			{
+				Dump ("BootLoaderVersion %x not supported\n", (int) bootArguments->BootLoaderVersion);
+				burn (mappedBootArgs, sizeof (BootArguments));
+				burn (&bootArgsCopy, sizeof (bootArgsCopy));
+				MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
+				mappedBootArgs = NULL;
+				continue;
+			}
+
+			// DcsInt writes one layout, and a later one is usable only if it still
+			// does. Anything else is a failed boot argument: using the rest would drop
+			// the list and fall back to the header and GPT on disk. A loader older than
+			// DCS_STRICT_HANDOFF_MIN_VERSION keeps the previous behavior.
+			strictEfiLayout = bIsEfi && bootArguments->BootLoaderVersion >= DCS_STRICT_HANDOFF_MIN_VERSION;
+			if (strictEfiLayout)
+			{
+				PHYSICAL_ADDRESS layoutAddress;
+				if (!BootCryptoInfoRangeValid (TRUE, BootArgsRegionsPtr[bootLoaderArgsIndex], bootArguments->CryptoInfoOffset, bootArguments->CryptoInfoLength, &layoutAddress))
+				{
+					Dump ("CryptoInfo offset %x length %d rejected\n", (int) bootArguments->CryptoInfoOffset, (int) bootArguments->CryptoInfoLength);
+					burn (mappedBootArgs, sizeof (BootArguments));
+					burn (&bootArgsCopy, sizeof (bootArgsCopy));
+					MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
+					return STATUS_INVALID_PARAMETER;
+				}
 			}
 
 			// Sanity check: for valid boot argument, the password is less than 64 bytes long
 			if (bootArguments->BootPassword.Length <= MAX_LEGACY_PASSWORD)
 			{
+				BOOL extensionFailed = FALSE;
+
 				BootLoaderArgsPtr = BootArgsRegionsPtr[bootLoaderArgsIndex];
 
 				BootArgs = *bootArguments;
 				BootArgsValid = TRUE;
-				burn (bootArguments, sizeof (*bootArguments));
+				burn (mappedBootArgs, sizeof (BootArguments));
+				burn (&bootArgsCopy, sizeof (bootArgsCopy));
 
 				BootDriveSignatureValid = TRUE;
 
@@ -220,10 +667,18 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 				if (BootArgs.CryptoInfoLength > 0)
 				{
 					PHYSICAL_ADDRESS cryptoInfoAddress;
-					cryptoInfoAddress.QuadPart = BootLoaderArgsPtr + BootArgs.CryptoInfoOffset;
-					Dump ("CryptoInfo memory %x %d\n", cryptoInfoAddress.LowPart, BootArgs.CryptoInfoLength);
-
-					mappedCryptoInfo = MmMapIoSpace (cryptoInfoAddress, BootArgs.CryptoInfoLength, MmCached);
+					// The offset and length must fit the layout this loader type
+					// writes before anything is mapped, read or burned.
+					if (!BootCryptoInfoRangeValid (bIsEfi, BootLoaderArgsPtr, BootArgs.CryptoInfoOffset, BootArgs.CryptoInfoLength, &cryptoInfoAddress))
+					{
+						Dump ("CryptoInfo offset %x length %d rejected\n", (int) BootArgs.CryptoInfoOffset, (int) BootArgs.CryptoInfoLength);
+						mappedCryptoInfo = NULL;
+					}
+					else
+					{
+						Dump ("CryptoInfo memory %x %d\n", cryptoInfoAddress.LowPart, BootArgs.CryptoInfoLength);
+						mappedCryptoInfo = MmMapIoSpace (cryptoInfoAddress, BootArgs.CryptoInfoLength, MmCached);
+					}
 					if (mappedCryptoInfo)
 					{
 						/* Get the parameters used for booting to speed up driver startup and avoid testing irrelevant PRFs */
@@ -233,31 +688,44 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 						BootSecRegionData = NULL;
 						BootSecRegionSize = 0;
 
-						// SecRegion data?
-						if(BootArgs.CryptoInfoLength > (sizeof(BOOT_CRYPTO_HEADER) + sizeof(SECREGION_BOOT_PARAMS)) ) {
+						// SecRegion data? Only DcsInt passes it, after the 16-bit pad.
+						// The BIOS loader's CRYPTO_INFO holds key material at that offset.
+						if (bIsEfi && BootArgs.CryptoInfoLength >= DCS_BOOT_CRYPTO_INFO_LENGTH) {
 							uint32   crc;
 							PHYSICAL_ADDRESS SecRegionAddress;
-							SECREGION_BOOT_PARAMS* SecRegionParams = (SECREGION_BOOT_PARAMS*) (mappedCryptoInfo + sizeof(BOOT_CRYPTO_HEADER) + 2);
+							SECREGION_BOOT_PARAMS SecRegionParams;
 							uint8 *secRegionData = NULL;
 
-							SecRegionAddress.QuadPart = SecRegionParams->Ptr;
-							Dump ("SecRegion memory 0x%x %d\n", SecRegionAddress.LowPart, SecRegionParams->Size);
-							// SecRegion correct?
-							if( (SecRegionParams->Ptr != 0) && (SecRegionParams->Size > 0)) {
-								crc = GetCrc32((uint8*)SecRegionParams, 12);
-								if(crc == SecRegionParams->Crc) {
+							// Read the parameters once: the CRC and range checks must cover the
+							// pointer and size that are mapped, copied and burned.
+							RtlCopyMemory (&SecRegionParams, mappedCryptoInfo + DCS_SECREGION_PARAMS_OFFSET, sizeof (SecRegionParams));
+							SecRegionAddress.QuadPart = SecRegionParams.Ptr;
+							Dump ("SecRegion memory 0x%x %d\n", SecRegionAddress.LowPart, SecRegionParams.Size);
+							// Check the CRC and the range before the map. A corrupted pointer
+							// or size must not become a mapping, a copy or a burn.
+							crc = GetCrc32((uint8*)&SecRegionParams, 12);
+							if (crc != SecRegionParams.Crc) {
+								extensionFailed = TRUE;
+							}
+							else if (SecRegionParams.Ptr != 0) {
+								if (BootSecRegionRangeValid (BootLoaderArgsPtr, SecRegionParams.Ptr, SecRegionParams.Size)) {
+									uint32 secRegionSize = SecRegionParams.Size;
 									Dump ("SecRegion crc ok\n");
-									secRegionData = MmMapIoSpace (SecRegionAddress, SecRegionParams->Size, MmCached);
+									secRegionData = MmMapIoSpace (SecRegionAddress, secRegionSize, MmCached);
 									if(secRegionData) {
-										BootSecRegionData = TCalloc (SecRegionParams->Size);
+										BootSecRegionData = TCalloc (secRegionSize);
 										if(BootSecRegionData != NULL) {
-											BootSecRegionSize = SecRegionParams->Size;
-											memcpy(BootSecRegionData, secRegionData, SecRegionParams->Size);
+											BootSecRegionSize = secRegionSize;
+											memcpy(BootSecRegionData, secRegionData, secRegionSize);
+											BootSecRegionValidate ();
 										}
-										burn (secRegionData, SecRegionParams->Size);
-										MmUnmapIoSpace (secRegionData,  SecRegionParams->Size);
+										burn (secRegionData, secRegionSize);
+										MmUnmapIoSpace (secRegionData, secRegionSize);
 									}
 								}
+								// DcsInt published a list that cannot be used
+								if (!BootSecRegionHandoffValid ())
+									extensionFailed = TRUE;
 							}
 						}
 						// Erase boot loader scheduled keys
@@ -267,8 +735,16 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 					}
 					else
 					{
+						extensionFailed = TRUE;
 						BootArgs.CryptoInfoLength = 0;
 					}
+				}
+
+				if (strictEfiLayout && extensionFailed)
+				{
+					Dump ("Boot loader extension rejected\n");
+					DiscardBootArguments ();
+					return STATUS_INVALID_PARAMETER;
 				}
 				status = STATUS_SUCCESS;
 			}
@@ -276,6 +752,7 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 			{
 				Dump ("BootArguments contains a password larger than maximum limit\n");
 				burn (mappedBootArgs, sizeof (BootArguments));
+				burn (&bootArgsCopy, sizeof (bootArgsCopy));
 				MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
 				mappedBootArgs = NULL;
 				TC_BUG_CHECK (STATUS_FAIL_CHECK);
@@ -483,6 +960,30 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, uint8
 }
 
 
+// DcsInt takes the boot disk GUID from a valid primary GPT header. Apply the same
+// checks to the header at LBA 1 before comparing the GUID bytes it holds.
+static BOOL IsValidPrimaryGptHeader (uint8 *sector)
+{
+	uint32 headerSize;
+	uint32 crcSaved;
+	uint32 entrySize;
+	uint64 myLba;
+
+	if (memcmp (sector, "EFI PART", 8) != 0)
+		return FALSE;
+
+	memcpy (&headerSize, sector + 12, sizeof (headerSize));
+	memcpy (&crcSaved, sector + 16, sizeof (crcSaved));
+	memcpy (&myLba, sector + 24, sizeof (myLba));
+	memcpy (&entrySize, sector + 84, sizeof (entrySize));
+	if (headerSize < 92 || headerSize > TC_SECTOR_SIZE_BIOS || myLba != 1 || entrySize < 128)
+		return FALSE;
+
+	memset (sector + 16, 0, sizeof (crcSaved));
+	return GetCrc32 (sector, (int) headerSize) == crcSaved;
+}
+
+
 static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password, __unaligned uint32 *headerSaltCrc32)
 {
 	BOOL hiddenVolume = (BootArgs.HiddenSystemPartitionStart != 0);
@@ -496,25 +997,32 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 	Dump ("MountDrive pdo=%p\n", Extension->Pdo);
 	ASSERT (KeGetCurrentIrql() == PASSIVE_LEVEL);
 
-	// Check disk MBR id and GPT ID if BootSecRegion is available to detect boot drive
-	if (BootSecRegionData != NULL && BootSecRegionSize >= 1024) {
+	// Check disk MBR id and GPT ID from the validated handoff to detect the boot drive.
+	// The header below comes from the handoff, not from this disk, so a disk whose
+	// identifiers cannot be read is not the boot drive. BootSecRegionValidate()
+	// requires slot DE_IDX_DISKID to hold the disk ID.
+	if (BootSecRegionHandoffValid ()) {
 		uint8 mbr[TC_SECTOR_SIZE_BIOS];
-		DCS_DISK_ENTRY_LIST* DeList = (DCS_DISK_ENTRY_LIST*)(BootSecRegionData + 512);
 		offset.QuadPart = 0;
 		status = TCReadDevice (Extension->LowerDeviceObject, mbr, offset, TC_SECTOR_SIZE_BIOS);
-
-		if (NT_SUCCESS (status) && DeList->DE[DE_IDX_DISKID].DiskId.MbrID != *(uint32 *) (mbr + 0x1b8))
+		if (!NT_SUCCESS (status))
+			return status;
+		if (BootDeList->DE[DE_IDX_DISKID].Type != DE_DISKID || BootDeList->DE[DE_IDX_DISKID].DiskId.MbrID != *(uint32 *) (mbr + 0x1b8))
 			return STATUS_UNSUCCESSFUL;
 
 		offset.QuadPart = 512;
 		status = TCReadDevice (Extension->LowerDeviceObject, mbr, offset, TC_SECTOR_SIZE_BIOS);
-		if (NT_SUCCESS (status) && memcmp(&DeList->DE[DE_IDX_DISKID].DiskId.GptID, mbr + 0x38, sizeof(DCS_GUID)) != 0)
+		if (!NT_SUCCESS (status))
+			return status;
+		if (BootDeList->DE[DE_IDX_DISKID].Type != DE_DISKID
+			|| !IsValidPrimaryGptHeader (mbr)
+			|| memcmp(&BootDeList->DE[DE_IDX_DISKID].DiskId.GptID, mbr + 0x38, sizeof(DCS_GUID)) != 0)
 			return STATUS_UNSUCCESSFUL;
 
 		header = TCalloc (TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
 		if (!header)
 			return STATUS_INSUFFICIENT_RESOURCES;
-		// Copy header from SecRegion instead of read from disk
+		// Copy header from the validated handoff instead of reading it from disk
 		memcpy(header, BootSecRegionData, 512);
 
 		// Set SecRegion data for the disk (sectors to substitute to hide GPT table)
@@ -662,41 +1170,32 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		BootDriveFound = Extension->BootDrive = Extension->DriveMounted = Extension->VolumeHeaderPresent = TRUE;
 		BootDriveFilterExtension->MagicNumber = TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER;
 
-		// Try to load password cached if saved in SecRegion
-		if (BootSecRegionData != NULL && BootSecRegionSize > 1024) {
-			DCS_DISK_ENTRY_LIST* DeList = (DCS_DISK_ENTRY_LIST*)(BootSecRegionData + 512);
+		// The password cache was range-checked when the handoff was copied.
+		if (BootSecRegionPasswordCache () != NULL) {
+			DCS_DEP_PWD_CACHE* pwdCache = BootSecRegionPasswordCache ();
+			uint64 sector = 0;
 			uint32 crc;
 			uint32 crcSaved;
-			crcSaved = DeList->CRC32;
-			DeList->CRC32 = 0;
-			crc = GetCrc32((uint8*)DeList, 512);
-			if(crc == crcSaved){
-				if(DeList->DE[DE_IDX_PWDCACHE].Type == DE_PwdCache) {
-					uint64 sector = 0;
-					uint32 pwdCacheOffset = DeList->DE[DE_IDX_PWDCACHE].Offset;
-					if ((DeList->DE[DE_IDX_PWDCACHE].Length >= sizeof(DCS_DEP_PWD_CACHE))
-						&& ((pwdCacheOffset % TC_SECTOR_SIZE_BIOS) == 0)
-						&& (pwdCacheOffset <= BootSecRegionSize)
-						&& ((BootSecRegionSize - pwdCacheOffset) >= sizeof(DCS_DEP_PWD_CACHE)))
-					{
-						DCS_DEP_PWD_CACHE* pwdCache = (DCS_DEP_PWD_CACHE*)(BootSecRegionData + pwdCacheOffset);
-						DecryptDataUnits((unsigned char*)pwdCache, (UINT64_STRUCT*)&sector, 1, Extension->Queue.CryptoInfo);
-						crcSaved = pwdCache->CRC;
-						pwdCache->CRC = 0;
-						crc = GetCrc32((unsigned char*)pwdCache, 512);
-						if(crcSaved == crc && pwdCache->Count < CACHE_SIZE){
-							uint32 i;
-							for(i = 0; i<pwdCache->Count; ++i){
-								if (CacheBootPassword && pwdCache->Pwd[i].Length > 0)	{
-									int cachedPim = CacheBootPim? (int) (pwdCache->Pim[i]) : 0;
-									AddLegacyPasswordToCache (&pwdCache->Pwd[i], cachedPim);
-								}
-							}
-						}
-						burn(pwdCache, sizeof(*pwdCache));
+			DecryptDataUnits((unsigned char*)pwdCache, (UINT64_STRUCT*)&sector, 1, Extension->Queue.CryptoInfo);
+			crcSaved = pwdCache->CRC;
+			pwdCache->CRC = 0;
+			crc = GetCrc32((unsigned char*)pwdCache, 512);
+			if(crcSaved == crc && pwdCache->Sign == DCS_DEP_PWD_CACHE_SIGN && pwdCache->Count <= CACHE_SIZE){
+				uint32 i;
+				for(i = 0; i<pwdCache->Count; ++i){
+					if (CacheBootPassword && pwdCache->Pwd[i].Length > 0 && pwdCache->Pwd[i].Length <= MAX_LEGACY_PASSWORD)	{
+						// This cache is later used for ordinary mounts (bBoot == FALSE).
+						// Keep a PIM up to MAX_PIM_VALUE. A boot KDF rejects a value
+						// above MAX_BOOT_PIM_VALUE when the entry is actually used.
+						int cachedPim = CacheBootPim? (int) (pwdCache->Pim[i]) : 0;
+						if (cachedPim < 0 || cachedPim > MAX_PIM_VALUE)
+							continue;
+						AddLegacyPasswordToCache (&pwdCache->Pwd[i], cachedPim);
 					}
 				}
 			}
+			burn(pwdCache, sizeof(*pwdCache));
+			BootPwdCache = NULL;
 		}
 
 		if (CacheBootPassword && BootArgs.BootPassword.Length > 0)
@@ -847,6 +1346,7 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 		Dump ("TCWriteDevice error %x", status);
 		goto ret;
 	}
+	BootSecRegionUpdate (offset.QuadPart, header, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
 
 ret:
 	TCfree (header);
@@ -921,7 +1421,9 @@ static void CheckDeviceTypeAndMount (DriveFilterExtension *filterExtension)
 			if (!NT_SUCCESS (status))
 				TC_BUG_CHECK (status);
 
-			if (!BootDriveFound)
+			// LoadBootArguments() accepted only a legacy length. Check it again
+			// where the copy is made.
+			if (!BootDriveFound && BootArgs.BootPassword.Length <= MAX_LEGACY_PASSWORD)
 			{
 				Password bootPass = {0};
 				bootPass.Length = BootArgs.BootPassword.Length;
@@ -2470,6 +2972,7 @@ uint64 GetBootDriveLength ()
 NTSTATUS WriteBootDriveSector (PIRP irp, PIO_STACK_LOCATION irpSp)
 {
 	WriteBootDriveSectorRequest *request;
+	NTSTATUS status;
 
 	if (!UserCanAccessDriveDevice())
 		return STATUS_ACCESS_DENIED;
@@ -2485,5 +2988,8 @@ NTSTATUS WriteBootDriveSector (PIRP irp, PIO_STACK_LOCATION irpSp)
 		|| request->Offset.QuadPart > BootDriveLength.QuadPart - (LONGLONG) sizeof (request->Data))
 		return STATUS_INVALID_PARAMETER;
 
-	return TCWriteDevice (BootDriveFilterExtension->LowerDeviceObject, request->Data, request->Offset, sizeof (request->Data));
+	status = TCWriteDevice (BootDriveFilterExtension->LowerDeviceObject, request->Data, request->Offset, sizeof (request->Data));
+	if (NT_SUCCESS (status))
+		BootSecRegionUpdate (request->Offset.QuadPart, request->Data, sizeof (request->Data));
+	return status;
 }

@@ -145,7 +145,7 @@ cd %MSI_BUILDPATH%
 ::------------------------------------
 :: Add all available LCIDs
 ::------------------------------------
-"%VC_DIR_PLATFORMSDK%\MsiInfo.Exe" "%OUT_PATH%\%MSI_FILE_OUT%.msi" /p arm64;1033
+"%VC_DIR_PLATFORMSDK%\MsiInfo.Exe" "%OUT_PATH%\%MSI_FILE_OUT%.msi" /p Arm64;1033
 @if NOT "%ERRORLEVEL%" == "0" goto comb_msi_failed
 
 ::------------------------------------

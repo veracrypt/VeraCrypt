@@ -62,6 +62,12 @@ BOOL bDone = FALSE;
 BOOL Rollback = FALSE;
 BOOL bUpgrade = FALSE;
 BOOL bUpdateRescueDisk = FALSE;
+// ERROR_SUCCESS once the previous system favorites service is stopped and its executable
+// replaced, so that no previous service can refresh the boot loader with its own code.
+// ERROR_SUCCESS_REBOOT_REQUIRED if it runs, or its executable stays, until Windows restarts.
+static DWORD ServiceUpdateError = ERROR_NOT_READY;
+static DWORD ServiceStopError = ERROR_NOT_READY;
+static DWORD ServiceExecutableError = ERROR_NOT_READY;
 BOOL bDowngrade = FALSE;
 BOOL SystemEncryptionUpdate = FALSE;
 BOOL PortableMode = FALSE;
@@ -992,9 +998,14 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 								RecordInstallationPath (szDestDir, TRUE);
 #endif
 								// The executable of a service that cannot be stopped is replaced when Windows restarts.
-								if (!StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL))
+								BOOL serviceStopped = StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL);
+								ServiceStopError = serviceStopped ? ERROR_SUCCESS : GetLastError ();
+								if (!serviceStopped)
 									bRestartRequired = TRUE; // The previous executable runs until then
 								DWORD copyError = SetupService::UpdateExecutable (szTmp, servicePath);
+								ServiceExecutableError = copyError;
+								// Replacing the file does not end a previous service that could not be stopped
+								ServiceUpdateError = (copyError == ERROR_SUCCESS && !serviceStopped) ? ERROR_SUCCESS_REBOOT_REQUIRED : copyError;
 								if (copyError == ERROR_SUCCESS)
 								{
 									// we tell the service not to load system favorites on startup
@@ -1799,6 +1810,77 @@ BOOL DoDriverUnload (HWND hwndDlg)
 }
 
 
+static void LogSetupWarning (const wchar_t *message)
+{
+	DWORD previousError = GetLastError ();
+	HANDLE source = RegisterEventSourceW (NULL, TC_SYSTEM_FAVORITES_SERVICE_NAME);
+	if (source)
+	{
+		LPCWSTR strings[] = { L"VeraCrypt EXE Setup", message };
+		ReportEventW (source, EVENTLOG_WARNING_TYPE, 0, 0xC0000000 + EVENTLOG_WARNING_TYPE,
+			NULL, ARRAYSIZE (strings), 0, strings, NULL);
+		DeregisterEventSource (source);
+	}
+	SetLastError (previousError);
+}
+
+
+// Replace the machine-wide notice for an update left to Repair, and retire it
+// once an update is made. Saving a nonempty set starts a fresh display generation,
+// including when removing a notice leaves other notices in the set.
+static void SaveBootLoaderUpdateNotice (HWND hwndDlg, DWORD notice)
+{
+	DWORD previous = ReadSetupNotificationMask ();
+	DWORD notifications = (previous & ~(VC_SETUP_NOTIFY_BOOT_RESTART | VC_SETUP_NOTIFY_BOOT_UNCONFIRMED)) | notice;
+	if (!notice && notifications == previous)
+		return;
+	DWORD error = SaveSetupNotifications (notifications);
+	if (error != ERROR_SUCCESS)
+	{
+		wchar_t message[256];
+		StringCchPrintfW (message, ARRAYSIZE (message), L"Could not save boot loader recovery guidance: error 0x%.8X. Installation will continue.", error);
+		LogSetupWarning (message);
+		SetLastError (error);
+		handleWin32Error (hwndDlg, SRC_POS);
+		Warning ("SETUP_RECOVERY_NOTICE_FAILED", hwndDlg);
+	}
+}
+
+
+static void CheckEfiBootChainTrust (BootEncryption& bootEnc, HWND hwndDlg, bool bootLoaderUpdateDeferred)
+{
+	// Validate the actual boot files and their known-CA compatibility with the active
+	// Secure Boot db/dbx before the user reboots. Other dbx revocation forms remain
+	// firmware-enforced and cannot be completely predicted here.
+	try
+	{
+		EfiBootChainTrustStatus trustStatus;
+		if (bootEnc.GetEfiBootChainTrustStatus (trustStatus))
+		{
+			DWORD warnings = GetEfiBootChainWarningMask (trustStatus);
+			if (bootLoaderUpdateDeferred && !trustStatus.InstalledResourceSet
+				&& (warnings & VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER))
+			{
+				// Older retained files can differ from both embedded sets without being
+				// incompatible with Secure Boot. Their CA compatibility is undetermined;
+				// keep the independent Windows boot manager assessment below.
+				warnings &= ~VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER;
+				warnings |= VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE;
+			}
+			if (warnings & VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE)
+				Warning ("SYSENC_EFI_ASSESSMENT_UNAVAILABLE", hwndDlg);
+			if (warnings & VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER)
+				Warning ("SYSENC_EFI_LOADER_NOT_TRUSTED_BY_SECUREBOOT", hwndDlg);
+			if (warnings & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER)
+				Warning ("SYSENC_EFI_WINDOWS_LOADER_NOT_TRUSTED_BY_SECUREBOOT", hwndDlg);
+			else if (warnings & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION)
+				WarnWindowsLoaderMigration (hwndDlg);
+		}
+	}
+	catch (...) { }
+}
+
+
 BOOL UpgradeBootLoader (HWND hwndDlg)
 {
 	if (!SystemEncryptionUpdate)
@@ -1810,30 +1892,41 @@ BOOL UpgradeBootLoader (HWND hwndDlg)
 		uint64 bootLoaderVersion = bootEnc.GetInstalledBootLoaderVersion();
 		if ((bootLoaderVersion < VERSION_NUM) || (bReinstallMode && (bootLoaderVersion == VERSION_NUM)))
 		{
+			if (ServiceUpdateError != ERROR_SUCCESS)
+			{
+				// A previous service that still runs, or starts again, refreshes the loader with
+				// its own code. On BIOS systems, it would write its boot sector code over our
+				// loader, which would then not start. Keep the current loader: after the restart,
+				// the new service refreshes an EFI loader, and Repair completes the update.
+				// Check the retained EFI chain before recommending that restart.
+				CheckEfiBootChainTrust (bootEnc, hwndDlg, true);
+				bRestartRequired = TRUE;
+				if (bootLoaderVersion <= TC_RESCUE_DISK_UPGRADE_NOTICE_MAX_VERSION)
+					bUpdateRescueDisk = TRUE;
+				wchar_t message[512];
+				StringCchPrintfW (message, ARRAYSIZE (message),
+					L"EXE boot loader update deliberately deferred; no loader write was attempted. Service readiness error=0x%.8X, stop error=0x%.8X, executable replacement or pending-copy cleanup error=0x%.8X. ERROR_NOT_READY can mean the operation was not reached. Restart Windows, then run VeraCrypt Repair/Reinstall.",
+					ServiceUpdateError, ServiceStopError, ServiceExecutableError);
+				LogSetupWarning (message);
+				if (ServiceUpdateError == ERROR_SUCCESS_REBOOT_REQUIRED)
+				{
+					Warning ("SYSENC_BOOT_LOADER_UPDATE_RESTART", hwndDlg);
+					SaveBootLoaderUpdateNotice (hwndDlg, VC_SETUP_NOTIFY_BOOT_RESTART);
+				}
+				else
+				{
+					Warning ("SYSENC_BOOT_LOADER_UPDATE_UNCONFIRMED", hwndDlg);
+					SaveBootLoaderUpdateNotice (hwndDlg, VC_SETUP_NOTIFY_BOOT_UNCONFIRMED);
+				}
+				return TRUE;
+			}
+
 			StatusMessage (hwndDlg, "INSTALLER_UPDATING_BOOT_LOADER");
 
 			bootEnc.InstallBootLoader (true);
 
-			// Validate the actual boot files and their known-CA compatibility with the active
-			// Secure Boot db/dbx before the user reboots. Other dbx revocation forms remain
-			// firmware-enforced and cannot be completely predicted here.
-			try
-			{
-				EfiBootChainTrustStatus trustStatus;
-				if (bootEnc.GetEfiBootChainTrustStatus (trustStatus))
-				{
-					DWORD warnings = GetEfiBootChainWarningMask (trustStatus);
-					if (warnings & VC_EFI_BOOT_CHAIN_WARNING_ASSESSMENT_UNAVAILABLE)
-						Warning ("SYSENC_EFI_ASSESSMENT_UNAVAILABLE", hwndDlg);
-					if (warnings & VC_EFI_BOOT_CHAIN_WARNING_VERACRYPT_LOADER)
-						Warning ("SYSENC_EFI_LOADER_NOT_TRUSTED_BY_SECUREBOOT", hwndDlg);
-					if (warnings & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_LOADER)
-						Warning ("SYSENC_EFI_WINDOWS_LOADER_NOT_TRUSTED_BY_SECUREBOOT", hwndDlg);
-					else if (warnings & VC_EFI_BOOT_CHAIN_WARNING_WINDOWS_MIGRATION)
-						WarnWindowsLoaderMigration (hwndDlg);
-				}
-			}
-			catch (...) { }
+			CheckEfiBootChainTrust (bootEnc, hwndDlg, false);
+			SaveBootLoaderUpdateNotice (hwndDlg, 0);
 
 			if (bootEnc.GetInstalledBootLoaderVersion() <= TC_RESCUE_DISK_UPGRADE_NOTICE_MAX_VERSION)
 			{
@@ -2295,6 +2388,9 @@ void DoInstall (void *arg)
 	InvalidateRect (MainDlg, NULL, TRUE);
 
 	ClearLogWindow (hwndDlg);
+	ServiceUpdateError = ERROR_NOT_READY;
+	ServiceStopError = ERROR_NOT_READY;
+	ServiceExecutableError = ERROR_NOT_READY;
 
 	if (isMsiInstalled())
 	{

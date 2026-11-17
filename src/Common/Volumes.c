@@ -219,6 +219,15 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 #endif
 	size_t queuedWorkItems = 0;
 
+	// if no PIM specified, use default value
+	if (pim < 0)
+		pim = 0;
+
+	// A cached password can carry a PIM valid for an ordinary volume. A boot
+	// KDF only accepts the 16-bit range written to the boot sector.
+	if (bBoot && pim > MAX_BOOT_PIM_VALUE)
+		return ERR_PASSWORD_WRONG;
+
 	// allocate 16-bytes aligned buffer to hold KEY_INFO in a portable way
 	keyInfoBuffer = TCalloc(keyInfoBufferSize);
 	if (!keyInfoBuffer)
@@ -229,10 +238,6 @@ int ReadVolumeHeaderWithAbort (BOOL bBoot, unsigned char *encryptedHeader, Passw
 #if !defined(DEVICE_DRIVER) && !defined(_UEFI)
 	VirtualLock (keyInfoBuffer, keyInfoBufferSize);
 #endif
-
-	// if no PIM specified, use default value
-	if (pim < 0)
-		pim = 0;
 
 	if (retHeaderCryptoInfo != NULL)
 	{

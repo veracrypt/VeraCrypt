@@ -1797,6 +1797,30 @@ namespace VeraCrypt
 	}
 
 
+	// Whether the code of a boot sector starts the loader in the sectors that follow it
+	// (loaderArea). BootSector.asm checks the decompressor and the compressed loader
+	// against the length and checksum of the boot sector, then their backup if the
+	// boot sector has one, and stops with "Loader damaged!" otherwise.
+	bool BootEncryption::BootSectorMatchesLoader (const uint8 *bootSector, uint8 *loaderArea, size_t loaderAreaSize)
+	{
+		const size_t decompressorSize = TC_BOOT_LOADER_DECOMPRESSOR_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS;
+		const size_t backupOffset = TC_BOOT_LOADER_BACKUP_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS;
+		const uint16 loaderSize = *(const uint16 *) (bootSector + TC_BOOT_SECTOR_LOADER_LENGTH_OFFSET);
+		const uint32 checksum = *(const uint32 *) (bootSector + TC_BOOT_SECTOR_LOADER_CHECKSUM_OFFSET);
+		const size_t size = decompressorSize + loaderSize;
+
+		if (loaderSize <= TC_GZIP_HEADER_SIZE || loaderSize > TC_MAX_BOOT_LOADER_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS || size > loaderAreaSize)
+			return false;
+
+		if (GetChecksum (loaderArea, size) == checksum)
+			return true;
+
+		return (bootSector[TC_BOOT_SECTOR_CONFIG_OFFSET] & TC_BOOT_CFG_FLAG_BACKUP_LOADER_AVAILABLE)
+			&& size <= backupOffset && backupOffset + size <= loaderAreaSize
+			&& GetChecksum (loaderArea + backupOffset, size) == checksum;
+	}
+
+
 	void BootEncryption::CreateBootLoaderInMemory (uint8 *buffer, size_t bufferSize, bool rescueDisk, bool hiddenOSCreation)
 	{
 		if (bufferSize < TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE)
@@ -2823,6 +2847,55 @@ namespace VeraCrypt
 		return promptId;
 	}
 
+	// An installer that keeps the Rescue Disk reminder for the restart records the version
+	// that it installs. Only the loader refresh of that version completes the update: the
+	// previous service, until the restart, refreshes the previous loader.
+	static const wchar_t RescueDiskNoticeVersion[] = _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX);
+
+	DWORD BootEncryption::SetRescueDiskNoticePending ()
+	{
+		HKEY key;
+		DWORD error = RegCreateKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey,
+			0, NULL, REG_OPTION_NON_VOLATILE, KEY_SET_VALUE | KEY_WOW64_64KEY, NULL, &key, NULL);
+		if (error != ERROR_SUCCESS)
+			return error;
+		error = RegSetValueExW (key, VC_RESCUE_DISK_NOTICE_PENDING_VALUE_NAME, 0, REG_SZ,
+			reinterpret_cast<const BYTE *> (RescueDiskNoticeVersion), sizeof (RescueDiskNoticeVersion));
+		RegCloseKey (key);
+		return error;
+	}
+
+	// thisVersion: only a reminder kept for the update to this version
+	bool BootEncryption::IsRescueDiskNoticePending (bool thisVersion)
+	{
+		wchar_t version[64] = {0};
+		DWORD size = sizeof (version);
+		HKEY key;
+		DWORD error = RegOpenKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey,
+			0, KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key);
+		if (error == ERROR_SUCCESS)
+		{
+			error = RegGetValueW (key, NULL, VC_RESCUE_DISK_NOTICE_PENDING_VALUE_NAME, RRF_RT_REG_SZ, NULL, version, &size);
+			RegCloseKey (key);
+		}
+		if (thisVersion)
+			return error == ERROR_SUCCESS && wcscmp (version, RescueDiskNoticeVersion) == 0;
+		return (error == ERROR_SUCCESS && version[0]) || error == ERROR_MORE_DATA;
+	}
+
+	DWORD BootEncryption::ClearRescueDiskNoticePending ()
+	{
+		HKEY key;
+		DWORD error = RegOpenKeyExW (HKEY_LOCAL_MACHINE, EfiBootLoaderDiagnosticsRegistryKey,
+			0, KEY_SET_VALUE | KEY_WOW64_64KEY, &key);
+		if (error == ERROR_SUCCESS)
+		{
+			error = RegDeleteValueW (key, VC_RESCUE_DISK_NOTICE_PENDING_VALUE_NAME);
+			RegCloseKey (key);
+		}
+		return error == ERROR_FILE_NOT_FOUND ? ERROR_SUCCESS : error;
+	}
+
 	static bool WriteEfiBootLoaderDiagnosticsRegistryDword (const wchar_t *valueName, DWORD value)
 	{
 #ifndef SETUP
@@ -2841,7 +2914,7 @@ namespace VeraCrypt
 		return WriteLocalMachineRegistryDwordEx (EfiBootLoaderDiagnosticsRegistryKey, valueName, value, KEY_WOW64_64KEY) ? true : false;
 	}
 
-	static void MarkEfiBootLoaderRescueDiskRecreationNeeded (const EfiBootLoaderImages& images)
+	static void MarkEfiBootLoaderRescueDiskRecreationNeeded (const EfiBootLoaderImages& images, bool rescueDiskNoticePending)
 	{
 		if (!images.ResourceSet)
 			return;
@@ -2851,8 +2924,15 @@ namespace VeraCrypt
 		if (promptId == 0)
 			promptId = 1;
 
-		WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, images.ResourceSet);
-		WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, promptId);
+		// An installer left this update to the restart: a Rescue Disk recorded with
+		// the same family predates it too.
+		bool marked = !rescueDiskNoticePending
+			|| WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_RESOURCE_SET_VALUE_NAME, 0);
+		marked = WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_RESOURCE_SET_VALUE_NAME, images.ResourceSet) && marked;
+		marked = WriteEfiBootLoaderDiagnosticsRegistryDword (VC_EFI_BOOT_LOADER_RESCUE_DISK_PROMPT_ID_VALUE_NAME, promptId) && marked;
+		// Keep that reminder until the GUI is sure to ask: the next refresh retries.
+		if (marked && rescueDiskNoticePending)
+			BootEncryption::ClearRescueDiskNoticePending ();
 		SetLastError (previousLastError);
 	}
 
@@ -3601,8 +3681,14 @@ namespace VeraCrypt
 		return !EfiBootLoaderImagesDiffer (efiBoot, images);
 	}
 
-	static bool EfiBootLoaderRefreshRequiresRescueDiskPrompt (EfiBoot& efiBoot, const EfiBootLoaderImages& images)
+	static bool EfiBootLoaderRefreshRequiresRescueDiskPrompt (EfiBoot& efiBoot, const EfiBootLoaderImages& images, bool rescueDiskNoticePending)
 	{
+		// An installer left the update to this version to the restart: its loader is in
+		// place once this refresh completes, whatever the family, even if an earlier
+		// refresh that could not ask for the Rescue Disk already changed the files.
+		if (rescueDiskNoticePending)
+			return true;
+
 		DWORD recordedResourceSet = 0;
 		bool bRecordedResourceSetKnown = ReadRecordedEfiBootLoaderResourceSet (recordedResourceSet);
 		if (bRecordedResourceSetKnown && recordedResourceSet == images.ResourceSet)
@@ -5238,7 +5324,8 @@ namespace VeraCrypt
 						const bool bRefreshMsBootloader = !bModifiedMsBoot
 							|| bMissingMsBoot
 							|| (EfiBootInst.FileExists (szStdMsBootloader) && EfiBootInst.IsVeraCryptBootLoader (szStdMsBootloader));
-						const bool bRescueDiskPromptRequired = EfiBootLoaderRefreshRequiresRescueDiskPrompt (EfiBootInst, efiImages);
+						const bool bRescueDiskNoticePending = IsRescueDiskNoticePending (true);
+						const bool bRescueDiskPromptRequired = EfiBootLoaderRefreshRequiresRescueDiskPrompt (EfiBootInst, efiImages, bRescueDiskNoticePending);
 
 						// Keep the firmware-visible loader path valid before the larger module refresh.
 						if (bRefreshMsBootloader && !EfiBootInst.FileExists (szStdMsBootloader))
@@ -5297,7 +5384,7 @@ namespace VeraCrypt
 							}
 						}
 						if (bRescueDiskPromptRequired)
-							MarkEfiBootLoaderRescueDiskRecreationNeeded (efiImages);
+							MarkEfiBootLoaderRescueDiskRecreationNeeded (efiImages, bRescueDiskNoticePending);
 						return;
 					}
 				}
@@ -5396,8 +5483,38 @@ namespace VeraCrypt
 
 				// perform actual write only if content is different and either we are not in PostOOBE mode or the MBR contains VeraCrypt/Windows signature.
 				// this last check is done to avoid interfering with multi-boot configuration where MBR belongs to a boot manager like Grub
-				if (memcmp (mbr, bootLoaderBuf, TC_MAX_MBR_BOOT_CODE_SIZE) 
-					&& (!PostOOBEMode || BufferContainsString (mbr, sizeof (mbr), TC_APP_NAME) || IsWindowsMBR (mbr, sizeof (mbr))))
+				bool writeMbr = memcmp (mbr, bootLoaderBuf, TC_MAX_MBR_BOOT_CODE_SIZE)
+					&& (!PostOOBEMode || BufferContainsString (mbr, sizeof (mbr), TC_APP_NAME) || IsWindowsMBR (mbr, sizeof (mbr)));
+				bool writeLoader = !PostOOBEMode;
+
+				if (writeMbr && PostOOBEMode)
+				{
+					// The boot sector code checks the loader that follows it on the disk. Never
+					// write the code for another loader, e.g. that of a service executable that
+					// replaced the previous one at restart: the disk still has the previous loader.
+					std::vector<uint8> diskLoader (sizeof (bootLoaderBuf) - TC_SECTOR_SIZE_BIOS);
+					device.SeekAt (TC_SECTOR_SIZE_BIOS);
+					if (device.Read (diskLoader.data (), (DWORD) diskLoader.size ()) != diskLoader.size ())
+						throw ParameterIncorrect (SRC_POS);
+
+					if (!BootSectorMatchesLoader (bootLoaderBuf, diskLoader.data (), diskLoader.size ()))
+					{
+						if (BufferContainsString (mbr, sizeof (mbr), TC_APP_NAME)
+							&& BootSectorMatchesLoader (mbr, diskLoader.data (), diskLoader.size ()))
+						{
+							// Keep the complete loader on the disk until the installer, Repair or a
+							// password change updates it.
+							writeMbr = false;
+						}
+						else
+						{
+							// The disk does not start a VeraCrypt loader as it is: write ours completely.
+							writeLoader = true;
+						}
+					}
+				}
+
+				if (writeMbr)
 				{
 					memcpy (mbr, bootLoaderBuf, TC_MAX_MBR_BOOT_CODE_SIZE);
 
@@ -5412,7 +5529,7 @@ namespace VeraCrypt
 						throw ErrorException ("ERROR_MBR_PROTECTED", SRC_POS);
 				}
 
-				if (!PostOOBEMode)
+				if (writeLoader)
 				{
 					// Write boot loader
 					device.SeekAt (TC_SECTOR_SIZE_BIOS);

@@ -8210,6 +8210,18 @@ static BOOL RepairMainWindowPlacement (HWND hwnd)
 	return SetWindowPlacement (hwnd, &wp);
 }
 
+static void WarnBootLoaderFingerprint (HWND hwnd)
+{
+	wstring message = GetString ("BOOT_LOADER_FINGERPRINT_CHECK_FAILED");
+	if (ReadSetupNotificationMask () & (VC_SETUP_NOTIFY_BOOT_RESTART | VC_SETUP_NOTIFY_BOOT_UNCONFIRMED))
+	{
+		message += L"\n\n";
+		message += GetString ("BOOT_LOADER_FINGERPRINT_UPDATE_PENDING");
+	}
+	WarningDirect (message.c_str (), hwnd);
+}
+
+
 static void QueueSetupNotifications (HWND hwnd)
 {
 	if (MainDialogInitialized && !MainInitMutexAcquired && !MainWindowHidden && !SetupNotificationsPosted)
@@ -8343,7 +8355,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						Warning ("UPDATE_TC_IN_HIDDEN_OS_TOO", hwndDlg);
 					if (	!(driverConfig & TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION)
 						&&	!BootEncObj->CheckBootloaderFingerprint ())
-						Warning ("BOOT_LOADER_FINGERPRINT_CHECK_FAILED", hwndDlg);
+						WarnBootLoaderFingerprint (hwndDlg);
 				}
 				else if (SysDriveOrPartitionFullyEncrypted (TRUE))
 				{
@@ -8354,7 +8366,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 					if (	!(driverConfig & TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION)
 						&&	!BootEncObj->CheckBootloaderFingerprint ())
-						Warning ("BOOT_LOADER_FINGERPRINT_CHECK_FAILED", hwndDlg);
+						WarnBootLoaderFingerprint (hwndDlg);
 				}
 			}
 			catch (...) { }

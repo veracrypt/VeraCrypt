@@ -221,27 +221,36 @@ namespace VeraCrypt { namespace SetupService
 
 	// Delete the copies staged by ScheduleReplacement, e.g. at uninstallation, so
 	// that none of them replaces the executable when Windows restarts. Returns
-	// false if one of them may remain.
+	// false, with an error in GetLastError(), if one of them may remain.
 	inline bool DeletePendingReplacements (const std::wstring &destination)
 	{
 		size_t separator = destination.find_last_of (L'\\');
 		const std::wstring directory = separator == std::wstring::npos ? std::wstring () : destination.substr (0, separator + 1);
+		const std::wstring pattern = destination + L".setup-pending.*";
 		WIN32_FIND_DATAW data;
-		HANDLE find = FindFirstFileW ((destination + L".setup-pending.*").c_str (), &data);
+		HANDLE find = FindFirstFileW (pattern.c_str (), &data);
 		if (find == INVALID_HANDLE_VALUE)
 		{
 			DWORD error = GetLastError ();
 			return error == ERROR_FILE_NOT_FOUND || error == ERROR_PATH_NOT_FOUND;
 		}
-		bool deleted = true;
+		DWORD error = ERROR_SUCCESS;
 		do
 		{
-			if (!(data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && !DeleteFileW ((directory + data.cFileName).c_str ()))
-				deleted = false;
+			const std::wstring path = directory + data.cFileName;
+			if (!(data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && !DeleteFileW (path.c_str ()))
+			{
+				if (error == ERROR_SUCCESS)
+					error = GetLastError ();
+			}
 		}
 		while (FindNextFileW (find, &data));
+		DWORD enumerationError = GetLastError ();
+		if (error == ERROR_SUCCESS && enumerationError != ERROR_NO_MORE_FILES)
+			error = enumerationError;
 		FindClose (find);
-		return deleted;
+		SetLastError (error);
+		return error == ERROR_SUCCESS;
 	}
 
 	// Returns ERROR_SUCCESS_REBOOT_REQUIRED if the executable will be replaced
@@ -253,8 +262,7 @@ namespace VeraCrypt { namespace SetupService
 		{
 			// A copy staged by an earlier installation would otherwise replace this
 			// executable when Windows restarts.
-			DeletePendingReplacements (destination);
-			return ERROR_SUCCESS;
+			return DeletePendingReplacements (destination) ? ERROR_SUCCESS : GetLastError ();
 		}
 		return ScheduleReplacement (source, destination) == ERROR_SUCCESS ? ERROR_SUCCESS_REBOOT_REQUIRED : error;
 	}

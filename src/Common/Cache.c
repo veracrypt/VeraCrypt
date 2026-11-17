@@ -204,6 +204,10 @@ void AddPasswordToCache (Password *password, int pim, BOOL bCachePim)
 void AddLegacyPasswordToCache (__unaligned PasswordLegacy *password, int pim)
 {
 	Password inputPass = {0};
+	/* A boot handoff can carry a CRC-valid cache whose Length field was not
+	   produced by this driver. Never copy more than the legacy text field. */
+	if (password->Length > MAX_LEGACY_PASSWORD)
+		return;
 	inputPass.Length = password->Length;
 	memcpy (inputPass.Text, password->Text, password->Length);
 

@@ -3881,6 +3881,8 @@ const char *GetSetupNotificationMessage (DWORD flag)
 	case VC_SETUP_NOTIFY_CONFIG_UPDATE: return "SYSENC_SETUP_CONFIG_UPDATE_FAILED";
 	case VC_SETUP_NOTIFY_CONFIG_REMOVE: return "SYSENC_SETUP_CONFIG_REMOVE_FAILED";
 	case VC_SETUP_NOTIFY_SERVICE: return "SYSENC_SERVICE_REPAIR_REQUIRED";
+	case VC_SETUP_NOTIFY_RESCUE_DISK: return "BOOT_LOADER_UPGRADE_OK";
+	case VC_SETUP_NOTIFY_RELEASE_NOTES: return "AFTER_UPGRADE_RELEASE_NOTES";
 	default: return NULL;
 	}
 }
@@ -3936,9 +3938,13 @@ void ShowSetupNotifications (HWND hwndDlg)
 		if ((state.Mask & current.Mask & flag) && message)
 		{
 			int result = flag == VC_SETUP_NOTIFY_WINDOWS_MIGRATION
-				? WarnWindowsLoaderMigration (hwndDlg) : Warning ((char *) message, hwndDlg);
-			if (result != IDOK)
+				? WarnWindowsLoaderMigration (hwndDlg)
+				: flag == VC_SETUP_NOTIFY_RELEASE_NOTES
+				? AskYesNo ((char *) message, hwndDlg) : Warning ((char *) message, hwndDlg);
+			if (result != IDOK && result != IDYES && result != IDNO)
 				return; // A failed or suppressed display must not acknowledge the notice.
+			if (flag == VC_SETUP_NOTIFY_RELEASE_NOTES && result == IDYES)
+				Applink ("releasenotes");
 		}
 	}
 	if (RegCreateKeyExW (HKEY_CURRENT_USER, L"Software\\VeraCrypt", 0, NULL,
