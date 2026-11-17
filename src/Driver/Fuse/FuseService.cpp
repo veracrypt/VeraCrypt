@@ -103,6 +103,39 @@ namespace VeraCrypt
 		statData->st_blocks = fuse_service_ceil_div ((uint64) statData->st_size, VC_FUSE_STAT_BLOCK_SIZE);
 	}
 
+	// The user who requested the mount: the caller of sudo or doas when the service is elevated.
+	static void fuse_service_get_requesting_user (uid_t &userId, gid_t &groupId)
+	{
+		userId = getuid();
+		groupId = getgid();
+
+		if (getenv ("SUDO_UID"))
+		{
+			try
+			{
+				string s (getenv ("SUDO_UID"));
+				userId = static_cast <uid_t> (StringConverter::ToUInt64 (s));
+
+				if (getenv ("SUDO_GID"))
+				{
+					s = getenv ("SUDO_GID");
+					groupId = static_cast <gid_t> (StringConverter::ToUInt64 (s));
+				}
+			}
+			catch (...) { }
+		}
+		else
+		{
+			uid_t doasUid;
+			gid_t doasGid;
+			if (GetDoasUserIds (&doasUid, &doasGid))
+			{
+				userId = doasUid;
+				groupId = doasGid;
+			}
+		}
+	}
+
 #if defined(TC_MACOSX) && !defined(VC_MACOSX_FUSET)
 	// macFUSE has offered an FSKit backend (-o backend=fskit) since 5.0. MFMount.framework,
 	// through which this libfuse 2 build mounts, ships since 5.2.0, which is therefore the
@@ -147,6 +180,14 @@ namespace VeraCrypt
 	// is picked up by the next mount.
 	static bool fuse_service_select_fskit_backend ()
 	{
+		// FSKit extensions are enabled per user and macFUSE refuses FSKit mounts from root, so a
+		// request from root itself keeps the kernel backend.
+		uid_t userId;
+		gid_t groupId;
+		fuse_service_get_requesting_user (userId, groupId);
+		if (userId == 0)
+			return false;
+
 		if (__builtin_available (macOS 26.0, *))
 		{
 			size_t size = 0;
@@ -180,7 +221,7 @@ namespace VeraCrypt
 
 		if ((uint64) offset < data.Size())
 		{
-			size_t dataSize = (size_t) min ((uint64) size, data.Size() - offset);
+			size_t dataSize = (size_t) min ((uint64) size, (uint64) data.Size() - (uint64) offset);
 			outBuf.GetRange (0, dataSize).CopyFrom (data.GetRange (offset, dataSize));
 		}
 
@@ -1831,34 +1872,7 @@ namespace VeraCrypt
 		FuseService::MountedVolume = MountedVolume;
 		FuseService::SlotNumber = SlotNumber;
 
-		FuseService::UserId = getuid();
-		FuseService::GroupId = getgid();
-
-		if (getenv ("SUDO_UID"))
-		{
-			try
-			{
-				string s (getenv ("SUDO_UID"));
-				FuseService::UserId = static_cast <uid_t> (StringConverter::ToUInt64 (s));
-
-				if (getenv ("SUDO_GID"))
-				{
-					s = getenv ("SUDO_GID");
-					FuseService::GroupId = static_cast <gid_t> (StringConverter::ToUInt64 (s));
-				}
-			}
-			catch (...) { }
-		}
-		else
-		{
-			uid_t doasUid;
-			gid_t doasGid;
-			if (GetDoasUserIds (&doasUid, &doasGid))
-			{
-				FuseService::UserId = doasUid;
-				FuseService::GroupId = doasGid;
-			}
-		}
+		fuse_service_get_requesting_user (FuseService::UserId, FuseService::GroupId);
 
 		static fuse_operations fuse_service_oper;
 
@@ -1938,7 +1952,19 @@ namespace VeraCrypt
 		// getting its task port.
 		if (geteuid() == 0 && FuseService::UserId != 0 && FuseService::FskitBackend)
 		{
-			throw_sys_sub_if (chown (argv[1], FuseService::UserId, FuseService::GroupId) == -1, argv[1]);
+			// The parent of the mount point can be writable by the user (TMPDIR), who could put a
+			// link in its place: change the owner by descriptor, and only of a directory of root.
+			int mountPointFd = open (argv[1], O_RDONLY | O_DIRECTORY | O_NOFOLLOW);
+			throw_sys_sub_if (mountPointFd == -1, argv[1]);
+			struct stat mountPointStat;
+			throw_sys_sub_if (fstat (mountPointFd, &mountPointStat) == -1, argv[1]);
+			if (mountPointStat.st_uid != 0)
+			{
+				errno = EPERM;
+				throw SystemException (SRC_POS, argv[1]);
+			}
+			throw_sys_sub_if (fchown (mountPointFd, FuseService::UserId, FuseService::GroupId) == -1, argv[1]);
+			close (mountPointFd);
 			throw_sys_if (setgroups (0, nullptr) == -1);
 			throw_sys_if (setgid (FuseService::GroupId) == -1);
 			throw_sys_if (setuid (FuseService::UserId) == -1);
