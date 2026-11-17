@@ -117,12 +117,52 @@ namespace VeraCrypt
 				{
 					finally_do_arg (MountOptions*, &options, { if (finally_arg->Password) finally_arg->Password.reset(); });
 
-					PasswordIncorrect passwordException;
-					foreach (shared_ptr <VolumePassword> password, VolumePasswordCache::GetPasswords())
+					// Cached passwords are tried from the most recently used, each one before
+					// the next: an older password must not open an outer volume ahead of the
+					// newer password of its hidden volume. A selected KDF is used with every
+					// password. With autodetection, each password is tried with the PBKDF2 KDFs
+					// it opened a volume with, then with the other PBKDF2 KDFs, which are cheap.
+					// Argon2, whose time and memory grow steeply with the PIM, is tried only for
+					// passwords that opened an Argon2 volume, or a volume with an unknown KDF:
+					// through autodetection, which also keeps its handling of derivation
+					// failures. If nothing matches, the user is asked for the password instead
+					// of trying Argon2 with every cached password.
+					CachedAttemptList attempts;
+
+					foreach (const CachedPassword &cached, VolumePasswordCache::GetPasswords())
+					{
+						if (options.Kdf)
+						{
+							AddCachedAttempt (attempts, cached.Password, options.Kdf);
+							continue;
+						}
+
+						bool autodetect = false;
+						foreach (shared_ptr <Pkcs5Kdf> kdf, cached.Kdfs)
+						{
+							if (!kdf || kdf->IsArgon2())
+								autodetect = true;
+							else
+								AddCachedAttempt (attempts, cached.Password, kdf);
+						}
+
+						foreach (shared_ptr <Pkcs5Kdf> kdf, Pkcs5Kdf::GetAvailableAlgorithms())
+						{
+							if (!kdf->IsArgon2())
+								AddCachedAttempt (attempts, cached.Password, kdf);
+						}
+
+						if (autodetect)
+							AddCachedAttempt (attempts, cached.Password, shared_ptr <Pkcs5Kdf>());
+					}
+
+					shared_ptr <Exception> passwordException (new PasswordIncorrect());
+					foreach (const CachedAttempt &attempt, attempts)
 					{
 						try
 						{
-							newOptions.Password = password;
+							newOptions.Password = attempt.first;
+							newOptions.Kdf = attempt.second;
 							mountedVolume = CoreService::RequestMountVolume (newOptions);
 							break;
 						}
@@ -138,12 +178,21 @@ namespace VeraCrypt
 						}
 						catch (PasswordIncorrect &e)
 						{
-							passwordException = e;
+							passwordException.reset (e.CloneNew());
+						}
+						// Thrown in place of PasswordIncorrect on system-encrypted and bootable drives
+						catch (PasswordOrKeyboardLayoutIncorrect &e)
+						{
+							passwordException.reset (e.CloneNew());
+						}
+						catch (PasswordOrMountOptionsIncorrect &e)
+						{
+							passwordException.reset (e.CloneNew());
 						}
 					}
 
 					if (!mountedVolume)
-						passwordException.Throw();
+						passwordException->Throw();
 				}
 				else
 				{
@@ -167,10 +216,20 @@ namespace VeraCrypt
 				throw;
 			}
 
-			if (!useCachedPasswords && options.CachePassword
-				&& ((options.Password && !options.Password->IsEmpty()) || (options.Keyfiles && !options.Keyfiles->empty())))
+			if (options.CachePassword && newOptions.Password && !newOptions.Password->IsEmpty())
 			{
-				VolumePasswordCache::Store (*newOptions.Password);
+				shared_ptr <Pkcs5Kdf> kdf;
+				try
+				{
+					kdf = Pkcs5Kdf::GetAlgorithm (mountedVolume->Pkcs5PrfName);
+				}
+				catch (ParameterIncorrect&) { }
+
+				// A mount from the cache must not change the priority of the passwords
+				if (useCachedPasswords)
+					VolumePasswordCache::AddKdf (*newOptions.Password, kdf);
+				else
+					VolumePasswordCache::Store (*newOptions.Password, kdf);
 			}
 
 			VolumeEventArgs eventArgs (mountedVolume);
@@ -192,6 +251,22 @@ namespace VeraCrypt
 		virtual void WipePasswordCache () const
 		{
 			VolumePasswordCache::Clear();
+		}
+
+	protected:
+		// A cached password with a KDF to try, or with autodetection if null
+		typedef pair < shared_ptr <VolumePassword>, shared_ptr <Pkcs5Kdf> > CachedAttempt;
+		typedef list <CachedAttempt> CachedAttemptList;
+
+		static void AddCachedAttempt (CachedAttemptList &attempts, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf)
+		{
+			foreach (const CachedAttempt &attempt, attempts)
+			{
+				if (*attempt.first == *password && (attempt.second ? attempt.second->GetName() : wstring()) == (kdf ? kdf->GetName() : wstring()))
+					return;
+			}
+
+			attempts.push_back (CachedAttempt (password, kdf));
 		}
 	};
 }
