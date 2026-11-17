@@ -1953,12 +1953,14 @@ namespace VeraCrypt
 		if (geteuid() == 0 && FuseService::UserId != 0 && FuseService::FskitBackend)
 		{
 			// The parent of the mount point can be writable by the user (TMPDIR), who could put a
-			// link in its place: change the owner by descriptor, and only of a directory of root.
+			// link in its place: change the owner by descriptor, and only of a directory of root
+			// that still has the name of an auxiliary mount point after the caller resolved the path.
 			int mountPointFd = open (argv[1], O_RDONLY | O_DIRECTORY | O_NOFOLLOW);
 			throw_sys_sub_if (mountPointFd == -1, argv[1]);
 			struct stat mountPointStat;
 			throw_sys_sub_if (fstat (mountPointFd, &mountPointStat) == -1, argv[1]);
-			if (mountPointStat.st_uid != 0)
+			const char *mountPointName = strrchr (argv[1], '/');
+			if (mountPointStat.st_uid != 0 || !mountPointName || strncmp (mountPointName, "/.veracrypt_aux_mnt", 19) != 0)
 			{
 				errno = EPERM;
 				throw SystemException (SRC_POS, argv[1]);
