@@ -171,13 +171,31 @@ namespace VeraCrypt
 		}
 	}
 
+	// Third-party kernel extensions load only if the boot policy of the Mac allows them (Reduced
+	// Security with kernel extensions enabled). system_profiler reports the policy without
+	// privileges; its JSON report carries the untranslated value. Apple silicon only: an Intel
+	// Mac has no such entry and keeps the kernel backend.
+	static bool fuse_service_kernel_extensions_disallowed ()
+	{
+		try
+		{
+			list <string> args;
+			args.push_back ("SPiBridgeDataType");
+			args.push_back ("-json");
+			return Process::ExecuteBounded ("/usr/sbin/system_profiler", args, 5000, 1024 * 1024).find ("\"ibridge_sb_other_kext\" : \"No\"") != string::npos;
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+
 	// On macOS 26 and later, macFUSE can run in user space through FSKit, which needs neither its
-	// kernel extension nor Reduced Security. A kernel extension that is already loaded is used
-	// instead, as is the kernel backend of a macFUSE too old for FSKit (the version check in
-	// CoreMacOSX::MountAuxVolumeImage then applies). A kernel extension that is approved but not
-	// yet loaded cannot be told apart from an unapproved one without a privileged load attempt,
-	// so FSKit is used in that case. Evaluated once per mount, so a kernel extension loaded later
-	// is picked up by the next mount.
+	// kernel extension nor Reduced Security. FSKit is used only on a Mac whose boot policy does not
+	// allow third-party kernel extensions, where the kernel backend cannot work at all. Every other
+	// case keeps the kernel backend: a kernel extension that is loaded or can be loaded, a boot
+	// policy that cannot be read, and a macFUSE too old for FSKit (the version check in
+	// CoreMacOSX::MountAuxVolumeImage then applies). Evaluated once per mount.
 	static bool fuse_service_select_fskit_backend ()
 	{
 		// FSKit extensions are enabled per user and macFUSE refuses FSKit mounts from root, so a
@@ -192,7 +210,7 @@ namespace VeraCrypt
 		{
 			size_t size = 0;
 			if (sysctlbyname ("vfs.generic.macfuse.version.number", NULL, &size, NULL, 0) != 0)
-				return fuse_service_macfuse_supports_fskit();
+				return fuse_service_macfuse_supports_fskit() && fuse_service_kernel_extensions_disallowed();
 		}
 		return false;
 	}
