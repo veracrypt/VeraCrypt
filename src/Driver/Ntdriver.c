@@ -145,6 +145,7 @@ static BOOL EnableExtendedIoctlSupport = FALSE;
 static BOOL AllowTrimCommand = FALSE;
 static BOOL OrderedFlushBarriersEnabled = FALSE;
 static BOOL RamEncryptionActivated = FALSE;
+static BOOL MountedVolumeFastReadIoEnabled = FALSE;
 int EncryptionIoRequestCount = 0;
 int EncryptionItemCount = 0;
 int EncryptionFragmentSize = 0;
@@ -153,6 +154,11 @@ int EncryptionMaxWorkItems = 0;
 BOOL IsOrderedFlushBarriersEnabled ()
 {
 	return OrderedFlushBarriersEnabled;
+}
+
+BOOL IsMountedVolumeFastReadIoEnabled ()
+{
+	return MountedVolumeFastReadIoEnabled;
 }
 
 PDEVICE_OBJECT VirtualVolumeDeviceObjects[MAX_MOUNTED_VOLUME_DRIVE_NUMBER + 1];
@@ -602,6 +608,335 @@ PDEVICE_OBJECT GetVirtualVolumeDeviceObject (int driveNumber)
 }
 
 
+typedef struct
+{
+	VC_DIRECT_HOST_IO_TASK Task;
+	EncryptedIoQueue *Queue;
+	PIRP OriginalIrp;
+	PUCHAR DataBuffer;
+	ULONG Length;
+	LARGE_INTEGER HostOffset;
+	PIO_WORKITEM CompletionWorkItem;
+	NTSTATUS CompletionStatus;
+	ULONG_PTR CompletionInformation;
+} VC_DIRECT_HOST_READ_CONTEXT;
+
+
+static BOOL IsAlignedDirectHostIoValue (ULONGLONG value, ULONG size)
+{
+	return size == 0 || (value % size) == 0;
+}
+
+
+static BOOL IsDirectHostReadCompatibilityFailure (NTSTATUS status)
+{
+	switch (status)
+	{
+	case STATUS_ACCESS_DENIED:
+	case STATUS_DATATYPE_MISALIGNMENT:
+	case STATUS_INVALID_DEVICE_REQUEST:
+	case STATUS_INVALID_PARAMETER:
+	case STATUS_NOT_SUPPORTED:
+		return TRUE;
+
+	default:
+		return FALSE;
+	}
+}
+
+
+static BOOL VcCanUseDirectHostRead (PEXTENSION extension, PIRP irp, PIO_STACK_LOCATION irpSp, LARGE_INTEGER *hostOffset)
+{
+	EncryptedIoQueue *queue = &extension->Queue;
+	ULONGLONG virtualEndExclusive;
+	ULONGLONG hostOffsetValue;
+	ULONGLONG hostEndExclusive;
+	LONGLONG virtualOffset = irpSp->Parameters.Read.ByteOffset.QuadPart;
+	ULONG length = irpSp->Parameters.Read.Length;
+	ULONG hostSectorSize;
+
+	hostOffset->QuadPart = 0;
+
+	if (irpSp->MajorFunction != IRP_MJ_READ
+		|| KeGetCurrentIrql () > APC_LEVEL
+		|| !irp->MdlAddress
+		|| MmGetMdlByteCount (irp->MdlAddress) < length)
+	{
+		return FALSE;
+	}
+
+	if (!extension->IsVolumeDevice
+		|| extension->bRootDevice
+		|| extension->IsDriveFilterDevice
+		|| extension->IsVolumeFilterDevice
+		|| !extension->bRawDevice
+		|| queue->IsFilterDevice
+		|| !queue->HostDeviceObject
+		|| !queue->HostFileObject)
+	{
+		return FALSE;
+	}
+
+	if (!queue->CryptoInfo
+		|| !EncryptedIoQueueIsRunning (queue)
+		|| EncryptedIoQueueIsSuspended (queue)
+		|| queue->SuspendPending
+		|| queue->StopPending
+		|| queue->ThreadBlockReadWrite)
+	{
+		return FALSE;
+	}
+
+	if (queue->bSupportPartialEncryption
+		|| queue->EncryptedAreaEndUpdatePending
+		|| queue->RemapEncryptedArea
+		|| (queue->SecRegionData != NULL && queue->SecRegionSize > 512)
+		|| queue->CryptoInfo->hiddenVolume
+		|| queue->CryptoInfo->bProtectHiddenVolume
+		|| queue->CryptoInfo->bHiddenVolProtectionAction
+		|| queue->CryptoInfo->bPartitionInInactiveSysEncScope
+		|| (irp->Flags & (IRP_PAGING_IO | IRP_SYNCHRONOUS_PAGING_IO)) != 0)
+	{
+		return FALSE;
+	}
+
+	if (length == 0
+		|| virtualOffset < 0
+		|| queue->HostDeviceIoMaxSize == 0
+		|| queue->DirectHostIoMaxRequestSize == 0
+		|| length > queue->DirectHostIoMaxRequestSize
+		|| length > queue->HostDeviceIoMaxSize
+		|| !IsAlignedDirectHostIoValue ((ULONGLONG) length, ENCRYPTION_DATA_UNIT_SIZE)
+		|| !IsAlignedDirectHostIoValue ((ULONGLONG) virtualOffset, ENCRYPTION_DATA_UNIT_SIZE)
+		|| S_OK != ULongLongAdd ((ULONGLONG) virtualOffset, (ULONGLONG) length, &virtualEndExclusive)
+		|| virtualEndExclusive > (ULONGLONG) queue->VirtualDeviceLength
+		|| S_OK != ULongLongAdd ((ULONGLONG) virtualOffset, queue->CryptoInfo->volDataAreaOffset, &hostOffsetValue))
+	{
+		return FALSE;
+	}
+
+	hostSectorSize = queue->HostBytesPerSector != 0 ? queue->HostBytesPerSector : ENCRYPTION_DATA_UNIT_SIZE;
+	if (!IsAlignedDirectHostIoValue ((ULONGLONG) length, hostSectorSize)
+		|| !IsAlignedDirectHostIoValue (hostOffsetValue, hostSectorSize)
+		|| (queue->MaxReadAheadOffset.QuadPart > 0
+			&& (S_OK != ULongLongAdd (hostOffsetValue, (ULONGLONG) length, &hostEndExclusive)
+				|| hostEndExclusive > (ULONGLONG) queue->MaxReadAheadOffset.QuadPart)))
+	{
+		return FALSE;
+	}
+
+	hostOffset->QuadPart = (LONGLONG) hostOffsetValue;
+	return TRUE;
+}
+
+
+static VOID VcCompleteDirectHostRead (PDEVICE_OBJECT deviceObject, PVOID context)
+{
+	VC_DIRECT_HOST_READ_CONTEXT *readContext = (VC_DIRECT_HOST_READ_CONTEXT *) context;
+	EncryptedIoQueue *queue = readContext->Queue;
+	PIRP irp = readContext->OriginalIrp;
+	ULONG length = readContext->Length;
+	NTSTATUS status = readContext->CompletionStatus;
+	ULONG_PTR information = readContext->CompletionInformation;
+	UNREFERENCED_PARAMETER (deviceObject);
+
+	IoFreeWorkItem (readContext->CompletionWorkItem);
+	TCfree (readContext);
+	EncryptedIoQueueCompleteDirectRead (queue, irp, length, status, information);
+}
+
+
+static void VcDirectHostReadTask (VC_DIRECT_HOST_IO_TASK *task)
+{
+	VC_DIRECT_HOST_READ_CONTEXT *readContext =
+		CONTAINING_RECORD (task, VC_DIRECT_HOST_READ_CONTEXT, Task);
+	EncryptedIoQueue *queue = readContext->Queue;
+	PIRP originalIrp = readContext->OriginalIrp;
+	PUCHAR dataBuffer = readContext->DataBuffer;
+	ULONG length = readContext->Length;
+	LARGE_INTEGER hostOffset = readContext->HostOffset;
+	IO_STATUS_BLOCK ioStatus = { STATUS_PENDING, 0 };
+	ULONG_PTR bytesRead = 0;
+	ULONG_PTR information = 0;
+	BOOL useLegacyIo = FALSE;
+	NTSTATUS status;
+
+	if (!NT_SUCCESS (task->WorkerStatus))
+	{
+		status = task->WorkerStatus;
+	}
+	else if (originalIrp->Cancel)
+	{
+		status = STATUS_CANCELLED;
+	}
+	else if (!queue->CryptoInfo
+		|| !EncryptedIoQueueIsRunning (queue)
+		|| EncryptedIoQueueIsSuspended (queue)
+		|| queue->SuspendPending
+		|| queue->StopPending
+		|| queue->ThreadBlockReadWrite)
+	{
+		status = STATUS_DEVICE_NOT_READY;
+	}
+	else
+	{
+		if (originalIrp->Cancel || queue->ThreadBlockReadWrite)
+		{
+			status = originalIrp->Cancel ? STATUS_CANCELLED : STATUS_DEVICE_BUSY;
+		}
+		else
+		{
+			status = TCReadDeviceUsingFileObjectWithInformation (
+				queue->HostDeviceObject,
+				queue->HostFileObject,
+				dataBuffer,
+				hostOffset,
+				length,
+				&bytesRead);
+
+			if (!NT_SUCCESS (status) || bytesRead != length)
+			{
+				if (bytesRead == 0 && IsDirectHostReadCompatibilityFailure (status))
+				{
+					InterlockedExchange (&queue->DirectHostReadEnabled, FALSE);
+					useLegacyIo = TRUE;
+				}
+				else if (NT_SUCCESS (status))
+				{
+					status = STATUS_END_OF_FILE;
+				}
+			}
+
+			if (useLegacyIo)
+			{
+				ioStatus.Status = STATUS_PENDING;
+				ioStatus.Information = 0;
+				status = ZwReadFile (
+					queue->HostFileHandle,
+					NULL,
+					NULL,
+					NULL,
+					&ioStatus,
+					dataBuffer,
+					length,
+					&hostOffset,
+					NULL);
+				bytesRead = ioStatus.Information;
+				if (NT_SUCCESS (status) && bytesRead != length)
+					status = STATUS_END_OF_FILE;
+			}
+
+			if (NT_SUCCESS (status))
+			{
+				if (!ExAcquireRundownProtection (&queue->DirectReadCryptoRundown))
+				{
+					status = STATUS_DEVICE_BUSY;
+				}
+				else
+				{
+					if (queue->ThreadBlockReadWrite)
+					{
+						status = STATUS_DEVICE_BUSY;
+					}
+					else
+					{
+						UINT64_STRUCT dataUnit;
+						dataUnit.Value = hostOffset.QuadPart / ENCRYPTION_DATA_UNIT_SIZE;
+						DecryptDataUnits (
+							dataBuffer,
+							&dataUnit,
+							length / ENCRYPTION_DATA_UNIT_SIZE,
+							queue->CryptoInfo);
+					}
+					ExReleaseRundownProtection (&queue->DirectReadCryptoRundown);
+				}
+			}
+
+			if (NT_SUCCESS (status))
+				information = length;
+		}
+	}
+
+	readContext->CompletionStatus = status;
+	readContext->CompletionInformation = information;
+	EncryptedIoQueueFinishDirectReadIo (queue);
+	// Upper completion routines can issue nested reads, so run them outside the direct I/O worker pool.
+	IoQueueWorkItem (readContext->CompletionWorkItem, VcCompleteDirectHostRead, DelayedWorkQueue, readContext);
+}
+
+
+static BOOL VcTryDirectHostRead (PEXTENSION extension, PIRP irp, PIO_STACK_LOCATION irpSp)
+{
+	EncryptedIoQueue *queue = &extension->Queue;
+	VC_DIRECT_HOST_READ_CONTEXT *context;
+	LARGE_INTEGER hostOffset;
+	PUCHAR dataBuffer;
+	NTSTATUS status;
+
+	if (InterlockedCompareExchange (&queue->DirectHostReadEnabled, FALSE, FALSE) == FALSE)
+		return FALSE;
+	// An oversized request always uses the legacy queue. Avoid taking the
+	// direct-read lifetime lock for a request that cannot use the direct path.
+	if (irpSp->Parameters.Read.Length > queue->DirectHostIoMaxRequestSize)
+		return FALSE;
+
+	status = EncryptedIoQueueBeginDirectRead (queue, irp);
+	if (!NT_SUCCESS (status))
+		return FALSE;
+
+	if (InterlockedCompareExchange (&queue->DirectHostReadEnabled, FALSE, FALSE) == FALSE)
+		goto fallback;
+
+	if (!VcCanUseDirectHostRead (extension, irp, irpSp, &hostOffset))
+		goto fallback;
+
+	dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, HighPagePriority | MdlMappingNoExecute);
+	if (!dataBuffer
+		|| (queue->HostAlignmentMask != 0
+			&& (((ULONG_PTR) dataBuffer) & queue->HostAlignmentMask) != 0))
+		goto fallback;
+
+	context = (VC_DIRECT_HOST_READ_CONTEXT *) TCalloc (sizeof (*context));
+	if (!context)
+		goto fallback;
+	context->CompletionWorkItem = IoAllocateWorkItem (queue->DeviceObject);
+	if (!context->CompletionWorkItem)
+	{
+		TCfree (context);
+		goto fallback;
+	}
+
+	context->Task.Routine = VcDirectHostReadTask;
+	context->Task.IrpToMarkPending = irp;
+	context->Queue = queue;
+	context->OriginalIrp = irp;
+	context->DataBuffer = dataBuffer;
+	context->Length = irpSp->Parameters.Read.Length;
+	context->HostOffset = hostOffset;
+
+	status = EncryptedIoQueueAdmitDirectRead (queue);
+	if (!NT_SUCCESS (status))
+	{
+		IoFreeWorkItem (context->CompletionWorkItem);
+		TCfree (context);
+		goto fallback;
+	}
+
+	if (!EncryptedIoQueueSubmitDirectIoTask (queue, &context->Task))
+	{
+		IoFreeWorkItem (context->CompletionWorkItem);
+		TCfree (context);
+		EncryptedIoQueueAbortDirectRead (queue, irp);
+		return FALSE;
+	}
+	return TRUE;
+
+fallback:
+	EncryptedIoQueueCancelDirectRead (queue, irp);
+	return FALSE;
+}
+
+
 /* TCDispatchQueueIRP queues any IRP's so that they can be processed later
    by the thread -- or in some cases handles them immediately! */
 NTSTATUS TCDispatchQueueIRP (PDEVICE_OBJECT DeviceObject, PIRP Irp)
@@ -718,6 +1053,16 @@ NTSTATUS TCDispatchQueueIRP (PDEVICE_OBJECT DeviceObject, PIRP Irp)
 		switch (irpSp->MajorFunction)
 		{
 		case IRP_MJ_READ:
+			if (VcTryDirectHostRead (Extension, Irp, irpSp))
+				return STATUS_PENDING;
+
+			ntStatus = EncryptedIoQueueAddIrp (&Extension->Queue, Irp);
+
+			if (ntStatus != STATUS_PENDING)
+				TCCompleteDiskIrp (Irp, ntStatus, 0);
+
+			return ntStatus;
+
 		case IRP_MJ_WRITE:
 			ntStatus = EncryptedIoQueueAddIrp (&Extension->Queue, Irp);
 
@@ -739,7 +1084,9 @@ NTSTATUS TCDispatchQueueIRP (PDEVICE_OBJECT DeviceObject, PIRP Irp)
 			return STATUS_PENDING;
 
 		case IRP_MJ_FLUSH_BUFFERS:
-			if (!OrderedFlushBarriersEnabled || Extension->hDeviceFile == NULL || Extension->bReadOnly)
+			if ((!OrderedFlushBarriersEnabled)
+				|| Extension->hDeviceFile == NULL
+				|| Extension->bReadOnly)
 				return TCCompleteDiskIrp (Irp, STATUS_SUCCESS, 0);
 
 			if (!EncryptedIoQueueIsRunning (&Extension->Queue))
@@ -2677,7 +3024,6 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 
 					prop->totalBytesRead = ListExtension->Queue.TotalBytesRead;
 					prop->totalBytesWritten = ListExtension->Queue.TotalBytesWritten;
-
 					prop->volFormatVersion = ListExtension->cryptoInfo->LegacyVolume ? TC_VOLUME_FORMAT_VERSION_PRE_6_0 : TC_VOLUME_FORMAT_VERSION;
 
 					Irp->IoStatus.Status = STATUS_SUCCESS;
@@ -3425,6 +3771,43 @@ VOID VolumeThreadProc (PVOID Context)
 	Extension->Queue.DeviceObject = DeviceObject;
 	Extension->Queue.CryptoInfo = Extension->cryptoInfo;
 	Extension->Queue.HostFileHandle = Extension->hDeviceFile;
+	Extension->Queue.HostDeviceObject = Extension->bRawDevice ? Extension->pFastIoFsdDevice : NULL;
+	Extension->Queue.HostFileObject = Extension->bRawDevice ? Extension->pfoFastIoDeviceFile : NULL;
+	Extension->Queue.HostDeviceIoMaxSize = VC_MOUNTED_VOLUME_FAST_IO_MAX_SEGMENT_SIZE;
+	if (Extension->HostMaximumTransferLength != 0
+		&& Extension->HostMaximumTransferLength < Extension->Queue.HostDeviceIoMaxSize)
+	{
+		Extension->Queue.HostDeviceIoMaxSize = Extension->HostMaximumTransferLength;
+	}
+	if (Extension->HostMaximumPhysicalPages != 0)
+	{
+		if (Extension->HostMaximumPhysicalPages == 1)
+		{
+			Extension->Queue.HostDeviceIoMaxSize = 0;
+		}
+		else
+		{
+			// Reserve one page for an arbitrary offset within the first buffer page.
+			ULONGLONG physicalPageTransferLimit =
+				(ULONGLONG) (Extension->HostMaximumPhysicalPages - 1) * PAGE_SIZE;
+			if (physicalPageTransferLimit < Extension->Queue.HostDeviceIoMaxSize)
+				Extension->Queue.HostDeviceIoMaxSize = (ULONG) physicalPageTransferLimit;
+		}
+	}
+	Extension->Queue.HostAlignmentMask = Extension->HostAlignmentMask;
+	Extension->Queue.HostBytesPerSector = Extension->HostBytesPerSector;
+	if (Extension->Queue.HostBytesPerSector != 0)
+		Extension->Queue.HostDeviceIoMaxSize -= Extension->Queue.HostDeviceIoMaxSize % Extension->Queue.HostBytesPerSector;
+	// Keep direct reads within one host transfer. Larger reads use the legacy queue.
+	Extension->Queue.DirectHostIoMaxRequestSize = min (VC_MOUNTED_VOLUME_FAST_IO_MAX_REQUEST_SIZE, Extension->Queue.HostDeviceIoMaxSize);
+	// Capture the registry option for this mount. Reloading configuration
+	// changes only subsequent mounts, not an active queue.
+	Extension->Queue.DirectHostReadEnabled = Extension->bRawDevice
+		&& Extension->Queue.HostDeviceObject
+		&& Extension->Queue.HostFileObject
+		&& Extension->Queue.HostDeviceIoMaxSize >= ENCRYPTION_DATA_UNIT_SIZE
+		&& Extension->Queue.DirectHostIoMaxRequestSize >= ENCRYPTION_DATA_UNIT_SIZE
+		&& MountedVolumeFastReadIoEnabled;
 	Extension->Queue.VirtualDeviceLength = Extension->DiskLength;
 	Extension->Queue.MaxReadAheadOffset.QuadPart = Extension->HostLength;
 	if (bDevice && pThreadBlock->mount->bPartitionInInactiveSysEncScope
@@ -3579,9 +3962,8 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 		TC_CASE_RET_NAME (TC_IOCTL_WRITE_BOOT_DRIVE_SECTOR);
 		TC_CASE_RET_NAME (VC_IOCTL_GET_DRIVE_GEOMETRY_EX);
 		TC_CASE_RET_NAME (VC_IOCTL_EMERGENCY_CLEAR_ALL_KEYS);
-		TC_CASE_RET_NAME (VC_IOCTL_IS_RAM_ENCRYPTION_ENABLED);
-		TC_CASE_RET_NAME (VC_IOCTL_ENCRYPTION_QUEUE_PARAMS);
-
+			TC_CASE_RET_NAME (VC_IOCTL_IS_RAM_ENCRYPTION_ENABLED);
+			TC_CASE_RET_NAME (VC_IOCTL_ENCRYPTION_QUEUE_PARAMS);
 		TC_CASE_RET_NAME (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS);
 
 		TC_CASE_RET_NAME(IOCTL_DISK_GET_DRIVE_GEOMETRY);
@@ -3992,19 +4374,31 @@ void TCCloseFsVolume (HANDLE volumeHandle, PFILE_OBJECT fileObject)
 }
 
 
-static NTSTATUS TCReadWriteDevice (BOOL write, PDEVICE_OBJECT deviceObject, PVOID buffer, LARGE_INTEGER offset, ULONG length)
+static NTSTATUS TCReadWriteDevice (BOOL write, PDEVICE_OBJECT deviceObject, PFILE_OBJECT fileObject, PVOID buffer, LARGE_INTEGER offset, ULONG length, ULONG_PTR *information)
 {
 	NTSTATUS status;
-	IO_STATUS_BLOCK ioStatusBlock;
+	IO_STATUS_BLOCK ioStatusBlock = { STATUS_PENDING, 0 };
 	PIRP irp;
 	KEVENT completionEvent;
 
 	ASSERT (KeGetCurrentIrql() <= APC_LEVEL);
 
+	if (information)
+		*information = 0;
+
 	KeInitializeEvent (&completionEvent, NotificationEvent, FALSE);
 	irp = IoBuildSynchronousFsdRequest (write ? IRP_MJ_WRITE : IRP_MJ_READ, deviceObject, buffer, length, &offset, &completionEvent, &ioStatusBlock);
 	if (!irp)
 		return STATUS_INSUFFICIENT_RESOURCES;
+
+	if (fileObject)
+	{
+		PIO_STACK_LOCATION irpSp = IoGetNextIrpStackLocation (irp);
+		irpSp->FileObject = fileObject;
+		irp->Flags |= IRP_NOCACHE;
+		if (write)
+			irpSp->Flags |= SL_WRITE_THROUGH;
+	}
 
 	ObReferenceObject (deviceObject);
 	status = IoCallDriver (deviceObject, irp);
@@ -4016,6 +4410,9 @@ static NTSTATUS TCReadWriteDevice (BOOL write, PDEVICE_OBJECT deviceObject, PVOI
 			status = ioStatusBlock.Status;
 	}
 
+	if (information)
+		*information = ioStatusBlock.Information;
+
 	ObDereferenceObject (deviceObject);
 	return status;
 }
@@ -4023,14 +4420,21 @@ static NTSTATUS TCReadWriteDevice (BOOL write, PDEVICE_OBJECT deviceObject, PVOI
 
 NTSTATUS TCReadDevice (PDEVICE_OBJECT deviceObject, PVOID buffer, LARGE_INTEGER offset, ULONG length)
 {
-	return TCReadWriteDevice (FALSE, deviceObject, buffer, offset, length);
+	return TCReadWriteDevice (FALSE, deviceObject, NULL, buffer, offset, length, NULL);
 }
 
 
 NTSTATUS TCWriteDevice (PDEVICE_OBJECT deviceObject, PVOID buffer, LARGE_INTEGER offset, ULONG length)
 {
-	return TCReadWriteDevice (TRUE, deviceObject, buffer, offset, length);
+	return TCReadWriteDevice (TRUE, deviceObject, NULL, buffer, offset, length, NULL);
 }
+
+
+NTSTATUS TCReadDeviceUsingFileObjectWithInformation (PDEVICE_OBJECT deviceObject, PFILE_OBJECT fileObject, PVOID buffer, LARGE_INTEGER offset, ULONG length, ULONG_PTR *information)
+{
+	return TCReadWriteDevice (FALSE, deviceObject, fileObject, buffer, offset, length, information);
+}
+
 
 
 NTSTATUS TCFsctlCall (PFILE_OBJECT fileObject, LONG IoControlCode,
@@ -4937,54 +5341,57 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 	NTSTATUS status;
 	uint32 flags = 0;
 
-	OrderedFlushBarriersEnabled = FALSE;
-
 	RtlInitUnicodeString (&name, L"\\REGISTRY\\MACHINE\\SYSTEM\\CurrentControlSet\\Services\\veracrypt");
 	status = TCReadRegistryKey (&name, TC_DRIVER_CONFIG_REG_VALUE_NAME, &data);
 
 	if (NT_SUCCESS (status))
 	{
-		if (data->Type == REG_DWORD)
+		if (data->Type == REG_DWORD && data->DataLength == sizeof (flags))
 		{
 			flags = *(uint32 *) data->Data;
 			Dump ("Configuration flags = 0x%x\n", flags);
-
-			if (driverEntry)
-			{
-				if (flags & (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD | TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES))
-					CacheBootPassword = TRUE;
-
-				if (flags & TC_DRIVER_CONFIG_DISABLE_NONADMIN_SYS_FAVORITES_ACCESS)
-					NonAdminSystemFavoritesAccessDisabled = TRUE;
-
-				if (flags & TC_DRIVER_CONFIG_CACHE_BOOT_PIM)
-					CacheBootPim = TRUE;
-
-				if (flags & VC_DRIVER_CONFIG_BLOCK_SYS_TRIM)
-					BlockSystemTrimCommand = TRUE;
-
-				/* clear VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION if it is set */
-				if (flags & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)
-				{
-					flags ^= VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION;
-					WriteRegistryConfigFlags (flags);
-				}
-
-				RamEncryptionActivated = (flags & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? TRUE : FALSE;
-			}
-
-			EnableHwEncryption ((flags & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);
-			EnableCpuRng ((flags & VC_DRIVER_CONFIG_ENABLE_CPU_RNG) ? TRUE : FALSE);
-
-			EnableExtendedIoctlSupport = (flags & TC_DRIVER_CONFIG_ENABLE_EXTENDED_IOCTL)? TRUE : FALSE;
-			AllowTrimCommand = (flags & VC_DRIVER_CONFIG_ALLOW_NONSYS_TRIM)? TRUE : FALSE;
-			AllowWindowsDefrag = (flags & VC_DRIVER_CONFIG_ALLOW_WINDOWS_DEFRAG)? TRUE : FALSE;
-			OrderedFlushBarriersEnabled = (flags & VC_DRIVER_CONFIG_ENABLE_ORDERED_FLUSH_BARRIERS)? TRUE : FALSE;
 		}
 		else
 			status = STATUS_INVALID_PARAMETER;
 
 		TCfree (data);
+	}
+	else if (status == STATUS_OBJECT_NAME_NOT_FOUND)
+		status = STATUS_SUCCESS;
+
+	if (NT_SUCCESS (status))
+	{
+		if (driverEntry)
+		{
+			if (flags & (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD | TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES))
+				CacheBootPassword = TRUE;
+
+			if (flags & TC_DRIVER_CONFIG_DISABLE_NONADMIN_SYS_FAVORITES_ACCESS)
+				NonAdminSystemFavoritesAccessDisabled = TRUE;
+
+			if (flags & TC_DRIVER_CONFIG_CACHE_BOOT_PIM)
+				CacheBootPim = TRUE;
+
+			if (flags & VC_DRIVER_CONFIG_BLOCK_SYS_TRIM)
+				BlockSystemTrimCommand = TRUE;
+
+			/* clear VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION if it is set */
+			if (flags & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)
+			{
+				flags ^= VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION;
+				WriteRegistryConfigFlags (flags);
+			}
+
+			RamEncryptionActivated = (flags & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? TRUE : FALSE;
+		}
+
+		EnableHwEncryption ((flags & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);
+		EnableCpuRng ((flags & VC_DRIVER_CONFIG_ENABLE_CPU_RNG) ? TRUE : FALSE);
+
+		EnableExtendedIoctlSupport = (flags & TC_DRIVER_CONFIG_ENABLE_EXTENDED_IOCTL)? TRUE : FALSE;
+		AllowTrimCommand = (flags & VC_DRIVER_CONFIG_ALLOW_NONSYS_TRIM)? TRUE : FALSE;
+		AllowWindowsDefrag = (flags & VC_DRIVER_CONFIG_ALLOW_WINDOWS_DEFRAG)? TRUE : FALSE;
+		OrderedFlushBarriersEnabled = (flags & VC_DRIVER_CONFIG_ENABLE_ORDERED_FLUSH_BARRIERS)? TRUE : FALSE;
 	}
 
 	if (driverEntry && NT_SUCCESS (TCReadRegistryKey (&name, TC_ENCRYPTION_FREE_CPU_COUNT_REG_VALUE_NAME, &data)))
@@ -5025,6 +5432,15 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 			EncryptionMaxWorkItems = *(uint32*)data->Data;
 
 		TCfree(data);
+	}
+
+	MountedVolumeFastReadIoEnabled = FALSE;
+	if (NT_SUCCESS (TCReadRegistryKey (&name, VC_MOUNTED_VOLUME_FAST_READ_IO, &data)))
+	{
+		if (data->Type == REG_DWORD && data->DataLength == sizeof (uint32))
+			MountedVolumeFastReadIoEnabled = (*(uint32 *) data->Data) ? TRUE : FALSE;
+
+		TCfree (data);
 	}
 
 	if (driverEntry)
