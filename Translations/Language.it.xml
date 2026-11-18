@@ -8,9 +8,9 @@
     <font lang="it" class="title" size="21" face="Times New Roman" />
     <entry lang="it" key="IDCANCEL">Annulla</entry>
     <entry lang="it" key="IDC_ALL_USERS">Installa &amp;per tutti gli utenti</entry>
-    <entry lang="it" key="IDC_BROWSE">Sfo&amp;glia...</entry>
+    <entry lang="it" key="IDC_BROWSE">Sfo&amp;glia…</entry>
     <entry lang="it" key="IDC_DESKTOP_ICON">Aggiungi icona di VeraCrypt al &amp;desktop</entry>
-    <entry lang="it" key="IDC_DONATE">Donazione...</entry>
+    <entry lang="it" key="IDC_DONATE">Donazione…</entry>
     <entry lang="it" key="IDC_FILE_TYPE">Associa l'&amp;estensione .hc a VeraCrypt</entry>
     <entry lang="it" key="IDC_OPEN_CONTAINING_FOLDER">Apri la posizione di &amp;destinazione quando terminato</entry>
     <entry lang="it" key="IDC_PROG_GROUP">Aggiungi VeraCrypt al &amp;menu di avvio</entry>
@@ -44,7 +44,7 @@
     <entry lang="it" key="IDC_KEYFILES_ENABLE">U&amp;sa keyfile</entry>
     <entry lang="it" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Prova prima a montare con una password vuota</entry>
     <entry lang="it" key="IDC_KEYFILES_RANDOM_SIZE">Dimensione casuale ( 64 &lt;-&gt; 1048576 )</entry>
-    <entry lang="it" key="IDC_KEY_FILES">&amp;Keyfile...</entry>
+    <entry lang="it" key="IDC_KEY_FILES">&amp;Keyfile…</entry>
     <entry lang="it" key="IDC_LINK_HASH_INFO">Informazioni sugli algoritmi di hash</entry>
     <entry lang="it" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Ulteriori informazioni</entry>
     <entry lang="it" key="IDC_LINK_PIM_INFO">Informazioni sul PIM</entry>
@@ -108,8 +108,8 @@
     <entry lang="it" key="IDC_AUTORUN_START">&amp;Avvia VeraCrypt</entry>
     <entry lang="it" key="IDC_AUTO_DETECT_PKCS11_MODULE">&amp;Rileva automaticamente la libreria</entry>
     <entry lang="it" key="IDC_BOOT_LOADER_CACHE_PASSWORD">Memorizza la password di autenticazione di pre-boot nella &amp;cache della memoria del driver (per il montaggio di volumi non di sistema)</entry>
-    <entry lang="it" key="IDC_BROWSE_DIRS">Sfoglia...</entry>
-    <entry lang="it" key="IDC_BROWSE_FILES">Sfoglia...</entry>
+    <entry lang="it" key="IDC_BROWSE_DIRS">Sfoglia…</entry>
+    <entry lang="it" key="IDC_BROWSE_FILES">Sfoglia…</entry>
     <entry lang="it" key="IDC_CACHE">Memorizza nella cache password e keyfil&amp;e</entry>
     <entry lang="it" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Chiudi quando non ci sono volumi montati</entry>
     <entry lang="it" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Chiudi la sessione del token (log out) dopo che il volume è stato montato</entry>
@@ -143,15 +143,15 @@
     <entry lang="it" key="IDC_HK_MOD_WIN">Win</entry>
     <entry lang="it" key="IDC_HOTKEY_ASSIGN">Assegna</entry>
     <entry lang="it" key="IDC_HOTKEY_REMOVE">Rimuovi</entry>
-    <entry lang="it" key="IDC_KEYFILES">Keyfile...</entry>
+    <entry lang="it" key="IDC_KEYFILES">Keyfile…</entry>
     <entry lang="it" key="IDC_LIMIT_ENC_THREAD_POOL">Non usare il seguente numero di processori logici per cifratura e decifratura:</entry>
     <entry lang="it" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Ulteriori informazioni</entry>
     <entry lang="it" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Ulteriori informazioni</entry>
-    <entry lang="it" key="IDC_MORE_SETTINGS">Altre impostazioni...</entry>
+    <entry lang="it" key="IDC_MORE_SETTINGS">Altre impostazioni…</entry>
     <entry lang="it" key="IDC_MOUNTALL">Monta&amp;ggio automatico</entry>
-    <entry lang="it" key="IDC_MOUNT_OPTIONS">&amp;Opzioni...</entry>
+    <entry lang="it" key="IDC_MOUNT_OPTIONS">&amp;Opzioni…</entry>
     <entry lang="it" key="IDC_MOUNT_READONLY">Monta il volume in &amp;sola lettura</entry>
-    <entry lang="it" key="IDC_NEW_KEYFILES">Keyfile...</entry>
+    <entry lang="it" key="IDC_NEW_KEYFILES">Keyfile…</entry>
     <entry lang="it" key="IDC_OLD_PIM_HELP">(vuoto o 0 per il valore predefinito)</entry>
     <entry lang="it" key="IDC_PIM_HELP">(vuoto o 0 per il valore predefinito)</entry>
     <entry lang="it" key="IDC_PREF_BKG_TASK_ENABLE">Attivata</entry>
@@ -173,17 +173,17 @@
     <entry lang="it" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Azzera le password nella cache all'uscita</entry>
     <entry lang="it" key="IDC_PRESERVE_TIMESTAMPS">Non modificare data ed ora dei file contenitori</entry>
     <entry lang="it" key="IDC_RESET_HOTKEYS">Azzera</entry>
-    <entry lang="it" key="IDC_SELECT_DEVICE">Seleziona u&amp;nità...</entry>
-    <entry lang="it" key="IDC_SELECT_FILE">Seleziona &amp;file...</entry>
-    <entry lang="it" key="IDC_SELECT_PKCS11_MODULE">Seleziona &amp;libreria...</entry>
+    <entry lang="it" key="IDC_SELECT_DEVICE">Seleziona u&amp;nità…</entry>
+    <entry lang="it" key="IDC_SELECT_FILE">Seleziona &amp;file…</entry>
+    <entry lang="it" key="IDC_SELECT_PKCS11_MODULE">Seleziona &amp;libreria…</entry>
     <entry lang="it" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Visualizza password</entry>
     <entry lang="it" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Visualizza password</entry>
     <entry lang="it" key="IDC_TRAVEL_OPEN_EXPLORER">Apri la finestra di &amp;Esplora risorse per il volume montato</entry>
     <entry lang="it" key="IDC_TRAV_CACHE_PASSWORDS">Memorizza la password nella &amp;cache della memoria del driver</entry>
     <entry lang="it" key="IDC_TRUECRYPT_MODE">Modalità &amp;TrueCrypt</entry>
     <entry lang="it" key="IDC_UNMOUNTALL">Smonta t&amp;utti</entry>
-    <entry lang="it" key="IDC_VOLUME_PROPERTIES">Proprietà v&amp;olume...</entry>
-    <entry lang="it" key="IDC_VOLUME_TOOLS">St&amp;rumenti volume...</entry>
+    <entry lang="it" key="IDC_VOLUME_PROPERTIES">Proprietà v&amp;olume…</entry>
+    <entry lang="it" key="IDC_VOLUME_TOOLS">St&amp;rumenti volume…</entry>
     <entry lang="it" key="IDC_WIPE_CACHE">A&amp;zzera la cache</entry>
     <entry lang="it" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Parametri di montaggio</entry>
     <entry lang="it" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Volumi preferiti</entry>
@@ -198,63 +198,63 @@
     <entry lang="it" key="IDD_TRAVELER_DLG">Installazione di VeraCrypt Traveler Disk</entry>
     <entry lang="it" key="IDD_VOLUME_PROPERTIES">Proprietà del volume VeraCrypt</entry>
     <entry lang="it" key="IDM_ABOUT">Info</entry>
-    <entry lang="it" key="IDM_ADD_REMOVE_VOL_KEYFILES">Aggiungi/rimuovi keyfile al/dal volume...</entry>
-    <entry lang="it" key="IDM_ADD_VOLUME_TO_FAVORITES">Aggiungi il volume montato ai preferiti...</entry>
-    <entry lang="it" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Aggiungi il volume montato ai preferiti di sistema...</entry>
-    <entry lang="it" key="IDM_ANALYZE_SYSTEM_CRASH">Analizza un crash di sistema...</entry>
-    <entry lang="it" key="IDM_BACKUP_VOL_HEADER">Backup dell'header del volume...</entry>
-    <entry lang="it" key="IDM_BENCHMARK">Benchmark...</entry>
-    <entry lang="it" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">Imposta algoritmo di derivazione della chiave dell'header...</entry>
-    <entry lang="it" key="IDM_CHANGE_PASSWORD">Modifica la password del volume...</entry>
-    <entry lang="it" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">Imposta algoritmo di derivazione della chiave dell'header...</entry>
-    <entry lang="it" key="IDM_CHANGE_SYS_PASSWORD">Modifica la password...</entry>
+    <entry lang="it" key="IDM_ADD_REMOVE_VOL_KEYFILES">Aggiungi/rimuovi keyfile al/dal volume…</entry>
+    <entry lang="it" key="IDM_ADD_VOLUME_TO_FAVORITES">Aggiungi il volume montato ai preferiti…</entry>
+    <entry lang="it" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Aggiungi il volume montato ai preferiti di sistema…</entry>
+    <entry lang="it" key="IDM_ANALYZE_SYSTEM_CRASH">Analizza un crash di sistema…</entry>
+    <entry lang="it" key="IDM_BACKUP_VOL_HEADER">Backup dell'header del volume…</entry>
+    <entry lang="it" key="IDM_BENCHMARK">Benchmark…</entry>
+    <entry lang="it" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">Imposta algoritmo di derivazione della chiave dell'header…</entry>
+    <entry lang="it" key="IDM_CHANGE_PASSWORD">Modifica la password del volume…</entry>
+    <entry lang="it" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">Imposta algoritmo di derivazione della chiave dell'header…</entry>
+    <entry lang="it" key="IDM_CHANGE_SYS_PASSWORD">Modifica la password…</entry>
     <entry lang="it" key="IDM_CLEAR_HISTORY">Cancella la cronologia dei volumi</entry>
     <entry lang="it" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">Chiudi tutte le sessioni dei token di sicurezza</entry>
     <entry lang="it" key="IDM_CONTACT">Contatti</entry>
-    <entry lang="it" key="IDM_CREATE_HIDDEN_OS">Crea sistema operativo nascosto...</entry>
-    <entry lang="it" key="IDM_CREATE_RESCUE_DISK">Crea un disco di ripristino...</entry>
-    <entry lang="it" key="IDM_CREATE_VOLUME">Crea un nuovo volume...</entry>
-    <entry lang="it" key="IDM_DECRYPT_NONSYS_VOL">Decifra permanentemente...</entry>
-    <entry lang="it" key="IDM_DEFAULT_KEYFILES">Keyfile predefiniti...</entry>
-    <entry lang="it" key="IDM_DEFAULT_MOUNT_PARAMETERS">Parametri di montaggio predefiniti...</entry>
-    <entry lang="it" key="IDM_DONATE">Donazione...</entry>
-    <entry lang="it" key="IDM_ENCRYPT_SYSTEM_DEVICE">Cifra la partizione o il disco di sistema...</entry>
+    <entry lang="it" key="IDM_CREATE_HIDDEN_OS">Crea sistema operativo nascosto…</entry>
+    <entry lang="it" key="IDM_CREATE_RESCUE_DISK">Crea un disco di ripristino…</entry>
+    <entry lang="it" key="IDM_CREATE_VOLUME">Crea un nuovo volume…</entry>
+    <entry lang="it" key="IDM_DECRYPT_NONSYS_VOL">Decifra permanentemente…</entry>
+    <entry lang="it" key="IDM_DEFAULT_KEYFILES">Keyfile predefiniti…</entry>
+    <entry lang="it" key="IDM_DEFAULT_MOUNT_PARAMETERS">Parametri di montaggio predefiniti…</entry>
+    <entry lang="it" key="IDM_DONATE">Donazione…</entry>
+    <entry lang="it" key="IDM_ENCRYPT_SYSTEM_DEVICE">Cifra la partizione o il disco di sistema…</entry>
     <entry lang="it" key="IDM_FAQ">Domande frequenti</entry>
     <entry lang="it" key="IDM_HELP">Guida utente</entry>
     <entry lang="it" key="IDM_HOMEPAGE">&amp;Sito web </entry>
-    <entry lang="it" key="IDM_HOTKEY_SETTINGS">Scorciatoie da tastiera...</entry>
+    <entry lang="it" key="IDM_HOTKEY_SETTINGS">Scorciatoie da tastiera…</entry>
     <entry lang="it" key="IDM_KEYFILE_GENERATOR">Generatore di keyfile</entry>
-    <entry lang="it" key="IDM_LANGUAGE">Lingua...</entry>
+    <entry lang="it" key="IDM_LANGUAGE">Lingua…</entry>
     <entry lang="it" key="IDM_LICENSE">Note legali</entry>
-    <entry lang="it" key="IDM_MANAGE_TOKEN_KEYFILES">Gestione dei keyfile dei token di sicurezza...</entry>
+    <entry lang="it" key="IDM_MANAGE_TOKEN_KEYFILES">Gestione dei keyfile dei token di sicurezza…</entry>
     <entry lang="it" key="IDM_MOUNTALL">Monta automaticamente tutti i volumi ospitati in dispositivi</entry>
     <entry lang="it" key="IDM_MOUNT_FAVORITE_VOLUMES">Monta i volumi preferiti</entry>
-    <entry lang="it" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Monta senza &amp;autenticazione di pre-boot...</entry>
+    <entry lang="it" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Monta senza &amp;autenticazione di pre-boot…</entry>
     <entry lang="it" key="IDM_MOUNT_VOLUME">Monta il volume</entry>
     <entry lang="it" key="IDM_MOUNT_VOLUME_OPTIONS">Monta il volume con le opzioni</entry>
     <entry lang="it" key="IDM_NEWS">Novità</entry>
     <entry lang="it" key="IDM_ONLINE_HELP">Guida in linea</entry>
     <entry lang="it" key="IDM_ONLINE_TUTORIAL">Tutorial per principianti</entry>
-    <entry lang="it" key="IDM_ORGANIZE_FAVORITES">Organizza i volumi preferiti...</entry>
-    <entry lang="it" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organizza i volumi preferiti di sistema...</entry>
+    <entry lang="it" key="IDM_ORGANIZE_FAVORITES">Organizza i volumi preferiti…</entry>
+    <entry lang="it" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organizza i volumi preferiti di sistema…</entry>
     <entry lang="it" key="IDM_PERFORMANCE_SETTINGS">Prestazioni e configurazione del driver</entry>
     <entry lang="it" key="IDM_PERMANENTLY_DECRYPT_SYS">Decifra permanentemente la partizione o il disco di sistema</entry>
-    <entry lang="it" key="IDM_PREFERENCES">Preferenze...</entry>
+    <entry lang="it" key="IDM_PREFERENCES">Preferenze…</entry>
     <entry lang="it" key="IDM_REFRESH_DRIVE_LETTERS">Aggiorna le lettere delle unità</entry>
-    <entry lang="it" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">Rimuovi tutti i keyfile dal volume...</entry>
-    <entry lang="it" key="IDM_RESTORE_VOL_HEADER">Ripristina l'header del volume...</entry>
+    <entry lang="it" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">Rimuovi tutti i keyfile dal volume…</entry>
+    <entry lang="it" key="IDM_RESTORE_VOL_HEADER">Ripristina l'header del volume…</entry>
     <entry lang="it" key="IDM_RESUME_INTERRUPTED_PROC">Riprendi i processi interrotti</entry>
-    <entry lang="it" key="IDM_SELECT_DEVICE">Seleziona l'unità...</entry>
-    <entry lang="it" key="IDM_SELECT_FILE">Seleziona il file...</entry>
+    <entry lang="it" key="IDM_SELECT_DEVICE">Seleziona l'unità…</entry>
+    <entry lang="it" key="IDM_SELECT_FILE">Seleziona il file…</entry>
     <entry lang="it" key="IDM_SYSENC_RESUME">Riprendi i processi interrotti</entry>
-    <entry lang="it" key="IDM_SYSENC_SETTINGS">Cifratura di sistema...</entry>
-    <entry lang="it" key="IDM_SYSTEM_ENCRYPTION_STATUS">Proprietà...</entry>
-    <entry lang="it" key="IDM_SYS_ENC_SETTINGS">Impostazioni...</entry>
-    <entry lang="it" key="IDM_SYS_FAVORITES_SETTINGS">Volumi preferiti di sistema...</entry>
+    <entry lang="it" key="IDM_SYSENC_SETTINGS">Cifratura di sistema…</entry>
+    <entry lang="it" key="IDM_SYSTEM_ENCRYPTION_STATUS">Proprietà…</entry>
+    <entry lang="it" key="IDM_SYS_ENC_SETTINGS">Impostazioni…</entry>
+    <entry lang="it" key="IDM_SYS_FAVORITES_SETTINGS">Volumi preferiti di sistema…</entry>
     <entry lang="it" key="IDM_TC_DOWNLOADS">Download</entry>
-    <entry lang="it" key="IDM_TEST_VECTORS">Vettori di test...</entry>
-    <entry lang="it" key="IDM_TOKEN_PREFERENCES">Token di sicurezza...</entry>
-    <entry lang="it" key="IDM_TRAVELER">Installazione di Traveler Disk...</entry>
+    <entry lang="it" key="IDM_TEST_VECTORS">Vettori di test…</entry>
+    <entry lang="it" key="IDM_TOKEN_PREFERENCES">Token di sicurezza…</entry>
+    <entry lang="it" key="IDM_TRAVELER">Installazione di Traveler Disk…</entry>
     <entry lang="it" key="IDM_UNMOUNTALL">Smonta tutti i volumi montati</entry>
     <entry lang="it" key="IDM_UNMOUNT_VOLUME">Smonta il volume</entry>
     <entry lang="it" key="IDM_VERIFY_RESCUE_DISK">Verifica disco di ripristino</entry>
@@ -302,21 +302,21 @@
     <entry lang="it" key="IDT_TRAVEL_ROOT">Crea i file per il Traveler Disk su (cartella radice del Traveler Disk):</entry>
     <entry lang="it" key="IDT_VOLUME">Volume</entry>
     <entry lang="it" key="IDT_WINDOWS_RELATED_SETTING">Windows</entry>
-    <entry lang="it" key="IDC_ADD_KEYFILE_PATH">Aggiungi &amp;percorso...</entry>
+    <entry lang="it" key="IDC_ADD_KEYFILE_PATH">Aggiungi &amp;percorso…</entry>
     <entry lang="it" key="IDC_AUTO">&amp;Autotest di tutti</entry>
     <entry lang="it" key="IDC_CONTINUE">&amp;Continua</entry>
     <entry lang="it" key="IDC_DECRYPT">&amp;Decifra</entry>
     <entry lang="it" key="IDC_DELETE">Ca&amp;ncella</entry>
     <entry lang="it" key="IDC_ENCRYPT">C&amp;ifra</entry>
-    <entry lang="it" key="IDC_EXPORT">&amp;Esporta...</entry>
-    <entry lang="it" key="IDC_GENERATE_AND_SAVE_KEYFILE">Genera e salva i keyfile...</entry>
-    <entry lang="it" key="IDC_GENERATE_KEYFILE">&amp;Genera un keyfile casuale...</entry>
+    <entry lang="it" key="IDC_EXPORT">&amp;Esporta…</entry>
+    <entry lang="it" key="IDC_GENERATE_AND_SAVE_KEYFILE">Genera e salva i keyfile…</entry>
+    <entry lang="it" key="IDC_GENERATE_KEYFILE">&amp;Genera un keyfile casuale…</entry>
     <entry lang="it" key="IDC_GET_LANG_PACKS">Scarica i file di lingua</entry>
     <entry lang="it" key="IDC_HW_AES_LABEL_LINK">AES accelerato via hardware:</entry>
-    <entry lang="it" key="IDC_IMPORT_KEYFILE">&amp;Importa keyfile nel token...</entry>
-    <entry lang="it" key="IDC_KEYADD">Aggiungi &amp;file...</entry>
+    <entry lang="it" key="IDC_IMPORT_KEYFILE">&amp;Importa keyfile nel token…</entry>
+    <entry lang="it" key="IDC_KEYADD">Aggiungi &amp;file…</entry>
     <entry lang="it" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">Usa key&amp;file</entry>
-    <entry lang="it" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Keyfile...</entry>
+    <entry lang="it" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Keyfile…</entry>
     <entry lang="it" key="IDC_KEYREMOVE">&amp;Rimuovi</entry>
     <entry lang="it" key="IDC_KEYREMOVEALL">Rimuovi &amp;tutti</entry>
     <entry lang="it" key="IDC_LINK_HIDVOL_PROTECTION_INFO">Cos'è la protezione di un volume nascosto?</entry>
@@ -329,7 +329,7 @@
     <entry lang="it" key="IDC_PROTECT_HIDDEN_VOL">&amp;Proteggi il volume nascosto dai danni causati dalla scrittura sul volume esterno</entry>
     <entry lang="it" key="IDC_RESET">A&amp;zzera</entry>
     <entry lang="it" key="IDC_SHOW_PASSWORD_MO">&amp;Visualizza password</entry>
-    <entry lang="it" key="IDC_TOKEN_FILES_ADD">&amp;Aggiungi file da token...</entry>
+    <entry lang="it" key="IDC_TOKEN_FILES_ADD">&amp;Aggiungi file da token…</entry>
     <entry lang="it" key="IDC_USE_EMBEDDED_HEADER_BAK">Usa l'&amp;header di backup incorporato nel volume se disponibile</entry>
     <entry lang="it" key="IDC_XTS_MODE_ENABLED">Modalità XTS</entry>
     <entry lang="it" key="IDD_ABOUT_DLG">A proposito di VeraCrypt</entry>
@@ -368,8 +368,8 @@
     <entry lang="it" key="IDT_SECONDARY_KEY">Chiave secondaria (esadecimale)</entry>
     <entry lang="it" key="IDT_SECURITY_TOKEN">Token di sicurezza:</entry>
     <entry lang="it" key="IDT_SORT_METHOD">Metodo di ordinamento:</entry>
-    <entry lang="it" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Attendere. Questo processo potrebbe richiedere molto tempo...</entry>
-    <entry lang="it" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Attendere...\nQuesto processo potrebbe richiedere molto tempo e potrebbe sembrare che VeraCrypt non risponda.</entry>
+    <entry lang="it" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Attendere. Questo processo potrebbe richiedere molto tempo…</entry>
+    <entry lang="it" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Attendere…\nQuesto processo potrebbe richiedere molto tempo e potrebbe sembrare che VeraCrypt non risponda.</entry>
     <entry lang="it" key="IDT_TEST_BLOCK_NUMBER">Numero del blocco:</entry>
     <entry lang="it" key="IDT_TEST_CIPHERTEXT">Testo cifrato (esadecimale)</entry>
     <entry lang="it" key="IDT_TEST_DATA_UNIT_NUMBER">Numero dell'unità dati (esadecimale a 64 bit; la dimensione dell'unità dati è di 512 byte)</entry>
@@ -384,7 +384,7 @@
     <entry lang="it" key="MENU_SETTINGS">&amp;Impostazioni</entry>
     <entry lang="it" key="MENU_HELP">&amp;Aiuto</entry>
     <entry lang="it" key="MENU_WEBSITE">   Sito &amp;Web   </entry>
-    <entry lang="it" key="ABOUTBOX">A &amp;proposito di...</entry>
+    <entry lang="it" key="ABOUTBOX">A &amp;proposito di…</entry>
     <entry lang="it" key="ACCESSMODEFAIL">L'attributo di sola lettura del vecchio volume non può essere modificato. Verificare i permessi di accesso al file.</entry>
     <entry lang="it" key="ACCESS_DENIED">Errore: accesso negato.\n\nLa partizione a cui si sta tentando di accedere ha lunghezza di 0 settori oppure è l'unità di avvio del sistema.</entry>
     <entry lang="it" key="ADMINISTRATOR">Amministratore</entry>
@@ -978,9 +978,9 @@
     <entry lang="it" key="CANNOT_SET_TIMER">Errore: impossibile impostare il timer.</entry>
     <entry lang="it" key="IDPM_CHECK_FILESYS">Verifica del filesystem</entry>
     <entry lang="it" key="IDPM_REPAIR_FILESYS">Riparazione del filesystem</entry>
-    <entry lang="it" key="IDPM_ADD_TO_FAVORITES">Aggiungi ai preferiti...</entry>
-    <entry lang="it" key="IDPM_ADD_TO_SYSTEM_FAVORITES">Aggiungi ai preferiti di sistema...</entry>
-    <entry lang="it" key="IDPM_PROPERTIES">P&amp;roprietà...</entry>
+    <entry lang="it" key="IDPM_ADD_TO_FAVORITES">Aggiungi ai preferiti…</entry>
+    <entry lang="it" key="IDPM_ADD_TO_SYSTEM_FAVORITES">Aggiungi ai preferiti di sistema…</entry>
+    <entry lang="it" key="IDPM_PROPERTIES">P&amp;roprietà…</entry>
     <entry lang="it" key="HIDDEN_VOL_PROTECTION">Volume nascosto protetto</entry>
     <entry lang="it" key="NOT_APPLICABLE_OR_NOT_AVAILABLE">N/D</entry>
     <entry lang="it" key="UISTR_YES">Sì</entry>
@@ -1056,8 +1056,8 @@
     <entry lang="it" key="NO_SYS_ENC_PROCESS_TO_RESUME">Non c'è nessun processo interrotto di cifratura/decifratura della partizione/disco di sistema da riprendere.\n\nNota: per riprendere un processo interrotto di cifratura/decifratura di una partizione/volume non di sistema, selezionare "Volumi" &gt; "Riprendi i processi interrotti".</entry>
     <entry lang="it" key="HIDVOL_PROT_BKG_TASK_WARNING">ATTENZIONE: l'esecuzione di VeraCrypt in background è disattivata. Dopo l'uscita da VeraCrypt non si riceveranno avvisi nel caso venga evitato un danno al volume nascosto.\n\nNota: è possibile chiudere l'esecuzione in background in qualsiasi momento facendo clic con il tasto destro sull'icona di VeraCrypt nella barra di sistema e selezionando "Esci".\n\nAttivare l'esecuzione di VeraCrypt in background?</entry>
     <entry lang="it" key="LANG_PACK_VERSION">Versione del file di lingua:  %s</entry>
-    <entry lang="it" key="CHECKING_FS">Controllo del filesystem sul volume VeraCrypt montato come %s...</entry>
-    <entry lang="it" key="REPAIRING_FS">Tentativo di riparazione del filesystem sul volume VeraCrypt montato come %s...</entry>
+    <entry lang="it" key="CHECKING_FS">Controllo del filesystem sul volume VeraCrypt montato come %s…</entry>
+    <entry lang="it" key="REPAIRING_FS">Tentativo di riparazione del filesystem sul volume VeraCrypt montato come %s…</entry>
     <entry lang="it" key="WARN_64_BIT_BLOCK_CIPHER">Attenzione: questo volume è cifrato con un algoritmo di cifratura obsoleto.\n\nTutti gli algoritmi di cifratura a blocchi di 64 bit (ad es. Blowfish, CAST-128 o Triple DES) sono deprecati. Sarà possibile montare questo volume con le versioni future di VeraCrypt. Tuttavia, non ci saranno ulteriori miglioramenti alle implementazioni di questi algoritmi obsoleti. Si raccomanda di creare un nuovo volume VeraCrypt cifrato con un algoritmo a blocchi di 128 bit (ad es. AES, Serpent, Twofish ecc.) e di spostarvi tutti i file di questo volume.</entry>
     <entry lang="it" key="SYS_AUTOMOUNT_DISABLED">Il sistema non è configurato per montare automaticamente i nuovi volumi. Potrebbe essere impossibile montare i volumi VeraCrypt ospitati in dispositivi. Il montaggio automatico può essere attivato eseguendo il comando seguente e riavviando il sistema.\n\nmountvol.exe /E</entry>
     <entry lang="it" key="SYS_ASSIGN_DRIVE_LETTER">Assegnare una lettera di unità alla partizione o al dispositivo prima di procedere ("Pannello di controllo" &gt; "Sistema e manutenzione" &gt; "Strumenti di amministrazione" - "Crea e formatta le partizioni del disco rigido").\n\nSi noti che questo è un requisito del sistema operativo.</entry>
@@ -1289,8 +1289,8 @@
     <entry lang="it" key="SETTING_REQUIRES_REBOOT">Si noti che questa impostazione avrà effetto solo dopo il riavvio del sistema operativo.</entry>
     <entry lang="it" key="COMMAND_LINE_ERROR">Errore durante l'analisi della riga di comando.</entry>
     <entry lang="it" key="RESCUE_DISK">Disco di ripristino</entry>
-    <entry lang="it" key="SELECT_FILE_AND_MOUNT">Seleziona &amp;file e monta...</entry>
-    <entry lang="it" key="SELECT_DEVICE_AND_MOUNT">Seleziona &amp;unità e monta...</entry>
+    <entry lang="it" key="SELECT_FILE_AND_MOUNT">Seleziona &amp;file e monta…</entry>
+    <entry lang="it" key="SELECT_DEVICE_AND_MOUNT">Seleziona &amp;unità e monta…</entry>
     <entry lang="it" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">In VeraCrypt è consentito solo agli amministratori di vedere e smontare i volumi preferiti di sistema</entry>
     <entry lang="it" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">Monta i volumi di sistema preferiti quando si avvia Windows (nella fase iniziale di avvio)</entry>
     <entry lang="it" key="MOUNTED_VOLUME_DIRTY">Attenzione: il filesystem del volume montato come "%s" non è stato smontato correttamente e potrebbe quindi contenere errori. L'uso di un filesystem danneggiato può causare perdita o danneggiamento dei dati.\n\nNota: prima di rimuovere fisicamente o spegnere un dispositivo (come un'unità flash USB o un disco rigido esterno) su cui si trova un volume VeraCrypt montato, smontare sempre prima il volume VeraCrypt in VeraCrypt.\n\n\nSi desidera che Windows tenti di rilevare e correggere eventuali errori nel filesystem?</entry>
@@ -1389,7 +1389,7 @@
     <entry lang="it" key="IDC_FAVORITE_USE_VOLUME_ID">Usa l'ID del volume per montare il preferito</entry>
     <entry lang="it" key="VOLUME_ID_INVALID">Il valore dell'ID del volume non è valido</entry>
     <entry lang="it" key="VOLUME_ID_NOT_FOUND">Nessun Volume con l'ID specificato è stato trovato sul sistema</entry>
-    <entry lang="it" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copia Valore negli Appunti...</entry>
+    <entry lang="it" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copia Valore negli Appunti…</entry>
     <entry lang="it" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Non richiedere il PIM nella schermata di autenticazione di pre-boot (il valore del PIM viene memorizzato non cifrato sul disco)</entry>
     <entry lang="it" key="DISABLE_BOOT_LOADER_PIM_PROMPT">ATTENZIONE: si tenga presente che, attivando questa opzione, il valore del PIM verrà memorizzato non cifrato sul disco.\n\nAttivare comunque questa opzione?</entry>
     <entry lang="it" key="PIM_TOO_BIG">Il valore massimo del Moltiplicatore Iterazioni Personale (PIM) è 2147468.</entry>
@@ -1449,7 +1449,7 @@
     <entry lang="it" key="CONFIRM_DISABLE_FAST_STARTUP">ATTENZIONE: l'Avvio rapido di Windows è attivato ed è noto per causare problemi con i volumi VeraCrypt. Si consiglia di disattivarlo per una migliore sicurezza e usabilità.\n\nDisattivare l'Avvio rapido di Windows?</entry>
     <entry lang="it" key="QUICK_FORMAT_HELP">Per consentire al sistema operativo di montare il nuovo volume, è necessario formattarlo con un filesystem. Selezionare un tipo di filesystem.\n\nSe il volume verrà ospitato in un dispositivo o in una partizione, è possibile usare "Formattazione rapida" per saltare la cifratura dello spazio libero del volume.</entry>
     <entry lang="it" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Non accelerare la cifratura/decifratura AES con le istruzioni AES del processore</entry>
-    <entry lang="it" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Aggiungi tutti i volumi montati ai preferiti...</entry>
+    <entry lang="it" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Aggiungi tutti i volumi montati ai preferiti…</entry>
     <entry lang="it" key="TASKICON_PREF_MENU_ITEMS">Voci menu icona attività</entry>
     <entry lang="it" key="TASKICON_PREF_OPEN_VOL">Apri volumi montati</entry>
     <entry lang="it" key="TASKICON_PREF_UNMOUNT_VOL">Smonta volumi montati</entry>
@@ -1481,7 +1481,7 @@
     <entry lang="it" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Monta la partizione usando la &amp;cifratura di sistema (autenticazione di pre-boot)</entry>
     <entry lang="it" key="LINUX_DO_NOT_MOUNT">&amp;Non montare</entry>
     <entry lang="it" key="LINUX_MOUNT_AT_DIR">Monta nella cartella:</entry>
-    <entry lang="it" key="LINUX_SELECT">Se&amp;leziona...</entry>
+    <entry lang="it" key="LINUX_SELECT">Se&amp;leziona…</entry>
     <entry lang="it" key="LINUX_UNMOUNT_ALL_WHEN">Smonta tutti i volumi quando</entry>
     <entry lang="it" key="LINUX_ENTERING_POWERSAVING">Il sistema va in risparmio energetico</entry>
     <entry lang="it" key="LINUX_LOGIN_ACTION">Azioni da eseguire all'accesso utente</entry>
@@ -1588,7 +1588,7 @@
     <entry lang="it" key="EXPANDER_FINISH_ABORT">Errore: operazione annullata dall'utente.</entry>
     <entry lang="it" key="EXPANDER_FINISH_OK">Operazione completata. Volume espanso correttamente.</entry>
     <entry lang="it" key="EXPANDER_CANCEL_WARNING">Attenzione: espansione del volume in corso!\n\nInterrompere ora potrebbe danneggiare il volume.\n\nAnnullare davvero?</entry>
-    <entry lang="it" key="EXPANDER_STARTING_STATUS">Avvio dell'espansione del volume ...\n</entry>
+    <entry lang="it" key="EXPANDER_STARTING_STATUS">Avvio dell'espansione del volume…\n</entry>
     <entry lang="it" key="EXPANDER_HIDDEN_VOLUME_ERROR">Un volume esterno contenente un volume nascosto non può essere espanso, perché questo distruggerebbe il volume nascosto.\n</entry>
     <entry lang="it" key="EXPANDER_SYSTEM_VOLUME_ERROR">Un volume di sistema VeraCrypt non può essere espanso.</entry>
     <entry lang="it" key="EXPANDER_NO_FREE_SPACE">Non c'è abbastanza spazio libero per espandere il volume</entry>
@@ -1619,13 +1619,13 @@
     <entry lang="it" key="SCARD_W_REMOVED_CARD">Nessuna carta nel lettore.\n\nAssicurarsi che la carta sia inserita correttamente.</entry>
     <entry lang="it" key="FORMAT_EXTERNAL_FAILED">Il comando format.com di Windows non è riuscito a formattare il volume come NTFS/exFAT/ReFS: Errore 0x%.8X.\n\nSi passerà all'uso dell'API FormatEx di Windows.</entry>
     <entry lang="it" key="FORMATEX_API_FAILED">L'API FormatEx di Windows non è riuscita a formattare il volume come NTFS/exFAT/ReFS.\n\nCodice di errore = %s.</entry>
-    <entry lang="it" key="EXPANDER_WRITING_RANDOM_DATA">Scrittura di dati casuali nel nuovo spazio ...\n</entry>
-    <entry lang="it" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Scrittura dell'header di backup ricifrato ...\n</entry>
-    <entry lang="it" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Scrittura dell'header primario ricrittografato ...\n</entry>
-    <entry lang="it" key="EXPANDER_WIPING_OLD_HEADER">Cancellazione dell'header di backup vecchio ...\n</entry>
-    <entry lang="it" key="EXPANDER_MOUNTING_VOLUME">Montaggio del volume ...\n</entry>
-    <entry lang="it" key="EXPANDER_UNMOUNTING_VOLUME">Smontaggio del volume ...\n</entry>
-    <entry lang="it" key="EXPANDER_EXTENDING_FILESYSTEM">Estensione del filesystem ...\n</entry>
+    <entry lang="it" key="EXPANDER_WRITING_RANDOM_DATA">Scrittura di dati casuali nel nuovo spazio…\n</entry>
+    <entry lang="it" key="EXPANDER_WRITING_ENCRYPTED_BACKUP">Scrittura dell'header di backup ricifrato…\n</entry>
+    <entry lang="it" key="EXPANDER_WRITING_ENCRYPTED_PRIMARY">Scrittura dell'header primario ricifrato…\n</entry>
+    <entry lang="it" key="EXPANDER_WIPING_OLD_HEADER">Cancellazione dell'header di backup vecchio…\n</entry>
+    <entry lang="it" key="EXPANDER_MOUNTING_VOLUME">Montaggio del volume…\n</entry>
+    <entry lang="it" key="EXPANDER_UNMOUNTING_VOLUME">Smontaggio del volume…\n</entry>
+    <entry lang="it" key="EXPANDER_EXTENDING_FILESYSTEM">Estensione del filesystem…\n</entry>
     <entry lang="it" key="PARTIAL_SYSENC_MOUNT_READONLY">Attenzione: la partizione di sistema che si è tentato di montare non era completamente cifrata. Come misura di sicurezza per evitare possibili danneggiamenti o modifiche indesiderate, il volume "%s" è stato montato in sola lettura.</entry>
     <entry lang="it" key="IDC_LINK_KEYFILES_EXTENSIONS_WARNING">Informazioni importanti sull'uso delle estensioni di file di terze parti</entry>
     <entry lang="it" key="IDC_DISABLE_MEMORY_PROTECTION">Disabilita la protezione della memoria per la compatibilità con gli strumenti di accessibilità</entry>
@@ -1651,7 +1651,7 @@
     <entry lang="it" key="ERR_KEY_DERIVATION_FAILED">Derivazione della chiave non riuscita. La causa potrebbe essere memoria insufficiente o un'operazione interrotta.</entry>
     <entry lang="it" key="EFI_MS_BOOT_LOADER_RESTORE_FAILED">La partizione/unità di sistema è già stata decifrata, ma il percorso del boot loader EFI di Microsoft non è stato ripristinato in Windows Boot Manager. Occorre riparare solo i file di avvio EFI. Usare l'opzione di riparazione del disco di ripristino di VeraCrypt oppure avviare un supporto di ripristino di Windows ed eseguire "bcdboot W:\\Windows /s S: /f UEFI" dopo aver sostituito W: con la lettera di unità del volume di Windows e S: con la lettera di unità della partizione di sistema EFI. Percorso:</entry>
     <entry lang="it" key="EFI_FALLBACK_BOOT_LOADER_STILL_VERACRYPT">La partizione/unità di sistema è già stata decifrata, ma il percorso del boot loader EFI di fallback contiene ancora il VeraCrypt Boot Loader. Occorre riparare solo i file di avvio EFI. Usare l'opzione di riparazione del disco di ripristino di VeraCrypt oppure avviare un supporto di ripristino di Windows ed eseguire "bcdboot W:\\Windows /s S: /f UEFI" dopo aver sostituito W: con la lettera dell'unità del volume Windows e S: con la lettera dell'unità della partizione di sistema EFI. Percorso:</entry>
-    <entry lang="it" key="IDM_REPAIR_EFI_BOOT_LOADER">Ripara boot loader EFI...</entry>
+    <entry lang="it" key="IDM_REPAIR_EFI_BOOT_LOADER">Ripara boot loader EFI…</entry>
     <entry lang="it" key="CONFIRM_REPAIR_EFI_BOOT_LOADER">VeraCrypt ripristinerà i percorsi del boot loader EFI di Windows e rimuoverà le voci e i file di avvio EFI di VeraCrypt.\n\nUsare questa opzione solo dopo che la partizione/unità di sistema è stata completamente decifrata e Windows può avviarsi senza cifratura di sistema.\n\nContinuare?</entry>
     <entry lang="it" key="EFI_BOOT_LOADER_FILE_READ_FAILED">Non è stato possibile leggere completamente il file del boot loader EFI:</entry>
     <entry lang="it" key="EFI_BOOT_LOADER_FILE_TOO_LARGE">Il file del boot loader EFI è insolitamente grande e non è stato ispezionato:</entry>
@@ -1740,8 +1740,8 @@
     <entry lang="it" key="SYSENC_EFI_WINDOWS_LOADER_MIGRATION_GUIDANCE">Questo controllo riguarda solo il boot manager di Windows attivo. Prima della revoca, verificare anche che la soluzione di ripiego per la decifratura e i backup di ripristino siano compatibili. La creazione di un nuovo disco di ripristino di VeraCrypt può riutilizzare un vecchio backup del boot manager già archiviato; la sola creazione del disco non dimostra la compatibilità di quel backup con la revoca.</entry>
     <entry lang="it" key="RESCUE_DISK_EFI_BOOT_MANAGER_PCA2011">Il backup del Windows Boot Manager incluso in questo disco di ripristino è firmato da Microsoft Windows Production PCA 2011. Il firmware contiene già Windows UEFI CA 2023.\n\nDopo la revoca di PCA 2011 (bit 0x80 di AvailableUpdates, incluso il valore combinato 0x280), il ripristino di questo backup può impedire l'avvio di Windows con Secure Boot abilitato. La creazione di un nuovo disco di ripristino riutilizza questo backup archiviato; non ne aggiorna la firma.\n\nPrima di applicare la revoca, preparare supporti di ripristino di Windows compatibili e aggiornati e verificare la soluzione di ripiego per la decifratura. Non fare affidamento su questo disco di ripristino per ripristinare un Windows Boot Manager compatibile. Rimane utile per le altre operazioni di ripristino di VeraCrypt.</entry>
     <entry lang="it" key="RESCUE_DISK_EFI_BOOT_MANAGER_CHECK_FAILED">VeraCrypt non è riuscito a controllare il backup del Windows Boot Manager in questo disco di ripristino rispetto ai criteri di Secure Boot del firmware.\n\nLa creazione o la verifica di questo disco non dimostra che il Windows Boot Manager in esso archiviato sia compatibile con la revoca di PCA 2011 (bit 0x80 di AvailableUpdates, incluso il valore combinato 0x280). Prima di applicare la revoca, verificare i backup di ripristino e preparare supporti di ripristino di Windows compatibili e aggiornati.</entry>
-    <entry lang="en" key="SETUP_RECOVERY_NOTICE_FAILED">VeraCrypt could not update the saved recovery guidance. Installation will continue. Saved notices may not reflect the result of this installation.\n\nIf the boot loader update was deferred, restart Windows, run VeraCrypt Repair/Reinstall, then restart Windows again.</entry>
-    <entry lang="en" key="BOOT_LOADER_FINGERPRINT_UPDATE_PENDING">A boot loader update is pending or unconfirmed. This can explain a fingerprint mismatch, but it does not rule out tampering. If you initiated the update, restart Windows, run VeraCrypt Repair/Reinstall, then restart Windows again. If this warning persists, follow the security guidance above.</entry>
+    <entry lang="it" key="SETUP_RECOVERY_NOTICE_FAILED">VeraCrypt non è riuscito ad aggiornare le istruzioni di ripristino salvate. L'installazione proseguirà. Gli avvisi salvati potrebbero non riflettere l'esito di questa installazione.\n\nSe l'aggiornamento del boot loader è stato rimandato, riavviare Windows, eseguire Ripara/Reinstalla di VeraCrypt, quindi riavviare di nuovo Windows.</entry>
+    <entry lang="it" key="BOOT_LOADER_FINGERPRINT_UPDATE_PENDING">Un aggiornamento del boot loader è in sospeso o non confermato. Questo può spiegare la mancata corrispondenza dell'impronta, ma non esclude una manomissione. Se l'aggiornamento è stato avviato dall'utente, riavviare Windows, eseguire Ripara/Reinstalla di VeraCrypt, quindi riavviare di nuovo Windows. Se questo avviso persiste, seguire le indicazioni di sicurezza riportate sopra.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
