@@ -661,7 +661,12 @@ namespace VeraCrypt
 				fuseVersionStringLength = MAXHOSTNAMELEN;
 				if ((status = sysctlbyname ("vfs.generic.macfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
 				{
-					throw HigherFuseVersionRequired (SRC_POS);
+					// The auxiliary volume is mounted at this point. A mount through the kernel
+					// backend loads the kernel extension and with it this sysctl, and the extension
+					// cannot unload while the mount exists, so a missing sysctl means the mount went
+					// through FSKit, which FuseService only selects for a macFUSE version that
+					// supports it.
+					strlcpy (fuseVersionString, "5.0", sizeof (fuseVersionString));
 				}
 			}
 		}
