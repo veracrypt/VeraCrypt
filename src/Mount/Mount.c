@@ -5800,11 +5800,91 @@ stop:
 	return 0;
 }
 
+/* Returns the width the Size column of the drive list needs to show its title and the
+   widest values GetSizeString produces in the current language, four digits with each
+   unit, or 0 if it can't be measured. Translated units can be wider than the English
+   ones the default width was chosen for, and some translations spell them out. The
+   width is measured by a hidden list view with the font and extended styles of the
+   drive list, which sizes a column like the Size column to its title and these values
+   with the padding the control uses for header and cells. */
+static int GetDriveListSizeColumnWidth (HWND hTree)
+{
+	/* "1023 B", then "1024 KiB" up to "1024 PiB" */
+	static const unsigned __int64 widestSizes[] =
+	{
+		1023,
+		1024I64 * 1024,
+		1024I64 * 1024 * 1024,
+		1024I64 * 1024 * 1024 * 1024,
+		1024I64 * 1024 * 1024 * 1024 * 1024,
+		1024I64 * 1024 * 1024 * 1024 * 1024 * 1024
+	};
+	HWND hList;
+	LVCOLUMNW lvCol;
+	LVITEMW lvItem;
+	wchar_t sizeText[64];
+	int width = 0;
+	int item;
+	size_t i;
+
+	hList = CreateWindowExW (0, WC_LISTVIEWW, L"", WS_CHILD | LVS_REPORT | LVS_NOSORTHEADER,
+		0, 0, 0, 0, GetParent (hTree), NULL, hInst, NULL);
+	if (hList == NULL)
+		return 0;
+
+	SendMessageW (hList, WM_SETFONT, SendMessageW (hTree, WM_GETFONT, 0, 0), FALSE);
+	ListView_SetExtendedListViewStyle (hList, ListView_GetExtendedListViewStyle (hTree));
+
+	/* The measured column is a subitem column, like the Size column, and not the last
+	   one, which LVSCW_AUTOSIZE_USEHEADER would widen to the edge of the list */
+	memset (&lvCol, 0, sizeof (lvCol));
+	lvCol.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM | LVCF_FMT;
+	lvCol.pszText = L"";
+	lvCol.fmt = LVCFMT_LEFT;
+	SendMessageW (hList, LVM_INSERTCOLUMNW, 0, (LPARAM) &lvCol);
+
+	lvCol.pszText = GetString ("SIZE");
+	lvCol.iSubItem = 1;
+	lvCol.fmt = LVCFMT_RIGHT;
+	SendMessageW (hList, LVM_INSERTCOLUMNW, 1, (LPARAM) &lvCol);
+
+	lvCol.pszText = L"";
+	lvCol.iSubItem = 2;
+	lvCol.fmt = LVCFMT_LEFT;
+	SendMessageW (hList, LVM_INSERTCOLUMNW, 2, (LPARAM) &lvCol);
+
+	for (i = 0; i < ARRAYSIZE (widestSizes); i++)
+	{
+		memset (&lvItem, 0, sizeof (lvItem));
+		lvItem.mask = LVIF_TEXT;
+		lvItem.iItem = i;
+		lvItem.pszText = L"";
+		item = (int) SendMessageW (hList, LVM_INSERTITEMW, 0, (LPARAM) &lvItem);
+		if (item == -1)
+			break;
+
+		GetSizeString (widestSizes[i], sizeText, sizeof (sizeText));
+		lvItem.iSubItem = 1;
+		lvItem.pszText = sizeText;
+		SendMessageW (hList, LVM_SETITEMTEXTW, item, (LPARAM) &lvItem);
+	}
+
+	if (i == ARRAYSIZE (widestSizes)
+		&& SendMessageW (hList, LVM_SETCOLUMNWIDTH, 1, MAKELPARAM (LVSCW_AUTOSIZE_USEHEADER, 0)))
+	{
+		width = (int) SendMessageW (hList, LVM_GETCOLUMNWIDTH, 1, 0);
+	}
+
+	DestroyWindow (hList);
+	return width;
+}
+
 void BuildTree (HWND hwndDlg, HWND hTree)
 {
 	HIMAGELIST hList;
 	HBITMAP hBitmap, hBitmapMask;
 	LVCOLUMNW lvCol;
+	int sizeColumnWidth;
 
 	ListView_DeleteColumn (hTree,0);
 	ListView_DeleteColumn (hTree,0);
@@ -5817,6 +5897,13 @@ void BuildTree (HWND hwndDlg, HWND hTree)
 		LVS_EX_FULLROWSELECT
 		|LVS_EX_HEADERDRAGDROP
 		);
+
+	/* The default width of the Size column fits English sizes. It is widened when the
+	   current language needs more, and the other columns keep their widths: when they
+	   no longer fit, the list scrolls horizontally. */
+	sizeColumnWidth = GetDriveListSizeColumnWidth (hTree);
+	if (sizeColumnWidth < CompensateXDPI (55))
+		sizeColumnWidth = CompensateXDPI (55);
 
 	memset(&lvCol,0,sizeof(lvCol));
 
@@ -5833,7 +5920,7 @@ void BuildTree (HWND hwndDlg, HWND hTree)
 	LastDriveListVolumeColumnWidth = ListView_GetColumnWidth (hTree, 1);
 
 	lvCol.pszText = GetString ("SIZE");
-	lvCol.cx = CompensateXDPI (55);
+	lvCol.cx = sizeColumnWidth;
 	lvCol.fmt = LVCFMT_RIGHT;
 	SendMessage (hTree,LVM_INSERTCOLUMNW,2,(LPARAM)&lvCol);
 
