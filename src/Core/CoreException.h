@@ -50,6 +50,7 @@ namespace VeraCrypt
 	TC_EXCEPTION (EncryptedSystemRequired); \
 	TC_EXCEPTION (HigherFuseVersionRequired); \
 	TC_EXCEPTION (KernelCryptoServiceTestFailed); \
+	TC_EXCEPTION (KernelExfatDriverUnavailable); \
 	TC_EXCEPTION (KernelNtfsDriverUnavailable); \
 	TC_EXCEPTION (LoopDeviceSetupFailed); \
 	TC_EXCEPTION (MountPointRequired); \
