@@ -1700,7 +1700,12 @@ namespace VeraCrypt
 					DupToStandardFd (childStdinFd, STDIN_FILENO);
 					DupToStandardFd (childStdoutFd, STDOUT_FILENO);
 
-					const char *sudoArgs[] = { privilegeHelper.Path.c_str(), "-S", "-p", "", appPath.c_str(), TC_CORE_SERVICE_CMDLINE_OPTION, nullptr };
+					// sudo resets the environment, so the elevated process would get its own
+					// (root's) TMPDIR. Pass the TMPDIR of the calling user as an argument:
+					// the auxiliary mount directory must be visible to that user.
+					const char *userTmpDir = getenv ("TMPDIR");
+					const char *sudoArgs[] = { privilegeHelper.Path.c_str(), "-S", "-p", "", appPath.c_str(), TC_CORE_SERVICE_CMDLINE_OPTION,
+						(userTmpDir && userTmpDir[0] == '/') ? userTmpDir : nullptr, nullptr };
 					const char *doasArgs[] = { privilegeHelper.Path.c_str(), appPath.c_str(), TC_CORE_SERVICE_NO_FORK_CMDLINE_OPTION, nullptr };
 					const char *doasNoPasswordArgs[] = { privilegeHelper.Path.c_str(), "-n", appPath.c_str(), TC_CORE_SERVICE_NO_FORK_CMDLINE_OPTION, nullptr };
 					const char **args = privilegeHelper.IsDoas() ? (doasNoPasswordAttempt ? doasNoPasswordArgs : doasArgs) : sudoArgs;
