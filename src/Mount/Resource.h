@@ -206,6 +206,7 @@
 #define IDC_DISABLE_SCREEN_PROTECTION   1181
 #define IDC_PREF_TAB                    1182
 #define IDC_SECURE_DESKTOP_ENABLE_IME   1183
+#define HIDVOL_PROT_OUTER_CREDENTIALS_NOTE 1184
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -284,7 +285,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        123
 #define _APS_NEXT_COMMAND_VALUE         40071
-#define _APS_NEXT_CONTROL_VALUE         1184
+#define _APS_NEXT_CONTROL_VALUE         1185
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
