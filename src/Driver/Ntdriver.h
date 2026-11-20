@@ -71,6 +71,7 @@ typedef struct EXTENSION
 	CRYPTO_INFO *cryptoInfo;	/* Cryptographic and other information for this device */
 
 	__int64	HostLength;
+	__int64 HostPartitionStartingOffset;
 	__int64 DiskLength;			/* The length of the disk referred to by this device */
 	__int64 NumberOfCylinders;		/* Partition info */
 	ULONG TracksPerCylinder;	/* Partition info */
@@ -84,6 +85,7 @@ typedef struct EXTENSION
 	ULONG HostMaximumPhysicalPages;
 	ULONG HostAlignmentMask;
 	ULONG DeviceNumber;
+	ULONG PartitionNumber;
 
 	BOOL IncursSeekPenalty;
 	BOOL TrimEnabled;
