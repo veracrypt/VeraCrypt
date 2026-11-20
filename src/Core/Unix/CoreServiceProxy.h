@@ -14,6 +14,7 @@
 #define TC_HEADER_Core_Windows_CoreServiceProxy
 
 #include "CoreService.h"
+#include "Core/FavoritePasswordCache.h"
 #include "Volume/VolumePasswordCache.h"
 
 namespace VeraCrypt
@@ -86,12 +87,13 @@ namespace VeraCrypt
 				return CoreService::RequestGetHostDevices (pathListOnly);
 		}
 #endif
-		virtual bool IsPasswordCacheEmpty () const { return VolumePasswordCache::IsEmpty(); }
+		virtual bool IsPasswordCacheEmpty () const { return VolumePasswordCache::IsEmpty() && FavoritePasswordCache::IsEmpty(); }
 
 		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options)
 		{
 			shared_ptr <VolumeInfo> mountedVolume;
-			const bool useCachedPasswords = !VolumePasswordCache::IsEmpty()
+			const bool useCachedPasswords = (!VolumePasswordCache::IsEmpty()
+				|| (options.UseFavoritePasswordCache && !FavoritePasswordCache::IsEmpty()))
 				&& (!options.Password || options.Password->IsEmpty())
 				&& (!options.Keyfiles || options.Keyfiles->empty());
 			MountOptions newOptions = options;
@@ -118,27 +120,59 @@ namespace VeraCrypt
 					finally_do_arg (MountOptions*, &options, { if (finally_arg->Password) finally_arg->Password.reset(); });
 
 					PasswordIncorrect passwordException;
-					foreach (shared_ptr <VolumePassword> password, VolumePasswordCache::GetPasswords())
+					if (options.UseFavoritePasswordCache)
 					{
-						try
+						foreach (const FavoriteCredential &credential, FavoritePasswordCache::GetCredentials())
 						{
-							newOptions.Password = password;
-							mountedVolume = CoreService::RequestMountVolume (newOptions);
-							break;
+							// Use a remembered PIM only with the KDF that accepted it,
+							// never with autodetection or another selected KDF.
+							if (credential.SystemEncryption != options.PartitionInSystemEncryptionScope
+								|| (options.Kdf && options.Kdf->GetName() != credential.Kdf->GetName()))
+								continue;
+
+							try
+							{
+								newOptions.Password = make_shared <VolumePassword> (credential.Password);
+								newOptions.Pim = options.Pim < 0 ? credential.Pim : options.Pim;
+								newOptions.Kdf = credential.Kdf;
+								mountedVolume = CoreService::RequestMountVolume (newOptions);
+								break;
+							}
+							catch (ProtectionPasswordIncorrect&) { throw; }
+							catch (ProtectionPasswordKeyfilesIncorrect&) { throw; }
+							catch (PasswordIncorrect &e) { passwordException = e; }
+							catch (PasswordException&) { }
 						}
-						catch (ProtectionPasswordIncorrect&)
+
+						// Ordinary cached passwords keep the original mount parameters.
+						newOptions.Pim = options.Pim;
+						newOptions.Kdf = options.Kdf;
+					}
+
+					if (!mountedVolume)
+					{
+						foreach (shared_ptr <VolumePassword> password, VolumePasswordCache::GetPasswords())
 						{
-							// The outer password was accepted; another cached password cannot
-							// correct the hidden-volume protection credentials.
-							throw;
-						}
-						catch (ProtectionPasswordKeyfilesIncorrect&)
-						{
-							throw;
-						}
-						catch (PasswordIncorrect &e)
-						{
-							passwordException = e;
+							try
+							{
+								newOptions.Password = password;
+								mountedVolume = CoreService::RequestMountVolume (newOptions);
+								break;
+							}
+							catch (ProtectionPasswordIncorrect&)
+							{
+								// The outer password was accepted; another cached password cannot
+								// correct the hidden-volume protection credentials.
+								throw;
+							}
+							catch (ProtectionPasswordKeyfilesIncorrect&)
+							{
+								throw;
+							}
+							catch (PasswordIncorrect &e)
+							{
+								passwordException = e;
+							}
 						}
 					}
 
@@ -173,6 +207,17 @@ namespace VeraCrypt
 				VolumePasswordCache::Store (*newOptions.Password);
 			}
 
+			// Remember supplied credentials with the PIM and KDF that opened the volume.
+			if (!useCachedPasswords && options.UseFavoritePasswordCache && newOptions.Password && !newOptions.Password->IsEmpty())
+			{
+				try
+				{
+					FavoritePasswordCache::Store (*newOptions.Password, mountedVolume->Pim,
+						Pkcs5Kdf::GetAlgorithm (mountedVolume->Pkcs5PrfName), options.PartitionInSystemEncryptionScope);
+				}
+				catch (ParameterIncorrect&) { }
+			}
+
 			VolumeEventArgs eventArgs (mountedVolume);
 			T::VolumeMountedEvent.Raise (eventArgs);
 
@@ -192,6 +237,7 @@ namespace VeraCrypt
 		virtual void WipePasswordCache () const
 		{
 			VolumePasswordCache::Clear();
+			FavoritePasswordCache::Clear();
 		}
 	};
 }

@@ -2195,7 +2195,7 @@ namespace VeraCrypt
 #ifdef HAVE_INDICATORS
 		MainFrame *mainFrame = (MainFrame*) mMainFrame;
 		if (mainFrame->indicator_item_showhide)
-			gtk_menu_item_set_label ((GtkMenuItem*) mainFrame->indicator_item_showhide, LangString[Gui->IsInBackgroundMode() ? "SHOW_TC" : "HIDE_TC"].mb_str());
+			gtk_menu_item_set_label ((GtkMenuItem*) mainFrame->indicator_item_showhide, LangString[Gui->IsInBackgroundMode() ? "SHOW_TC" : "HIDE_TC"].utf8_str());
 #endif
 	}
 

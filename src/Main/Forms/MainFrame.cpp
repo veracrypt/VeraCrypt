@@ -1738,29 +1738,30 @@ namespace VeraCrypt
 
 				GtkWidget *menu = gtk_menu_new();
 
-				indicator_item_showhide = gtk_menu_item_new_with_label (LangString[Gui->IsInBackgroundMode() ? "SHOW_TC" : "HIDE_TC"].mb_str());
+				// GTK expects UTF-8, not the current locale's encoding.
+				indicator_item_showhide = gtk_menu_item_new_with_label (LangString[Gui->IsInBackgroundMode() ? "SHOW_TC" : "HIDE_TC"].utf8_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_showhide);
 				g_signal_connect (indicator_item_showhide, "activate", G_CALLBACK (IndicatorOnShowHideMenuItemSelected), this);
 
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new());
 
-				indicator_item_mountfavorites = gtk_menu_item_new_with_label (LangString["IDM_MOUNT_FAVORITE_VOLUMES"].mb_str());
+				indicator_item_mountfavorites = gtk_menu_item_new_with_label (LangString["IDM_MOUNT_FAVORITE_VOLUMES"].utf8_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_mountfavorites);
 				g_signal_connect (indicator_item_mountfavorites, "activate", G_CALLBACK (IndicatorOnMountAllFavoritesMenuItemSelected), this);
 
-				indicator_item_dismountall = gtk_menu_item_new_with_label (LangString["HK_UNMOUNT_ALL"].mb_str());
+				indicator_item_dismountall = gtk_menu_item_new_with_label (LangString["HK_UNMOUNT_ALL"].utf8_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_dismountall);
 				g_signal_connect (indicator_item_dismountall, "activate", G_CALLBACK (IndicatorOnDismountAllMenuItemSelected), this);
 
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new());
 
-				indicator_item_prefs = gtk_menu_item_new_with_label (LangString["IDM_PREFERENCES"].mb_str());
+				indicator_item_prefs = gtk_menu_item_new_with_label (LangString["IDM_PREFERENCES"].utf8_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_prefs);
 				g_signal_connect (indicator_item_prefs, "activate", G_CALLBACK (IndicatorOnPreferencesMenuItemSelected), this);
 
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new());
 
-				indicator_item_exit = gtk_menu_item_new_with_label (LangString["EXIT"].mb_str());
+				indicator_item_exit = gtk_menu_item_new_with_label (LangString["EXIT"].utf8_str());
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), indicator_item_exit);
 				g_signal_connect (indicator_item_exit, "activate", G_CALLBACK (IndicatorOnExitMenuItemSelected), this);
 

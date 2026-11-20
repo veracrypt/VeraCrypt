@@ -14,8 +14,8 @@ option(VC_WITH_FUSE3 "Link against FUSE3 instead of FUSE2 when packaging" OFF)
 option(VC_WITH_INDICATOR "Package an RPM GUI built with Ayatana AppIndicator support" OFF)
 
 # - Set version of the package
-set( FULL_VERSION 		"1.26.31" )
-set( VERSION 			"1.26.31" )
+set( FULL_VERSION 		"1.27.0" )
+set( VERSION 			"1.27.0" )
 set( RELEASE 			"1" )
 
 # - Set PROJECT_NAME and CONFLICT_PACKAGE values

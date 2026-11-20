@@ -47,7 +47,7 @@ CAPTION "VeraCrypt - Preferences"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_PREF_TAB,"SysTabControl32",TCS_MULTILINE | WS_CLIPSIBLINGS | WS_TABSTOP,7,7,326,212
-    PUSHBUTTON      "More Settings...",IDC_MORE_SETTINGS,7,229,85,14
+    PUSHBUTTON      L"More Settings\x2026",IDC_MORE_SETTINGS,7,229,85,14
     DEFPUSHBUTTON   "OK",IDOK,229,229,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,283,229,50,14
 END
@@ -150,14 +150,14 @@ BEGIN
     EDITTEXT        IDC_OLD_PIM,89,51,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
     CONTROL         "Use P&IM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,59,115,10
     CONTROL         "Use keyfiles",IDC_ENABLE_KEYFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,72,109,10
-    PUSHBUTTON      "Keyfiles...",IDC_KEYFILES,203,70,67,14
+    PUSHBUTTON      L"Keyfiles\x2026",IDC_KEYFILES,203,70,67,14
     CONTROL         "Display password",IDC_SHOW_PASSWORD_CHPWD_ORI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,85,138,10,WS_EX_TRANSPARENT
     EDITTEXT        IDC_PASSWORD,89,121,181,13,ES_PASSWORD | ES_AUTOHSCROLL
     EDITTEXT        IDC_VERIFY,89,137,181,13,ES_PASSWORD | ES_AUTOHSCROLL
     EDITTEXT        IDC_PIM,89,154,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
     CONTROL         "Use PIM",IDC_NEW_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,161,97,10
     CONTROL         "Use keyfiles",IDC_ENABLE_NEW_KEYFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,172,110,11
-    PUSHBUTTON      "Keyfiles...",IDC_NEW_KEYFILES,202,170,68,14
+    PUSHBUTTON      L"Keyfiles\x2026",IDC_NEW_KEYFILES,202,170,68,14
     CONTROL         "Display password",IDC_SHOW_PASSWORD_CHPWD_NEW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,184,180,11,WS_EX_TRANSPARENT
     COMBOBOX        IDC_PKCS5_PRF_ID,89,199,181,90,CBS_DROPDOWNLIST | WS_TABSTOP
     COMBOBOX        IDC_WIPE_MODE,89,218,181,90,CBS_DROPDOWNLIST | WS_TABSTOP
@@ -186,13 +186,13 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     CONTROL         "",IDC_DRIVELIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,8,5,360,135
     PUSHBUTTON      "&Create Volume",IDC_CREATE_VOLUME,16,159,84,14
-    PUSHBUTTON      "&Volume Properties...",IDC_VOLUME_PROPERTIES,146,159,84,14
+    PUSHBUTTON      L"&Volume Properties\x2026",IDC_VOLUME_PROPERTIES,146,159,84,14
     PUSHBUTTON      "&Wipe Cache",IDC_WIPE_CACHE,276,159,84,14
     COMBOBOX        IDC_VOLUME,56,192,212,74,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     CONTROL         "&Never save history",IDC_NO_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,56,213,122,10
-    PUSHBUTTON      "Volume &Tools...",IDC_VOLUME_TOOLS,184,211,84,14
-    PUSHBUTTON      "Select &File...",IDC_SELECT_FILE,276,192,84,14
-    PUSHBUTTON      "Select D&evice...",IDC_SELECT_DEVICE,276,211,84,14
+    PUSHBUTTON      L"Volume &Tools\x2026",IDC_VOLUME_TOOLS,184,211,84,14
+    PUSHBUTTON      L"Select &File\x2026",IDC_SELECT_FILE,276,192,84,14
+    PUSHBUTTON      L"Select D&evice\x2026",IDC_SELECT_DEVICE,276,211,84,14
     DEFPUSHBUTTON   "OK",IDOK,8,243,84,18,WS_GROUP
     PUSHBUTTON      "&Auto-Mount Devices",IDC_MOUNTALL,100,243,84,18
     PUSHBUTTON      "Unmount A&ll",IDC_UNMOUNTALL,192,243,84,18,WS_GROUP
@@ -220,8 +220,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,61,241,10
     CONTROL         "&Display password",IDC_SHOW_PASSWORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,74,244,10
     CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,87,99,11
-    PUSHBUTTON      "&Keyfiles...",IDC_KEY_FILES,173,84,75,14
-    PUSHBUTTON      "Mount Opti&ons...",IDC_MOUNT_OPTIONS,252,84,69,14
+    PUSHBUTTON      L"&Keyfiles\x2026",IDC_KEY_FILES,173,84,75,14
+    PUSHBUTTON      L"Mount Opti&ons\x2026",IDC_MOUNT_OPTIONS,252,84,69,14
     LTEXT           "(Empty or 0 for defaults)",IDC_PIM_HELP,115,46,199,8,NOT WS_VISIBLE
     DEFPUSHBUTTON   "OK",IDOK,252,8,69,14
     PUSHBUTTON      "Cancel",IDCANCEL,252,25,69,14
@@ -237,7 +237,7 @@ CAPTION "VeraCrypt Traveler Disk Setup"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     EDITTEXT        IDC_DIRECTORY,17,29,205,13,ES_AUTOHSCROLL | ES_READONLY
-    PUSHBUTTON      "Browse...",IDC_BROWSE_DIRS,228,28,57,14
+    PUSHBUTTON      L"Browse\x2026",IDC_BROWSE_DIRS,228,28,57,14
     CONTROL         "Include VeraCrypt Volume Creation Wizard",IDC_COPY_WIZARD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,48,258,10
     CONTROL         "Include VeraCrypt Volume Expander",IDC_COPY_EXPANDER,
@@ -247,7 +247,7 @@ BEGIN
     CONTROL         "&Auto-mount VeraCrypt volume (specified below)",IDC_AUTORUN_MOUNT,
                     "Button",BS_AUTORADIOBUTTON,15,138,262,11
     EDITTEXT        IDC_VOLUME_NAME,21,175,194,13,ES_AUTOHSCROLL | WS_DISABLED
-    PUSHBUTTON      "Browse...",IDC_BROWSE_FILES,221,174,57,14,WS_DISABLED
+    PUSHBUTTON      L"Browse\x2026",IDC_BROWSE_FILES,221,174,57,14,WS_DISABLED
     COMBOBOX        IDC_DRIVELIST,120,193,96,69,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Open &Explorer window for mounted volume",IDC_TRAVEL_OPEN_EXPLORER,
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,211,256,10
@@ -299,7 +299,7 @@ CAPTION "VeraCrypt - Security Token Preferences"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     EDITTEXT        IDC_PKCS11_MODULE,16,23,204,13,ES_AUTOHSCROLL
-    PUSHBUTTON      "Select &Library...",IDC_SELECT_PKCS11_MODULE,226,22,75,14
+    PUSHBUTTON      L"Select &Library\x2026",IDC_SELECT_PKCS11_MODULE,226,22,75,14
     PUSHBUTTON      "Auto-&Detect Library",IDC_AUTO_DETECT_PKCS11_MODULE,16,41,112,14
     CONTROL         "&Close token session (log out) after a volume is successfully mounted",IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT,
                     "Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,16,154,284,9
@@ -588,8 +588,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,26,31,0
- PRODUCTVERSION 1,26,31,0
+ FILEVERSION 1,27,0,0
+ PRODUCTVERSION 1,27,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -606,11 +606,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "AM Crypto"
             VALUE "FileDescription", "VeraCrypt"
-            VALUE "FileVersion", "1.26.31"
+            VALUE "FileVersion", "1.27.0"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCrypt.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.26.31"
+            VALUE "ProductVersion", "1.27.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -668,11 +668,11 @@ IDR_MENU MENU
 BEGIN
     POPUP "&Volumes"
     BEGIN
-        MENUITEM "Select File...",              IDM_SELECT_FILE
-        MENUITEM "Select Device...",            IDM_SELECT_DEVICE
+        MENUITEM L"Select File\x2026",              IDM_SELECT_FILE
+        MENUITEM L"Select Device\x2026",            IDM_SELECT_DEVICE
         MENUITEM SEPARATOR
-        MENUITEM "Create New Volume...",        IDM_CREATE_VOLUME
-        MENUITEM "Permanently Decrypt...",      IDM_DECRYPT_NONSYS_VOL
+        MENUITEM L"Create New Volume\x2026",        IDM_CREATE_VOLUME
+        MENUITEM L"Permanently Decrypt\x2026",      IDM_DECRYPT_NONSYS_VOL
         MENUITEM "Resume Interrupted Process",  IDM_RESUME_INTERRUPTED_PROC
         MENUITEM SEPARATOR
         MENUITEM "Mount Volume",                IDM_MOUNT_VOLUME
@@ -682,60 +682,60 @@ BEGIN
         MENUITEM "Unmount Volume",              IDM_UNMOUNT_VOLUME
         MENUITEM "Unmount All Mounted Volumes", IDM_UNMOUNTALL
         MENUITEM SEPARATOR
-        MENUITEM "Change Volume Password...",   IDM_CHANGE_PASSWORD
-        MENUITEM "Add/Remove Keyfiles to/from Volume...", IDM_ADD_REMOVE_VOL_KEYFILES
-        MENUITEM "Remove All Keyfiles from Volume...", IDM_REMOVE_ALL_KEYFILES_FROM_VOL
-        MENUITEM "Set Header Key Derivation Algorithm...", IDM_CHANGE_HEADER_KEY_DERIV_ALGO
+        MENUITEM L"Change Volume Password\x2026",   IDM_CHANGE_PASSWORD
+        MENUITEM L"Add/Remove Keyfiles to/from Volume\x2026", IDM_ADD_REMOVE_VOL_KEYFILES
+        MENUITEM L"Remove All Keyfiles from Volume\x2026", IDM_REMOVE_ALL_KEYFILES_FROM_VOL
+        MENUITEM L"Set Header Key Derivation Algorithm\x2026", IDM_CHANGE_HEADER_KEY_DERIV_ALGO
         MENUITEM SEPARATOR
         MENUITEM "Volume Properties",           IDM_VOLUME_PROPERTIES
     END
     POPUP "S&ystem"
     BEGIN
-        MENUITEM "Encrypt System Partition/Drive...", IDM_ENCRYPT_SYSTEM_DEVICE
+        MENUITEM L"Encrypt System Partition/Drive\x2026", IDM_ENCRYPT_SYSTEM_DEVICE
         MENUITEM "Permanently Decrypt System Partition/Drive", IDM_PERMANENTLY_DECRYPT_SYS
         MENUITEM "Resume Interrupted Process",  IDM_SYSENC_RESUME
         MENUITEM SEPARATOR
-        MENUITEM "Create Hidden Operating System...", IDM_CREATE_HIDDEN_OS
+        MENUITEM L"Create Hidden Operating System\x2026", IDM_CREATE_HIDDEN_OS
         MENUITEM SEPARATOR
-        MENUITEM "Create Rescue Disk...",       IDM_CREATE_RESCUE_DISK
+        MENUITEM L"Create Rescue Disk\x2026",       IDM_CREATE_RESCUE_DISK
         MENUITEM "Verify Rescue Disk",          IDM_VERIFY_RESCUE_DISK
         MENUITEM "Verify Rescue Disk Image",    IDM_VERIFY_RESCUE_DISK_ISO
-        MENUITEM "Repair EFI Boot Loader...",   IDM_REPAIR_EFI_BOOT_LOADER
+        MENUITEM L"Repair EFI Boot Loader\x2026",   IDM_REPAIR_EFI_BOOT_LOADER
         MENUITEM SEPARATOR
-        MENUITEM "Mount Without Pre-Boot &Authentication...", IDM_MOUNT_SYSENC_PART_WITHOUT_PBA
+        MENUITEM L"Mount Without Pre-Boot &Authentication\x2026", IDM_MOUNT_SYSENC_PART_WITHOUT_PBA
         MENUITEM SEPARATOR
-        MENUITEM "Change Password...",          IDM_CHANGE_SYS_PASSWORD
-        MENUITEM "Set Header Key Derivation Algorithm...", IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO
+        MENUITEM L"Change Password\x2026",          IDM_CHANGE_SYS_PASSWORD
+        MENUITEM L"Set Header Key Derivation Algorithm\x2026", IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO
         MENUITEM SEPARATOR
-        MENUITEM "Properties...",               IDM_SYSTEM_ENCRYPTION_STATUS
+        MENUITEM L"Properties\x2026",               IDM_SYSTEM_ENCRYPTION_STATUS
         MENUITEM SEPARATOR
-        MENUITEM "Settings...",                 IDM_SYS_ENC_SETTINGS
+        MENUITEM L"Settings\x2026",                 IDM_SYS_ENC_SETTINGS
     END
     POPUP "Favor&ites"
     BEGIN
-        MENUITEM "Add Mounted Volume to Favorites...", IDM_ADD_VOLUME_TO_FAVORITES
-        MENUITEM "Add Mounted Volume to System Favorites...", IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES
+        MENUITEM L"Add Mounted Volume to Favorites\x2026", IDM_ADD_VOLUME_TO_FAVORITES
+        MENUITEM L"Add Mounted Volume to System Favorites\x2026", IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES
         MENUITEM SEPARATOR
-        MENUITEM "Organize Favorite Volumes...", IDM_ORGANIZE_FAVORITES
-        MENUITEM "Organize System Favorite Volumes...", IDM_ORGANIZE_SYSTEM_FAVORITES
+        MENUITEM L"Organize Favorite Volumes\x2026", IDM_ORGANIZE_FAVORITES
+        MENUITEM L"Organize System Favorite Volumes\x2026", IDM_ORGANIZE_SYSTEM_FAVORITES
         MENUITEM SEPARATOR
         MENUITEM "Mount Favorite Volumes",      IDM_MOUNT_FAVORITE_VOLUMES
     END
     POPUP "T&ools"
     BEGIN
-        MENUITEM "Benchmark...",                IDM_BENCHMARK
-        MENUITEM "Test Vectors...",             IDM_TEST_VECTORS
+        MENUITEM L"Benchmark\x2026",                IDM_BENCHMARK
+        MENUITEM L"Test Vectors\x2026",             IDM_TEST_VECTORS
         MENUITEM SEPARATOR
-        MENUITEM "Traveler Disk Setup...",      IDM_TRAVELER
+        MENUITEM L"Traveler Disk Setup\x2026",      IDM_TRAVELER
         MENUITEM "Volume Expander",             IDM_VOLUME_EXPANDER
         MENUITEM "Volume Creation Wizard",      IDM_VOLUME_WIZARD
         MENUITEM SEPARATOR
         MENUITEM "Keyfile Generator",           IDM_KEYFILE_GENERATOR
-        MENUITEM "Manage Security Token Keyfiles...", IDM_MANAGE_TOKEN_KEYFILES
+        MENUITEM L"Manage Security Token Keyfiles\x2026", IDM_MANAGE_TOKEN_KEYFILES
         MENUITEM "Close All Security Token Sessions", IDM_CLOSE_ALL_TOKEN_SESSIONS
         MENUITEM SEPARATOR
-        MENUITEM "Backup Volume Header...",     IDM_BACKUP_VOL_HEADER
-        MENUITEM "Restore Volume Header...",    IDM_RESTORE_VOL_HEADER
+        MENUITEM L"Backup Volume Header\x2026",     IDM_BACKUP_VOL_HEADER
+        MENUITEM L"Restore Volume Header\x2026",    IDM_RESTORE_VOL_HEADER
         MENUITEM SEPARATOR
         MENUITEM "Refresh Drive Letters",       IDM_REFRESH_DRIVE_LETTERS
         MENUITEM SEPARATOR
@@ -744,19 +744,19 @@ BEGIN
     END
     POPUP "Settin&gs"
     BEGIN
-        MENUITEM "Language...",                 IDM_LANGUAGE
-        MENUITEM "Hot Keys...",                 IDM_HOTKEY_SETTINGS
+        MENUITEM L"Language\x2026",                 IDM_LANGUAGE
+        MENUITEM L"Hot Keys\x2026",                 IDM_HOTKEY_SETTINGS
         MENUITEM SEPARATOR
-        MENUITEM "System Encryption...",        IDM_SYSENC_SETTINGS
-        MENUITEM "System Favorite Volumes...",  IDM_SYS_FAVORITES_SETTINGS
+        MENUITEM L"System Encryption\x2026",        IDM_SYSENC_SETTINGS
+        MENUITEM L"System Favorite Volumes\x2026",  IDM_SYS_FAVORITES_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "Performance/Driver Configuration", IDM_PERFORMANCE_SETTINGS
         MENUITEM SEPARATOR
-        MENUITEM "Default Keyfiles...",         IDM_DEFAULT_KEYFILES
-        MENUITEM "Default Mount Parameters...", IDM_DEFAULT_MOUNT_PARAMETERS
-        MENUITEM "Security Tokens...",          IDM_TOKEN_PREFERENCES
+        MENUITEM L"Default Keyfiles\x2026",         IDM_DEFAULT_KEYFILES
+        MENUITEM L"Default Mount Parameters\x2026", IDM_DEFAULT_MOUNT_PARAMETERS
+        MENUITEM L"Security Tokens\x2026",          IDM_TOKEN_PREFERENCES
         MENUITEM SEPARATOR
-        MENUITEM "Preferences...",              IDM_PREFERENCES
+        MENUITEM L"Preferences\x2026",              IDM_PREFERENCES
     END
     POPUP "Hel&p"
     BEGIN
@@ -770,7 +770,7 @@ BEGIN
         MENUITEM "News",                        IDM_NEWS
         MENUITEM "Version History",             IDM_VERSION_HISTORY
         MENUITEM SEPARATOR
-        MENUITEM "Donate now...",               IDM_DONATE
+        MENUITEM L"Donate now\x2026",               IDM_DONATE
         MENUITEM "Contact",                     IDM_CONTACT
         MENUITEM "Legal Notices",               IDM_LICENSE
         MENUITEM "About",                       IDM_ABOUT

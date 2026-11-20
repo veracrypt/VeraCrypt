@@ -87,7 +87,7 @@ BEGIN
     LTEXT           "(Empty or 0 for defaults)",IDC_PIM_HELP,181,177,121,8,NOT WS_VISIBLE
     CONTROL         "&Display password",IDC_SHOW_PASSWORD_MO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,192,90,10
     CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE_HIDVOL_PROT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,205,90,10
-    PUSHBUTTON      "&Keyfiles...",IDC_KEYFILES_HIDVOL_PROT,239,201,60,14
+    PUSHBUTTON      L"&Keyfiles\x2026",IDC_KEYFILES_HIDVOL_PROT,239,201,60,14
     DEFPUSHBUTTON   "OK",IDOK,246,7,60,14
     PUSHBUTTON      "Cancel",IDCANCEL,246,24,60,14
     LTEXT           "What is hidden volume protection?",IDC_LINK_HIDVOL_PROTECTION_INFO,16,220,279,10,SS_NOTIFY
@@ -106,13 +106,13 @@ CAPTION "VeraCrypt - Keyfiles"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_KEYLIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,8,275,118
-    PUSHBUTTON      "Add &Files...",IDC_KEYADD,7,132,61,14
-    PUSHBUTTON      "Add &Path...",IDC_ADD_KEYFILE_PATH,79,132,61,14
-    PUSHBUTTON      "Add &Token Files...",IDC_TOKEN_FILES_ADD,151,132,65,14
+    PUSHBUTTON      L"Add &Files\x2026",IDC_KEYADD,7,132,61,14
+    PUSHBUTTON      L"Add &Path\x2026",IDC_ADD_KEYFILE_PATH,79,132,61,14
+    PUSHBUTTON      L"Add &Token Files\x2026",IDC_TOKEN_FILES_ADD,151,132,65,14
     PUSHBUTTON      "&Remove",IDC_KEYREMOVE,227,132,61,14
     PUSHBUTTON      "Remove &All",IDC_KEYREMOVEALL,299,132,61,14
     CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,244,100,11
-    PUSHBUTTON      "&Generate Random Keyfile...",IDC_GENERATE_KEYFILE,237,243,123,14
+    PUSHBUTTON      L"&Generate Random Keyfile\x2026",IDC_GENERATE_KEYFILE,237,243,123,14
     DEFPUSHBUTTON   "OK",IDOK,290,8,70,14
     PUSHBUTTON      "Cancel",IDCANCEL,290,25,70,14
     LTEXT           "",IDT_KEYFILES_NOTE,10,161,346,41,0,WS_EX_TRANSPARENT
@@ -228,7 +228,7 @@ BEGIN
     CONTROL         "Random size ( 64 <-> 1048576 )",IDC_KEYFILES_RANDOM_SIZE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,124,317,174,10
     EDITTEXT        IDC_KEYFILES_BASE_NAME,124,331,141,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Generate and Save Keyfile...",IDC_GENERATE_AND_SAVE_KEYFILE,124,349,141,14
+    PUSHBUTTON      L"Generate and Save Keyfile\x2026",IDC_GENERATE_AND_SAVE_KEYFILE,124,349,141,14
     LTEXT           "IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the keyfile.",IDT_KEYFILE_GENERATOR_NOTE,11,5,271,33
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,40,356,1,WS_EX_STATICEDGE
     RTEXT           "Mixing PRF:",IDT_PRF,7,51,85,10,SS_CENTERIMAGE
@@ -286,9 +286,9 @@ CAPTION "Security Token Keyfiles"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_TOKEN_FILE_LIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_EDITLABELS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,7,256,152
-    PUSHBUTTON      "&Export...",IDC_EXPORT,7,164,55,14
+    PUSHBUTTON      L"&Export\x2026",IDC_EXPORT,7,164,55,14
     PUSHBUTTON      "&Delete",IDC_DELETE,66,164,55,14
-    PUSHBUTTON      "&Import Keyfile to Token...",IDC_IMPORT_KEYFILE,126,164,137,14
+    PUSHBUTTON      L"&Import Keyfile to Token\x2026",IDC_IMPORT_KEYFILE,126,164,137,14
     DEFPUSHBUTTON   "OK",IDOK,271,7,59,14
     PUSHBUTTON      "Cancel",IDCANCEL,271,25,59,14
 END
@@ -330,7 +330,7 @@ EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW
 CAPTION "VeraCrypt"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Please wait. This process may take a long time...",IDT_STATIC_MODELESS_WAIT_DLG_INFO,9,8,274,27
+    LTEXT           L"Please wait. This process may take a long time\x2026",IDT_STATIC_MODELESS_WAIT_DLG_INFO,9,8,274,27
 END
 
 IDD_STATIC_MODAL_WAIT_DLG DIALOGEX 0, 0, 292, 74
@@ -338,7 +338,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | 
 CAPTION "VeraCrypt"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CTEXT           "Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.",IDT_STATIC_MODAL_WAIT_DLG_INFO,9,7,274,30
+    CTEXT           L"Please wait\x2026\nThis process may take a long time and VeraCrypt may seem unresponsive.",IDT_STATIC_MODAL_WAIT_DLG_INFO,9,7,274,30
     CONTROL         "",IDC_WAIT_PROGRESS_BAR,"msctls_progress32",WS_BORDER,7,41,278,12
     PUSHBUTTON      "Cancel",IDCANCEL,121,56,50,14
 END

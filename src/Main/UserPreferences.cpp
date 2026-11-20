@@ -79,6 +79,7 @@ namespace VeraCrypt
 			TC_CONFIG_SET (BackgroundTaskMenuOpenItemsEnabled);
 			TC_CONFIG_SET (BeepAfterHotkeyMountDismount);
 			if (configMap.count(L"CachePasswords") > 0) { SetValue (configMap[L"CachePasswords"], DefaultMountOptions.CachePassword); configMap.erase (L"CachePasswords"); }
+			TC_CONFIG_SET (CachePasswordDuringMultipleMount);
 			TC_CONFIG_SET (CloseBackgroundTaskOnNoVolumes);
 			TC_CONFIG_SET (CloseExplorerWindowsOnDismount);
 			TC_CONFIG_SET (CloseSecurityTokenSessionsAfterMount);
@@ -210,6 +211,7 @@ namespace VeraCrypt
 		TC_CONFIG_ADD (BackgroundTaskMenuOpenItemsEnabled);
 		TC_CONFIG_ADD (BeepAfterHotkeyMountDismount);
 		formatter.AddEntry (L"CachePasswords", DefaultMountOptions.CachePassword);
+		TC_CONFIG_ADD (CachePasswordDuringMultipleMount);
 		TC_CONFIG_ADD (CloseBackgroundTaskOnNoVolumes);
 		TC_CONFIG_ADD (CloseExplorerWindowsOnDismount);
 		TC_CONFIG_ADD (CloseSecurityTokenSessionsAfterMount);

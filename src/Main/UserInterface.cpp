@@ -21,6 +21,7 @@
 #include <wx/apptrait.h>
 #include <wx/cmdline.h>
 #include "Core/CoreTest.h"
+#include "Core/FavoritePasswordCache.h"
 #include "Platform/PlatformTest.h"
 #include "Common/PCSCException.h"
 #ifdef TC_UNIX
@@ -873,6 +874,8 @@ namespace VeraCrypt
 		BusyScope busy (this);
 
 		MountOptions batchOptions (options);
+		batchOptions.UseFavoritePasswordCache = Preferences.CachePasswordDuringMultipleMount || CmdLine->ArgCacheFavorites;
+		finally_do ({ FavoritePasswordCache::Clear(); });
 		VolumeInfoList newMountedVolumes;
 		foreach_ref (const FavoriteVolume &favorite, FavoriteVolume::LoadList())
 		{
@@ -884,7 +887,8 @@ namespace VeraCrypt
 				continue;
 			}
 
-			// Keep credentials and KDF/PIM selected for one favorite from leaking into the next one.
+			// Keep mount options independent. Authorized credential reuse is handled
+			// separately by the temporary cache in the application-side core proxy.
 			MountOptions favoriteOptions (batchOptions);
 			favorite.ToMountOptions (favoriteOptions);
 
@@ -1563,6 +1567,15 @@ const FileManager fileManagers[] = {
 					"\n"
 					"\n"
 					"Options:\n"
+					"\n"
+					"--cache-favorites\n"
+					" Temporarily reuse passwords and PIMs while mounting favorite volumes.\n"
+					" Remember up to four supplied credentials with their successful KDFs.\n"
+					" If these fail, try the ordinary password cache with the original mount\n"
+					" parameters. Failed attempts can delay the prompt, especially with Argon2.\n"
+					" Temporary credentials are erased when the operation ends. This option\n"
+					" does not enable hidden volume protection. Disabled by default; use\n"
+					" --load-preferences to load the saved setting or this switch to enable it.\n"
 					"\n"
 					"--display-password\n"
 					" Display password characters while typing.\n"

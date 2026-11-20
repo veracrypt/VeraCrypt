@@ -62,6 +62,7 @@ namespace VeraCrypt
 
 
 		CommandId::Enum ArgCommand;
+		bool ArgCacheFavorites;
 		bool ArgDisplayPassword;
 		shared_ptr <EncryptionAlgorithm> ArgEncryptionAlgorithm;
 #ifdef TC_LINUX

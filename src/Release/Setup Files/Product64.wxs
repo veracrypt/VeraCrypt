@@ -4,7 +4,7 @@
 
 	<!-- FullProductVersion's first 3 parts MUST BE incremented at each release in order 
 			for upgrades to work ; Windows Installer ignores the 4th part -->
-	<?define var.FullProductVersion = 1.26.31?>
+	<?define var.FullProductVersion = 1.27.0?>
 	<?define var.ProductName = VeraCrypt $(var.FullProductVersion)?>
 	<?define var.StartMenuFolderName = VeraCrypt?>
 
@@ -13,7 +13,7 @@
   
 	<!-- Unique GUID identifying this product release (32-bit and 64-bit have different ones) -->
 	<!-- MUST BE regenerated for each new release -->
-	<?define var.ProductGuid = {B52C2033-80AB-4C80-B707-8862CBBA2EA5}?>
+	<?define var.ProductGuid = {B210EDFC-1154-44D2-B0D5-C80B96E5709E}?>
 
 	<!-- Unique GUID identifying a particular Windows Installer package -->
 	<!-- When compiling a product, it should not be set in order to allow it to be generated for each build -->

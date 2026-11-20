@@ -63,8 +63,8 @@ CLASS "VeraCryptCustomDlg"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     COMBOBOX        IDC_VOLUME,56,192,212,74,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Select &File...",IDC_SELECT_FILE,276,192,84,14
-    PUSHBUTTON      "Select D&evice...",IDC_SELECT_DEVICE,276,211,84,14
+    PUSHBUTTON      L"Select &File\x2026",IDC_SELECT_FILE,276,192,84,14
+    PUSHBUTTON      L"Select D&evice\x2026",IDC_SELECT_DEVICE,276,211,84,14
     DEFPUSHBUTTON   "Mount",IDOK,8,243,84,18,WS_GROUP
     PUSHBUTTON      "E&xit",IDC_EXIT,284,243,84,18,WS_GROUP
     CONTROL         112,IDC_LOGO,"Static",SS_BITMAP | SS_NOTIFY | WS_BORDER,16,192,27,31
@@ -90,8 +90,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,62,153,10
     CONTROL         "&Display password",IDC_SHOW_PASSWORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,75,83,10
     CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,88,83,11
-    PUSHBUTTON      "&Keyfiles...",IDC_KEY_FILES,171,86,64,14
-    PUSHBUTTON      "Mount Opti&ons...",IDC_MOUNT_OPTIONS,243,86,64,14
+    PUSHBUTTON      L"&Keyfiles\x2026",IDC_KEY_FILES,171,86,64,14
+    PUSHBUTTON      L"Mount Opti&ons\x2026",IDC_MOUNT_OPTIONS,243,86,64,14
     DEFPUSHBUTTON   "OK",IDOK,243,8,64,14
     PUSHBUTTON      "Cancel",IDCANCEL,243,25,64,14
     RTEXT           "Password:",IDT_PASSWORD,0,10,65,13
@@ -192,8 +192,8 @@ IDR_MOUNT_RSRC_HEADER   HEADER                  "resource.h"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,26,31,0
- PRODUCTVERSION 1,26,31,0
+ FILEVERSION 1,27,0,0
+ PRODUCTVERSION 1,27,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -210,11 +210,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "AM Crypto"
             VALUE "FileDescription", "VeraCrypt Expander"
-            VALUE "FileVersion", "1.26.31"
+            VALUE "FileVersion", "1.27.0"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCryptExpander.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.26.31"
+            VALUE "ProductVersion", "1.27.0"
         END
     END
     BLOCK "VarFileInfo"
