@@ -107,15 +107,21 @@ namespace VeraCrypt
 	class SecureBuffer : public Buffer
 	{
 	public:
-		SecureBuffer () { }
+		SecureBuffer () : AllocatedSize (0), Locked (false) { }
 		SecureBuffer (size_t size, size_t alignment = 0);
-		SecureBuffer (const ConstBufferPtr &bufferPtr) { CopyFrom (bufferPtr); }
+		SecureBuffer (const ConstBufferPtr &bufferPtr) : AllocatedSize (0), Locked (false) { CopyFrom (bufferPtr); }
 		virtual ~SecureBuffer ();
 
 		virtual void Allocate (size_t size, size_t alignment = 0);
 		virtual void Free ();
 
+		// Memory locks are not inherited by a forked process
+		static void LockAllAfterFork ();
+
 	private:
+		size_t AllocatedSize;
+		bool Locked;
+
 		SecureBuffer (const SecureBuffer &);
 		SecureBuffer &operator= (const SecureBuffer &);
 	};

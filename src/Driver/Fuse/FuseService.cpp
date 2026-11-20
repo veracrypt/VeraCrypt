@@ -664,6 +664,9 @@ namespace VeraCrypt
 	{
 		try
 		{
+			// FUSE may have forked to run in the background
+			SecureBuffer::LockAllAfterFork();
+
 			// Termination signals are handled by a separate process to allow clean dismount on shutdown
 			struct sigaction action;
 			Memory::Zero (&action, sizeof (action));
@@ -1749,6 +1752,9 @@ namespace VeraCrypt
 
 	void FuseService::ExecFunctor::operator() (int argc, char *argv[])
 	{
+		// The service holds the master keys until the volume is dismounted
+		Process::DisableCoreDumps();
+
 #if defined(TC_MACOSX) && defined(VC_MACOSX_FUSET)
 		close (StartupPeerFd);
 #endif
