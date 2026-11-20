@@ -958,14 +958,13 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 
 static uint64 HashMultipleBlocks(WHIRLPOOL_CTX * const ctx, const uint64 *input, uint64 length)
 {
-	uint64* dataBuf = ctx->data;
 	do
 	{
 #if BYTE_ORDER == BIG_ENDIAN
 		WhirlpoolTransform(ctx->state, input);
 #else
-		CorrectEndianness(dataBuf, input, 64);
-		WhirlpoolTransform(ctx->state, dataBuf);
+		CorrectEndianness(ctx->data, input, 64);
+		WhirlpoolTransform(ctx->state, ctx->data);
 #endif
 		input += 8;
 		length -= 64;

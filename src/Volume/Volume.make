@@ -66,7 +66,7 @@ else
 	OBJS += ../Crypto/Aescrypt.o
 endif
 else ifeq "$(CPU_ARCH)" "x86"
-	OBJS += ../Crypto/Aes_x86.o
+	OBJS += ../Crypto/Aescrypt.o
 	ifeq "$(DISABLE_AESNI)" "0"
 		OBJS += ../Crypto/Aes_hw_cpu.o
 	endif

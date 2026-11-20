@@ -19,6 +19,8 @@ import shlex
 import subprocess
 import tempfile
 
+from test_volume_read import old_abi
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -158,6 +160,8 @@ int main (int argc, char **argv)
         Require (getrlimit (RLIMIT_NOFILE, &originalLimit) == 0, "get fd limit");
         limit = originalLimit;
         if (limit.rlim_cur <= InheritedFd) limit.rlim_cur = InheritedFd + 1;
+        // Containers often have a hard limit below InheritedFd; root may raise it.
+        if (limit.rlim_max < limit.rlim_cur) limit.rlim_max = limit.rlim_cur;
         Require (setrlimit (RLIMIT_NOFILE, &limit) == 0, "raise soft fd limit");
         Require (fcntl (file, F_DUPFD, InheritedFd) == InheritedFd, "create inherited high fd");
         Require (setrlimit (RLIMIT_NOFILE, &originalLimit) == 0, "restore soft fd limit");
@@ -300,6 +304,8 @@ def main():
         dependency.write_text('extern "C" int vc_requester_test_dependency () { return 1; }\n')
         subprocess.run(compiler + ["-shared", "-fPIC", str(dependency), "-o",
                                    str(bundled / "libvc_requester_test.so")], check=True)
+        if old_abi(library):
+            compiler.append("-D_GLIBCXX_USE_CXX11_ABI=0")
         for mode in ("close-range", "fd-fallback", "bundled-library"):
             binary = root / ("helper-" + mode)
             command = compiler + [
