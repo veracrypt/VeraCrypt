@@ -168,6 +168,56 @@ namespace VeraCrypt
 			return S_ISBLK (devStat.st_mode) && major (devStat.st_rdev) == LOOP_MAJOR;
 		}
 
+		// Returns false if the device is gone and that is acceptable
+		bool HasDeviceMapperHolder (const string &sysfsDirectory, bool mayDisappear)
+		{
+			const string path = sysfsDirectory + "/holders";
+			DIR *dir = opendir (path.c_str());
+			if (!dir)
+			{
+				throw_sys_sub_if (!mayDisappear || (errno != ENOENT && errno != ENOTDIR), path);
+				return false;
+			}
+			finally_do_arg (DIR *, dir, { closedir (finally_arg); });
+
+			struct dirent *entry;
+			while ((entry = readdir (dir)) != nullptr)
+			{
+				if (string (entry->d_name).find ("dm-") == 0)
+					return true;
+			}
+
+			return false;
+		}
+
+		// Opens a node of the loop device, in the layouts of AttachFileToLoopDevice, which
+		// must have the device number that sysfs reports. Returns -1 if there is none.
+		int OpenLoopDeviceNode (const string &kernelName, dev_t deviceNumber, string &devicePath)
+		{
+			const string paths[] = { "/dev/" + kernelName, "/dev/loop/" + kernelName.substr (4), "/dev/.static/dev/" + kernelName };
+
+			for (size_t i = 0; i < array_capacity (paths); i++)
+			{
+				int fd = open (paths[i].c_str(), O_RDONLY | O_CLOEXEC);
+				if (fd == -1)
+				{
+					throw_sys_sub_if (errno != ENOENT && errno != ENOTDIR && errno != ENXIO && errno != ENODEV, paths[i]);
+					continue;
+				}
+
+				struct stat fdStat;
+				if (fstat (fd, &fdStat) == 0 && S_ISBLK (fdStat.st_mode) && fdStat.st_rdev == deviceNumber)
+				{
+					devicePath = paths[i];
+					return fd;
+				}
+
+				close (fd);
+			}
+
+			return -1;
+		}
+
 		bool IsLoopDeviceBackedBy (const string &devicePath, const LoopBacking &backing)
 		{
 			struct stat devStat;
@@ -718,6 +768,107 @@ namespace VeraCrypt
 		DismountNativeVolumeInternal (mountedVolume, false);
 	}
 
+	// A loop device exposes its backing, which must get the same identity as when
+	// opened directly. A partition is only a part of the backing and stays separate.
+	void CoreLinux::GetVolumeIdentity (const File &volumeFile, struct stat &identity) const
+	{
+		volumeFile.GetStat (identity);
+		if (!IsLoopDevice (identity))
+			return;
+
+		stringstream partition;
+		partition << "/sys/dev/block/" << major (identity.st_rdev) << ":" << minor (identity.st_rdev) << "/partition";
+
+		string value;
+		if (ReadSysfsAttribute (partition.str(), value))
+			return;
+
+		const string devicePath = volumeFile.GetPath();
+		loop_info64 info;
+		if (!GetLoopDeviceStatus (volumeFile.GetSystemHandle(), devicePath, info))
+			return;
+
+		Memory::Zero (&identity, sizeof (identity));
+		if (info.lo_rdevice != 0)
+		{
+			identity.st_mode = S_IFBLK;
+			identity.st_rdev = (dev_t) info.lo_rdevice;
+
+			// A chain of loop devices is not followed
+			if (IsLoopDevice (identity))
+			{
+				errno = EOPNOTSUPP;
+				throw SystemException (SRC_POS, devicePath);
+			}
+		}
+		else
+		{
+			identity.st_mode = S_IFREG;
+			identity.st_dev = (dev_t) info.lo_device;
+			identity.st_ino = (ino_t) info.lo_inode;
+		}
+	}
+
+	// Takes the identity from GetVolumeIdentity. Throws if the devices cannot be
+	// inspected, which must not be taken for the absence of a device-mapper device
+	// using the volume.
+	bool CoreLinux::IsVolumeUsedByKernelDevice (const struct stat &volumeStat) const
+	{
+		if (S_ISBLK (volumeStat.st_mode))
+		{
+			stringstream sysfsDirectory;
+			sysfsDirectory << "/sys/dev/block/" << major (volumeStat.st_rdev) << ":" << minor (volumeStat.st_rdev);
+
+			if (HasDeviceMapperHolder (sysfsDirectory.str(), false))
+				return true;
+		}
+		else if (!S_ISREG (volumeStat.st_mode))
+			return false;
+
+		// A device-mapper device on a loop device of the volume. Only such loop devices
+		// are queried: the query reaches the file system of the backing file, which for
+		// an unrelated loop device may deny root or be unreachable. A FUSE service on a
+		// loop device of the volume holds the lock of the volume instead.
+		DIR *sysBlock = opendir ("/sys/block");
+		throw_sys_sub_if (!sysBlock, "/sys/block");
+		finally_do_arg (DIR *, sysBlock, { closedir (finally_arg); });
+
+		struct dirent *entry;
+		while ((entry = readdir (sysBlock)) != nullptr)
+		{
+			const string kernelName = entry->d_name;
+			if (kernelName.find ("loop") != 0)
+				continue;
+
+			const string sysfsDirectory = "/sys/block/" + kernelName;
+			dev_t deviceNumber;
+			if (!HasDeviceMapperHolder (sysfsDirectory, true) || !GetSysfsDeviceNumber (sysfsDirectory, deviceNumber))
+				continue;
+
+			string devicePath;
+			int fd = OpenLoopDeviceNode (kernelName, deviceNumber, devicePath);
+			if (fd == -1)
+			{
+				// Unless released meanwhile, it is in use and cannot be inspected
+				if (!HasDeviceMapperHolder (sysfsDirectory, true))
+					continue;
+
+				errno = ENOENT;
+				throw SystemException (SRC_POS, "/dev/" + kernelName);
+			}
+			finally_do_arg (int, fd, { close (finally_arg); });
+
+			loop_info64 info;
+			if (GetLoopDeviceStatus (fd, devicePath, info)
+				&& (S_ISBLK (volumeStat.st_mode) ? info.lo_rdevice == (uint64) volumeStat.st_rdev : LoopBacking (volumeStat).IsBacking (info)))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	void CoreLinux::DismountNativeVolumeDeferred (shared_ptr <VolumeInfo> mountedVolume) const
 	{
 		DismountNativeVolumeInternal (mountedVolume, true);
@@ -1090,8 +1241,10 @@ namespace VeraCrypt
 		if (!volumePath.IsDevice())
 		{
 			const string containerPath = volumePath;
+
+			// The file that was opened and locked, wherever the path leads now
 			struct stat containerStat;
-			throw_sys_sub_if (stat (containerPath.c_str(), &containerStat) != 0, containerPath);
+			volume->GetFile()->GetStat (containerStat);
 
 			volumePath = AttachFileToLoopDevice (volumePath, readOnly);
 			loopDevAttached = true;

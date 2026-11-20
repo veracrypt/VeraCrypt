@@ -842,6 +842,8 @@ namespace VeraCrypt
 			catch (PasswordException&) { }
 			catch (SystemException&) { }
 			catch (ExecutedProcessFailed&) { }
+			// Already mounted under another path
+			catch (VolumeAlreadyMounted&) { }
 		}
 
 		if (newMountedVolumes.empty())
