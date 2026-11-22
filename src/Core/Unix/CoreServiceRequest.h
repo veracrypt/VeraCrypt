@@ -77,13 +77,15 @@ namespace VeraCrypt
 #ifdef TC_LINUX
 	struct EmergencyDismountVolumeRequest : CoreServiceRequest
 	{
-		EmergencyDismountVolumeRequest () { }
-		EmergencyDismountVolumeRequest (shared_ptr <VolumeInfo> volumeInfo)
-			: MountedVolumeInfo (volumeInfo) { }
+		EmergencyDismountVolumeRequest () : DestroyKeys (false), DestroyKeysOnly (false) { }
+		EmergencyDismountVolumeRequest (shared_ptr <VolumeInfo> volumeInfo, bool destroyKeys, bool destroyKeysOnly = false)
+			: DestroyKeys (destroyKeys), DestroyKeysOnly (destroyKeysOnly), MountedVolumeInfo (volumeInfo) { }
 		TC_SERIALIZABLE (EmergencyDismountVolumeRequest);
 
 		virtual bool RequiresElevation () const;
 
+		bool DestroyKeys;
+		bool DestroyKeysOnly;
 		shared_ptr <VolumeInfo> MountedVolumeInfo;
 	};
 #endif

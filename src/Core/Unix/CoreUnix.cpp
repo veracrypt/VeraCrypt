@@ -414,9 +414,22 @@ namespace VeraCrypt
 	}
 
 #ifdef TC_LINUX
-	shared_ptr <VolumeInfo> CoreUnix::EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume)
+	shared_ptr <VolumeInfo> CoreUnix::EmergencyDismountVolume (shared_ptr <VolumeInfo> mountedVolume, bool destroyKeys)
 	{
 		unique_ptr <Exception> firstException;
+
+		// First the keys held by the kernel, so that they are gone even if the volume cannot be released
+		if (destroyKeys)
+		{
+			try
+			{
+				DestroyVolumeKeys (mountedVolume);
+			}
+			catch (Exception &e)
+			{
+				firstException.reset (e.CloneNew());
+			}
+		}
 
 		if (!mountedVolume->MountPoint.IsEmpty())
 		{
@@ -462,6 +475,20 @@ namespace VeraCrypt
 		{
 			if (!firstException.get())
 				firstException.reset (e.CloneNew());
+		}
+
+		// Then the keys held by the FUSE service: ending it now makes the volume's open files fail
+		if (destroyKeys)
+		{
+			try
+			{
+				AbortVolumeService (mountedVolume);
+			}
+			catch (Exception &e)
+			{
+				if (!firstException.get())
+					firstException.reset (e.CloneNew());
+			}
 		}
 
 		if (!mountedVolume->AuxMountPoint.IsEmpty())

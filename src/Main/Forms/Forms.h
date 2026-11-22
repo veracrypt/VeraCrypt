@@ -567,6 +567,7 @@ namespace VeraCrypt
 			wxCheckBox* DismountOnLogOffCheckBox;
 			wxCheckBox* DismountOnScreenSaverCheckBox;
 			wxCheckBox* DismountOnPowerSavingCheckBox;
+			wxCheckBox* DismountOnNewDeviceCheckBox;
 			wxCheckBox* DismountOnInactivityCheckBox;
 			wxSpinCtrl* DismountOnInactivitySpinCtrl;
 			wxCheckBox* ForceAutoDismountCheckBox;
@@ -629,6 +630,7 @@ namespace VeraCrypt
 			virtual void OnPageChanged( wxNotebookEvent& event ) { event.Skip(); }
 			virtual void OnDismountOnScreenSaverCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnDismountOnPowerSavingCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnDismountOnNewDeviceCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnForceAutoDismountCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnPreserveTimestampsCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnBackgroundTaskEnabledCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
