@@ -11319,6 +11319,13 @@ static void SystemFavoritesServiceUpdateLoaderProcessing (BOOL bForce, const GUI
 // Global vector containing all devices previsouly knwon to the system
 std::vector<CDevice> g_Devices;
 
+// Once locked, the option stays enabled until Windows restarts, whatever the registry says
+static BOOL IsClearKeysOnNewDeviceInsertionEnabled ()
+{
+	return (ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)
+		|| IsClearKeysOnNewDeviceInsertionLocked ();
+}
+
 static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 														DWORD dwEventType,
 														LPVOID lpEventData,
@@ -11326,8 +11333,16 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 {
 	switch (dwControl)
 	{
-	case SERVICE_CONTROL_PRESHUTDOWN:
 	case SERVICE_CONTROL_STOP:
+		if (IsClearKeysOnNewDeviceInsertionLocked ())
+		{
+			/* the service clears the keys when a new device is inserted: it is stopped only when Windows shuts down */
+			SystemFavoritesServiceLogInfo (L"SERVICE_CONTROL_STOP ignored: clearing keys on new device insertion is locked until Windows restarts");
+			SystemFavoritesServiceSetStatus (SystemFavoritesServiceStatus.dwCurrentState);
+			break;
+		}
+		// fall through
+	case SERVICE_CONTROL_PRESHUTDOWN:
 		SystemFavoritesServiceSetStatus (SERVICE_STOP_PENDING);
 
 		SystemFavoritesServiceUpdateLoaderProcessing (FALSE);
@@ -11360,7 +11375,7 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 		{
 			/* build a list of all devices currently connected to the system */
 			/* ignore if clear keys configuration is already set */
-			if (!(ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION))
+			if (!IsClearKeysOnNewDeviceInsertionEnabled ())
 			{
 				SystemFavoritesServiceLogInfo (L"VC_SERVICE_CONTROL_BUILD_DEVICE_LIST received");
 				g_Devices.clear ();
@@ -11368,13 +11383,40 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 			}
 		}
 		break;
+	case VC_SERVICE_CONTROL_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION:
+		{
+			/* keep clearing keys on new device insertion enabled, and the service running, until Windows restarts.
+			   Every local user can send this control: an administrator must have requested it in the registry */
+			const uint32 required = VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION | VC_DRIVER_CONFIG_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION;
+			uint32 flags = ReadDriverConfigurationFlags();
+			if ((flags & required) == required)
+			{
+				DWORD cbBytesReturned = 0;
+				if (DeviceIoControl (hDriver, VC_IOCTL_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, NULL, 0, NULL, 0, &cbBytesReturned, NULL))
+				{
+					SystemFavoritesServiceLogInfo (L"Clearing keys on new device insertion is locked until Windows restarts");
+					SystemFavoritesServiceStatus.dwControlsAccepted &= ~SERVICE_ACCEPT_STOP;
+				}
+				else
+					SystemFavoritesServiceLogError (L"VC_SERVICE_CONTROL_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION failed");
+
+				try
+				{
+					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, FALSE);
+				}
+				catch (...) { }
+			}
+
+			SystemFavoritesServiceSetStatus (SystemFavoritesServiceStatus.dwCurrentState);
+		}
+		break;
 	case SERVICE_CONTROL_DEVICEEVENT:
 		if (DBT_DEVICEARRIVAL == dwEventType)
 		{
 			DEV_BROADCAST_HDR* pHdr = (DEV_BROADCAST_HDR *) lpEventData;
-			if (pHdr->dbch_devicetype != DBT_DEVTYP_VOLUME &&  pHdr->dbch_devicetype != DBT_DEVTYP_HANDLE)			
+			if (pHdr->dbch_devicetype != DBT_DEVTYP_VOLUME &&  pHdr->dbch_devicetype != DBT_DEVTYP_HANDLE)
 			{
-				if (ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)
+				if (IsClearKeysOnNewDeviceInsertionEnabled ())
 				{
 					BOOL bClearKeys = TRUE;
 					SystemFavoritesServiceLogInfo (L"SERVICE_CONTROL_DEVICEEVENT - DBT_DEVICEARRIVAL received");
@@ -11481,6 +11523,8 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 	SystemFavoritesServiceStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
 	SystemFavoritesServiceStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP;
 	SystemFavoritesServiceStatus.dwControlsAccepted |= SERVICE_ACCEPT_PRESHUTDOWN | SERVICE_ACCEPT_SESSIONCHANGE | SERVICE_ACCEPT_POWEREVENT;
+	if (IsClearKeysOnNewDeviceInsertionLocked ())
+		SystemFavoritesServiceStatus.dwControlsAccepted &= ~SERVICE_ACCEPT_STOP;
 
 	for (i = 1; i < argc; i++)
 	{
@@ -13966,10 +14010,12 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 	static std::string platforminfo;
 	static uint8 currentUserConfig;
 	static string currentCustomUserMessage;
+	static BOOL bLockClearKeys;
 
 	switch (msg)
 	{
 	case WM_INITDIALOG:
+		bLockClearKeys = FALSE;
 		{
 			BootEncryptionStatus bootEncStatus = BootEncObj->GetStatus();
 			if (!bootEncStatus.DriveMounted)
@@ -14057,6 +14103,12 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				EnableWindow (GetDlgItem (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM), bPasswordCacheEnabled);
 				CheckDlgButton (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM, (bPasswordCacheEnabled && bPimCacheEnabled)? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, bClearKeysEnabled? BST_CHECKED : BST_UNCHECKED);
+				if (IsClearKeysOnNewDeviceInsertionLocked ())
+				{
+					// locked until Windows restarts: the option cannot be disabled
+					CheckDlgButton (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, BST_CHECKED);
+					EnableWindow (GetDlgItem (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION), FALSE);
+				}
 				
 				if (bIsHiddenOS)
 				{
@@ -14198,6 +14250,8 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					BOOL bPimCacheEnabled = IsDlgButtonChecked (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM);
 					BOOL bBlockSysEncTrimEnabled = IsDlgButtonChecked (hwndDlg, IDC_BLOCK_SYSENC_TRIM);
 					BOOL bClearKeysEnabled = IsDlgButtonChecked (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION);
+					// when locked, the option cannot be changed and the service needs no notification
+					BOOL bClearKeysLocked = IsClearKeysOnNewDeviceInsertionLocked ();
 
 					BOOL bAutoFixBootloader = IsDlgButtonChecked (hwndDlg, IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN);
 					BOOL bForceVeraCryptNextBoot = FALSE;
@@ -14217,7 +14271,8 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 						std::string techInfo = SRC_POS;
 						techInfo += "\nIsSystemFavoritesServiceRunning = False.";
 						ReportUnexpectedState (techInfo.c_str());
-						return 1;
+						if (!bClearKeysLocked)
+							return 1;
 					}
 
 					// only write boot configuration if something changed
@@ -14227,7 +14282,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD, bPasswordCacheEnabled);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PIM, (bPasswordCacheEnabled && bPimCacheEnabled)? TRUE : FALSE);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION, IsDlgButtonChecked (hwndDlg, IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION));
-					if (bClearKeysEnabled)
+					if (bClearKeysEnabled && !bClearKeysLocked)
 						NotifyService (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION);
 					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, bClearKeysEnabled);
 					SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, bAutoFixBootloader? FALSE : TRUE);
@@ -14252,6 +14307,30 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				{
 					e.Show (hwndDlg);
 					return 1;
+				}
+
+				// last, so that a failure does not prevent the other settings from being saved
+				if (bLockClearKeys && IsDlgButtonChecked (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)
+					&& !IsClearKeysOnNewDeviceInsertionLocked ())
+				{
+					try
+					{
+						SetDriverConfigurationFlag (VC_DRIVER_CONFIG_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, TRUE);
+						NotifyService (VC_SERVICE_CONTROL_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION);
+					}
+					catch (Exception &) { }
+
+					if (!IsClearKeysOnNewDeviceInsertionLocked ())
+					{
+						// The request must not stay for a later control to the service
+						try
+						{
+							SetDriverConfigurationFlag (VC_DRIVER_CONFIG_LOCK_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, FALSE);
+						}
+						catch (Exception &) { }
+
+						Error ("CLEAR_KEYS_ON_DEVICE_INSERTION_LOCK_FAILED", hwndDlg);
+					}
 				}
 
 				EndDialog (hwndDlg, lw);
@@ -14303,8 +14382,13 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					CheckDlgButton (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, BST_UNCHECKED);
 				}
 				else
+				{
 					Warning ("CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING", hwndDlg);
+					bLockClearKeys = (AskWarnNoYes ("CLEAR_KEYS_ON_DEVICE_INSERTION_LOCK_PROMPT", hwndDlg) == IDYES);
+				}
 			}
+			else
+				bLockClearKeys = FALSE;
 
 			break;
 
