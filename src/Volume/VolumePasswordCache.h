@@ -14,22 +14,32 @@
 #define TC_HEADER_Volume_VolumePasswordCache
 
 #include "Platform/Platform.h"
+#include "Pkcs5Kdf.h"
 #include "VolumePassword.h"
 
 namespace VeraCrypt
 {
-	typedef list < shared_ptr < VolumePassword > > CachedPasswordList;
+	struct CachedPassword
+	{
+		shared_ptr <VolumePassword> Password;
+		Pkcs5KdfList Kdfs; // KDFs that opened a volume with the password, last used first; null if unknown
+	};
+
+	typedef list <CachedPassword> CachedPasswordList;
 
 	class VolumePasswordCache
 	{
 	public:
+		static void AddKdf (const VolumePassword &password, shared_ptr <Pkcs5Kdf> kdf);
 		static CachedPasswordList GetPasswords ();
 		static bool IsEmpty () { return CachedPasswords.empty(); }
-		static void Store (const VolumePassword &newPassword);
+		static void Store (const VolumePassword &newPassword, shared_ptr <Pkcs5Kdf> kdf);
 		static void Clear () { CachedPasswords.clear(); }
 		static const size_t Capacity = 4;
 
 	protected:
+		static void AddKdf (CachedPassword &cached, shared_ptr <Pkcs5Kdf> kdf);
+
 		static CachedPasswordList CachedPasswords;
 
 	private:
