@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <VeraCrypt>
   <localization prog-version="1.27.0">
-    <language langid="nl" name="Nederlands" en-name="Dutch" version="2026-10-22" translators="Jan van der Wal, Peter Tak, Thomas De Rocker (RockyTDR)"/>
+    <language langid="nl" name="Nederlands" en-name="Dutch" version="2026-11-25" translators="Jan van der Wal, Peter Tak, Thomas De Rocker (RockyTDR)"/>
     <font lang="nl" class="normal" size="11" face="default"/>
     <font lang="nl" class="bold" size="13" face="Arial"/>
     <font lang="nl" class="fixed" size="12" face="Lucida Console"/>
@@ -143,7 +143,7 @@
     <entry lang="nl" key="IDC_HK_MOD_WIN">Win</entry>
     <entry lang="nl" key="IDC_HOTKEY_ASSIGN">Toewijzen</entry>
     <entry lang="nl" key="IDC_HOTKEY_REMOVE">Verwijderen</entry>
-    <entry lang="nl" key="IDC_KEYFILES">Sleutelbestand...</entry>
+    <entry lang="nl" key="IDC_KEYFILES">Sleutelbestanden...</entry>
     <entry lang="nl" key="IDC_LIMIT_ENC_THREAD_POOL">Het volgende aantal logische processors niet gebruiken voor versleuteling/ontsleuteling:</entry>
     <entry lang="nl" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Meer informatie</entry>
     <entry lang="nl" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Meer informatie</entry>
@@ -182,7 +182,7 @@
     <entry lang="nl" key="IDC_TRAV_CACHE_PASSWORDS">Wachtwoord in stuurprogramma-geheugen opslaan</entry>
     <entry lang="nl" key="IDC_TRUECRYPT_MODE">TrueCrypt-modus</entry>
     <entry lang="nl" key="IDC_UNMOUNTALL">Alles ontkoppelen</entry>
-    <entry lang="nl" key="IDC_VOLUME_PROPERTIES">Volume-eigenschappen</entry>
+    <entry lang="nl" key="IDC_VOLUME_PROPERTIES">Volume-eigenschappen...</entry>
     <entry lang="nl" key="IDC_VOLUME_TOOLS">Volumegereedschap...</entry>
     <entry lang="nl" key="IDC_WIPE_CACHE">Cache wissen</entry>
     <entry lang="nl" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Koppelingparameters</entry>
@@ -201,7 +201,7 @@
     <entry lang="nl" key="IDM_ADD_REMOVE_VOL_KEYFILES">Sleutelbestanden toevoegen/verwijderen aan/van volume...</entry>
     <entry lang="nl" key="IDM_ADD_VOLUME_TO_FAVORITES">Gekoppeld volume aan favorieten toevoegen...</entry>
     <entry lang="nl" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Gekoppeld volume aan systeemfavorieten toevoegen...</entry>
-    <entry lang="nl" key="IDM_ANALYZE_SYSTEM_CRASH">Een systeemcrash analyseren....</entry>
+    <entry lang="nl" key="IDM_ANALYZE_SYSTEM_CRASH">Een systeemcrash analyseren...</entry>
     <entry lang="nl" key="IDM_BACKUP_VOL_HEADER">Back-up van volumeheader maken...</entry>
     <entry lang="nl" key="IDM_BENCHMARK">Benchmark...</entry>
     <entry lang="nl" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">Sleutel-afleidingsalgoritme van header instellen...</entry>
@@ -211,10 +211,10 @@
     <entry lang="nl" key="IDM_CLEAR_HISTORY">Volumegeschiedenis verwijderen</entry>
     <entry lang="nl" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">Alle beveiligingstoken-sessies afsluiten</entry>
     <entry lang="nl" key="IDM_CONTACT">Contact</entry>
-    <entry lang="nl" key="IDM_CREATE_HIDDEN_OS">Verborgen besturingssysteem aanmaken....</entry>
+    <entry lang="nl" key="IDM_CREATE_HIDDEN_OS">Verborgen besturingssysteem aanmaken...</entry>
     <entry lang="nl" key="IDM_CREATE_RESCUE_DISK">Herstelschijf aanmaken...</entry>
     <entry lang="nl" key="IDM_CREATE_VOLUME">Nieuw volume aanmaken...</entry>
-    <entry lang="nl" key="IDM_DECRYPT_NONSYS_VOL">Permanent ontsleutelen....</entry>
+    <entry lang="nl" key="IDM_DECRYPT_NONSYS_VOL">Permanent ontsleutelen...</entry>
     <entry lang="nl" key="IDM_DEFAULT_KEYFILES">Standaard-sleutelbestanden...</entry>
     <entry lang="nl" key="IDM_DEFAULT_MOUNT_PARAMETERS">Standaard koppelingsparameters...</entry>
     <entry lang="nl" key="IDM_DONATE">Nu doneren...</entry>
@@ -229,7 +229,7 @@
     <entry lang="nl" key="IDM_MANAGE_TOKEN_KEYFILES">Beveiligingstoken-sleutelbestanden beheren...</entry>
     <entry lang="nl" key="IDM_MOUNTALL">Alle apparaat-gehoste volumes automatisch koppelen</entry>
     <entry lang="nl" key="IDM_MOUNT_FAVORITE_VOLUMES">Favoriete volumes koppelen</entry>
-    <entry lang="nl" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Koppelen zonder pre-boot-authenticatie....</entry>
+    <entry lang="nl" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Koppelen zonder pre-boot-authenticatie...</entry>
     <entry lang="nl" key="IDM_MOUNT_VOLUME">Volume koppelen</entry>
     <entry lang="nl" key="IDM_MOUNT_VOLUME_OPTIONS">Volume koppelen met opties</entry>
     <entry lang="nl" key="IDM_NEWS">Nieuws</entry>
@@ -241,7 +241,7 @@
     <entry lang="nl" key="IDM_PERMANENTLY_DECRYPT_SYS">Systeempartitie/-schijf permanent ontsleutelen</entry>
     <entry lang="nl" key="IDM_PREFERENCES">Voorkeuren...</entry>
     <entry lang="nl" key="IDM_REFRESH_DRIVE_LETTERS">Stationsletters vernieuwen</entry>
-    <entry lang="nl" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">Alle sleutelbestanden uit het volume verwijderen....</entry>
+    <entry lang="nl" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">Alle sleutelbestanden uit het volume verwijderen...</entry>
     <entry lang="nl" key="IDM_RESTORE_VOL_HEADER">Volumeheader herstellen...</entry>
     <entry lang="nl" key="IDM_RESUME_INTERRUPTED_PROC">Onderbroken proces hervatten</entry>
     <entry lang="nl" key="IDM_SELECT_DEVICE">Apparaat selecteren...</entry>
@@ -368,8 +368,8 @@
     <entry lang="nl" key="IDT_SECONDARY_KEY">Secundaire sleutel (hexadecimaal)</entry>
     <entry lang="nl" key="IDT_SECURITY_TOKEN">Beveiligingstoken:</entry>
     <entry lang="nl" key="IDT_SORT_METHOD">Weergave:</entry>
-    <entry lang="nl" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Even geduld. Dit proces kan lang duren....</entry>
-    <entry lang="nl" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Even geduld...\nDit proces kan lang duren en het kan lijken dat VeraCrypt niet meer reageert.</entry>
+    <entry lang="nl" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Even geduld. Dit proces kan lang duren...</entry>
+    <entry lang="nl" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Even geduld...\nDit proces kan lang duren en het kan lijken dat VeraCrypt niet reageert.</entry>
     <entry lang="nl" key="IDT_TEST_BLOCK_NUMBER">Bloknummer:</entry>
     <entry lang="nl" key="IDT_TEST_CIPHERTEXT">Versleutelingstekst (hexadecimaal)</entry>
     <entry lang="nl" key="IDT_TEST_DATA_UNIT_NUMBER">Gegevenseenheid-nummer (64-bits hexadecimaal, grootte van gegevenseenh. is 512 bytes).</entry>
@@ -1389,7 +1389,7 @@
     <entry lang="nl" key="IDC_FAVORITE_USE_VOLUME_ID">Volume-ID gebruiken om favoriet te koppelen</entry>
     <entry lang="nl" key="VOLUME_ID_INVALID">De Volume ID-waarde is ongeldig</entry>
     <entry lang="nl" key="VOLUME_ID_NOT_FOUND">Er werd geen volume met de opgegeven ID op het systeem gevonden.</entry>
-    <entry lang="nl" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Waarde naar klembord kopiëren....</entry>
+    <entry lang="nl" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Waarde naar klembord kopiëren...</entry>
     <entry lang="nl" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Vraag geen PIM aan in het pre-boot-authenticatiescherm (de PIM-waarde wordt onversleuteld op de schijf opgeslagen).</entry>
     <entry lang="nl" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WAARSCHUWING: houd er rekening mee dat als u deze optie inschakelt, de PIM-waarde onversleuteld op de schijf wordt opgeslagen.\n\nWeet u zeker dat u deze optie wilt inschakelen?</entry>
     <entry lang="nl" key="PIM_TOO_BIG">De maximale waarde van de Personal Iterations Multiplier (PIM) is 2 147 468.</entry>
@@ -1713,35 +1713,35 @@
     <entry lang="nl" key="SYS_LOADER_BACKUP_DECRYPT_WITHOUT_RESTORE">Het automatisch herstellen van de oorspronkelijke BIOS-systeemlader is niet mogelijk omdat de back-up niet kon worden gebruikt.\n\nU kunt de schijf ontsleutelen, maar Windows kan dan een opstartreparatie vereisen met behulp van betrouwbare Windows-herstelmedia of een geverifieerde VeraCrypt-herstelschijf. Zorg dat u over geschikte herstelmedia beschikt voordat u doorgaat. Herstel geen onversleutelde bootloader terwijl er nog een deel van het systeem versleuteld is.\n\nWilt u ontsleutelen zonder automatische herstelprocedure voor de bootloader?</entry>
     <entry lang="nl" key="SYS_LOADER_BACKUP_SKIP_RESTORE">De systeemschijf is volledig ontsleuteld en ontkoppeld, maar de back-up van de oorspronkelijke BIOS-systeemlader kon niet worden gebruikt.\n\nU kunt het verwijderen van de systeemversleuteling voltooien zonder een lader te herstellen. De huidige opstartcode blijft behouden. Als het opstarten nog niet is hersteld, gebruik dan betrouwbare Windows-herstelmedia of een geverifieerde VeraCrypt-herstelschijf om dit te herstellen.\n\nWilt u de opruiming voltooien zonder de oorspronkelijke systeemlader te herstellen?</entry>
     <entry lang="nl" key="SYSENC_SETUP_CONFIG_REMOVE_FAILED">VeraCrypt kon zijn Windows-functie-update-registraties niet verwijderen.\n\nLos de bovenstaande configuratiefout op en voer vervolgens de VeraCrypt-herstel-/herinstallatiefunctie uit om het opruimen opnieuw te proberen. Start geen Windows-functie-update voordat deze registraties zijn verwijderd.</entry>
-    <entry lang="en" key="SYSENC_SETUP_CONFIG_UPDATE_FAILED">VeraCrypt could not configure Windows feature update support for the encrypted system.\n\nVeraCrypt retries automatically when its system service starts. If this warning appears again, resolve the preceding error and run VeraCrypt Repair/Reinstall. Until then, do not start a Windows feature update.</entry>
-    <entry lang="en" key="SYSTEM_FAVORITES_SERVICE_UPDATE_FAILED">VeraCrypt could not update the executable of its system service, which continues to use the previous version.\n\nRestart Windows, then run the VeraCrypt installer again to repair the installation.</entry>
-    <entry lang="en" key="SYSENC_EFI_ASSESSMENT_UNAVAILABLE">VeraCrypt could not complete the Secure Boot compatibility check. This does not establish an incompatibility. Keep Secure Boot settings unchanged until the firmware policy and installed boot files can be checked.</entry>
-    <entry lang="en" key="SYSENC_BOOT_LOADER_UPDATE_UNCONFIRMED">VeraCrypt could not confirm that the boot loader update completed. The application installation may have succeeded while the boot loader still needs attention.\n\nSee the Windows Application event log for the cause. Restart Windows, then run VeraCrypt Repair/Reinstall. Keep a trustworthy VeraCrypt Rescue Disk available and do not change Secure Boot settings until the update has been confirmed.</entry>
-    <entry lang="en" key="MSI_SYSENC_BOOT_LOADER_UPDATE_UNCONFIRMED">The boot loader update could not be confirmed. Restart Windows, then run Repair/Reinstall. Open VeraCrypt for recovery guidance; see the Windows Application event log for the cause.</entry>
-    <entry lang="en" key="SYSENC_BOOT_LOADER_UPDATE_RESTART">The system service update is pending a restart, so the boot loader update is not yet confirmed. Restart Windows, then run VeraCrypt Repair/Reinstall.</entry>
-    <entry lang="en" key="SYSENC_BOOT_LOADER_POLICY_REFUSED">VeraCrypt refused to update the boot loader because the firmware Secure Boot policy could not be validated for a supported loader set. The existing boot loader was retained.\n\nSee the Windows Application event log for details. If required signing CAs are missing from db, enable either Microsoft Corporation UEFI CA 2011, or both Microsoft UEFI CA 2023 and Microsoft Option ROM UEFI CA 2023. A CA listed in dbx remains revoked even if it is enabled in db. If policy is unreadable or malformed, resolve that error first. Then run Repair/Reinstall. Keep trustworthy rescue media available before changing firmware settings.</entry>
-    <entry lang="en" key="MSI_SYSENC_BOOT_LOADER_POLICY_REFUSED">The boot loader update was refused because Secure Boot policy could not be validated. The existing loader was retained. Open VeraCrypt for guidance; see the Windows Application event log for details.</entry>
-    <entry lang="en" key="SYSENC_SERVICE_REPAIR_REQUIRED">VeraCrypt could not complete a system-service operation during installation. This can affect automatic boot loader maintenance and system favorite volumes, even if the boot loader update itself completed.\n\nSee the Windows Application event log for the failed operation. Restart Windows, then run VeraCrypt Repair/Reinstall.</entry>
-    <entry lang="en" key="MSI_SYSENC_SERVICE_REPAIR_REQUIRED">A VeraCrypt system-service operation failed. Restart Windows, then run Repair/Reinstall. Open VeraCrypt for guidance; see the Windows Application event log for details.</entry>
-    <entry lang="en" key="MSI_SYSENC_EFI_ASSESSMENT_UNAVAILABLE">Secure Boot compatibility could not be checked. Keep Secure Boot settings unchanged. Open VeraCrypt for guidance; see the Windows Application event log for details.</entry>
-    <entry lang="en" key="MSI_SYSENC_EFI_COMPATIBILITY_WARNING">The installed boot chain needs attention before using Secure Boot. Open VeraCrypt for recovery guidance; see the Windows Application event log for details.</entry>
-    <entry lang="en" key="MSI_SYSENC_EFI_WINDOWS_MIGRATION_WARNING">The Windows boot manager needs attention for the Secure Boot CA transition. Open VeraCrypt for guidance; see the Windows Application event log for details.</entry>
-    <entry lang="en" key="MSI_SYS_LOADER_BACKUP_MIGRATION_FAILED">Original loader backup could not be validated. Before decrypting or recreating rescue media, resolve this or obtain a trustworthy Rescue Disk. Do not back up the current boot area as a replacement. Open VeraCrypt for details.</entry>
-    <entry lang="en" key="MSI_SYSENC_SETUP_CONFIG_UPDATE_FAILED">Windows feature update support could not be configured. Do not start a Windows feature update. Open VeraCrypt for guidance; see the Windows Application event log for details.</entry>
-    <entry lang="en" key="MSI_SYSENC_SETUP_CONFIG_REMOVE_FAILED">Windows feature update registrations could not be removed. Do not start a Windows feature update until cleanup completes. See the Windows Application event log, then run VeraCrypt Repair/Reinstall.</entry>
-    <entry lang="en" key="MSI_SETUP_NOTIFICATIONS_FAILED">Recovery guidance could not be saved for the next VeraCrypt launch. Read the VeraCrypt entries in the Windows Application event log before decrypting, recreating rescue media, or changing Secure Boot settings.</entry>
-    <entry lang="en" key="MSI_ERR_ACCESS_DENIED">Windows denied access. Run the installer with administrator privileges and check permissions on the required files, folders, and devices.</entry>
-    <entry lang="en" key="MSI_ERR_HARDWARE_ERROR">Windows reported a hardware error. Check the drive, its cable, and system memory. See the Windows Application event log for details and contact your hardware vendor for assistance.</entry>
-    <entry lang="en" key="MSI_COMPRESSION_NOT_SUPPORTED">File system compression is not supported for VeraCrypt containers. In File Explorer, open the container's Properties &gt; Advanced and clear 'Compress contents to save disk space'.</entry>
-    <entry lang="en" key="MSI_DRIVER_VERSION">An incompatible VeraCrypt driver is running. Restart Windows, then run this installer to update or repair VeraCrypt.</entry>
-    <entry lang="en" key="MSI_ERR_NONSYS_INPLACE_ENC_INCOMPLETE">Partition encryption or decryption is incomplete. Finish it before proceeding. In VeraCrypt, select Volumes &gt; Resume Interrupted Process.</entry>
-    <entry lang="en" key="MSI_ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG">Hidden-system volume headers cannot be changed this way. Boot the hidden OS, then use System &gt; Change Password or System &gt; Set Header Key Derivation Algorithm.</entry>
-    <entry lang="en" key="MSI_SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">This operation requires a fully decrypted system drive. In VeraCrypt, select System &gt; Permanently Decrypt System Partition/Drive before proceeding.</entry>
-    <entry lang="en" key="SYSENC_EFI_WINDOWS_LOADER_MIGRATION_GUIDANCE">This check covers only the active Windows boot manager. Before revocation, also verify that decryption fallback and rescue backups are compatible. Creating a new VeraCrypt Rescue Disk can reuse an older stored boot-manager backup; creating the disk alone does not establish that backup's compatibility with the revocation.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_BOOT_MANAGER_PCA2011">The Windows Boot Manager backup included in this Rescue Disk is signed by Microsoft Windows Production PCA 2011. Your firmware already contains Windows UEFI CA 2023.\n\nAfter PCA 2011 revocation (AvailableUpdates bit 0x80, including combined value 0x280), restoring this backup can leave Windows unable to start with Secure Boot enabled. Creating a new Rescue Disk reuses this stored backup; it does not update its signature.\n\nBefore applying the revocation, prepare compatible, updated Windows recovery media and verify the decryption fallback. Do not rely on this Rescue Disk to restore a compatible Windows Boot Manager. It remains useful for other VeraCrypt recovery tasks.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_BOOT_MANAGER_CHECK_FAILED">VeraCrypt could not check the Windows Boot Manager backup in this Rescue Disk against the firmware Secure Boot policy.\n\nCreating or verifying this disk does not establish that its stored Windows Boot Manager is compatible with PCA 2011 revocation (AvailableUpdates bit 0x80, including combined value 0x280). Before applying the revocation, verify your recovery backups and prepare compatible, updated Windows recovery media.</entry>
-    <entry lang="en" key="SETUP_RECOVERY_NOTICE_FAILED">VeraCrypt could not update the saved recovery guidance. Installation will continue. Saved notices may not reflect the result of this installation.\n\nIf the boot loader update was deferred, restart Windows, run VeraCrypt Repair/Reinstall, then restart Windows again.</entry>
-    <entry lang="en" key="BOOT_LOADER_FINGERPRINT_UPDATE_PENDING">A boot loader update is pending or unconfirmed. This can explain a fingerprint mismatch, but it does not rule out tampering. If you initiated the update, restart Windows, run VeraCrypt Repair/Reinstall, then restart Windows again. If this warning persists, follow the security guidance above.</entry>
+    <entry lang="nl" key="SYSENC_SETUP_CONFIG_UPDATE_FAILED">VeraCrypt kon de ondersteuning voor Windows-functie-updates voor het versleutelde systeem niet configureren.\n\nVeraCrypt probeert het automatisch opnieuw wanneer de systeemservice wordt gestart. Als deze waarschuwing opnieuw verschijnt, los dan de voorgaande fout op en voer de reparatie-/herinstallatieprocedure van VeraCrypt uit. Start tot die tijd geen Windows-functie-update.</entry>
+    <entry lang="nl" key="SYSTEM_FAVORITES_SERVICE_UPDATE_FAILED">VeraCrypt kon het uitvoerbare bestand van de systeemservice niet bijwerken, waardoor deze nog steeds de vorige versie gebruikt.\n\nStart Windows opnieuw op en voer vervolgens het installatieprogramma van VeraCrypt opnieuw uit om de installatie te herstellen.</entry>
+    <entry lang="nl" key="SYSENC_EFI_ASSESSMENT_UNAVAILABLE">VeraCrypt kon de compatibiliteitscontrole voor Secure Boot niet voltooien. Dit betekent niet dat er sprake is van incompatibiliteit. Laat de Secure Boot-instellingen ongewijzigd totdat het firmwarebeleid en de geïnstalleerde opstartbestanden kunnen worden gecontroleerd.</entry>
+    <entry lang="nl" key="SYSENC_BOOT_LOADER_UPDATE_UNCONFIRMED">VeraCrypt kon niet bevestigen dat de update van de bootloader is voltooid. De installatie van de toepassing is mogelijk wel geslaagd, maar de bootloader moet nog worden aangepakt.\n\nRaadpleeg het gebeurtenissenlogboek van Windows-toepassingen voor de oorzaak. Start Windows opnieuw op en voer vervolgens de reparatie-/herinstallatiefunctie van VeraCrypt uit. Zorg dat u een betrouwbare VeraCrypt-herstelschijf bij de hand hebt en wijzig de instellingen voor Secure Boot niet totdat de update is bevestigd.</entry>
+    <entry lang="nl" key="MSI_SYSENC_BOOT_LOADER_UPDATE_UNCONFIRMED">De update van de bootloader kon niet worden bevestigd. Start Windows opnieuw op en voer vervolgens ‘Herstellen/Opnieuw installeren’ uit. Open VeraCrypt voor instructies over het herstel; raadpleeg het gebeurtenissenlogboek van de Windows-toepassing voor de oorzaak.</entry>
+    <entry lang="nl" key="SYSENC_BOOT_LOADER_UPDATE_RESTART">De update van de systeemservice moet nog worden uitgevoerd na een herstart, dus de update van de bootloader is nog niet voltooid. Start Windows opnieuw op en voer vervolgens VeraCrypt herstellen/opnieuw installeren uit.</entry>
+    <entry lang="nl" key="SYSENC_BOOT_LOADER_POLICY_REFUSED">VeraCrypt heeft geweigerd de bootloader bij te werken omdat het Secure Boot-beleid van de firmware niet kon worden gevalideerd voor een ondersteunde set bootloaders. De bestaande bootloader is behouden.\n\nRaadpleeg het gebeurtenislogboek van Windows-toepassingen voor meer informatie. Als vereiste CA’s ontbreken in de database, schakel dan ofwel Microsoft Corporation UEFI CA 2011 in, ofwel zowel Microsoft UEFI CA 2023 als Microsoft Option ROM UEFI CA 2023. Een CA die in dbx wordt vermeld, blijft ingetrokken, zelfs als deze in db is ingeschakeld. Als het beleid onleesbaar of onjuist is opgebouwd, los die fout dan eerst op. Voer vervolgens herstellen/opnieuw installeren uit. Zorg dat u betrouwbare herstelmedia bij de hand hebt voordat u de firmware-instellingen wijzigt.</entry>
+    <entry lang="nl" key="MSI_SYSENC_BOOT_LOADER_POLICY_REFUSED">De update van de bootloader is geweigerd omdat het Secure Boot-beleid niet kon worden gevalideerd. De bestaande bootloader is behouden. Open VeraCrypt voor meer informatie; raadpleeg het gebeurtenissenlogboek van Windows voor details.</entry>
+    <entry lang="nl" key="SYSENC_SERVICE_REPAIR_REQUIRED">VeraCrypt kon tijdens de installatie een systeemdienstbewerking niet voltooien. Dit kan gevolgen hebben voor het automatische onderhoud van de opstartlader en de favoriete systeemvolumes, zelfs als de update van de opstartlader zelf wel is voltooid.\n\nRaadpleeg het Windows-toepassingsgebeurtenislogboek voor de mislukte bewerking. Start Windows opnieuw op en voer vervolgens de reparatie-/herinstallatiefunctie van VeraCrypt uit.</entry>
+    <entry lang="nl" key="MSI_SYSENC_SERVICE_REPAIR_REQUIRED">Een bewerking van de VeraCrypt-systeemdienst is mislukt. Start Windows opnieuw op en voer vervolgens Herstellen/Opnieuw installeren uit. Open VeraCrypt voor verdere instructies; raadpleeg het gebeurtenissenlogboek van Windows voor meer informatie.</entry>
+    <entry lang="nl" key="MSI_SYSENC_EFI_ASSESSMENT_UNAVAILABLE">De compatibiliteit met Secure Boot kon niet worden gecontroleerd. Laat de instellingen voor Secure Boot ongewijzigd. Open VeraCrypt voor meer informatie; raadpleeg het gebeurtenissenlogboek van de Windows-toepassing voor details.</entry>
+    <entry lang="nl" key="MSI_SYSENC_EFI_COMPATIBILITY_WARNING">De geïnstalleerde boot chain moet worden gecontroleerd voordat u Secure Boot gebruikt. Open VeraCrypt voor instructies over het herstel; raadpleeg het gebeurtenissenlogboek van de Windows-toepassing voor meer informatie.</entry>
+    <entry lang="nl" key="MSI_SYSENC_EFI_WINDOWS_MIGRATION_WARNING">De Windows-opstartmanager vereist aandacht in verband met de overgang naar Secure Boot CA. Open VeraCrypt voor instructies; raadpleeg het gebeurtenissenlogboek van Windows-toepassingen voor meer informatie.</entry>
+    <entry lang="nl" key="MSI_SYS_LOADER_BACKUP_MIGRATION_FAILED">De back-up van de originele loader kon niet worden gevalideerd. Los dit probleem op of zorg voor een betrouwbare herstelschijf voordat u de herstelmedia ontsleutelt of opnieuw aanmaakt. Maak geen back-up van het huidige opstartgebied als vervanging. Open VeraCrypt voor meer informatie.</entry>
+    <entry lang="nl" key="MSI_SYSENC_SETUP_CONFIG_UPDATE_FAILED">De ondersteuning voor Windows-functie-updates kon niet worden geconfigureerd. Start geen Windows-functie-update. Open VeraCrypt voor meer informatie; raadpleeg het gebeurtenislogboek van de Windows-toepassing voor details.</entry>
+    <entry lang="nl" key="MSI_SYSENC_SETUP_CONFIG_REMOVE_FAILED">De registraties voor Windows-functie-updates konden niet worden verwijderd. Start geen Windows-functie-update voordat het opschonen is voltooid. Raadpleeg het gebeurtenissenlogboek van Windows en voer vervolgens VeraCrypt herstellen/opnieuw installeren uit.</entry>
+    <entry lang="nl" key="MSI_SETUP_NOTIFICATIONS_FAILED">De herstelinstructies konden niet worden opgeslagen voor de volgende keer dat VeraCrypt wordt gestart. Lees de VeraCrypt-vermeldingen in het Windows-toepassingslogboek voordat u gegevens ontsleutelt, een herstelmedium opnieuw aanmaakt of de instellingen voor Secure Boot wijzigt.</entry>
+    <entry lang="nl" key="MSI_ERR_ACCESS_DENIED">Windows heeft de toegang geweigerd. Voer het installatieprogramma uit met beheerdersrechten en controleer de machtigingen voor de benodigde bestanden, mappen en apparaten.</entry>
+    <entry lang="nl" key="MSI_ERR_HARDWARE_ERROR">Windows heeft een hardwarefout gemeld. Controleer de schijf, de bijbehorende kabel en het systeemgeheugen. Raadpleeg het gebeurtenissenlogboek van Windows-toepassingen voor meer informatie en neem contact op met uw hardwareleverancier voor hulp.</entry>
+    <entry lang="nl" key="MSI_COMPRESSION_NOT_SUPPORTED">Bestandssysteemcompressie wordt niet ondersteund voor VeraCrypt-containers. Open in Verkenner de eigenschappen van de container &gt; Geavanceerd en schakel de optie 'Inhoud comprimeren om schijfruimte te besparen' uit.</entry>
+    <entry lang="nl" key="MSI_DRIVER_VERSION">Er wordt een incompatibele VeraCrypt-driver uitgevoerd. Start Windows opnieuw op en voer vervolgens dit installatieprogramma uit om VeraCrypt bij te werken of te herstellen.</entry>
+    <entry lang="nl" key="MSI_ERR_NONSYS_INPLACE_ENC_INCOMPLETE">De versleuteling of ontsleuteling van de partitie is nog niet voltooid. Voltooi dit voordat u verdergaat. Selecteer in VeraCrypt 'Volumes' &gt; 'Onderbroken proces hervatten'.</entry>
+    <entry lang="nl" key="MSI_ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG">De headers van verborgen systeemvolumes kunnen op deze manier niet worden gewijzigd. Start het verborgen besturingssysteem op en gebruik vervolgens Systeem &gt; Wachtwoord wijzigen of Systeem &gt; Algoritme voor het afleiden van de header-sleutel instellen.</entry>
+    <entry lang="nl" key="MSI_SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">Voor deze handeling is een volledig ontsleutelde systeemschijf vereist. Selecteer in VeraCrypt 'Systeem' &gt; 'Systeempartitie/schijf permanent ontsleutelen' voordat u verdergaat.</entry>
+    <entry lang="nl" key="SYSENC_EFI_WINDOWS_LOADER_MIGRATION_GUIDANCE">Deze controle heeft uitsluitend betrekking op de actieve Windows-opstartmanager. Controleer vóór de intrekking ook of de back-ups voor decoderingsfallback en herstel compatibel zijn. Bij het maken van een nieuwe VeraCrypt-herstelschijf kan een oudere, opgeslagen back-up van de opstartmanager opnieuw worden gebruikt; het maken van de schijf alleen is geen garantie dat die back-up compatibel is met de intrekking.</entry>
+    <entry lang="nl" key="RESCUE_DISK_EFI_BOOT_MANAGER_PCA2011">De back-up van de Windows Boot Manager die op deze herstelschijf is opgenomen, is ondertekend door Microsoft Windows Production PCA 2011. Uw firmware bevat al Windows UEFI CA 2023.\n\nNa intrekking van PCA 2011 (AvailableUpdates-bit 0x80, inclusief gecombineerde waarde 0x280) kan het herstellen van deze back-up ertoe leiden dat Windows niet meer kan opstarten als Secure Boot is ingeschakeld. Bij het maken van een nieuwe herstelschijf wordt deze opgeslagen back-up opnieuw gebruikt; de handtekening wordt niet bijgewerkt.\n\nZorg ervoor dat u, voordat u de intrekking toepast, compatibele, bijgewerkte Windows-herstelmedia klaar hebt liggen en controleer de decoderingsfallback. Vertrouw niet op deze herstelschijf om een compatibele Windows Boot Manager te herstellen. De schijf blijft nuttig voor andere VeraCrypt-hersteltaken.</entry>
+    <entry lang="nl" key="RESCUE_DISK_EFI_BOOT_MANAGER_CHECK_FAILED">VeraCrypt kon de back-up van de Windows Boot Manager op deze herstelschijf niet controleren aan de hand van het Secure Boot-beleid van de firmware.\n\nHet aanmaken of controleren van deze schijf garandeert niet dat de daarop opgeslagen Windows Boot Manager compatibel is met de intrekking van PCA 2011 (AvailableUpdates-bit 0x80, inclusief de gecombineerde waarde 0x280). Controleer, voordat u de intrekking toepast, uw herstelback-ups en zorg voor compatibele, bijgewerkte Windows-herstelmedia.</entry>
+    <entry lang="nl" key="SETUP_RECOVERY_NOTICE_FAILED">VeraCrypt kon de opgeslagen herstelinstructies niet bijwerken. De installatie wordt voortgezet. De opgeslagen meldingen komen mogelijk niet overeen met het resultaat van deze installatie.\n\nAls de update van de bootloader is uitgesteld, start u Windows opnieuw op, voert u 'VeraCrypt herstellen/opnieuw installeren' uit en start u Windows vervolgens opnieuw op.</entry>
+    <entry lang="nl" key="BOOT_LOADER_FINGERPRINT_UPDATE_PENDING">Er is een update van de bootloader in behandeling of nog niet bevestigd. Dit kan een verklaring zijn voor een afwijkende vingerafdruk, maar sluit manipulatie niet uit. Als u de update zelf hebt gestart, start u Windows opnieuw op, voert u 'VeraCrypt herstellen/opnieuw installeren' uit en start u Windows vervolgens opnieuw op. Als deze waarschuwing blijft verschijnen, volgt u de bovenstaande beveiligingsrichtlijnen.</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
