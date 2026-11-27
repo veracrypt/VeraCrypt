@@ -1741,8 +1741,8 @@
     <entry lang="zh-cn" key="SYSENC_EFI_WINDOWS_LOADER_MIGRATION_GUIDANCE">此检查仅涵盖当前活动的 Windows 启动管理器。在撤销之前，还请验证解密回退和应急备份是否兼容。创建新的 VeraCrypt 应急盘可能会复用较早存储的启动管理器备份；仅创建该盘并不能证明该备份与撤销操作兼容。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_BOOT_MANAGER_PCA2011">此应急盘中包含的 Windows 启动管理器备份由 Microsoft Windows Production PCA 2011 签名。您的固件已包含 Windows UEFI CA 2023。\n\n在 PCA 2011 撤销（AvailableUpdates 位 0x80，包括组合值 0x280）之后，恢复此备份可能导致 Windows 在启用安全启动时无法启动。创建新的应急盘会复用此已存储的备份；它不会更新其签名。\n\n在应用撤销之前，请准备兼容的、更新后的 Windows 恢复介质，并验证解密回退。请勿依赖此应急盘恢复兼容的 Windows 启动管理器。它对于其他 VeraCrypt 恢复任务仍然有用。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_BOOT_MANAGER_CHECK_FAILED">VeraCrypt 无法根据固件安全启动策略检查此应急盘中的 Windows 启动管理器备份。\n\n创建或验证此盘并不能证明其存储的 Windows 启动管理器与 PCA 2011 撤销（AvailableUpdates 位 0x80，包括组合值 0x280）兼容。在应用撤销之前，请验证您的恢复备份，并准备兼容的、更新后的 Windows 恢复介质。</entry>
-    <entry lang="en" key="SETUP_RECOVERY_NOTICE_FAILED">VeraCrypt could not update the saved recovery guidance. Installation will continue. Saved notices may not reflect the result of this installation.\n\nIf the boot loader update was deferred, restart Windows, run VeraCrypt Repair/Reinstall, then restart Windows again.</entry>
-    <entry lang="en" key="BOOT_LOADER_FINGERPRINT_UPDATE_PENDING">A boot loader update is pending or unconfirmed. This can explain a fingerprint mismatch, but it does not rule out tampering. If you initiated the update, restart Windows, run VeraCrypt Repair/Reinstall, then restart Windows again. If this warning persists, follow the security guidance above.</entry>
+    <entry lang="zh-cn" key="SETUP_RECOVERY_NOTICE_FAILED">VeraCrypt 无法更新已保存的恢复指导。安装将继续进行。已保存的通知可能无法反映本次安装的结果。\n\n如果引导加载程序更新被推迟，请重启 Windows，运行 VeraCrypt 修复/重新安装，然后再次重启 Windows。</entry>
+    <entry lang="zh-cn" key="BOOT_LOADER_FINGERPRINT_UPDATE_PENDING">引导加载程序更新处于待处理或未确认状态。这可以解释指纹不匹配的原因，但不能排除篡改的可能。如果该更新是由您发起的，请重启 Windows，运行 VeraCrypt 修复/重新安装，然后再次重启 Windows。如果此警告仍然存在，请遵循上面的安全指导。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
